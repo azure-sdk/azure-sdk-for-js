@@ -52,12 +52,7 @@ export class TagApiLinkImpl implements TagApiLink {
     tagId: string,
     options?: TagApiLinkListByProductOptionalParams,
   ): PagedAsyncIterableIterator<TagApiLinkContract> {
-    const iter = this.listByProductPagingAll(
-      resourceGroupName,
-      serviceName,
-      tagId,
-      options,
-    );
+    const iter = this.listByProductPagingAll(resourceGroupName, serviceName, tagId, options);
     return {
       next() {
         return iter.next();
@@ -90,12 +85,7 @@ export class TagApiLinkImpl implements TagApiLink {
     let result: TagApiLinkListByProductResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        tagId,
-        options,
-      );
+      result = await this._listByProduct(resourceGroupName, serviceName, tagId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -254,12 +244,7 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

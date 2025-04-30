@@ -53,12 +53,7 @@ export class GatewayApiImpl implements GatewayApi {
     gatewayId: string,
     options?: GatewayApiListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      gatewayId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, gatewayId, options);
     return {
       next() {
         return iter.next();
@@ -91,12 +86,7 @@ export class GatewayApiImpl implements GatewayApi {
     let result: GatewayApiListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        gatewayId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, gatewayId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -255,12 +245,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

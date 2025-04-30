@@ -121,10 +121,7 @@ export interface PortalRevision {
     parameters: PortalRevisionContract,
     options?: PortalRevisionUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PortalRevisionUpdateResponse>,
-      PortalRevisionUpdateResponse
-    >
+    SimplePollerLike<OperationState<PortalRevisionUpdateResponse>, PortalRevisionUpdateResponse>
   >;
   /**
    * Updates the description of specified portal revision or makes it current.

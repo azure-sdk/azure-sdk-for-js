@@ -48,12 +48,7 @@ export class OperationOperationsImpl implements OperationOperations {
     apiId: string,
     options?: OperationListByTagsOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract> {
-    const iter = this.listByTagsPagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listByTagsPagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -65,13 +60,7 @@ export class OperationOperationsImpl implements OperationOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByTagsPagingPage(
-          resourceGroupName,
-          serviceName,
-          apiId,
-          options,
-          settings,
-        );
+        return this.listByTagsPagingPage(resourceGroupName, serviceName, apiId, options, settings);
       },
     };
   }
@@ -86,12 +75,7 @@ export class OperationOperationsImpl implements OperationOperations {
     let result: OperationListByTagsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByTags(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options,
-      );
+      result = await this._listByTags(resourceGroupName, serviceName, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

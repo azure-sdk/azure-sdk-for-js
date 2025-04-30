@@ -172,11 +172,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.serviceName,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };
@@ -199,11 +195,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.serviceName,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

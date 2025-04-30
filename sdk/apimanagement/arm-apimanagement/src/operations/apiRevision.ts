@@ -47,12 +47,7 @@ export class ApiRevisionImpl implements ApiRevision {
     apiId: string,
     options?: ApiRevisionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiRevisionContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -85,12 +80,7 @@ export class ApiRevisionImpl implements ApiRevision {
     let result: ApiRevisionListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -181,12 +171,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

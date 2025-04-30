@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
@@ -60,11 +56,7 @@ export class PrivateEndpointConnectionOperationsImpl
     serviceName: string,
     options?: PrivateEndpointConnectionListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class PrivateEndpointConnectionOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -182,8 +169,7 @@ export class PrivateEndpointConnectionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -280,8 +266,7 @@ export class PrivateEndpointConnectionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ApiManagementWorkspaceLink operations. */
-export class ApiManagementWorkspaceLinkImpl
-  implements ApiManagementWorkspaceLink
-{
+export class ApiManagementWorkspaceLinkImpl implements ApiManagementWorkspaceLink {
   private readonly client: ApiManagementClient;
 
   /**

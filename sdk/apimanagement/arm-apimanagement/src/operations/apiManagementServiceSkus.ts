@@ -45,11 +45,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
     serviceName: string,
     options?: ApiManagementServiceSkusListAvailableServiceSkusOptionalParams,
   ): PagedAsyncIterableIterator<ResourceSkuResult> {
-    const iter = this.listAvailableServiceSkusPagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listAvailableServiceSkusPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -80,11 +76,7 @@ export class ApiManagementServiceSkusImpl implements ApiManagementServiceSkus {
     let result: ApiManagementServiceSkusListAvailableServiceSkusResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAvailableServiceSkus(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listAvailableServiceSkus(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

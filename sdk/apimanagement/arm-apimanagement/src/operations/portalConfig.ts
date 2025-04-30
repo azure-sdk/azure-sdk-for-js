@@ -53,11 +53,7 @@ export class PortalConfigImpl implements PortalConfig {
     serviceName: string,
     options?: PortalConfigListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PortalConfigContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -69,12 +65,7 @@ export class PortalConfigImpl implements PortalConfig {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -88,11 +79,7 @@ export class PortalConfigImpl implements PortalConfig {
     let result: PortalConfigListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -351,11 +338,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.portalConfigId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };
@@ -379,11 +362,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.portalConfigId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NamedValueContract,
@@ -66,11 +62,7 @@ export class NamedValueImpl implements NamedValue {
     serviceName: string,
     options?: NamedValueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NamedValueContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -82,12 +74,7 @@ export class NamedValueImpl implements NamedValue {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -101,11 +88,7 @@ export class NamedValueImpl implements NamedValue {
     let result: NamedValueListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -224,8 +207,7 @@ export class NamedValueImpl implements NamedValue {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -317,12 +299,7 @@ export class NamedValueImpl implements NamedValue {
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
     options?: NamedValueUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamedValueUpdateResponse>,
-      NamedValueUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<NamedValueUpdateResponse>, NamedValueUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -333,8 +310,7 @@ export class NamedValueImpl implements NamedValue {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -483,8 +459,7 @@ export class NamedValueImpl implements NamedValue {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -677,11 +652,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.namedValueId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -718,11 +689,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.namedValueId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

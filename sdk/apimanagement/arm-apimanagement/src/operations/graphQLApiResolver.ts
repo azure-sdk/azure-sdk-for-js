@@ -58,12 +58,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     apiId: string,
     options?: GraphQLApiResolverListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ResolverContract> {
-    const iter = this.listByApiPagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listByApiPagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -75,13 +70,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByApiPagingPage(
-          resourceGroupName,
-          serviceName,
-          apiId,
-          options,
-          settings,
-        );
+        return this.listByApiPagingPage(resourceGroupName, serviceName, apiId, options, settings);
       },
     };
   }
@@ -96,12 +85,7 @@ export class GraphQLApiResolverImpl implements GraphQLApiResolver {
     let result: GraphQLApiResolverListByApiResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options,
-      );
+      result = await this._listByApi(resourceGroupName, serviceName, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -334,12 +318,7 @@ const listByApiOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -423,11 +402,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.apiId,
     Parameters.resolverId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -453,11 +428,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.apiId,
     Parameters.resolverId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

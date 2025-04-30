@@ -63,12 +63,7 @@ export class WorkspaceSubscriptionImpl implements WorkspaceSubscription {
     workspaceId: string,
     options?: WorkspaceSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, workspaceId, options);
     return {
       next() {
         return iter.next();
@@ -80,13 +75,7 @@ export class WorkspaceSubscriptionImpl implements WorkspaceSubscription {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          workspaceId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, workspaceId, options, settings);
       },
     };
   }
@@ -101,12 +90,7 @@ export class WorkspaceSubscriptionImpl implements WorkspaceSubscription {
     let result: WorkspaceSubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -403,12 +387,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -483,11 +462,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters79,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.notify,
-    Parameters.appType,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.notify, Parameters.appType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -496,11 +471,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.sid,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -517,11 +488,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters80,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.notify,
-    Parameters.appType,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.notify, Parameters.appType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -530,11 +497,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.sid,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

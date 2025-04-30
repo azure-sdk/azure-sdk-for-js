@@ -58,12 +58,7 @@ export class ApiReleaseImpl implements ApiRelease {
     apiId: string,
     options?: ApiReleaseListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiReleaseContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -96,12 +91,7 @@ export class ApiReleaseImpl implements ApiRelease {
     let result: ApiReleaseListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -322,12 +312,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -411,11 +396,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.apiId1,
     Parameters.releaseId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -441,11 +422,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.apiId1,
     Parameters.releaseId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

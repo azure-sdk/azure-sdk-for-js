@@ -31,9 +31,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceApiOperationPolicy operations. */
-export class WorkspaceApiOperationPolicyImpl
-  implements WorkspaceApiOperationPolicy
-{
+export class WorkspaceApiOperationPolicyImpl implements WorkspaceApiOperationPolicy {
   private readonly client: ApiManagementClient;
 
   /**
@@ -484,11 +482,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

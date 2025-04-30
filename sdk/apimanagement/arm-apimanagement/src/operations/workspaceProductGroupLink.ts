@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkspaceProductGroupLink operations. */
-export class WorkspaceProductGroupLinkImpl
-  implements WorkspaceProductGroupLink
-{
+export class WorkspaceProductGroupLinkImpl implements WorkspaceProductGroupLink {
   private readonly client: ApiManagementClient;
 
   /**
@@ -310,12 +308,7 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

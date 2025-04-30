@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ApiManagementSku,
-  ApiManagementSkusListOptionalParams,
-} from "../models/index.js";
+import { ApiManagementSku, ApiManagementSkusListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApiManagementSkus. */
@@ -19,7 +16,5 @@ export interface ApiManagementSkus {
    * Gets the list of Microsoft.ApiManagement SKUs available for your Subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ApiManagementSkusListOptionalParams,
-  ): PagedAsyncIterableIterator<ApiManagementSku>;
+  list(options?: ApiManagementSkusListOptionalParams): PagedAsyncIterableIterator<ApiManagementSku>;
 }

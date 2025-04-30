@@ -47,12 +47,7 @@ export class ApiProductImpl implements ApiProduct {
     apiId: string,
     options?: ApiProductListByApisOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract> {
-    const iter = this.listByApisPagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listByApisPagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -64,13 +59,7 @@ export class ApiProductImpl implements ApiProduct {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByApisPagingPage(
-          resourceGroupName,
-          serviceName,
-          apiId,
-          options,
-          settings,
-        );
+        return this.listByApisPagingPage(resourceGroupName, serviceName, apiId, options, settings);
       },
     };
   }
@@ -85,12 +74,7 @@ export class ApiProductImpl implements ApiProduct {
     let result: ApiProductListByApisResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByApis(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options,
-      );
+      result = await this._listByApis(resourceGroupName, serviceName, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -181,12 +165,7 @@ const listByApisOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

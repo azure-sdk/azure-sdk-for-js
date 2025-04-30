@@ -120,12 +120,7 @@ export interface NamedValue {
     ifMatch: string,
     parameters: NamedValueUpdateParameters,
     options?: NamedValueUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamedValueUpdateResponse>,
-      NamedValueUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<NamedValueUpdateResponse>, NamedValueUpdateResponse>>;
   /**
    * Updates the specific named value.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

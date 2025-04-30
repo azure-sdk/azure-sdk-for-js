@@ -47,11 +47,7 @@ export class IssueImpl implements Issue {
     serviceName: string,
     options?: IssueListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<IssueContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class IssueImpl implements Issue {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class IssueImpl implements Issue {
     let result: IssueListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -189,12 +176,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

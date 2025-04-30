@@ -848,6 +848,24 @@ export interface DataMaskingEntity {
   mode?: DataMaskingMode;
 }
 
+/** Diagnostic settings for Large Language Models */
+export interface LLMDiagnosticSettings {
+  /** Specifies whether default diagnostic should be enabled for Large Language Models or not. */
+  logs?: LlmDiagnosticSettings;
+  /** Diagnostic settings for Large Language Models requests. */
+  requests?: LLMMessageDiagnosticSettings;
+  /** Diagnostic settings for Large Language Models responses. */
+  responses?: LLMMessageDiagnosticSettings;
+}
+
+/** Diagnostic settings for Large Language Models Messages */
+export interface LLMMessageDiagnosticSettings {
+  /** Specifies which message should be logged. Currently there is only 'all' option. */
+  messages?: LlmMessageLogTypes;
+  /** Maximum size of message to logs in bytes. The default size is 32KB. */
+  maxSizeInBytes?: number;
+}
+
 /** Paged Issue list representation. */
 export interface IssueCollection {
   /**
@@ -1871,6 +1889,8 @@ export interface ApiManagementServiceBaseProperties {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
 }
 
 /** Custom hostname configuration. */
@@ -2435,6 +2455,8 @@ export interface IdentityProviderUpdateParameters {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Client or app secret used in IdentityProviders, Aad, OpenID or OAuth. */
@@ -3655,12 +3677,10 @@ export interface ResolverResultLogItemContract {
 }
 
 /** Properties of an API Management gateway resource description. */
-export interface ApiManagementGatewayProperties
-  extends ApiManagementGatewayBaseProperties {}
+export interface ApiManagementGatewayProperties extends ApiManagementGatewayBaseProperties {}
 
 /** Properties of an API Management gateway resource description. */
-export interface ApiManagementGatewayUpdateProperties
-  extends ApiManagementGatewayBaseProperties {}
+export interface ApiManagementGatewayUpdateProperties extends ApiManagementGatewayBaseProperties {}
 
 /** A single API Management gateway resource in List or Get response. */
 export interface ApiManagementGatewayResource extends ApimResource {
@@ -3858,6 +3878,8 @@ export interface ApiManagementServiceResource extends ApimResource {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -3978,6 +4000,8 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
   legacyPortalStatus?: LegacyPortalStatus;
   /** Status of developer portal in this API Management service. */
   developerPortalStatus?: DeveloperPortalStatus;
+  /** Release Channel of this API Management service. */
+  releaseChannel?: ReleaseChannel;
   /** Publisher email. */
   publisherEmail?: string;
   /** Publisher name. */
@@ -4050,8 +4074,7 @@ export interface ApiContractUpdateProperties extends ApiEntityBaseContract {
 }
 
 /** API contract properties for the Tag Resources. */
-export interface ApiTagResourceContractProperties
-  extends ApiEntityBaseContract {
+export interface ApiTagResourceContractProperties extends ApiEntityBaseContract {
   /** API identifier in the form /apis/{apiId}. */
   id?: string;
   /** API name. */
@@ -4065,8 +4088,7 @@ export interface ApiTagResourceContractProperties
 }
 
 /** Operation Contract Properties */
-export interface OperationContractProperties
-  extends OperationEntityBaseContract {
+export interface OperationContractProperties extends OperationEntityBaseContract {
   /** Operation Name. */
   displayName: string;
   /** A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. */
@@ -4076,8 +4098,7 @@ export interface OperationContractProperties
 }
 
 /** Operation Update Contract Properties. */
-export interface OperationUpdateContractProperties
-  extends OperationEntityBaseContract {
+export interface OperationUpdateContractProperties extends OperationEntityBaseContract {
   /** Operation Name. */
   displayName?: string;
   /** A Valid HTTP Operation Method. Typical Http Methods like GET, PUT, POST but not limited by only them. */
@@ -4093,8 +4114,7 @@ export interface ProductContractProperties extends ProductEntityBaseParameters {
 }
 
 /** Product profile. */
-export interface ProductTagResourceContractProperties
-  extends ProductEntityBaseParameters {
+export interface ProductTagResourceContractProperties extends ProductEntityBaseParameters {
   /** Identifier of the product in the form of /products/{productId} */
   id?: string;
   /** Product name. */
@@ -4118,8 +4138,7 @@ export interface IssueContractProperties extends IssueContractBaseProperties {
 }
 
 /** Issue contract Update Properties. */
-export interface IssueUpdateContractProperties
-  extends IssueContractBaseProperties {
+export interface IssueUpdateContractProperties extends IssueContractBaseProperties {
   /** The issue title. */
   title?: string;
   /** Text describing the issue. */
@@ -4129,8 +4148,7 @@ export interface IssueUpdateContractProperties
 }
 
 /** TagDescription contract Properties. */
-export interface TagDescriptionContractProperties
-  extends TagDescriptionBaseProperties {
+export interface TagDescriptionContractProperties extends TagDescriptionBaseProperties {
   /** Identifier of the tag in the form of /tags/{tagId} */
   tagId?: string;
   /** Tag name. */
@@ -4138,8 +4156,7 @@ export interface TagDescriptionContractProperties
 }
 
 /** Properties of an API Version Set. */
-export interface ApiVersionSetContractProperties
-  extends ApiVersionSetEntityBase {
+export interface ApiVersionSetContractProperties extends ApiVersionSetEntityBase {
   /** Name of API Version Set */
   displayName: string;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
@@ -4147,8 +4164,7 @@ export interface ApiVersionSetContractProperties
 }
 
 /** Properties used to create or update an API Version Set. */
-export interface ApiVersionSetUpdateParametersProperties
-  extends ApiVersionSetEntityBase {
+export interface ApiVersionSetUpdateParametersProperties extends ApiVersionSetEntityBase {
   /** Name of API Version Set */
   displayName?: string;
   /** An value that determines where the API Version identifier will be located in a HTTP request. */
@@ -4206,8 +4222,7 @@ export interface BackendContractProperties extends BackendBaseParameters {
 }
 
 /** Parameters supplied to the Update Backend operation. */
-export interface BackendUpdateParameterProperties
-  extends BackendBaseParameters {
+export interface BackendUpdateParameterProperties extends BackendBaseParameters {
   /** Runtime Url of the Backend. */
   url?: string;
   /** Backend communication protocol. */
@@ -4217,15 +4232,13 @@ export interface BackendUpdateParameterProperties
 export interface BackendBaseParametersPool extends BackendPool {}
 
 /** KeyVault contract details. */
-export interface KeyVaultContractProperties
-  extends KeyVaultContractCreateProperties {
+export interface KeyVaultContractProperties extends KeyVaultContractCreateProperties {
   /** Last time sync and refresh status of secret from key vault. */
   lastStatus?: KeyVaultLastAccessStatusContractProperties;
 }
 
 /** Properties of an API Management service resource description. */
-export interface ApiManagementServiceProperties
-  extends ApiManagementServiceBaseProperties {
+export interface ApiManagementServiceProperties extends ApiManagementServiceBaseProperties {
   /** Publisher email. */
   publisherEmail: string;
   /** Publisher name. */
@@ -4233,8 +4246,7 @@ export interface ApiManagementServiceProperties
 }
 
 /** Properties of an API Management service resource description. */
-export interface ApiManagementServiceUpdateProperties
-  extends ApiManagementServiceBaseProperties {
+export interface ApiManagementServiceUpdateProperties extends ApiManagementServiceBaseProperties {
   /** Publisher email. */
   publisherEmail?: string;
   /** Publisher name. */
@@ -4262,8 +4274,7 @@ export interface UserContractProperties extends UserEntityBaseParameters {
 }
 
 /** Parameters supplied to the Create User operation. */
-export interface UserCreateParameterProperties
-  extends UserEntityBaseParameters {
+export interface UserCreateParameterProperties extends UserEntityBaseParameters {
   /** Email address. Must not be empty and must be unique within the service instance. */
   email: string;
   /** First name. */
@@ -4279,8 +4290,7 @@ export interface UserCreateParameterProperties
 }
 
 /** Parameters supplied to the Update User operation. */
-export interface UserUpdateParametersProperties
-  extends UserEntityBaseParameters {
+export interface UserUpdateParametersProperties extends UserEntityBaseParameters {
   /** Email address. Must not be empty and must be unique within the service instance. */
   email?: string;
   /** User Password. */
@@ -4292,35 +4302,37 @@ export interface UserUpdateParametersProperties
 }
 
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
-export interface IdentityProviderContractProperties
-  extends IdentityProviderBaseParameters {
+export interface IdentityProviderContractProperties extends IdentityProviderBaseParameters {
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
-export interface IdentityProviderCreateContractProperties
-  extends IdentityProviderBaseParameters {
+export interface IdentityProviderCreateContractProperties extends IdentityProviderBaseParameters {
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Parameters supplied to the Update Identity Provider operation. */
-export interface IdentityProviderUpdateProperties
-  extends IdentityProviderBaseParameters {
+export interface IdentityProviderUpdateProperties extends IdentityProviderBaseParameters {
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** NamedValue Contract properties. */
-export interface NamedValueContractProperties
-  extends NamedValueEntityBaseParameters {
+export interface NamedValueContractProperties extends NamedValueEntityBaseParameters {
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
   displayName: string;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
@@ -4335,8 +4347,7 @@ export interface NamedValueContractProperties
 }
 
 /** NamedValue Contract properties. */
-export interface NamedValueCreateContractProperties
-  extends NamedValueEntityBaseParameters {
+export interface NamedValueCreateContractProperties extends NamedValueEntityBaseParameters {
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
   displayName: string;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
@@ -4346,8 +4357,7 @@ export interface NamedValueCreateContractProperties
 }
 
 /** NamedValue Contract properties. */
-export interface NamedValueUpdateParameterProperties
-  extends NamedValueEntityBaseParameters {
+export interface NamedValueUpdateParameterProperties extends NamedValueEntityBaseParameters {
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
   displayName?: string;
   /** Value of the NamedValue. Can contain policy expressions. It may not be empty or consist only of whitespace. */
@@ -4357,8 +4367,7 @@ export interface NamedValueUpdateParameterProperties
 }
 
 /** Properties of an API Management workspaceLinks resource. */
-export interface ApiManagementWorkspaceLinksProperties
-  extends WorkspaceLinksBaseProperties {}
+export interface ApiManagementWorkspaceLinksProperties extends WorkspaceLinksBaseProperties {}
 
 /** AllPolicies Contract details. */
 export interface AllPoliciesContract extends ProxyResource {
@@ -4531,6 +4540,8 @@ export interface DiagnosticContract extends ProxyResource {
   frontend?: PipelineDiagnosticSettings;
   /** Diagnostic settings for incoming/outgoing HTTP messages to the Backend */
   backend?: PipelineDiagnosticSettings;
+  /** Large Language Models diagnostic settings */
+  largeLanguageModel?: LLMDiagnosticSettings;
   /** Log the ClientIP. Default is false. */
   logClientIp?: boolean;
   /** Sets correlation protocol to use for Application Insights diagnostics. */
@@ -4850,8 +4861,7 @@ export interface EmailTemplateContract extends ProxyResource {
 }
 
 /** A single API Management gateway resource in List or Get response. */
-export interface ApiManagementGatewayConfigConnectionResource
-  extends ProxyResource {
+export interface ApiManagementGatewayConfigConnectionResource extends ProxyResource {
   /**
    * ETag of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4976,6 +4986,8 @@ export interface IdentityProviderContract extends ProxyResource {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Identity Provider details. */
@@ -5002,6 +5014,8 @@ export interface IdentityProviderCreateContract extends ProxyResource {
   clientId?: string;
   /** Client secret of the Application in external Identity Provider, used to authenticate login request. For example, it is App Secret for Facebook login, API Key for Google login, Public Key for Microsoft. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
   clientSecret?: string;
+  /** Certificate full resource ID used in external Identity Provider */
+  certificateId?: string;
 }
 
 /** Logger details. */
@@ -7795,6 +7809,39 @@ export enum KnownDataMaskingMode {
  */
 export type DataMaskingMode = string;
 
+/** Known values of {@link LlmDiagnosticSettings} that the service accepts. */
+export enum KnownLlmDiagnosticSettings {
+  /** Default LLM logs are enabled. */
+  Enabled = "enabled",
+  /** Default LLM logs are disabled. */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for LlmDiagnosticSettings. \
+ * {@link KnownLlmDiagnosticSettings} can be used interchangeably with LlmDiagnosticSettings,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled**: Default LLM logs are enabled. \
+ * **disabled**: Default LLM logs are disabled.
+ */
+export type LlmDiagnosticSettings = string;
+
+/** Known values of {@link LlmMessageLogTypes} that the service accepts. */
+export enum KnownLlmMessageLogTypes {
+  /** Log all messages. */
+  All = "all",
+}
+
+/**
+ * Defines values for LlmMessageLogTypes. \
+ * {@link KnownLlmMessageLogTypes} can be used interchangeably with LlmMessageLogTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **all**: Log all messages.
+ */
+export type LlmMessageLogTypes = string;
+
 /** Known values of {@link HttpCorrelationProtocol} that the service accepts. */
 export enum KnownHttpCorrelationProtocol {
   /** Do not read and inject correlation headers. */
@@ -8563,6 +8610,27 @@ export enum KnownDeveloperPortalStatus {
  */
 export type DeveloperPortalStatus = string;
 
+/** Known values of {@link ReleaseChannel} that the service accepts. */
+export enum KnownReleaseChannel {
+  /** Preview Channel of the service. */
+  Preview = "Preview",
+  /** Default Channel of the service. */
+  Default = "Default",
+  /** Stable Channel of the service. */
+  Stable = "Stable",
+}
+
+/**
+ * Defines values for ReleaseChannel. \
+ * {@link KnownReleaseChannel} can be used interchangeably with ReleaseChannel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: Preview Channel of the service. \
+ * **Default**: Default Channel of the service. \
+ * **Stable**: Stable Channel of the service.
+ */
+export type ReleaseChannel = string;
+
 /** Known values of {@link ApimIdentityType} that the service accepts. */
 export enum KnownApimIdentityType {
   /** SystemAssigned */
@@ -9046,18 +9114,9 @@ export type KeyType = "primary" | "secondary";
 /** Defines values for GroupType. */
 export type GroupType = "custom" | "system" | "external";
 /** Defines values for PolicyScopeContract. */
-export type PolicyScopeContract =
-  | "Tenant"
-  | "Product"
-  | "Api"
-  | "Operation"
-  | "All";
+export type PolicyScopeContract = "Tenant" | "Product" | "Api" | "Operation" | "All";
 /** Defines values for AsyncOperationStatus. */
-export type AsyncOperationStatus =
-  | "Started"
-  | "InProgress"
-  | "Succeeded"
-  | "Failed";
+export type AsyncOperationStatus = "Started" | "InProgress" | "Succeeded" | "Failed";
 /** Defines values for SubscriptionState. */
 export type SubscriptionState =
   | "suspended"
@@ -9071,19 +9130,12 @@ export type ApiManagementSkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** Defines values for ApiManagementSkuRestrictionsType. */
 export type ApiManagementSkuRestrictionsType = "Location" | "Zone";
 /** Defines values for ApiManagementSkuRestrictionsReasonCode. */
-export type ApiManagementSkuRestrictionsReasonCode =
-  | "QuotaId"
-  | "NotAvailableForSubscription";
+export type ApiManagementSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** Defines values for AsyncResolverStatus. */
-export type AsyncResolverStatus =
-  | "Started"
-  | "InProgress"
-  | "Succeeded"
-  | "Failed";
+export type AsyncResolverStatus = "Started" | "InProgress" | "Succeeded" | "Failed";
 
 /** Optional parameters. */
-export interface ApiGatewayCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiGatewayCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9094,8 +9146,7 @@ export interface ApiGatewayCreateOrUpdateOptionalParams
 export type ApiGatewayCreateOrUpdateResponse = ApiManagementGatewayResource;
 
 /** Optional parameters. */
-export interface ApiGatewayUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiGatewayUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9106,15 +9157,13 @@ export interface ApiGatewayUpdateOptionalParams
 export type ApiGatewayUpdateResponse = ApiManagementGatewayResource;
 
 /** Optional parameters. */
-export interface ApiGatewayGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGatewayGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApiGatewayGetResponse = ApiManagementGatewayResource;
 
 /** Optional parameters. */
-export interface ApiGatewayDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiGatewayDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9122,20 +9171,16 @@ export interface ApiGatewayDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ApiGatewayDeleteResponse = ApiGatewayDeleteHeaders &
-  ApiManagementGatewayResource;
+export type ApiGatewayDeleteResponse = ApiGatewayDeleteHeaders & ApiManagementGatewayResource;
 
 /** Optional parameters. */
-export interface ApiGatewayListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGatewayListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ApiGatewayListByResourceGroupResponse =
-  ApiManagementGatewayListResult;
+export type ApiGatewayListByResourceGroupResponse = ApiManagementGatewayListResult;
 
 /** Optional parameters. */
-export interface ApiGatewayListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGatewayListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiGatewayListResponse = ApiManagementGatewayListResult;
@@ -9145,12 +9190,10 @@ export interface ApiGatewayListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ApiGatewayListByResourceGroupNextResponse =
-  ApiManagementGatewayListResult;
+export type ApiGatewayListByResourceGroupNextResponse = ApiManagementGatewayListResult;
 
 /** Optional parameters. */
-export interface ApiGatewayListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGatewayListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApiGatewayListNextResponse = ApiManagementGatewayListResult;
@@ -9160,34 +9203,29 @@ export interface ApiManagementGatewaySkusListAvailableSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSkus operation. */
-export type ApiManagementGatewaySkusListAvailableSkusResponse =
-  GatewayResourceSkuResults;
+export type ApiManagementGatewaySkusListAvailableSkusResponse = GatewayResourceSkuResults;
 
 /** Optional parameters. */
 export interface ApiManagementGatewaySkusListAvailableSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableSkusNext operation. */
-export type ApiManagementGatewaySkusListAvailableSkusNextResponse =
-  GatewayResourceSkuResults;
+export type ApiManagementGatewaySkusListAvailableSkusNextResponse = GatewayResourceSkuResults;
 
 /** Optional parameters. */
-export interface AllPoliciesListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AllPoliciesListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type AllPoliciesListByServiceResponse = AllPoliciesCollection;
 
 /** Optional parameters. */
-export interface AllPoliciesListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AllPoliciesListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type AllPoliciesListByServiceNextResponse = AllPoliciesCollection;
 
 /** Optional parameters. */
-export interface ApiListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq, ne |  |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9204,8 +9242,7 @@ export interface ApiListByServiceOptionalParams
 export type ApiListByServiceResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface ApiGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiGetEntityTagResponse = ApiGetEntityTagHeaders;
@@ -9217,8 +9254,7 @@ export interface ApiGetOptionalParams extends coreClient.OperationOptions {}
 export type ApiGetResponse = ApiGetHeaders & ApiContract;
 
 /** Optional parameters. */
-export interface ApiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -9250,8 +9286,7 @@ export interface ApiDeleteOptionalParams extends coreClient.OperationOptions {
 export type ApiDeleteResponse = ApiDeleteHeaders;
 
 /** Optional parameters. */
-export interface ApiListByTagsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiListByTagsOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9266,22 +9301,19 @@ export interface ApiListByTagsOptionalParams
 export type ApiListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface ApiListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiListByServiceNextResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface ApiListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiListByTagsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type ApiListByTagsNextResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface ApiRevisionListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiRevisionListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9294,15 +9326,13 @@ export interface ApiRevisionListByServiceOptionalParams
 export type ApiRevisionListByServiceResponse = ApiRevisionCollection;
 
 /** Optional parameters. */
-export interface ApiRevisionListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiRevisionListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiRevisionListByServiceNextResponse = ApiRevisionCollection;
 
 /** Optional parameters. */
-export interface ApiReleaseListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiReleaseListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| notes | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9315,52 +9345,43 @@ export interface ApiReleaseListByServiceOptionalParams
 export type ApiReleaseListByServiceResponse = ApiReleaseCollection;
 
 /** Optional parameters. */
-export interface ApiReleaseGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiReleaseGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiReleaseGetEntityTagResponse = ApiReleaseGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiReleaseGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiReleaseGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApiReleaseGetResponse = ApiReleaseGetHeaders & ApiReleaseContract;
 
 /** Optional parameters. */
-export interface ApiReleaseCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiReleaseCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiReleaseCreateOrUpdateResponse = ApiReleaseCreateOrUpdateHeaders &
-  ApiReleaseContract;
+export type ApiReleaseCreateOrUpdateResponse = ApiReleaseCreateOrUpdateHeaders & ApiReleaseContract;
 
 /** Optional parameters. */
-export interface ApiReleaseUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiReleaseUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type ApiReleaseUpdateResponse = ApiReleaseUpdateHeaders &
-  ApiReleaseContract;
+export type ApiReleaseUpdateResponse = ApiReleaseUpdateHeaders & ApiReleaseContract;
 
 /** Optional parameters. */
-export interface ApiReleaseDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiReleaseDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApiReleaseListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiReleaseListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiReleaseListByServiceNextResponse = ApiReleaseCollection;
 
 /** Optional parameters. */
-export interface ApiOperationListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiOperationListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9375,46 +9396,38 @@ export interface ApiOperationListByApiOptionalParams
 export type ApiOperationListByApiResponse = OperationCollection;
 
 /** Optional parameters. */
-export interface ApiOperationGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiOperationGetEntityTagResponse = ApiOperationGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiOperationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiOperationGetResponse = ApiOperationGetHeaders &
-  OperationContract;
+export type ApiOperationGetResponse = ApiOperationGetHeaders & OperationContract;
 
 /** Optional parameters. */
-export interface ApiOperationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiOperationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiOperationCreateOrUpdateResponse =
-  ApiOperationCreateOrUpdateHeaders & OperationContract;
-
-/** Optional parameters. */
-export interface ApiOperationUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ApiOperationUpdateResponse = ApiOperationUpdateHeaders &
+export type ApiOperationCreateOrUpdateResponse = ApiOperationCreateOrUpdateHeaders &
   OperationContract;
 
 /** Optional parameters. */
-export interface ApiOperationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ApiOperationUpdateResponse = ApiOperationUpdateHeaders & OperationContract;
 
 /** Optional parameters. */
-export interface ApiOperationListByApiNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiOperationListByApiNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ApiOperationListByApiNextResponse = OperationCollection;
@@ -9427,23 +9440,19 @@ export interface ApiOperationPolicyListByOperationOptionalParams
 export type ApiOperationPolicyListByOperationResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface ApiOperationPolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationPolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiOperationPolicyGetEntityTagResponse =
-  ApiOperationPolicyGetEntityTagHeaders;
+export type ApiOperationPolicyGetEntityTagResponse = ApiOperationPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiOperationPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiOperationPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type ApiOperationPolicyGetResponse = ApiOperationPolicyGetHeaders &
-  PolicyContract;
+export type ApiOperationPolicyGetResponse = ApiOperationPolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
 export interface ApiOperationPolicyCreateOrUpdateOptionalParams
@@ -9453,16 +9462,14 @@ export interface ApiOperationPolicyCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiOperationPolicyCreateOrUpdateResponse =
-  ApiOperationPolicyCreateOrUpdateHeaders & PolicyContract;
+export type ApiOperationPolicyCreateOrUpdateResponse = ApiOperationPolicyCreateOrUpdateHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
-export interface ApiOperationPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiOperationPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagListByOperationOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagListByOperationOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9475,34 +9482,28 @@ export interface TagListByOperationOptionalParams
 export type TagListByOperationResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagGetEntityStateByOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetEntityStateByOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityStateByOperation operation. */
-export type TagGetEntityStateByOperationResponse =
-  TagGetEntityStateByOperationHeaders;
+export type TagGetEntityStateByOperationResponse = TagGetEntityStateByOperationHeaders;
 
 /** Optional parameters. */
-export interface TagGetByOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetByOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByOperation operation. */
 export type TagGetByOperationResponse = TagGetByOperationHeaders & TagContract;
 
 /** Optional parameters. */
-export interface TagAssignToOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagAssignToOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the assignToOperation operation. */
 export type TagAssignToOperationResponse = TagContract;
 
 /** Optional parameters. */
-export interface TagDetachFromOperationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagDetachFromOperationOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9515,33 +9516,28 @@ export interface TagListByApiOptionalParams
 export type TagListByApiResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagGetEntityStateByApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetEntityStateByApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityStateByApi operation. */
 export type TagGetEntityStateByApiResponse = TagGetEntityStateByApiHeaders;
 
 /** Optional parameters. */
-export interface TagGetByApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetByApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByApi operation. */
 export type TagGetByApiResponse = TagGetByApiHeaders & TagContract;
 
 /** Optional parameters. */
-export interface TagAssignToApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagAssignToApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the assignToApi operation. */
 export type TagAssignToApiResponse = TagAssignToApiHeaders & TagContract;
 
 /** Optional parameters. */
-export interface TagDetachFromApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagDetachFromApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9554,34 +9550,28 @@ export interface TagListByProductOptionalParams
 export type TagListByProductResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagGetEntityStateByProductOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetEntityStateByProductOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityStateByProduct operation. */
-export type TagGetEntityStateByProductResponse =
-  TagGetEntityStateByProductHeaders;
+export type TagGetEntityStateByProductResponse = TagGetEntityStateByProductHeaders;
 
 /** Optional parameters. */
-export interface TagGetByProductOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetByProductOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByProduct operation. */
 export type TagGetByProductResponse = TagGetByProductHeaders & TagContract;
 
 /** Optional parameters. */
-export interface TagAssignToProductOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagAssignToProductOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the assignToProduct operation. */
 export type TagAssignToProductResponse = TagContract;
 
 /** Optional parameters. */
-export interface TagDetachFromProductOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagDetachFromProductOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9596,8 +9586,7 @@ export interface TagListByServiceOptionalParams
 export type TagListByServiceResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagGetEntityStateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagGetEntityStateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityState operation. */
 export type TagGetEntityStateResponse = TagGetEntityStateHeaders;
@@ -9609,8 +9598,7 @@ export interface TagGetOptionalParams extends coreClient.OperationOptions {}
 export type TagGetResponse = TagGetHeaders & TagContract;
 
 /** Optional parameters. */
-export interface TagCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -9628,36 +9616,31 @@ export type TagUpdateResponse = TagUpdateHeaders & TagContract;
 export interface TagDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagListByOperationNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagListByOperationNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperationNext operation. */
 export type TagListByOperationNextResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagListByApiNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagListByApiNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type TagListByApiNextResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type TagListByProductNextResponse = TagCollection;
 
 /** Optional parameters. */
-export interface TagListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TagListByServiceNextResponse = TagCollection;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface GraphQLApiResolverListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9670,20 +9653,16 @@ export interface GraphQLApiResolverListByApiOptionalParams
 export type GraphQLApiResolverListByApiResponse = ResolverCollection;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GraphQLApiResolverGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type GraphQLApiResolverGetEntityTagResponse =
-  GraphQLApiResolverGetEntityTagHeaders;
+export type GraphQLApiResolverGetEntityTagResponse = GraphQLApiResolverGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GraphQLApiResolverGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GraphQLApiResolverGetResponse = GraphQLApiResolverGetHeaders &
-  ResolverContract;
+export type GraphQLApiResolverGetResponse = GraphQLApiResolverGetHeaders & ResolverContract;
 
 /** Optional parameters. */
 export interface GraphQLApiResolverCreateOrUpdateOptionalParams
@@ -9693,20 +9672,17 @@ export interface GraphQLApiResolverCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GraphQLApiResolverCreateOrUpdateResponse =
-  GraphQLApiResolverCreateOrUpdateHeaders & ResolverContract;
-
-/** Optional parameters. */
-export interface GraphQLApiResolverUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type GraphQLApiResolverUpdateResponse = GraphQLApiResolverUpdateHeaders &
+export type GraphQLApiResolverCreateOrUpdateResponse = GraphQLApiResolverCreateOrUpdateHeaders &
   ResolverContract;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GraphQLApiResolverUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type GraphQLApiResolverUpdateResponse = GraphQLApiResolverUpdateHeaders & ResolverContract;
+
+/** Optional parameters. */
+export interface GraphQLApiResolverDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GraphQLApiResolverListByApiNextOptionalParams
@@ -9731,15 +9707,14 @@ export type GraphQLApiResolverPolicyGetEntityTagResponse =
   GraphQLApiResolverPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface GraphQLApiResolverPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type GraphQLApiResolverPolicyGetResponse =
-  GraphQLApiResolverPolicyGetHeaders & PolicyContract;
+export type GraphQLApiResolverPolicyGetResponse = GraphQLApiResolverPolicyGetHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
 export interface GraphQLApiResolverPolicyCreateOrUpdateOptionalParams
@@ -9753,20 +9728,17 @@ export type GraphQLApiResolverPolicyCreateOrUpdateResponse =
   GraphQLApiResolverPolicyCreateOrUpdateHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface GraphQLApiResolverPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GraphQLApiResolverPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface GraphQLApiResolverPolicyListByResolverNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResolverNext operation. */
-export type GraphQLApiResolverPolicyListByResolverNextResponse =
-  PolicyCollection;
+export type GraphQLApiResolverPolicyListByResolverNextResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface ApiProductListByApisOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiProductListByApisOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9779,29 +9751,25 @@ export interface ApiProductListByApisOptionalParams
 export type ApiProductListByApisResponse = ProductCollection;
 
 /** Optional parameters. */
-export interface ApiProductListByApisNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiProductListByApisNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApisNext operation. */
 export type ApiProductListByApisNextResponse = ProductCollection;
 
 /** Optional parameters. */
-export interface ApiPolicyListByApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiPolicyListByApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApi operation. */
 export type ApiPolicyListByApiResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface ApiPolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiPolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiPolicyGetEntityTagResponse = ApiPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
@@ -9810,23 +9778,19 @@ export interface ApiPolicyGetOptionalParams
 export type ApiPolicyGetResponse = ApiPolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface ApiPolicyCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiPolicyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiPolicyCreateOrUpdateResponse = ApiPolicyCreateOrUpdateHeaders &
-  PolicyContract;
+export type ApiPolicyCreateOrUpdateResponse = ApiPolicyCreateOrUpdateHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface ApiPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApiSchemaListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiSchemaListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9839,22 +9803,19 @@ export interface ApiSchemaListByApiOptionalParams
 export type ApiSchemaListByApiResponse = SchemaCollection;
 
 /** Optional parameters. */
-export interface ApiSchemaGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiSchemaGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiSchemaGetEntityTagResponse = ApiSchemaGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiSchemaGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiSchemaGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApiSchemaGetResponse = ApiSchemaGetHeaders & SchemaContract;
 
 /** Optional parameters. */
-export interface ApiSchemaCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiSchemaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -9864,26 +9825,22 @@ export interface ApiSchemaCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiSchemaCreateOrUpdateResponse = ApiSchemaCreateOrUpdateHeaders &
-  SchemaContract;
+export type ApiSchemaCreateOrUpdateResponse = ApiSchemaCreateOrUpdateHeaders & SchemaContract;
 
 /** Optional parameters. */
-export interface ApiSchemaDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiSchemaDeleteOptionalParams extends coreClient.OperationOptions {
   /** If true removes all references to the schema before deleting it. */
   force?: boolean;
 }
 
 /** Optional parameters. */
-export interface ApiSchemaListByApiNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiSchemaListByApiNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ApiSchemaListByApiNextResponse = SchemaCollection;
 
 /** Optional parameters. */
-export interface ApiDiagnosticListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiDiagnosticListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9896,54 +9853,44 @@ export interface ApiDiagnosticListByServiceOptionalParams
 export type ApiDiagnosticListByServiceResponse = DiagnosticCollection;
 
 /** Optional parameters. */
-export interface ApiDiagnosticGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiDiagnosticGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiDiagnosticGetEntityTagResponse =
-  ApiDiagnosticGetEntityTagHeaders;
+export type ApiDiagnosticGetEntityTagResponse = ApiDiagnosticGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiDiagnosticGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiDiagnosticGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiDiagnosticGetResponse = ApiDiagnosticGetHeaders &
-  DiagnosticContract;
+export type ApiDiagnosticGetResponse = ApiDiagnosticGetHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface ApiDiagnosticCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiDiagnosticCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiDiagnosticCreateOrUpdateResponse =
-  ApiDiagnosticCreateOrUpdateHeaders & DiagnosticContract;
-
-/** Optional parameters. */
-export interface ApiDiagnosticUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ApiDiagnosticUpdateResponse = ApiDiagnosticUpdateHeaders &
+export type ApiDiagnosticCreateOrUpdateResponse = ApiDiagnosticCreateOrUpdateHeaders &
   DiagnosticContract;
 
 /** Optional parameters. */
-export interface ApiDiagnosticDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiDiagnosticUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ApiDiagnosticUpdateResponse = ApiDiagnosticUpdateHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface ApiDiagnosticListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiDiagnosticDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiDiagnosticListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiDiagnosticListByServiceNextResponse = DiagnosticCollection;
 
 /** Optional parameters. */
-export interface ApiIssueListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiIssueListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -9958,8 +9905,7 @@ export interface ApiIssueListByServiceOptionalParams
 export type ApiIssueListByServiceResponse = IssueCollection;
 
 /** Optional parameters. */
-export interface ApiIssueGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiIssueGetEntityTagResponse = ApiIssueGetEntityTagHeaders;
@@ -9974,37 +9920,31 @@ export interface ApiIssueGetOptionalParams extends coreClient.OperationOptions {
 export type ApiIssueGetResponse = ApiIssueGetHeaders & IssueContract;
 
 /** Optional parameters. */
-export interface ApiIssueCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiIssueCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiIssueCreateOrUpdateResponse = ApiIssueCreateOrUpdateHeaders &
-  IssueContract;
+export type ApiIssueCreateOrUpdateResponse = ApiIssueCreateOrUpdateHeaders & IssueContract;
 
 /** Optional parameters. */
-export interface ApiIssueUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ApiIssueUpdateResponse = ApiIssueUpdateHeaders & IssueContract;
 
 /** Optional parameters. */
-export interface ApiIssueDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApiIssueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiIssueListByServiceNextResponse = IssueCollection;
 
 /** Optional parameters. */
-export interface ApiIssueCommentListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiIssueCommentListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10017,35 +9957,29 @@ export interface ApiIssueCommentListByServiceOptionalParams
 export type ApiIssueCommentListByServiceResponse = IssueCommentCollection;
 
 /** Optional parameters. */
-export interface ApiIssueCommentGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueCommentGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiIssueCommentGetEntityTagResponse =
-  ApiIssueCommentGetEntityTagHeaders;
+export type ApiIssueCommentGetEntityTagResponse = ApiIssueCommentGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiIssueCommentGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueCommentGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiIssueCommentGetResponse = ApiIssueCommentGetHeaders &
-  IssueCommentContract;
+export type ApiIssueCommentGetResponse = ApiIssueCommentGetHeaders & IssueCommentContract;
 
 /** Optional parameters. */
-export interface ApiIssueCommentCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiIssueCommentCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiIssueCommentCreateOrUpdateResponse =
-  ApiIssueCommentCreateOrUpdateHeaders & IssueCommentContract;
+export type ApiIssueCommentCreateOrUpdateResponse = ApiIssueCommentCreateOrUpdateHeaders &
+  IssueCommentContract;
 
 /** Optional parameters. */
-export interface ApiIssueCommentDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueCommentDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApiIssueCommentListByServiceNextOptionalParams
@@ -10055,8 +9989,7 @@ export interface ApiIssueCommentListByServiceNextOptionalParams
 export type ApiIssueCommentListByServiceNextResponse = IssueCommentCollection;
 
 /** Optional parameters. */
-export interface ApiIssueAttachmentListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiIssueAttachmentListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10069,20 +10002,16 @@ export interface ApiIssueAttachmentListByServiceOptionalParams
 export type ApiIssueAttachmentListByServiceResponse = IssueAttachmentCollection;
 
 /** Optional parameters. */
-export interface ApiIssueAttachmentGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueAttachmentGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiIssueAttachmentGetEntityTagResponse =
-  ApiIssueAttachmentGetEntityTagHeaders;
+export type ApiIssueAttachmentGetEntityTagResponse = ApiIssueAttachmentGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiIssueAttachmentGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueAttachmentGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiIssueAttachmentGetResponse = ApiIssueAttachmentGetHeaders &
-  IssueAttachmentContract;
+export type ApiIssueAttachmentGetResponse = ApiIssueAttachmentGetHeaders & IssueAttachmentContract;
 
 /** Optional parameters. */
 export interface ApiIssueAttachmentCreateOrUpdateOptionalParams
@@ -10092,24 +10021,21 @@ export interface ApiIssueAttachmentCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiIssueAttachmentCreateOrUpdateResponse =
-  ApiIssueAttachmentCreateOrUpdateHeaders & IssueAttachmentContract;
+export type ApiIssueAttachmentCreateOrUpdateResponse = ApiIssueAttachmentCreateOrUpdateHeaders &
+  IssueAttachmentContract;
 
 /** Optional parameters. */
-export interface ApiIssueAttachmentDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiIssueAttachmentDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApiIssueAttachmentListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type ApiIssueAttachmentListByServiceNextResponse =
-  IssueAttachmentCollection;
+export type ApiIssueAttachmentListByServiceNextResponse = IssueAttachmentCollection;
 
 /** Optional parameters. */
-export interface ApiTagDescriptionListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiTagDescriptionListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10122,47 +10048,39 @@ export interface ApiTagDescriptionListByServiceOptionalParams
 export type ApiTagDescriptionListByServiceResponse = TagDescriptionCollection;
 
 /** Optional parameters. */
-export interface ApiTagDescriptionGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiTagDescriptionGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiTagDescriptionGetEntityTagResponse =
-  ApiTagDescriptionGetEntityTagHeaders;
+export type ApiTagDescriptionGetEntityTagResponse = ApiTagDescriptionGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiTagDescriptionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiTagDescriptionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiTagDescriptionGetResponse = ApiTagDescriptionGetHeaders &
-  TagDescriptionContract;
+export type ApiTagDescriptionGetResponse = ApiTagDescriptionGetHeaders & TagDescriptionContract;
 
 /** Optional parameters. */
-export interface ApiTagDescriptionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiTagDescriptionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiTagDescriptionCreateOrUpdateResponse =
-  ApiTagDescriptionCreateOrUpdateHeaders & TagDescriptionContract;
+export type ApiTagDescriptionCreateOrUpdateResponse = ApiTagDescriptionCreateOrUpdateHeaders &
+  TagDescriptionContract;
 
 /** Optional parameters. */
-export interface ApiTagDescriptionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiTagDescriptionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApiTagDescriptionListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type ApiTagDescriptionListByServiceNextResponse =
-  TagDescriptionCollection;
+export type ApiTagDescriptionListByServiceNextResponse = TagDescriptionCollection;
 
 /** Optional parameters. */
-export interface OperationListByTagsOptionalParams
-  extends coreClient.OperationOptions {
+export interface OperationListByTagsOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10177,15 +10095,13 @@ export interface OperationListByTagsOptionalParams
 export type OperationListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface OperationListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationListByTagsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type OperationListByTagsNextResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface ApiWikiGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiWikiGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ApiWikiGetEntityTagResponse = ApiWikiGetEntityTagHeaders;
@@ -10197,30 +10113,25 @@ export interface ApiWikiGetOptionalParams extends coreClient.OperationOptions {}
 export type ApiWikiGetResponse = ApiWikiGetHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ApiWikiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiWikiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiWikiCreateOrUpdateResponse = ApiWikiCreateOrUpdateHeaders &
-  WikiContract;
+export type ApiWikiCreateOrUpdateResponse = ApiWikiCreateOrUpdateHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ApiWikiUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiWikiUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ApiWikiUpdateResponse = ApiWikiUpdateHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ApiWikiDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiWikiDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApiWikisListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiWikisListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq |  contains |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10233,22 +10144,19 @@ export interface ApiWikisListOptionalParams
 export type ApiWikisListResponse = WikiCollection;
 
 /** Optional parameters. */
-export interface ApiWikisListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiWikisListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApiWikisListNextResponse = WikiCollection;
 
 /** Optional parameters. */
-export interface ApiExportGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiExportGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApiExportGetResponse = ApiExportResult;
 
 /** Optional parameters. */
-export interface ApiVersionSetListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiVersionSetListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10261,47 +10169,38 @@ export interface ApiVersionSetListByServiceOptionalParams
 export type ApiVersionSetListByServiceResponse = ApiVersionSetCollection;
 
 /** Optional parameters. */
-export interface ApiVersionSetGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiVersionSetGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ApiVersionSetGetEntityTagResponse =
-  ApiVersionSetGetEntityTagHeaders;
+export type ApiVersionSetGetEntityTagResponse = ApiVersionSetGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ApiVersionSetGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiVersionSetGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiVersionSetGetResponse = ApiVersionSetGetHeaders &
-  ApiVersionSetContract;
+export type ApiVersionSetGetResponse = ApiVersionSetGetHeaders & ApiVersionSetContract;
 
 /** Optional parameters. */
-export interface ApiVersionSetCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiVersionSetCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiVersionSetCreateOrUpdateResponse =
-  ApiVersionSetCreateOrUpdateHeaders & ApiVersionSetContract;
-
-/** Optional parameters. */
-export interface ApiVersionSetUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ApiVersionSetUpdateResponse = ApiVersionSetUpdateHeaders &
+export type ApiVersionSetCreateOrUpdateResponse = ApiVersionSetCreateOrUpdateHeaders &
   ApiVersionSetContract;
 
 /** Optional parameters. */
-export interface ApiVersionSetDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiVersionSetUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type ApiVersionSetUpdateResponse = ApiVersionSetUpdateHeaders & ApiVersionSetContract;
 
 /** Optional parameters. */
-export interface ApiVersionSetListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiVersionSetDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiVersionSetListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ApiVersionSetListByServiceNextResponse = ApiVersionSetCollection;
@@ -10318,12 +10217,10 @@ export interface AuthorizationProviderListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type AuthorizationProviderListByServiceResponse =
-  AuthorizationProviderCollection;
+export type AuthorizationProviderListByServiceResponse = AuthorizationProviderCollection;
 
 /** Optional parameters. */
-export interface AuthorizationProviderGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationProviderGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AuthorizationProviderGetResponse = AuthorizationProviderGetHeaders &
@@ -10341,16 +10238,14 @@ export type AuthorizationProviderCreateOrUpdateResponse =
   AuthorizationProviderCreateOrUpdateHeaders & AuthorizationProviderContract;
 
 /** Optional parameters. */
-export interface AuthorizationProviderDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationProviderDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AuthorizationProviderListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type AuthorizationProviderListByServiceNextResponse =
-  AuthorizationProviderCollection;
+export type AuthorizationProviderListByServiceNextResponse = AuthorizationProviderCollection;
 
 /** Optional parameters. */
 export interface AuthorizationListByAuthorizationProviderOptionalParams
@@ -10364,55 +10259,47 @@ export interface AuthorizationListByAuthorizationProviderOptionalParams
 }
 
 /** Contains response data for the listByAuthorizationProvider operation. */
-export type AuthorizationListByAuthorizationProviderResponse =
-  AuthorizationCollection;
+export type AuthorizationListByAuthorizationProviderResponse = AuthorizationCollection;
 
 /** Optional parameters. */
-export interface AuthorizationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AuthorizationGetResponse = AuthorizationGetHeaders &
-  AuthorizationContract;
+export type AuthorizationGetResponse = AuthorizationGetHeaders & AuthorizationContract;
 
 /** Optional parameters. */
-export interface AuthorizationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AuthorizationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AuthorizationCreateOrUpdateResponse =
-  AuthorizationCreateOrUpdateHeaders & AuthorizationContract;
+export type AuthorizationCreateOrUpdateResponse = AuthorizationCreateOrUpdateHeaders &
+  AuthorizationContract;
 
 /** Optional parameters. */
-export interface AuthorizationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AuthorizationConfirmConsentCodeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the confirmConsentCode operation. */
-export type AuthorizationConfirmConsentCodeResponse =
-  AuthorizationConfirmConsentCodeHeaders;
+export type AuthorizationConfirmConsentCodeResponse = AuthorizationConfirmConsentCodeHeaders;
 
 /** Optional parameters. */
 export interface AuthorizationListByAuthorizationProviderNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAuthorizationProviderNext operation. */
-export type AuthorizationListByAuthorizationProviderNextResponse =
-  AuthorizationCollection;
+export type AuthorizationListByAuthorizationProviderNextResponse = AuthorizationCollection;
 
 /** Optional parameters. */
-export interface AuthorizationLoginLinksPostOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationLoginLinksPostOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the post operation. */
-export type AuthorizationLoginLinksPostResponse =
-  AuthorizationLoginLinksPostHeaders & AuthorizationLoginResponseContract;
+export type AuthorizationLoginLinksPostResponse = AuthorizationLoginLinksPostHeaders &
+  AuthorizationLoginResponseContract;
 
 /** Optional parameters. */
 export interface AuthorizationAccessPolicyListByAuthorizationOptionalParams
@@ -10430,12 +10317,11 @@ export type AuthorizationAccessPolicyListByAuthorizationResponse =
   AuthorizationAccessPolicyCollection;
 
 /** Optional parameters. */
-export interface AuthorizationAccessPolicyGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationAccessPolicyGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AuthorizationAccessPolicyGetResponse =
-  AuthorizationAccessPolicyGetHeaders & AuthorizationAccessPolicyContract;
+export type AuthorizationAccessPolicyGetResponse = AuthorizationAccessPolicyGetHeaders &
+  AuthorizationAccessPolicyContract;
 
 /** Optional parameters. */
 export interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
@@ -10446,8 +10332,7 @@ export interface AuthorizationAccessPolicyCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type AuthorizationAccessPolicyCreateOrUpdateResponse =
-  AuthorizationAccessPolicyCreateOrUpdateHeaders &
-    AuthorizationAccessPolicyContract;
+  AuthorizationAccessPolicyCreateOrUpdateHeaders & AuthorizationAccessPolicyContract;
 
 /** Optional parameters. */
 export interface AuthorizationAccessPolicyDeleteOptionalParams
@@ -10473,20 +10358,17 @@ export interface AuthorizationServerListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type AuthorizationServerListByServiceResponse =
-  AuthorizationServerCollection;
+export type AuthorizationServerListByServiceResponse = AuthorizationServerCollection;
 
 /** Optional parameters. */
 export interface AuthorizationServerGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type AuthorizationServerGetEntityTagResponse =
-  AuthorizationServerGetEntityTagHeaders;
+export type AuthorizationServerGetEntityTagResponse = AuthorizationServerGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface AuthorizationServerGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationServerGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AuthorizationServerGetResponse = AuthorizationServerGetHeaders &
@@ -10500,40 +10382,35 @@ export interface AuthorizationServerCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AuthorizationServerCreateOrUpdateResponse =
-  AuthorizationServerCreateOrUpdateHeaders & AuthorizationServerContract;
+export type AuthorizationServerCreateOrUpdateResponse = AuthorizationServerCreateOrUpdateHeaders &
+  AuthorizationServerContract;
 
 /** Optional parameters. */
-export interface AuthorizationServerUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationServerUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type AuthorizationServerUpdateResponse =
-  AuthorizationServerUpdateHeaders & AuthorizationServerContract;
+export type AuthorizationServerUpdateResponse = AuthorizationServerUpdateHeaders &
+  AuthorizationServerContract;
 
 /** Optional parameters. */
-export interface AuthorizationServerDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationServerDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AuthorizationServerListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AuthorizationServerListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type AuthorizationServerListSecretsResponse =
-  AuthorizationServerListSecretsHeaders & AuthorizationServerSecretsContract;
+export type AuthorizationServerListSecretsResponse = AuthorizationServerListSecretsHeaders &
+  AuthorizationServerSecretsContract;
 
 /** Optional parameters. */
 export interface AuthorizationServerListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type AuthorizationServerListByServiceNextResponse =
-  AuthorizationServerCollection;
+export type AuthorizationServerListByServiceNextResponse = AuthorizationServerCollection;
 
 /** Optional parameters. */
-export interface BackendListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackendListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10546,8 +10423,7 @@ export interface BackendListByServiceOptionalParams
 export type BackendListByServiceResponse = BackendCollection;
 
 /** Optional parameters. */
-export interface BackendGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackendGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type BackendGetEntityTagResponse = BackendGetEntityTagHeaders;
@@ -10559,44 +10435,37 @@ export interface BackendGetOptionalParams extends coreClient.OperationOptions {}
 export type BackendGetResponse = BackendGetHeaders & BackendContract;
 
 /** Optional parameters. */
-export interface BackendCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackendCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type BackendCreateOrUpdateResponse = BackendCreateOrUpdateHeaders &
-  BackendContract;
+export type BackendCreateOrUpdateResponse = BackendCreateOrUpdateHeaders & BackendContract;
 
 /** Optional parameters. */
-export interface BackendUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackendUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type BackendUpdateResponse = BackendUpdateHeaders & BackendContract;
 
 /** Optional parameters. */
-export interface BackendDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackendDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface BackendReconnectOptionalParams
-  extends coreClient.OperationOptions {
+export interface BackendReconnectOptionalParams extends coreClient.OperationOptions {
   /** Reconnect request parameters. */
   parameters?: BackendReconnectContract;
 }
 
 /** Optional parameters. */
-export interface BackendListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BackendListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type BackendListByServiceNextResponse = BackendCollection;
 
 /** Optional parameters. */
-export interface CacheListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface CacheListByServiceOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -10607,8 +10476,7 @@ export interface CacheListByServiceOptionalParams
 export type CacheListByServiceResponse = CacheCollection;
 
 /** Optional parameters. */
-export interface CacheGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type CacheGetEntityTagResponse = CacheGetEntityTagHeaders;
@@ -10620,37 +10488,31 @@ export interface CacheGetOptionalParams extends coreClient.OperationOptions {}
 export type CacheGetResponse = CacheGetHeaders & CacheContract;
 
 /** Optional parameters. */
-export interface CacheCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CacheCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CacheCreateOrUpdateResponse = CacheCreateOrUpdateHeaders &
-  CacheContract;
+export type CacheCreateOrUpdateResponse = CacheCreateOrUpdateHeaders & CacheContract;
 
 /** Optional parameters. */
-export interface CacheUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CacheUpdateResponse = CacheUpdateHeaders & CacheContract;
 
 /** Optional parameters. */
-export interface CacheDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type CacheListByServiceNextResponse = CacheCollection;
 
 /** Optional parameters. */
-export interface CertificateListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| subject | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| thumbprint | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| expirationDate | filter | ge, le, eq, ne, gt, lt |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -10665,53 +10527,45 @@ export interface CertificateListByServiceOptionalParams
 export type CertificateListByServiceResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface CertificateGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type CertificateGetEntityTagResponse = CertificateGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface CertificateGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type CertificateGetResponse = CertificateGetHeaders &
-  CertificateContract;
+export type CertificateGetResponse = CertificateGetHeaders & CertificateContract;
 
 /** Optional parameters. */
-export interface CertificateCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CertificateCreateOrUpdateResponse =
-  CertificateCreateOrUpdateHeaders & CertificateContract;
+export type CertificateCreateOrUpdateResponse = CertificateCreateOrUpdateHeaders &
+  CertificateContract;
 
 /** Optional parameters. */
-export interface CertificateDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificateRefreshSecretOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateRefreshSecretOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the refreshSecret operation. */
 export type CertificateRefreshSecretResponse = CertificateRefreshSecretHeaders &
   CertificateContract;
 
 /** Optional parameters. */
-export interface CertificateListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type CertificateListByServiceNextResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface PerformConnectivityCheckAsyncOptionalParams
-  extends coreClient.OperationOptions {
+export interface PerformConnectivityCheckAsyncOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10722,82 +10576,69 @@ export interface PerformConnectivityCheckAsyncOptionalParams
 export type PerformConnectivityCheckAsyncResponse = ConnectivityCheckResponse;
 
 /** Optional parameters. */
-export interface ContentTypeListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentTypeListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type ContentTypeListByServiceResponse = ContentTypeCollection;
 
 /** Optional parameters. */
-export interface ContentTypeGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentTypeGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ContentTypeGetResponse = ContentTypeGetHeaders &
-  ContentTypeContract;
+export type ContentTypeGetResponse = ContentTypeGetHeaders & ContentTypeContract;
 
 /** Optional parameters. */
-export interface ContentTypeCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContentTypeCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ContentTypeCreateOrUpdateResponse =
-  ContentTypeCreateOrUpdateHeaders & ContentTypeContract;
+export type ContentTypeCreateOrUpdateResponse = ContentTypeCreateOrUpdateHeaders &
+  ContentTypeContract;
 
 /** Optional parameters. */
-export interface ContentTypeDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentTypeDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ContentTypeListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentTypeListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ContentTypeListByServiceNextResponse = ContentTypeCollection;
 
 /** Optional parameters. */
-export interface ContentItemListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentItemListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type ContentItemListByServiceResponse = ContentItemCollection;
 
 /** Optional parameters. */
-export interface ContentItemGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentItemGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ContentItemGetEntityTagResponse = ContentItemGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ContentItemGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentItemGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ContentItemGetResponse = ContentItemGetHeaders &
-  ContentItemContract;
+export type ContentItemGetResponse = ContentItemGetHeaders & ContentItemContract;
 
 /** Optional parameters. */
-export interface ContentItemCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ContentItemCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ContentItemCreateOrUpdateResponse =
-  ContentItemCreateOrUpdateHeaders & ContentItemContract;
+export type ContentItemCreateOrUpdateResponse = ContentItemCreateOrUpdateHeaders &
+  ContentItemContract;
 
 /** Optional parameters. */
-export interface ContentItemDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentItemDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ContentItemListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ContentItemListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ContentItemListByServiceNextResponse = ContentItemCollection;
@@ -10807,19 +10648,16 @@ export interface DeletedServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DeletedServicesListBySubscriptionResponse =
-  DeletedServicesCollection;
+export type DeletedServicesListBySubscriptionResponse = DeletedServicesCollection;
 
 /** Optional parameters. */
-export interface DeletedServicesGetByNameOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedServicesGetByNameOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByName operation. */
 export type DeletedServicesGetByNameResponse = DeletedServiceContract;
 
 /** Optional parameters. */
-export interface DeletedServicesPurgeOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeletedServicesPurgeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10831,12 +10669,10 @@ export interface DeletedServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DeletedServicesListBySubscriptionNextResponse =
-  DeletedServicesCollection;
+export type DeletedServicesListBySubscriptionNextResponse = DeletedServicesCollection;
 
 /** Optional parameters. */
-export interface ApiManagementOperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementOperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiManagementOperationsListResponse = OperationListResult;
@@ -10853,20 +10689,17 @@ export interface ApiManagementServiceSkusListAvailableServiceSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableServiceSkus operation. */
-export type ApiManagementServiceSkusListAvailableServiceSkusResponse =
-  ResourceSkuResults;
+export type ApiManagementServiceSkusListAvailableServiceSkusResponse = ResourceSkuResults;
 
 /** Optional parameters. */
 export interface ApiManagementServiceSkusListAvailableServiceSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAvailableServiceSkusNext operation. */
-export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse =
-  ResourceSkuResults;
+export type ApiManagementServiceSkusListAvailableServiceSkusNextResponse = ResourceSkuResults;
 
 /** Optional parameters. */
-export interface ApiManagementServiceRestoreOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiManagementServiceRestoreOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10877,8 +10710,7 @@ export interface ApiManagementServiceRestoreOptionalParams
 export type ApiManagementServiceRestoreResponse = ApiManagementServiceResource;
 
 /** Optional parameters. */
-export interface ApiManagementServiceBackupOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiManagementServiceBackupOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10898,12 +10730,10 @@ export interface ApiManagementServiceCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ApiManagementServiceCreateOrUpdateResponse =
-  ApiManagementServiceResource;
+export type ApiManagementServiceCreateOrUpdateResponse = ApiManagementServiceResource;
 
 /** Optional parameters. */
-export interface ApiManagementServiceUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiManagementServiceUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10914,15 +10744,13 @@ export interface ApiManagementServiceUpdateOptionalParams
 export type ApiManagementServiceUpdateResponse = ApiManagementServiceResource;
 
 /** Optional parameters. */
-export interface ApiManagementServiceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementServiceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApiManagementServiceGetResponse = ApiManagementServiceResource;
 
 /** Optional parameters. */
-export interface ApiManagementServiceDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiManagementServiceDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -10941,20 +10769,17 @@ export interface ApiManagementServiceMigrateToStv2OptionalParams
 }
 
 /** Contains response data for the migrateToStv2 operation. */
-export type ApiManagementServiceMigrateToStv2Response =
-  ApiManagementServiceResource;
+export type ApiManagementServiceMigrateToStv2Response = ApiManagementServiceResource;
 
 /** Optional parameters. */
 export interface ApiManagementServiceListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ApiManagementServiceListByResourceGroupResponse =
-  ApiManagementServiceListResult;
+export type ApiManagementServiceListByResourceGroupResponse = ApiManagementServiceListResult;
 
 /** Optional parameters. */
-export interface ApiManagementServiceListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementServiceListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiManagementServiceListResponse = ApiManagementServiceListResult;
@@ -10964,8 +10789,7 @@ export interface ApiManagementServiceGetSsoTokenOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSsoToken operation. */
-export type ApiManagementServiceGetSsoTokenResponse =
-  ApiManagementServiceGetSsoTokenResult;
+export type ApiManagementServiceGetSsoTokenResponse = ApiManagementServiceGetSsoTokenResult;
 
 /** Optional parameters. */
 export interface ApiManagementServiceCheckNameAvailabilityOptionalParams
@@ -11003,20 +10827,16 @@ export interface ApiManagementServiceListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ApiManagementServiceListByResourceGroupNextResponse =
-  ApiManagementServiceListResult;
+export type ApiManagementServiceListByResourceGroupNextResponse = ApiManagementServiceListResult;
 
 /** Optional parameters. */
-export interface ApiManagementServiceListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementServiceListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ApiManagementServiceListNextResponse =
-  ApiManagementServiceListResult;
+export type ApiManagementServiceListNextResponse = ApiManagementServiceListResult;
 
 /** Optional parameters. */
-export interface DiagnosticListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface DiagnosticListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11029,52 +10849,43 @@ export interface DiagnosticListByServiceOptionalParams
 export type DiagnosticListByServiceResponse = DiagnosticCollection;
 
 /** Optional parameters. */
-export interface DiagnosticGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type DiagnosticGetEntityTagResponse = DiagnosticGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface DiagnosticGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DiagnosticGetResponse = DiagnosticGetHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface DiagnosticCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DiagnosticCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DiagnosticCreateOrUpdateResponse = DiagnosticCreateOrUpdateHeaders &
-  DiagnosticContract;
+export type DiagnosticCreateOrUpdateResponse = DiagnosticCreateOrUpdateHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface DiagnosticUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type DiagnosticUpdateResponse = DiagnosticUpdateHeaders &
-  DiagnosticContract;
+export type DiagnosticUpdateResponse = DiagnosticUpdateHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface DiagnosticDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DiagnosticListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type DiagnosticListByServiceNextResponse = DiagnosticCollection;
 
 /** Optional parameters. */
-export interface DocumentationListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentationListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq |  contains |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11087,54 +10898,44 @@ export interface DocumentationListByServiceOptionalParams
 export type DocumentationListByServiceResponse = DocumentationCollection;
 
 /** Optional parameters. */
-export interface DocumentationGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentationGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type DocumentationGetEntityTagResponse =
-  DocumentationGetEntityTagHeaders;
+export type DocumentationGetEntityTagResponse = DocumentationGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface DocumentationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DocumentationGetResponse = DocumentationGetHeaders &
-  DocumentationContract;
+export type DocumentationGetResponse = DocumentationGetHeaders & DocumentationContract;
 
 /** Optional parameters. */
-export interface DocumentationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DocumentationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DocumentationCreateOrUpdateResponse =
-  DocumentationCreateOrUpdateHeaders & DocumentationContract;
-
-/** Optional parameters. */
-export interface DocumentationUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type DocumentationUpdateResponse = DocumentationUpdateHeaders &
+export type DocumentationCreateOrUpdateResponse = DocumentationCreateOrUpdateHeaders &
   DocumentationContract;
 
 /** Optional parameters. */
-export interface DocumentationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentationUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type DocumentationUpdateResponse = DocumentationUpdateHeaders & DocumentationContract;
 
 /** Optional parameters. */
-export interface DocumentationListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DocumentationDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DocumentationListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type DocumentationListByServiceNextResponse = DocumentationCollection;
 
 /** Optional parameters. */
-export interface EmailTemplateListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface EmailTemplateListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11147,24 +10948,19 @@ export interface EmailTemplateListByServiceOptionalParams
 export type EmailTemplateListByServiceResponse = EmailTemplateCollection;
 
 /** Optional parameters. */
-export interface EmailTemplateGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailTemplateGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type EmailTemplateGetEntityTagResponse =
-  EmailTemplateGetEntityTagHeaders;
+export type EmailTemplateGetEntityTagResponse = EmailTemplateGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface EmailTemplateGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailTemplateGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type EmailTemplateGetResponse = EmailTemplateGetHeaders &
-  EmailTemplateContract;
+export type EmailTemplateGetResponse = EmailTemplateGetHeaders & EmailTemplateContract;
 
 /** Optional parameters. */
-export interface EmailTemplateCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface EmailTemplateCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -11173,20 +10969,16 @@ export interface EmailTemplateCreateOrUpdateOptionalParams
 export type EmailTemplateCreateOrUpdateResponse = EmailTemplateContract;
 
 /** Optional parameters. */
-export interface EmailTemplateUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailTemplateUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type EmailTemplateUpdateResponse = EmailTemplateUpdateHeaders &
-  EmailTemplateContract;
+export type EmailTemplateUpdateResponse = EmailTemplateUpdateHeaders & EmailTemplateContract;
 
 /** Optional parameters. */
-export interface EmailTemplateDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailTemplateDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface EmailTemplateListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailTemplateListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type EmailTemplateListByServiceNextResponse = EmailTemplateCollection;
@@ -11200,12 +10992,10 @@ export type ApiGatewayConfigConnectionListByGatewayResponse =
   ApiManagementGatewayConfigConnectionListResult;
 
 /** Optional parameters. */
-export interface ApiGatewayConfigConnectionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiGatewayConfigConnectionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiGatewayConfigConnectionGetResponse =
-  ApiManagementGatewayConfigConnectionResource;
+export type ApiGatewayConfigConnectionGetResponse = ApiManagementGatewayConfigConnectionResource;
 
 /** Optional parameters. */
 export interface ApiGatewayConfigConnectionCreateOrUpdateOptionalParams
@@ -11230,8 +11020,7 @@ export interface ApiGatewayConfigConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type ApiGatewayConfigConnectionDeleteResponse =
-  ApiGatewayConfigConnectionDeleteHeaders;
+export type ApiGatewayConfigConnectionDeleteResponse = ApiGatewayConfigConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface ApiGatewayConfigConnectionListByGatewayNextOptionalParams
@@ -11242,8 +11031,7 @@ export type ApiGatewayConfigConnectionListByGatewayNextResponse =
   ApiManagementGatewayConfigConnectionListResult;
 
 /** Optional parameters. */
-export interface GatewayListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface GatewayListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| region | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11256,8 +11044,7 @@ export interface GatewayListByServiceOptionalParams
 export type GatewayListByServiceResponse = GatewayCollection;
 
 /** Optional parameters. */
-export interface GatewayGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type GatewayGetEntityTagResponse = GatewayGetEntityTagHeaders;
@@ -11269,42 +11056,34 @@ export interface GatewayGetOptionalParams extends coreClient.OperationOptions {}
 export type GatewayGetResponse = GatewayGetHeaders & GatewayContract;
 
 /** Optional parameters. */
-export interface GatewayCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GatewayCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GatewayCreateOrUpdateResponse = GatewayCreateOrUpdateHeaders &
-  GatewayContract;
+export type GatewayCreateOrUpdateResponse = GatewayCreateOrUpdateHeaders & GatewayContract;
 
 /** Optional parameters. */
-export interface GatewayUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type GatewayUpdateResponse = GatewayUpdateHeaders & GatewayContract;
 
 /** Optional parameters. */
-export interface GatewayDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GatewayListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
-export type GatewayListKeysResponse = GatewayListKeysHeaders &
-  GatewayKeysContract;
+export type GatewayListKeysResponse = GatewayListKeysHeaders & GatewayKeysContract;
 
 /** Optional parameters. */
-export interface GatewayRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayRegenerateKeyOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GatewayGenerateTokenOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayGenerateTokenOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateToken operation. */
 export type GatewayGenerateTokenResponse = GatewayTokenContract;
@@ -11314,23 +11093,19 @@ export interface GatewayInvalidateDebugCredentialsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GatewayListDebugCredentialsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayListDebugCredentialsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDebugCredentials operation. */
-export type GatewayListDebugCredentialsResponse =
-  GatewayDebugCredentialsContract;
+export type GatewayListDebugCredentialsResponse = GatewayDebugCredentialsContract;
 
 /** Optional parameters. */
-export interface GatewayListTraceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayListTraceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTrace operation. */
 export type GatewayListTraceResponse = { [propertyName: string]: any };
 
 /** Optional parameters. */
-export interface GatewayListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayListByServiceNextResponse = GatewayCollection;
@@ -11363,8 +11138,8 @@ export interface GatewayHostnameConfigurationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GatewayHostnameConfigurationGetResponse =
-  GatewayHostnameConfigurationGetHeaders & GatewayHostnameConfigurationContract;
+export type GatewayHostnameConfigurationGetResponse = GatewayHostnameConfigurationGetHeaders &
+  GatewayHostnameConfigurationContract;
 
 /** Optional parameters. */
 export interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams
@@ -11375,8 +11150,7 @@ export interface GatewayHostnameConfigurationCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type GatewayHostnameConfigurationCreateOrUpdateResponse =
-  GatewayHostnameConfigurationCreateOrUpdateHeaders &
-    GatewayHostnameConfigurationContract;
+  GatewayHostnameConfigurationCreateOrUpdateHeaders & GatewayHostnameConfigurationContract;
 
 /** Optional parameters. */
 export interface GatewayHostnameConfigurationDeleteOptionalParams
@@ -11391,8 +11165,7 @@ export type GatewayHostnameConfigurationListByServiceNextResponse =
   GatewayHostnameConfigurationCollection;
 
 /** Optional parameters. */
-export interface GatewayApiListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface GatewayApiListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11405,15 +11178,13 @@ export interface GatewayApiListByServiceOptionalParams
 export type GatewayApiListByServiceResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface GatewayApiGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayApiGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type GatewayApiGetEntityTagResponse = GatewayApiGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface GatewayApiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GatewayApiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Association entity details. */
   parameters?: AssociationContract;
 }
@@ -11422,12 +11193,10 @@ export interface GatewayApiCreateOrUpdateOptionalParams
 export type GatewayApiCreateOrUpdateResponse = ApiContract;
 
 /** Optional parameters. */
-export interface GatewayApiDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayApiDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GatewayApiListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayApiListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GatewayApiListByServiceNextResponse = ApiCollection;
@@ -11456,12 +11225,11 @@ export type GatewayCertificateAuthorityGetEntityTagResponse =
   GatewayCertificateAuthorityGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface GatewayCertificateAuthorityGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GatewayCertificateAuthorityGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GatewayCertificateAuthorityGetResponse =
-  GatewayCertificateAuthorityGetHeaders & GatewayCertificateAuthorityContract;
+export type GatewayCertificateAuthorityGetResponse = GatewayCertificateAuthorityGetHeaders &
+  GatewayCertificateAuthorityContract;
 
 /** Optional parameters. */
 export interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams
@@ -11472,8 +11240,7 @@ export interface GatewayCertificateAuthorityCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type GatewayCertificateAuthorityCreateOrUpdateResponse =
-  GatewayCertificateAuthorityCreateOrUpdateHeaders &
-    GatewayCertificateAuthorityContract;
+  GatewayCertificateAuthorityCreateOrUpdateHeaders & GatewayCertificateAuthorityContract;
 
 /** Optional parameters. */
 export interface GatewayCertificateAuthorityDeleteOptionalParams
@@ -11488,8 +11255,7 @@ export type GatewayCertificateAuthorityListByServiceNextResponse =
   GatewayCertificateAuthorityCollection;
 
 /** Optional parameters. */
-export interface GroupListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| externalId | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11502,8 +11268,7 @@ export interface GroupListByServiceOptionalParams
 export type GroupListByServiceResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface GroupGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type GroupGetEntityTagResponse = GroupGetEntityTagHeaders;
@@ -11515,37 +11280,31 @@ export interface GroupGetOptionalParams extends coreClient.OperationOptions {}
 export type GroupGetResponse = GroupGetHeaders & GroupContract;
 
 /** Optional parameters. */
-export interface GroupCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GroupCreateOrUpdateResponse = GroupCreateOrUpdateHeaders &
-  GroupContract;
+export type GroupCreateOrUpdateResponse = GroupCreateOrUpdateHeaders & GroupContract;
 
 /** Optional parameters. */
-export interface GroupUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type GroupUpdateResponse = GroupUpdateHeaders & GroupContract;
 
 /** Optional parameters. */
-export interface GroupDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GroupListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GroupListByServiceNextResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface GroupUserListOptionalParams
-  extends coreClient.OperationOptions {
+export interface GroupUserListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt |     |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11558,8 +11317,7 @@ export interface GroupUserListOptionalParams
 export type GroupUserListResponse = UserCollection;
 
 /** Optional parameters. */
-export interface GroupUserCheckEntityExistsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupUserCheckEntityExistsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkEntityExists operation. */
 export type GroupUserCheckEntityExistsResponse = {
@@ -11567,76 +11325,64 @@ export type GroupUserCheckEntityExistsResponse = {
 };
 
 /** Optional parameters. */
-export interface GroupUserCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupUserCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type GroupUserCreateResponse = UserContract;
 
 /** Optional parameters. */
-export interface GroupUserDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupUserDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GroupUserListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GroupUserListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GroupUserListNextResponse = UserCollection;
 
 /** Optional parameters. */
-export interface IdentityProviderListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type IdentityProviderListByServiceResponse = IdentityProviderList;
 
 /** Optional parameters. */
-export interface IdentityProviderGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type IdentityProviderGetEntityTagResponse =
-  IdentityProviderGetEntityTagHeaders;
+export type IdentityProviderGetEntityTagResponse = IdentityProviderGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface IdentityProviderGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type IdentityProviderGetResponse = IdentityProviderGetHeaders &
-  IdentityProviderContract;
+export type IdentityProviderGetResponse = IdentityProviderGetHeaders & IdentityProviderContract;
 
 /** Optional parameters. */
-export interface IdentityProviderCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface IdentityProviderCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type IdentityProviderCreateOrUpdateResponse =
-  IdentityProviderCreateOrUpdateHeaders & IdentityProviderContract;
+export type IdentityProviderCreateOrUpdateResponse = IdentityProviderCreateOrUpdateHeaders &
+  IdentityProviderContract;
 
 /** Optional parameters. */
-export interface IdentityProviderUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type IdentityProviderUpdateResponse = IdentityProviderUpdateHeaders &
   IdentityProviderContract;
 
 /** Optional parameters. */
-export interface IdentityProviderDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface IdentityProviderListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IdentityProviderListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type IdentityProviderListSecretsResponse =
-  IdentityProviderListSecretsHeaders & ClientSecretContract;
+export type IdentityProviderListSecretsResponse = IdentityProviderListSecretsHeaders &
+  ClientSecretContract;
 
 /** Optional parameters. */
 export interface IdentityProviderListByServiceNextOptionalParams
@@ -11646,8 +11392,7 @@ export interface IdentityProviderListByServiceNextOptionalParams
 export type IdentityProviderListByServiceNextResponse = IdentityProviderList;
 
 /** Optional parameters. */
-export interface IssueListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface IssueListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| authorName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11666,15 +11411,13 @@ export interface IssueGetOptionalParams extends coreClient.OperationOptions {}
 export type IssueGetResponse = IssueGetHeaders & IssueContract;
 
 /** Optional parameters. */
-export interface IssueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface IssueListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type IssueListByServiceNextResponse = IssueCollection;
 
 /** Optional parameters. */
-export interface LoggerListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface LoggerListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| loggerType | filter | eq |     |</br>| resourceId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11687,8 +11430,7 @@ export interface LoggerListByServiceOptionalParams
 export type LoggerListByServiceResponse = LoggerCollection;
 
 /** Optional parameters. */
-export interface LoggerGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LoggerGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type LoggerGetEntityTagResponse = LoggerGetEntityTagHeaders;
@@ -11700,37 +11442,31 @@ export interface LoggerGetOptionalParams extends coreClient.OperationOptions {}
 export type LoggerGetResponse = LoggerGetHeaders & LoggerContract;
 
 /** Optional parameters. */
-export interface LoggerCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface LoggerCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type LoggerCreateOrUpdateResponse = LoggerCreateOrUpdateHeaders &
-  LoggerContract;
+export type LoggerCreateOrUpdateResponse = LoggerCreateOrUpdateHeaders & LoggerContract;
 
 /** Optional parameters. */
-export interface LoggerUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LoggerUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type LoggerUpdateResponse = LoggerUpdateHeaders & LoggerContract;
 
 /** Optional parameters. */
-export interface LoggerDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LoggerDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface LoggerListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LoggerListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type LoggerListByServiceNextResponse = LoggerCollection;
 
 /** Optional parameters. */
-export interface NamedValueListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamedValueListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| tags | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith, any, all |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -11745,22 +11481,19 @@ export interface NamedValueListByServiceOptionalParams
 export type NamedValueListByServiceResponse = NamedValueCollection;
 
 /** Optional parameters. */
-export interface NamedValueGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamedValueGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type NamedValueGetEntityTagResponse = NamedValueGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface NamedValueGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamedValueGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NamedValueGetResponse = NamedValueGetHeaders & NamedValueContract;
 
 /** Optional parameters. */
-export interface NamedValueCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamedValueCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -11770,12 +11503,10 @@ export interface NamedValueCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type NamedValueCreateOrUpdateResponse = NamedValueCreateOrUpdateHeaders &
-  NamedValueContract;
+export type NamedValueCreateOrUpdateResponse = NamedValueCreateOrUpdateHeaders & NamedValueContract;
 
 /** Optional parameters. */
-export interface NamedValueUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamedValueUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11783,24 +11514,19 @@ export interface NamedValueUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type NamedValueUpdateResponse = NamedValueUpdateHeaders &
-  NamedValueContract;
+export type NamedValueUpdateResponse = NamedValueUpdateHeaders & NamedValueContract;
 
 /** Optional parameters. */
-export interface NamedValueDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamedValueDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NamedValueListValueOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamedValueListValueOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listValue operation. */
-export type NamedValueListValueResponse = NamedValueListValueHeaders &
-  NamedValueSecretContract;
+export type NamedValueListValueResponse = NamedValueListValueHeaders & NamedValueSecretContract;
 
 /** Optional parameters. */
-export interface NamedValueRefreshSecretOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamedValueRefreshSecretOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11808,34 +11534,28 @@ export interface NamedValueRefreshSecretOptionalParams
 }
 
 /** Contains response data for the refreshSecret operation. */
-export type NamedValueRefreshSecretResponse = NamedValueRefreshSecretHeaders &
-  NamedValueContract;
+export type NamedValueRefreshSecretResponse = NamedValueRefreshSecretHeaders & NamedValueContract;
 
 /** Optional parameters. */
-export interface NamedValueListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamedValueListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type NamedValueListByServiceNextResponse = NamedValueCollection;
 
 /** Optional parameters. */
-export interface NetworkStatusListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NetworkStatusListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
-export type NetworkStatusListByServiceResponse =
-  NetworkStatusContractByLocation[];
+export type NetworkStatusListByServiceResponse = NetworkStatusContractByLocation[];
 
 /** Optional parameters. */
-export interface NetworkStatusListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NetworkStatusListByLocationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
 export type NetworkStatusListByLocationResponse = NetworkStatusContract;
 
 /** Optional parameters. */
-export interface NotificationListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotificationListByServiceOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -11846,15 +11566,13 @@ export interface NotificationListByServiceOptionalParams
 export type NotificationListByServiceResponse = NotificationCollection;
 
 /** Optional parameters. */
-export interface NotificationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NotificationGetResponse = NotificationContract;
 
 /** Optional parameters. */
-export interface NotificationCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NotificationCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -11863,8 +11581,7 @@ export interface NotificationCreateOrUpdateOptionalParams
 export type NotificationCreateOrUpdateResponse = NotificationContract;
 
 /** Optional parameters. */
-export interface NotificationListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NotificationListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type NotificationListByServiceNextResponse = NotificationCollection;
@@ -11874,8 +11591,7 @@ export interface NotificationRecipientUserListByNotificationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNotification operation. */
-export type NotificationRecipientUserListByNotificationResponse =
-  RecipientUserCollection;
+export type NotificationRecipientUserListByNotificationResponse = RecipientUserCollection;
 
 /** Optional parameters. */
 export interface NotificationRecipientUserCheckEntityExistsOptionalParams
@@ -11891,8 +11607,7 @@ export interface NotificationRecipientUserCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type NotificationRecipientUserCreateOrUpdateResponse =
-  RecipientUserContract;
+export type NotificationRecipientUserCreateOrUpdateResponse = RecipientUserContract;
 
 /** Optional parameters. */
 export interface NotificationRecipientUserDeleteOptionalParams
@@ -11903,8 +11618,7 @@ export interface NotificationRecipientEmailListByNotificationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNotification operation. */
-export type NotificationRecipientEmailListByNotificationResponse =
-  RecipientEmailCollection;
+export type NotificationRecipientEmailListByNotificationResponse = RecipientEmailCollection;
 
 /** Optional parameters. */
 export interface NotificationRecipientEmailCheckEntityExistsOptionalParams
@@ -11920,8 +11634,7 @@ export interface NotificationRecipientEmailCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type NotificationRecipientEmailCreateOrUpdateResponse =
-  RecipientEmailContract;
+export type NotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailContract;
 
 /** Optional parameters. */
 export interface NotificationRecipientEmailDeleteOptionalParams
@@ -11939,20 +11652,17 @@ export interface OpenIdConnectProviderListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type OpenIdConnectProviderListByServiceResponse =
-  OpenIdConnectProviderCollection;
+export type OpenIdConnectProviderListByServiceResponse = OpenIdConnectProviderCollection;
 
 /** Optional parameters. */
 export interface OpenIdConnectProviderGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type OpenIdConnectProviderGetEntityTagResponse =
-  OpenIdConnectProviderGetEntityTagHeaders;
+export type OpenIdConnectProviderGetEntityTagResponse = OpenIdConnectProviderGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface OpenIdConnectProviderGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OpenIdConnectProviderGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OpenIdConnectProviderGetResponse = OpenIdConnectProviderGetHeaders &
@@ -11970,32 +11680,29 @@ export type OpenIdConnectProviderCreateOrUpdateResponse =
   OpenIdConnectProviderCreateOrUpdateHeaders & OpenidConnectProviderContract;
 
 /** Optional parameters. */
-export interface OpenIdConnectProviderUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OpenIdConnectProviderUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type OpenIdConnectProviderUpdateResponse =
-  OpenIdConnectProviderUpdateHeaders & OpenidConnectProviderContract;
+export type OpenIdConnectProviderUpdateResponse = OpenIdConnectProviderUpdateHeaders &
+  OpenidConnectProviderContract;
 
 /** Optional parameters. */
-export interface OpenIdConnectProviderDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OpenIdConnectProviderDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface OpenIdConnectProviderListSecretsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type OpenIdConnectProviderListSecretsResponse =
-  OpenIdConnectProviderListSecretsHeaders & ClientSecretContract;
+export type OpenIdConnectProviderListSecretsResponse = OpenIdConnectProviderListSecretsHeaders &
+  ClientSecretContract;
 
 /** Optional parameters. */
 export interface OpenIdConnectProviderListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type OpenIdConnectProviderListByServiceNextResponse =
-  OpenIdConnectProviderCollection;
+export type OpenIdConnectProviderListByServiceNextResponse = OpenIdConnectProviderCollection;
 
 /** Optional parameters. */
 export interface OutboundNetworkDependenciesEndpointsListByServiceOptionalParams
@@ -12006,15 +11713,13 @@ export type OutboundNetworkDependenciesEndpointsListByServiceResponse =
   OutboundEnvironmentEndpointList;
 
 /** Optional parameters. */
-export interface PolicyListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type PolicyListByServiceResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface PolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type PolicyGetEntityTagResponse = PolicyGetEntityTagHeaders;
@@ -12029,41 +11734,34 @@ export interface PolicyGetOptionalParams extends coreClient.OperationOptions {
 export type PolicyGetResponse = PolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface PolicyCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PolicyCreateOrUpdateResponse = PolicyCreateOrUpdateHeaders &
-  PolicyContract;
+export type PolicyCreateOrUpdateResponse = PolicyCreateOrUpdateHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface PolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PolicyListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type PolicyListByServiceNextResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface PolicyDescriptionListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyDescriptionListByServiceOptionalParams extends coreClient.OperationOptions {
   /** Policy scope. */
   scope?: PolicyScopeContract;
 }
 
 /** Contains response data for the listByService operation. */
-export type PolicyDescriptionListByServiceResponse =
-  PolicyDescriptionCollection;
+export type PolicyDescriptionListByServiceResponse = PolicyDescriptionCollection;
 
 /** Optional parameters. */
-export interface PolicyFragmentListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyFragmentListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter, orderBy | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| value | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12078,27 +11776,22 @@ export interface PolicyFragmentListByServiceOptionalParams
 export type PolicyFragmentListByServiceResponse = PolicyFragmentCollection;
 
 /** Optional parameters. */
-export interface PolicyFragmentGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyFragmentGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type PolicyFragmentGetEntityTagResponse =
-  PolicyFragmentGetEntityTagHeaders;
+export type PolicyFragmentGetEntityTagResponse = PolicyFragmentGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface PolicyFragmentGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyFragmentGetOptionalParams extends coreClient.OperationOptions {
   /** Policy fragment content format. */
   format?: PolicyFragmentContentFormat;
 }
 
 /** Contains response data for the get operation. */
-export type PolicyFragmentGetResponse = PolicyFragmentGetHeaders &
-  PolicyFragmentContract;
+export type PolicyFragmentGetResponse = PolicyFragmentGetHeaders & PolicyFragmentContract;
 
 /** Optional parameters. */
-export interface PolicyFragmentCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyFragmentCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -12108,16 +11801,14 @@ export interface PolicyFragmentCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PolicyFragmentCreateOrUpdateResponse =
-  PolicyFragmentCreateOrUpdateHeaders & PolicyFragmentContract;
+export type PolicyFragmentCreateOrUpdateResponse = PolicyFragmentCreateOrUpdateHeaders &
+  PolicyFragmentContract;
 
 /** Optional parameters. */
-export interface PolicyFragmentDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyFragmentDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PolicyFragmentListReferencesOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyFragmentListReferencesOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12135,51 +11826,42 @@ export interface PolicyFragmentListByServiceNextOptionalParams
 export type PolicyFragmentListByServiceNextResponse = PolicyFragmentCollection;
 
 /** Optional parameters. */
-export interface PolicyRestrictionListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyRestrictionListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
-export type PolicyRestrictionListByServiceResponse =
-  PolicyRestrictionCollection;
+export type PolicyRestrictionListByServiceResponse = PolicyRestrictionCollection;
 
 /** Optional parameters. */
-export interface PolicyRestrictionGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyRestrictionGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type PolicyRestrictionGetEntityTagResponse =
-  PolicyRestrictionGetEntityTagHeaders;
+export type PolicyRestrictionGetEntityTagResponse = PolicyRestrictionGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface PolicyRestrictionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyRestrictionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PolicyRestrictionGetResponse = PolicyRestrictionGetHeaders &
-  PolicyRestrictionContract;
+export type PolicyRestrictionGetResponse = PolicyRestrictionGetHeaders & PolicyRestrictionContract;
 
 /** Optional parameters. */
-export interface PolicyRestrictionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyRestrictionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PolicyRestrictionCreateOrUpdateResponse =
-  PolicyRestrictionCreateOrUpdateHeaders & PolicyRestrictionContract;
+export type PolicyRestrictionCreateOrUpdateResponse = PolicyRestrictionCreateOrUpdateHeaders &
+  PolicyRestrictionContract;
 
 /** Optional parameters. */
-export interface PolicyRestrictionUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PolicyRestrictionUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type PolicyRestrictionUpdateResponse = PolicyRestrictionUpdateHeaders &
   PolicyRestrictionContract;
 
 /** Optional parameters. */
-export interface PolicyRestrictionDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PolicyRestrictionDeleteOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -12189,8 +11871,7 @@ export interface PolicyRestrictionListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type PolicyRestrictionListByServiceNextResponse =
-  PolicyRestrictionCollection;
+export type PolicyRestrictionListByServiceNextResponse = PolicyRestrictionCollection;
 
 /** Optional parameters. */
 export interface PolicyRestrictionValidationsByServiceOptionalParams
@@ -12202,55 +11883,46 @@ export interface PolicyRestrictionValidationsByServiceOptionalParams
 }
 
 /** Contains response data for the byService operation. */
-export type PolicyRestrictionValidationsByServiceResponse =
-  OperationResultContract;
+export type PolicyRestrictionValidationsByServiceResponse = OperationResultContract;
 
 /** Optional parameters. */
-export interface PortalConfigListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type PortalConfigListByServiceResponse = PortalConfigCollection;
 
 /** Optional parameters. */
-export interface PortalConfigGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type PortalConfigGetEntityTagResponse = PortalConfigGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface PortalConfigGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PortalConfigGetResponse = PortalConfigGetHeaders &
-  PortalConfigContract;
+export type PortalConfigGetResponse = PortalConfigGetHeaders & PortalConfigContract;
 
 /** Optional parameters. */
-export interface PortalConfigUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type PortalConfigUpdateResponse = PortalConfigContract;
 
 /** Optional parameters. */
-export interface PortalConfigCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PortalConfigCreateOrUpdateResponse = PortalConfigContract;
 
 /** Optional parameters. */
-export interface PortalConfigListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalConfigListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type PortalConfigListByServiceNextResponse = PortalConfigCollection;
 
 /** Optional parameters. */
-export interface PortalRevisionListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface PortalRevisionListByServiceOptionalParams extends coreClient.OperationOptions {
   /**
    * | Field       | Supported operators    | Supported functions               |
    * |-------------|------------------------|-----------------------------------|
@@ -12271,24 +11943,19 @@ export interface PortalRevisionListByServiceOptionalParams
 export type PortalRevisionListByServiceResponse = PortalRevisionCollection;
 
 /** Optional parameters. */
-export interface PortalRevisionGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalRevisionGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type PortalRevisionGetEntityTagResponse =
-  PortalRevisionGetEntityTagHeaders;
+export type PortalRevisionGetEntityTagResponse = PortalRevisionGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface PortalRevisionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalRevisionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type PortalRevisionGetResponse = PortalRevisionGetHeaders &
-  PortalRevisionContract;
+export type PortalRevisionGetResponse = PortalRevisionGetHeaders & PortalRevisionContract;
 
 /** Optional parameters. */
-export interface PortalRevisionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PortalRevisionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -12296,12 +11963,11 @@ export interface PortalRevisionCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PortalRevisionCreateOrUpdateResponse =
-  PortalRevisionCreateOrUpdateHeaders & PortalRevisionContract;
+export type PortalRevisionCreateOrUpdateResponse = PortalRevisionCreateOrUpdateHeaders &
+  PortalRevisionContract;
 
 /** Optional parameters. */
-export interface PortalRevisionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PortalRevisionUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -12309,8 +11975,7 @@ export interface PortalRevisionUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type PortalRevisionUpdateResponse = PortalRevisionUpdateHeaders &
-  PortalRevisionContract;
+export type PortalRevisionUpdateResponse = PortalRevisionUpdateHeaders & PortalRevisionContract;
 
 /** Optional parameters. */
 export interface PortalRevisionListByServiceNextOptionalParams
@@ -12320,35 +11985,28 @@ export interface PortalRevisionListByServiceNextOptionalParams
 export type PortalRevisionListByServiceNextResponse = PortalRevisionCollection;
 
 /** Optional parameters. */
-export interface PortalSettingsListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PortalSettingsListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type PortalSettingsListByServiceResponse = PortalSettingsCollection;
 
 /** Optional parameters. */
-export interface SignInSettingsGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignInSettingsGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type SignInSettingsGetEntityTagResponse =
-  SignInSettingsGetEntityTagHeaders;
+export type SignInSettingsGetEntityTagResponse = SignInSettingsGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface SignInSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignInSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SignInSettingsGetResponse = SignInSettingsGetHeaders &
-  PortalSigninSettings;
+export type SignInSettingsGetResponse = SignInSettingsGetHeaders & PortalSigninSettings;
 
 /** Optional parameters. */
-export interface SignInSettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignInSettingsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SignInSettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SignInSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -12357,28 +12015,22 @@ export interface SignInSettingsCreateOrUpdateOptionalParams
 export type SignInSettingsCreateOrUpdateResponse = PortalSigninSettings;
 
 /** Optional parameters. */
-export interface SignUpSettingsGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignUpSettingsGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type SignUpSettingsGetEntityTagResponse =
-  SignUpSettingsGetEntityTagHeaders;
+export type SignUpSettingsGetEntityTagResponse = SignUpSettingsGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface SignUpSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignUpSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SignUpSettingsGetResponse = SignUpSettingsGetHeaders &
-  PortalSignupSettings;
+export type SignUpSettingsGetResponse = SignUpSettingsGetHeaders & PortalSignupSettings;
 
 /** Optional parameters. */
-export interface SignUpSettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SignUpSettingsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SignUpSettingsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SignUpSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
@@ -12387,24 +12039,19 @@ export interface SignUpSettingsCreateOrUpdateOptionalParams
 export type SignUpSettingsCreateOrUpdateResponse = PortalSignupSettings;
 
 /** Optional parameters. */
-export interface DelegationSettingsGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DelegationSettingsGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type DelegationSettingsGetEntityTagResponse =
-  DelegationSettingsGetEntityTagHeaders;
+export type DelegationSettingsGetEntityTagResponse = DelegationSettingsGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface DelegationSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DelegationSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DelegationSettingsGetResponse = DelegationSettingsGetHeaders &
-  PortalDelegationSettings;
+export type DelegationSettingsGetResponse = DelegationSettingsGetHeaders & PortalDelegationSettings;
 
 /** Optional parameters. */
-export interface DelegationSettingsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DelegationSettingsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface DelegationSettingsCreateOrUpdateOptionalParams
@@ -12417,28 +12064,24 @@ export interface DelegationSettingsCreateOrUpdateOptionalParams
 export type DelegationSettingsCreateOrUpdateResponse = PortalDelegationSettings;
 
 /** Optional parameters. */
-export interface DelegationSettingsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DelegationSettingsListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type DelegationSettingsListSecretsResponse =
-  PortalSettingValidationKeyContract;
+export type DelegationSettingsListSecretsResponse = PortalSettingValidationKeyContract;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByServiceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
-export type PrivateEndpointConnectionListByServiceResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionListByServiceResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionGetByNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByName operation. */
-export type PrivateEndpointConnectionGetByNameResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionGetByNameResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
@@ -12450,12 +12093,10 @@ export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -12475,12 +12116,10 @@ export interface PrivateEndpointConnectionGetPrivateLinkResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResource operation. */
-export type PrivateEndpointConnectionGetPrivateLinkResourceResponse =
-  PrivateLinkResource;
+export type PrivateEndpointConnectionGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface ProductListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| groups | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12497,8 +12136,7 @@ export interface ProductListByServiceOptionalParams
 export type ProductListByServiceResponse = ProductCollection;
 
 /** Optional parameters. */
-export interface ProductGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ProductGetEntityTagResponse = ProductGetEntityTagHeaders;
@@ -12510,33 +12148,28 @@ export interface ProductGetOptionalParams extends coreClient.OperationOptions {}
 export type ProductGetResponse = ProductGetHeaders & ProductContract;
 
 /** Optional parameters. */
-export interface ProductCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ProductCreateOrUpdateResponse = ProductCreateOrUpdateHeaders &
-  ProductContract;
+export type ProductCreateOrUpdateResponse = ProductCreateOrUpdateHeaders & ProductContract;
 
 /** Optional parameters. */
-export interface ProductUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ProductUpdateResponse = ProductUpdateHeaders & ProductContract;
 
 /** Optional parameters. */
-export interface ProductDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delete existing subscriptions associated with the product or not. */
   deleteSubscriptions?: boolean;
 }
 
 /** Optional parameters. */
-export interface ProductListByTagsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductListByTagsOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12551,22 +12184,19 @@ export interface ProductListByTagsOptionalParams
 export type ProductListByTagsResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface ProductListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type ProductListByServiceNextResponse = ProductCollection;
 
 /** Optional parameters. */
-export interface ProductListByTagsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductListByTagsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTagsNext operation. */
 export type ProductListByTagsNextResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface ProductApiListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductApiListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12579,8 +12209,7 @@ export interface ProductApiListByProductOptionalParams
 export type ProductApiListByProductResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface ProductApiCheckEntityExistsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiCheckEntityExistsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkEntityExists operation. */
 export type ProductApiCheckEntityExistsResponse = {
@@ -12588,26 +12217,22 @@ export type ProductApiCheckEntityExistsResponse = {
 };
 
 /** Optional parameters. */
-export interface ProductApiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ProductApiCreateOrUpdateResponse = ApiContract;
 
 /** Optional parameters. */
-export interface ProductApiDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ProductApiListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ProductApiListByProductNextResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface ProductGroupListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductGroupListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt |     |</br>| displayName | filter | eq, ne |     |</br>| description | filter | eq, ne |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12620,8 +12245,7 @@ export interface ProductGroupListByProductOptionalParams
 export type ProductGroupListByProductResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface ProductGroupCheckEntityExistsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupCheckEntityExistsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkEntityExists operation. */
 export type ProductGroupCheckEntityExistsResponse = {
@@ -12629,26 +12253,22 @@ export type ProductGroupCheckEntityExistsResponse = {
 };
 
 /** Optional parameters. */
-export interface ProductGroupCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ProductGroupCreateOrUpdateResponse = GroupContract;
 
 /** Optional parameters. */
-export interface ProductGroupDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ProductGroupListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ProductGroupListByProductNextResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface ProductSubscriptionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductSubscriptionsListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| user | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12661,30 +12281,25 @@ export interface ProductSubscriptionsListOptionalParams
 export type ProductSubscriptionsListResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface ProductSubscriptionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ProductSubscriptionsListNextResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface ProductPolicyListByProductOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductPolicyListByProductOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProduct operation. */
 export type ProductPolicyListByProductResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface ProductPolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductPolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type ProductPolicyGetEntityTagResponse =
-  ProductPolicyGetEntityTagHeaders;
+export type ProductPolicyGetEntityTagResponse = ProductPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ProductPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
@@ -12693,66 +12308,56 @@ export interface ProductPolicyGetOptionalParams
 export type ProductPolicyGetResponse = ProductPolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface ProductPolicyCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductPolicyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ProductPolicyCreateOrUpdateResponse =
-  ProductPolicyCreateOrUpdateHeaders & PolicyContract;
+export type ProductPolicyCreateOrUpdateResponse = ProductPolicyCreateOrUpdateHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
-export interface ProductPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ProductPolicyListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductPolicyListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ProductPolicyListByProductNextResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface ProductWikiGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductWikiGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type ProductWikiGetEntityTagResponse = ProductWikiGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface ProductWikiGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductWikiGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ProductWikiGetResponse = ProductWikiGetHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ProductWikiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductWikiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ProductWikiCreateOrUpdateResponse =
-  ProductWikiCreateOrUpdateHeaders & WikiContract;
+export type ProductWikiCreateOrUpdateResponse = ProductWikiCreateOrUpdateHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ProductWikiUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductWikiUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ProductWikiUpdateResponse = ProductWikiUpdateHeaders & WikiContract;
 
 /** Optional parameters. */
-export interface ProductWikiDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductWikiDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ProductWikisListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductWikisListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | eq |  contains |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12765,16 +12370,13 @@ export interface ProductWikisListOptionalParams
 export type ProductWikisListResponse = ProductWikisListHeaders & WikiCollection;
 
 /** Optional parameters. */
-export interface ProductWikisListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductWikisListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ProductWikisListNextResponse = ProductWikisListNextHeaders &
-  WikiCollection;
+export type ProductWikisListNextResponse = ProductWikisListNextHeaders & WikiCollection;
 
 /** Optional parameters. */
-export interface ProductApiLinkListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductApiLinkListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12787,23 +12389,19 @@ export interface ProductApiLinkListByProductOptionalParams
 export type ProductApiLinkListByProductResponse = ProductApiLinkCollection;
 
 /** Optional parameters. */
-export interface ProductApiLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ProductApiLinkGetResponse = ProductApiLinkGetHeaders &
-  ProductApiLinkContract;
+export type ProductApiLinkGetResponse = ProductApiLinkGetHeaders & ProductApiLinkContract;
 
 /** Optional parameters. */
-export interface ProductApiLinkCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiLinkCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ProductApiLinkCreateOrUpdateResponse = ProductApiLinkContract;
 
 /** Optional parameters. */
-export interface ProductApiLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductApiLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ProductApiLinkListByProductNextOptionalParams
@@ -12813,8 +12411,7 @@ export interface ProductApiLinkListByProductNextOptionalParams
 export type ProductApiLinkListByProductNextResponse = ProductApiLinkCollection;
 
 /** Optional parameters. */
-export interface ProductGroupLinkListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductGroupLinkListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| groupId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -12827,31 +12424,26 @@ export interface ProductGroupLinkListByProductOptionalParams
 export type ProductGroupLinkListByProductResponse = ProductGroupLinkCollection;
 
 /** Optional parameters. */
-export interface ProductGroupLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ProductGroupLinkGetResponse = ProductGroupLinkGetHeaders &
-  ProductGroupLinkContract;
+export type ProductGroupLinkGetResponse = ProductGroupLinkGetHeaders & ProductGroupLinkContract;
 
 /** Optional parameters. */
-export interface ProductGroupLinkCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupLinkCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ProductGroupLinkCreateOrUpdateResponse = ProductGroupLinkContract;
 
 /** Optional parameters. */
-export interface ProductGroupLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductGroupLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ProductGroupLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type ProductGroupLinkListByProductNextResponse =
-  ProductGroupLinkCollection;
+export type ProductGroupLinkListByProductNextResponse = ProductGroupLinkCollection;
 
 /** Optional parameters. */
 export interface QuotaByCounterKeysListByServiceOptionalParams
@@ -12861,43 +12453,37 @@ export interface QuotaByCounterKeysListByServiceOptionalParams
 export type QuotaByCounterKeysListByServiceResponse = QuotaCounterCollection;
 
 /** Optional parameters. */
-export interface QuotaByCounterKeysUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaByCounterKeysUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type QuotaByCounterKeysUpdateResponse = QuotaCounterCollection;
 
 /** Optional parameters. */
-export interface QuotaByPeriodKeysGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaByPeriodKeysGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type QuotaByPeriodKeysGetResponse = QuotaCounterContract;
 
 /** Optional parameters. */
-export interface QuotaByPeriodKeysUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface QuotaByPeriodKeysUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type QuotaByPeriodKeysUpdateResponse = QuotaCounterContract;
 
 /** Optional parameters. */
-export interface RegionListByServiceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegionListByServiceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByService operation. */
 export type RegionListByServiceResponse = RegionListResult;
 
 /** Optional parameters. */
-export interface RegionListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegionListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type RegionListByServiceNextResponse = RegionListResult;
 
 /** Optional parameters. */
-export interface ReportsListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByApiOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12910,8 +12496,7 @@ export interface ReportsListByApiOptionalParams
 export type ReportsListByApiResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByUserOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByUserOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12924,8 +12509,7 @@ export interface ReportsListByUserOptionalParams
 export type ReportsListByUserResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByOperationOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByOperationOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12938,8 +12522,7 @@ export interface ReportsListByOperationOptionalParams
 export type ReportsListByOperationResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByProductOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12952,8 +12535,7 @@ export interface ReportsListByProductOptionalParams
 export type ReportsListByProductResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByGeoOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByGeoOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12964,8 +12546,7 @@ export interface ReportsListByGeoOptionalParams
 export type ReportsListByGeoResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12978,8 +12559,7 @@ export interface ReportsListBySubscriptionOptionalParams
 export type ReportsListBySubscriptionResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByTimeOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByTimeOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -12992,8 +12572,7 @@ export interface ReportsListByTimeOptionalParams
 export type ReportsListByTimeResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByRequestOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsListByRequestOptionalParams extends coreClient.OperationOptions {
   /** Number of records to return. */
   top?: number;
   /** Number of records to skip. */
@@ -13004,57 +12583,49 @@ export interface ReportsListByRequestOptionalParams
 export type ReportsListByRequestResponse = RequestReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByApiNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByApiNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type ReportsListByApiNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByUserNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByUserNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByUserNext operation. */
 export type ReportsListByUserNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByOperationNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByOperationNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperationNext operation. */
 export type ReportsListByOperationNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type ReportsListByProductNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByGeoNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByGeoNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByGeoNext operation. */
 export type ReportsListByGeoNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ReportsListBySubscriptionNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface ReportsListByTimeNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReportsListByTimeNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTimeNext operation. */
 export type ReportsListByTimeNextResponse = ReportCollection;
 
 /** Optional parameters. */
-export interface GlobalSchemaListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalSchemaListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13067,23 +12638,19 @@ export interface GlobalSchemaListByServiceOptionalParams
 export type GlobalSchemaListByServiceResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
-export interface GlobalSchemaGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalSchemaGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type GlobalSchemaGetEntityTagResponse = GlobalSchemaGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface GlobalSchemaGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalSchemaGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders &
-  GlobalSchemaContract;
+export type GlobalSchemaGetResponse = GlobalSchemaGetHeaders & GlobalSchemaContract;
 
 /** Optional parameters. */
-export interface GlobalSchemaCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface GlobalSchemaCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -13093,23 +12660,20 @@ export interface GlobalSchemaCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type GlobalSchemaCreateOrUpdateResponse =
-  GlobalSchemaCreateOrUpdateHeaders & GlobalSchemaContract;
+export type GlobalSchemaCreateOrUpdateResponse = GlobalSchemaCreateOrUpdateHeaders &
+  GlobalSchemaContract;
 
 /** Optional parameters. */
-export interface GlobalSchemaDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalSchemaDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GlobalSchemaListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalSchemaListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type GlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
-export interface TenantSettingsListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantSettingsListByServiceOptionalParams extends coreClient.OperationOptions {
   /** Not used */
   filter?: string;
 }
@@ -13118,12 +12682,10 @@ export interface TenantSettingsListByServiceOptionalParams
 export type TenantSettingsListByServiceResponse = TenantSettingsCollection;
 
 /** Optional parameters. */
-export interface TenantSettingsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantSettingsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TenantSettingsGetResponse = TenantSettingsGetHeaders &
-  TenantSettingsContract;
+export type TenantSettingsGetResponse = TenantSettingsGetHeaders & TenantSettingsContract;
 
 /** Optional parameters. */
 export interface TenantSettingsListByServiceNextOptionalParams
@@ -13133,22 +12695,19 @@ export interface TenantSettingsListByServiceNextOptionalParams
 export type TenantSettingsListByServiceNextResponse = TenantSettingsCollection;
 
 /** Optional parameters. */
-export interface ApiManagementSkusListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementSkusListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiManagementSkusListResponse = ApiManagementSkusResult;
 
 /** Optional parameters. */
-export interface ApiManagementSkusListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementSkusListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApiManagementSkusListNextResponse = ApiManagementSkusResult;
 
 /** Optional parameters. */
-export interface SubscriptionListOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubscriptionListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| user | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13161,23 +12720,19 @@ export interface SubscriptionListOptionalParams
 export type SubscriptionListResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface SubscriptionGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type SubscriptionGetEntityTagResponse = SubscriptionGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface SubscriptionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SubscriptionGetResponse = SubscriptionGetHeaders &
-  SubscriptionContract;
+export type SubscriptionGetResponse = SubscriptionGetHeaders & SubscriptionContract;
 
 /** Optional parameters. */
-export interface SubscriptionCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubscriptionCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /**
@@ -13191,12 +12746,11 @@ export interface SubscriptionCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type SubscriptionCreateOrUpdateResponse =
-  SubscriptionCreateOrUpdateHeaders & SubscriptionContract;
+export type SubscriptionCreateOrUpdateResponse = SubscriptionCreateOrUpdateHeaders &
+  SubscriptionContract;
 
 /** Optional parameters. */
-export interface SubscriptionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface SubscriptionUpdateOptionalParams extends coreClient.OperationOptions {
   /**
    * Notify change in Subscription State.
    *  - If false, do not send any email notification for change of state of subscription
@@ -13208,12 +12762,10 @@ export interface SubscriptionUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type SubscriptionUpdateResponse = SubscriptionUpdateHeaders &
-  SubscriptionContract;
+export type SubscriptionUpdateResponse = SubscriptionUpdateHeaders & SubscriptionContract;
 
 /** Optional parameters. */
-export interface SubscriptionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SubscriptionRegeneratePrimaryKeyOptionalParams
@@ -13224,23 +12776,20 @@ export interface SubscriptionRegenerateSecondaryKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SubscriptionListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type SubscriptionListSecretsResponse = SubscriptionListSecretsHeaders &
   SubscriptionKeysContract;
 
 /** Optional parameters. */
-export interface SubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SubscriptionListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SubscriptionListNextResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface TagResourceListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagResourceListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| aid | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| apiRevision | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| isCurrent | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13253,15 +12802,13 @@ export interface TagResourceListByServiceOptionalParams
 export type TagResourceListByServiceResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface TagResourceListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagResourceListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TagResourceListByServiceNextResponse = TagResourceCollection;
 
 /** Optional parameters. */
-export interface TagApiLinkListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagApiLinkListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| apiId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13274,33 +12821,28 @@ export interface TagApiLinkListByProductOptionalParams
 export type TagApiLinkListByProductResponse = TagApiLinkCollection;
 
 /** Optional parameters. */
-export interface TagApiLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagApiLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TagApiLinkGetResponse = TagApiLinkGetHeaders & TagApiLinkContract;
 
 /** Optional parameters. */
-export interface TagApiLinkCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagApiLinkCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type TagApiLinkCreateOrUpdateResponse = TagApiLinkContract;
 
 /** Optional parameters. */
-export interface TagApiLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagApiLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TagApiLinkListByProductNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagApiLinkListByProductNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
 export type TagApiLinkListByProductNextResponse = TagApiLinkCollection;
 
 /** Optional parameters. */
-export interface TagOperationLinkListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagOperationLinkListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| operationId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13313,35 +12855,29 @@ export interface TagOperationLinkListByProductOptionalParams
 export type TagOperationLinkListByProductResponse = TagOperationLinkCollection;
 
 /** Optional parameters. */
-export interface TagOperationLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagOperationLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TagOperationLinkGetResponse = TagOperationLinkGetHeaders &
-  TagOperationLinkContract;
+export type TagOperationLinkGetResponse = TagOperationLinkGetHeaders & TagOperationLinkContract;
 
 /** Optional parameters. */
-export interface TagOperationLinkCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagOperationLinkCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type TagOperationLinkCreateOrUpdateResponse = TagOperationLinkContract;
 
 /** Optional parameters. */
-export interface TagOperationLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagOperationLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TagOperationLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type TagOperationLinkListByProductNextResponse =
-  TagOperationLinkCollection;
+export type TagOperationLinkListByProductNextResponse = TagOperationLinkCollection;
 
 /** Optional parameters. */
-export interface TagProductLinkListByProductOptionalParams
-  extends coreClient.OperationOptions {
+export interface TagProductLinkListByProductOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13354,23 +12890,19 @@ export interface TagProductLinkListByProductOptionalParams
 export type TagProductLinkListByProductResponse = TagProductLinkCollection;
 
 /** Optional parameters. */
-export interface TagProductLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagProductLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TagProductLinkGetResponse = TagProductLinkGetHeaders &
-  TagProductLinkContract;
+export type TagProductLinkGetResponse = TagProductLinkGetHeaders & TagProductLinkContract;
 
 /** Optional parameters. */
-export interface TagProductLinkCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagProductLinkCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type TagProductLinkCreateOrUpdateResponse = TagProductLinkContract;
 
 /** Optional parameters. */
-export interface TagProductLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TagProductLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface TagProductLinkListByProductNextOptionalParams
@@ -13380,8 +12912,7 @@ export interface TagProductLinkListByProductNextOptionalParams
 export type TagProductLinkListByProductNextResponse = TagProductLinkCollection;
 
 /** Optional parameters. */
-export interface TenantAccessListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantAccessListByServiceOptionalParams extends coreClient.OperationOptions {
   /** Not used */
   filter?: string;
 }
@@ -13390,35 +12921,28 @@ export interface TenantAccessListByServiceOptionalParams
 export type TenantAccessListByServiceResponse = AccessInformationCollection;
 
 /** Optional parameters. */
-export interface TenantAccessGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type TenantAccessGetEntityTagResponse = TenantAccessGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface TenantAccessGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type TenantAccessGetResponse = TenantAccessGetHeaders &
-  AccessInformationContract;
+export type TenantAccessGetResponse = TenantAccessGetHeaders & AccessInformationContract;
 
 /** Optional parameters. */
-export interface TenantAccessCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type TenantAccessCreateResponse = TenantAccessCreateHeaders &
-  AccessInformationContract;
+export type TenantAccessCreateResponse = TenantAccessCreateHeaders & AccessInformationContract;
 
 /** Optional parameters. */
-export interface TenantAccessUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type TenantAccessUpdateResponse = TenantAccessUpdateHeaders &
-  AccessInformationContract;
+export type TenantAccessUpdateResponse = TenantAccessUpdateHeaders & AccessInformationContract;
 
 /** Optional parameters. */
 export interface TenantAccessRegeneratePrimaryKeyOptionalParams
@@ -13429,16 +12953,14 @@ export interface TenantAccessRegenerateSecondaryKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TenantAccessListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessListSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
 export type TenantAccessListSecretsResponse = TenantAccessListSecretsHeaders &
   AccessInformationSecretsContract;
 
 /** Optional parameters. */
-export interface TenantAccessListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TenantAccessListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type TenantAccessListByServiceNextResponse = AccessInformationCollection;
@@ -13452,8 +12974,7 @@ export interface TenantAccessGitRegenerateSecondaryKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TenantConfigurationDeployOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantConfigurationDeployOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13464,8 +12985,7 @@ export interface TenantConfigurationDeployOptionalParams
 export type TenantConfigurationDeployResponse = OperationResultContract;
 
 /** Optional parameters. */
-export interface TenantConfigurationSaveOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantConfigurationSaveOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13476,8 +12996,7 @@ export interface TenantConfigurationSaveOptionalParams
 export type TenantConfigurationSaveResponse = OperationResultContract;
 
 /** Optional parameters. */
-export interface TenantConfigurationValidateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TenantConfigurationValidateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13492,12 +13011,10 @@ export interface TenantConfigurationGetSyncStateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSyncState operation. */
-export type TenantConfigurationGetSyncStateResponse =
-  TenantConfigurationSyncStateContract;
+export type TenantConfigurationGetSyncStateResponse = TenantConfigurationSyncStateContract;
 
 /** Optional parameters. */
-export interface UserListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface UserListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt |     |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| groups | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13512,8 +13029,7 @@ export interface UserListByServiceOptionalParams
 export type UserListByServiceResponse = UserCollection;
 
 /** Optional parameters. */
-export interface UserGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type UserGetEntityTagResponse = UserGetEntityTagHeaders;
@@ -13525,8 +13041,7 @@ export interface UserGetOptionalParams extends coreClient.OperationOptions {}
 export type UserGetResponse = UserGetHeaders & UserContract;
 
 /** Optional parameters. */
-export interface UserCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface UserCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Send an Email notification to the User. */
@@ -13534,8 +13049,7 @@ export interface UserCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type UserCreateOrUpdateResponse = UserCreateOrUpdateHeaders &
-  UserContract;
+export type UserCreateOrUpdateResponse = UserCreateOrUpdateHeaders & UserContract;
 
 /** Optional parameters. */
 export interface UserUpdateOptionalParams extends coreClient.OperationOptions {}
@@ -13561,29 +13075,25 @@ export interface UserDeleteOptionalParams extends coreClient.OperationOptions {
 export type UserDeleteResponse = UserDeleteHeaders;
 
 /** Optional parameters. */
-export interface UserGenerateSsoUrlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserGenerateSsoUrlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the generateSsoUrl operation. */
 export type UserGenerateSsoUrlResponse = GenerateSsoUrlResult;
 
 /** Optional parameters. */
-export interface UserGetSharedAccessTokenOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserGetSharedAccessTokenOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSharedAccessToken operation. */
 export type UserGetSharedAccessTokenResponse = UserTokenResult;
 
 /** Optional parameters. */
-export interface UserListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type UserListByServiceNextResponse = UserCollection;
 
 /** Optional parameters. */
-export interface UserGroupListOptionalParams
-  extends coreClient.OperationOptions {
+export interface UserGroupListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|------------------------|-----------------------------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13596,15 +13106,13 @@ export interface UserGroupListOptionalParams
 export type UserGroupListResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface UserGroupListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserGroupListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserGroupListNextResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface UserSubscriptionListOptionalParams
-  extends coreClient.OperationOptions {
+export interface UserSubscriptionListOptionalParams extends coreClient.OperationOptions {
   /** | Field     |     Usage     |     Supported operators    | Supported functions               |</br>|-------------|------------------------|-----------------------------------|</br>|name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>|productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13617,44 +13125,37 @@ export interface UserSubscriptionListOptionalParams
 export type UserSubscriptionListResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface UserSubscriptionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserSubscriptionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type UserSubscriptionGetResponse = UserSubscriptionGetHeaders &
-  SubscriptionContract;
+export type UserSubscriptionGetResponse = UserSubscriptionGetHeaders & SubscriptionContract;
 
 /** Optional parameters. */
-export interface UserSubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserSubscriptionListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserSubscriptionListNextResponse = SubscriptionCollection;
 
 /** Optional parameters. */
-export interface UserIdentitiesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserIdentitiesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type UserIdentitiesListResponse = UserIdentityCollection;
 
 /** Optional parameters. */
-export interface UserIdentitiesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UserIdentitiesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type UserIdentitiesListNextResponse = UserIdentityCollection;
 
 /** Optional parameters. */
-export interface UserConfirmationPasswordSendOptionalParams
-  extends coreClient.OperationOptions {
+export interface UserConfirmationPasswordSendOptionalParams extends coreClient.OperationOptions {
   /** Determines the type of application which send the create user request. Default is legacy publisher portal. */
   appType?: AppType;
 }
 
 /** Optional parameters. */
-export interface WorkspaceBackendListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceBackendListByWorkspaceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| title | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| url | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13667,43 +13168,35 @@ export interface WorkspaceBackendListByWorkspaceOptionalParams
 export type WorkspaceBackendListByWorkspaceResponse = BackendCollection;
 
 /** Optional parameters. */
-export interface WorkspaceBackendGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceBackendGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceBackendGetEntityTagResponse =
-  WorkspaceBackendGetEntityTagHeaders;
+export type WorkspaceBackendGetEntityTagResponse = WorkspaceBackendGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceBackendGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceBackendGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceBackendGetResponse = WorkspaceBackendGetHeaders &
-  BackendContract;
+export type WorkspaceBackendGetResponse = WorkspaceBackendGetHeaders & BackendContract;
 
 /** Optional parameters. */
-export interface WorkspaceBackendCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceBackendCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceBackendCreateOrUpdateResponse =
-  WorkspaceBackendCreateOrUpdateHeaders & BackendContract;
-
-/** Optional parameters. */
-export interface WorkspaceBackendUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspaceBackendUpdateResponse = WorkspaceBackendUpdateHeaders &
+export type WorkspaceBackendCreateOrUpdateResponse = WorkspaceBackendCreateOrUpdateHeaders &
   BackendContract;
 
 /** Optional parameters. */
-export interface WorkspaceBackendDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceBackendUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspaceBackendUpdateResponse = WorkspaceBackendUpdateHeaders & BackendContract;
+
+/** Optional parameters. */
+export interface WorkspaceBackendDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceBackendListByWorkspaceNextOptionalParams
@@ -13733,16 +13226,13 @@ export interface WorkspaceCertificateGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceCertificateGetEntityTagResponse =
-  WorkspaceCertificateGetEntityTagHeaders;
+export type WorkspaceCertificateGetEntityTagResponse = WorkspaceCertificateGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceCertificateGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceCertificateGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceCertificateGetResponse = WorkspaceCertificateGetHeaders &
-  CertificateContract;
+export type WorkspaceCertificateGetResponse = WorkspaceCertificateGetHeaders & CertificateContract;
 
 /** Optional parameters. */
 export interface WorkspaceCertificateCreateOrUpdateOptionalParams
@@ -13752,28 +13242,26 @@ export interface WorkspaceCertificateCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceCertificateCreateOrUpdateResponse =
-  WorkspaceCertificateCreateOrUpdateHeaders & CertificateContract;
+export type WorkspaceCertificateCreateOrUpdateResponse = WorkspaceCertificateCreateOrUpdateHeaders &
+  CertificateContract;
 
 /** Optional parameters. */
-export interface WorkspaceCertificateDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceCertificateDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceCertificateRefreshSecretOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the refreshSecret operation. */
-export type WorkspaceCertificateRefreshSecretResponse =
-  WorkspaceCertificateRefreshSecretHeaders & CertificateContract;
+export type WorkspaceCertificateRefreshSecretResponse = WorkspaceCertificateRefreshSecretHeaders &
+  CertificateContract;
 
 /** Optional parameters. */
 export interface WorkspaceCertificateListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type WorkspaceCertificateListByWorkspaceNextResponse =
-  CertificateCollection;
+export type WorkspaceCertificateListByWorkspaceNextResponse = CertificateCollection;
 
 /** Optional parameters. */
 export interface WorkspaceDiagnosticListByWorkspaceOptionalParams
@@ -13794,16 +13282,13 @@ export interface WorkspaceDiagnosticGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceDiagnosticGetEntityTagResponse =
-  WorkspaceDiagnosticGetEntityTagHeaders;
+export type WorkspaceDiagnosticGetEntityTagResponse = WorkspaceDiagnosticGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceDiagnosticGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceDiagnosticGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceDiagnosticGetResponse = WorkspaceDiagnosticGetHeaders &
-  DiagnosticContract;
+export type WorkspaceDiagnosticGetResponse = WorkspaceDiagnosticGetHeaders & DiagnosticContract;
 
 /** Optional parameters. */
 export interface WorkspaceDiagnosticCreateOrUpdateOptionalParams
@@ -13813,28 +13298,25 @@ export interface WorkspaceDiagnosticCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceDiagnosticCreateOrUpdateResponse =
-  WorkspaceDiagnosticCreateOrUpdateHeaders & DiagnosticContract;
+export type WorkspaceDiagnosticCreateOrUpdateResponse = WorkspaceDiagnosticCreateOrUpdateHeaders &
+  DiagnosticContract;
 
 /** Optional parameters. */
-export interface WorkspaceDiagnosticUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceDiagnosticUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceDiagnosticUpdateResponse =
-  WorkspaceDiagnosticUpdateHeaders & DiagnosticContract;
+export type WorkspaceDiagnosticUpdateResponse = WorkspaceDiagnosticUpdateHeaders &
+  DiagnosticContract;
 
 /** Optional parameters. */
-export interface WorkspaceDiagnosticDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceDiagnosticDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceDiagnosticListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type WorkspaceDiagnosticListByWorkspaceNextResponse =
-  DiagnosticCollection;
+export type WorkspaceDiagnosticListByWorkspaceNextResponse = DiagnosticCollection;
 
 /** Optional parameters. */
 export interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams
@@ -13848,24 +13330,21 @@ export interface WorkspaceApiDiagnosticListByWorkspaceOptionalParams
 }
 
 /** Contains response data for the listByWorkspace operation. */
-export type WorkspaceApiDiagnosticListByWorkspaceResponse =
-  DiagnosticCollection;
+export type WorkspaceApiDiagnosticListByWorkspaceResponse = DiagnosticCollection;
 
 /** Optional parameters. */
 export interface WorkspaceApiDiagnosticGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiDiagnosticGetEntityTagResponse =
-  WorkspaceApiDiagnosticGetEntityTagHeaders;
+export type WorkspaceApiDiagnosticGetEntityTagResponse = WorkspaceApiDiagnosticGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiDiagnosticGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiDiagnosticGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiDiagnosticGetResponse =
-  WorkspaceApiDiagnosticGetHeaders & DiagnosticContract;
+export type WorkspaceApiDiagnosticGetResponse = WorkspaceApiDiagnosticGetHeaders &
+  DiagnosticContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiDiagnosticCreateOrUpdateOptionalParams
@@ -13879,24 +13358,21 @@ export type WorkspaceApiDiagnosticCreateOrUpdateResponse =
   WorkspaceApiDiagnosticCreateOrUpdateHeaders & DiagnosticContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiDiagnosticUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiDiagnosticUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceApiDiagnosticUpdateResponse =
-  WorkspaceApiDiagnosticUpdateHeaders & DiagnosticContract;
+export type WorkspaceApiDiagnosticUpdateResponse = WorkspaceApiDiagnosticUpdateHeaders &
+  DiagnosticContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiDiagnosticDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiDiagnosticDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceApiDiagnosticListByWorkspaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByWorkspaceNext operation. */
-export type WorkspaceApiDiagnosticListByWorkspaceNextResponse =
-  DiagnosticCollection;
+export type WorkspaceApiDiagnosticListByWorkspaceNextResponse = DiagnosticCollection;
 
 /** Optional parameters. */
 export interface ApiManagementWorkspaceLinksListByServiceOptionalParams
@@ -13915,16 +13391,13 @@ export type ApiManagementWorkspaceLinksListByServiceNextResponse =
   ApiManagementWorkspaceLinksListResult;
 
 /** Optional parameters. */
-export interface ApiManagementWorkspaceLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiManagementWorkspaceLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type ApiManagementWorkspaceLinkGetResponse =
-  ApiManagementWorkspaceLinksResource;
+export type ApiManagementWorkspaceLinkGetResponse = ApiManagementWorkspaceLinksResource;
 
 /** Optional parameters. */
-export interface WorkspaceLoggerListByWorkspaceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceLoggerListByWorkspaceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| loggerType | filter | eq |     |</br>| resourceId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13937,43 +13410,35 @@ export interface WorkspaceLoggerListByWorkspaceOptionalParams
 export type WorkspaceLoggerListByWorkspaceResponse = LoggerCollection;
 
 /** Optional parameters. */
-export interface WorkspaceLoggerGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceLoggerGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceLoggerGetEntityTagResponse =
-  WorkspaceLoggerGetEntityTagHeaders;
+export type WorkspaceLoggerGetEntityTagResponse = WorkspaceLoggerGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceLoggerGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceLoggerGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceLoggerGetResponse = WorkspaceLoggerGetHeaders &
-  LoggerContract;
+export type WorkspaceLoggerGetResponse = WorkspaceLoggerGetHeaders & LoggerContract;
 
 /** Optional parameters. */
-export interface WorkspaceLoggerCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceLoggerCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceLoggerCreateOrUpdateResponse =
-  WorkspaceLoggerCreateOrUpdateHeaders & LoggerContract;
-
-/** Optional parameters. */
-export interface WorkspaceLoggerUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspaceLoggerUpdateResponse = WorkspaceLoggerUpdateHeaders &
+export type WorkspaceLoggerCreateOrUpdateResponse = WorkspaceLoggerCreateOrUpdateHeaders &
   LoggerContract;
 
 /** Optional parameters. */
-export interface WorkspaceLoggerDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceLoggerUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspaceLoggerUpdateResponse = WorkspaceLoggerUpdateHeaders & LoggerContract;
+
+/** Optional parameters. */
+export interface WorkspaceLoggerDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceLoggerListByWorkspaceNextOptionalParams
@@ -13983,8 +13448,7 @@ export interface WorkspaceLoggerListByWorkspaceNextOptionalParams
 export type WorkspaceLoggerListByWorkspaceNextResponse = LoggerCollection;
 
 /** Optional parameters. */
-export interface WorkspaceListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br></br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -13997,93 +13461,77 @@ export interface WorkspaceListByServiceOptionalParams
 export type WorkspaceListByServiceResponse = WorkspaceCollection;
 
 /** Optional parameters. */
-export interface WorkspaceGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type WorkspaceGetEntityTagResponse = WorkspaceGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceGetResponse = WorkspaceGetHeaders & WorkspaceContract;
 
 /** Optional parameters. */
-export interface WorkspaceCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceCreateOrUpdateResponse = WorkspaceCreateOrUpdateHeaders &
-  WorkspaceContract;
+export type WorkspaceCreateOrUpdateResponse = WorkspaceCreateOrUpdateHeaders & WorkspaceContract;
 
 /** Optional parameters. */
-export interface WorkspaceUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceUpdateResponse = WorkspaceUpdateHeaders &
-  WorkspaceContract;
+export type WorkspaceUpdateResponse = WorkspaceUpdateHeaders & WorkspaceContract;
 
 /** Optional parameters. */
-export interface WorkspaceDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspaceListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type WorkspaceListByServiceNextResponse = WorkspaceCollection;
 
 /** Optional parameters. */
-export interface WorkspacePolicyListByApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspacePolicyListByApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApi operation. */
 export type WorkspacePolicyListByApiResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface WorkspacePolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspacePolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspacePolicyGetEntityTagResponse =
-  WorkspacePolicyGetEntityTagHeaders;
+export type WorkspacePolicyGetEntityTagResponse = WorkspacePolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspacePolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspacePolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type WorkspacePolicyGetResponse = WorkspacePolicyGetHeaders &
-  PolicyContract;
+export type WorkspacePolicyGetResponse = WorkspacePolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface WorkspacePolicyCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspacePolicyCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspacePolicyCreateOrUpdateResponse =
-  WorkspacePolicyCreateOrUpdateHeaders & PolicyContract;
+export type WorkspacePolicyCreateOrUpdateResponse = WorkspacePolicyCreateOrUpdateHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
-export interface WorkspacePolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspacePolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspacePolicyListByApiNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspacePolicyListByApiNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApiNext operation. */
 export type WorkspacePolicyListByApiNextResponse = PolicyCollection;
@@ -14109,16 +13557,13 @@ export interface WorkspaceNamedValueGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceNamedValueGetEntityTagResponse =
-  WorkspaceNamedValueGetEntityTagHeaders;
+export type WorkspaceNamedValueGetEntityTagResponse = WorkspaceNamedValueGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceNamedValueGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceNamedValueGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceNamedValueGetResponse = WorkspaceNamedValueGetHeaders &
-  NamedValueContract;
+export type WorkspaceNamedValueGetResponse = WorkspaceNamedValueGetHeaders & NamedValueContract;
 
 /** Optional parameters. */
 export interface WorkspaceNamedValueCreateOrUpdateOptionalParams
@@ -14132,12 +13577,11 @@ export interface WorkspaceNamedValueCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceNamedValueCreateOrUpdateResponse =
-  WorkspaceNamedValueCreateOrUpdateHeaders & NamedValueContract;
+export type WorkspaceNamedValueCreateOrUpdateResponse = WorkspaceNamedValueCreateOrUpdateHeaders &
+  NamedValueContract;
 
 /** Optional parameters. */
-export interface WorkspaceNamedValueUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceNamedValueUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14145,20 +13589,18 @@ export interface WorkspaceNamedValueUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type WorkspaceNamedValueUpdateResponse =
-  WorkspaceNamedValueUpdateHeaders & NamedValueContract;
+export type WorkspaceNamedValueUpdateResponse = WorkspaceNamedValueUpdateHeaders &
+  NamedValueContract;
 
 /** Optional parameters. */
-export interface WorkspaceNamedValueDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceNamedValueDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspaceNamedValueListValueOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceNamedValueListValueOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listValue operation. */
-export type WorkspaceNamedValueListValueResponse =
-  WorkspaceNamedValueListValueHeaders & NamedValueSecretContract;
+export type WorkspaceNamedValueListValueResponse = WorkspaceNamedValueListValueHeaders &
+  NamedValueSecretContract;
 
 /** Optional parameters. */
 export interface WorkspaceNamedValueRefreshSecretOptionalParams
@@ -14170,8 +13612,8 @@ export interface WorkspaceNamedValueRefreshSecretOptionalParams
 }
 
 /** Contains response data for the refreshSecret operation. */
-export type WorkspaceNamedValueRefreshSecretResponse =
-  WorkspaceNamedValueRefreshSecretHeaders & NamedValueContract;
+export type WorkspaceNamedValueRefreshSecretResponse = WorkspaceNamedValueRefreshSecretHeaders &
+  NamedValueContract;
 
 /** Optional parameters. */
 export interface WorkspaceNamedValueListByServiceNextOptionalParams
@@ -14199,12 +13641,10 @@ export interface WorkspaceGlobalSchemaGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceGlobalSchemaGetEntityTagResponse =
-  WorkspaceGlobalSchemaGetEntityTagHeaders;
+export type WorkspaceGlobalSchemaGetEntityTagResponse = WorkspaceGlobalSchemaGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceGlobalSchemaGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGlobalSchemaGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceGlobalSchemaGetResponse = WorkspaceGlobalSchemaGetHeaders &
@@ -14226,16 +13666,14 @@ export type WorkspaceGlobalSchemaCreateOrUpdateResponse =
   WorkspaceGlobalSchemaCreateOrUpdateHeaders & GlobalSchemaContract;
 
 /** Optional parameters. */
-export interface WorkspaceGlobalSchemaDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGlobalSchemaDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceGlobalSchemaListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type WorkspaceGlobalSchemaListByServiceNextResponse =
-  GlobalSchemaCollection;
+export type WorkspaceGlobalSchemaListByServiceNextResponse = GlobalSchemaCollection;
 
 /** Optional parameters. */
 export interface WorkspaceNotificationListByServiceOptionalParams
@@ -14250,8 +13688,7 @@ export interface WorkspaceNotificationListByServiceOptionalParams
 export type WorkspaceNotificationListByServiceResponse = NotificationCollection;
 
 /** Optional parameters. */
-export interface WorkspaceNotificationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceNotificationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceNotificationGetResponse = NotificationContract;
@@ -14271,16 +13708,14 @@ export interface WorkspaceNotificationListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type WorkspaceNotificationListByServiceNextResponse =
-  NotificationCollection;
+export type WorkspaceNotificationListByServiceNextResponse = NotificationCollection;
 
 /** Optional parameters. */
 export interface WorkspaceNotificationRecipientUserListByNotificationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNotification operation. */
-export type WorkspaceNotificationRecipientUserListByNotificationResponse =
-  RecipientUserCollection;
+export type WorkspaceNotificationRecipientUserListByNotificationResponse = RecipientUserCollection;
 
 /** Optional parameters. */
 export interface WorkspaceNotificationRecipientUserCheckEntityExistsOptionalParams
@@ -14296,8 +13731,7 @@ export interface WorkspaceNotificationRecipientUserCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceNotificationRecipientUserCreateOrUpdateResponse =
-  RecipientUserContract;
+export type WorkspaceNotificationRecipientUserCreateOrUpdateResponse = RecipientUserContract;
 
 /** Optional parameters. */
 export interface WorkspaceNotificationRecipientUserDeleteOptionalParams
@@ -14325,8 +13759,7 @@ export interface WorkspaceNotificationRecipientEmailCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceNotificationRecipientEmailCreateOrUpdateResponse =
-  RecipientEmailContract;
+export type WorkspaceNotificationRecipientEmailCreateOrUpdateResponse = RecipientEmailContract;
 
 /** Optional parameters. */
 export interface WorkspaceNotificationRecipientEmailDeleteOptionalParams
@@ -14346,8 +13779,7 @@ export interface WorkspacePolicyFragmentListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type WorkspacePolicyFragmentListByServiceResponse =
-  PolicyFragmentCollection;
+export type WorkspacePolicyFragmentListByServiceResponse = PolicyFragmentCollection;
 
 /** Optional parameters. */
 export interface WorkspacePolicyFragmentGetEntityTagOptionalParams
@@ -14358,15 +13790,14 @@ export type WorkspacePolicyFragmentGetEntityTagResponse =
   WorkspacePolicyFragmentGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspacePolicyFragmentGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspacePolicyFragmentGetOptionalParams extends coreClient.OperationOptions {
   /** Policy fragment content format. */
   format?: PolicyFragmentContentFormat;
 }
 
 /** Contains response data for the get operation. */
-export type WorkspacePolicyFragmentGetResponse =
-  WorkspacePolicyFragmentGetHeaders & PolicyFragmentContract;
+export type WorkspacePolicyFragmentGetResponse = WorkspacePolicyFragmentGetHeaders &
+  PolicyFragmentContract;
 
 /** Optional parameters. */
 export interface WorkspacePolicyFragmentCreateOrUpdateOptionalParams
@@ -14384,8 +13815,7 @@ export type WorkspacePolicyFragmentCreateOrUpdateResponse =
   WorkspacePolicyFragmentCreateOrUpdateHeaders & PolicyFragmentContract;
 
 /** Optional parameters. */
-export interface WorkspacePolicyFragmentDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspacePolicyFragmentDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspacePolicyFragmentListReferencesOptionalParams
@@ -14404,12 +13834,10 @@ export interface WorkspacePolicyFragmentListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type WorkspacePolicyFragmentListByServiceNextResponse =
-  PolicyFragmentCollection;
+export type WorkspacePolicyFragmentListByServiceNextResponse = PolicyFragmentCollection;
 
 /** Optional parameters. */
-export interface WorkspaceGroupListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceGroupListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| externalId | filter | eq |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14422,43 +13850,35 @@ export interface WorkspaceGroupListByServiceOptionalParams
 export type WorkspaceGroupListByServiceResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface WorkspaceGroupGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceGroupGetEntityTagResponse =
-  WorkspaceGroupGetEntityTagHeaders;
+export type WorkspaceGroupGetEntityTagResponse = WorkspaceGroupGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceGroupGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceGroupGetResponse = WorkspaceGroupGetHeaders &
-  GroupContract;
+export type WorkspaceGroupGetResponse = WorkspaceGroupGetHeaders & GroupContract;
 
 /** Optional parameters. */
-export interface WorkspaceGroupCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceGroupCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceGroupCreateOrUpdateResponse =
-  WorkspaceGroupCreateOrUpdateHeaders & GroupContract;
-
-/** Optional parameters. */
-export interface WorkspaceGroupUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspaceGroupUpdateResponse = WorkspaceGroupUpdateHeaders &
+export type WorkspaceGroupCreateOrUpdateResponse = WorkspaceGroupCreateOrUpdateHeaders &
   GroupContract;
 
 /** Optional parameters. */
-export interface WorkspaceGroupDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspaceGroupUpdateResponse = WorkspaceGroupUpdateHeaders & GroupContract;
+
+/** Optional parameters. */
+export interface WorkspaceGroupDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceGroupListByServiceNextOptionalParams
@@ -14468,8 +13888,7 @@ export interface WorkspaceGroupListByServiceNextOptionalParams
 export type WorkspaceGroupListByServiceNextResponse = GroupCollection;
 
 /** Optional parameters. */
-export interface WorkspaceGroupUserListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceGroupUserListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| firstName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| lastName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| email | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| registrationDate | filter | ge, le, eq, ne, gt, lt |     |</br>| note | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14491,26 +13910,22 @@ export type WorkspaceGroupUserCheckEntityExistsResponse = {
 };
 
 /** Optional parameters. */
-export interface WorkspaceGroupUserCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupUserCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type WorkspaceGroupUserCreateResponse = UserContract;
 
 /** Optional parameters. */
-export interface WorkspaceGroupUserDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupUserDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspaceGroupUserListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceGroupUserListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceGroupUserListNextResponse = UserCollection;
 
 /** Optional parameters. */
-export interface WorkspaceSubscriptionListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceSubscriptionListOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| stateComment | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| ownerId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| scope | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| userId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| productId | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| user | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14527,12 +13942,10 @@ export interface WorkspaceSubscriptionGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceSubscriptionGetEntityTagResponse =
-  WorkspaceSubscriptionGetEntityTagHeaders;
+export type WorkspaceSubscriptionGetEntityTagResponse = WorkspaceSubscriptionGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceSubscriptionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceSubscriptionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceSubscriptionGetResponse = WorkspaceSubscriptionGetHeaders &
@@ -14558,8 +13971,7 @@ export type WorkspaceSubscriptionCreateOrUpdateResponse =
   WorkspaceSubscriptionCreateOrUpdateHeaders & SubscriptionContract;
 
 /** Optional parameters. */
-export interface WorkspaceSubscriptionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceSubscriptionUpdateOptionalParams extends coreClient.OperationOptions {
   /**
    * Notify change in Subscription State.
    *  - If false, do not send any email notification for change of state of subscription
@@ -14571,12 +13983,11 @@ export interface WorkspaceSubscriptionUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type WorkspaceSubscriptionUpdateResponse =
-  WorkspaceSubscriptionUpdateHeaders & SubscriptionContract;
+export type WorkspaceSubscriptionUpdateResponse = WorkspaceSubscriptionUpdateHeaders &
+  SubscriptionContract;
 
 /** Optional parameters. */
-export interface WorkspaceSubscriptionDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceSubscriptionDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams
@@ -14591,12 +14002,11 @@ export interface WorkspaceSubscriptionListSecretsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSecrets operation. */
-export type WorkspaceSubscriptionListSecretsResponse =
-  WorkspaceSubscriptionListSecretsHeaders & SubscriptionKeysContract;
+export type WorkspaceSubscriptionListSecretsResponse = WorkspaceSubscriptionListSecretsHeaders &
+  SubscriptionKeysContract;
 
 /** Optional parameters. */
-export interface WorkspaceSubscriptionListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceSubscriptionListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkspaceSubscriptionListNextResponse = SubscriptionCollection;
@@ -14613,24 +14023,21 @@ export interface WorkspaceApiVersionSetListByServiceOptionalParams
 }
 
 /** Contains response data for the listByService operation. */
-export type WorkspaceApiVersionSetListByServiceResponse =
-  ApiVersionSetCollection;
+export type WorkspaceApiVersionSetListByServiceResponse = ApiVersionSetCollection;
 
 /** Optional parameters. */
 export interface WorkspaceApiVersionSetGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiVersionSetGetEntityTagResponse =
-  WorkspaceApiVersionSetGetEntityTagHeaders;
+export type WorkspaceApiVersionSetGetEntityTagResponse = WorkspaceApiVersionSetGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiVersionSetGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiVersionSetGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiVersionSetGetResponse =
-  WorkspaceApiVersionSetGetHeaders & ApiVersionSetContract;
+export type WorkspaceApiVersionSetGetResponse = WorkspaceApiVersionSetGetHeaders &
+  ApiVersionSetContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiVersionSetCreateOrUpdateOptionalParams
@@ -14644,28 +14051,24 @@ export type WorkspaceApiVersionSetCreateOrUpdateResponse =
   WorkspaceApiVersionSetCreateOrUpdateHeaders & ApiVersionSetContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiVersionSetUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiVersionSetUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceApiVersionSetUpdateResponse =
-  WorkspaceApiVersionSetUpdateHeaders & ApiVersionSetContract;
+export type WorkspaceApiVersionSetUpdateResponse = WorkspaceApiVersionSetUpdateHeaders &
+  ApiVersionSetContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiVersionSetDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiVersionSetDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceApiVersionSetListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type WorkspaceApiVersionSetListByServiceNextResponse =
-  ApiVersionSetCollection;
+export type WorkspaceApiVersionSetListByServiceNextResponse = ApiVersionSetCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| serviceUrl | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| path | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| isCurrent | filter | eq, ne |  |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14682,22 +14085,19 @@ export interface WorkspaceApiListByServiceOptionalParams
 export type WorkspaceApiListByServiceResponse = ApiCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
 export type WorkspaceApiGetEntityTagResponse = WorkspaceApiGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceApiGetResponse = WorkspaceApiGetHeaders & ApiContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -14707,27 +14107,22 @@ export interface WorkspaceApiCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceApiCreateOrUpdateResponse =
-  WorkspaceApiCreateOrUpdateHeaders & ApiContract;
+export type WorkspaceApiCreateOrUpdateResponse = WorkspaceApiCreateOrUpdateHeaders & ApiContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceApiUpdateResponse = WorkspaceApiUpdateHeaders &
-  ApiContract;
+export type WorkspaceApiUpdateResponse = WorkspaceApiUpdateHeaders & ApiContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delete all revisions of the Api. */
   deleteRevisions?: boolean;
 }
 
 /** Optional parameters. */
-export interface WorkspaceApiListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type WorkspaceApiListByServiceNextResponse = ApiCollection;
@@ -14751,8 +14146,7 @@ export interface WorkspaceApiRevisionListByServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
-export type WorkspaceApiRevisionListByServiceNextResponse =
-  ApiRevisionCollection;
+export type WorkspaceApiRevisionListByServiceNextResponse = ApiRevisionCollection;
 
 /** Optional parameters. */
 export interface WorkspaceApiReleaseListByServiceOptionalParams
@@ -14773,16 +14167,13 @@ export interface WorkspaceApiReleaseGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiReleaseGetEntityTagResponse =
-  WorkspaceApiReleaseGetEntityTagHeaders;
+export type WorkspaceApiReleaseGetEntityTagResponse = WorkspaceApiReleaseGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiReleaseGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiReleaseGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiReleaseGetResponse = WorkspaceApiReleaseGetHeaders &
-  ApiReleaseContract;
+export type WorkspaceApiReleaseGetResponse = WorkspaceApiReleaseGetHeaders & ApiReleaseContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiReleaseCreateOrUpdateOptionalParams
@@ -14792,20 +14183,18 @@ export interface WorkspaceApiReleaseCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceApiReleaseCreateOrUpdateResponse =
-  WorkspaceApiReleaseCreateOrUpdateHeaders & ApiReleaseContract;
+export type WorkspaceApiReleaseCreateOrUpdateResponse = WorkspaceApiReleaseCreateOrUpdateHeaders &
+  ApiReleaseContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiReleaseUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiReleaseUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceApiReleaseUpdateResponse =
-  WorkspaceApiReleaseUpdateHeaders & ApiReleaseContract;
+export type WorkspaceApiReleaseUpdateResponse = WorkspaceApiReleaseUpdateHeaders &
+  ApiReleaseContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiReleaseDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiReleaseDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceApiReleaseListByServiceNextOptionalParams
@@ -14815,8 +14204,7 @@ export interface WorkspaceApiReleaseListByServiceNextOptionalParams
 export type WorkspaceApiReleaseListByServiceNextResponse = ApiReleaseCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiOperationListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiOperationListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| method | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| urlTemplate | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14835,16 +14223,13 @@ export interface WorkspaceApiOperationGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiOperationGetEntityTagResponse =
-  WorkspaceApiOperationGetEntityTagHeaders;
+export type WorkspaceApiOperationGetEntityTagResponse = WorkspaceApiOperationGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiOperationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiOperationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiOperationGetResponse = WorkspaceApiOperationGetHeaders &
-  OperationContract;
+export type WorkspaceApiOperationGetResponse = WorkspaceApiOperationGetHeaders & OperationContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiOperationCreateOrUpdateOptionalParams
@@ -14858,16 +14243,14 @@ export type WorkspaceApiOperationCreateOrUpdateResponse =
   WorkspaceApiOperationCreateOrUpdateHeaders & OperationContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiOperationUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiOperationUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceApiOperationUpdateResponse =
-  WorkspaceApiOperationUpdateHeaders & OperationContract;
+export type WorkspaceApiOperationUpdateResponse = WorkspaceApiOperationUpdateHeaders &
+  OperationContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiOperationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiOperationDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceApiOperationListByApiNextOptionalParams
@@ -14881,8 +14264,7 @@ export interface WorkspaceApiOperationPolicyListByOperationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperation operation. */
-export type WorkspaceApiOperationPolicyListByOperationResponse =
-  PolicyCollection;
+export type WorkspaceApiOperationPolicyListByOperationResponse = PolicyCollection;
 
 /** Optional parameters. */
 export interface WorkspaceApiOperationPolicyGetEntityTagOptionalParams
@@ -14893,15 +14275,14 @@ export type WorkspaceApiOperationPolicyGetEntityTagResponse =
   WorkspaceApiOperationPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiOperationPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiOperationPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiOperationPolicyGetResponse =
-  WorkspaceApiOperationPolicyGetHeaders & PolicyContract;
+export type WorkspaceApiOperationPolicyGetResponse = WorkspaceApiOperationPolicyGetHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiOperationPolicyCreateOrUpdateOptionalParams
@@ -14923,34 +14304,28 @@ export interface WorkspaceApiOperationPolicyListByOperationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOperationNext operation. */
-export type WorkspaceApiOperationPolicyListByOperationNextResponse =
-  PolicyCollection;
+export type WorkspaceApiOperationPolicyListByOperationNextResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiPolicyListByApiOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiPolicyListByApiOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByApi operation. */
 export type WorkspaceApiPolicyListByApiResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiPolicyGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiPolicyGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiPolicyGetEntityTagResponse =
-  WorkspaceApiPolicyGetEntityTagHeaders;
+export type WorkspaceApiPolicyGetEntityTagResponse = WorkspaceApiPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiPolicyGetResponse = WorkspaceApiPolicyGetHeaders &
-  PolicyContract;
+export type WorkspaceApiPolicyGetResponse = WorkspaceApiPolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiPolicyCreateOrUpdateOptionalParams
@@ -14960,12 +14335,11 @@ export interface WorkspaceApiPolicyCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceApiPolicyCreateOrUpdateResponse =
-  WorkspaceApiPolicyCreateOrUpdateHeaders & PolicyContract;
+export type WorkspaceApiPolicyCreateOrUpdateResponse = WorkspaceApiPolicyCreateOrUpdateHeaders &
+  PolicyContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceApiPolicyListByApiNextOptionalParams
@@ -14975,8 +14349,7 @@ export interface WorkspaceApiPolicyListByApiNextOptionalParams
 export type WorkspaceApiPolicyListByApiNextResponse = PolicyCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiSchemaListByApiOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiSchemaListByApiOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| contentType | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -14989,20 +14362,16 @@ export interface WorkspaceApiSchemaListByApiOptionalParams
 export type WorkspaceApiSchemaListByApiResponse = SchemaCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiSchemaGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiSchemaGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceApiSchemaGetEntityTagResponse =
-  WorkspaceApiSchemaGetEntityTagHeaders;
+export type WorkspaceApiSchemaGetEntityTagResponse = WorkspaceApiSchemaGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceApiSchemaGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiSchemaGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceApiSchemaGetResponse = WorkspaceApiSchemaGetHeaders &
-  SchemaContract;
+export type WorkspaceApiSchemaGetResponse = WorkspaceApiSchemaGetHeaders & SchemaContract;
 
 /** Optional parameters. */
 export interface WorkspaceApiSchemaCreateOrUpdateOptionalParams
@@ -15016,12 +14385,11 @@ export interface WorkspaceApiSchemaCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceApiSchemaCreateOrUpdateResponse =
-  WorkspaceApiSchemaCreateOrUpdateHeaders & SchemaContract;
+export type WorkspaceApiSchemaCreateOrUpdateResponse = WorkspaceApiSchemaCreateOrUpdateHeaders &
+  SchemaContract;
 
 /** Optional parameters. */
-export interface WorkspaceApiSchemaDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceApiSchemaDeleteOptionalParams extends coreClient.OperationOptions {
   /** If true removes all references to the schema before deleting it. */
   force?: boolean;
 }
@@ -15034,8 +14402,7 @@ export interface WorkspaceApiSchemaListByApiNextOptionalParams
 export type WorkspaceApiSchemaListByApiNextResponse = SchemaCollection;
 
 /** Optional parameters. */
-export interface WorkspaceProductListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceProductListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| description | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| terms | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| state | filter | eq |     |</br>| groups | expand |     |     |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -15052,43 +14419,35 @@ export interface WorkspaceProductListByServiceOptionalParams
 export type WorkspaceProductListByServiceResponse = ProductCollection;
 
 /** Optional parameters. */
-export interface WorkspaceProductGetEntityTagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductGetEntityTagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceProductGetEntityTagResponse =
-  WorkspaceProductGetEntityTagHeaders;
+export type WorkspaceProductGetEntityTagResponse = WorkspaceProductGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceProductGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceProductGetResponse = WorkspaceProductGetHeaders &
-  ProductContract;
+export type WorkspaceProductGetResponse = WorkspaceProductGetHeaders & ProductContract;
 
 /** Optional parameters. */
-export interface WorkspaceProductCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceProductCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceProductCreateOrUpdateResponse =
-  WorkspaceProductCreateOrUpdateHeaders & ProductContract;
-
-/** Optional parameters. */
-export interface WorkspaceProductUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type WorkspaceProductUpdateResponse = WorkspaceProductUpdateHeaders &
+export type WorkspaceProductCreateOrUpdateResponse = WorkspaceProductCreateOrUpdateHeaders &
   ProductContract;
 
 /** Optional parameters. */
-export interface WorkspaceProductDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceProductUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspaceProductUpdateResponse = WorkspaceProductUpdateHeaders & ProductContract;
+
+/** Optional parameters. */
+export interface WorkspaceProductDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delete existing subscriptions associated with the product or not. */
   deleteSubscriptions?: boolean;
 }
@@ -15112,36 +14471,31 @@ export interface WorkspaceProductApiLinkListByProductOptionalParams
 }
 
 /** Contains response data for the listByProduct operation. */
-export type WorkspaceProductApiLinkListByProductResponse =
-  ProductApiLinkCollection;
+export type WorkspaceProductApiLinkListByProductResponse = ProductApiLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceProductApiLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductApiLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceProductApiLinkGetResponse =
-  WorkspaceProductApiLinkGetHeaders & ProductApiLinkContract;
+export type WorkspaceProductApiLinkGetResponse = WorkspaceProductApiLinkGetHeaders &
+  ProductApiLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceProductApiLinkCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceProductApiLinkCreateOrUpdateResponse =
-  ProductApiLinkContract;
+export type WorkspaceProductApiLinkCreateOrUpdateResponse = ProductApiLinkContract;
 
 /** Optional parameters. */
-export interface WorkspaceProductApiLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductApiLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceProductApiLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type WorkspaceProductApiLinkListByProductNextResponse =
-  ProductApiLinkCollection;
+export type WorkspaceProductApiLinkListByProductNextResponse = ProductApiLinkCollection;
 
 /** Optional parameters. */
 export interface WorkspaceProductGroupLinkListByProductOptionalParams
@@ -15155,24 +14509,21 @@ export interface WorkspaceProductGroupLinkListByProductOptionalParams
 }
 
 /** Contains response data for the listByProduct operation. */
-export type WorkspaceProductGroupLinkListByProductResponse =
-  ProductGroupLinkCollection;
+export type WorkspaceProductGroupLinkListByProductResponse = ProductGroupLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceProductGroupLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductGroupLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceProductGroupLinkGetResponse =
-  WorkspaceProductGroupLinkGetHeaders & ProductGroupLinkContract;
+export type WorkspaceProductGroupLinkGetResponse = WorkspaceProductGroupLinkGetHeaders &
+  ProductGroupLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceProductGroupLinkCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceProductGroupLinkCreateOrUpdateResponse =
-  ProductGroupLinkContract;
+export type WorkspaceProductGroupLinkCreateOrUpdateResponse = ProductGroupLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceProductGroupLinkDeleteOptionalParams
@@ -15183,8 +14534,7 @@ export interface WorkspaceProductGroupLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type WorkspaceProductGroupLinkListByProductNextResponse =
-  ProductGroupLinkCollection;
+export type WorkspaceProductGroupLinkListByProductNextResponse = ProductGroupLinkCollection;
 
 /** Optional parameters. */
 export interface WorkspaceProductPolicyListByProductOptionalParams
@@ -15198,19 +14548,16 @@ export interface WorkspaceProductPolicyGetEntityTagOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityTag operation. */
-export type WorkspaceProductPolicyGetEntityTagResponse =
-  WorkspaceProductPolicyGetEntityTagHeaders;
+export type WorkspaceProductPolicyGetEntityTagResponse = WorkspaceProductPolicyGetEntityTagHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceProductPolicyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceProductPolicyGetOptionalParams extends coreClient.OperationOptions {
   /** Policy Export Format. */
   format?: PolicyExportFormat;
 }
 
 /** Contains response data for the get operation. */
-export type WorkspaceProductPolicyGetResponse =
-  WorkspaceProductPolicyGetHeaders & PolicyContract;
+export type WorkspaceProductPolicyGetResponse = WorkspaceProductPolicyGetHeaders & PolicyContract;
 
 /** Optional parameters. */
 export interface WorkspaceProductPolicyCreateOrUpdateOptionalParams
@@ -15224,12 +14571,10 @@ export type WorkspaceProductPolicyCreateOrUpdateResponse =
   WorkspaceProductPolicyCreateOrUpdateHeaders & PolicyContract;
 
 /** Optional parameters. */
-export interface WorkspaceProductPolicyDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceProductPolicyDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspaceTagListByServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceTagListByServiceOptionalParams extends coreClient.OperationOptions {
   /** |     Field     |     Usage     |     Supported operators     |     Supported functions     |</br>|-------------|-------------|-------------|-------------|</br>| name | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br>| displayName | filter | ge, le, eq, ne, gt, lt | substringof, contains, startswith, endswith |</br> */
   filter?: string;
   /** Number of records to return. */
@@ -15244,46 +14589,37 @@ export interface WorkspaceTagListByServiceOptionalParams
 export type WorkspaceTagListByServiceResponse = TagCollection;
 
 /** Optional parameters. */
-export interface WorkspaceTagGetEntityStateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagGetEntityStateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getEntityState operation. */
-export type WorkspaceTagGetEntityStateResponse =
-  WorkspaceTagGetEntityStateHeaders;
+export type WorkspaceTagGetEntityStateResponse = WorkspaceTagGetEntityStateHeaders;
 
 /** Optional parameters. */
-export interface WorkspaceTagGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceTagGetResponse = WorkspaceTagGetHeaders & TagContract;
 
 /** Optional parameters. */
-export interface WorkspaceTagCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkspaceTagCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the Entity. Not required when creating an entity, but required when updating an entity. */
   ifMatch?: string;
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceTagCreateOrUpdateResponse =
-  WorkspaceTagCreateOrUpdateHeaders & TagContract;
+export type WorkspaceTagCreateOrUpdateResponse = WorkspaceTagCreateOrUpdateHeaders & TagContract;
 
 /** Optional parameters. */
-export interface WorkspaceTagUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type WorkspaceTagUpdateResponse = WorkspaceTagUpdateHeaders &
-  TagContract;
+export type WorkspaceTagUpdateResponse = WorkspaceTagUpdateHeaders & TagContract;
 
 /** Optional parameters. */
-export interface WorkspaceTagDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkspaceTagListByServiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagListByServiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServiceNext operation. */
 export type WorkspaceTagListByServiceNextResponse = TagCollection;
@@ -15303,12 +14639,10 @@ export interface WorkspaceTagApiLinkListByProductOptionalParams
 export type WorkspaceTagApiLinkListByProductResponse = TagApiLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceTagApiLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagApiLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceTagApiLinkGetResponse = WorkspaceTagApiLinkGetHeaders &
-  TagApiLinkContract;
+export type WorkspaceTagApiLinkGetResponse = WorkspaceTagApiLinkGetHeaders & TagApiLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams
@@ -15318,8 +14652,7 @@ export interface WorkspaceTagApiLinkCreateOrUpdateOptionalParams
 export type WorkspaceTagApiLinkCreateOrUpdateResponse = TagApiLinkContract;
 
 /** Optional parameters. */
-export interface WorkspaceTagApiLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagApiLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceTagApiLinkListByProductNextOptionalParams
@@ -15340,24 +14673,21 @@ export interface WorkspaceTagOperationLinkListByProductOptionalParams
 }
 
 /** Contains response data for the listByProduct operation. */
-export type WorkspaceTagOperationLinkListByProductResponse =
-  TagOperationLinkCollection;
+export type WorkspaceTagOperationLinkListByProductResponse = TagOperationLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceTagOperationLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagOperationLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceTagOperationLinkGetResponse =
-  WorkspaceTagOperationLinkGetHeaders & TagOperationLinkContract;
+export type WorkspaceTagOperationLinkGetResponse = WorkspaceTagOperationLinkGetHeaders &
+  TagOperationLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceTagOperationLinkCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceTagOperationLinkCreateOrUpdateResponse =
-  TagOperationLinkContract;
+export type WorkspaceTagOperationLinkCreateOrUpdateResponse = TagOperationLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceTagOperationLinkDeleteOptionalParams
@@ -15368,8 +14698,7 @@ export interface WorkspaceTagOperationLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type WorkspaceTagOperationLinkListByProductNextResponse =
-  TagOperationLinkCollection;
+export type WorkspaceTagOperationLinkListByProductNextResponse = TagOperationLinkCollection;
 
 /** Optional parameters. */
 export interface WorkspaceTagProductLinkListByProductOptionalParams
@@ -15383,61 +14712,52 @@ export interface WorkspaceTagProductLinkListByProductOptionalParams
 }
 
 /** Contains response data for the listByProduct operation. */
-export type WorkspaceTagProductLinkListByProductResponse =
-  TagProductLinkCollection;
+export type WorkspaceTagProductLinkListByProductResponse = TagProductLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceTagProductLinkGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagProductLinkGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkspaceTagProductLinkGetResponse =
-  WorkspaceTagProductLinkGetHeaders & TagProductLinkContract;
+export type WorkspaceTagProductLinkGetResponse = WorkspaceTagProductLinkGetHeaders &
+  TagProductLinkContract;
 
 /** Optional parameters. */
 export interface WorkspaceTagProductLinkCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type WorkspaceTagProductLinkCreateOrUpdateResponse =
-  TagProductLinkContract;
+export type WorkspaceTagProductLinkCreateOrUpdateResponse = TagProductLinkContract;
 
 /** Optional parameters. */
-export interface WorkspaceTagProductLinkDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceTagProductLinkDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkspaceTagProductLinkListByProductNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProductNext operation. */
-export type WorkspaceTagProductLinkListByProductNextResponse =
-  TagProductLinkCollection;
+export type WorkspaceTagProductLinkListByProductNextResponse = TagProductLinkCollection;
 
 /** Optional parameters. */
-export interface WorkspaceApiExportGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkspaceApiExportGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkspaceApiExportGetResponse = ApiExportResult;
 
 /** Optional parameters. */
-export interface OperationStatusGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationStatusGetResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface OperationsResultsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsResultsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type OperationsResultsGetResponse = OperationsResultsGetHeaders;
 
 /** Optional parameters. */
-export interface ApiManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface ApiManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

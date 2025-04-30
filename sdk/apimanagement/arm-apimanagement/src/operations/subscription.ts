@@ -72,12 +72,7 @@ export class SubscriptionImpl implements Subscription {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -98,12 +93,7 @@ export class SubscriptionImpl implements Subscription {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,11 +106,7 @@ export class SubscriptionImpl implements Subscription {
     serviceName: string,
     options?: SubscriptionListOptionalParams,
   ): AsyncIterableIterator<SubscriptionContract> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -345,12 +331,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -422,11 +403,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters79,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.notify,
-    Parameters.appType,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.notify, Parameters.appType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -434,11 +411,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.sid,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -455,11 +428,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.parameters80,
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.notify,
-    Parameters.appType,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.notify, Parameters.appType],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -467,11 +436,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.sid,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

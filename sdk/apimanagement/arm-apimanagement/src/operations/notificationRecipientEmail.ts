@@ -23,9 +23,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing NotificationRecipientEmail operations. */
-export class NotificationRecipientEmailImpl
-  implements NotificationRecipientEmail
-{
+export class NotificationRecipientEmailImpl implements NotificationRecipientEmail {
   private readonly client: ApiManagementClient;
 
   /**

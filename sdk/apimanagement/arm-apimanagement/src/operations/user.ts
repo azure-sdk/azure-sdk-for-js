@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   UserContract,
@@ -68,11 +64,7 @@ export class UserImpl implements User {
     serviceName: string,
     options?: UserListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<UserContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -84,12 +76,7 @@ export class UserImpl implements User {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -103,11 +90,7 @@ export class UserImpl implements User {
     let result: UserListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -256,9 +239,7 @@ export class UserImpl implements User {
     userId: string,
     ifMatch: string,
     options?: UserDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -269,8 +250,7 @@ export class UserImpl implements User {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -302,14 +282,14 @@ export class UserImpl implements User {
       args: { resourceGroupName, serviceName, userId, ifMatch, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      UserDeleteResponse,
-      OperationState<UserDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
+    const poller = await createHttpPoller<UserDeleteResponse, OperationState<UserDeleteResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "location",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -330,13 +310,7 @@ export class UserImpl implements User {
     ifMatch: string,
     options?: UserDeleteOptionalParams,
   ): Promise<UserDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      userId,
-      ifMatch,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, userId, ifMatch, options);
     return poller.pollUntilDone();
   }
 
@@ -500,11 +474,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.userId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -529,11 +499,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.userId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

@@ -1318,6 +1318,7 @@ export interface ApiManagementServiceBaseProperties {
     readonly publicIPAddresses?: string[];
     publicIpAddressId?: string;
     publicNetworkAccess?: PublicNetworkAccess;
+    releaseChannel?: ReleaseChannel;
     restore?: boolean;
     readonly scmUrl?: string;
     readonly targetProvisioningState?: string;
@@ -1496,6 +1497,7 @@ export interface ApiManagementServiceResource extends ApimResource {
     publicNetworkAccess?: PublicNetworkAccess;
     publisherEmail: string;
     publisherName: string;
+    releaseChannel?: ReleaseChannel;
     restore?: boolean;
     readonly scmUrl?: string;
     sku: ApiManagementServiceSkuProperties;
@@ -1591,6 +1593,7 @@ export interface ApiManagementServiceUpdateParameters extends ApimResource {
     publicNetworkAccess?: PublicNetworkAccess;
     publisherEmail?: string;
     publisherName?: string;
+    releaseChannel?: ReleaseChannel;
     restore?: boolean;
     readonly scmUrl?: string;
     sku?: ApiManagementServiceSkuProperties;
@@ -3948,6 +3951,7 @@ export interface DiagnosticContract extends ProxyResource {
     backend?: PipelineDiagnosticSettings;
     frontend?: PipelineDiagnosticSettings;
     httpCorrelationProtocol?: HttpCorrelationProtocol;
+    largeLanguageModel?: LLMDiagnosticSettings;
     logClientIp?: boolean;
     loggerId?: string;
     metrics?: boolean;
@@ -5215,6 +5219,7 @@ export interface IdentityProviderBaseParameters {
 export interface IdentityProviderContract extends ProxyResource {
     allowedTenants?: string[];
     authority?: string;
+    certificateId?: string;
     clientId?: string;
     clientLibrary?: string;
     clientSecret?: string;
@@ -5228,6 +5233,7 @@ export interface IdentityProviderContract extends ProxyResource {
 
 // @public
 export interface IdentityProviderContractProperties extends IdentityProviderBaseParameters {
+    certificateId?: string;
     clientId: string;
     clientSecret?: string;
 }
@@ -5236,6 +5242,7 @@ export interface IdentityProviderContractProperties extends IdentityProviderBase
 export interface IdentityProviderCreateContract extends ProxyResource {
     allowedTenants?: string[];
     authority?: string;
+    certificateId?: string;
     clientId?: string;
     clientLibrary?: string;
     clientSecret?: string;
@@ -5249,6 +5256,7 @@ export interface IdentityProviderCreateContract extends ProxyResource {
 
 // @public
 export interface IdentityProviderCreateContractProperties extends IdentityProviderBaseParameters {
+    certificateId?: string;
     clientId: string;
     clientSecret: string;
 }
@@ -5343,6 +5351,7 @@ export interface IdentityProviderUpdateOptionalParams extends coreClient.Operati
 export interface IdentityProviderUpdateParameters {
     allowedTenants?: string[];
     authority?: string;
+    certificateId?: string;
     clientId?: string;
     clientLibrary?: string;
     clientSecret?: string;
@@ -5356,6 +5365,7 @@ export interface IdentityProviderUpdateParameters {
 
 // @public
 export interface IdentityProviderUpdateProperties extends IdentityProviderBaseParameters {
+    certificateId?: string;
     clientId?: string;
     clientSecret?: string;
 }
@@ -5787,6 +5797,17 @@ export enum KnownLegacyPortalStatus {
 }
 
 // @public
+export enum KnownLlmDiagnosticSettings {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownLlmMessageLogTypes {
+    All = "all"
+}
+
+// @public
 export enum KnownLoggerType {
     ApplicationInsights = "applicationInsights",
     AzureEventHub = "azureEventHub",
@@ -5938,6 +5959,13 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownReleaseChannel {
+    Default = "Default",
+    Preview = "Preview",
+    Stable = "Stable"
+}
+
+// @public
 export enum KnownResourceSkuCapacityScaleType {
     Automatic = "automatic",
     Manual = "manual",
@@ -6055,6 +6083,25 @@ export type LegacyApiState = string;
 
 // @public
 export type LegacyPortalStatus = string;
+
+// @public
+export interface LLMDiagnosticSettings {
+    logs?: LlmDiagnosticSettings;
+    requests?: LLMMessageDiagnosticSettings;
+    responses?: LLMMessageDiagnosticSettings;
+}
+
+// @public
+export type LlmDiagnosticSettings = string;
+
+// @public
+export interface LLMMessageDiagnosticSettings {
+    maxSizeInBytes?: number;
+    messages?: LlmMessageLogTypes;
+}
+
+// @public
+export type LlmMessageLogTypes = string;
 
 // @public
 export interface Logger {
@@ -8354,6 +8401,9 @@ export interface RegionListResult {
 export interface RegistrationDelegationSettingsProperties {
     enabled?: boolean;
 }
+
+// @public
+export type ReleaseChannel = string;
 
 // @public
 export interface RemotePrivateEndpointConnectionWrapper {

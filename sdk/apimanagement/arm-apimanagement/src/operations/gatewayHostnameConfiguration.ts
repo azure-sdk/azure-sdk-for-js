@@ -30,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayHostnameConfiguration operations. */
-export class GatewayHostnameConfigurationImpl
-  implements GatewayHostnameConfiguration
-{
+export class GatewayHostnameConfigurationImpl implements GatewayHostnameConfiguration {
   private readonly client: ApiManagementClient;
 
   /**
@@ -57,12 +55,7 @@ export class GatewayHostnameConfigurationImpl
     gatewayId: string,
     options?: GatewayHostnameConfigurationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayHostnameConfigurationContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      gatewayId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, gatewayId, options);
     return {
       next() {
         return iter.next();
@@ -95,12 +88,7 @@ export class GatewayHostnameConfigurationImpl
     let result: GatewayHostnameConfigurationListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        gatewayId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, gatewayId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -291,12 +279,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -380,11 +363,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.gatewayId,
     Parameters.hcId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

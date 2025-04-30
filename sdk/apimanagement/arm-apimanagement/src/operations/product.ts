@@ -60,11 +60,7 @@ export class ProductImpl implements Product {
     serviceName: string,
     options?: ProductListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +72,7 @@ export class ProductImpl implements Product {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -95,11 +86,7 @@ export class ProductImpl implements Product {
     let result: ProductListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -144,11 +131,7 @@ export class ProductImpl implements Product {
     serviceName: string,
     options?: ProductListByTagsOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract> {
-    const iter = this.listByTagsPagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByTagsPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -160,12 +143,7 @@ export class ProductImpl implements Product {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByTagsPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByTagsPagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -204,11 +182,7 @@ export class ProductImpl implements Product {
     serviceName: string,
     options?: ProductListByTagsOptionalParams,
   ): AsyncIterableIterator<TagResourceContract> {
-    for await (const page of this.listByTagsPagingPage(
-      resourceGroupName,
-      serviceName,
-      options,
-    )) {
+    for await (const page of this.listByTagsPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -498,11 +472,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.productId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -527,11 +497,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.productId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

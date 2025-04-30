@@ -56,12 +56,7 @@ export class WorkspacePolicyImpl implements WorkspacePolicy {
     workspaceId: string,
     options?: WorkspacePolicyListByApiOptionalParams,
   ): PagedAsyncIterableIterator<PolicyContract> {
-    const iter = this.listByApiPagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      options,
-    );
+    const iter = this.listByApiPagingAll(resourceGroupName, serviceName, workspaceId, options);
     return {
       next() {
         return iter.next();
@@ -94,12 +89,7 @@ export class WorkspacePolicyImpl implements WorkspacePolicy {
     let result: WorkspacePolicyListByApiResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._listByApi(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -383,11 +373,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

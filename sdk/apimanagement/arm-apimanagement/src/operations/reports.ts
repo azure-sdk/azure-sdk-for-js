@@ -74,12 +74,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByApiOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listByApiPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByApiPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -91,13 +86,7 @@ export class ReportsImpl implements Reports {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByApiPagingPage(
-          resourceGroupName,
-          serviceName,
-          filter,
-          options,
-          settings,
-        );
+        return this.listByApiPagingPage(resourceGroupName, serviceName, filter, options, settings);
       },
     };
   }
@@ -112,12 +101,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByApiResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listByApi(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -178,12 +162,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByUserOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listByUserPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByUserPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -195,13 +174,7 @@ export class ReportsImpl implements Reports {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByUserPagingPage(
-          resourceGroupName,
-          serviceName,
-          filter,
-          options,
-          settings,
-        );
+        return this.listByUserPagingPage(resourceGroupName, serviceName, filter, options, settings);
       },
     };
   }
@@ -216,12 +189,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByUserResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByUser(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listByUser(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -281,12 +249,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByOperationOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listByOperationPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByOperationPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -319,12 +282,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByOperationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByOperation(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listByOperation(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -384,12 +342,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByProductOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listByProductPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByProductPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -422,12 +375,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByProductResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listByProduct(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -487,12 +435,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByGeoOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listByGeoPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByGeoPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -504,13 +447,7 @@ export class ReportsImpl implements Reports {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByGeoPagingPage(
-          resourceGroupName,
-          serviceName,
-          filter,
-          options,
-          settings,
-        );
+        return this.listByGeoPagingPage(resourceGroupName, serviceName, filter, options, settings);
       },
     };
   }
@@ -525,12 +462,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByGeoResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByGeo(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listByGeo(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -590,12 +522,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ReportRecordContract> {
-    const iter = this.listBySubscriptionPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listBySubscriptionPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -628,12 +555,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySubscription(
-        resourceGroupName,
-        serviceName,
-        filter,
-        options,
-      );
+      result = await this._listBySubscription(resourceGroupName, serviceName, filter, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -738,13 +660,7 @@ export class ReportsImpl implements Reports {
     let result: ReportsListByTimeResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByTime(
-        resourceGroupName,
-        serviceName,
-        filter,
-        interval,
-        options,
-      );
+      result = await this._listByTime(resourceGroupName, serviceName, filter, interval, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -799,12 +715,7 @@ export class ReportsImpl implements Reports {
     filter: string,
     options?: ReportsListByRequestOptionalParams,
   ): PagedAsyncIterableIterator<RequestReportRecordContract> {
-    const iter = this.listByRequestPagingAll(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    const iter = this.listByRequestPagingAll(resourceGroupName, serviceName, filter, options);
     return {
       next() {
         return iter.next();
@@ -835,12 +746,7 @@ export class ReportsImpl implements Reports {
     _settings?: PageSettings,
   ): AsyncIterableIterator<RequestReportRecordContract[]> {
     let result: ReportsListByRequestResponse;
-    result = await this._listByRequest(
-      resourceGroupName,
-      serviceName,
-      filter,
-      options,
-    );
+    result = await this._listByRequest(resourceGroupName, serviceName, filter, options);
     yield result.value || [];
   }
 
@@ -1342,12 +1248,7 @@ const listByGeoOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.filter1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skip, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -1423,12 +1324,7 @@ const listByRequestOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.filter1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skip, Parameters.filter1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

@@ -23,9 +23,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing WorkspaceNotificationRecipientUser operations. */
-export class WorkspaceNotificationRecipientUserImpl
-  implements WorkspaceNotificationRecipientUser
-{
+export class WorkspaceNotificationRecipientUserImpl implements WorkspaceNotificationRecipientUser {
   private readonly client: ApiManagementClient;
 
   /**

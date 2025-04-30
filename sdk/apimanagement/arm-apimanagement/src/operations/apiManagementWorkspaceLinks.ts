@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementWorkspaceLinks operations. */
-export class ApiManagementWorkspaceLinksImpl
-  implements ApiManagementWorkspaceLinks
-{
+export class ApiManagementWorkspaceLinksImpl implements ApiManagementWorkspaceLinks {
   private readonly client: ApiManagementClient;
 
   /**
@@ -47,11 +45,7 @@ export class ApiManagementWorkspaceLinksImpl
     serviceName: string,
     options?: ApiManagementWorkspaceLinksListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiManagementWorkspaceLinksResource> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +57,7 @@ export class ApiManagementWorkspaceLinksImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -82,11 +71,7 @@ export class ApiManagementWorkspaceLinksImpl
     let result: ApiManagementWorkspaceLinksListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

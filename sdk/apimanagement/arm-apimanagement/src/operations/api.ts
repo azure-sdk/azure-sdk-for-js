@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiContract,
@@ -68,11 +64,7 @@ export class ApiImpl implements Api {
     serviceName: string,
     options?: ApiListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -84,12 +76,7 @@ export class ApiImpl implements Api {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -103,11 +90,7 @@ export class ApiImpl implements Api {
     let result: ApiListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -152,11 +135,7 @@ export class ApiImpl implements Api {
     serviceName: string,
     options?: ApiListByTagsOptionalParams,
   ): PagedAsyncIterableIterator<TagResourceContract> {
-    const iter = this.listByTagsPagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByTagsPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -168,12 +147,7 @@ export class ApiImpl implements Api {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByTagsPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByTagsPagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -212,11 +186,7 @@ export class ApiImpl implements Api {
     serviceName: string,
     options?: ApiListByTagsOptionalParams,
   ): AsyncIterableIterator<TagResourceContract> {
-    for await (const page of this.listByTagsPagingPage(
-      resourceGroupName,
-      serviceName,
-      options,
-    )) {
+    for await (const page of this.listByTagsPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -294,10 +264,7 @@ export class ApiImpl implements Api {
     parameters: ApiCreateOrUpdateParameter,
     options?: ApiCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApiCreateOrUpdateResponse>,
-      ApiCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ApiCreateOrUpdateResponse>, ApiCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -309,8 +276,7 @@ export class ApiImpl implements Api {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -421,9 +387,7 @@ export class ApiImpl implements Api {
     apiId: string,
     ifMatch: string,
     options?: ApiDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -434,8 +398,7 @@ export class ApiImpl implements Api {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -467,14 +430,14 @@ export class ApiImpl implements Api {
       args: { resourceGroupName, serviceName, apiId, ifMatch, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      ApiDeleteResponse,
-      OperationState<ApiDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
+    const poller = await createHttpPoller<ApiDeleteResponse, OperationState<ApiDeleteResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "location",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -496,13 +459,7 @@ export class ApiImpl implements Api {
     ifMatch: string,
     options?: ApiDeleteOptionalParams,
   ): Promise<ApiDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      ifMatch,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, apiId, ifMatch, options);
     return poller.pollUntilDone();
   }
 
@@ -670,11 +627,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.apiId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -699,11 +652,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.apiId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

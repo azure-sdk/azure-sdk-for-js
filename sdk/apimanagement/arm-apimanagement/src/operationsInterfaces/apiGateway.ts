@@ -87,12 +87,7 @@ export interface ApiGateway {
     gatewayName: string,
     parameters: ApiManagementGatewayUpdateParameters,
     options?: ApiGatewayUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiGatewayUpdateResponse>,
-      ApiGatewayUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ApiGatewayUpdateResponse>, ApiGatewayUpdateResponse>>;
   /**
    * Updates an existing API Management gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -127,12 +122,7 @@ export interface ApiGateway {
     resourceGroupName: string,
     gatewayName: string,
     options?: ApiGatewayDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiGatewayDeleteResponse>,
-      ApiGatewayDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ApiGatewayDeleteResponse>, ApiGatewayDeleteResponse>>;
   /**
    * Deletes an existing API Management gateway.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

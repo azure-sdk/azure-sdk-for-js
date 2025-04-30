@@ -8,17 +8,9 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl.js";
 import {
   ApiGatewayImpl,
@@ -321,10 +313,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: ApiManagementClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: ApiManagementClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: ApiManagementClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: ApiManagementClientOptionalParams | string,
@@ -351,7 +340,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-apimanagement/10.0.0`;
+    const packageDetails = `azsdk-js-arm-apimanagement/10.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -363,8 +352,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -374,8 +362,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -391,11 +378,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -405,7 +390,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
     this.apiGateway = new ApiGatewayImpl(this);
     this.apiManagementGatewaySkus = new ApiManagementGatewaySkusImpl(this);
     this.allPolicies = new AllPoliciesImpl(this);
@@ -449,13 +434,9 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.emailTemplate = new EmailTemplateImpl(this);
     this.apiGatewayConfigConnection = new ApiGatewayConfigConnectionImpl(this);
     this.gateway = new GatewayImpl(this);
-    this.gatewayHostnameConfiguration = new GatewayHostnameConfigurationImpl(
-      this,
-    );
+    this.gatewayHostnameConfiguration = new GatewayHostnameConfigurationImpl(this);
     this.gatewayApi = new GatewayApiImpl(this);
-    this.gatewayCertificateAuthority = new GatewayCertificateAuthorityImpl(
-      this,
-    );
+    this.gatewayCertificateAuthority = new GatewayCertificateAuthorityImpl(this);
     this.group = new GroupImpl(this);
     this.groupUser = new GroupUserImpl(this);
     this.identityProvider = new IdentityProviderImpl(this);
@@ -467,23 +448,19 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.notificationRecipientUser = new NotificationRecipientUserImpl(this);
     this.notificationRecipientEmail = new NotificationRecipientEmailImpl(this);
     this.openIdConnectProvider = new OpenIdConnectProviderImpl(this);
-    this.outboundNetworkDependenciesEndpoints =
-      new OutboundNetworkDependenciesEndpointsImpl(this);
+    this.outboundNetworkDependenciesEndpoints = new OutboundNetworkDependenciesEndpointsImpl(this);
     this.policy = new PolicyImpl(this);
     this.policyDescription = new PolicyDescriptionImpl(this);
     this.policyFragment = new PolicyFragmentImpl(this);
     this.policyRestriction = new PolicyRestrictionImpl(this);
-    this.policyRestrictionValidations = new PolicyRestrictionValidationsImpl(
-      this,
-    );
+    this.policyRestrictionValidations = new PolicyRestrictionValidationsImpl(this);
     this.portalConfig = new PortalConfigImpl(this);
     this.portalRevision = new PortalRevisionImpl(this);
     this.portalSettings = new PortalSettingsImpl(this);
     this.signInSettings = new SignInSettingsImpl(this);
     this.signUpSettings = new SignUpSettingsImpl(this);
     this.delegationSettings = new DelegationSettingsImpl(this);
-    this.privateEndpointConnectionOperations =
-      new PrivateEndpointConnectionOperationsImpl(this);
+    this.privateEndpointConnectionOperations = new PrivateEndpointConnectionOperationsImpl(this);
     this.product = new ProductImpl(this);
     this.productApi = new ProductApiImpl(this);
     this.productGroup = new ProductGroupImpl(this);
@@ -517,9 +494,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.workspaceCertificate = new WorkspaceCertificateImpl(this);
     this.workspaceDiagnostic = new WorkspaceDiagnosticImpl(this);
     this.workspaceApiDiagnostic = new WorkspaceApiDiagnosticImpl(this);
-    this.apiManagementWorkspaceLinks = new ApiManagementWorkspaceLinksImpl(
-      this,
-    );
+    this.apiManagementWorkspaceLinks = new ApiManagementWorkspaceLinksImpl(this);
     this.apiManagementWorkspaceLink = new ApiManagementWorkspaceLinkImpl(this);
     this.workspaceLogger = new WorkspaceLoggerImpl(this);
     this.workspace = new WorkspaceImpl(this);
@@ -527,10 +502,8 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.workspaceNamedValue = new WorkspaceNamedValueImpl(this);
     this.workspaceGlobalSchema = new WorkspaceGlobalSchemaImpl(this);
     this.workspaceNotification = new WorkspaceNotificationImpl(this);
-    this.workspaceNotificationRecipientUser =
-      new WorkspaceNotificationRecipientUserImpl(this);
-    this.workspaceNotificationRecipientEmail =
-      new WorkspaceNotificationRecipientEmailImpl(this);
+    this.workspaceNotificationRecipientUser = new WorkspaceNotificationRecipientUserImpl(this);
+    this.workspaceNotificationRecipientEmail = new WorkspaceNotificationRecipientEmailImpl(this);
     this.workspacePolicyFragment = new WorkspacePolicyFragmentImpl(this);
     this.workspaceGroup = new WorkspaceGroupImpl(this);
     this.workspaceGroupUser = new WorkspaceGroupUserImpl(this);
@@ -540,9 +513,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     this.workspaceApiRevision = new WorkspaceApiRevisionImpl(this);
     this.workspaceApiRelease = new WorkspaceApiReleaseImpl(this);
     this.workspaceApiOperation = new WorkspaceApiOperationImpl(this);
-    this.workspaceApiOperationPolicy = new WorkspaceApiOperationPolicyImpl(
-      this,
-    );
+    this.workspaceApiOperationPolicy = new WorkspaceApiOperationPolicyImpl(this);
     this.workspaceApiPolicy = new WorkspaceApiPolicyImpl(this);
     this.workspaceApiSchema = new WorkspaceApiSchemaImpl(this);
     this.workspaceProduct = new WorkspaceProductImpl(this);
@@ -566,10 +537,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -616,8 +584,7 @@ export class ApiManagementClient extends coreClient.ServiceClient {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

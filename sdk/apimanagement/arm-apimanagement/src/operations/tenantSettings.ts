@@ -48,11 +48,7 @@ export class TenantSettingsImpl implements TenantSettings {
     serviceName: string,
     options?: TenantSettingsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<TenantSettingsContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +60,7 @@ export class TenantSettingsImpl implements TenantSettings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings,
-        );
+        return this.listByServicePagingPage(resourceGroupName, serviceName, options, settings);
       },
     };
   }
@@ -83,11 +74,7 @@ export class TenantSettingsImpl implements TenantSettings {
     let result: TenantSettingsListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

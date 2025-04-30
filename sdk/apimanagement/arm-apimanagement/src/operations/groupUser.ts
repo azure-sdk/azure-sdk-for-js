@@ -52,12 +52,7 @@ export class GroupUserImpl implements GroupUser {
     groupId: string,
     options?: GroupUserListOptionalParams,
   ): PagedAsyncIterableIterator<UserContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      groupId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, groupId, options);
     return {
       next() {
         return iter.next();
@@ -69,13 +64,7 @@ export class GroupUserImpl implements GroupUser {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          groupId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, groupId, options, settings);
       },
     };
   }
@@ -90,12 +79,7 @@ export class GroupUserImpl implements GroupUser {
     let result: GroupUserListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        groupId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, groupId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -249,12 +233,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
