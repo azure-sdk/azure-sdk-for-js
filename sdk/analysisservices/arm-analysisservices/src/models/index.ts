@@ -403,8 +403,7 @@ export interface LogSpecifications {
 }
 
 /** Properties of Analysis Services resource. */
-export interface AnalysisServicesServerProperties
-  extends AnalysisServicesServerMutableProperties {
+export interface AnalysisServicesServerProperties extends AnalysisServicesServerMutableProperties {
   /**
    * The current state of Analysis Services resource. The state is to indicate more states outside of resource provisioning.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -484,7 +483,7 @@ export enum KnownState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -532,7 +531,7 @@ export enum KnownProvisioningState {
   /** Preparing */
   Preparing = "Preparing",
   /** Scaling */
-  Scaling = "Scaling"
+  Scaling = "Scaling",
 }
 
 /**
@@ -562,7 +561,7 @@ export enum KnownSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -583,15 +582,13 @@ export type ManagedMode = 0 | 1;
 export type ServerMonitorMode = 0 | 1;
 
 /** Optional parameters. */
-export interface ServersGetDetailsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersGetDetailsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetails operation. */
 export type ServersGetDetailsResponse = AnalysisServicesServer;
 
 /** Optional parameters. */
-export interface ServersCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -602,8 +599,7 @@ export interface ServersCreateOptionalParams
 export type ServersCreateResponse = AnalysisServicesServer;
 
 /** Optional parameters. */
-export interface ServersDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -611,8 +607,7 @@ export interface ServersDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ServersUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -623,8 +618,7 @@ export interface ServersUpdateOptionalParams
 export type ServersUpdateResponse = AnalysisServicesServer;
 
 /** Optional parameters. */
-export interface ServersSuspendOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersSuspendOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -632,8 +626,7 @@ export interface ServersSuspendOptionalParams
 }
 
 /** Optional parameters. */
-export interface ServersResumeOptionalParams
-  extends coreClient.OperationOptions {
+export interface ServersResumeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -641,79 +634,67 @@ export interface ServersResumeOptionalParams
 }
 
 /** Optional parameters. */
-export interface ServersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ServersListByResourceGroupResponse = AnalysisServicesServers;
 
 /** Optional parameters. */
-export interface ServersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ServersListResponse = AnalysisServicesServers;
 
 /** Optional parameters. */
-export interface ServersListSkusForNewOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListSkusForNewOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusForNew operation. */
 export type ServersListSkusForNewResponse = SkuEnumerationForNewResourceResult;
 
 /** Optional parameters. */
-export interface ServersListSkusForExistingOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListSkusForExistingOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSkusForExisting operation. */
 export type ServersListSkusForExistingResponse = SkuEnumerationForExistingResourceResult;
 
 /** Optional parameters. */
-export interface ServersListGatewayStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListGatewayStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGatewayStatus operation. */
 export type ServersListGatewayStatusResponse = GatewayListStatusLive;
 
 /** Optional parameters. */
-export interface ServersDissociateGatewayOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersDissociateGatewayOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ServersCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
 export type ServersCheckNameAvailabilityResponse = CheckServerNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface ServersListOperationResultsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListOperationResultsOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ServersListOperationStatusesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServersListOperationStatusesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationStatuses operation. */
 export type ServersListOperationStatusesResponse = OperationStatus;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface AzureAnalysisServicesOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AzureAnalysisServicesOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
