@@ -15,7 +15,7 @@ import {
   DscNodeGetResponse,
   DscNodeUpdateParameters,
   DscNodeUpdateOptionalParams,
-  DscNodeUpdateResponse
+  DscNodeUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface DscNodeOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscNodeListByAutomationAccountOptionalParams
+    options?: DscNodeListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<DscNode>;
   /**
    * Delete the dsc node identified by node id.
@@ -43,7 +43,7 @@ export interface DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: DscNodeDeleteOptionalParams
+    options?: DscNodeDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the dsc node identified by node id.
@@ -56,7 +56,7 @@ export interface DscNodeOperations {
     resourceGroupName: string,
     automationAccountName: string,
     nodeId: string,
-    options?: DscNodeGetOptionalParams
+    options?: DscNodeGetOptionalParams,
   ): Promise<DscNodeGetResponse>;
   /**
    * Update the dsc node.
@@ -71,6 +71,6 @@ export interface DscNodeOperations {
     automationAccountName: string,
     nodeId: string,
     dscNodeUpdateParameters: DscNodeUpdateParameters,
-    options?: DscNodeUpdateOptionalParams
+    options?: DscNodeUpdateOptionalParams,
   ): Promise<DscNodeUpdateResponse>;
 }

@@ -25,6 +25,6 @@ export interface Fields {
     automationAccountName: string,
     moduleName: string,
     typeName: string,
-    options?: FieldsListByTypeOptionalParams
+    options?: FieldsListByTypeOptionalParams,
   ): PagedAsyncIterableIterator<TypeField>;
 }

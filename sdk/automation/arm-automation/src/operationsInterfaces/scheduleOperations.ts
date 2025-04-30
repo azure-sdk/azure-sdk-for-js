@@ -18,7 +18,7 @@ import {
   ScheduleUpdateResponse,
   ScheduleGetOptionalParams,
   ScheduleGetResponse,
-  ScheduleDeleteOptionalParams
+  ScheduleDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ScheduleOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ScheduleListByAutomationAccountOptionalParams
+    options?: ScheduleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Schedule>;
   /**
    * Create a schedule.
@@ -48,7 +48,7 @@ export interface ScheduleOperations {
     automationAccountName: string,
     scheduleName: string,
     parameters: ScheduleCreateOrUpdateParameters,
-    options?: ScheduleCreateOrUpdateOptionalParams
+    options?: ScheduleCreateOrUpdateOptionalParams,
   ): Promise<ScheduleCreateOrUpdateResponse>;
   /**
    * Update the schedule identified by schedule name.
@@ -63,7 +63,7 @@ export interface ScheduleOperations {
     automationAccountName: string,
     scheduleName: string,
     parameters: ScheduleUpdateParameters,
-    options?: ScheduleUpdateOptionalParams
+    options?: ScheduleUpdateOptionalParams,
   ): Promise<ScheduleUpdateResponse>;
   /**
    * Retrieve the schedule identified by schedule name.
@@ -76,7 +76,7 @@ export interface ScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     scheduleName: string,
-    options?: ScheduleGetOptionalParams
+    options?: ScheduleGetOptionalParams,
   ): Promise<ScheduleGetResponse>;
   /**
    * Delete the schedule identified by schedule name.
@@ -89,6 +89,6 @@ export interface ScheduleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     scheduleName: string,
-    options?: ScheduleDeleteOptionalParams
+    options?: ScheduleDeleteOptionalParams,
   ): Promise<void>;
 }

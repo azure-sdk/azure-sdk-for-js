@@ -18,7 +18,7 @@ import {
   ModuleCreateOrUpdateResponse,
   ModuleUpdateParameters,
   ModuleUpdateOptionalParams,
-  ModuleUpdateResponse
+  ModuleUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ModuleOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: ModuleListByAutomationAccountOptionalParams
+    options?: ModuleListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Module>;
   /**
    * Delete the module by name.
@@ -46,7 +46,7 @@ export interface ModuleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleDeleteOptionalParams
+    options?: ModuleDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the module identified by module name.
@@ -59,7 +59,7 @@ export interface ModuleOperations {
     resourceGroupName: string,
     automationAccountName: string,
     moduleName: string,
-    options?: ModuleGetOptionalParams
+    options?: ModuleGetOptionalParams,
   ): Promise<ModuleGetResponse>;
   /**
    * Create or Update the module identified by module name.
@@ -74,7 +74,7 @@ export interface ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleCreateOrUpdateParameters,
-    options?: ModuleCreateOrUpdateOptionalParams
+    options?: ModuleCreateOrUpdateOptionalParams,
   ): Promise<ModuleCreateOrUpdateResponse>;
   /**
    * Update the module identified by module name.
@@ -89,6 +89,6 @@ export interface ModuleOperations {
     automationAccountName: string,
     moduleName: string,
     parameters: ModuleUpdateParameters,
-    options?: ModuleUpdateOptionalParams
+    options?: ModuleUpdateOptionalParams,
   ): Promise<ModuleUpdateResponse>;
 }

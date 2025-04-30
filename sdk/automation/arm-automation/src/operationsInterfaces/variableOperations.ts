@@ -18,7 +18,7 @@ import {
   VariableUpdateResponse,
   VariableDeleteOptionalParams,
   VariableGetOptionalParams,
-  VariableGetResponse
+  VariableGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface VariableOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: VariableListByAutomationAccountOptionalParams
+    options?: VariableListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Variable>;
   /**
    * Create a variable.
@@ -48,7 +48,7 @@ export interface VariableOperations {
     automationAccountName: string,
     variableName: string,
     parameters: VariableCreateOrUpdateParameters,
-    options?: VariableCreateOrUpdateOptionalParams
+    options?: VariableCreateOrUpdateOptionalParams,
   ): Promise<VariableCreateOrUpdateResponse>;
   /**
    * Update a variable.
@@ -63,7 +63,7 @@ export interface VariableOperations {
     automationAccountName: string,
     variableName: string,
     parameters: VariableUpdateParameters,
-    options?: VariableUpdateOptionalParams
+    options?: VariableUpdateOptionalParams,
   ): Promise<VariableUpdateResponse>;
   /**
    * Delete the variable.
@@ -76,7 +76,7 @@ export interface VariableOperations {
     resourceGroupName: string,
     automationAccountName: string,
     variableName: string,
-    options?: VariableDeleteOptionalParams
+    options?: VariableDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the variable identified by variable name.
@@ -89,6 +89,6 @@ export interface VariableOperations {
     resourceGroupName: string,
     automationAccountName: string,
     variableName: string,
-    options?: VariableGetOptionalParams
+    options?: VariableGetOptionalParams,
   ): Promise<VariableGetResponse>;
 }

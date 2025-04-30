@@ -14,7 +14,7 @@ import {
   TestJobGetResponse,
   TestJobResumeOptionalParams,
   TestJobStopOptionalParams,
-  TestJobSuspendOptionalParams
+  TestJobSuspendOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a TestJobOperations. */
@@ -32,7 +32,7 @@ export interface TestJobOperations {
     automationAccountName: string,
     runbookName: string,
     parameters: TestJobCreateParameters,
-    options?: TestJobCreateOptionalParams
+    options?: TestJobCreateOptionalParams,
   ): Promise<TestJobCreateResponse>;
   /**
    * Retrieve the test job for the specified runbook.
@@ -45,7 +45,7 @@ export interface TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobGetOptionalParams
+    options?: TestJobGetOptionalParams,
   ): Promise<TestJobGetResponse>;
   /**
    * Resume the test job.
@@ -58,7 +58,7 @@ export interface TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobResumeOptionalParams
+    options?: TestJobResumeOptionalParams,
   ): Promise<void>;
   /**
    * Stop the test job.
@@ -71,7 +71,7 @@ export interface TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobStopOptionalParams
+    options?: TestJobStopOptionalParams,
   ): Promise<void>;
   /**
    * Suspend the test job.
@@ -84,6 +84,6 @@ export interface TestJobOperations {
     resourceGroupName: string,
     automationAccountName: string,
     runbookName: string,
-    options?: TestJobSuspendOptionalParams
+    options?: TestJobSuspendOptionalParams,
   ): Promise<void>;
 }

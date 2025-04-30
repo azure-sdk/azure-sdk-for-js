@@ -20,7 +20,7 @@ import {
   WebhookCreateOrUpdateResponse,
   WebhookUpdateParameters,
   WebhookUpdateOptionalParams,
-  WebhookUpdateResponse
+  WebhookUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface WebhookOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookListByAutomationAccountOptionalParams
+    options?: WebhookListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Webhook>;
   /**
    * Generates a Uri for use in creating a webhook.
@@ -46,7 +46,7 @@ export interface WebhookOperations {
   generateUri(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: WebhookGenerateUriOptionalParams
+    options?: WebhookGenerateUriOptionalParams,
   ): Promise<WebhookGenerateUriResponse>;
   /**
    * Delete the webhook by name.
@@ -59,7 +59,7 @@ export interface WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     webhookName: string,
-    options?: WebhookDeleteOptionalParams
+    options?: WebhookDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the webhook identified by webhook name.
@@ -72,7 +72,7 @@ export interface WebhookOperations {
     resourceGroupName: string,
     automationAccountName: string,
     webhookName: string,
-    options?: WebhookGetOptionalParams
+    options?: WebhookGetOptionalParams,
   ): Promise<WebhookGetResponse>;
   /**
    * Create the webhook identified by webhook name.
@@ -87,7 +87,7 @@ export interface WebhookOperations {
     automationAccountName: string,
     webhookName: string,
     parameters: WebhookCreateOrUpdateParameters,
-    options?: WebhookCreateOrUpdateOptionalParams
+    options?: WebhookCreateOrUpdateOptionalParams,
   ): Promise<WebhookCreateOrUpdateResponse>;
   /**
    * Update the webhook identified by webhook name.
@@ -102,6 +102,6 @@ export interface WebhookOperations {
     automationAccountName: string,
     webhookName: string,
     parameters: WebhookUpdateParameters,
-    options?: WebhookUpdateOptionalParams
+    options?: WebhookUpdateOptionalParams,
   ): Promise<WebhookUpdateResponse>;
 }
