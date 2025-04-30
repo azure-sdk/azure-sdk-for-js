@@ -26,7 +26,7 @@ import {
   RoleDefinitionsCreateOrUpdateResponse,
   RoleDefinitionsGetByIdOptionalParams,
   RoleDefinitionsGetByIdResponse,
-  RoleDefinitionsListNextResponse
+  RoleDefinitionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
    */
   public list(
     scope: string,
-    options?: RoleDefinitionsListOptionalParams
+    options?: RoleDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<RoleDefinition> {
     const iter = this.listPagingAll(scope, options);
     return {
@@ -67,14 +67,14 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scope: string,
     options?: RoleDefinitionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleDefinition[]> {
     let result: RoleDefinitionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
 
   private async *listPagingAll(
     scope: string,
-    options?: RoleDefinitionsListOptionalParams
+    options?: RoleDefinitionsListOptionalParams,
   ): AsyncIterableIterator<RoleDefinition> {
     for await (const page of this.listPagingPage(scope, options)) {
       yield* page;
@@ -115,11 +115,11 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   delete(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsDeleteOptionalParams
+    options?: RoleDefinitionsDeleteOptionalParams,
   ): Promise<RoleDefinitionsDeleteResponse> {
     return this.client.sendOperationRequest(
       { scope, roleDefinitionId, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -135,12 +135,9 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   get(
     scope: string,
     roleDefinitionId: string,
-    options?: RoleDefinitionsGetOptionalParams
+    options?: RoleDefinitionsGetOptionalParams,
   ): Promise<RoleDefinitionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, roleDefinitionId, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, roleDefinitionId, options }, getOperationSpec);
   }
 
   /**
@@ -157,11 +154,11 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
     scope: string,
     roleDefinitionId: string,
     roleDefinition: RoleDefinition,
-    options?: RoleDefinitionsCreateOrUpdateOptionalParams
+    options?: RoleDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<RoleDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleDefinitionId, roleDefinition, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -175,12 +172,9 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
    */
   private _list(
     scope: string,
-    options?: RoleDefinitionsListOptionalParams
+    options?: RoleDefinitionsListOptionalParams,
   ): Promise<RoleDefinitionsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -194,12 +188,9 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
    */
   getById(
     roleId: string,
-    options?: RoleDefinitionsGetByIdOptionalParams
+    options?: RoleDefinitionsGetByIdOptionalParams,
   ): Promise<RoleDefinitionsGetByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleId, options },
-      getByIdOperationSpec
-    );
+    return this.client.sendOperationRequest({ roleId, options }, getByIdOperationSpec);
   }
 
   /**
@@ -214,127 +205,109 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
   private _listNext(
     scope: string,
     nextLink: string,
-    options?: RoleDefinitionsListNextOptionalParams
+    options?: RoleDefinitionsListNextOptionalParams,
   ): Promise<RoleDefinitionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleDefinition
+      bodyMapper: Mappers.RoleDefinition,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleDefinitionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleDefinitionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleDefinition
+      bodyMapper: Mappers.RoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleDefinitionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleDefinitionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionId}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.RoleDefinition
+      bodyMapper: Mappers.RoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.roleDefinition,
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleDefinitionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleDefinitionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleDefinitionListResult
+      bodyMapper: Mappers.RoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{roleId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleDefinition
+      bodyMapper: Mappers.RoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.roleId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleDefinitionListResult
+      bodyMapper: Mappers.RoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

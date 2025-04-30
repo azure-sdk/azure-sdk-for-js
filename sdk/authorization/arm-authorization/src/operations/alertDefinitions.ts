@@ -20,7 +20,7 @@ import {
   AlertDefinitionsListForScopeResponse,
   AlertDefinitionsGetOptionalParams,
   AlertDefinitionsGetResponse,
-  AlertDefinitionsListForScopeNextResponse
+  AlertDefinitionsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
    */
   public listForScope(
     scope: string,
-    options?: AlertDefinitionsListForScopeOptionalParams
+    options?: AlertDefinitionsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertDefinition> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -58,14 +58,14 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: AlertDefinitionsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AlertDefinition[]> {
     let result: AlertDefinitionsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: AlertDefinitionsListForScopeOptionalParams
+    options?: AlertDefinitionsListForScopeOptionalParams,
   ): AsyncIterableIterator<AlertDefinition> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -109,11 +109,11 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
   get(
     scope: string,
     alertDefinitionId: string,
-    options?: AlertDefinitionsGetOptionalParams
+    options?: AlertDefinitionsGetOptionalParams,
   ): Promise<AlertDefinitionsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, alertDefinitionId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -124,12 +124,9 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
    */
   private _listForScope(
     scope: string,
-    options?: AlertDefinitionsListForScopeOptionalParams
+    options?: AlertDefinitionsListForScopeOptionalParams,
   ): Promise<AlertDefinitionsListForScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listForScopeOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listForScopeOperationSpec);
   }
 
   /**
@@ -141,11 +138,11 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: AlertDefinitionsListForScopeNextOptionalParams
+    options?: AlertDefinitionsListForScopeNextOptionalParams,
   ): Promise<AlertDefinitionsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -153,55 +150,49 @@ export class AlertDefinitionsImpl implements AlertDefinitions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertDefinitions/{alertDefinitionId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertDefinitions/{alertDefinitionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertDefinition
+      bodyMapper: Mappers.AlertDefinition,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.alertDefinitionId
-  ],
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertDefinitionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertDefinitions",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertDefinitions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertDefinitionListResult
+      bodyMapper: Mappers.AlertDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertDefinitionListResult
+      bodyMapper: Mappers.AlertDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -23,7 +23,7 @@ import {
   AccessReviewInstanceProperties,
   AccessReviewInstancesCreateOptionalParams,
   AccessReviewInstancesCreateResponse,
-  AccessReviewInstancesListNextResponse
+  AccessReviewInstancesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
    */
   public list(
     scheduleDefinitionId: string,
-    options?: AccessReviewInstancesListOptionalParams
+    options?: AccessReviewInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewInstance> {
     const iter = this.listPagingAll(scheduleDefinitionId, options);
     return {
@@ -61,14 +61,14 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scheduleDefinitionId, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     scheduleDefinitionId: string,
     options?: AccessReviewInstancesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewInstance[]> {
     let result: AccessReviewInstancesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,11 +80,7 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        scheduleDefinitionId,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(scheduleDefinitionId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -94,12 +90,9 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
 
   private async *listPagingAll(
     scheduleDefinitionId: string,
-    options?: AccessReviewInstancesListOptionalParams
+    options?: AccessReviewInstancesListOptionalParams,
   ): AsyncIterableIterator<AccessReviewInstance> {
-    for await (const page of this.listPagingPage(
-      scheduleDefinitionId,
-      options
-    )) {
+    for await (const page of this.listPagingPage(scheduleDefinitionId, options)) {
       yield* page;
     }
   }
@@ -111,12 +104,9 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
    */
   private _list(
     scheduleDefinitionId: string,
-    options?: AccessReviewInstancesListOptionalParams
+    options?: AccessReviewInstancesListOptionalParams,
   ): Promise<AccessReviewInstancesListResponse> {
-    return this.client.sendOperationRequest(
-      { scheduleDefinitionId, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ scheduleDefinitionId, options }, listOperationSpec);
   }
 
   /**
@@ -128,11 +118,11 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
   getById(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstancesGetByIdOptionalParams
+    options?: AccessReviewInstancesGetByIdOptionalParams,
   ): Promise<AccessReviewInstancesGetByIdResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, options },
-      getByIdOperationSpec
+      getByIdOperationSpec,
     );
   }
 
@@ -147,11 +137,11 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
     scheduleDefinitionId: string,
     id: string,
     properties: AccessReviewInstanceProperties,
-    options?: AccessReviewInstancesCreateOptionalParams
+    options?: AccessReviewInstancesCreateOptionalParams,
   ): Promise<AccessReviewInstancesCreateResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, id, properties, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -164,11 +154,11 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
   private _listNext(
     scheduleDefinitionId: string,
     nextLink: string,
-    options?: AccessReviewInstancesListNextOptionalParams
+    options?: AccessReviewInstancesListNextOptionalParams,
   ): Promise<AccessReviewInstancesListNextResponse> {
     return this.client.sendOperationRequest(
       { scheduleDefinitionId, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -176,59 +166,52 @@ export class AccessReviewInstancesImpl implements AccessReviewInstances {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstanceListResult
+      bodyMapper: Mappers.AccessReviewInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.filter1, Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.scheduleDefinitionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.scheduleDefinitionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstance
+      bodyMapper: Mappers.AccessReviewInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstance
+      bodyMapper: Mappers.AccessReviewInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   requestBody: Parameters.properties2,
   queryParameters: [Parameters.apiVersion3],
@@ -236,29 +219,29 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.scheduleDefinitionId,
-    Parameters.id
+    Parameters.id,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewInstanceListResult
+      bodyMapper: Mappers.AccessReviewInstanceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.scheduleDefinitionId
+    Parameters.scheduleDefinitionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

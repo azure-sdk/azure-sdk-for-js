@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  EligibleChildResource,
-  EligibleChildResourcesGetOptionalParams
-} from "../models/index.js";
+import { EligibleChildResource, EligibleChildResourcesGetOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EligibleChildResources. */
@@ -22,6 +19,6 @@ export interface EligibleChildResources {
    */
   list(
     scope: string,
-    options?: EligibleChildResourcesGetOptionalParams
+    options?: EligibleChildResourcesGetOptionalParams,
   ): PagedAsyncIterableIterator<EligibleChildResource>;
 }

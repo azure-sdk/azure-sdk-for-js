@@ -21,7 +21,7 @@ import {
   AlertConfigurationsGetOptionalParams,
   AlertConfigurationsGetResponse,
   AlertConfigurationsUpdateOptionalParams,
-  AlertConfigurationsListForScopeNextResponse
+  AlertConfigurationsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
    */
   public listForScope(
     scope: string,
-    options?: AlertConfigurationsListForScopeOptionalParams
+    options?: AlertConfigurationsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertConfiguration> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -59,14 +59,14 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: AlertConfigurationsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AlertConfiguration[]> {
     let result: AlertConfigurationsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: AlertConfigurationsListForScopeOptionalParams
+    options?: AlertConfigurationsListForScopeOptionalParams,
   ): AsyncIterableIterator<AlertConfiguration> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -110,12 +110,9 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
   get(
     scope: string,
     alertId: string,
-    options?: AlertConfigurationsGetOptionalParams
+    options?: AlertConfigurationsGetOptionalParams,
   ): Promise<AlertConfigurationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, alertId, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, alertId, options }, getOperationSpec);
   }
 
   /**
@@ -129,11 +126,11 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
     scope: string,
     alertId: string,
     parameters: AlertConfiguration,
-    options?: AlertConfigurationsUpdateOptionalParams
+    options?: AlertConfigurationsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, alertId, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -144,12 +141,9 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
    */
   private _listForScope(
     scope: string,
-    options?: AlertConfigurationsListForScopeOptionalParams
+    options?: AlertConfigurationsListForScopeOptionalParams,
   ): Promise<AlertConfigurationsListForScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listForScopeOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listForScopeOperationSpec);
   }
 
   /**
@@ -161,11 +155,11 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: AlertConfigurationsListForScopeNextOptionalParams
+    options?: AlertConfigurationsListForScopeNextOptionalParams,
   ): Promise<AlertConfigurationsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -173,68 +167,65 @@ export class AlertConfigurationsImpl implements AlertConfigurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations/{alertId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations/{alertId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertConfiguration
+      bodyMapper: Mappers.AlertConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations/{alertId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations/{alertId}",
   httpMethod: "PATCH",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters6,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertConfigurationListResult
+      bodyMapper: Mappers.AlertConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertConfigurationListResult
+      bodyMapper: Mappers.AlertConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

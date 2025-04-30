@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
-import {
-  AlertOperationGetOptionalParams,
-  AlertOperationGetResponse
-} from "../models/index.js";
+import { AlertOperationGetOptionalParams, AlertOperationGetResponse } from "../models/index.js";
 
 /** Class containing AlertOperation operations. */
 export class AlertOperationImpl implements AlertOperation {
@@ -37,31 +34,27 @@ export class AlertOperationImpl implements AlertOperation {
   get(
     scope: string,
     operationId: string,
-    options?: AlertOperationGetOptionalParams
+    options?: AlertOperationGetOptionalParams,
   ): Promise<AlertOperationGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, operationId, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, operationId, options }, getOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlertOperations/{operationId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlertOperations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertOperationResult
+      bodyMapper: Mappers.AlertOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.operationId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

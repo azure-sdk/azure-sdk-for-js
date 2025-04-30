@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  AlertOperationGetOptionalParams,
-  AlertOperationGetResponse
-} from "../models/index.js";
+import { AlertOperationGetOptionalParams, AlertOperationGetResponse } from "../models/index.js";
 
 /** Interface representing a AlertOperation. */
 export interface AlertOperation {
@@ -22,6 +19,6 @@ export interface AlertOperation {
   get(
     scope: string,
     operationId: string,
-    options?: AlertOperationGetOptionalParams
+    options?: AlertOperationGetOptionalParams,
   ): Promise<AlertOperationGetResponse>;
 }

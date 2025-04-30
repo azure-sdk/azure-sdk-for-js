@@ -22,7 +22,7 @@ import {
   PermissionsListForResourceOptionalParams,
   PermissionsListForResourceResponse,
   PermissionsListForResourceGroupNextResponse,
-  PermissionsListForResourceNextResponse
+  PermissionsListForResourceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class PermissionsImpl implements Permissions {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: PermissionsListForResourceGroupOptionalParams
+    options?: PermissionsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Permission> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -59,19 +59,15 @@ export class PermissionsImpl implements Permissions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listForResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listForResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: PermissionsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Permission[]> {
     let result: PermissionsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,11 +79,7 @@ export class PermissionsImpl implements Permissions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listForResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listForResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -97,12 +89,9 @@ export class PermissionsImpl implements Permissions {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: PermissionsListForResourceGroupOptionalParams
+    options?: PermissionsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<Permission> {
-    for await (const page of this.listForResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listForResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -122,7 +111,7 @@ export class PermissionsImpl implements Permissions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PermissionsListForResourceOptionalParams
+    options?: PermissionsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Permission> {
     const iter = this.listForResourcePagingAll(
       resourceGroupName,
@@ -130,7 +119,7 @@ export class PermissionsImpl implements Permissions {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -150,9 +139,9 @@ export class PermissionsImpl implements Permissions {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -163,7 +152,7 @@ export class PermissionsImpl implements Permissions {
     resourceType: string,
     resourceName: string,
     options?: PermissionsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Permission[]> {
     let result: PermissionsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -174,7 +163,7 @@ export class PermissionsImpl implements Permissions {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -189,7 +178,7 @@ export class PermissionsImpl implements Permissions {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -204,7 +193,7 @@ export class PermissionsImpl implements Permissions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PermissionsListForResourceOptionalParams
+    options?: PermissionsListForResourceOptionalParams,
   ): AsyncIterableIterator<Permission> {
     for await (const page of this.listForResourcePagingPage(
       resourceGroupName,
@@ -212,7 +201,7 @@ export class PermissionsImpl implements Permissions {
       parentResourcePath,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -225,11 +214,11 @@ export class PermissionsImpl implements Permissions {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: PermissionsListForResourceGroupOptionalParams
+    options?: PermissionsListForResourceGroupOptionalParams,
   ): Promise<PermissionsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -248,7 +237,7 @@ export class PermissionsImpl implements Permissions {
     parentResourcePath: string,
     resourceType: string,
     resourceName: string,
-    options?: PermissionsListForResourceOptionalParams
+    options?: PermissionsListForResourceOptionalParams,
   ): Promise<PermissionsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -257,9 +246,9 @@ export class PermissionsImpl implements Permissions {
         parentResourcePath,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -272,11 +261,11 @@ export class PermissionsImpl implements Permissions {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: PermissionsListForResourceGroupNextOptionalParams
+    options?: PermissionsListForResourceGroupNextOptionalParams,
   ): Promise<PermissionsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -297,7 +286,7 @@ export class PermissionsImpl implements Permissions {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: PermissionsListForResourceNextOptionalParams
+    options?: PermissionsListForResourceNextOptionalParams,
   ): Promise<PermissionsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -307,9 +296,9 @@ export class PermissionsImpl implements Permissions {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 }
@@ -317,37 +306,31 @@ export class PermissionsImpl implements Permissions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Authorization/permissions",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Authorization/permissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionGetResult
+      bodyMapper: Mappers.PermissionGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/permissions",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/permissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionGetResult
+      bodyMapper: Mappers.PermissionGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
@@ -357,41 +340,41 @@ const listForResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName2
+    Parameters.resourceName2,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionGetResult
+      bodyMapper: Mappers.PermissionGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PermissionGetResult
+      bodyMapper: Mappers.PermissionGetResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -401,8 +384,8 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceProviderNamespace,
     Parameters.parentResourcePath,
     Parameters.resourceType,
-    Parameters.resourceName2
+    Parameters.resourceName2,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
