@@ -16,7 +16,5 @@ export interface Operations {
    * Gets a list of AzureBareMetal management operations.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

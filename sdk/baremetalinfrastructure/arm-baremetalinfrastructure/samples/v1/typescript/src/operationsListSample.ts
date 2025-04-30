@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets a list of AzureBareMetal management operations.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/stable/2021-08-09/examples/AzureBareMetalOperations_List.json
  */
-async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
+async function listAllManagementOperationsSupportedByTheAzureBareMetalRp(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function listAllManagementOperationsSupportedByTheAzureBareMetalRp() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllManagementOperationsSupportedByTheAzureBareMetalRp();
 }
 
