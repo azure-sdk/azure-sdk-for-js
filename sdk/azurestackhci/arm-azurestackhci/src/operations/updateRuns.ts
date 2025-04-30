@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   UpdateRun,
@@ -58,12 +54,7 @@ export class UpdateRunsImpl implements UpdateRuns {
     updateName: string,
     options?: UpdateRunsListOptionalParams,
   ): PagedAsyncIterableIterator<UpdateRun> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      clusterName,
-      updateName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, clusterName, updateName, options);
     return {
       next() {
         return iter.next();
@@ -75,13 +66,7 @@ export class UpdateRunsImpl implements UpdateRuns {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          updateName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, updateName, options, settings);
       },
     };
   }
@@ -96,12 +81,7 @@ export class UpdateRunsImpl implements UpdateRuns {
     let result: UpdateRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        clusterName,
-        updateName,
-        options,
-      );
+      result = await this._list(resourceGroupName, clusterName, updateName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -182,8 +162,7 @@ export class UpdateRunsImpl implements UpdateRuns {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

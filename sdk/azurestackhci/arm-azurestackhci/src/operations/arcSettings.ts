@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ArcSetting,
@@ -66,11 +62,7 @@ export class ArcSettingsImpl implements ArcSettings {
     clusterName: string,
     options?: ArcSettingsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<ArcSetting> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -82,12 +74,7 @@ export class ArcSettingsImpl implements ArcSettings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -101,11 +88,7 @@ export class ArcSettingsImpl implements ArcSettings {
     let result: ArcSettingsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -240,8 +223,7 @@ export class ArcSettingsImpl implements ArcSettings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -295,12 +277,7 @@ export class ArcSettingsImpl implements ArcSettings {
     arcSettingName: string,
     options?: ArcSettingsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      arcSettingName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, arcSettingName, options);
     return poller.pollUntilDone();
   }
 
@@ -351,8 +328,7 @@ export class ArcSettingsImpl implements ArcSettings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -460,8 +436,7 @@ export class ArcSettingsImpl implements ArcSettings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -713,29 +688,28 @@ const createIdentityOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const consentAndInstallDefaultExtensionsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/consentAndInstallDefaultExtensions",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ArcSetting,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const consentAndInstallDefaultExtensionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/consentAndInstallDefaultExtensions",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArcSetting,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.clusterName,
-      Parameters.arcSettingName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const initializeDisableProcessOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/initializeDisableProcess",
   httpMethod: "POST",

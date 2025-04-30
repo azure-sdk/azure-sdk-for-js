@@ -13,14 +13,10 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  EdgeDeviceUnion,
+  EdgeDevice,
   EdgeDevicesListNextOptionalParams,
   EdgeDevicesListOptionalParams,
   EdgeDevicesListResponse,
@@ -57,7 +53,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   public list(
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
-  ): PagedAsyncIterableIterator<EdgeDeviceUnion> {
+  ): PagedAsyncIterableIterator<EdgeDevice> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
       next() {
@@ -79,7 +75,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<EdgeDeviceUnion[]> {
+  ): AsyncIterableIterator<EdgeDevice[]> {
     let result: EdgeDevicesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -101,7 +97,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   private async *listPagingAll(
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
-  ): AsyncIterableIterator<EdgeDeviceUnion> {
+  ): AsyncIterableIterator<EdgeDevice> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
     }
@@ -116,10 +112,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     resourceUri: string,
     options?: EdgeDevicesListOptionalParams,
   ): Promise<EdgeDevicesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceUri, options }, listOperationSpec);
   }
 
   /**
@@ -149,7 +142,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
   async beginCreateOrUpdate(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -167,8 +160,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -222,15 +214,10 @@ export class EdgeDevicesImpl implements EdgeDevices {
   async beginCreateOrUpdateAndWait(
     resourceUri: string,
     edgeDeviceName: string,
-    resource: EdgeDeviceUnion,
+    resource: EdgeDevice,
     options?: EdgeDevicesCreateOrUpdateOptionalParams,
   ): Promise<EdgeDevicesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceUri,
-      edgeDeviceName,
-      resource,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceUri, edgeDeviceName, resource, options);
     return poller.pollUntilDone();
   }
 
@@ -245,10 +232,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     edgeDeviceName: string,
     options?: EdgeDevicesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<EdgeDevicesDeleteResponse>,
-      EdgeDevicesDeleteResponse
-    >
+    SimplePollerLike<OperationState<EdgeDevicesDeleteResponse>, EdgeDevicesDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -260,8 +244,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -333,10 +316,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     validateRequest: ValidateRequest,
     options?: EdgeDevicesValidateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<EdgeDevicesValidateResponse>,
-      EdgeDevicesValidateResponse
-    >
+    SimplePollerLike<OperationState<EdgeDevicesValidateResponse>, EdgeDevicesValidateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -348,8 +328,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -406,12 +385,7 @@ export class EdgeDevicesImpl implements EdgeDevices {
     validateRequest: ValidateRequest,
     options?: EdgeDevicesValidateOptionalParams,
   ): Promise<EdgeDevicesValidateResponse> {
-    const poller = await this.beginValidate(
-      resourceUri,
-      edgeDeviceName,
-      validateRequest,
-      options,
-    );
+    const poller = await this.beginValidate(resourceUri, edgeDeviceName, validateRequest, options);
     return poller.pollUntilDone();
   }
 
@@ -463,11 +437,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.edgeDeviceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.edgeDeviceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -493,11 +463,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.edgeDeviceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.edgeDeviceName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -523,11 +489,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.edgeDeviceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.edgeDeviceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -553,11 +515,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.validateRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.edgeDeviceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.edgeDeviceName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -573,11 +531,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceUri,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer,
 };

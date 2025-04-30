@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  OperationsListOptionalParams,
-  OperationsListResponse,
-} from "../models/index.js";
+import { OperationsListOptionalParams, OperationsListResponse } from "../models/index.js";
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
@@ -32,9 +29,7 @@ export class OperationsImpl implements Operations {
    * List all available Microsoft.AzureStackHCI provider operations
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }

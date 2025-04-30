@@ -47,11 +47,7 @@ export class PublishersImpl implements Publishers {
     clusterName: string,
     options?: PublishersListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Publisher> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class PublishersImpl implements Publishers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class PublishersImpl implements Publishers {
     let result: PublishersListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

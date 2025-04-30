@@ -91,12 +91,7 @@ export class OffersImpl implements Offers {
     let result: OffersListByPublisherResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPublisher(
-        resourceGroupName,
-        clusterName,
-        publisherName,
-        options,
-      );
+      result = await this._listByPublisher(resourceGroupName, clusterName, publisherName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -144,11 +139,7 @@ export class OffersImpl implements Offers {
     clusterName: string,
     options?: OffersListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Offer> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -160,12 +151,7 @@ export class OffersImpl implements Offers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -179,11 +165,7 @@ export class OffersImpl implements Offers {
     let result: OffersListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
