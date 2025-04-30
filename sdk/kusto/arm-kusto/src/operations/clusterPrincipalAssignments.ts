@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KustoManagementClient } from "../kustoManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ClusterPrincipalAssignment,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ClusterPrincipalAssignments operations. */
-export class ClusterPrincipalAssignmentsImpl
-  implements ClusterPrincipalAssignments
-{
+export class ClusterPrincipalAssignmentsImpl implements ClusterPrincipalAssignments {
   private readonly client: KustoManagementClient;
 
   /**
@@ -70,12 +64,7 @@ export class ClusterPrincipalAssignmentsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -96,11 +85,7 @@ export class ClusterPrincipalAssignmentsImpl
     clusterName: string,
     options?: ClusterPrincipalAssignmentsListOptionalParams,
   ): AsyncIterableIterator<ClusterPrincipalAssignment> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      clusterName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, clusterName, options)) {
       yield* page;
     }
   }
@@ -173,8 +158,7 @@ export class ClusterPrincipalAssignmentsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -271,8 +255,7 @@ export class ClusterPrincipalAssignmentsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

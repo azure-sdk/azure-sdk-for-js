@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KustoManagementClient } from "../kustoManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DatabasePrincipalAssignment,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DatabasePrincipalAssignments operations. */
-export class DatabasePrincipalAssignmentsImpl
-  implements DatabasePrincipalAssignments
-{
+export class DatabasePrincipalAssignmentsImpl implements DatabasePrincipalAssignments {
   private readonly client: KustoManagementClient;
 
   /**
@@ -60,12 +54,7 @@ export class DatabasePrincipalAssignmentsImpl
     databaseName: string,
     options?: DatabasePrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<DatabasePrincipalAssignment> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, clusterName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +66,7 @@ export class DatabasePrincipalAssignmentsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, databaseName, options, settings);
       },
     };
   }
@@ -96,12 +79,7 @@ export class DatabasePrincipalAssignmentsImpl
     _settings?: PageSettings,
   ): AsyncIterableIterator<DatabasePrincipalAssignment[]> {
     let result: DatabasePrincipalAssignmentsListResponse;
-    result = await this._list(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    result = await this._list(resourceGroupName, clusterName, databaseName, options);
     yield result.value || [];
   }
 
@@ -207,8 +185,7 @@ export class DatabasePrincipalAssignmentsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -311,8 +288,7 @@ export class DatabasePrincipalAssignmentsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

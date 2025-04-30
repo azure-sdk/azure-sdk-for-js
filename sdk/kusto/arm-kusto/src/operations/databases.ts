@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KustoManagementClient } from "../kustoManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DatabaseUnion,
@@ -69,11 +65,7 @@ export class DatabasesImpl implements Databases {
     clusterName: string,
     options?: DatabasesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseUnion> {
-    const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClusterPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -85,12 +77,7 @@ export class DatabasesImpl implements Databases {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClusterPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClusterPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -104,11 +91,7 @@ export class DatabasesImpl implements Databases {
     let result: DatabasesListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByCluster(resourceGroupName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -191,12 +174,7 @@ export class DatabasesImpl implements Databases {
     _settings?: PageSettings,
   ): AsyncIterableIterator<DatabasePrincipal[]> {
     let result: DatabasesListPrincipalsResponse;
-    result = await this._listPrincipals(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    result = await this._listPrincipals(resourceGroupName, clusterName, databaseName, options);
     yield result.value || [];
   }
 
@@ -301,8 +279,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -390,12 +367,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     parameters: DatabaseUnion,
     options?: DatabasesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DatabasesUpdateResponse>,
-      DatabasesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DatabasesUpdateResponse>, DatabasesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -406,8 +378,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -504,8 +475,7 @@ export class DatabasesImpl implements Databases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -558,12 +528,7 @@ export class DatabasesImpl implements Databases {
     databaseName: string,
     options?: DatabasesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, databaseName, options);
     return poller.pollUntilDone();
   }
 
@@ -696,11 +661,7 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skiptoken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

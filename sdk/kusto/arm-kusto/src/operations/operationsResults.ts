@@ -39,10 +39,7 @@ export class OperationsResultsImpl implements OperationsResults {
     operationId: string,
     options?: OperationsResultsGetOptionalParams,
   ): Promise<OperationsResultsGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, operationId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, operationId, options }, getOperationSpec);
   }
 }
 // Operation Specifications

@@ -17,9 +17,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing OperationsResultsLocation operations. */
-export class OperationsResultsLocationImpl
-  implements OperationsResultsLocation
-{
+export class OperationsResultsLocationImpl implements OperationsResultsLocation {
   private readonly client: KustoManagementClient;
 
   /**
@@ -41,10 +39,7 @@ export class OperationsResultsLocationImpl
     operationId: string,
     options?: OperationsResultsLocationGetOptionalParams,
   ): Promise<OperationsResultsLocationGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, operationId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, operationId, options }, getOperationSpec);
   }
 }
 // Operation Specifications
