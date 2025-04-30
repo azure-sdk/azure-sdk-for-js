@@ -25,13 +25,13 @@ export interface BestPractice {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /** Properties of the best practice. */
+  properties?: ConfigurationProfileProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** configuration dictionary of the configuration profile. */
-  configuration?: Record<string, unknown>;
 }
 
 /** Automanage configuration profile properties. */
@@ -228,6 +228,54 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** Data related to the report detail. */
+export interface AssignmentReportProperties {
+  /** Start time of the configuration profile assignment processing. */
+  startTime?: string;
+  /** End time of the configuration profile assignment processing. */
+  endTime?: string;
+  /**
+   * Last modified time of the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedTime?: string;
+  /**
+   * Duration of the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly duration?: string;
+  /**
+   * Type of the configuration profile assignment processing (Initial/Consistency).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The status of the configuration profile assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The configurationProfile linked to the assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationProfile?: string;
+  /**
+   * List of resources processed by the configuration profile assignment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: ReportResource[];
+  /**
+   * Error message, if any, returned by the configuration profile assignment processing.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: ErrorDetail;
+  /**
+   * Version of the report format
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reportFormatVersion?: string;
+}
+
 /** Details about the resource processed by the configuration profile assignment */
 export interface ReportResource {
   /**
@@ -267,6 +315,20 @@ export interface ReportList {
 export interface ServicePrincipalListResult {
   /** The list of servicePrincipals. */
   value?: ServicePrincipal[];
+}
+
+/** The Service Principal properties for the subscription. */
+export interface ServicePrincipalProperties {
+  /**
+   * The Service Principal Id for the subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly servicePrincipalId?: string;
+  /**
+   * Returns the contributor RBAC Role exist or not for the Service Principal Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationSet?: boolean;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -315,74 +377,24 @@ export interface ConfigurationProfileAssignment extends ProxyResource {
 
 /** Definition of the report. */
 export interface Report extends ProxyResource {
+  /** The properties for the report. */
+  properties?: AssignmentReportProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Start time of the configuration profile assignment processing. */
-  startTime?: string;
-  /** End time of the configuration profile assignment processing. */
-  endTime?: string;
-  /**
-   * Last modified time of the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastModifiedTime?: string;
-  /**
-   * Duration of the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly duration?: string;
-  /**
-   * Type of the configuration profile assignment processing (Initial/Consistency).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly typePropertiesType?: string;
-  /**
-   * The status of the configuration profile assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-  /**
-   * The configurationProfile linked to the assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly configurationProfile?: string;
-  /**
-   * List of resources processed by the configuration profile assignment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resources?: ReportResource[];
-  /**
-   * Error message, if any, returned by the configuration profile assignment processing.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: ErrorDetail;
-  /**
-   * Version of the report format
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reportFormatVersion?: string;
 }
 
 /** The Service Principal Id for the subscription. */
 export interface ServicePrincipal extends ProxyResource {
+  /** The Service Principal properties for the subscription */
+  properties?: ServicePrincipalProperties;
   /**
    * Azure Resource Manager metadata containing createdBy and modifiedBy information.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /**
-   * The Service Principal Id for the subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly servicePrincipalId?: string;
-  /**
-   * Returns the contributor RBAC Role exist or not for the Service Principal Id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly authorizationSet?: boolean;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -394,7 +406,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -416,7 +428,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -433,7 +445,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -446,22 +458,19 @@ export enum KnownActionType {
 export type ActionType = string;
 
 /** Optional parameters. */
-export interface BestPracticesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BestPracticesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BestPracticesGetResponse = BestPractice;
 
 /** Optional parameters. */
-export interface BestPracticesListByTenantOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BestPracticesListByTenantOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTenant operation. */
 export type BestPracticesListByTenantResponse = BestPracticeList;
 
 /** Optional parameters. */
-export interface BestPracticesVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BestPracticesVersionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BestPracticesVersionsGetResponse = BestPractice;
@@ -481,19 +490,16 @@ export interface ConfigurationProfilesCreateOrUpdateOptionalParams
 export type ConfigurationProfilesCreateOrUpdateResponse = ConfigurationProfile;
 
 /** Optional parameters. */
-export interface ConfigurationProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationProfilesGetResponse = ConfigurationProfile;
 
 /** Optional parameters. */
-export interface ConfigurationProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationProfilesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ConfigurationProfilesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationProfilesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ConfigurationProfilesUpdateResponse = ConfigurationProfile;
@@ -560,7 +566,8 @@ export interface ConfigurationProfileAssignmentsListByVirtualMachinesOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVirtualMachines operation. */
-export type ConfigurationProfileAssignmentsListByVirtualMachinesResponse = ConfigurationProfileAssignmentList;
+export type ConfigurationProfileAssignmentsListByVirtualMachinesResponse =
+  ConfigurationProfileAssignmentList;
 
 /** Optional parameters. */
 export interface ConfigurationProfileAssignmentsListOptionalParams
@@ -574,25 +581,27 @@ export interface ConfigurationProfileAssignmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ConfigurationProfileAssignmentsListBySubscriptionResponse = ConfigurationProfileAssignmentList;
+export type ConfigurationProfileAssignmentsListBySubscriptionResponse =
+  ConfigurationProfileAssignmentList;
 
 /** Optional parameters. */
 export interface ConfigurationProfileAssignmentsListByMachineNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByMachineName operation. */
-export type ConfigurationProfileAssignmentsListByMachineNameResponse = ConfigurationProfileAssignmentList;
+export type ConfigurationProfileAssignmentsListByMachineNameResponse =
+  ConfigurationProfileAssignmentList;
 
 /** Optional parameters. */
 export interface ConfigurationProfileAssignmentsListByClusterNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterName operation. */
-export type ConfigurationProfileAssignmentsListByClusterNameResponse = ConfigurationProfileAssignmentList;
+export type ConfigurationProfileAssignmentsListByClusterNameResponse =
+  ConfigurationProfileAssignmentList;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
@@ -618,8 +627,7 @@ export interface ServicePrincipalsListBySubscriptionOptionalParams
 export type ServicePrincipalsListBySubscriptionResponse = ServicePrincipalListResult;
 
 /** Optional parameters. */
-export interface ServicePrincipalsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ServicePrincipalsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ServicePrincipalsGetResponse = ServicePrincipal;
@@ -629,7 +637,8 @@ export interface ConfigurationProfileHcrpAssignmentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse = ConfigurationProfileAssignment;
+export type ConfigurationProfileHcrpAssignmentsCreateOrUpdateResponse =
+  ConfigurationProfileAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationProfileHcrpAssignmentsGetOptionalParams
@@ -643,8 +652,7 @@ export interface ConfigurationProfileHcrpAssignmentsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HcrpReportsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HcrpReportsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HcrpReportsGetResponse = Report;
@@ -661,7 +669,8 @@ export interface ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse = ConfigurationProfileAssignment;
+export type ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse =
+  ConfigurationProfileAssignment;
 
 /** Optional parameters. */
 export interface ConfigurationProfileHCIAssignmentsGetOptionalParams
@@ -675,8 +684,7 @@ export interface ConfigurationProfileHCIAssignmentsDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface HCIReportsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface HCIReportsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type HCIReportsGetResponse = Report;
@@ -689,8 +697,7 @@ export interface HCIReportsListByConfigurationProfileAssignmentsOptionalParams
 export type HCIReportsListByConfigurationProfileAssignmentsResponse = ReportList;
 
 /** Optional parameters. */
-export interface AutomanageClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AutomanageClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

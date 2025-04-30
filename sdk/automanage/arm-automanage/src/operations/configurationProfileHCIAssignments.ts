@@ -17,12 +17,11 @@ import {
   ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse,
   ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ConfigurationProfileHCIAssignmentsGetResponse,
-  ConfigurationProfileHCIAssignmentsDeleteOptionalParams
+  ConfigurationProfileHCIAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Class containing ConfigurationProfileHCIAssignments operations. */
-export class ConfigurationProfileHCIAssignmentsImpl
-  implements ConfigurationProfileHCIAssignments {
+export class ConfigurationProfileHCIAssignmentsImpl implements ConfigurationProfileHCIAssignments {
   private readonly client: AutomanageClient;
 
   /**
@@ -47,7 +46,7 @@ export class ConfigurationProfileHCIAssignmentsImpl
     clusterName: string,
     configurationProfileAssignmentName: string,
     parameters: ConfigurationProfileAssignment,
-    options?: ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfileHCIAssignmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -55,9 +54,9 @@ export class ConfigurationProfileHCIAssignmentsImpl
         clusterName,
         configurationProfileAssignmentName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -72,16 +71,16 @@ export class ConfigurationProfileHCIAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHCIAssignmentsGetOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ): Promise<ConfigurationProfileHCIAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         configurationProfileAssignmentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -96,16 +95,16 @@ export class ConfigurationProfileHCIAssignmentsImpl
     resourceGroupName: string,
     clusterName: string,
     configurationProfileAssignmentName: string,
-    options?: ConfigurationProfileHCIAssignmentsDeleteOptionalParams
+    options?: ConfigurationProfileHCIAssignmentsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         configurationProfileAssignmentName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -113,19 +112,18 @@ export class ConfigurationProfileHCIAssignmentsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -134,23 +132,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileAssignment
+      bodyMapper: Mappers.ConfigurationProfileAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -158,21 +155,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHci/clusters/{clusterName}/providers/Microsoft.Automanage/configurationProfileAssignments/{configurationProfileAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -180,8 +176,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configurationProfileAssignmentName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

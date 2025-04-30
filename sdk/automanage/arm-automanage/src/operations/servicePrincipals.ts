@@ -17,7 +17,7 @@ import {
   ServicePrincipalsListBySubscriptionOptionalParams,
   ServicePrincipalsListBySubscriptionResponse,
   ServicePrincipalsGetOptionalParams,
-  ServicePrincipalsGetResponse
+  ServicePrincipalsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export class ServicePrincipalsImpl implements ServicePrincipals {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ServicePrincipalsListBySubscriptionOptionalParams
+    options?: ServicePrincipalsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ServicePrincipal> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -53,13 +53,13 @@ export class ServicePrincipalsImpl implements ServicePrincipals {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ServicePrincipalsListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ServicePrincipal[]> {
     let result: ServicePrincipalsListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -67,7 +67,7 @@ export class ServicePrincipalsImpl implements ServicePrincipals {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ServicePrincipalsListBySubscriptionOptionalParams
+    options?: ServicePrincipalsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ServicePrincipal> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -79,21 +79,16 @@ export class ServicePrincipalsImpl implements ServicePrincipals {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ServicePrincipalsListBySubscriptionOptionalParams
+    options?: ServicePrincipalsListBySubscriptionOptionalParams,
   ): Promise<ServicePrincipalsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
    * Get the Automanage AAD first party Application Service Principal details for the subscription id.
    * @param options The options parameters.
    */
-  get(
-    options?: ServicePrincipalsGetOptionalParams
-  ): Promise<ServicePrincipalsGetResponse> {
+  get(options?: ServicePrincipalsGetOptionalParams): Promise<ServicePrincipalsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 }
@@ -101,36 +96,34 @@ export class ServicePrincipalsImpl implements ServicePrincipals {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/servicePrincipals",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/servicePrincipals",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicePrincipalListResult
+      bodyMapper: Mappers.ServicePrincipalListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/servicePrincipals/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/servicePrincipals/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServicePrincipal
+      bodyMapper: Mappers.ServicePrincipal,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

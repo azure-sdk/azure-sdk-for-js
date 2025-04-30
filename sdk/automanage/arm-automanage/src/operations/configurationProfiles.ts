@@ -25,7 +25,7 @@ import {
   ConfigurationProfilesDeleteOptionalParams,
   ConfigurationProfileUpdate,
   ConfigurationProfilesUpdateOptionalParams,
-  ConfigurationProfilesUpdateResponse
+  ConfigurationProfilesUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +48,7 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationProfilesListByResourceGroupOptionalParams
+    options?: ConfigurationProfilesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -62,19 +62,15 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: ConfigurationProfilesListByResourceGroupOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfile[]> {
     let result: ConfigurationProfilesListByResourceGroupResponse;
     result = await this._listByResourceGroup(resourceGroupName, options);
@@ -83,12 +79,9 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: ConfigurationProfilesListByResourceGroupOptionalParams
+    options?: ConfigurationProfilesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfile> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -98,7 +91,7 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ConfigurationProfilesListBySubscriptionOptionalParams
+    options?: ConfigurationProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ConfigurationProfile> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -113,13 +106,13 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ConfigurationProfilesListBySubscriptionOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ConfigurationProfile[]> {
     let result: ConfigurationProfilesListBySubscriptionResponse;
     result = await this._listBySubscription(options);
@@ -127,7 +120,7 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ConfigurationProfilesListBySubscriptionOptionalParams
+    options?: ConfigurationProfilesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ConfigurationProfile> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -145,11 +138,11 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
     configurationProfileName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfile,
-    options?: ConfigurationProfilesCreateOrUpdateOptionalParams
+    options?: ConfigurationProfilesCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationProfilesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { configurationProfileName, resourceGroupName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -162,11 +155,11 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
   get(
     configurationProfileName: string,
     resourceGroupName: string,
-    options?: ConfigurationProfilesGetOptionalParams
+    options?: ConfigurationProfilesGetOptionalParams,
   ): Promise<ConfigurationProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { configurationProfileName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,11 +172,11 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
   delete(
     resourceGroupName: string,
     configurationProfileName: string,
-    options?: ConfigurationProfilesDeleteOptionalParams
+    options?: ConfigurationProfilesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configurationProfileName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -198,11 +191,11 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
     configurationProfileName: string,
     resourceGroupName: string,
     parameters: ConfigurationProfileUpdate,
-    options?: ConfigurationProfilesUpdateOptionalParams
+    options?: ConfigurationProfilesUpdateOptionalParams,
   ): Promise<ConfigurationProfilesUpdateResponse> {
     return this.client.sendOperationRequest(
       { configurationProfileName, resourceGroupName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -213,11 +206,11 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: ConfigurationProfilesListByResourceGroupOptionalParams
+    options?: ConfigurationProfilesListByResourceGroupOptionalParams,
   ): Promise<ConfigurationProfilesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -226,31 +219,27 @@ export class ConfigurationProfilesImpl implements ConfigurationProfiles {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: ConfigurationProfilesListBySubscriptionOptionalParams
+    options?: ConfigurationProfilesListBySubscriptionOptionalParams,
   ): Promise<ConfigurationProfilesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     201: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -258,66 +247,63 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles/{configurationProfileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfile
+      bodyMapper: Mappers.ConfigurationProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -325,47 +311,41 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.configurationProfileName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automanage/configurationProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileList
+      bodyMapper: Mappers.ConfigurationProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/configurationProfiles",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Automanage/configurationProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationProfileList
+      bodyMapper: Mappers.ConfigurationProfileList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
