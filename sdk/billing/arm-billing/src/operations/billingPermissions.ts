@@ -80,10 +80,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
     billingAccountName: string,
     options?: BillingPermissionsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermission> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -95,11 +92,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -119,11 +112,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -135,10 +124,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
     billingAccountName: string,
     options?: BillingPermissionsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingPermission> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -189,11 +175,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
     let result: BillingPermissionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -508,11 +490,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
     departmentName: string,
     options?: BillingPermissionsListByDepartmentOptionalParams,
   ): PagedAsyncIterableIterator<BillingPermission> {
-    const iter = this.listByDepartmentPagingAll(
-      billingAccountName,
-      departmentName,
-      options,
-    );
+    const iter = this.listByDepartmentPagingAll(billingAccountName, departmentName, options);
     return {
       next() {
         return iter.next();
@@ -543,11 +521,7 @@ export class BillingPermissionsImpl implements BillingPermissions {
     let result: BillingPermissionsListByDepartmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDepartment(
-        billingAccountName,
-        departmentName,
-        options,
-      );
+      result = await this._listByDepartment(billingAccountName, departmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1094,11 +1068,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1122,11 +1092,7 @@ const checkAccessByBillingProfileOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -1270,11 +1236,7 @@ const listByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.customerName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1290,11 +1252,7 @@ const listByDepartmentOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.departmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.departmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1318,11 +1276,7 @@ const checkAccessByDepartmentOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.departmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.departmentName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -1387,11 +1341,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1457,27 +1407,26 @@ const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByCustomerAtBillingAccountNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.BillingPermissionListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByCustomerAtBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingPermissionListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.billingAccountName,
-      Parameters.nextLink,
-      Parameters.customerName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.nextLink,
+    Parameters.customerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByDepartmentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

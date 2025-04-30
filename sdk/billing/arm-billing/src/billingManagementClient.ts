@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AgreementsImpl,
@@ -126,7 +122,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-billing/5.0.1`;
+    const packageDetails = `azsdk-js-arm-billing/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -138,8 +134,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -149,8 +144,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -166,11 +160,9 @@ export class BillingManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -191,14 +183,11 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     this.billingPropertyOperations = new BillingPropertyOperationsImpl(this);
     this.billingRequests = new BillingRequestsImpl(this);
     this.billingRoleAssignments = new BillingRoleAssignmentsImpl(this);
-    this.billingRoleDefinitionOperations =
-      new BillingRoleDefinitionOperationsImpl(this);
+    this.billingRoleDefinitionOperations = new BillingRoleDefinitionOperationsImpl(this);
     this.savingsPlanOrders = new SavingsPlanOrdersImpl(this);
     this.savingsPlans = new SavingsPlansImpl(this);
     this.billingSubscriptions = new BillingSubscriptionsImpl(this);
-    this.billingSubscriptionsAliases = new BillingSubscriptionsAliasesImpl(
-      this,
-    );
+    this.billingSubscriptionsAliases = new BillingSubscriptionsAliasesImpl(this);
     this.customers = new CustomersImpl(this);
     this.departments = new DepartmentsImpl(this);
     this.enrollmentAccounts = new EnrollmentAccountsImpl(this);
@@ -224,10 +213,7 @@ export class BillingManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {

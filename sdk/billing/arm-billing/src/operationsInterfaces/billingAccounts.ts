@@ -46,9 +46,7 @@ export interface BillingAccounts {
    * Lists the billing accounts that a user has access to.
    * @param options The options parameters.
    */
-  list(
-    options?: BillingAccountsListOptionalParams,
-  ): PagedAsyncIterableIterator<BillingAccount>;
+  list(options?: BillingAccountsListOptionalParams): PagedAsyncIterableIterator<BillingAccount>;
   /**
    * Adds payment terms to all the billing profiles under the billing account. Currently, payment terms
    * can be added only on billing accounts that have Agreement Type as 'Microsoft Customer Agreement' and
@@ -159,10 +157,7 @@ export interface BillingAccounts {
     parameters: BillingAccountPatch,
     options?: BillingAccountsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BillingAccountsUpdateResponse>,
-      BillingAccountsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>
   >;
   /**
    * Updates the properties of a billing account. Currently, displayName and address can be updated for

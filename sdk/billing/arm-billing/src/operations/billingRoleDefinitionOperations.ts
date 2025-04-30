@@ -55,9 +55,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BillingRoleDefinitionOperations operations. */
-export class BillingRoleDefinitionOperationsImpl
-  implements BillingRoleDefinitionOperations
-{
+export class BillingRoleDefinitionOperationsImpl implements BillingRoleDefinitionOperations {
   private readonly client: BillingManagementClient;
 
   /**
@@ -116,11 +114,7 @@ export class BillingRoleDefinitionOperationsImpl
     let result: BillingRoleDefinitionListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -353,10 +347,7 @@ export class BillingRoleDefinitionOperationsImpl
     billingAccountName: string,
     options?: BillingRoleDefinitionListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -368,11 +359,7 @@ export class BillingRoleDefinitionOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -392,11 +379,7 @@ export class BillingRoleDefinitionOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -408,10 +391,7 @@ export class BillingRoleDefinitionOperationsImpl
     billingAccountName: string,
     options?: BillingRoleDefinitionListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingRoleDefinition> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -428,11 +408,7 @@ export class BillingRoleDefinitionOperationsImpl
     departmentName: string,
     options?: BillingRoleDefinitionListByDepartmentOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleDefinition> {
-    const iter = this.listByDepartmentPagingAll(
-      billingAccountName,
-      departmentName,
-      options,
-    );
+    const iter = this.listByDepartmentPagingAll(billingAccountName, departmentName, options);
     return {
       next() {
         return iter.next();
@@ -463,11 +439,7 @@ export class BillingRoleDefinitionOperationsImpl
     let result: BillingRoleDefinitionListByDepartmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDepartment(
-        billingAccountName,
-        departmentName,
-        options,
-      );
+      result = await this._listByDepartment(billingAccountName, departmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1003,11 +975,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1109,11 +1077,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.roleDefinitionName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.roleDefinitionName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1166,11 +1130,7 @@ const listByDepartmentOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.departmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.departmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1288,11 +1248,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

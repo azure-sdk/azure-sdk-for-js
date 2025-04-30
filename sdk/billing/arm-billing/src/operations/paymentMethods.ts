@@ -97,11 +97,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
     let result: PaymentMethodsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -146,10 +142,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
     billingAccountName: string,
     options?: PaymentMethodsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<PaymentMethod> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -161,11 +154,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -185,11 +174,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -201,10 +186,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
     billingAccountName: string,
     options?: PaymentMethodsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<PaymentMethod> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -343,10 +325,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
   private _listByUser(
     options?: PaymentMethodsListByUserOptionalParams,
   ): Promise<PaymentMethodsListByUserResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listByUserOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listByUserOperationSpec);
   }
 
   /**
@@ -373,10 +352,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
     paymentMethodName: string,
     options?: PaymentMethodsGetByUserOptionalParams,
   ): Promise<PaymentMethodsGetByUserResponse> {
-    return this.client.sendOperationRequest(
-      { paymentMethodName, options },
-      getByUserOperationSpec,
-    );
+    return this.client.sendOperationRequest({ paymentMethodName, options }, getByUserOperationSpec);
   }
 
   /**
@@ -424,10 +400,7 @@ export class PaymentMethodsImpl implements PaymentMethods {
     nextLink: string,
     options?: PaymentMethodsListByUserNextOptionalParams,
   ): Promise<PaymentMethodsListByUserNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listByUserNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listByUserNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -445,11 +418,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName1,
-    Parameters.billingProfileName1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName1, Parameters.billingProfileName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -502,11 +471,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName1,
-    Parameters.paymentMethodName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName1, Parameters.paymentMethodName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -588,11 +553,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.billingAccountName1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.billingAccountName1],
   headerParameters: [Parameters.accept],
   serializer,
 };

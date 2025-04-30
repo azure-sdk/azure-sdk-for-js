@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   InvoiceSectionWithCreateSubPermission,
@@ -69,11 +65,10 @@ export class BillingAccountsImpl implements BillingAccounts {
     billingAccountName: string,
     options?: BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionOptionalParams,
   ): PagedAsyncIterableIterator<InvoiceSectionWithCreateSubPermission> {
-    const iter =
-      this.listInvoiceSectionsByCreateSubscriptionPermissionPagingAll(
-        billingAccountName,
-        options,
-      );
+    const iter = this.listInvoiceSectionsByCreateSubscriptionPermissionPagingAll(
+      billingAccountName,
+      options,
+    );
     return {
       next() {
         return iter.next();
@@ -112,12 +107,11 @@ export class BillingAccountsImpl implements BillingAccounts {
       yield page;
     }
     while (continuationToken) {
-      result =
-        await this._listInvoiceSectionsByCreateSubscriptionPermissionNext(
-          billingAccountName,
-          continuationToken,
-          options,
-        );
+      result = await this._listInvoiceSectionsByCreateSubscriptionPermissionNext(
+        billingAccountName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -220,8 +214,7 @@ export class BillingAccountsImpl implements BillingAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -279,11 +272,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     parameters: PaymentTerm[],
     options?: BillingAccountsAddPaymentTermsOptionalParams,
   ): Promise<BillingAccountsAddPaymentTermsResponse> {
-    const poller = await this.beginAddPaymentTerms(
-      billingAccountName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginAddPaymentTerms(billingAccountName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -315,8 +304,7 @@ export class BillingAccountsImpl implements BillingAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -373,11 +361,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     parameters: Date,
     options?: BillingAccountsCancelPaymentTermsOptionalParams,
   ): Promise<BillingAccountsCancelPaymentTermsResponse> {
-    const poller = await this.beginCancelPaymentTerms(
-      billingAccountName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCancelPaymentTerms(billingAccountName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -440,10 +424,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     billingAccountName: string,
     options?: BillingAccountsGetOptionalParams,
   ): Promise<BillingAccountsGetResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ billingAccountName, options }, getOperationSpec);
   }
 
   /**
@@ -461,10 +442,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     parameters: BillingAccountPatch,
     options?: BillingAccountsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BillingAccountsUpdateResponse>,
-      BillingAccountsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BillingAccountsUpdateResponse>, BillingAccountsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -476,8 +454,7 @@ export class BillingAccountsImpl implements BillingAccounts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -536,11 +513,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     parameters: BillingAccountPatch,
     options?: BillingAccountsUpdateOptionalParams,
   ): Promise<BillingAccountsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      billingAccountName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(billingAccountName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -548,9 +521,7 @@ export class BillingAccountsImpl implements BillingAccounts {
    * Lists the billing accounts that a user has access to.
    * @param options The options parameters.
    */
-  private _list(
-    options?: BillingAccountsListOptionalParams,
-  ): Promise<BillingAccountsListResponse> {
+  private _list(options?: BillingAccountsListOptionalParams): Promise<BillingAccountsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -581,10 +552,7 @@ export class BillingAccountsImpl implements BillingAccounts {
     nextLink: string,
     options?: BillingAccountsListNextOptionalParams,
   ): Promise<BillingAccountsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -660,23 +628,22 @@ const confirmTransitionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/listInvoiceSectionsWithCreateSubscriptionPermission",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.InvoiceSectionWithCreateSubPermissionListResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listInvoiceSectionsByCreateSubscriptionPermissionOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/listInvoiceSectionsWithCreateSubscriptionPermission",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceSectionWithCreateSubPermissionListResult,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.filter],
-    urlParameters: [Parameters.$host, Parameters.billingAccountName],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const validatePaymentTermsOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/validatePaymentTerms",
   httpMethod: "POST",
@@ -780,11 +747,7 @@ const listInvoiceSectionsByCreateSubscriptionPermissionNextOperationSpec: coreCl
         bodyMapper: Mappers.ErrorResponse,
       },
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.billingAccountName,
-      Parameters.nextLink,
-    ],
+    urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
     headerParameters: [Parameters.accept],
     serializer,
   };

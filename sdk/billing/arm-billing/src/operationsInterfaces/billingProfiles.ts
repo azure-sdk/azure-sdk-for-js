@@ -58,10 +58,7 @@ export interface BillingProfiles {
     billingProfileName: string,
     options?: BillingProfilesDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BillingProfilesDeleteResponse>,
-      BillingProfilesDeleteResponse
-    >
+    SimplePollerLike<OperationState<BillingProfilesDeleteResponse>, BillingProfilesDeleteResponse>
   >;
   /**
    * Deletes a billing profile. The operation is supported for billing accounts with agreement type
