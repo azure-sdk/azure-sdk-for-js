@@ -38,9 +38,7 @@ export interface VpnSites {
    * Lists all the VpnSites in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VpnSitesListOptionalParams,
-  ): PagedAsyncIterableIterator<VpnSite>;
+  list(options?: VpnSitesListOptionalParams): PagedAsyncIterableIterator<VpnSite>;
   /**
    * Retrieves the details of a VPN site.
    * @param resourceGroupName The resource group name of the VpnSite.
@@ -65,10 +63,7 @@ export interface VpnSites {
     vpnSiteParameters: VpnSite,
     options?: VpnSitesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VpnSitesCreateOrUpdateResponse>,
-      VpnSitesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<VpnSitesCreateOrUpdateResponse>, VpnSitesCreateOrUpdateResponse>
   >;
   /**
    * Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.

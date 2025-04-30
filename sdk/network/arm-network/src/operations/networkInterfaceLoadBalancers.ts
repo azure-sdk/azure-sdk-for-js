@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkInterfaceLoadBalancers operations. */
-export class NetworkInterfaceLoadBalancersImpl
-  implements NetworkInterfaceLoadBalancers
-{
+export class NetworkInterfaceLoadBalancersImpl implements NetworkInterfaceLoadBalancers {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -47,11 +45,7 @@ export class NetworkInterfaceLoadBalancersImpl
     networkInterfaceName: string,
     options?: NetworkInterfaceLoadBalancersListOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancer> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkInterfaceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkInterfaceName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +57,7 @@ export class NetworkInterfaceLoadBalancersImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkInterfaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkInterfaceName, options, settings);
       },
     };
   }
@@ -82,11 +71,7 @@ export class NetworkInterfaceLoadBalancersImpl
     let result: NetworkInterfaceLoadBalancersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkInterfaceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkInterfaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

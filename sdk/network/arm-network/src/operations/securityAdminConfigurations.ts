@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SecurityAdminConfiguration,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityAdminConfigurations operations. */
-export class SecurityAdminConfigurationsImpl
-  implements SecurityAdminConfigurations
-{
+export class SecurityAdminConfigurationsImpl implements SecurityAdminConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -59,11 +53,7 @@ export class SecurityAdminConfigurationsImpl
     networkManagerName: string,
     options?: SecurityAdminConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAdminConfiguration> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +65,7 @@ export class SecurityAdminConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkManagerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkManagerName, options, settings);
       },
     };
   }
@@ -119,11 +104,7 @@ export class SecurityAdminConfigurationsImpl
     networkManagerName: string,
     options?: SecurityAdminConfigurationsListOptionalParams,
   ): AsyncIterableIterator<SecurityAdminConfiguration> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkManagerName, options)) {
       yield* page;
     }
   }
@@ -215,8 +196,7 @@ export class SecurityAdminConfigurationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -317,11 +297,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

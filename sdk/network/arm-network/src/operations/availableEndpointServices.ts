@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableEndpointServices operations. */
-export class AvailableEndpointServicesImpl
-  implements AvailableEndpointServices
-{
+export class AvailableEndpointServicesImpl implements AvailableEndpointServices {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -103,10 +101,7 @@ export class AvailableEndpointServicesImpl
     location: string,
     options?: AvailableEndpointServicesListOptionalParams,
   ): Promise<AvailableEndpointServicesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -120,10 +115,7 @@ export class AvailableEndpointServicesImpl
     nextLink: string,
     options?: AvailableEndpointServicesListNextOptionalParams,
   ): Promise<AvailableEndpointServicesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -141,11 +133,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -38,9 +38,7 @@ export interface VirtualWans {
    * Lists all the VirtualWANs in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VirtualWansListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualWAN>;
+  list(options?: VirtualWansListOptionalParams): PagedAsyncIterableIterator<VirtualWAN>;
   /**
    * Retrieves the details of a VirtualWAN.
    * @param resourceGroupName The resource group name of the VirtualWan.

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ExpressRoutePortAuthorization,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRoutePortAuthorizations operations. */
-export class ExpressRoutePortAuthorizationsImpl
-  implements ExpressRoutePortAuthorizations
-{
+export class ExpressRoutePortAuthorizationsImpl implements ExpressRoutePortAuthorizations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -58,11 +52,7 @@ export class ExpressRoutePortAuthorizationsImpl
     expressRoutePortName: string,
     options?: ExpressRoutePortAuthorizationsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRoutePortAuthorization> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      expressRoutePortName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, expressRoutePortName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +64,7 @@ export class ExpressRoutePortAuthorizationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          expressRoutePortName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, expressRoutePortName, options, settings);
       },
     };
   }
@@ -93,11 +78,7 @@ export class ExpressRoutePortAuthorizationsImpl
     let result: ExpressRoutePortAuthorizationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        expressRoutePortName,
-        options,
-      );
+      result = await this._list(resourceGroupName, expressRoutePortName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -154,8 +135,7 @@ export class ExpressRoutePortAuthorizationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -273,8 +253,7 @@ export class ExpressRoutePortAuthorizationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

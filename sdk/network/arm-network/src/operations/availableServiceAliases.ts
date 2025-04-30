@@ -107,11 +107,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     location: string,
     options?: AvailableServiceAliasesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailableServiceAlias> {
-    const iter = this.listByResourceGroupPagingAll(
-      resourceGroupName,
-      location,
-      options,
-    );
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, location, options);
     return {
       next() {
         return iter.next();
@@ -123,12 +119,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          location,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, location, options, settings);
       },
     };
   }
@@ -142,11 +133,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     let result: AvailableServiceAliasesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
-        resourceGroupName,
-        location,
-        options,
-      );
+      result = await this._listByResourceGroup(resourceGroupName, location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -189,10 +176,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     location: string,
     options?: AvailableServiceAliasesListOptionalParams,
   ): Promise<AvailableServiceAliasesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -223,10 +207,7 @@ export class AvailableServiceAliasesImpl implements AvailableServiceAliases {
     nextLink: string,
     options?: AvailableServiceAliasesListNextOptionalParams,
   ): Promise<AvailableServiceAliasesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -263,11 +244,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

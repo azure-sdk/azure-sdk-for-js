@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VpnGateway,
@@ -79,11 +75,7 @@ export class VpnGatewaysImpl implements VpnGateways {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -103,11 +95,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -119,10 +107,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     resourceGroupName: string,
     options?: VpnGatewaysListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<VpnGateway> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -131,9 +116,7 @@ export class VpnGatewaysImpl implements VpnGateways {
    * Lists all the VpnGateways in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: VpnGatewaysListOptionalParams,
-  ): PagedAsyncIterableIterator<VpnGateway> {
+  public list(options?: VpnGatewaysListOptionalParams): PagedAsyncIterableIterator<VpnGateway> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -226,8 +209,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -306,10 +288,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     vpnGatewayParameters: TagsObject,
     options?: VpnGatewaysUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VpnGatewaysUpdateTagsResponse>,
-      VpnGatewaysUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<VpnGatewaysUpdateTagsResponse>, VpnGatewaysUpdateTagsResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -321,8 +300,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -409,8 +387,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -462,11 +439,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -480,12 +453,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysResetOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VpnGatewaysResetResponse>,
-      VpnGatewaysResetResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<VpnGatewaysResetResponse>, VpnGatewaysResetResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -496,8 +464,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -552,11 +519,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysResetOptionalParams,
   ): Promise<VpnGatewaysResetResponse> {
-    const poller = await this.beginReset(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginReset(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -586,8 +549,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -642,11 +604,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStartPacketCaptureOptionalParams,
   ): Promise<VpnGatewaysStartPacketCaptureResponse> {
-    const poller = await this.beginStartPacketCapture(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginStartPacketCapture(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -676,8 +634,7 @@ export class VpnGatewaysImpl implements VpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -732,11 +689,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     gatewayName: string,
     options?: VpnGatewaysStopPacketCaptureOptionalParams,
   ): Promise<VpnGatewaysStopPacketCaptureResponse> {
-    const poller = await this.beginStopPacketCapture(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginStopPacketCapture(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -759,9 +712,7 @@ export class VpnGatewaysImpl implements VpnGateways {
    * Lists all the VpnGateways in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: VpnGatewaysListOptionalParams,
-  ): Promise<VpnGatewaysListResponse> {
+  private _list(options?: VpnGatewaysListOptionalParams): Promise<VpnGatewaysListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -791,10 +742,7 @@ export class VpnGatewaysImpl implements VpnGateways {
     nextLink: string,
     options?: VpnGatewaysListNextOptionalParams,
   ): Promise<VpnGatewaysListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -957,7 +905,7 @@ const startPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters85,
+  requestBody: Parameters.parameters93,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -989,7 +937,7 @@ const stopPacketCaptureOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters86,
+  requestBody: Parameters.parameters94,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1013,11 +961,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1068,11 +1012,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

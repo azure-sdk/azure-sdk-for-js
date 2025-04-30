@@ -95,14 +95,8 @@ export class WebCategoriesImpl implements WebCategories {
    * @param name The name of the azureWebCategory.
    * @param options The options parameters.
    */
-  get(
-    name: string,
-    options?: WebCategoriesGetOptionalParams,
-  ): Promise<WebCategoriesGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec,
-    );
+  get(name: string, options?: WebCategoriesGetOptionalParams): Promise<WebCategoriesGetResponse> {
+    return this.client.sendOperationRequest({ name, options }, getOperationSpec);
   }
 
   /**
@@ -112,10 +106,7 @@ export class WebCategoriesImpl implements WebCategories {
   private _listBySubscription(
     options?: WebCategoriesListBySubscriptionOptionalParams,
   ): Promise<WebCategoriesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -179,11 +170,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

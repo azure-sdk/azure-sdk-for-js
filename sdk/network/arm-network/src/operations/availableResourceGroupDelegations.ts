@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableResourceGroupDelegations operations. */
-export class AvailableResourceGroupDelegationsImpl
-  implements AvailableResourceGroupDelegations
-{
+export class AvailableResourceGroupDelegationsImpl implements AvailableResourceGroupDelegations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -59,12 +57,7 @@ export class AvailableResourceGroupDelegationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          location,
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(location, resourceGroupName, options, settings);
       },
     };
   }
@@ -85,12 +78,7 @@ export class AvailableResourceGroupDelegationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        location,
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(location, resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -103,11 +91,7 @@ export class AvailableResourceGroupDelegationsImpl
     resourceGroupName: string,
     options?: AvailableResourceGroupDelegationsListOptionalParams,
   ): AsyncIterableIterator<AvailableDelegation> {
-    for await (const page of this.listPagingPage(
-      location,
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(location, resourceGroupName, options)) {
       yield* page;
     }
   }

@@ -86,10 +86,7 @@ export interface Routes {
     routeParameters: Route,
     options?: RoutesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RoutesCreateOrUpdateResponse>,
-      RoutesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<RoutesCreateOrUpdateResponse>, RoutesCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a route in the specified route table.

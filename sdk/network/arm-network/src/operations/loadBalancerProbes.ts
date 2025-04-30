@@ -47,11 +47,7 @@ export class LoadBalancerProbesImpl implements LoadBalancerProbes {
     loadBalancerName: string,
     options?: LoadBalancerProbesListOptionalParams,
   ): PagedAsyncIterableIterator<Probe> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class LoadBalancerProbesImpl implements LoadBalancerProbes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -107,11 +98,7 @@ export class LoadBalancerProbesImpl implements LoadBalancerProbes {
     loadBalancerName: string,
     options?: LoadBalancerProbesListOptionalParams,
   ): AsyncIterableIterator<Probe> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }

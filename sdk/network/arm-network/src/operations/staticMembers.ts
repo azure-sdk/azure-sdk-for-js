@@ -90,12 +90,7 @@ export class StaticMembersImpl implements StaticMembers {
     let result: StaticMembersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkManagerName,
-        networkGroupName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkManagerName, networkGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -349,11 +344,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

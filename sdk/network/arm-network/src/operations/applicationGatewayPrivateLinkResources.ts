@@ -47,11 +47,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
     applicationGatewayName: string,
     options?: ApplicationGatewayPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewayPrivateLinkResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      applicationGatewayName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, applicationGatewayName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGatewayName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, applicationGatewayName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class ApplicationGatewayPrivateLinkResourcesImpl
     let result: ApplicationGatewayPrivateLinkResourcesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        applicationGatewayName,
-        options,
-      );
+      result = await this._list(resourceGroupName, applicationGatewayName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

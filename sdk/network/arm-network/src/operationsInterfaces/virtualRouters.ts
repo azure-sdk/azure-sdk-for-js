@@ -35,9 +35,7 @@ export interface VirtualRouters {
    * Gets all the Virtual Routers in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VirtualRoutersListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualRouter>;
+  list(options?: VirtualRoutersListOptionalParams): PagedAsyncIterableIterator<VirtualRouter>;
   /**
    * Deletes the specified Virtual Router.
    * @param resourceGroupName The name of the resource group.

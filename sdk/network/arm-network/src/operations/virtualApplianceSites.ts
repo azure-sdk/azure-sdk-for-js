@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualApplianceSite,
@@ -56,11 +52,7 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
     networkVirtualApplianceName: string,
     options?: VirtualApplianceSitesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualApplianceSite> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkVirtualApplianceName, options);
     return {
       next() {
         return iter.next();
@@ -91,11 +83,7 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
     let result: VirtualApplianceSitesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkVirtualApplianceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkVirtualApplianceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -152,8 +140,7 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -271,8 +258,7 @@ export class VirtualApplianceSitesImpl implements VirtualApplianceSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -452,7 +438,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters45,
+  requestBody: Parameters.parameters53,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

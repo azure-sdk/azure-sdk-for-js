@@ -29,9 +29,7 @@ export interface NatGateways {
    * Gets all the Nat Gateways in a subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: NatGatewaysListAllOptionalParams,
-  ): PagedAsyncIterableIterator<NatGateway>;
+  listAll(options?: NatGatewaysListAllOptionalParams): PagedAsyncIterableIterator<NatGateway>;
   /**
    * Gets all nat gateways in a resource group.
    * @param resourceGroupName The name of the resource group.

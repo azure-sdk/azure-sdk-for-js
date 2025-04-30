@@ -38,9 +38,7 @@ export interface RouteTables {
    * Gets all route tables in a subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: RouteTablesListAllOptionalParams,
-  ): PagedAsyncIterableIterator<RouteTable>;
+  listAll(options?: RouteTablesListAllOptionalParams): PagedAsyncIterableIterator<RouteTable>;
   /**
    * Deletes the specified route table.
    * @param resourceGroupName The name of the resource group.

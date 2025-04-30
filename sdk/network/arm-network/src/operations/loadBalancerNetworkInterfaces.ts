@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerNetworkInterfaces operations. */
-export class LoadBalancerNetworkInterfacesImpl
-  implements LoadBalancerNetworkInterfaces
-{
+export class LoadBalancerNetworkInterfacesImpl implements LoadBalancerNetworkInterfaces {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -47,11 +45,7 @@ export class LoadBalancerNetworkInterfacesImpl
     loadBalancerName: string,
     options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +57,7 @@ export class LoadBalancerNetworkInterfacesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -107,11 +96,7 @@ export class LoadBalancerNetworkInterfacesImpl
     loadBalancerName: string,
     options?: LoadBalancerNetworkInterfacesListOptionalParams,
   ): AsyncIterableIterator<NetworkInterface> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }

@@ -103,10 +103,7 @@ export class ApplicationGatewayWafDynamicManifestsImpl
     location: string,
     options?: ApplicationGatewayWafDynamicManifestsGetOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, getOperationSpec);
   }
 
   /**
@@ -120,10 +117,7 @@ export class ApplicationGatewayWafDynamicManifestsImpl
     nextLink: string,
     options?: ApplicationGatewayWafDynamicManifestsGetNextOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsGetNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      getNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, getNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -141,11 +135,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

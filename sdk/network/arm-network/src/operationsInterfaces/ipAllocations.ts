@@ -29,9 +29,7 @@ export interface IpAllocations {
    * Gets all IpAllocations in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: IpAllocationsListOptionalParams,
-  ): PagedAsyncIterableIterator<IpAllocation>;
+  list(options?: IpAllocationsListOptionalParams): PagedAsyncIterableIterator<IpAllocation>;
   /**
    * Gets all IpAllocations in a resource group.
    * @param resourceGroupName The name of the resource group.

@@ -80,10 +80,7 @@ export interface StaticCidrs {
     staticCidrName: string,
     options?: StaticCidrsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StaticCidrsDeleteResponse>,
-      StaticCidrsDeleteResponse
-    >
+    SimplePollerLike<OperationState<StaticCidrsDeleteResponse>, StaticCidrsDeleteResponse>
   >;
   /**
    * Delete the Static CIDR resource.

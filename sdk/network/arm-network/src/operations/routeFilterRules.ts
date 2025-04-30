@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RouteFilterRule,
@@ -56,11 +52,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     routeFilterName: string,
     options?: RouteFilterRulesListByRouteFilterOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilterRule> {
-    const iter = this.listByRouteFilterPagingAll(
-      resourceGroupName,
-      routeFilterName,
-      options,
-    );
+    const iter = this.listByRouteFilterPagingAll(resourceGroupName, routeFilterName, options);
     return {
       next() {
         return iter.next();
@@ -91,11 +83,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     let result: RouteFilterRulesListByRouteFilterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByRouteFilter(
-        resourceGroupName,
-        routeFilterName,
-        options,
-      );
+      result = await this._listByRouteFilter(resourceGroupName, routeFilterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -152,8 +140,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -207,12 +194,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
     ruleName: string,
     options?: RouteFilterRulesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      routeFilterName,
-      ruleName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, routeFilterName, ruleName, options);
     return poller.pollUntilDone();
   }
 
@@ -266,8 +248,7 @@ export class RouteFilterRulesImpl implements RouteFilterRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

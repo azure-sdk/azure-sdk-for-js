@@ -29,9 +29,7 @@ export interface BastionHosts {
    * Lists all Bastion Hosts in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: BastionHostsListOptionalParams,
-  ): PagedAsyncIterableIterator<BastionHost>;
+  list(options?: BastionHostsListOptionalParams): PagedAsyncIterableIterator<BastionHost>;
   /**
    * Lists all Bastion Hosts in a resource group.
    * @param resourceGroupName The name of the resource group.
@@ -118,10 +116,7 @@ export interface BastionHosts {
     parameters: TagsObject,
     options?: BastionHostsUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BastionHostsUpdateTagsResponse>,
-      BastionHostsUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<BastionHostsUpdateTagsResponse>, BastionHostsUpdateTagsResponse>
   >;
   /**
    * Updates Tags for BastionHost resource

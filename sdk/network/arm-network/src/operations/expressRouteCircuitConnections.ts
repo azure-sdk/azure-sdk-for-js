@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ExpressRouteCircuitConnection,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRouteCircuitConnections operations. */
-export class ExpressRouteCircuitConnectionsImpl
-  implements ExpressRouteCircuitConnections
-{
+export class ExpressRouteCircuitConnectionsImpl implements ExpressRouteCircuitConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -60,12 +54,7 @@ export class ExpressRouteCircuitConnectionsImpl
     peeringName: string,
     options?: ExpressRouteCircuitConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteCircuitConnection> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      circuitName,
-      peeringName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, circuitName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +66,7 @@ export class ExpressRouteCircuitConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          circuitName,
-          peeringName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, circuitName, peeringName, options, settings);
       },
     };
   }
@@ -98,12 +81,7 @@ export class ExpressRouteCircuitConnectionsImpl
     let result: ExpressRouteCircuitConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        circuitName,
-        peeringName,
-        options,
-      );
+      result = await this._list(resourceGroupName, circuitName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -165,8 +143,7 @@ export class ExpressRouteCircuitConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -292,8 +269,7 @@ export class ExpressRouteCircuitConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

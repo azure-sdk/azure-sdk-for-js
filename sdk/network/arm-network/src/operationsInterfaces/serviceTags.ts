@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  ServiceTagsListOptionalParams,
-  ServiceTagsListResponse,
-} from "../models/index.js";
+import { ServiceTagsListOptionalParams, ServiceTagsListResponse } from "../models/index.js";
 
 /** Interface representing a ServiceTags. */
 export interface ServiceTags {
@@ -20,8 +17,5 @@ export interface ServiceTags {
    *                 to the cloud that your subscription belongs to).
    * @param options The options parameters.
    */
-  list(
-    location: string,
-    options?: ServiceTagsListOptionalParams,
-  ): Promise<ServiceTagsListResponse>;
+  list(location: string, options?: ServiceTagsListOptionalParams): Promise<ServiceTagsListResponse>;
 }

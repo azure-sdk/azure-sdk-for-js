@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   IpamPool,
@@ -66,11 +62,7 @@ export class IpamPoolsImpl implements IpamPools {
     networkManagerName: string,
     options?: IpamPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<IpamPool> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, options);
     return {
       next() {
         return iter.next();
@@ -82,12 +74,7 @@ export class IpamPoolsImpl implements IpamPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkManagerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkManagerName, options, settings);
       },
     };
   }
@@ -126,11 +113,7 @@ export class IpamPoolsImpl implements IpamPools {
     networkManagerName: string,
     options?: IpamPoolsListOptionalParams,
   ): AsyncIterableIterator<IpamPool> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkManagerName, options)) {
       yield* page;
     }
   }
@@ -259,12 +242,7 @@ export class IpamPoolsImpl implements IpamPools {
     poolName: string,
     body: IpamPool,
     options?: IpamPoolsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpamPoolsCreateResponse>,
-      IpamPoolsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<IpamPoolsCreateResponse>, IpamPoolsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -275,8 +253,7 @@ export class IpamPoolsImpl implements IpamPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -395,12 +372,7 @@ export class IpamPoolsImpl implements IpamPools {
     networkManagerName: string,
     poolName: string,
     options?: IpamPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpamPoolsDeleteResponse>,
-      IpamPoolsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<IpamPoolsDeleteResponse>, IpamPoolsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -411,8 +383,7 @@ export class IpamPoolsImpl implements IpamPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -469,12 +440,7 @@ export class IpamPoolsImpl implements IpamPools {
     poolName: string,
     options?: IpamPoolsDeleteOptionalParams,
   ): Promise<IpamPoolsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      networkManagerName,
-      poolName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, networkManagerName, poolName, options);
     return poller.pollUntilDone();
   }
 
@@ -617,7 +583,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -641,7 +607,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -695,7 +661,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.networkManagerName1,
     Parameters.poolName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const getPoolUsageOperationSpec: coreClient.OperationSpec = {
