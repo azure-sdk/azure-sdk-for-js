@@ -11,7 +11,7 @@ import {
   Report,
   ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ReportsGetOptionalParams,
-  ReportsGetResponse
+  ReportsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Reports {
     resourceGroupName: string,
     configurationProfileAssignmentName: string,
     vmName: string,
-    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams
+    options?: ReportsListByConfigurationProfileAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<Report>;
   /**
    * Get information about a report associated with a configuration profile assignment run
@@ -43,6 +43,6 @@ export interface Reports {
     configurationProfileAssignmentName: string,
     reportName: string,
     vmName: string,
-    options?: ReportsGetOptionalParams
+    options?: ReportsGetOptionalParams,
   ): Promise<ReportsGetResponse>;
 }
