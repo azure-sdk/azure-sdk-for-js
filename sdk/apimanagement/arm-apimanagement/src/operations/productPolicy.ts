@@ -55,12 +55,7 @@ export class ProductPolicyImpl implements ProductPolicy {
     productId: string,
     options?: ProductPolicyListByProductOptionalParams,
   ): PagedAsyncIterableIterator<PolicyContract> {
-    const iter = this.listByProductPagingAll(
-      resourceGroupName,
-      serviceName,
-      productId,
-      options,
-    );
+    const iter = this.listByProductPagingAll(resourceGroupName, serviceName, productId, options);
     return {
       next() {
         return iter.next();
@@ -93,12 +88,7 @@ export class ProductPolicyImpl implements ProductPolicy {
     let result: ProductPolicyListByProductResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        productId,
-        options,
-      );
+      result = await this._listByProduct(resourceGroupName, serviceName, productId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -369,11 +359,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId,
     Parameters.productId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

@@ -96,10 +96,7 @@ export interface Api {
     parameters: ApiCreateOrUpdateParameter,
     options?: ApiCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApiCreateOrUpdateResponse>,
-      ApiCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ApiCreateOrUpdateResponse>, ApiCreateOrUpdateResponse>
   >;
   /**
    * Creates new or updates existing specified API of the API Management service instance.
@@ -152,9 +149,7 @@ export interface Api {
     apiId: string,
     ifMatch: string,
     options?: ApiDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<ApiDeleteResponse>, ApiDeleteResponse>>;
   /**
    * Deletes the specified API of the API Management service instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

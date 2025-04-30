@@ -58,12 +58,7 @@ export class WorkspaceApiVersionSetImpl implements WorkspaceApiVersionSet {
     workspaceId: string,
     options?: WorkspaceApiVersionSetListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ApiVersionSetContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, workspaceId, options);
     return {
       next() {
         return iter.next();
@@ -96,12 +91,7 @@ export class WorkspaceApiVersionSetImpl implements WorkspaceApiVersionSet {
     let result: WorkspaceApiVersionSetListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -341,12 +331,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -430,11 +415,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.versionSetId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -460,11 +441,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.versionSetId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

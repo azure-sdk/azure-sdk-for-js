@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiManagementGatewayResource,
@@ -74,11 +70,7 @@ export class ApiGatewayImpl implements ApiGateway {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -98,11 +90,7 @@ export class ApiGatewayImpl implements ApiGateway {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,10 +102,7 @@ export class ApiGatewayImpl implements ApiGateway {
     resourceGroupName: string,
     options?: ApiGatewayListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApiManagementGatewayResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -205,8 +190,7 @@ export class ApiGatewayImpl implements ApiGateway {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -284,12 +268,7 @@ export class ApiGatewayImpl implements ApiGateway {
     gatewayName: string,
     parameters: ApiManagementGatewayUpdateParameters,
     options?: ApiGatewayUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiGatewayUpdateResponse>,
-      ApiGatewayUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ApiGatewayUpdateResponse>, ApiGatewayUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -300,8 +279,7 @@ export class ApiGatewayImpl implements ApiGateway {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -357,12 +335,7 @@ export class ApiGatewayImpl implements ApiGateway {
     parameters: ApiManagementGatewayUpdateParameters,
     options?: ApiGatewayUpdateOptionalParams,
   ): Promise<ApiGatewayUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      gatewayName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, gatewayName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -393,12 +366,7 @@ export class ApiGatewayImpl implements ApiGateway {
     resourceGroupName: string,
     gatewayName: string,
     options?: ApiGatewayDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiGatewayDeleteResponse>,
-      ApiGatewayDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ApiGatewayDeleteResponse>, ApiGatewayDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -409,8 +377,7 @@ export class ApiGatewayImpl implements ApiGateway {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -464,11 +431,7 @@ export class ApiGatewayImpl implements ApiGateway {
     gatewayName: string,
     options?: ApiGatewayDeleteOptionalParams,
   ): Promise<ApiGatewayDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -491,9 +454,7 @@ export class ApiGatewayImpl implements ApiGateway {
    * List all API Management gateways within a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ApiGatewayListOptionalParams,
-  ): Promise<ApiGatewayListResponse> {
+  private _list(options?: ApiGatewayListOptionalParams): Promise<ApiGatewayListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -523,10 +484,7 @@ export class ApiGatewayImpl implements ApiGateway {
     nextLink: string,
     options?: ApiGatewayListNextOptionalParams,
   ): Promise<ApiGatewayListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -663,11 +621,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -718,11 +672,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

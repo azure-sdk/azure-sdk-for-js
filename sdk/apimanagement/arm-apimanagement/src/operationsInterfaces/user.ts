@@ -118,9 +118,7 @@ export interface User {
     userId: string,
     ifMatch: string,
     options?: UserDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<UserDeleteResponse>, UserDeleteResponse>>;
   /**
    * Deletes specific user.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -45,11 +45,7 @@ export class ApiManagementGatewaySkusImpl implements ApiManagementGatewaySkus {
     gatewayName: string,
     options?: ApiManagementGatewaySkusListAvailableSkusOptionalParams,
   ): PagedAsyncIterableIterator<GatewayResourceSkuResult> {
-    const iter = this.listAvailableSkusPagingAll(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const iter = this.listAvailableSkusPagingAll(resourceGroupName, gatewayName, options);
     return {
       next() {
         return iter.next();
@@ -61,12 +57,7 @@ export class ApiManagementGatewaySkusImpl implements ApiManagementGatewaySkus {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAvailableSkusPagingPage(
-          resourceGroupName,
-          gatewayName,
-          options,
-          settings,
-        );
+        return this.listAvailableSkusPagingPage(resourceGroupName, gatewayName, options, settings);
       },
     };
   }
@@ -80,11 +71,7 @@ export class ApiManagementGatewaySkusImpl implements ApiManagementGatewaySkus {
     let result: ApiManagementGatewaySkusListAvailableSkusResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAvailableSkus(
-        resourceGroupName,
-        gatewayName,
-        options,
-      );
+      result = await this._listAvailableSkus(resourceGroupName, gatewayName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

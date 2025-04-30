@@ -96,12 +96,7 @@ export class WorkspaceBackendImpl implements WorkspaceBackend {
     let result: WorkspaceBackendListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByWorkspace(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._listByWorkspace(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -341,12 +336,7 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -430,11 +420,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.backendId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -460,11 +446,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.backendId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

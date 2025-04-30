@@ -53,12 +53,7 @@ export class WorkspaceNotificationImpl implements WorkspaceNotification {
     workspaceId: string,
     options?: WorkspaceNotificationListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<NotificationContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, workspaceId, options);
     return {
       next() {
         return iter.next();
@@ -91,12 +86,7 @@ export class WorkspaceNotificationImpl implements WorkspaceNotification {
     let result: WorkspaceNotificationListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

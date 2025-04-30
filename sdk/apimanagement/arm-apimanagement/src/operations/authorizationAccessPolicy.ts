@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AuthorizationAccessPolicy operations. */
-export class AuthorizationAccessPolicyImpl
-  implements AuthorizationAccessPolicy
-{
+export class AuthorizationAccessPolicyImpl implements AuthorizationAccessPolicy {
   private readonly client: ApiManagementClient;
 
   /**
@@ -311,12 +309,7 @@ const listByAuthorizationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -380,11 +373,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.authorizationId,
     Parameters.authorizationAccessPolicyId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

@@ -417,11 +417,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId,
     Parameters.resolverId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

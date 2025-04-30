@@ -47,12 +47,7 @@ export class ProductWikisImpl implements ProductWikis {
     productId: string,
     options?: ProductWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      productId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, productId, options);
     return {
       next() {
         return iter.next();
@@ -64,13 +59,7 @@ export class ProductWikisImpl implements ProductWikis {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          productId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, productId, options, settings);
       },
     };
   }
@@ -85,12 +74,7 @@ export class ProductWikisImpl implements ProductWikis {
     let result: ProductWikisListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        productId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, productId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -182,12 +166,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

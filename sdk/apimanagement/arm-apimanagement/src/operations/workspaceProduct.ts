@@ -58,12 +58,7 @@ export class WorkspaceProductImpl implements WorkspaceProduct {
     workspaceId: string,
     options?: WorkspaceProductListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<ProductContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, workspaceId, options);
     return {
       next() {
         return iter.next();
@@ -96,12 +91,7 @@ export class WorkspaceProductImpl implements WorkspaceProduct {
     let result: WorkspaceProductListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, workspaceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -427,11 +417,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.productId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -457,11 +443,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.productId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

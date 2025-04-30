@@ -49,12 +49,7 @@ export class UserSubscriptionImpl implements UserSubscription {
     userId: string,
     options?: UserSubscriptionListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      userId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, userId, options);
     return {
       next() {
         return iter.next();
@@ -66,13 +61,7 @@ export class UserSubscriptionImpl implements UserSubscription {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          userId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, userId, options, settings);
       },
     };
   }
@@ -87,12 +76,7 @@ export class UserSubscriptionImpl implements UserSubscription {
     let result: UserSubscriptionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        userId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, userId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -119,12 +103,7 @@ export class UserSubscriptionImpl implements UserSubscription {
     userId: string,
     options?: UserSubscriptionListOptionalParams,
   ): AsyncIterableIterator<SubscriptionContract> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      userId,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, userId, options)) {
       yield* page;
     }
   }
@@ -205,12 +184,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

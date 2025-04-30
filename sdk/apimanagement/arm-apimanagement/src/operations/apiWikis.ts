@@ -47,12 +47,7 @@ export class ApiWikisImpl implements ApiWikis {
     apiId: string,
     options?: ApiWikisListOptionalParams,
   ): PagedAsyncIterableIterator<WikiContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, apiId, options);
     return {
       next() {
         return iter.next();
@@ -64,13 +59,7 @@ export class ApiWikisImpl implements ApiWikis {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          apiId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, apiId, options, settings);
       },
     };
   }
@@ -112,12 +101,7 @@ export class ApiWikisImpl implements ApiWikis {
     apiId: string,
     options?: ApiWikisListOptionalParams,
   ): AsyncIterableIterator<WikiContract> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, apiId, options)) {
       yield* page;
     }
   }
@@ -176,12 +160,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

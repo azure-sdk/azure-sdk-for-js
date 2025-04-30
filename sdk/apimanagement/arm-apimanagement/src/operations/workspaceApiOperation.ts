@@ -102,13 +102,7 @@ export class WorkspaceApiOperationImpl implements WorkspaceApiOperation {
     let result: WorkspaceApiOperationListByApiResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByApi(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        apiId,
-        options,
-      );
+      result = await this._listByApi(resourceGroupName, serviceName, workspaceId, apiId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -483,11 +477,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.operationId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -514,11 +504,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.operationId,
     Parameters.workspaceId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch1,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch1],
   mediaType: "json",
   serializer,
 };

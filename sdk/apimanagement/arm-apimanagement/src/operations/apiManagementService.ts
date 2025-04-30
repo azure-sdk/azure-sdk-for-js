@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ApiManagementClient } from "../apiManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiManagementServiceResource,
@@ -89,11 +85,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -113,11 +105,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -129,10 +117,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     resourceGroupName: string,
     options?: ApiManagementServiceListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApiManagementServiceResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -221,8 +206,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -281,12 +265,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     parameters: ApiManagementServiceBackupRestoreParameters,
     options?: ApiManagementServiceRestoreOptionalParams,
   ): Promise<ApiManagementServiceRestoreResponse> {
-    const poller = await this.beginRestore(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginRestore(resourceGroupName, serviceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -319,8 +298,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -378,12 +356,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     parameters: ApiManagementServiceBackupRestoreParameters,
     options?: ApiManagementServiceBackupOptionalParams,
   ): Promise<ApiManagementServiceBackupResponse> {
-    const poller = await this.beginBackup(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginBackup(resourceGroupName, serviceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -416,8 +389,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -511,8 +483,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -568,12 +539,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     parameters: ApiManagementServiceUpdateParameters,
     options?: ApiManagementServiceUpdateOptionalParams,
   ): Promise<ApiManagementServiceUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, serviceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -615,8 +581,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -667,11 +632,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     serviceName: string,
     options?: ApiManagementServiceDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, options);
     return poller.pollUntilDone();
   }
 
@@ -703,8 +664,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -761,11 +721,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     serviceName: string,
     options?: ApiManagementServiceMigrateToStv2OptionalParams,
   ): Promise<ApiManagementServiceMigrateToStv2Response> {
-    const poller = await this.beginMigrateToStv2(
-      resourceGroupName,
-      serviceName,
-      options,
-    );
+    const poller = await this.beginMigrateToStv2(resourceGroupName, serviceName, options);
     return poller.pollUntilDone();
   }
 
@@ -833,10 +789,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
   getDomainOwnershipIdentifier(
     options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
   ): Promise<ApiManagementServiceGetDomainOwnershipIdentifierResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getDomainOwnershipIdentifierOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getDomainOwnershipIdentifierOperationSpec);
   }
 
   /**
@@ -866,8 +819,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -957,10 +909,7 @@ export class ApiManagementServiceImpl implements ApiManagementService {
     nextLink: string,
     options?: ApiManagementServiceListNextOptionalParams,
   ): Promise<ApiManagementServiceListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -1181,11 +1130,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1249,8 +1194,7 @@ const getDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper:
-        Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult,
+      bodyMapper: Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -1261,39 +1205,38 @@ const getDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiManagementServiceResource,
-      },
-      201: {
-        bodyMapper: Mappers.ApiManagementServiceResource,
-      },
-      202: {
-        bodyMapper: Mappers.ApiManagementServiceResource,
-      },
-      204: {
-        bodyMapper: Mappers.ApiManagementServiceResource,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
     },
-    requestBody: Parameters.parameters42,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.serviceName,
-    ],
-    headerParameters: [Parameters.contentType, Parameters.accept],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    202: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    204: {
+      bodyMapper: Mappers.ApiManagementServiceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters42,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1325,11 +1268,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

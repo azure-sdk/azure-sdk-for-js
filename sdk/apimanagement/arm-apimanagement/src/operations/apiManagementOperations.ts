@@ -107,10 +107,7 @@ export class ApiManagementOperationsImpl implements ApiManagementOperations {
     nextLink: string,
     options?: ApiManagementOperationsListNextOptionalParams,
   ): Promise<ApiManagementOperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

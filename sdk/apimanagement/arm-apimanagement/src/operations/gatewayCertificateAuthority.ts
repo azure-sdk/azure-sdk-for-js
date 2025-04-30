@@ -30,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GatewayCertificateAuthority operations. */
-export class GatewayCertificateAuthorityImpl
-  implements GatewayCertificateAuthority
-{
+export class GatewayCertificateAuthorityImpl implements GatewayCertificateAuthority {
   private readonly client: ApiManagementClient;
 
   /**
@@ -57,12 +55,7 @@ export class GatewayCertificateAuthorityImpl
     gatewayId: string,
     options?: GatewayCertificateAuthorityListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<GatewayCertificateAuthorityContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      gatewayId,
-      options,
-    );
+    const iter = this.listByServicePagingAll(resourceGroupName, serviceName, gatewayId, options);
     return {
       next() {
         return iter.next();
@@ -95,12 +88,7 @@ export class GatewayCertificateAuthorityImpl
     let result: GatewayCertificateAuthorityListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        gatewayId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, gatewayId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -304,12 +292,7 @@ const listByServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -393,11 +376,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.certificateId,
     Parameters.gatewayId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

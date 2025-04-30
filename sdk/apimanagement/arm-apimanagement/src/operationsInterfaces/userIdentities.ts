@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  UserIdentityContract,
-  UserIdentitiesListOptionalParams,
-} from "../models/index.js";
+import { UserIdentityContract, UserIdentitiesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UserIdentities. */

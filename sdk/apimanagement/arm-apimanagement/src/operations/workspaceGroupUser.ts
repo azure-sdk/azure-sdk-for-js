@@ -55,13 +55,7 @@ export class WorkspaceGroupUserImpl implements WorkspaceGroupUser {
     groupId: string,
     options?: WorkspaceGroupUserListOptionalParams,
   ): PagedAsyncIterableIterator<UserContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      workspaceId,
-      groupId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, workspaceId, groupId, options);
     return {
       next() {
         return iter.next();
@@ -96,13 +90,7 @@ export class WorkspaceGroupUserImpl implements WorkspaceGroupUser {
     let result: WorkspaceGroupUserListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        workspaceId,
-        groupId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, workspaceId, groupId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -281,12 +269,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

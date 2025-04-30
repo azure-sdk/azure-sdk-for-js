@@ -47,12 +47,7 @@ export class UserIdentitiesImpl implements UserIdentities {
     userId: string,
     options?: UserIdentitiesListOptionalParams,
   ): PagedAsyncIterableIterator<UserIdentityContract> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      userId,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, userId, options);
     return {
       next() {
         return iter.next();
@@ -64,13 +59,7 @@ export class UserIdentitiesImpl implements UserIdentities {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          userId,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, serviceName, userId, options, settings);
       },
     };
   }
@@ -85,12 +74,7 @@ export class UserIdentitiesImpl implements UserIdentities {
     let result: UserIdentitiesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        userId,
-        options,
-      );
+      result = await this._list(resourceGroupName, serviceName, userId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -117,12 +101,7 @@ export class UserIdentitiesImpl implements UserIdentities {
     userId: string,
     options?: UserIdentitiesListOptionalParams,
   ): AsyncIterableIterator<UserIdentityContract> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      userId,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, userId, options)) {
       yield* page;
     }
   }

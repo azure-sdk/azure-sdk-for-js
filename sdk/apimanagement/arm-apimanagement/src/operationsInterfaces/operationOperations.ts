@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  TagResourceContract,
-  OperationListByTagsOptionalParams,
-} from "../models/index.js";
+import { TagResourceContract, OperationListByTagsOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OperationOperations. */

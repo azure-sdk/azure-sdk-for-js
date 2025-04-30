@@ -92,12 +92,7 @@ export class ContentItemImpl implements ContentItem {
     let result: ContentItemListByServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        contentTypeId,
-        options,
-      );
+      result = await this._listByService(resourceGroupName, serviceName, contentTypeId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -376,11 +371,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.contentTypeId,
     Parameters.contentItemId,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

@@ -52,12 +52,7 @@ export class ProductGroupImpl implements ProductGroup {
     productId: string,
     options?: ProductGroupListByProductOptionalParams,
   ): PagedAsyncIterableIterator<GroupContract> {
-    const iter = this.listByProductPagingAll(
-      resourceGroupName,
-      serviceName,
-      productId,
-      options,
-    );
+    const iter = this.listByProductPagingAll(resourceGroupName, serviceName, productId, options);
     return {
       next() {
         return iter.next();
@@ -90,12 +85,7 @@ export class ProductGroupImpl implements ProductGroup {
     let result: ProductGroupListByProductResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProduct(
-        resourceGroupName,
-        serviceName,
-        productId,
-        options,
-      );
+      result = await this._listByProduct(resourceGroupName, serviceName, productId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -249,12 +239,7 @@ const listByProductOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

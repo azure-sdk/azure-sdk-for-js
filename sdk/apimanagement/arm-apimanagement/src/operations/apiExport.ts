@@ -70,11 +70,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.format1,
-    Parameters.exportParam,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.format1, Parameters.exportParam],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
