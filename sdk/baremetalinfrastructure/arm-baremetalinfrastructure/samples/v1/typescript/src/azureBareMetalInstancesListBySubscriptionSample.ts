@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets a list of AzureBareMetal instances in the specified subscription. The operations returns various properties of each Azure BareMetal instance.
  * x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/stable/2021-08-09/examples/AzureBareMetalInstances_ListBySubscription.json
  */
-async function listAllAzureBareMetalInstancesInASubscription() {
+async function listAllAzureBareMetalInstancesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID"] ||
     "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
@@ -28,7 +28,7 @@ async function listAllAzureBareMetalInstancesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllAzureBareMetalInstancesInASubscription();
 }
 

@@ -9,12 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ForceState as ForceStateMapper,
+  AzureBareMetalInstance as AzureBareMetalInstanceMapper,
   Tags as TagsMapper,
-  AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper
+  AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper,
+  AzureBareMetalStorageInstanceBody as AzureBareMetalStorageInstanceBodyMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -24,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,22 +37,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-04-preview",
+    defaultValue: "2024-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -59,9 +61,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -69,28 +71,28 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const azureBareMetalInstanceName: OperationURLParameter = {
   parameterPath: "azureBareMetalInstanceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9]+$")
+      Pattern: new RegExp("^[a-zA-Z0-9]+$"),
     },
     serializedName: "azureBareMetalInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -100,19 +102,24 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const forceParameter: OperationParameter = {
   parameterPath: ["options", "forceParameter"],
-  mapper: ForceStateMapper
+  mapper: ForceStateMapper,
+};
+
+export const requestBodyParameters: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: AzureBareMetalInstanceMapper,
 };
 
 export const tagsParameter: OperationParameter = {
   parameterPath: "tagsParameter",
-  mapper: TagsMapper
+  mapper: TagsMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -121,27 +128,32 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const azureBareMetalStorageInstanceName: OperationURLParameter = {
   parameterPath: "azureBareMetalStorageInstanceName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(".*")
+      Pattern: new RegExp(".*"),
     },
     serializedName: "azureBareMetalStorageInstanceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const requestBodyParameters: OperationParameter = {
+export const requestBodyParameters1: OperationParameter = {
   parameterPath: "requestBodyParameters",
-  mapper: AzureBareMetalStorageInstanceMapper
+  mapper: AzureBareMetalStorageInstanceMapper,
+};
+
+export const azureBareMetalStorageInstanceBodyParameter: OperationParameter = {
+  parameterPath: "azureBareMetalStorageInstanceBodyParameter",
+  mapper: AzureBareMetalStorageInstanceBodyMapper,
 };

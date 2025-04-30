@@ -15,7 +15,7 @@ import { BareMetalInfrastructureClient } from "../bareMetalInfrastructureClient.
 import {
   Operation,
   OperationsListOptionalParams,
-  OperationsListResponse
+  OperationsListResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,9 +35,7 @@ export class OperationsImpl implements Operations {
    * Gets a list of AzureBareMetal management operations.
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -51,13 +49,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Operation[]> {
     let result: OperationsListResponse;
     result = await this._list(options);
@@ -65,7 +63,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): AsyncIterableIterator<Operation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -76,9 +74,7 @@ export class OperationsImpl implements Operations {
    * Gets a list of AzureBareMetal management operations.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }
@@ -90,14 +86,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

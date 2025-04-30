@@ -21,15 +21,15 @@ export type AzureBareMetalHardwareTypeNamesEnum = string;
 
 // @public
 export interface AzureBareMetalInstance extends TrackedResource {
-    readonly azureBareMetalInstanceId?: string;
+    azureBareMetalInstanceId?: string;
     hardwareProfile?: HardwareProfile;
-    readonly hwRevision?: string;
+    hwRevision?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
     partnerNodeId?: string;
-    readonly powerState?: AzureBareMetalInstancePowerStateEnum;
+    powerState?: AzureBareMetalInstancePowerStateEnum;
     readonly provisioningState?: AzureBareMetalProvisioningStatesEnum;
-    readonly proximityPlacementGroup?: string;
+    proximityPlacementGroup?: string;
     storageProfile?: StorageProfile;
 }
 
@@ -47,10 +47,23 @@ export interface AzureBareMetalInstances {
     beginShutdownAndWait(resourceGroupName: string, azureBareMetalInstanceName: string, options?: AzureBareMetalInstancesShutdownOptionalParams): Promise<AzureBareMetalInstancesShutdownResponse>;
     beginStart(resourceGroupName: string, azureBareMetalInstanceName: string, options?: AzureBareMetalInstancesStartOptionalParams): Promise<SimplePollerLike<OperationState<AzureBareMetalInstancesStartResponse>, AzureBareMetalInstancesStartResponse>>;
     beginStartAndWait(resourceGroupName: string, azureBareMetalInstanceName: string, options?: AzureBareMetalInstancesStartOptionalParams): Promise<AzureBareMetalInstancesStartResponse>;
+    create(resourceGroupName: string, azureBareMetalInstanceName: string, requestBodyParameters: AzureBareMetalInstance, options?: AzureBareMetalInstancesCreateOptionalParams): Promise<AzureBareMetalInstancesCreateResponse>;
+    delete(resourceGroupName: string, azureBareMetalInstanceName: string, options?: AzureBareMetalInstancesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, azureBareMetalInstanceName: string, options?: AzureBareMetalInstancesGetOptionalParams): Promise<AzureBareMetalInstancesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AzureBareMetalInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureBareMetalInstance>;
     listBySubscription(options?: AzureBareMetalInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureBareMetalInstance>;
     update(resourceGroupName: string, azureBareMetalInstanceName: string, tagsParameter: Tags, options?: AzureBareMetalInstancesUpdateOptionalParams): Promise<AzureBareMetalInstancesUpdateResponse>;
+}
+
+// @public
+export interface AzureBareMetalInstancesCreateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AzureBareMetalInstancesCreateResponse = AzureBareMetalInstance;
+
+// @public
+export interface AzureBareMetalInstancesDeleteOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
@@ -153,7 +166,23 @@ export type AzureBareMetalProvisioningStatesEnum = string;
 // @public
 export interface AzureBareMetalStorageInstance extends TrackedResource {
     azureBareMetalStorageInstanceUniqueIdentifier?: string;
+    identity?: AzureBareMetalStorageInstanceIdentity;
     storageProperties?: StorageProperties;
+}
+
+// @public
+export interface AzureBareMetalStorageInstanceBody {
+    identity?: AzureBareMetalStorageInstanceIdentity;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface AzureBareMetalStorageInstanceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
 }
 
 // @public
@@ -163,7 +192,7 @@ export interface AzureBareMetalStorageInstances {
     get(resourceGroupName: string, azureBareMetalStorageInstanceName: string, options?: AzureBareMetalStorageInstancesGetOptionalParams): Promise<AzureBareMetalStorageInstancesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
     listBySubscription(options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
-    update(resourceGroupName: string, azureBareMetalStorageInstanceName: string, tagsParameter: Tags, options?: AzureBareMetalStorageInstancesUpdateOptionalParams): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
+    update(resourceGroupName: string, azureBareMetalStorageInstanceName: string, azureBareMetalStorageInstanceBodyParameter: AzureBareMetalStorageInstanceBody, options?: AzureBareMetalStorageInstancesUpdateOptionalParams): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
 }
 
 // @public
@@ -289,8 +318,8 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface HardwareProfile {
-    readonly azureBareMetalInstanceSize?: AzureBareMetalInstanceSizeNamesEnum;
-    readonly hardwareType?: AzureBareMetalHardwareTypeNamesEnum;
+    azureBareMetalInstanceSize?: AzureBareMetalInstanceSizeNamesEnum;
+    hardwareType?: AzureBareMetalHardwareTypeNamesEnum;
 }
 
 // @public
@@ -416,13 +445,19 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownResourceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
 export interface NetworkInterface {
     ipAddress?: string;
 }
 
 // @public
 export interface NetworkProfile {
-    readonly circuitId?: string;
+    circuitId?: string;
     networkInterfaces?: NetworkInterface[];
 }
 
@@ -481,9 +516,9 @@ export type Origin = string;
 // @public
 export interface OSProfile {
     computerName?: string;
-    readonly osType?: string;
+    osType?: string;
     sshPublicKey?: string;
-    readonly version?: string;
+    version?: string;
 }
 
 // @public
@@ -498,6 +533,9 @@ export interface Resource {
 }
 
 // @public
+export type ResourceIdentityType = string;
+
+// @public
 export interface StorageBillingProperties {
     azureBareMetalStorageInstanceSize?: string;
     billingMode?: string;
@@ -505,7 +543,7 @@ export interface StorageBillingProperties {
 
 // @public
 export interface StorageProfile {
-    readonly nfsIpAddress?: string;
+    nfsIpAddress?: string;
     osDisks?: Disk[];
 }
 

@@ -15,10 +15,10 @@ import {
   AzureBareMetalStorageInstancesGetResponse,
   AzureBareMetalStorageInstancesCreateOptionalParams,
   AzureBareMetalStorageInstancesCreateResponse,
-  Tags,
+  AzureBareMetalStorageInstanceBody,
   AzureBareMetalStorageInstancesUpdateOptionalParams,
   AzureBareMetalStorageInstancesUpdateResponse,
-  AzureBareMetalStorageInstancesDeleteOptionalParams
+  AzureBareMetalStorageInstancesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface AzureBareMetalStorageInstances {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams
+    options?: AzureBareMetalStorageInstancesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
   /**
    * Gets a list of AzureBareMetalStorage instances in the specified subscription and resource group. The
@@ -40,7 +40,7 @@ export interface AzureBareMetalStorageInstances {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams
+    options?: AzureBareMetalStorageInstancesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AzureBareMetalStorageInstance>;
   /**
    * Gets an Azure Bare Metal Storage instance for the specified subscription, resource group, and
@@ -53,10 +53,11 @@ export interface AzureBareMetalStorageInstances {
   get(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    options?: AzureBareMetalStorageInstancesGetOptionalParams
+    options?: AzureBareMetalStorageInstancesGetOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesGetResponse>;
   /**
-   * Create an azure bare metal storage resource.
+   * Creates an Azure Bare Metal Storage Instance for the specified subscription, resource group, and
+   * instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
@@ -67,25 +68,27 @@ export interface AzureBareMetalStorageInstances {
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
     requestBodyParameters: AzureBareMetalStorageInstance,
-    options?: AzureBareMetalStorageInstancesCreateOptionalParams
+    options?: AzureBareMetalStorageInstancesCreateOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesCreateResponse>;
   /**
-   * Patches the Tags field of a Azure Bare Metal Storage instance for the specified subscription,
-   * resource group, and instance name.
+   * Patches the Tags field of a Azure BareMetalStorage instance for the specified subscription, resource
+   * group, and instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
-   * @param tagsParameter Request body that only contains the new Tags field
+   * @param azureBareMetalStorageInstanceBodyParameter Request body that only contains the Tags and
+   *                                                   Identity Field
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    tagsParameter: Tags,
-    options?: AzureBareMetalStorageInstancesUpdateOptionalParams
+    azureBareMetalStorageInstanceBodyParameter: AzureBareMetalStorageInstanceBody,
+    options?: AzureBareMetalStorageInstancesUpdateOptionalParams,
   ): Promise<AzureBareMetalStorageInstancesUpdateResponse>;
   /**
-   * Delete an AzureBareMetalStorageInstance.
+   * Deletes an Azure Bare Metal Storage Instance for the specified subscription, resource group, and
+   * instance name.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param azureBareMetalStorageInstanceName Name of the Azure Bare Metal Storage Instance, also known
    *                                          as the ResourceName.
@@ -94,6 +97,6 @@ export interface AzureBareMetalStorageInstances {
   delete(
     resourceGroupName: string,
     azureBareMetalStorageInstanceName: string,
-    options?: AzureBareMetalStorageInstancesDeleteOptionalParams
+    options?: AzureBareMetalStorageInstancesDeleteOptionalParams,
   ): Promise<void>;
 }
