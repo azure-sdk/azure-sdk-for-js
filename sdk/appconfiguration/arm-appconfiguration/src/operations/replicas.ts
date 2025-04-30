@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppConfigurationManagementClient } from "../appConfigurationManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Replica,
@@ -91,11 +87,7 @@ export class ReplicasImpl implements Replicas {
     let result: ReplicasListByConfigurationStoreResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByConfigurationStore(
-        resourceGroupName,
-        configStoreName,
-        options,
-      );
+      result = await this._listByConfigurationStore(resourceGroupName, configStoreName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -179,12 +171,7 @@ export class ReplicasImpl implements Replicas {
     replicaName: string,
     replicaCreationParameters: Replica,
     options?: ReplicasCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicasCreateResponse>,
-      ReplicasCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ReplicasCreateResponse>, ReplicasCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -195,8 +182,7 @@ export class ReplicasImpl implements Replicas {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -294,8 +280,7 @@ export class ReplicasImpl implements Replicas {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -349,12 +334,7 @@ export class ReplicasImpl implements Replicas {
     replicaName: string,
     options?: ReplicasDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      configStoreName,
-      replicaName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, configStoreName, replicaName, options);
     return poller.pollUntilDone();
   }
 
