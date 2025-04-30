@@ -9,3 +9,4 @@
 export * from "./operations.js";
 export * from "./attestationProviders.js";
 export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AttestationManagementClient } from "../attestationManagementClient.js";
-import {
-  OperationsListOptionalParams,
-  OperationsListResponse
-} from "../models/index.js";
+import { OperationsListOptionalParams, OperationsListResponse } from "../models/index.js";
 
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
@@ -32,9 +29,7 @@ export class OperationsImpl implements Operations {
    * Lists all of the available Azure attestation operations.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): Promise<OperationsListResponse> {
+  list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }
@@ -46,14 +41,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationList
+      bodyMapper: Mappers.OperationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
