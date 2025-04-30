@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BatchManagementClient } from "../batchManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
@@ -59,11 +55,7 @@ export class PrivateEndpointConnectionOperationsImpl
     accountName: string,
     options?: PrivateEndpointConnectionListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByBatchAccountPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listByBatchAccountPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class PrivateEndpointConnectionOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBatchAccountPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listByBatchAccountPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -94,11 +81,7 @@ export class PrivateEndpointConnectionOperationsImpl
     let result: PrivateEndpointConnectionListByBatchAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBatchAccount(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listByBatchAccount(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -206,8 +189,7 @@ export class PrivateEndpointConnectionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -313,8 +295,7 @@ export class PrivateEndpointConnectionOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -480,11 +461,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName1,
     Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [
-    Parameters.contentType,
-    Parameters.accept,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.contentType, Parameters.accept, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

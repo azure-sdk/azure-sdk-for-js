@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResourceOperations operations. */
-export class PrivateLinkResourceOperationsImpl
-  implements PrivateLinkResourceOperations
-{
+export class PrivateLinkResourceOperationsImpl implements PrivateLinkResourceOperations {
   private readonly client: BatchManagementClient;
 
   /**
@@ -49,11 +47,7 @@ export class PrivateLinkResourceOperationsImpl
     accountName: string,
     options?: PrivateLinkResourceListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByBatchAccountPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listByBatchAccountPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +59,7 @@ export class PrivateLinkResourceOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBatchAccountPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listByBatchAccountPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -84,11 +73,7 @@ export class PrivateLinkResourceOperationsImpl
     let result: PrivateLinkResourceListByBatchAccountResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBatchAccount(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listByBatchAccount(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

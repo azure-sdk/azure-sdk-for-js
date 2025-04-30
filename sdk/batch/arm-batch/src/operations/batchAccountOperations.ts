@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BatchManagementClient } from "../batchManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BatchAccount,
@@ -75,9 +71,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * Gets information about the Batch accounts associated with the subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: BatchAccountListOptionalParams,
-  ): PagedAsyncIterableIterator<BatchAccount> {
+  public list(options?: BatchAccountListOptionalParams): PagedAsyncIterableIterator<BatchAccount> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -146,11 +140,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -170,11 +160,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -186,10 +172,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     resourceGroupName: string,
     options?: BatchAccountListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BatchAccount> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -205,11 +188,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     accountName: string,
     options?: BatchAccountListDetectorsOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse> {
-    const iter = this.listDetectorsPagingAll(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const iter = this.listDetectorsPagingAll(resourceGroupName, accountName, options);
     return {
       next() {
         return iter.next();
@@ -221,12 +200,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDetectorsPagingPage(
-          resourceGroupName,
-          accountName,
-          options,
-          settings,
-        );
+        return this.listDetectorsPagingPage(resourceGroupName, accountName, options, settings);
       },
     };
   }
@@ -240,11 +214,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     let result: BatchAccountListDetectorsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDetectors(
-        resourceGroupName,
-        accountName,
-        options,
-      );
+      result = await this._listDetectors(resourceGroupName, accountName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -284,7 +254,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://learn.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -384,10 +354,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BatchAccountCreateResponse>,
-      BatchAccountCreateResponse
-    >
+    SimplePollerLike<OperationState<BatchAccountCreateResponse>, BatchAccountCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -399,8 +366,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -461,12 +427,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams,
   ): Promise<BatchAccountCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      accountName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, accountName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -510,8 +471,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -563,11 +523,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     accountName: string,
     options?: BatchAccountDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      accountName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, accountName, options);
     return poller.pollUntilDone();
   }
 
@@ -592,9 +548,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * Gets information about the Batch accounts associated with the subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: BatchAccountListOptionalParams,
-  ): Promise<BatchAccountListResponse> {
+  private _list(options?: BatchAccountListOptionalParams): Promise<BatchAccountListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -715,7 +669,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
+   * https://learn.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -740,10 +694,7 @@ export class BatchAccountOperationsImpl implements BatchAccountOperations {
     nextLink: string,
     options?: BatchAccountListNextOptionalParams,
   ): Promise<BatchAccountListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -931,11 +882,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1045,8 +992,7 @@ const getDetectorOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-{
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/outboundNetworkDependenciesEndpoints",
   httpMethod: "GET",
   responses: {
@@ -1078,11 +1024,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1127,8 +1069,7 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
-{
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

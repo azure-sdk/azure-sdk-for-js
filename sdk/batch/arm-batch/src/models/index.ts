@@ -545,7 +545,7 @@ export interface ImageReference {
   sku?: string;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
   version?: string;
-  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
   /** This property is mutually exclusive with other properties and can be fetched from shared gallery image GET call. */
   sharedGalleryImageId?: string;
@@ -655,7 +655,7 @@ export interface OSDisk {
 
 /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
 export interface DiffDiskSettings {
-  /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
+  /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
   placement?: "CacheDisk";
 }
 
@@ -746,7 +746,7 @@ export interface AutoScaleRunError {
 
 /** The network configuration for a pool. */
 export interface NetworkConfiguration {
-  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
+  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication，including ports 29876 and 29877. Also enable outbound connections to Azure Storage on port 443. For more details see: https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /** The scope of dynamic vnet assignment. */
   dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
@@ -770,7 +770,7 @@ export interface InboundNatPool {
   name: string;
   /** The protocol of the endpoint. */
   protocol: InboundEndpointProtocol;
-  /** This must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
+  /** This must be unique within a Batch pool. Acceptable values are between 1 and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
   backendPort: number;
   /** Acceptable values range between 1 and 65534 except ports from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot overlap. If any reserved or overlapping values are provided the request fails with HTTP status code 400. */
   frontendPortRangeStart: number;
@@ -1054,7 +1054,7 @@ export interface UpgradePolicy {
 export interface AutomaticOSUpgradePolicy {
   /** Whether OS image rollback feature should be disabled. */
   disableAutomaticRollback?: boolean;
-  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
+  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration) cannot be set to true. */
   enableAutomaticOSUpgrade?: boolean;
   /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
   useRollingUpgradePolicy?: boolean;
@@ -1469,8 +1469,7 @@ export interface Certificate extends AzureProxyResource {
 }
 
 /** Contains information about a certificate. */
-export interface CertificateCreateOrUpdateParameters
-  extends AzureProxyResource {
+export interface CertificateCreateOrUpdateParameters extends AzureProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1544,7 +1543,7 @@ export interface Pool extends AzureProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocationStateTransitionTime?: Date;
-  /** For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  /** For information about available VM sizes, see Sizes for Virtual Machines in Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
   /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
@@ -1726,8 +1725,7 @@ export interface CertificateProperties extends CertificateBaseProperties {
 }
 
 /** Certificate properties for create operations */
-export interface CertificateCreateOrUpdateProperties
-  extends CertificateBaseProperties {
+export interface CertificateCreateOrUpdateProperties extends CertificateBaseProperties {
   /** The maximum size is 10KB. */
   data: string;
   /** This must not be specified if the certificate format is Cer. */
@@ -2057,25 +2055,17 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 /** Defines values for AutoStorageAuthenticationMode. */
-export type AutoStorageAuthenticationMode =
-  | "StorageKeys"
-  | "BatchAccountManagedIdentity";
+export type AutoStorageAuthenticationMode = "StorageKeys" | "BatchAccountManagedIdentity";
 /** Defines values for PoolAllocationMode. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
-export type PublicNetworkAccessType =
-  | "Enabled"
-  | "Disabled"
-  | "SecuredByPerimeter";
+export type PublicNetworkAccessType = "Enabled" | "Disabled" | "SecuredByPerimeter";
 /** Defines values for EndpointAccessDefaultAction. */
 export type EndpointAccessDefaultAction = "Allow" | "Deny";
 /** Defines values for KeySource. */
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 /** Defines values for AuthenticationMode. */
-export type AuthenticationMode =
-  | "SharedKey"
-  | "AAD"
-  | "TaskAuthenticationToken";
+export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Defines values for ProvisioningState. */
@@ -2117,10 +2107,7 @@ export type AllocationState = "Steady" | "Resizing" | "Stopping";
 /** Defines values for CachingType. */
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for StorageAccountType. */
-export type StorageAccountType =
-  | "Standard_LRS"
-  | "Premium_LRS"
-  | "StandardSSD_LRS";
+export type StorageAccountType = "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS";
 /** Defines values for DiskEncryptionTarget. */
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 /** Defines values for NodePlacementPolicyType. */
@@ -2142,10 +2129,7 @@ export type InboundEndpointProtocol = "TCP" | "UDP";
 /** Defines values for NetworkSecurityGroupRuleAccess. */
 export type NetworkSecurityGroupRuleAccess = "Allow" | "Deny";
 /** Defines values for IPAddressProvisioningType. */
-export type IPAddressProvisioningType =
-  | "BatchManaged"
-  | "UserManaged"
-  | "NoPublicIPAddresses";
+export type IPAddressProvisioningType = "BatchManaged" | "UserManaged" | "NoPublicIPAddresses";
 /** Defines values for ComputeNodeFillType. */
 export type ComputeNodeFillType = "Spread" | "Pack";
 /** Defines values for ElevationLevel. */
@@ -2155,9 +2139,7 @@ export type LoginMode = "Batch" | "Interactive";
 /** Defines values for AutoUserScope. */
 export type AutoUserScope = "Task" | "Pool";
 /** Defines values for ContainerWorkingDirectory. */
-export type ContainerWorkingDirectory =
-  | "TaskWorkingDirectory"
-  | "ContainerImageDefault";
+export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
 /** Defines values for CertificateStoreLocation. */
 export type CertificateStoreLocation = "CurrentUser" | "LocalMachine";
 /** Defines values for CertificateVisibility. */
@@ -2170,8 +2152,7 @@ export type UpgradeMode = "automatic" | "manual" | "rolling";
 export type PoolIdentityType = "UserAssigned" | "None";
 
 /** Optional parameters. */
-export interface BatchAccountCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BatchAccountCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2182,15 +2163,13 @@ export interface BatchAccountCreateOptionalParams
 export type BatchAccountCreateResponse = BatchAccount;
 
 /** Optional parameters. */
-export interface BatchAccountUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type BatchAccountUpdateResponse = BatchAccount;
 
 /** Optional parameters. */
-export interface BatchAccountDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BatchAccountDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2198,15 +2177,13 @@ export interface BatchAccountDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface BatchAccountGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BatchAccountGetResponse = BatchAccount;
 
 /** Optional parameters. */
-export interface BatchAccountListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type BatchAccountListResponse = BatchAccountListResult;
@@ -2223,29 +2200,25 @@ export interface BatchAccountSynchronizeAutoStorageKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface BatchAccountRegenerateKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountRegenerateKeyOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
 export type BatchAccountRegenerateKeyResponse = BatchAccountKeys;
 
 /** Optional parameters. */
-export interface BatchAccountGetKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountGetKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getKeys operation. */
 export type BatchAccountGetKeysResponse = BatchAccountKeys;
 
 /** Optional parameters. */
-export interface BatchAccountListDetectorsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountListDetectorsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectors operation. */
 export type BatchAccountListDetectorsResponse = DetectorListResult;
 
 /** Optional parameters. */
-export interface BatchAccountGetDetectorOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountGetDetectorOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetector operation. */
 export type BatchAccountGetDetectorResponse = DetectorResponse;
@@ -2259,8 +2232,7 @@ export type BatchAccountListOutboundNetworkDependenciesEndpointsResponse =
   OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
-export interface BatchAccountListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BatchAccountListNextResponse = BatchAccountListResult;
@@ -2270,12 +2242,10 @@ export interface BatchAccountListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type BatchAccountListByResourceGroupNextResponse =
-  BatchAccountListResult;
+export type BatchAccountListByResourceGroupNextResponse = BatchAccountListResult;
 
 /** Optional parameters. */
-export interface BatchAccountListDetectorsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BatchAccountListDetectorsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDetectorsNext operation. */
 export type BatchAccountListDetectorsNextResponse = DetectorListResult;
@@ -2289,15 +2259,13 @@ export type BatchAccountListOutboundNetworkDependenciesEndpointsNextResponse =
   OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
-export interface ApplicationPackageActivateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationPackageActivateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the activate operation. */
 export type ApplicationPackageActivateResponse = ApplicationPackage;
 
 /** Optional parameters. */
-export interface ApplicationPackageCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApplicationPackageCreateOptionalParams extends coreClient.OperationOptions {
   /** The parameters for the request. */
   parameters?: ApplicationPackage;
 }
@@ -2306,19 +2274,16 @@ export interface ApplicationPackageCreateOptionalParams
 export type ApplicationPackageCreateResponse = ApplicationPackage;
 
 /** Optional parameters. */
-export interface ApplicationPackageDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationPackageDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationPackageGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationPackageGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApplicationPackageGetResponse = ApplicationPackage;
 
 /** Optional parameters. */
-export interface ApplicationPackageListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApplicationPackageListOptionalParams extends coreClient.OperationOptions {
   /** The maximum number of items to return in the response. */
   maxresults?: number;
 }
@@ -2327,15 +2292,13 @@ export interface ApplicationPackageListOptionalParams
 export type ApplicationPackageListResponse = ListApplicationPackagesResult;
 
 /** Optional parameters. */
-export interface ApplicationPackageListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationPackageListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationPackageListNextResponse = ListApplicationPackagesResult;
 
 /** Optional parameters. */
-export interface ApplicationCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApplicationCreateOptionalParams extends coreClient.OperationOptions {
   /** The parameters for the request. */
   parameters?: Application;
 }
@@ -2344,26 +2307,22 @@ export interface ApplicationCreateOptionalParams
 export type ApplicationCreateResponse = Application;
 
 /** Optional parameters. */
-export interface ApplicationDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApplicationGetResponse = Application;
 
 /** Optional parameters. */
-export interface ApplicationUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ApplicationUpdateResponse = Application;
 
 /** Optional parameters. */
-export interface ApplicationListOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApplicationListOptionalParams extends coreClient.OperationOptions {
   /** The maximum number of items to return in the response. */
   maxresults?: number;
 }
@@ -2372,15 +2331,13 @@ export interface ApplicationListOptionalParams
 export type ApplicationListResponse = ListApplicationsResult;
 
 /** Optional parameters. */
-export interface ApplicationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApplicationListNextResponse = ListApplicationsResult;
 
 /** Optional parameters. */
-export interface LocationGetQuotasOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocationGetQuotasOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQuotas operation. */
 export type LocationGetQuotasResponse = BatchLocationQuota;
@@ -2395,12 +2352,10 @@ export interface LocationListSupportedVirtualMachineSkusOptionalParams
 }
 
 /** Contains response data for the listSupportedVirtualMachineSkus operation. */
-export type LocationListSupportedVirtualMachineSkusResponse =
-  SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResult;
 
 /** Optional parameters. */
-export interface LocationCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LocationCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
 export type LocationCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
@@ -2410,26 +2365,22 @@ export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
-export type LocationListSupportedVirtualMachineSkusNextResponse =
-  SupportedSkusResult;
+export type LocationListSupportedVirtualMachineSkusNextResponse = SupportedSkusResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface CertificateListByBatchAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateListByBatchAccountOptionalParams extends coreClient.OperationOptions {
   /** The maximum number of items to return in the response. */
   maxresults?: number;
   /** OData filter expression. Valid properties for filtering are "properties/provisioningState", "properties/provisioningStateTransitionTime", "name". */
@@ -2442,8 +2393,7 @@ export interface CertificateListByBatchAccountOptionalParams
 export type CertificateListByBatchAccountResponse = ListCertificatesResult;
 
 /** Optional parameters. */
-export interface CertificateCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateCreateOptionalParams extends coreClient.OperationOptions {
   /** The entity state (ETag) version of the certificate to update. A value of "*" can be used to apply the operation only if the certificate already exists. If omitted, this operation will always be applied. */
   ifMatch?: string;
   /** Set to '*' to allow a new certificate to be created, but to prevent updating an existing certificate. Other values will be ignored. */
@@ -2454,8 +2404,7 @@ export interface CertificateCreateOptionalParams
 export type CertificateCreateResponse = CertificateCreateHeaders & Certificate;
 
 /** Optional parameters. */
-export interface CertificateUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateUpdateOptionalParams extends coreClient.OperationOptions {
   /** The entity state (ETag) version of the certificate to update. This value can be omitted or set to "*" to apply the operation unconditionally. */
   ifMatch?: string;
 }
@@ -2464,8 +2413,7 @@ export interface CertificateUpdateOptionalParams
 export type CertificateUpdateResponse = CertificateUpdateHeaders & Certificate;
 
 /** Optional parameters. */
-export interface CertificateDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificateDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2473,19 +2421,16 @@ export interface CertificateDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CertificateGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificateGetResponse = CertificateGetHeaders & Certificate;
 
 /** Optional parameters. */
-export interface CertificateCancelDeletionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificateCancelDeletionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancelDeletion operation. */
-export type CertificateCancelDeletionResponse =
-  CertificateCancelDeletionHeaders & Certificate;
+export type CertificateCancelDeletionResponse = CertificateCancelDeletionHeaders & Certificate;
 
 /** Optional parameters. */
 export interface CertificateListByBatchAccountNextOptionalParams
@@ -2502,12 +2447,10 @@ export interface PrivateLinkResourceListByBatchAccountOptionalParams
 }
 
 /** Contains response data for the listByBatchAccount operation. */
-export type PrivateLinkResourceListByBatchAccountResponse =
-  ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountResponse = ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourceGetResponse = PrivateLinkResource;
@@ -2517,8 +2460,7 @@ export interface PrivateLinkResourceListByBatchAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
-export type PrivateLinkResourceListByBatchAccountNextResponse =
-  ListPrivateLinkResourcesResult;
+export type PrivateLinkResourceListByBatchAccountNextResponse = ListPrivateLinkResourcesResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountOptionalParams
@@ -2532,15 +2474,13 @@ export type PrivateEndpointConnectionListByBatchAccountResponse =
   ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClient.OperationOptions {
   /** The state (ETag) version of the private endpoint connection to update. This value can be omitted or set to "*" to apply the operation unconditionally. */
   ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
@@ -2553,8 +2493,7 @@ export interface PrivateEndpointConnectionUpdateOptionalParams
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2562,8 +2501,7 @@ export interface PrivateEndpointConnectionDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionDeleteResponse =
-  PrivateEndpointConnectionDeleteHeaders;
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
@@ -2574,8 +2512,7 @@ export type PrivateEndpointConnectionListByBatchAccountNextResponse =
   ListPrivateEndpointConnectionsResult;
 
 /** Optional parameters. */
-export interface PoolListByBatchAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoolListByBatchAccountOptionalParams extends coreClient.OperationOptions {
   /** The maximum number of items to return in the response. */
   maxresults?: number;
   /**
@@ -2636,22 +2573,19 @@ export interface PoolGetOptionalParams extends coreClient.OperationOptions {}
 export type PoolGetResponse = PoolGetHeaders & Pool;
 
 /** Optional parameters. */
-export interface PoolDisableAutoScaleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoolDisableAutoScaleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the disableAutoScale operation. */
 export type PoolDisableAutoScaleResponse = PoolDisableAutoScaleHeaders & Pool;
 
 /** Optional parameters. */
-export interface PoolStopResizeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoolStopResizeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the stopResize operation. */
 export type PoolStopResizeResponse = PoolStopResizeHeaders & Pool;
 
 /** Optional parameters. */
-export interface PoolListByBatchAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoolListByBatchAccountNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PoolListByBatchAccountNextResponse = ListPoolsResult;
@@ -2694,8 +2628,7 @@ export type NetworkSecurityPerimeterListConfigurationsNextResponse =
   NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
-export interface BatchManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface BatchManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
