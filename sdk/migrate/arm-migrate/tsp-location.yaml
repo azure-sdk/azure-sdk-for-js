@@ -1,0 +1,4 @@
+directory: specification/migrate/AssessmentProjects.Management/Operations.Management
+commit: 89b6ac2f39a795921f0daa82f32e904d9752cda8
+repo: ../azure-rest-api-specs
+additionalDirectories: 
