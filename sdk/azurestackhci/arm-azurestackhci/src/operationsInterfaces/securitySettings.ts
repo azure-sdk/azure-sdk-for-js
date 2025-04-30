@@ -94,10 +94,7 @@ export interface SecuritySettings {
     securitySettingsName: string,
     options?: SecuritySettingsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SecuritySettingsDeleteResponse>,
-      SecuritySettingsDeleteResponse
-    >
+    SimplePollerLike<OperationState<SecuritySettingsDeleteResponse>, SecuritySettingsDeleteResponse>
   >;
   /**
    * Delete a SecuritySetting

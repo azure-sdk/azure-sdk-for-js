@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SecuritySetting,
@@ -57,11 +53,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
     clusterName: string,
     options?: SecuritySettingsListByClustersOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySetting> {
-    const iter = this.listByClustersPagingAll(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const iter = this.listByClustersPagingAll(resourceGroupName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -73,12 +65,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByClustersPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listByClustersPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -92,11 +79,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
     let result: SecuritySettingsListByClustersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByClusters(
-        resourceGroupName,
-        clusterName,
-        options,
-      );
+      result = await this._listByClusters(resourceGroupName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -196,8 +179,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -285,10 +267,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
     securitySettingsName: string,
     options?: SecuritySettingsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SecuritySettingsDeleteResponse>,
-      SecuritySettingsDeleteResponse
-    >
+    SimplePollerLike<OperationState<SecuritySettingsDeleteResponse>, SecuritySettingsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -300,8 +279,7 @@ export class SecuritySettingsImpl implements SecuritySettings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

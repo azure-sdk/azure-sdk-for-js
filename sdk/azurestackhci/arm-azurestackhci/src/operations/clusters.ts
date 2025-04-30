@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Cluster,
@@ -42,12 +38,6 @@ import {
   SoftwareAssuranceChangeRequest,
   ClustersExtendSoftwareAssuranceBenefitOptionalParams,
   ClustersExtendSoftwareAssuranceBenefitResponse,
-  LogCollectionRequest,
-  ClustersTriggerLogCollectionOptionalParams,
-  ClustersTriggerLogCollectionResponse,
-  RemoteSupportRequest,
-  ClustersConfigureRemoteSupportOptionalParams,
-  ClustersConfigureRemoteSupportResponse,
   ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -140,11 +130,7 @@ export class ClustersImpl implements Clusters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -164,11 +150,7 @@ export class ClustersImpl implements Clusters {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -180,10 +162,7 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     options?: ClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -195,10 +174,7 @@ export class ClustersImpl implements Clusters {
   private _listBySubscription(
     options?: ClustersListBySubscriptionOptionalParams,
   ): Promise<ClustersListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -292,8 +268,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -344,11 +319,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -375,8 +346,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,10 +425,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersCreateIdentityOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateIdentityResponse>,
-      ClustersCreateIdentityResponse
-    >
+    SimplePollerLike<OperationState<ClustersCreateIdentityResponse>, ClustersCreateIdentityResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -470,8 +437,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -526,11 +492,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersCreateIdentityOptionalParams,
   ): Promise<ClustersCreateIdentityResponse> {
-    const poller = await this.beginCreateIdentity(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginCreateIdentity(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -562,8 +524,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -635,196 +596,6 @@ export class ClustersImpl implements Clusters {
   }
 
   /**
-   * Trigger Log Collection on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param logCollectionRequest Trigger Log Collection Request Payload
-   * @param options The options parameters.
-   */
-  async beginTriggerLogCollection(
-    resourceGroupName: string,
-    clusterName: string,
-    logCollectionRequest: LogCollectionRequest,
-    options?: ClustersTriggerLogCollectionOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersTriggerLogCollectionResponse>,
-      ClustersTriggerLogCollectionResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ClustersTriggerLogCollectionResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, clusterName, logCollectionRequest, options },
-      spec: triggerLogCollectionOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ClustersTriggerLogCollectionResponse,
-      OperationState<ClustersTriggerLogCollectionResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Trigger Log Collection on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param logCollectionRequest Trigger Log Collection Request Payload
-   * @param options The options parameters.
-   */
-  async beginTriggerLogCollectionAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    logCollectionRequest: LogCollectionRequest,
-    options?: ClustersTriggerLogCollectionOptionalParams,
-  ): Promise<ClustersTriggerLogCollectionResponse> {
-    const poller = await this.beginTriggerLogCollection(
-      resourceGroupName,
-      clusterName,
-      logCollectionRequest,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Configure RemoteSupport on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param remoteSupportRequest Configure Remote Support Request Payload
-   * @param options The options parameters.
-   */
-  async beginConfigureRemoteSupport(
-    resourceGroupName: string,
-    clusterName: string,
-    remoteSupportRequest: RemoteSupportRequest,
-    options?: ClustersConfigureRemoteSupportOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersConfigureRemoteSupportResponse>,
-      ClustersConfigureRemoteSupportResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ClustersConfigureRemoteSupportResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, clusterName, remoteSupportRequest, options },
-      spec: configureRemoteSupportOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ClustersConfigureRemoteSupportResponse,
-      OperationState<ClustersConfigureRemoteSupportResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Configure RemoteSupport on a cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param clusterName The name of the cluster.
-   * @param remoteSupportRequest Configure Remote Support Request Payload
-   * @param options The options parameters.
-   */
-  async beginConfigureRemoteSupportAndWait(
-    resourceGroupName: string,
-    clusterName: string,
-    remoteSupportRequest: RemoteSupportRequest,
-    options?: ClustersConfigureRemoteSupportOptionalParams,
-  ): Promise<ClustersConfigureRemoteSupportResponse> {
-    const poller = await this.beginConfigureRemoteSupport(
-      resourceGroupName,
-      clusterName,
-      remoteSupportRequest,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -887,11 +658,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1070,70 +837,6 @@ const extendSoftwareAssuranceBenefitOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const triggerLogCollectionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/triggerLogCollection",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Cluster,
-    },
-    201: {
-      bodyMapper: Mappers.Cluster,
-    },
-    202: {
-      bodyMapper: Mappers.Cluster,
-    },
-    204: {
-      bodyMapper: Mappers.Cluster,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.logCollectionRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const configureRemoteSupportOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/configureRemoteSupport",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Cluster,
-    },
-    201: {
-      bodyMapper: Mappers.Cluster,
-    },
-    202: {
-      bodyMapper: Mappers.Cluster,
-    },
-    204: {
-      bodyMapper: Mappers.Cluster,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.remoteSupportRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1145,11 +848,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

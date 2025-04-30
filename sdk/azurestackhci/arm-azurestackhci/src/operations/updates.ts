@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureStackHCIClient } from "../azureStackHCIClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Update,
@@ -69,12 +65,7 @@ export class UpdatesImpl implements Updates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          clusterName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, clusterName, options, settings);
       },
     };
   }
@@ -95,12 +86,7 @@ export class UpdatesImpl implements Updates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        clusterName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, clusterName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -113,11 +99,7 @@ export class UpdatesImpl implements Updates {
     clusterName: string,
     options?: UpdatesListOptionalParams,
   ): AsyncIterableIterator<Update> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      clusterName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, clusterName, options)) {
       yield* page;
     }
   }
@@ -145,8 +127,7 @@ export class UpdatesImpl implements Updates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -200,12 +181,7 @@ export class UpdatesImpl implements Updates {
     updateName: string,
     options?: UpdatesPostOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPost(
-      resourceGroupName,
-      clusterName,
-      updateName,
-      options,
-    );
+    const poller = await this.beginPost(resourceGroupName, clusterName, updateName, options);
     return poller.pollUntilDone();
   }
 
@@ -249,8 +225,7 @@ export class UpdatesImpl implements Updates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -304,12 +279,7 @@ export class UpdatesImpl implements Updates {
     updateName: string,
     options?: UpdatesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      updateName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, updateName, options);
     return poller.pollUntilDone();
   }
 

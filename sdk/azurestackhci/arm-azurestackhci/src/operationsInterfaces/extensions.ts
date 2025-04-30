@@ -70,12 +70,7 @@ export interface Extensions {
     extensionName: string,
     extension: Extension,
     options?: ExtensionsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsCreateResponse>,
-      ExtensionsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ExtensionsCreateResponse>, ExtensionsCreateResponse>>;
   /**
    * Create Extension for HCI cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -109,12 +104,7 @@ export interface Extensions {
     extensionName: string,
     extension: ExtensionPatch,
     options?: ExtensionsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ExtensionsUpdateResponse>,
-      ExtensionsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ExtensionsUpdateResponse>, ExtensionsUpdateResponse>>;
   /**
    * Update Extension for HCI cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

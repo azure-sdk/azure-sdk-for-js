@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   ArcSettingsImpl,
@@ -20,14 +16,24 @@ import {
   DeploymentSettingsImpl,
   EdgeDevicesImpl,
   ExtensionsImpl,
+  GalleryImagesOperationsImpl,
+  LogicalNetworksOperationsImpl,
+  MarketplaceGalleryImagesOperationsImpl,
+  NetworkInterfacesOperationsImpl,
   OffersImpl,
   OperationsImpl,
   PublishersImpl,
   SecuritySettingsImpl,
   SkusImpl,
+  StorageContainersOperationsImpl,
   UpdateRunsImpl,
   UpdateSummariesOperationsImpl,
   UpdatesImpl,
+  VirtualHardDisksOperationsImpl,
+  VirtualMachineInstancesImpl,
+  HybridIdentityMetadataOperationsImpl,
+  GuestAgentOperationsImpl,
+  GuestAgentsImpl,
 } from "./operations/index.js";
 import {
   ArcSettings,
@@ -35,14 +41,24 @@ import {
   DeploymentSettings,
   EdgeDevices,
   Extensions,
+  GalleryImagesOperations,
+  LogicalNetworksOperations,
+  MarketplaceGalleryImagesOperations,
+  NetworkInterfacesOperations,
   Offers,
   Operations,
   Publishers,
   SecuritySettings,
   Skus,
+  StorageContainersOperations,
   UpdateRuns,
   UpdateSummariesOperations,
   Updates,
+  VirtualHardDisksOperations,
+  VirtualMachineInstances,
+  HybridIdentityMetadataOperations,
+  GuestAgentOperations,
+  GuestAgents,
 } from "./operationsInterfaces/index.js";
 import { AzureStackHCIClientOptionalParams } from "./models/index.js";
 
@@ -54,7 +70,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the AzureStackHCIClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -62,10 +78,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: AzureStackHCIClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: AzureStackHCIClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: AzureStackHCIClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: AzureStackHCIClientOptionalParams | string,
@@ -92,7 +105,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-azurestackhci/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -104,8 +117,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -115,8 +127,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -132,11 +143,9 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -146,20 +155,30 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-01-01";
     this.arcSettings = new ArcSettingsImpl(this);
     this.clusters = new ClustersImpl(this);
     this.deploymentSettings = new DeploymentSettingsImpl(this);
     this.edgeDevices = new EdgeDevicesImpl(this);
     this.extensions = new ExtensionsImpl(this);
+    this.galleryImagesOperations = new GalleryImagesOperationsImpl(this);
+    this.logicalNetworksOperations = new LogicalNetworksOperationsImpl(this);
+    this.marketplaceGalleryImagesOperations = new MarketplaceGalleryImagesOperationsImpl(this);
+    this.networkInterfacesOperations = new NetworkInterfacesOperationsImpl(this);
     this.offers = new OffersImpl(this);
     this.operations = new OperationsImpl(this);
     this.publishers = new PublishersImpl(this);
     this.securitySettings = new SecuritySettingsImpl(this);
     this.skus = new SkusImpl(this);
+    this.storageContainersOperations = new StorageContainersOperationsImpl(this);
     this.updateRuns = new UpdateRunsImpl(this);
     this.updateSummariesOperations = new UpdateSummariesOperationsImpl(this);
     this.updates = new UpdatesImpl(this);
+    this.virtualHardDisksOperations = new VirtualHardDisksOperationsImpl(this);
+    this.virtualMachineInstances = new VirtualMachineInstancesImpl(this);
+    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(this);
+    this.guestAgentOperations = new GuestAgentOperationsImpl(this);
+    this.guestAgents = new GuestAgentsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -170,10 +189,7 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -196,12 +212,22 @@ export class AzureStackHCIClient extends coreClient.ServiceClient {
   deploymentSettings: DeploymentSettings;
   edgeDevices: EdgeDevices;
   extensions: Extensions;
+  galleryImagesOperations: GalleryImagesOperations;
+  logicalNetworksOperations: LogicalNetworksOperations;
+  marketplaceGalleryImagesOperations: MarketplaceGalleryImagesOperations;
+  networkInterfacesOperations: NetworkInterfacesOperations;
   offers: Offers;
   operations: Operations;
   publishers: Publishers;
   securitySettings: SecuritySettings;
   skus: Skus;
+  storageContainersOperations: StorageContainersOperations;
   updateRuns: UpdateRuns;
   updateSummariesOperations: UpdateSummariesOperations;
   updates: Updates;
+  virtualHardDisksOperations: VirtualHardDisksOperations;
+  virtualMachineInstances: VirtualMachineInstances;
+  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+  guestAgentOperations: GuestAgentOperations;
+  guestAgents: GuestAgents;
 }
