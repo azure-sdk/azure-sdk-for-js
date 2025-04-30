@@ -968,6 +968,7 @@ export interface MhsmNetworkRuleSet {
     bypass?: NetworkRuleBypassOptions;
     defaultAction?: NetworkRuleAction;
     ipRules?: MhsmipRule[];
+    serviceTags?: MhsmServiceTagRule[];
     virtualNetworkRules?: MhsmVirtualNetworkRule[];
 }
 
@@ -1110,6 +1111,11 @@ export type MhsmRegionsListByResourceResponse = MhsmRegionsListResult;
 export interface MhsmRegionsListResult {
     nextLink?: string;
     value?: MhsmGeoReplicatedRegion[];
+}
+
+// @public
+export interface MhsmServiceTagRule {
+    tag: string;
 }
 
 // @public

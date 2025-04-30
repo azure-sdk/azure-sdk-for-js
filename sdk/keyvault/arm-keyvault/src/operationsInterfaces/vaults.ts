@@ -61,16 +61,12 @@ export interface Vaults {
    * Gets information about the deleted vaults in a subscription.
    * @param options The options parameters.
    */
-  listDeleted(
-    options?: VaultsListDeletedOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedVault>;
+  listDeleted(options?: VaultsListDeletedOptionalParams): PagedAsyncIterableIterator<DeletedVault>;
   /**
    * The List operation gets information about the vaults associated with the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VaultsListOptionalParams,
-  ): PagedAsyncIterableIterator<Resource>;
+  list(options?: VaultsListOptionalParams): PagedAsyncIterableIterator<Resource>;
   /**
    * Create or update a key vault in the specified subscription.
    * @param resourceGroupName The name of the Resource Group to which the server belongs.
@@ -84,10 +80,7 @@ export interface Vaults {
     parameters: VaultCreateOrUpdateParameters,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VaultsCreateOrUpdateResponse>,
-      VaultsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>
   >;
   /**
    * Create or update a key vault in the specified subscription.
