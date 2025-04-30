@@ -1,3 +1,5 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
 trigger:
   branches:
     include:
@@ -25,7 +27,6 @@ pr:
     exclude:
       - sdk/communication/ci.mgmt.yml
       - sdk/communication/arm-communication
-
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -65,3 +66,5 @@ extends:
         safeName: azuretoolscommunicationtiering
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+      - name: azure-rest-programmableconnectivity
+        safeName: azurerestprogrammableconnectivity
