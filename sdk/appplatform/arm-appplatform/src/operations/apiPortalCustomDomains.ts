@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiPortalCustomDomainResource,
@@ -29,7 +25,7 @@ import {
   ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ApiPortalCustomDomainsCreateOrUpdateResponse,
   ApiPortalCustomDomainsDeleteOptionalParams,
-  ApiPortalCustomDomainsListNextResponse
+  ApiPortalCustomDomainsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,14 +53,9 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalCustomDomainsListOptionalParams
+    options?: ApiPortalCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<ApiPortalCustomDomainResource> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      serviceName,
-      apiPortalName,
-      options
-    );
+    const iter = this.listPagingAll(resourceGroupName, serviceName, apiPortalName, options);
     return {
       next() {
         return iter.next();
@@ -81,9 +72,9 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
           serviceName,
           apiPortalName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -92,17 +83,12 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     options?: ApiPortalCustomDomainsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApiPortalCustomDomainResource[]> {
     let result: ApiPortalCustomDomainsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        serviceName,
-        apiPortalName,
-        options
-      );
+      result = await this._list(resourceGroupName, serviceName, apiPortalName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -114,7 +100,7 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         serviceName,
         apiPortalName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -127,13 +113,13 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalCustomDomainsListOptionalParams
+    options?: ApiPortalCustomDomainsListOptionalParams,
   ): AsyncIterableIterator<ApiPortalCustomDomainResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       apiPortalName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -153,11 +139,11 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsGetOptionalParams
+    options?: ApiPortalCustomDomainsGetOptionalParams,
   ): Promise<ApiPortalCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiPortalName, domainName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,7 +163,7 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     apiPortalName: string,
     domainName: string,
     apiPortalCustomDomainResource: ApiPortalCustomDomainResource,
-    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>,
@@ -186,21 +172,19 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApiPortalCustomDomainsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +193,8 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,8 +202,8 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -231,16 +215,16 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         apiPortalName,
         domainName,
         apiPortalCustomDomainResource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApiPortalCustomDomainsCreateOrUpdateResponse,
       OperationState<ApiPortalCustomDomainsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -262,7 +246,7 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     apiPortalName: string,
     domainName: string,
     apiPortalCustomDomainResource: ApiPortalCustomDomainResource,
-    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+    options?: ApiPortalCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<ApiPortalCustomDomainsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -270,7 +254,7 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
       apiPortalName,
       domainName,
       apiPortalCustomDomainResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -289,25 +273,23 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsDeleteOptionalParams
+    options?: ApiPortalCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -316,8 +298,8 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -325,8 +307,8 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -337,13 +319,13 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
         serviceName,
         apiPortalName,
         domainName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -363,14 +345,14 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     domainName: string,
-    options?: ApiPortalCustomDomainsDeleteOptionalParams
+    options?: ApiPortalCustomDomainsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       apiPortalName,
       domainName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,11 +369,11 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     resourceGroupName: string,
     serviceName: string,
     apiPortalName: string,
-    options?: ApiPortalCustomDomainsListOptionalParams
+    options?: ApiPortalCustomDomainsListOptionalParams,
   ): Promise<ApiPortalCustomDomainsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiPortalName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -409,11 +391,11 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
     serviceName: string,
     apiPortalName: string,
     nextLink: string,
-    options?: ApiPortalCustomDomainsListNextOptionalParams
+    options?: ApiPortalCustomDomainsListNextOptionalParams,
   ): Promise<ApiPortalCustomDomainsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apiPortalName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -421,16 +403,15 @@ export class ApiPortalCustomDomainsImpl implements ApiPortalCustomDomains {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResource
+      bodyMapper: Mappers.ApiPortalCustomDomainResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -439,31 +420,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResource
+      bodyMapper: Mappers.ApiPortalCustomDomainResource,
     },
     201: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResource
+      bodyMapper: Mappers.ApiPortalCustomDomainResource,
     },
     202: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResource
+      bodyMapper: Mappers.ApiPortalCustomDomainResource,
     },
     204: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResource
+      bodyMapper: Mappers.ApiPortalCustomDomainResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.apiPortalCustomDomainResource,
   queryParameters: [Parameters.apiVersion],
@@ -473,15 +453,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains/{domainName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -489,8 +468,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -499,22 +478,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.domainName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResourceCollection
+      bodyMapper: Mappers.ApiPortalCustomDomainResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -522,21 +500,21 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApiPortalCustomDomainResourceCollection
+      bodyMapper: Mappers.ApiPortalCustomDomainResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -544,8 +522,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.nextLink,
-    Parameters.apiPortalName
+    Parameters.apiPortalName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

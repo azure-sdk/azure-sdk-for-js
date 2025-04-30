@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   MonitoringSettingsGetOptionalParams,
@@ -24,7 +20,7 @@ import {
   MonitoringSettingsUpdatePutOptionalParams,
   MonitoringSettingsUpdatePutResponse,
   MonitoringSettingsUpdatePatchOptionalParams,
-  MonitoringSettingsUpdatePatchResponse
+  MonitoringSettingsUpdatePatchResponse,
 } from "../models/index.js";
 
 /** Class containing MonitoringSettings operations. */
@@ -49,11 +45,11 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   get(
     resourceGroupName: string,
     serviceName: string,
-    options?: MonitoringSettingsGetOptionalParams
+    options?: MonitoringSettingsGetOptionalParams,
   ): Promise<MonitoringSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -69,7 +65,7 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams
+    options?: MonitoringSettingsUpdatePutOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoringSettingsUpdatePutResponse>,
@@ -78,21 +74,19 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitoringSettingsUpdatePutResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -101,8 +95,8 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -110,8 +104,8 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -121,16 +115,16 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         resourceGroupName,
         serviceName,
         monitoringSettingResource,
-        options
+        options,
       },
-      spec: updatePutOperationSpec
+      spec: updatePutOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitoringSettingsUpdatePutResponse,
       OperationState<MonitoringSettingsUpdatePutResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -148,13 +142,13 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePutOptionalParams
+    options?: MonitoringSettingsUpdatePutOptionalParams,
   ): Promise<MonitoringSettingsUpdatePutResponse> {
     const poller = await this.beginUpdatePut(
       resourceGroupName,
       serviceName,
       monitoringSettingResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -171,7 +165,7 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams
+    options?: MonitoringSettingsUpdatePatchOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoringSettingsUpdatePatchResponse>,
@@ -180,21 +174,19 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitoringSettingsUpdatePatchResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -203,8 +195,8 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -212,8 +204,8 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -223,16 +215,16 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
         resourceGroupName,
         serviceName,
         monitoringSettingResource,
-        options
+        options,
       },
-      spec: updatePatchOperationSpec
+      spec: updatePatchOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitoringSettingsUpdatePatchResponse,
       OperationState<MonitoringSettingsUpdatePatchResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -250,13 +242,13 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
     resourceGroupName: string,
     serviceName: string,
     monitoringSettingResource: MonitoringSettingResource,
-    options?: MonitoringSettingsUpdatePatchOptionalParams
+    options?: MonitoringSettingsUpdatePatchOptionalParams,
   ): Promise<MonitoringSettingsUpdatePatchResponse> {
     const poller = await this.beginUpdatePatch(
       resourceGroupName,
       serviceName,
       monitoringSettingResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -265,47 +257,45 @@ export class MonitoringSettingsImpl implements MonitoringSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updatePutOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     201: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     202: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     204: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.monitoringSettingResource,
   queryParameters: [Parameters.apiVersion],
@@ -313,32 +303,31 @@ const updatePutOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updatePatchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/monitoringSettings/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     201: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     202: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     204: {
-      bodyMapper: Mappers.MonitoringSettingResource
+      bodyMapper: Mappers.MonitoringSettingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.monitoringSettingResource,
   queryParameters: [Parameters.apiVersion],
@@ -346,9 +335,9 @@ const updatePatchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

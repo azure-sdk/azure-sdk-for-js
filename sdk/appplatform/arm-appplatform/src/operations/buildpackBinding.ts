@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BuildpackBindingResource,
@@ -33,7 +29,7 @@ import {
   BuildpackBindingCreateOrUpdateResponse,
   BuildpackBindingDeleteOptionalParams,
   BuildpackBindingListForClusterNextResponse,
-  BuildpackBindingListNextResponse
+  BuildpackBindingListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,13 +55,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
   public listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildpackBindingListForClusterOptionalParams
+    options?: BuildpackBindingListForClusterOptionalParams,
   ): PagedAsyncIterableIterator<BuildpackBindingResource> {
-    const iter = this.listForClusterPagingAll(
-      resourceGroupName,
-      serviceName,
-      options
-    );
+    const iter = this.listForClusterPagingAll(resourceGroupName, serviceName, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +69,8 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listForClusterPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listForClusterPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -91,16 +78,12 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     resourceGroupName: string,
     serviceName: string,
     options?: BuildpackBindingListForClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BuildpackBindingResource[]> {
     let result: BuildpackBindingListForClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listForCluster(
-        resourceGroupName,
-        serviceName,
-        options
-      );
+      result = await this._listForCluster(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -111,7 +94,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         resourceGroupName,
         serviceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +106,12 @@ export class BuildpackBindingImpl implements BuildpackBinding {
   private async *listForClusterPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildpackBindingListForClusterOptionalParams
+    options?: BuildpackBindingListForClusterOptionalParams,
   ): AsyncIterableIterator<BuildpackBindingResource> {
     for await (const page of this.listForClusterPagingPage(
       resourceGroupName,
       serviceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,14 +131,14 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildpackBindingListOptionalParams
+    options?: BuildpackBindingListOptionalParams,
   ): PagedAsyncIterableIterator<BuildpackBindingResource> {
     const iter = this.listPagingAll(
       resourceGroupName,
       serviceName,
       buildServiceName,
       builderName,
-      options
+      options,
     );
     return {
       next() {
@@ -174,9 +157,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
           buildServiceName,
           builderName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -186,7 +169,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     options?: BuildpackBindingListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BuildpackBindingResource[]> {
     let result: BuildpackBindingListResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +179,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         serviceName,
         buildServiceName,
         builderName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -210,7 +193,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         buildServiceName,
         builderName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -224,14 +207,14 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildpackBindingListOptionalParams
+    options?: BuildpackBindingListOptionalParams,
   ): AsyncIterableIterator<BuildpackBindingResource> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       serviceName,
       buildServiceName,
       builderName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -247,11 +230,11 @@ export class BuildpackBindingImpl implements BuildpackBinding {
   private _listForCluster(
     resourceGroupName: string,
     serviceName: string,
-    options?: BuildpackBindingListForClusterOptionalParams
+    options?: BuildpackBindingListForClusterOptionalParams,
   ): Promise<BuildpackBindingListForClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listForClusterOperationSpec
+      listForClusterOperationSpec,
     );
   }
 
@@ -271,7 +254,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingGetOptionalParams
+    options?: BuildpackBindingGetOptionalParams,
   ): Promise<BuildpackBindingGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -280,9 +263,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         buildServiceName,
         builderName,
         buildpackBindingName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -304,7 +287,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     builderName: string,
     buildpackBindingName: string,
     buildpackBinding: BuildpackBindingResource,
-    options?: BuildpackBindingCreateOrUpdateOptionalParams
+    options?: BuildpackBindingCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BuildpackBindingCreateOrUpdateResponse>,
@@ -313,21 +296,19 @@ export class BuildpackBindingImpl implements BuildpackBinding {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BuildpackBindingCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -336,8 +317,8 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -345,8 +326,8 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -359,16 +340,16 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         builderName,
         buildpackBindingName,
         buildpackBinding,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BuildpackBindingCreateOrUpdateResponse,
       OperationState<BuildpackBindingCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -392,7 +373,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     builderName: string,
     buildpackBindingName: string,
     buildpackBinding: BuildpackBindingResource,
-    options?: BuildpackBindingCreateOrUpdateOptionalParams
+    options?: BuildpackBindingCreateOrUpdateOptionalParams,
   ): Promise<BuildpackBindingCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -401,7 +382,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
       builderName,
       buildpackBindingName,
       buildpackBinding,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -422,25 +403,23 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingDeleteOptionalParams
+    options?: BuildpackBindingDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -449,8 +428,8 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -458,8 +437,8 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -471,13 +450,13 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         buildServiceName,
         builderName,
         buildpackBindingName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -499,7 +478,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     buildpackBindingName: string,
-    options?: BuildpackBindingDeleteOptionalParams
+    options?: BuildpackBindingDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -507,7 +486,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
       buildServiceName,
       builderName,
       buildpackBindingName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -526,7 +505,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     serviceName: string,
     buildServiceName: string,
     builderName: string,
-    options?: BuildpackBindingListOptionalParams
+    options?: BuildpackBindingListOptionalParams,
   ): Promise<BuildpackBindingListResponse> {
     return this.client.sendOperationRequest(
       {
@@ -534,9 +513,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         serviceName,
         buildServiceName,
         builderName,
-        options
+        options,
       },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -552,11 +531,11 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: BuildpackBindingListForClusterNextOptionalParams
+    options?: BuildpackBindingListForClusterNextOptionalParams,
   ): Promise<BuildpackBindingListForClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listForClusterNextOperationSpec
+      listForClusterNextOperationSpec,
     );
   }
 
@@ -576,7 +555,7 @@ export class BuildpackBindingImpl implements BuildpackBinding {
     buildServiceName: string,
     builderName: string,
     nextLink: string,
-    options?: BuildpackBindingListNextOptionalParams
+    options?: BuildpackBindingListNextOptionalParams,
   ): Promise<BuildpackBindingListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -585,9 +564,9 @@ export class BuildpackBindingImpl implements BuildpackBinding {
         buildServiceName,
         builderName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -595,38 +574,36 @@ export class BuildpackBindingImpl implements BuildpackBinding {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listForClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildpackBindings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildpackBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResourceCollection
+      bodyMapper: Mappers.BuildpackBindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResource
+      bodyMapper: Mappers.BuildpackBindingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -636,31 +613,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.builderName,
-    Parameters.buildpackBindingName
+    Parameters.buildpackBindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResource
+      bodyMapper: Mappers.BuildpackBindingResource,
     },
     201: {
-      bodyMapper: Mappers.BuildpackBindingResource
+      bodyMapper: Mappers.BuildpackBindingResource,
     },
     202: {
-      bodyMapper: Mappers.BuildpackBindingResource
+      bodyMapper: Mappers.BuildpackBindingResource,
     },
     204: {
-      bodyMapper: Mappers.BuildpackBindingResource
+      bodyMapper: Mappers.BuildpackBindingResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.buildpackBinding,
   queryParameters: [Parameters.apiVersion],
@@ -671,15 +647,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.builderName,
-    Parameters.buildpackBindingName
+    Parameters.buildpackBindingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings/{buildpackBindingName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -687,8 +662,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -698,22 +673,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.buildServiceName,
     Parameters.builderName,
-    Parameters.buildpackBindingName
+    Parameters.buildpackBindingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResourceCollection
+      bodyMapper: Mappers.BuildpackBindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -722,42 +696,42 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.serviceName,
     Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.builderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResourceCollection
+      bodyMapper: Mappers.BuildpackBindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BuildpackBindingResourceCollection
+      bodyMapper: Mappers.BuildpackBindingResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -766,8 +740,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.serviceName,
     Parameters.nextLink,
     Parameters.buildServiceName,
-    Parameters.builderName
+    Parameters.builderName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

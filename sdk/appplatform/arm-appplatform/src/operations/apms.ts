@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApmResource,
@@ -32,7 +28,7 @@ import {
   ApmsDeleteResponse,
   ApmsListSecretKeysOptionalParams,
   ApmsListSecretKeysResponse,
-  ApmsListNextResponse
+  ApmsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,7 +54,7 @@ export class ApmsImpl implements Apms {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApmsListOptionalParams
+    options?: ApmsListOptionalParams,
   ): PagedAsyncIterableIterator<ApmResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -72,13 +68,8 @@ export class ApmsImpl implements Apms {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -86,7 +77,7 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     options?: ApmsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ApmResource[]> {
     let result: ApmsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,12 +89,7 @@ export class ApmsImpl implements Apms {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,13 +100,9 @@ export class ApmsImpl implements Apms {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApmsListOptionalParams
+    options?: ApmsListOptionalParams,
   ): AsyncIterableIterator<ApmResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -135,11 +117,11 @@ export class ApmsImpl implements Apms {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ApmsListOptionalParams
+    options?: ApmsListOptionalParams,
   ): Promise<ApmsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -155,11 +137,11 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsGetOptionalParams
+    options?: ApmsGetOptionalParams,
   ): Promise<ApmsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apmName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -177,30 +159,25 @@ export class ApmsImpl implements Apms {
     serviceName: string,
     apmName: string,
     apmResource: ApmResource,
-    options?: ApmsCreateOrUpdateOptionalParams
+    options?: ApmsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ApmsCreateOrUpdateResponse>,
-      ApmsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ApmsCreateOrUpdateResponse>, ApmsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApmsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +186,8 @@ export class ApmsImpl implements Apms {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,22 +195,22 @@ export class ApmsImpl implements Apms {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, apmName, apmResource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ApmsCreateOrUpdateResponse,
       OperationState<ApmsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -253,14 +230,14 @@ export class ApmsImpl implements Apms {
     serviceName: string,
     apmName: string,
     apmResource: ApmResource,
-    options?: ApmsCreateOrUpdateOptionalParams
+    options?: ApmsCreateOrUpdateOptionalParams,
   ): Promise<ApmsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       apmName,
       apmResource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -277,27 +254,23 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<OperationState<ApmsDeleteResponse>, ApmsDeleteResponse>
-  > {
+    options?: ApmsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ApmsDeleteResponse>, ApmsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ApmsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -306,8 +279,8 @@ export class ApmsImpl implements Apms {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -315,24 +288,24 @@ export class ApmsImpl implements Apms {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, apmName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<
-      ApmsDeleteResponse,
-      OperationState<ApmsDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
+    const poller = await createHttpPoller<ApmsDeleteResponse, OperationState<ApmsDeleteResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "location",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -349,14 +322,9 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsDeleteOptionalParams
+    options?: ApmsDeleteOptionalParams,
   ): Promise<ApmsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      apmName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, serviceName, apmName, options);
     return poller.pollUntilDone();
   }
 
@@ -372,11 +340,11 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     apmName: string,
-    options?: ApmsListSecretKeysOptionalParams
+    options?: ApmsListSecretKeysOptionalParams,
   ): Promise<ApmsListSecretKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, apmName, options },
-      listSecretKeysOperationSpec
+      listSecretKeysOperationSpec,
     );
   }
 
@@ -392,11 +360,11 @@ export class ApmsImpl implements Apms {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ApmsListNextOptionalParams
+    options?: ApmsListNextOptionalParams,
   ): Promise<ApmsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -404,38 +372,15 @@ export class ApmsImpl implements Apms {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApmResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApmResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -443,31 +388,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apmName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApmResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.apmName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ApmResource
+      bodyMapper: Mappers.ApmResource,
     },
     201: {
-      bodyMapper: Mappers.ApmResource
+      bodyMapper: Mappers.ApmResource,
     },
     202: {
-      bodyMapper: Mappers.ApmResource
+      bodyMapper: Mappers.ApmResource,
     },
     204: {
-      bodyMapper: Mappers.ApmResource
+      bodyMapper: Mappers.ApmResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.apmResource,
   queryParameters: [Parameters.apiVersion],
@@ -476,32 +441,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apmName
+    Parameters.apmName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ApmsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ApmsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ApmsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ApmsDeleteHeaders
+      headersMapper: Mappers.ApmsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -509,22 +473,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apmName
+    Parameters.apmName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listSecretKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}/listSecretKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms/{apmName}/listSecretKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ApmSecretKeys
+      bodyMapper: Mappers.ApmSecretKeys,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -532,29 +495,29 @@ const listSecretKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.apmName
+    Parameters.apmName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApmResourceCollection
+      bodyMapper: Mappers.ApmResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

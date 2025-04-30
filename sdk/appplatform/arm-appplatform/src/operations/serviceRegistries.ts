@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServiceRegistryResource,
@@ -29,7 +25,7 @@ import {
   ServiceRegistriesCreateOrUpdateOptionalParams,
   ServiceRegistriesCreateOrUpdateResponse,
   ServiceRegistriesDeleteOptionalParams,
-  ServiceRegistriesListNextResponse
+  ServiceRegistriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -55,7 +51,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   public list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
+    options?: ServiceRegistriesListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceRegistryResource> {
     const iter = this.listPagingAll(resourceGroupName, serviceName, options);
     return {
@@ -69,13 +65,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, serviceName, options, settings);
+      },
     };
   }
 
@@ -83,7 +74,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     options?: ServiceRegistriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServiceRegistryResource[]> {
     let result: ServiceRegistriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,12 +86,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, serviceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,13 +97,9 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private async *listPagingAll(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
+    options?: ServiceRegistriesListOptionalParams,
   ): AsyncIterableIterator<ServiceRegistryResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, serviceName, options)) {
       yield* page;
     }
   }
@@ -134,11 +116,11 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesGetOptionalParams
+    options?: ServiceRegistriesGetOptionalParams,
   ): Promise<ServiceRegistriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, serviceRegistryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,7 +136,7 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    options?: ServiceRegistriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ServiceRegistriesCreateOrUpdateResponse>,
@@ -163,21 +145,19 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ServiceRegistriesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -186,8 +166,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -195,22 +175,22 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, serviceRegistryName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ServiceRegistriesCreateOrUpdateResponse,
       OperationState<ServiceRegistriesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -228,13 +208,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesCreateOrUpdateOptionalParams
+    options?: ServiceRegistriesCreateOrUpdateOptionalParams,
   ): Promise<ServiceRegistriesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       serviceName,
       serviceRegistryName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -251,25 +231,23 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    options?: ServiceRegistriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -278,8 +256,8 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -287,19 +265,19 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, serviceName, serviceRegistryName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -317,13 +295,13 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     serviceRegistryName: string,
-    options?: ServiceRegistriesDeleteOptionalParams
+    options?: ServiceRegistriesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
       serviceRegistryName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -338,11 +316,11 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
   private _list(
     resourceGroupName: string,
     serviceName: string,
-    options?: ServiceRegistriesListOptionalParams
+    options?: ServiceRegistriesListOptionalParams,
   ): Promise<ServiceRegistriesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -358,11 +336,11 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
     resourceGroupName: string,
     serviceName: string,
     nextLink: string,
-    options?: ServiceRegistriesListNextOptionalParams
+    options?: ServiceRegistriesListNextOptionalParams,
   ): Promise<ServiceRegistriesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serviceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -370,16 +348,15 @@ export class ServiceRegistriesImpl implements ServiceRegistries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ServiceRegistryResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -387,31 +364,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.serviceRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ServiceRegistryResource,
     },
     201: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ServiceRegistryResource,
     },
     202: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ServiceRegistryResource,
     },
     204: {
-      bodyMapper: Mappers.ServiceRegistryResource
+      bodyMapper: Mappers.ServiceRegistryResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -419,14 +395,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.serviceRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries/{serviceRegistryName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -434,8 +409,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -443,51 +418,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.serviceRegistryName
+    Parameters.serviceRegistryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.ServiceRegistryResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.serviceName
+    Parameters.serviceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceRegistryResourceCollection
+      bodyMapper: Mappers.ServiceRegistryResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

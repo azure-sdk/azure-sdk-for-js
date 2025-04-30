@@ -17,7 +17,7 @@ import {
   CustomDomainsCreateOrUpdateResponse,
   CustomDomainsDeleteOptionalParams,
   CustomDomainsUpdateOptionalParams,
-  CustomDomainsUpdateResponse
+  CustomDomainsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface CustomDomains {
     resourceGroupName: string,
     serviceName: string,
     appName: string,
-    options?: CustomDomainsListOptionalParams
+    options?: CustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomainResource>;
   /**
    * Get the custom domain of one lifecycle application.
@@ -51,7 +51,7 @@ export interface CustomDomains {
     serviceName: string,
     appName: string,
     domainName: string,
-    options?: CustomDomainsGetOptionalParams
+    options?: CustomDomainsGetOptionalParams,
   ): Promise<CustomDomainsGetResponse>;
   /**
    * Create or update custom domain of one lifecycle application.
@@ -69,7 +69,7 @@ export interface CustomDomains {
     appName: string,
     domainName: string,
     domainResource: CustomDomainResource,
-    options?: CustomDomainsCreateOrUpdateOptionalParams
+    options?: CustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CustomDomainsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface CustomDomains {
     appName: string,
     domainName: string,
     domainResource: CustomDomainResource,
-    options?: CustomDomainsCreateOrUpdateOptionalParams
+    options?: CustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<CustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete the custom domain of one lifecycle application.
@@ -108,7 +108,7 @@ export interface CustomDomains {
     serviceName: string,
     appName: string,
     domainName: string,
-    options?: CustomDomainsDeleteOptionalParams
+    options?: CustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the custom domain of one lifecycle application.
@@ -124,7 +124,7 @@ export interface CustomDomains {
     serviceName: string,
     appName: string,
     domainName: string,
-    options?: CustomDomainsDeleteOptionalParams
+    options?: CustomDomainsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update custom domain of one lifecycle application.
@@ -142,12 +142,9 @@ export interface CustomDomains {
     appName: string,
     domainName: string,
     domainResource: CustomDomainResource,
-    options?: CustomDomainsUpdateOptionalParams
+    options?: CustomDomainsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CustomDomainsUpdateResponse>,
-      CustomDomainsUpdateResponse
-    >
+    SimplePollerLike<OperationState<CustomDomainsUpdateResponse>, CustomDomainsUpdateResponse>
   >;
   /**
    * Update custom domain of one lifecycle application.
@@ -165,6 +162,6 @@ export interface CustomDomains {
     appName: string,
     domainName: string,
     domainResource: CustomDomainResource,
-    options?: CustomDomainsUpdateOptionalParams
+    options?: CustomDomainsUpdateOptionalParams,
   ): Promise<CustomDomainsUpdateResponse>;
 }
