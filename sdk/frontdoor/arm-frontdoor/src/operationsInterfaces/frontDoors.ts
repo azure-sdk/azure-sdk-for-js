@@ -29,9 +29,7 @@ export interface FrontDoors {
    * Lists all of the Front Doors within an Azure subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: FrontDoorsListOptionalParams,
-  ): PagedAsyncIterableIterator<FrontDoor>;
+  list(options?: FrontDoorsListOptionalParams): PagedAsyncIterableIterator<FrontDoor>;
   /**
    * Lists all of the Front Doors within a resource group under a subscription.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

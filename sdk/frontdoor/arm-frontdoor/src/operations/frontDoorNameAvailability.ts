@@ -18,9 +18,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing FrontDoorNameAvailability operations. */
-export class FrontDoorNameAvailabilityImpl
-  implements FrontDoorNameAvailability
-{
+export class FrontDoorNameAvailabilityImpl implements FrontDoorNameAvailability {
   private readonly client: FrontDoorManagementClient;
 
   /**

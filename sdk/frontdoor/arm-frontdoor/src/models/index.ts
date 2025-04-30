@@ -40,6 +40,8 @@ export interface PolicySettings {
   requestBodyCheck?: PolicyRequestBodyCheck;
   /** Defines the JavaScript challenge cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
   javascriptChallengeExpirationInMinutes?: number;
+  /** Defines the Captcha cookie validity lifetime in minutes. This setting is only applicable to Premium_AzureFrontDoor. Value must be an integer between 5 and 1440 with the default value being 30. */
+  captchaExpirationInMinutes?: number;
   /** State of the log scrubbing config. Default value is Enabled. */
   state?: WebApplicationFirewallScrubbingState;
   /** List of log scrubbing rules applied to the Web Application Firewall logs. */
@@ -1303,8 +1305,7 @@ export interface FrontendEndpoint extends SubResource {
 }
 
 /** The JSON object that contains the properties required to create load balancing settings */
-export interface LoadBalancingSettingsProperties
-  extends LoadBalancingSettingsUpdateParameters {
+export interface LoadBalancingSettingsProperties extends LoadBalancingSettingsUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1313,8 +1314,7 @@ export interface LoadBalancingSettingsProperties
 }
 
 /** The JSON object that contains the properties required to create a health probe settings. */
-export interface HealthProbeSettingsProperties
-  extends HealthProbeSettingsUpdateParameters {
+export interface HealthProbeSettingsProperties extends HealthProbeSettingsUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1332,8 +1332,7 @@ export interface BackendPoolProperties extends BackendPoolUpdateParameters {
 }
 
 /** The JSON object that contains the properties required to create a frontend endpoint. */
-export interface FrontendEndpointProperties
-  extends FrontendEndpointUpdateParameters {
+export interface FrontendEndpointProperties extends FrontendEndpointUpdateParameters {
   /**
    * Resource status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1619,6 +1618,8 @@ export enum KnownOperator {
   EndsWith = "EndsWith",
   /** RegEx */
   RegEx = "RegEx",
+  /** ServiceTagMatch */
+  ServiceTagMatch = "ServiceTagMatch",
 }
 
 /**
@@ -1637,7 +1638,8 @@ export enum KnownOperator {
  * **GreaterThanOrEqual** \
  * **BeginsWith** \
  * **EndsWith** \
- * **RegEx**
+ * **RegEx** \
+ * **ServiceTagMatch**
  */
 export type Operator = string;
 
@@ -1685,6 +1687,8 @@ export enum KnownActionType {
   AnomalyScoring = "AnomalyScoring",
   /** JSChallenge */
   JSChallenge = "JSChallenge",
+  /** Captcha */
+  Captcha = "CAPTCHA",
 }
 
 /**
@@ -1697,7 +1701,8 @@ export enum KnownActionType {
  * **Log** \
  * **Redirect** \
  * **AnomalyScoring** \
- * **JSChallenge**
+ * **JSChallenge** \
+ * **CAPTCHA**
  */
 export type ActionType = string;
 
@@ -2654,30 +2659,25 @@ export type ResourceType =
   | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 /** Optional parameters. */
-export interface PoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PoliciesListResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface PoliciesListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type PoliciesListBySubscriptionResponse =
-  WebApplicationFirewallPolicyList;
+export type PoliciesListBySubscriptionResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface PoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PoliciesGetResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface PoliciesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoliciesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2688,8 +2688,7 @@ export interface PoliciesCreateOrUpdateOptionalParams
 export type PoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface PoliciesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoliciesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2700,8 +2699,7 @@ export interface PoliciesUpdateOptionalParams
 export type PoliciesUpdateResponse = WebApplicationFirewallPolicy;
 
 /** Optional parameters. */
-export interface PoliciesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface PoliciesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2709,74 +2707,62 @@ export interface PoliciesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PoliciesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PoliciesListNextResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface PoliciesListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type PoliciesListBySubscriptionNextResponse =
-  WebApplicationFirewallPolicyList;
+export type PoliciesListBySubscriptionNextResponse = WebApplicationFirewallPolicyList;
 
 /** Optional parameters. */
-export interface ManagedRuleSetsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedRuleSetsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedRuleSetsListResponse = ManagedRuleSetDefinitionList;
 
 /** Optional parameters. */
-export interface ManagedRuleSetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedRuleSetsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagedRuleSetsListNextResponse = ManagedRuleSetDefinitionList;
 
 /** Optional parameters. */
-export interface FrontDoorNameAvailabilityCheckOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorNameAvailabilityCheckOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the check operation. */
-export type FrontDoorNameAvailabilityCheckResponse =
-  CheckNameAvailabilityOutput;
+export type FrontDoorNameAvailabilityCheckResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
 export interface FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the check operation. */
-export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse =
-  CheckNameAvailabilityOutput;
+export type FrontDoorNameAvailabilityWithSubscriptionCheckResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
-export interface FrontDoorsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type FrontDoorsListResponse = FrontDoorListResult;
 
 /** Optional parameters. */
-export interface FrontDoorsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type FrontDoorsListByResourceGroupResponse = FrontDoorListResult;
 
 /** Optional parameters. */
-export interface FrontDoorsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FrontDoorsGetResponse = FrontDoor;
 
 /** Optional parameters. */
-export interface FrontDoorsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface FrontDoorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2787,8 +2773,7 @@ export interface FrontDoorsCreateOrUpdateOptionalParams
 export type FrontDoorsCreateOrUpdateResponse = FrontDoor;
 
 /** Optional parameters. */
-export interface FrontDoorsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface FrontDoorsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2796,15 +2781,13 @@ export interface FrontDoorsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface FrontDoorsValidateCustomDomainOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the validateCustomDomain operation. */
 export type FrontDoorsValidateCustomDomainResponse = ValidateCustomDomainOutput;
 
 /** Optional parameters. */
-export interface FrontDoorsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontDoorsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type FrontDoorsListNextResponse = FrontDoorListResult;
@@ -2821,19 +2804,16 @@ export interface FrontendEndpointsListByFrontDoorOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFrontDoor operation. */
-export type FrontendEndpointsListByFrontDoorResponse =
-  FrontendEndpointsListResult;
+export type FrontendEndpointsListByFrontDoorResponse = FrontendEndpointsListResult;
 
 /** Optional parameters. */
-export interface FrontendEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface FrontendEndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type FrontendEndpointsGetResponse = FrontendEndpoint;
 
 /** Optional parameters. */
-export interface FrontendEndpointsEnableHttpsOptionalParams
-  extends coreClient.OperationOptions {
+export interface FrontendEndpointsEnableHttpsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2841,8 +2821,7 @@ export interface FrontendEndpointsEnableHttpsOptionalParams
 }
 
 /** Optional parameters. */
-export interface FrontendEndpointsDisableHttpsOptionalParams
-  extends coreClient.OperationOptions {
+export interface FrontendEndpointsDisableHttpsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2854,12 +2833,10 @@ export interface FrontendEndpointsListByFrontDoorNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFrontDoorNext operation. */
-export type FrontendEndpointsListByFrontDoorNextResponse =
-  FrontendEndpointsListResult;
+export type FrontendEndpointsListByFrontDoorNextResponse = FrontendEndpointsListResult;
 
 /** Optional parameters. */
-export interface EndpointsPurgeContentOptionalParams
-  extends coreClient.OperationOptions {
+export interface EndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2867,22 +2844,19 @@ export interface EndpointsPurgeContentOptionalParams
 }
 
 /** Optional parameters. */
-export interface RulesEnginesListByFrontDoorOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RulesEnginesListByFrontDoorOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByFrontDoor operation. */
 export type RulesEnginesListByFrontDoorResponse = RulesEngineListResult;
 
 /** Optional parameters. */
-export interface RulesEnginesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RulesEnginesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RulesEnginesGetResponse = RulesEngine;
 
 /** Optional parameters. */
-export interface RulesEnginesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RulesEnginesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2893,8 +2867,7 @@ export interface RulesEnginesCreateOrUpdateOptionalParams
 export type RulesEnginesCreateOrUpdateResponse = RulesEngine;
 
 /** Optional parameters. */
-export interface RulesEnginesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RulesEnginesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2909,8 +2882,7 @@ export interface RulesEnginesListByFrontDoorNextOptionalParams
 export type RulesEnginesListByFrontDoorNextResponse = RulesEngineListResult;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NetworkExperimentProfilesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NetworkExperimentProfilesListResponse = ProfileList;
@@ -2923,8 +2895,7 @@ export interface NetworkExperimentProfilesListByResourceGroupOptionalParams
 export type NetworkExperimentProfilesListByResourceGroupResponse = ProfileList;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NetworkExperimentProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NetworkExperimentProfilesGetResponse = Profile;
@@ -2942,8 +2913,7 @@ export interface NetworkExperimentProfilesCreateOrUpdateOptionalParams
 export type NetworkExperimentProfilesCreateOrUpdateResponse = Profile;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2954,8 +2924,7 @@ export interface NetworkExperimentProfilesUpdateOptionalParams
 export type NetworkExperimentProfilesUpdateResponse = Profile;
 
 /** Optional parameters. */
-export interface NetworkExperimentProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface NetworkExperimentProfilesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2974,40 +2943,34 @@ export interface NetworkExperimentProfilesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type NetworkExperimentProfilesListByResourceGroupNextResponse =
-  ProfileList;
+export type NetworkExperimentProfilesListByResourceGroupNextResponse = ProfileList;
 
 /** Optional parameters. */
-export interface PreconfiguredEndpointsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PreconfiguredEndpointsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PreconfiguredEndpointsListResponse = PreconfiguredEndpointList;
 
 /** Optional parameters. */
-export interface PreconfiguredEndpointsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PreconfiguredEndpointsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PreconfiguredEndpointsListNextResponse = PreconfiguredEndpointList;
 
 /** Optional parameters. */
-export interface ExperimentsListByProfileOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExperimentsListByProfileOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfile operation. */
 export type ExperimentsListByProfileResponse = ExperimentList;
 
 /** Optional parameters. */
-export interface ExperimentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExperimentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ExperimentsGetResponse = Experiment;
 
 /** Optional parameters. */
-export interface ExperimentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExperimentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3018,8 +2981,7 @@ export interface ExperimentsCreateOrUpdateOptionalParams
 export type ExperimentsCreateOrUpdateResponse = Experiment;
 
 /** Optional parameters. */
-export interface ExperimentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExperimentsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3030,8 +2992,7 @@ export interface ExperimentsUpdateOptionalParams
 export type ExperimentsUpdateResponse = Experiment;
 
 /** Optional parameters. */
-export interface ExperimentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ExperimentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3039,15 +3000,13 @@ export interface ExperimentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ExperimentsListByProfileNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ExperimentsListByProfileNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfileNext operation. */
 export type ExperimentsListByProfileNextResponse = ExperimentList;
 
 /** Optional parameters. */
-export interface ReportsGetLatencyScorecardsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsGetLatencyScorecardsOptionalParams extends coreClient.OperationOptions {
   /** The end DateTime of the Latency Scorecard in UTC */
   endDateTimeUTC?: string;
   /** The country associated with the Latency Scorecard. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
@@ -3058,8 +3017,7 @@ export interface ReportsGetLatencyScorecardsOptionalParams
 export type ReportsGetLatencyScorecardsResponse = LatencyScorecard;
 
 /** Optional parameters. */
-export interface ReportsGetTimeseriesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReportsGetTimeseriesOptionalParams extends coreClient.OperationOptions {
   /** The country associated with the Timeseries. Values are country ISO codes as specified here- https://www.iso.org/iso-3166-country-codes.html */
   country?: string;
   /** The specific endpoint */
@@ -3070,8 +3028,7 @@ export interface ReportsGetTimeseriesOptionalParams
 export type ReportsGetTimeseriesResponse = Timeseries;
 
 /** Optional parameters. */
-export interface FrontDoorManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface FrontDoorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Overrides client endpoint. */

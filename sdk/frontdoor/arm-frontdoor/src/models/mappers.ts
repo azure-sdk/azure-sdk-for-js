@@ -92,6 +92,16 @@ export const PolicySettings: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      captchaExpirationInMinutes: {
+        constraints: {
+          InclusiveMaximum: 1440,
+          InclusiveMinimum: 5,
+        },
+        serializedName: "captchaExpirationInMinutes",
+        type: {
+          name: "Number",
+        },
+      },
       state: {
         serializedName: "logScrubbing.state",
         type: {
@@ -114,41 +124,40 @@ export const PolicySettings: coreClient.CompositeMapper = {
   },
 };
 
-export const WebApplicationFirewallScrubbingRules: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "WebApplicationFirewallScrubbingRules",
-      modelProperties: {
-        matchVariable: {
-          serializedName: "matchVariable",
-          required: true,
-          type: {
-            name: "String",
-          },
+export const WebApplicationFirewallScrubbingRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallScrubbingRules",
+    modelProperties: {
+      matchVariable: {
+        serializedName: "matchVariable",
+        required: true,
+        type: {
+          name: "String",
         },
-        selectorMatchOperator: {
-          serializedName: "selectorMatchOperator",
-          required: true,
-          type: {
-            name: "String",
-          },
+      },
+      selectorMatchOperator: {
+        serializedName: "selectorMatchOperator",
+        required: true,
+        type: {
+          name: "String",
         },
-        selector: {
-          serializedName: "selector",
-          type: {
-            name: "String",
-          },
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String",
         },
-        state: {
-          serializedName: "state",
-          type: {
-            name: "String",
-          },
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const CustomRuleList: coreClient.CompositeMapper = {
   type: {
@@ -1302,8 +1311,7 @@ export const RoutingRuleUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "webApplicationFirewallPolicyLink",
         type: {
           name: "Composite",
-          className:
-            "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink",
+          className: "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink",
         },
       },
     },
@@ -1341,33 +1349,32 @@ export const RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink: coreCl
     },
   };
 
-export const LoadBalancingSettingsUpdateParameters: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "LoadBalancingSettingsUpdateParameters",
-      modelProperties: {
-        sampleSize: {
-          serializedName: "sampleSize",
-          type: {
-            name: "Number",
-          },
+export const LoadBalancingSettingsUpdateParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LoadBalancingSettingsUpdateParameters",
+    modelProperties: {
+      sampleSize: {
+        serializedName: "sampleSize",
+        type: {
+          name: "Number",
         },
-        successfulSamplesRequired: {
-          serializedName: "successfulSamplesRequired",
-          type: {
-            name: "Number",
-          },
+      },
+      successfulSamplesRequired: {
+        serializedName: "successfulSamplesRequired",
+        type: {
+          name: "Number",
         },
-        additionalLatencyMilliseconds: {
-          serializedName: "additionalLatencyMilliseconds",
-          type: {
-            name: "Number",
-          },
+      },
+      additionalLatencyMilliseconds: {
+        serializedName: "additionalLatencyMilliseconds",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const HealthProbeSettingsUpdateParameters: coreClient.CompositeMapper = {
   type: {
@@ -1597,21 +1604,20 @@ export const CustomHttpsConfiguration: coreClient.CompositeMapper = {
   },
 };
 
-export const KeyVaultCertificateSourceParametersVault: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "KeyVaultCertificateSourceParametersVault",
-      modelProperties: {
-        id: {
-          serializedName: "id",
-          type: {
-            name: "String",
-          },
+export const KeyVaultCertificateSourceParametersVault: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyVaultCertificateSourceParametersVault",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const FrontendEndpointUpdateParameters: coreClient.CompositeMapper = {
   type: {
@@ -1640,8 +1646,7 @@ export const FrontendEndpointUpdateParameters: coreClient.CompositeMapper = {
         serializedName: "webApplicationFirewallPolicyLink",
         type: {
           name: "Composite",
-          className:
-            "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
+          className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
         },
       },
     },
@@ -1652,8 +1657,7 @@ export const FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink: c
   {
     type: {
       name: "Composite",
-      className:
-        "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
+      className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
       modelProperties: {
         id: {
           serializedName: "id",
@@ -2867,8 +2871,7 @@ export const RulesEngineProperties: coreClient.CompositeMapper = {
 };
 
 export const ForwardingConfiguration: coreClient.CompositeMapper = {
-  serializedName:
-    "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+  serializedName: "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
   type: {
     name: "Composite",
     className: "ForwardingConfiguration",
@@ -2907,8 +2910,7 @@ export const ForwardingConfiguration: coreClient.CompositeMapper = {
 };
 
 export const RedirectConfiguration: coreClient.CompositeMapper = {
-  serializedName:
-    "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
+  serializedName: "#Microsoft.Azure.FrontDoor.Models.FrontdoorRedirectConfiguration",
   type: {
     name: "Composite",
     className: "RedirectConfiguration",
@@ -3109,8 +3111,7 @@ export const RoutingRule: coreClient.CompositeMapper = {
         serializedName: "properties.webApplicationFirewallPolicyLink",
         type: {
           name: "Composite",
-          className:
-            "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink",
+          className: "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink",
         },
       },
       resourceState: {
@@ -3330,8 +3331,7 @@ export const FrontendEndpoint: coreClient.CompositeMapper = {
         serializedName: "properties.webApplicationFirewallPolicyLink",
         type: {
           name: "Composite",
-          className:
-            "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
+          className: "FrontendEndpointUpdateParametersWebApplicationFirewallPolicyLink",
         },
       },
       resourceState: {

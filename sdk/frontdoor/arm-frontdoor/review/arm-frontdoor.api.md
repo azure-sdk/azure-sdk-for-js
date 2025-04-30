@@ -666,6 +666,7 @@ export enum KnownActionType {
     Allow = "Allow",
     AnomalyScoring = "AnomalyScoring",
     Block = "Block",
+    Captcha = "CAPTCHA",
     JSChallenge = "JSChallenge",
     Log = "Log",
     Redirect = "Redirect"
@@ -920,7 +921,8 @@ export enum KnownOperator {
     IPMatch = "IPMatch",
     LessThan = "LessThan",
     LessThanOrEqual = "LessThanOrEqual",
-    RegEx = "RegEx"
+    RegEx = "RegEx",
+    ServiceTagMatch = "ServiceTagMatch"
 }
 
 // @public
@@ -1433,6 +1435,7 @@ export type PolicyResourceState = string;
 
 // @public
 export interface PolicySettings {
+    captchaExpirationInMinutes?: number;
     customBlockResponseBody?: string;
     customBlockResponseStatusCode?: number;
     enabledState?: PolicyEnabledState;

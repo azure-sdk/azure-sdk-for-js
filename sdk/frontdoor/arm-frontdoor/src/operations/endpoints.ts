@@ -11,16 +11,9 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import {
-  PurgeParameters,
-  EndpointsPurgeContentOptionalParams,
-} from "../models/index.js";
+import { PurgeParameters, EndpointsPurgeContentOptionalParams } from "../models/index.js";
 
 /** Class containing Endpoints operations. */
 export class EndpointsImpl implements Endpoints {
@@ -59,8 +52,7 @@ export class EndpointsImpl implements Endpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

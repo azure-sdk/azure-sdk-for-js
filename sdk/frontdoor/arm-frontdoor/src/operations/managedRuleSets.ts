@@ -92,9 +92,7 @@ export class ManagedRuleSetsImpl implements ManagedRuleSets {
    * Lists all available managed rule sets.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ManagedRuleSetsListOptionalParams,
-  ): Promise<ManagedRuleSetsListResponse> {
+  private _list(options?: ManagedRuleSetsListOptionalParams): Promise<ManagedRuleSetsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +105,7 @@ export class ManagedRuleSetsImpl implements ManagedRuleSets {
     nextLink: string,
     options?: ManagedRuleSetsListNextOptionalParams,
   ): Promise<ManagedRuleSetsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +138,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

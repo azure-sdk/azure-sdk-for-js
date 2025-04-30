@@ -29,9 +29,7 @@ export interface NetworkExperimentProfiles {
    * Gets a list of Network Experiment Profiles under a subscription
    * @param options The options parameters.
    */
-  list(
-    options?: NetworkExperimentProfilesListOptionalParams,
-  ): PagedAsyncIterableIterator<Profile>;
+  list(options?: NetworkExperimentProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
   /**
    * Gets a list of Network Experiment Profiles within a resource group under a subscription
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
