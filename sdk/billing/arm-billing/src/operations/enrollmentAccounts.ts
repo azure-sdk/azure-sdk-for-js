@@ -54,11 +54,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
     departmentName: string,
     options?: EnrollmentAccountsListByDepartmentOptionalParams,
   ): PagedAsyncIterableIterator<EnrollmentAccount> {
-    const iter = this.listByDepartmentPagingAll(
-      billingAccountName,
-      departmentName,
-      options,
-    );
+    const iter = this.listByDepartmentPagingAll(billingAccountName, departmentName, options);
     return {
       next() {
         return iter.next();
@@ -89,11 +85,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
     let result: EnrollmentAccountsListByDepartmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDepartment(
-        billingAccountName,
-        departmentName,
-        options,
-      );
+      result = await this._listByDepartment(billingAccountName, departmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -137,10 +129,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
     billingAccountName: string,
     options?: EnrollmentAccountsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<EnrollmentAccount> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -152,11 +141,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -176,11 +161,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -192,10 +173,7 @@ export class EnrollmentAccountsImpl implements EnrollmentAccounts {
     billingAccountName: string,
     options?: EnrollmentAccountsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<EnrollmentAccount> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -352,11 +330,7 @@ const listByDepartmentOperationSpec: coreClient.OperationSpec = {
     Parameters.count,
     Parameters.search,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.departmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.departmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -435,11 +409,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

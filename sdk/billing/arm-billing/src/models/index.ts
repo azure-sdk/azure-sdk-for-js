@@ -1719,7 +1719,7 @@ export interface BillingSubscriptionProperties {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -3470,8 +3470,7 @@ export interface AvailableBalancePropertiesAmount extends Amount {}
 export interface PaymentOnAccountAmount extends Amount {}
 
 /** Total amount of payments on accounts. */
-export interface AvailableBalancePropertiesTotalPaymentsOnAccount
-  extends Amount {}
+export interface AvailableBalancePropertiesTotalPaymentsOnAccount extends Amount {}
 
 /** The amount due as of now. */
 export interface InvoicePropertiesAmountDue extends Amount {}
@@ -3513,8 +3512,7 @@ export interface ProductPropertiesLastCharge extends Amount {}
 export interface TransactionPropertiesAzureCreditApplied extends Amount {}
 
 /** The amount of Microsoft Azure Consumption Commitment(MACC) decrement through the transaction. */
-export interface TransactionPropertiesConsumptionCommitmentDecremented
-  extends Amount {}
+export interface TransactionPropertiesConsumptionCommitmentDecremented extends Amount {}
 
 /** The price of the product after applying any discounts. */
 export interface TransactionPropertiesEffectivePrice extends Amount {}
@@ -3538,16 +3536,13 @@ export interface RefundTransactionDetailsAmountRequested extends Amount {}
 export interface RefundTransactionDetailsAmountRefunded extends Amount {}
 
 /** The current payment term of the billing profile. */
-export interface BillingProfilePropertiesCurrentPaymentTerm
-  extends PaymentTerm {}
+export interface BillingProfilePropertiesCurrentPaymentTerm extends PaymentTerm {}
 
 /** The properties of an enrollment. */
-export interface BillingAccountPropertiesEnrollmentDetails
-  extends EnrollmentDetails {}
+export interface BillingAccountPropertiesEnrollmentDetails extends EnrollmentDetails {}
 
 /** The properties of an enrollment which are applicable only for indirect enrollments. */
-export interface EnrollmentDetailsIndirectRelationshipInfo
-  extends IndirectRelationshipInfo {}
+export interface EnrollmentDetailsIndirectRelationshipInfo extends IndirectRelationshipInfo {}
 
 /** Identifies the billing profile that is linked to another billing profile in indirect purchase motion. */
 export interface BillingProfilePropertiesIndirectRelationshipInfo
@@ -3566,16 +3561,13 @@ export interface BillingProfilePropertiesShipTo extends AddressDetails {}
 export interface BillingProfilePropertiesSoldTo extends AddressDetails {}
 
 /** The address of the individual or organization where service subscription is being used. Available for agreement type Microsoft Online Services Program. This property can be updated via patch. */
-export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress
-  extends AddressDetails {}
+export interface BillingPropertyPropertiesSubscriptionServiceUsageAddress extends AddressDetails {}
 
 /** Describes the registration number of the organization linked with the billing account. */
-export interface BillingAccountPropertiesRegistrationNumber
-  extends RegistrationNumber {}
+export interface BillingAccountPropertiesRegistrationNumber extends RegistrationNumber {}
 
 /** The enrollment details for the subscription. Available for billing accounts with agreement type Enterprise Agreement. */
-export interface BillingPropertyPropertiesEnrollmentDetails
-  extends SubscriptionEnrollmentDetails {}
+export interface BillingPropertyPropertiesEnrollmentDetails extends SubscriptionEnrollmentDetails {}
 
 /** The principal of the request reviewer. Will only be set if request is approved. */
 export interface BillingRequestPropertiesReviewedBy extends Principal {}
@@ -3593,8 +3585,7 @@ export interface Commitment extends Price {
 }
 
 /** A billing subscription alias. */
-export interface BillingSubscriptionAliasProperties
-  extends BillingSubscriptionProperties {
+export interface BillingSubscriptionAliasProperties extends BillingSubscriptionProperties {
   /**
    * The ID of the billing subscription with the subscription alias.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3620,12 +3611,10 @@ export interface BillingAccountPolicyPropertiesEnterpriseAgreementPolicies
   extends EnterpriseAgreementPolicies {}
 
 /** Error details of the transfer eligibility validation. */
-export interface MoveProductEligibilityResultErrorDetails
-  extends MoveProductErrorDetails {}
+export interface MoveProductEligibilityResultErrorDetails extends MoveProductErrorDetails {}
 
 /** The refund details of a transaction. */
-export interface TransactionPropertiesRefundTransactionDetails
-  extends RefundTransactionDetails {}
+export interface TransactionPropertiesRefundTransactionDetails extends RefundTransactionDetails {}
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources. */
 export interface ProxyResourceWithTags extends ProxyResource {
@@ -4104,7 +4093,7 @@ export interface BillingSubscription extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -4288,7 +4277,7 @@ export interface BillingSubscriptionAlias extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -4477,7 +4466,7 @@ export interface BillingSubscriptionPatch extends ProxyResourceWithTags {
    */
   readonly nextBillingCycleDetails?: NextBillingCycleDetails;
   /**
-   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts.
+   * The offer ID for the subscription. This field is only available for the Microsoft Online Services Program billing accounts or billing accounts with agreement type Enterprise Agreement.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerId?: string;
@@ -7629,15 +7618,13 @@ export enum KnownSupportedAccountType {
 export type SupportedAccountType = string;
 
 /** Optional parameters. */
-export interface AgreementsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgreementsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AgreementsGetResponse = Agreement;
 
 /** Optional parameters. */
-export interface AgreementsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface AgreementsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the participants. */
   expand?: string;
 }
@@ -7653,8 +7640,7 @@ export interface AgreementsListByBillingAccountNextOptionalParams
 export type AgreementsListByBillingAccountNextResponse = AgreementListResult;
 
 /** Optional parameters. */
-export interface AssociatedTenantsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AssociatedTenantsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7665,15 +7651,13 @@ export interface AssociatedTenantsDeleteOptionalParams
 export type AssociatedTenantsDeleteResponse = AssociatedTenantsDeleteHeaders;
 
 /** Optional parameters. */
-export interface AssociatedTenantsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AssociatedTenantsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AssociatedTenantsGetResponse = AssociatedTenant;
 
 /** Optional parameters. */
-export interface AssociatedTenantsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AssociatedTenantsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7703,16 +7687,14 @@ export interface AssociatedTenantsListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type AssociatedTenantsListByBillingAccountResponse =
-  AssociatedTenantListResult;
+export type AssociatedTenantsListByBillingAccountResponse = AssociatedTenantListResult;
 
 /** Optional parameters. */
 export interface AssociatedTenantsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type AssociatedTenantsListByBillingAccountNextResponse =
-  AssociatedTenantListResult;
+export type AssociatedTenantsListByBillingAccountNextResponse = AssociatedTenantListResult;
 
 /** Optional parameters. */
 export interface AvailableBalancesGetByBillingAccountOptionalParams
@@ -7729,8 +7711,7 @@ export interface AvailableBalancesGetByBillingProfileOptionalParams
 export type AvailableBalancesGetByBillingProfileResponse = AvailableBalance;
 
 /** Optional parameters. */
-export interface BillingAccountsAddPaymentTermsOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingAccountsAddPaymentTermsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7775,19 +7756,16 @@ export interface BillingAccountsValidatePaymentTermsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validatePaymentTerms operation. */
-export type BillingAccountsValidatePaymentTermsResponse =
-  PaymentTermsEligibilityResult;
+export type BillingAccountsValidatePaymentTermsResponse = PaymentTermsEligibilityResult;
 
 /** Optional parameters. */
-export interface BillingAccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingAccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingAccountsGetResponse = BillingAccount;
 
 /** Optional parameters. */
-export interface BillingAccountsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingAccountsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -7798,8 +7776,7 @@ export interface BillingAccountsUpdateOptionalParams
 export type BillingAccountsUpdateResponse = BillingAccount;
 
 /** Optional parameters. */
-export interface BillingAccountsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingAccountsListOptionalParams extends coreClient.OperationOptions {
   /** Expand is allowed for SoldTo and EnrollmentDetails/PONumber. */
   expand?: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
@@ -7838,15 +7815,13 @@ export type BillingAccountsListInvoiceSectionsByCreateSubscriptionPermissionNext
   InvoiceSectionWithCreateSubPermissionListResult;
 
 /** Optional parameters. */
-export interface BillingAccountsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingAccountsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type BillingAccountsListNextResponse = BillingAccountListResult;
 
 /** Optional parameters. */
-export interface AddressValidateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AddressValidateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
 export type AddressValidateResponse = AddressValidationResponse;
@@ -7856,136 +7831,119 @@ export interface BillingPermissionsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingPermissionsListByBillingAccountResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByBillingAccountResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingPermissionsListByBillingProfileResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByBillingProfileResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByBillingProfile operation. */
-export type BillingPermissionsCheckAccessByBillingProfileResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByBillingProfileResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsListByCustomerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomer operation. */
-export type BillingPermissionsListByCustomerResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByCustomerResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByCustomerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByCustomer operation. */
-export type BillingPermissionsCheckAccessByCustomerResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByCustomerResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsListByInvoiceSectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSection operation. */
-export type BillingPermissionsListByInvoiceSectionResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByInvoiceSectionResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByInvoiceSectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByInvoiceSection operation. */
-export type BillingPermissionsCheckAccessByInvoiceSectionResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByInvoiceSectionResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByBillingAccount operation. */
-export type BillingPermissionsCheckAccessByBillingAccountResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByBillingAccountResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsListByCustomerAtBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerAtBillingAccount operation. */
-export type BillingPermissionsListByCustomerAtBillingAccountResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByCustomerAtBillingAccountResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartment operation. */
-export type BillingPermissionsListByDepartmentResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByDepartmentResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByDepartment operation. */
-export type BillingPermissionsCheckAccessByDepartmentResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByDepartmentResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsListByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEnrollmentAccount operation. */
-export type BillingPermissionsListByEnrollmentAccountResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByEnrollmentAccountResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsCheckAccessByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAccessByEnrollmentAccount operation. */
-export type BillingPermissionsCheckAccessByEnrollmentAccountResponse =
-  CheckAccessResponse[];
+export type BillingPermissionsCheckAccessByEnrollmentAccountResponse = CheckAccessResponse[];
 
 /** Optional parameters. */
 export interface BillingPermissionsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingPermissionsListByBillingAccountNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByBillingAccountNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type BillingPermissionsListByBillingProfileNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByBillingProfileNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByCustomerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
-export type BillingPermissionsListByCustomerNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByCustomerNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByInvoiceSectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingPermissionsListByInvoiceSectionNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByInvoiceSectionNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByCustomerAtBillingAccountNextOptionalParams
@@ -8000,16 +7958,14 @@ export interface BillingPermissionsListByDepartmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartmentNext operation. */
-export type BillingPermissionsListByDepartmentNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByDepartmentNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingPermissionsListByEnrollmentAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEnrollmentAccountNext operation. */
-export type BillingPermissionsListByEnrollmentAccountNextResponse =
-  BillingPermissionListResult;
+export type BillingPermissionsListByEnrollmentAccountNextResponse = BillingPermissionListResult;
 
 /** Optional parameters. */
 export interface BillingProfilesValidateDeleteEligibilityOptionalParams
@@ -8020,8 +7976,7 @@ export type BillingProfilesValidateDeleteEligibilityResponse =
   DeleteBillingProfileEligibilityResult;
 
 /** Optional parameters. */
-export interface BillingProfilesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingProfilesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8032,15 +7987,13 @@ export interface BillingProfilesDeleteOptionalParams
 export type BillingProfilesDeleteResponse = BillingProfilesDeleteHeaders;
 
 /** Optional parameters. */
-export interface BillingProfilesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingProfilesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingProfilesGetResponse = BillingProfile;
 
 /** Optional parameters. */
-export interface BillingProfilesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8070,20 +8023,17 @@ export interface BillingProfilesListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingProfilesListByBillingAccountResponse =
-  BillingProfileListResult;
+export type BillingProfilesListByBillingAccountResponse = BillingProfileListResult;
 
 /** Optional parameters. */
 export interface BillingProfilesListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingProfilesListByBillingAccountNextResponse =
-  BillingProfileListResult;
+export type BillingProfilesListByBillingAccountNextResponse = BillingProfileListResult;
 
 /** Optional parameters. */
-export interface BillingPropertyGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingPropertyGetOptionalParams extends coreClient.OperationOptions {
   /** A flag that specifies whether or not to include billing country. */
   includeBillingCountry?: boolean;
   /** A flag that specifies whether or not to include transition status for billing accounts with agreement type Microsoft Customer Agreement. */
@@ -8094,8 +8044,7 @@ export interface BillingPropertyGetOptionalParams
 export type BillingPropertyGetResponse = BillingProperty;
 
 /** Optional parameters. */
-export interface BillingPropertyUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingPropertyUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type BillingPropertyUpdateResponse = BillingProperty;
@@ -8118,12 +8067,10 @@ export interface BillingRequestsListByBillingProfileOptionalParams
 }
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingRequestsListByBillingProfileResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByBillingProfileResponse = BillingRequestListResult;
 
 /** Optional parameters. */
-export interface BillingRequestsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingRequestsListByCustomerOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -8159,8 +8106,7 @@ export interface BillingRequestsListByInvoiceSectionOptionalParams
 }
 
 /** Contains response data for the listByInvoiceSection operation. */
-export type BillingRequestsListByInvoiceSectionResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByInvoiceSectionResponse = BillingRequestListResult;
 
 /** Optional parameters. */
 export interface BillingRequestsListByBillingAccountOptionalParams
@@ -8180,19 +8126,16 @@ export interface BillingRequestsListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingRequestsListByBillingAccountResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByBillingAccountResponse = BillingRequestListResult;
 
 /** Optional parameters. */
-export interface BillingRequestsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingRequestsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingRequestsGetResponse = BillingRequest;
 
 /** Optional parameters. */
-export interface BillingRequestsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingRequestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8203,8 +8146,7 @@ export interface BillingRequestsCreateOrUpdateOptionalParams
 export type BillingRequestsCreateOrUpdateResponse = BillingRequest;
 
 /** Optional parameters. */
-export interface BillingRequestsListByUserOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingRequestsListByUserOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -8227,36 +8169,31 @@ export interface BillingRequestsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type BillingRequestsListByBillingProfileNextResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByBillingProfileNextResponse = BillingRequestListResult;
 
 /** Optional parameters. */
 export interface BillingRequestsListByCustomerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
-export type BillingRequestsListByCustomerNextResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByCustomerNextResponse = BillingRequestListResult;
 
 /** Optional parameters. */
 export interface BillingRequestsListByInvoiceSectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingRequestsListByInvoiceSectionNextResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByInvoiceSectionNextResponse = BillingRequestListResult;
 
 /** Optional parameters. */
 export interface BillingRequestsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingRequestsListByBillingAccountNextResponse =
-  BillingRequestListResult;
+export type BillingRequestsListByBillingAccountNextResponse = BillingRequestListResult;
 
 /** Optional parameters. */
-export interface BillingRequestsListByUserNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingRequestsListByUserNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByUserNext operation. */
 export type BillingRequestsListByUserNextResponse = BillingRequestListResult;
@@ -8270,8 +8207,7 @@ export interface BillingRoleAssignmentsGetByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingProfile operation. */
-export type BillingRoleAssignmentsGetByBillingProfileResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsGetByBillingProfileResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByBillingProfileOptionalParams
@@ -8285,8 +8221,7 @@ export interface BillingRoleAssignmentsListByBillingProfileOptionalParams
 }
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingRoleAssignmentsListByBillingProfileResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByBillingProfileResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateByBillingProfileOptionalParams
@@ -8298,8 +8233,7 @@ export interface BillingRoleAssignmentsCreateByBillingProfileOptionalParams
 }
 
 /** Contains response data for the createByBillingProfile operation. */
-export type BillingRoleAssignmentsCreateByBillingProfileResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateByBillingProfileResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsDeleteByCustomerOptionalParams
@@ -8324,8 +8258,7 @@ export interface BillingRoleAssignmentsListByCustomerOptionalParams
 }
 
 /** Contains response data for the listByCustomer operation. */
-export type BillingRoleAssignmentsListByCustomerResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByCustomerResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateByCustomerOptionalParams
@@ -8337,8 +8270,7 @@ export interface BillingRoleAssignmentsCreateByCustomerOptionalParams
 }
 
 /** Contains response data for the createByCustomer operation. */
-export type BillingRoleAssignmentsCreateByCustomerResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateByCustomerResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsResolveByCustomerOptionalParams
@@ -8354,8 +8286,7 @@ export interface BillingRoleAssignmentsResolveByCustomerOptionalParams
 }
 
 /** Contains response data for the resolveByCustomer operation. */
-export type BillingRoleAssignmentsResolveByCustomerResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsResolveByCustomerResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams
@@ -8366,8 +8297,7 @@ export interface BillingRoleAssignmentsGetByInvoiceSectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByInvoiceSection operation. */
-export type BillingRoleAssignmentsGetByInvoiceSectionResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsGetByInvoiceSectionResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams
@@ -8381,8 +8311,7 @@ export interface BillingRoleAssignmentsListByInvoiceSectionOptionalParams
 }
 
 /** Contains response data for the listByInvoiceSection operation. */
-export type BillingRoleAssignmentsListByInvoiceSectionResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByInvoiceSectionResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams
@@ -8394,8 +8323,7 @@ export interface BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams
 }
 
 /** Contains response data for the createByInvoiceSection operation. */
-export type BillingRoleAssignmentsCreateByInvoiceSectionResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateByInvoiceSectionResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams
@@ -8411,8 +8339,7 @@ export interface BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams
 }
 
 /** Contains response data for the resolveByInvoiceSection operation. */
-export type BillingRoleAssignmentsResolveByInvoiceSectionResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsResolveByInvoiceSectionResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsResolveByBillingProfileOptionalParams
@@ -8428,8 +8355,7 @@ export interface BillingRoleAssignmentsResolveByBillingProfileOptionalParams
 }
 
 /** Contains response data for the resolveByBillingProfile operation. */
-export type BillingRoleAssignmentsResolveByBillingProfileResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsResolveByBillingProfileResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsDeleteByBillingAccountOptionalParams
@@ -8440,8 +8366,7 @@ export interface BillingRoleAssignmentsGetByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
-export type BillingRoleAssignmentsGetByBillingAccountResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsGetByBillingAccountResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams
@@ -8453,8 +8378,7 @@ export interface BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalPar
 }
 
 /** Contains response data for the createOrUpdateByBillingAccount operation. */
-export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByBillingAccountOptionalParams
@@ -8468,8 +8392,7 @@ export interface BillingRoleAssignmentsListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingRoleAssignmentsListByBillingAccountResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByBillingAccountResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateByBillingAccountOptionalParams
@@ -8481,8 +8404,7 @@ export interface BillingRoleAssignmentsCreateByBillingAccountOptionalParams
 }
 
 /** Contains response data for the createByBillingAccount operation. */
-export type BillingRoleAssignmentsCreateByBillingAccountResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateByBillingAccountResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsDeleteByDepartmentOptionalParams
@@ -8493,8 +8415,7 @@ export interface BillingRoleAssignmentsGetByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByDepartment operation. */
-export type BillingRoleAssignmentsGetByDepartmentResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsGetByDepartmentResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams
@@ -8506,16 +8427,14 @@ export interface BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams
 }
 
 /** Contains response data for the createOrUpdateByDepartment operation. */
-export type BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartment operation. */
-export type BillingRoleAssignmentsListByDepartmentResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByDepartmentResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsDeleteByEnrollmentAccountOptionalParams
@@ -8526,8 +8445,7 @@ export interface BillingRoleAssignmentsGetByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByEnrollmentAccount operation. */
-export type BillingRoleAssignmentsGetByEnrollmentAccountResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsGetByEnrollmentAccountResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams
@@ -8539,16 +8457,14 @@ export interface BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptional
 }
 
 /** Contains response data for the createOrUpdateByEnrollmentAccount operation. */
-export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse =
-  BillingRoleAssignment;
+export type BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse = BillingRoleAssignment;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEnrollmentAccount operation. */
-export type BillingRoleAssignmentsListByEnrollmentAccountResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByEnrollmentAccountResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsResolveByBillingAccountOptionalParams
@@ -8564,8 +8480,7 @@ export interface BillingRoleAssignmentsResolveByBillingAccountOptionalParams
 }
 
 /** Contains response data for the resolveByBillingAccount operation. */
-export type BillingRoleAssignmentsResolveByBillingAccountResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsResolveByBillingAccountResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByBillingProfileNextOptionalParams
@@ -8580,8 +8495,7 @@ export interface BillingRoleAssignmentsListByCustomerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
-export type BillingRoleAssignmentsListByCustomerNextResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByCustomerNextResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByInvoiceSectionNextOptionalParams
@@ -8604,8 +8518,7 @@ export interface BillingRoleAssignmentsListByDepartmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartmentNext operation. */
-export type BillingRoleAssignmentsListByDepartmentNextResponse =
-  BillingRoleAssignmentListResult;
+export type BillingRoleAssignmentsListByDepartmentNextResponse = BillingRoleAssignmentListResult;
 
 /** Optional parameters. */
 export interface BillingRoleAssignmentsListByEnrollmentAccountNextOptionalParams
@@ -8620,16 +8533,14 @@ export interface BillingRoleDefinitionGetByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingProfile operation. */
-export type BillingRoleDefinitionGetByBillingProfileResponse =
-  BillingRoleDefinition;
+export type BillingRoleDefinitionGetByBillingProfileResponse = BillingRoleDefinition;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingRoleDefinitionListByBillingProfileResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByBillingProfileResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionGetByCustomerOptionalParams
@@ -8643,112 +8554,98 @@ export interface BillingRoleDefinitionListByCustomerOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomer operation. */
-export type BillingRoleDefinitionListByCustomerResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByCustomerResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionGetByInvoiceSectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByInvoiceSection operation. */
-export type BillingRoleDefinitionGetByInvoiceSectionResponse =
-  BillingRoleDefinition;
+export type BillingRoleDefinitionGetByInvoiceSectionResponse = BillingRoleDefinition;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByInvoiceSectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSection operation. */
-export type BillingRoleDefinitionListByInvoiceSectionResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByInvoiceSectionResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionGetByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
-export type BillingRoleDefinitionGetByBillingAccountResponse =
-  BillingRoleDefinition;
+export type BillingRoleDefinitionGetByBillingAccountResponse = BillingRoleDefinition;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingRoleDefinitionListByBillingAccountResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByBillingAccountResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionGetByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByDepartment operation. */
-export type BillingRoleDefinitionGetByDepartmentResponse =
-  BillingRoleDefinition;
+export type BillingRoleDefinitionGetByDepartmentResponse = BillingRoleDefinition;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByDepartmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartment operation. */
-export type BillingRoleDefinitionListByDepartmentResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByDepartmentResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionGetByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByEnrollmentAccount operation. */
-export type BillingRoleDefinitionGetByEnrollmentAccountResponse =
-  BillingRoleDefinition;
+export type BillingRoleDefinitionGetByEnrollmentAccountResponse = BillingRoleDefinition;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByEnrollmentAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEnrollmentAccount operation. */
-export type BillingRoleDefinitionListByEnrollmentAccountResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByEnrollmentAccountResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type BillingRoleDefinitionListByBillingProfileNextResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByBillingProfileNextResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByCustomerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
-export type BillingRoleDefinitionListByCustomerNextResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByCustomerNextResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByInvoiceSectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingRoleDefinitionListByInvoiceSectionNextResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByInvoiceSectionNextResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingRoleDefinitionListByBillingAccountNextResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByBillingAccountNextResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByDepartmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartmentNext operation. */
-export type BillingRoleDefinitionListByDepartmentNextResponse =
-  BillingRoleDefinitionListResult;
+export type BillingRoleDefinitionListByDepartmentNextResponse = BillingRoleDefinitionListResult;
 
 /** Optional parameters. */
 export interface BillingRoleDefinitionListByEnrollmentAccountNextOptionalParams
@@ -8766,8 +8663,7 @@ export interface SavingsPlanOrdersGetByBillingAccountOptionalParams
 }
 
 /** Contains response data for the getByBillingAccount operation. */
-export type SavingsPlanOrdersGetByBillingAccountResponse =
-  SavingsPlanOrderModel;
+export type SavingsPlanOrdersGetByBillingAccountResponse = SavingsPlanOrderModel;
 
 /** Optional parameters. */
 export interface SavingsPlanOrdersListByBillingAccountOptionalParams
@@ -8781,16 +8677,14 @@ export interface SavingsPlanOrdersListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type SavingsPlanOrdersListByBillingAccountResponse =
-  SavingsPlanOrderModelList;
+export type SavingsPlanOrdersListByBillingAccountResponse = SavingsPlanOrderModelList;
 
 /** Optional parameters. */
 export interface SavingsPlanOrdersListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type SavingsPlanOrdersListByBillingAccountNextResponse =
-  SavingsPlanOrderModelList;
+export type SavingsPlanOrdersListByBillingAccountNextResponse = SavingsPlanOrderModelList;
 
 /** Optional parameters. */
 export interface SavingsPlansListBySavingsPlanOrderOptionalParams
@@ -8817,12 +8711,10 @@ export interface SavingsPlansListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type SavingsPlansListByBillingAccountResponse =
-  SavingsPlanModelListResult;
+export type SavingsPlansListByBillingAccountResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
-export interface SavingsPlansGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface SavingsPlansGetByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the planInformation. */
   expand?: string;
 }
@@ -8847,24 +8739,21 @@ export interface SavingsPlansValidateUpdateByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validateUpdateByBillingAccount operation. */
-export type SavingsPlansValidateUpdateByBillingAccountResponse =
-  SavingsPlanValidateResponse;
+export type SavingsPlansValidateUpdateByBillingAccountResponse = SavingsPlanValidateResponse;
 
 /** Optional parameters. */
 export interface SavingsPlansListBySavingsPlanOrderNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySavingsPlanOrderNext operation. */
-export type SavingsPlansListBySavingsPlanOrderNextResponse =
-  SavingsPlanModelList;
+export type SavingsPlansListBySavingsPlanOrderNextResponse = SavingsPlanModelList;
 
 /** Optional parameters. */
 export interface SavingsPlansListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type SavingsPlansListByBillingAccountNextResponse =
-  SavingsPlanModelListResult;
+export type SavingsPlansListByBillingAccountNextResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsGetByBillingProfileOptionalParams
@@ -8874,8 +8763,7 @@ export interface BillingSubscriptionsGetByBillingProfileOptionalParams
 }
 
 /** Contains response data for the getByBillingProfile operation. */
-export type BillingSubscriptionsGetByBillingProfileResponse =
-  BillingSubscription;
+export type BillingSubscriptionsGetByBillingProfileResponse = BillingSubscription;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByBillingProfileOptionalParams
@@ -8899,8 +8787,7 @@ export interface BillingSubscriptionsListByBillingProfileOptionalParams
 }
 
 /** Contains response data for the listByBillingProfile operation. */
-export type BillingSubscriptionsListByBillingProfileResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByBillingProfileResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByCustomerOptionalParams
@@ -8924,8 +8811,7 @@ export interface BillingSubscriptionsListByCustomerOptionalParams
 }
 
 /** Contains response data for the listByCustomer operation. */
-export type BillingSubscriptionsListByCustomerResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByCustomerResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByInvoiceSectionOptionalParams
@@ -8949,12 +8835,10 @@ export interface BillingSubscriptionsListByInvoiceSectionOptionalParams
 }
 
 /** Contains response data for the listByInvoiceSection operation. */
-export type BillingSubscriptionsListByInvoiceSectionResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByInvoiceSectionResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsCancelOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsCancelOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8962,12 +8846,10 @@ export interface BillingSubscriptionsCancelOptionalParams
 }
 
 /** Contains response data for the cancel operation. */
-export type BillingSubscriptionsCancelResponse =
-  BillingSubscriptionsCancelHeaders;
+export type BillingSubscriptionsCancelResponse = BillingSubscriptionsCancelHeaders;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsMergeOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsMergeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8978,8 +8860,7 @@ export interface BillingSubscriptionsMergeOptionalParams
 export type BillingSubscriptionsMergeResponse = BillingSubscription;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsMoveOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsMoveOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -8990,8 +8871,7 @@ export interface BillingSubscriptionsMoveOptionalParams
 export type BillingSubscriptionsMoveResponse = BillingSubscription;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsSplitOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsSplitOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9010,8 +8890,7 @@ export type BillingSubscriptionsValidateMoveEligibilityResponse =
   MoveBillingSubscriptionEligibilityResult;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9019,12 +8898,10 @@ export interface BillingSubscriptionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type BillingSubscriptionsDeleteResponse =
-  BillingSubscriptionsDeleteHeaders;
+export type BillingSubscriptionsDeleteResponse = BillingSubscriptionsDeleteHeaders;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
   /** Can be used to expand `Reseller`, `ConsumptionCostCenter`, `LastMonthCharges` and `MonthToDateCharges` */
   expand?: string;
 }
@@ -9033,8 +8910,7 @@ export interface BillingSubscriptionsGetOptionalParams
 export type BillingSubscriptionsGetResponse = BillingSubscription;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface BillingSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9070,8 +8946,7 @@ export interface BillingSubscriptionsListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type BillingSubscriptionsListByBillingAccountResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByBillingAccountResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams
@@ -9116,40 +8991,35 @@ export interface BillingSubscriptionsListByEnrollmentAccountOptionalParams
 }
 
 /** Contains response data for the listByEnrollmentAccount operation. */
-export type BillingSubscriptionsListByEnrollmentAccountResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByEnrollmentAccountResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type BillingSubscriptionsListByBillingProfileNextResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByBillingProfileNextResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByCustomerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
-export type BillingSubscriptionsListByCustomerNextResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByCustomerNextResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByInvoiceSectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
-export type BillingSubscriptionsListByInvoiceSectionNextResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByInvoiceSectionNextResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type BillingSubscriptionsListByBillingAccountNextResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByBillingAccountNextResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsListByCustomerAtBillingAccountNextOptionalParams
@@ -9164,12 +9034,10 @@ export interface BillingSubscriptionsListByEnrollmentAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEnrollmentAccountNext operation. */
-export type BillingSubscriptionsListByEnrollmentAccountNextResponse =
-  BillingSubscriptionListResult;
+export type BillingSubscriptionsListByEnrollmentAccountNextResponse = BillingSubscriptionListResult;
 
 /** Optional parameters. */
-export interface BillingSubscriptionsAliasesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface BillingSubscriptionsAliasesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type BillingSubscriptionsAliasesGetResponse = BillingSubscriptionAlias;
@@ -9184,8 +9052,7 @@ export interface BillingSubscriptionsAliasesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type BillingSubscriptionsAliasesCreateOrUpdateResponse =
-  BillingSubscriptionAlias;
+export type BillingSubscriptionsAliasesCreateOrUpdateResponse = BillingSubscriptionAlias;
 
 /** Optional parameters. */
 export interface BillingSubscriptionsAliasesListByBillingAccountOptionalParams
@@ -9219,15 +9086,13 @@ export type BillingSubscriptionsAliasesListByBillingAccountNextResponse =
   BillingSubscriptionAliasListResult;
 
 /** Optional parameters. */
-export interface CustomersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CustomersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CustomersGetResponse = Customer;
 
 /** Optional parameters. */
-export interface CustomersListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {
+export interface CustomersListByBillingProfileOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand enabledAzurePlans and resellers */
   expand?: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
@@ -9248,15 +9113,13 @@ export interface CustomersListByBillingProfileOptionalParams
 export type CustomersListByBillingProfileResponse = CustomerListResult;
 
 /** Optional parameters. */
-export interface CustomersGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CustomersGetByBillingAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
 export type CustomersGetByBillingAccountResponse = Customer;
 
 /** Optional parameters. */
-export interface CustomersListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface CustomersListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand enabledAzurePlans and resellers */
   expand?: string;
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
@@ -9291,15 +9154,13 @@ export interface CustomersListByBillingAccountNextOptionalParams
 export type CustomersListByBillingAccountNextResponse = CustomerListResult;
 
 /** Optional parameters. */
-export interface DepartmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DepartmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DepartmentsGetResponse = Department;
 
 /** Optional parameters. */
-export interface DepartmentsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface DepartmentsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9347,12 +9208,10 @@ export interface EnrollmentAccountsListByDepartmentOptionalParams
 }
 
 /** Contains response data for the listByDepartment operation. */
-export type EnrollmentAccountsListByDepartmentResponse =
-  EnrollmentAccountListResult;
+export type EnrollmentAccountsListByDepartmentResponse = EnrollmentAccountListResult;
 
 /** Optional parameters. */
-export interface EnrollmentAccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EnrollmentAccountsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EnrollmentAccountsGetResponse = EnrollmentAccount;
@@ -9375,28 +9234,24 @@ export interface EnrollmentAccountsListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type EnrollmentAccountsListByBillingAccountResponse =
-  EnrollmentAccountListResult;
+export type EnrollmentAccountsListByBillingAccountResponse = EnrollmentAccountListResult;
 
 /** Optional parameters. */
 export interface EnrollmentAccountsListByDepartmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDepartmentNext operation. */
-export type EnrollmentAccountsListByDepartmentNextResponse =
-  EnrollmentAccountListResult;
+export type EnrollmentAccountsListByDepartmentNextResponse = EnrollmentAccountListResult;
 
 /** Optional parameters. */
 export interface EnrollmentAccountsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type EnrollmentAccountsListByBillingAccountNextResponse =
-  EnrollmentAccountListResult;
+export type EnrollmentAccountsListByBillingAccountNextResponse = EnrollmentAccountListResult;
 
 /** Optional parameters. */
-export interface InvoicesListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {
+export interface InvoicesListByBillingProfileOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9428,12 +9283,10 @@ export interface InvoicesDownloadDocumentsByBillingAccountOptionalParams
 }
 
 /** Contains response data for the downloadDocumentsByBillingAccount operation. */
-export type InvoicesDownloadDocumentsByBillingAccountResponse =
-  DocumentDownloadResult;
+export type InvoicesDownloadDocumentsByBillingAccountResponse = DocumentDownloadResult;
 
 /** Optional parameters. */
-export interface InvoicesAmendOptionalParams
-  extends coreClient.OperationOptions {
+export interface InvoicesAmendOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9467,19 +9320,16 @@ export interface InvoicesDownloadSummaryByBillingAccountOptionalParams
 }
 
 /** Contains response data for the downloadSummaryByBillingAccount operation. */
-export type InvoicesDownloadSummaryByBillingAccountResponse =
-  DocumentDownloadResult;
+export type InvoicesDownloadSummaryByBillingAccountResponse = DocumentDownloadResult;
 
 /** Optional parameters. */
-export interface InvoicesGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface InvoicesGetByBillingAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
 export type InvoicesGetByBillingAccountResponse = Invoice;
 
 /** Optional parameters. */
-export interface InvoicesListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface InvoicesListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9511,8 +9361,7 @@ export interface InvoicesDownloadDocumentsByBillingSubscriptionOptionalParams
 }
 
 /** Contains response data for the downloadDocumentsByBillingSubscription operation. */
-export type InvoicesDownloadDocumentsByBillingSubscriptionResponse =
-  DocumentDownloadResult;
+export type InvoicesDownloadDocumentsByBillingSubscriptionResponse = DocumentDownloadResult;
 
 /** Optional parameters. */
 export interface InvoicesDownloadByBillingSubscriptionOptionalParams
@@ -9526,8 +9375,7 @@ export interface InvoicesDownloadByBillingSubscriptionOptionalParams
 }
 
 /** Contains response data for the downloadByBillingSubscription operation. */
-export type InvoicesDownloadByBillingSubscriptionResponse =
-  DocumentDownloadResult;
+export type InvoicesDownloadByBillingSubscriptionResponse = DocumentDownloadResult;
 
 /** Optional parameters. */
 export interface InvoicesGetByBillingSubscriptionOptionalParams
@@ -9561,8 +9409,7 @@ export interface InvoicesListByBillingSubscriptionOptionalParams
 export type InvoicesListByBillingSubscriptionResponse = InvoiceListResult;
 
 /** Optional parameters. */
-export interface InvoicesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface InvoicesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type InvoicesGetResponse = Invoice;
@@ -9597,8 +9444,7 @@ export type InvoiceSectionsValidateDeleteEligibilityResponse =
   DeleteInvoiceSectionEligibilityResult;
 
 /** Optional parameters. */
-export interface InvoiceSectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface InvoiceSectionsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9609,15 +9455,13 @@ export interface InvoiceSectionsDeleteOptionalParams
 export type InvoiceSectionsDeleteResponse = InvoiceSectionsDeleteHeaders;
 
 /** Optional parameters. */
-export interface InvoiceSectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface InvoiceSectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type InvoiceSectionsGetResponse = InvoiceSection;
 
 /** Optional parameters. */
-export interface InvoiceSectionsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface InvoiceSectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9647,27 +9491,23 @@ export interface InvoiceSectionsListByBillingProfileOptionalParams
 }
 
 /** Contains response data for the listByBillingProfile operation. */
-export type InvoiceSectionsListByBillingProfileResponse =
-  InvoiceSectionListResult;
+export type InvoiceSectionsListByBillingProfileResponse = InvoiceSectionListResult;
 
 /** Optional parameters. */
 export interface InvoiceSectionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type InvoiceSectionsListByBillingProfileNextResponse =
-  InvoiceSectionListResult;
+export type InvoiceSectionsListByBillingProfileNextResponse = InvoiceSectionListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -9677,8 +9517,7 @@ export interface PaymentMethodsListByBillingProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfile operation. */
-export type PaymentMethodsListByBillingProfileResponse =
-  PaymentMethodLinksListResult;
+export type PaymentMethodsListByBillingProfileResponse = PaymentMethodLinksListResult;
 
 /** Optional parameters. */
 export interface PaymentMethodsGetByBillingProfileOptionalParams
@@ -9692,8 +9531,7 @@ export interface PaymentMethodsListByBillingAccountOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccount operation. */
-export type PaymentMethodsListByBillingAccountResponse =
-  PaymentMethodsListResult;
+export type PaymentMethodsListByBillingAccountResponse = PaymentMethodsListResult;
 
 /** Optional parameters. */
 export interface PaymentMethodsGetByBillingAccountOptionalParams
@@ -9703,19 +9541,16 @@ export interface PaymentMethodsGetByBillingAccountOptionalParams
 export type PaymentMethodsGetByBillingAccountResponse = PaymentMethod;
 
 /** Optional parameters. */
-export interface PaymentMethodsListByUserOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PaymentMethodsListByUserOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByUser operation. */
 export type PaymentMethodsListByUserResponse = PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface PaymentMethodsDeleteByUserOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PaymentMethodsDeleteByUserOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PaymentMethodsGetByUserOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PaymentMethodsGetByUserOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByUser operation. */
 export type PaymentMethodsGetByUserResponse = PaymentMethod;
@@ -9725,27 +9560,23 @@ export interface PaymentMethodsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type PaymentMethodsListByBillingProfileNextResponse =
-  PaymentMethodLinksListResult;
+export type PaymentMethodsListByBillingProfileNextResponse = PaymentMethodLinksListResult;
 
 /** Optional parameters. */
 export interface PaymentMethodsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type PaymentMethodsListByBillingAccountNextResponse =
-  PaymentMethodsListResult;
+export type PaymentMethodsListByBillingAccountNextResponse = PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface PaymentMethodsListByUserNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PaymentMethodsListByUserNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByUserNext operation. */
 export type PaymentMethodsListByUserNextResponse = PaymentMethodsListResult;
 
 /** Optional parameters. */
-export interface PoliciesGetByCustomerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesGetByCustomerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByCustomer operation. */
 export type PoliciesGetByCustomerResponse = CustomerPolicy;
@@ -9763,8 +9594,7 @@ export interface PoliciesCreateOrUpdateByCustomerOptionalParams
 export type PoliciesCreateOrUpdateByCustomerResponse = CustomerPolicy;
 
 /** Optional parameters. */
-export interface PoliciesGetByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesGetByBillingProfileOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingProfile operation. */
 export type PoliciesGetByBillingProfileResponse = BillingProfilePolicy;
@@ -9779,8 +9609,7 @@ export interface PoliciesCreateOrUpdateByBillingProfileOptionalParams
 }
 
 /** Contains response data for the createOrUpdateByBillingProfile operation. */
-export type PoliciesCreateOrUpdateByBillingProfileResponse =
-  BillingProfilePolicy;
+export type PoliciesCreateOrUpdateByBillingProfileResponse = BillingProfilePolicy;
 
 /** Optional parameters. */
 export interface PoliciesGetByCustomerAtBillingAccountOptionalParams
@@ -9799,12 +9628,10 @@ export interface PoliciesCreateOrUpdateByCustomerAtBillingAccountOptionalParams
 }
 
 /** Contains response data for the createOrUpdateByCustomerAtBillingAccount operation. */
-export type PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse =
-  CustomerPolicy;
+export type PoliciesCreateOrUpdateByCustomerAtBillingAccountResponse = CustomerPolicy;
 
 /** Optional parameters. */
-export interface PoliciesGetByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesGetByBillingAccountOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByBillingAccount operation. */
 export type PoliciesGetByBillingAccountResponse = BillingAccountPolicy;
@@ -9819,19 +9646,16 @@ export interface PoliciesCreateOrUpdateByBillingAccountOptionalParams
 }
 
 /** Contains response data for the createOrUpdateByBillingAccount operation. */
-export type PoliciesCreateOrUpdateByBillingAccountResponse =
-  BillingAccountPolicy;
+export type PoliciesCreateOrUpdateByBillingAccountResponse = BillingAccountPolicy;
 
 /** Optional parameters. */
-export interface PoliciesGetBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PoliciesGetBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySubscription operation. */
 export type PoliciesGetBySubscriptionResponse = SubscriptionPolicy;
 
 /** Optional parameters. */
-export interface ProductsListByInvoiceSectionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductsListByInvoiceSectionOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9850,8 +9674,7 @@ export interface ProductsListByInvoiceSectionOptionalParams
 export type ProductsListByInvoiceSectionResponse = ProductListResult;
 
 /** Optional parameters. */
-export interface ProductsListByBillingProfileOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductsListByBillingProfileOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9870,8 +9693,7 @@ export interface ProductsListByBillingProfileOptionalParams
 export type ProductsListByBillingProfileResponse = ProductListResult;
 
 /** Optional parameters. */
-export interface ProductsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductsListByCustomerOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9890,8 +9712,7 @@ export interface ProductsListByCustomerOptionalParams
 export type ProductsListByCustomerResponse = ProductListResult;
 
 /** Optional parameters. */
-export interface ProductsMoveOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductsMoveOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -9906,26 +9727,22 @@ export interface ProductsValidateMoveEligibilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validateMoveEligibility operation. */
-export type ProductsValidateMoveEligibilityResponse =
-  MoveProductEligibilityResult;
+export type ProductsValidateMoveEligibilityResponse = MoveProductEligibilityResult;
 
 /** Optional parameters. */
-export interface ProductsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ProductsGetResponse = Product;
 
 /** Optional parameters. */
-export interface ProductsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ProductsUpdateResponse = Product;
 
 /** Optional parameters. */
-export interface ProductsListByBillingAccountOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProductsListByBillingAccountOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -9958,8 +9775,7 @@ export interface ProductsListByBillingProfileNextOptionalParams
 export type ProductsListByBillingProfileNextResponse = ProductListResult;
 
 /** Optional parameters. */
-export interface ProductsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProductsListByCustomerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
 export type ProductsListByCustomerNextResponse = ProductListResult;
@@ -10045,16 +9861,14 @@ export interface ReservationsListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type ReservationsListByBillingAccountNextResponse =
-  ReservationsListResult;
+export type ReservationsListByBillingAccountNextResponse = ReservationsListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type ReservationsListByBillingProfileNextResponse =
-  ReservationsListResult;
+export type ReservationsListByBillingProfileNextResponse = ReservationsListResult;
 
 /** Optional parameters. */
 export interface ReservationsListByReservationOrderNextOptionalParams
@@ -10085,20 +9899,17 @@ export interface ReservationOrdersListByBillingAccountOptionalParams
 }
 
 /** Contains response data for the listByBillingAccount operation. */
-export type ReservationOrdersListByBillingAccountResponse =
-  ReservationOrderList;
+export type ReservationOrdersListByBillingAccountResponse = ReservationOrderList;
 
 /** Optional parameters. */
 export interface ReservationOrdersListByBillingAccountNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingAccountNext operation. */
-export type ReservationOrdersListByBillingAccountNextResponse =
-  ReservationOrderList;
+export type ReservationOrdersListByBillingAccountNextResponse = ReservationOrderList;
 
 /** Optional parameters. */
-export interface TransactionsListByCustomerOptionalParams
-  extends coreClient.OperationOptions {
+export interface TransactionsListByCustomerOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -10157,8 +9968,7 @@ export interface TransactionsListByBillingProfileOptionalParams
 export type TransactionsListByBillingProfileResponse = TransactionListResult;
 
 /** Optional parameters. */
-export interface TransactionsListByInvoiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface TransactionsListByInvoiceOptionalParams extends coreClient.OperationOptions {
   /** The filter query option allows clients to filter a collection of resources that are addressed by a request URL. */
   filter?: string;
   /** The orderby query option allows clients to request resources in a particular order. */
@@ -10186,8 +9996,7 @@ export interface TransactionsTransactionsDownloadByInvoiceOptionalParams
 }
 
 /** Contains response data for the transactionsDownloadByInvoice operation. */
-export type TransactionsTransactionsDownloadByInvoiceResponse =
-  DocumentDownloadResult;
+export type TransactionsTransactionsDownloadByInvoiceResponse = DocumentDownloadResult;
 
 /** Optional parameters. */
 export interface TransactionsGetTransactionSummaryByInvoiceOptionalParams
@@ -10199,12 +10008,10 @@ export interface TransactionsGetTransactionSummaryByInvoiceOptionalParams
 }
 
 /** Contains response data for the getTransactionSummaryByInvoice operation. */
-export type TransactionsGetTransactionSummaryByInvoiceResponse =
-  TransactionSummary;
+export type TransactionsGetTransactionSummaryByInvoiceResponse = TransactionSummary;
 
 /** Optional parameters. */
-export interface TransactionsListByCustomerNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransactionsListByCustomerNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCustomerNext operation. */
 export type TransactionsListByCustomerNextResponse = TransactionListResult;
@@ -10214,140 +10021,119 @@ export interface TransactionsListByInvoiceSectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceSectionNext operation. */
-export type TransactionsListByInvoiceSectionNextResponse =
-  TransactionListResult;
+export type TransactionsListByInvoiceSectionNextResponse = TransactionListResult;
 
 /** Optional parameters. */
 export interface TransactionsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByBillingProfileNext operation. */
-export type TransactionsListByBillingProfileNextResponse =
-  TransactionListResult;
+export type TransactionsListByBillingProfileNextResponse = TransactionListResult;
 
 /** Optional parameters. */
-export interface TransactionsListByInvoiceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransactionsListByInvoiceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByInvoiceNext operation. */
 export type TransactionsListByInvoiceNextResponse = TransactionListResult;
 
 /** Optional parameters. */
-export interface TransfersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransfersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TransfersGetResponse = TransferDetails;
 
 /** Optional parameters. */
-export interface TransfersInitiateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransfersInitiateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the initiate operation. */
 export type TransfersInitiateResponse = TransferDetails;
 
 /** Optional parameters. */
-export interface TransfersCancelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransfersCancelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancel operation. */
 export type TransfersCancelResponse = TransferDetails;
 
 /** Optional parameters. */
-export interface TransfersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransfersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TransfersListResponse = TransferDetailsListResult;
 
 /** Optional parameters. */
-export interface TransfersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TransfersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TransfersListNextResponse = TransferDetailsListResult;
 
 /** Optional parameters. */
-export interface PartnerTransfersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PartnerTransfersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PartnerTransfersGetResponse = PartnerTransferDetails;
 
 /** Optional parameters. */
-export interface PartnerTransfersInitiateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PartnerTransfersInitiateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the initiate operation. */
 export type PartnerTransfersInitiateResponse = PartnerTransferDetails;
 
 /** Optional parameters. */
-export interface PartnerTransfersCancelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PartnerTransfersCancelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the cancel operation. */
 export type PartnerTransfersCancelResponse = PartnerTransferDetails;
 
 /** Optional parameters. */
-export interface PartnerTransfersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PartnerTransfersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PartnerTransfersListResponse = PartnerTransferDetailsListResult;
 
 /** Optional parameters. */
-export interface PartnerTransfersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PartnerTransfersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PartnerTransfersListNextResponse = PartnerTransferDetailsListResult;
 
 /** Optional parameters. */
-export interface RecipientTransfersAcceptOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersAcceptOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the accept operation. */
 export type RecipientTransfersAcceptResponse = RecipientTransferDetails;
 
 /** Optional parameters. */
-export interface RecipientTransfersValidateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersValidateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the validate operation. */
 export type RecipientTransfersValidateResponse = ValidateTransferListResponse;
 
 /** Optional parameters. */
-export interface RecipientTransfersDeclineOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersDeclineOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the decline operation. */
 export type RecipientTransfersDeclineResponse = RecipientTransferDetails;
 
 /** Optional parameters. */
-export interface RecipientTransfersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RecipientTransfersGetResponse = RecipientTransferDetails;
 
 /** Optional parameters. */
-export interface RecipientTransfersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RecipientTransfersListResponse = RecipientTransferDetailsListResult;
 
 /** Optional parameters. */
-export interface RecipientTransfersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecipientTransfersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type RecipientTransfersListNextResponse =
-  RecipientTransferDetailsListResult;
+export type RecipientTransfersListNextResponse = RecipientTransferDetailsListResult;
 
 /** Optional parameters. */
-export interface BillingManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface BillingManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

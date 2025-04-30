@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServiceDefinedResourceName,
@@ -114,8 +110,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -237,8 +232,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -351,8 +345,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -459,8 +452,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -531,10 +523,7 @@ export class PoliciesImpl implements Policies {
   getBySubscription(
     options?: PoliciesGetBySubscriptionOptionalParams,
   ): Promise<PoliciesGetBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getBySubscriptionOperationSpec);
   }
 }
 // Operation Specifications
@@ -606,11 +595,7 @@ const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -636,11 +621,7 @@ const createOrUpdateByBillingProfileOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters20,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -657,46 +638,37 @@ const getByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.customerName],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CustomerPolicy,
-      },
-      201: {
-        bodyMapper: Mappers.CustomerPolicy,
-      },
-      202: {
-        bodyMapper: Mappers.CustomerPolicy,
-      },
-      204: {
-        bodyMapper: Mappers.CustomerPolicy,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const createOrUpdateByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/policies/default",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomerPolicy,
     },
-    requestBody: Parameters.parameters19,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.billingAccountName,
-      Parameters.customerName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.CustomerPolicy,
+    },
+    202: {
+      bodyMapper: Mappers.CustomerPolicy,
+    },
+    204: {
+      bodyMapper: Mappers.CustomerPolicy,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.customerName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/policies/default",
   httpMethod: "GET",

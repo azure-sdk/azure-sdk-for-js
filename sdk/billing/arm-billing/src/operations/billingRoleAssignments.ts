@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BillingRoleAssignment,
@@ -148,11 +144,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     let result: BillingRoleAssignmentsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -385,10 +377,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     billingAccountName: string,
     options?: BillingRoleAssignmentsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -400,11 +389,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -424,11 +409,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -440,10 +421,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     billingAccountName: string,
     options?: BillingRoleAssignmentsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingRoleAssignment> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -460,11 +438,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     departmentName: string,
     options?: BillingRoleAssignmentsListByDepartmentOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment> {
-    const iter = this.listByDepartmentPagingAll(
-      billingAccountName,
-      departmentName,
-      options,
-    );
+    const iter = this.listByDepartmentPagingAll(billingAccountName, departmentName, options);
     return {
       next() {
         return iter.next();
@@ -495,11 +469,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     let result: BillingRoleAssignmentsListByDepartmentResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDepartment(
-        billingAccountName,
-        departmentName,
-        options,
-      );
+      result = await this._listByDepartment(billingAccountName, departmentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -715,8 +685,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -890,8 +859,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -997,8 +965,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1173,8 +1140,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1280,8 +1246,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1382,8 +1347,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1514,8 +1478,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1630,8 +1593,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1687,11 +1649,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     parameters: BillingRoleAssignmentProperties,
     options?: BillingRoleAssignmentsCreateByBillingAccountOptionalParams,
   ): Promise<BillingRoleAssignmentsCreateByBillingAccountResponse> {
-    const poller = await this.beginCreateByBillingAccount(
-      billingAccountName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateByBillingAccount(billingAccountName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -1776,8 +1734,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1951,8 +1908,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2071,8 +2027,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2127,10 +2082,7 @@ export class BillingRoleAssignmentsImpl implements BillingRoleAssignments {
     billingAccountName: string,
     options?: BillingRoleAssignmentsResolveByBillingAccountOptionalParams,
   ): Promise<BillingRoleAssignmentsResolveByBillingAccountResponse> {
-    const poller = await this.beginResolveByBillingAccount(
-      billingAccountName,
-      options,
-    );
+    const poller = await this.beginResolveByBillingAccount(billingAccountName, options);
     return poller.pollUntilDone();
   }
 
@@ -2318,17 +2270,8 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -2354,11 +2297,7 @@ const createByBillingProfileOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -2417,12 +2356,7 @@ const listByCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -2484,11 +2418,7 @@ const resolveByCustomerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.resolveScopeDisplayNames,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.resolveScopeDisplayNames],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -2552,12 +2482,7 @@ const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -2619,11 +2544,7 @@ const resolveByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.resolveScopeDisplayNames,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.resolveScopeDisplayNames],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
@@ -2653,16 +2574,8 @@ const resolveByBillingProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.resolveScopeDisplayNames,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.resolveScopeDisplayNames],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -2747,12 +2660,7 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skip],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -2869,11 +2777,7 @@ const listByDepartmentOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.departmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.departmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -2918,39 +2822,38 @@ const getByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateByEnrollmentAccountOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments/{billingRoleAssignmentName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.BillingRoleAssignment,
-      },
-      201: {
-        bodyMapper: Mappers.BillingRoleAssignment,
-      },
-      202: {
-        bodyMapper: Mappers.BillingRoleAssignment,
-      },
-      204: {
-        bodyMapper: Mappers.BillingRoleAssignment,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const createOrUpdateByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments/{billingRoleAssignmentName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingRoleAssignment,
     },
-    requestBody: Parameters.parameters10,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.billingAccountName,
-      Parameters.enrollmentAccountName,
-      Parameters.billingRoleAssignmentName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.BillingRoleAssignment,
+    },
+    202: {
+      bodyMapper: Mappers.BillingRoleAssignment,
+    },
+    204: {
+      bodyMapper: Mappers.BillingRoleAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters10,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.enrollmentAccountName,
+    Parameters.billingRoleAssignmentName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingRoleAssignments",
   httpMethod: "GET",
@@ -2991,11 +2894,7 @@ const resolveByBillingAccountOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.resolveScopeDisplayNames,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.resolveScopeDisplayNames],
   urlParameters: [Parameters.$host, Parameters.billingAccountName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -3073,11 +2972,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
