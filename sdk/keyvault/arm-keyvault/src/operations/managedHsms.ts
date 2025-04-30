@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedHsm,
@@ -85,11 +81,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -109,11 +101,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -125,10 +113,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     resourceGroupName: string,
     options?: ManagedHsmsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ManagedHsm> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -269,8 +254,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -326,12 +310,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     parameters: ManagedHsm,
     options?: ManagedHsmsCreateOrUpdateOptionalParams,
   ): Promise<ManagedHsmsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      name,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, name, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -348,10 +327,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     parameters: ManagedHsm,
     options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedHsmsUpdateResponse>,
-      ManagedHsmsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ManagedHsmsUpdateResponse>, ManagedHsmsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -363,8 +339,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -420,12 +395,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     parameters: ManagedHsm,
     options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<ManagedHsmsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      name,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, name, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -450,8 +420,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -517,10 +486,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     name: string,
     options?: ManagedHsmsGetOptionalParams,
   ): Promise<ManagedHsmsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, name, options }, getOperationSpec);
   }
 
   /**
@@ -546,10 +512,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
   private _listBySubscription(
     options?: ManagedHsmsListBySubscriptionOptionalParams,
   ): Promise<ManagedHsmsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -559,10 +522,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
   private _listDeleted(
     options?: ManagedHsmsListDeletedOptionalParams,
   ): Promise<ManagedHsmsListDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listDeletedOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listDeletedOperationSpec);
   }
 
   /**
@@ -576,10 +536,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     location: string,
     options?: ManagedHsmsGetDeletedOptionalParams,
   ): Promise<ManagedHsmsGetDeletedResponse> {
-    return this.client.sendOperationRequest(
-      { name, location, options },
-      getDeletedOperationSpec,
-    );
+    return this.client.sendOperationRequest({ name, location, options }, getDeletedOperationSpec);
   }
 
   /**
@@ -608,8 +565,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -723,10 +679,7 @@ export class ManagedHsmsImpl implements ManagedHsms {
     nextLink: string,
     options?: ManagedHsmsListDeletedNextOptionalParams,
   ): Promise<ManagedHsmsListDeletedNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listDeletedNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listDeletedNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -852,11 +805,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -992,11 +941,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1011,11 +956,7 @@ const listDeletedNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ManagedHsmError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

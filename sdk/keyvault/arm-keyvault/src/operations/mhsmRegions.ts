@@ -57,12 +57,7 @@ export class MhsmRegionsImpl implements MhsmRegions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourcePagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listByResourcePagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -83,12 +78,7 @@ export class MhsmRegionsImpl implements MhsmRegions {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -101,11 +91,7 @@ export class MhsmRegionsImpl implements MhsmRegions {
     name: string,
     options?: MhsmRegionsListByResourceOptionalParams,
   ): AsyncIterableIterator<MhsmGeoReplicatedRegion> {
-    for await (const page of this.listByResourcePagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listByResourcePagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }

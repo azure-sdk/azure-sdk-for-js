@@ -585,35 +585,34 @@ export const ManagedHsmRotationPolicy: coreClient.CompositeMapper = {
   },
 };
 
-export const ManagedHsmKeyRotationPolicyAttributes: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ManagedHsmKeyRotationPolicyAttributes",
-      modelProperties: {
-        created: {
-          serializedName: "created",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+export const ManagedHsmKeyRotationPolicyAttributes: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedHsmKeyRotationPolicyAttributes",
+    modelProperties: {
+      created: {
+        serializedName: "created",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        updated: {
-          serializedName: "updated",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      updated: {
+        serializedName: "updated",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
-        expiryTime: {
-          serializedName: "expiryTime",
-          type: {
-            name: "String",
-          },
+      },
+      expiryTime: {
+        serializedName: "expiryTime",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ManagedHsmLifetimeAction: coreClient.CompositeMapper = {
   type: {
@@ -1664,30 +1663,29 @@ export const ResourceListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const VaultCheckNameAvailabilityParameters: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "VaultCheckNameAvailabilityParameters",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          required: true,
-          type: {
-            name: "String",
-          },
-        },
+export const VaultCheckNameAvailabilityParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultCheckNameAvailabilityParameters",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
         type: {
-          defaultValue: "Microsoft.KeyVault/vaults",
-          isConstant: true,
-          serializedName: "type",
-          type: {
-            name: "String",
-          },
+          name: "String",
+        },
+      },
+      type: {
+        defaultValue: "Microsoft.KeyVault/vaults",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const CheckNameAvailabilityResult: coreClient.CompositeMapper = {
   type: {
@@ -1925,6 +1923,18 @@ export const MhsmNetworkRuleSet: coreClient.CompositeMapper = {
           },
         },
       },
+      serviceTags: {
+        serializedName: "serviceTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MhsmServiceTagRule",
+            },
+          },
+        },
+      },
       virtualNetworkRules: {
         serializedName: "virtualNetworkRules",
         type: {
@@ -1948,6 +1958,22 @@ export const MhsmipRule: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MhsmServiceTagRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmServiceTagRule",
+    modelProperties: {
+      tag: {
+        serializedName: "tag",
         required: true,
         type: {
           name: "String",
@@ -2058,33 +2084,32 @@ export const MhsmPrivateEndpoint: coreClient.CompositeMapper = {
   },
 };
 
-export const MhsmPrivateLinkServiceConnectionState: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MhsmPrivateLinkServiceConnectionState",
-      modelProperties: {
-        status: {
-          serializedName: "status",
-          type: {
-            name: "String",
-          },
+export const MhsmPrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmPrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
         },
-        description: {
-          serializedName: "description",
-          type: {
-            name: "String",
-          },
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String",
         },
-        actionsRequired: {
-          serializedName: "actionsRequired",
-          type: {
-            name: "String",
-          },
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ManagedHSMSecurityDomainProperties: coreClient.CompositeMapper = {
   type: {
@@ -2190,13 +2215,7 @@ export const ManagedHsmSku: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: [
-            "Standard_B1",
-            "Custom_B32",
-            "Custom_B6",
-            "Custom_C42",
-            "Custom_C10",
-          ],
+          allowedValues: ["Standard_B1", "Custom_B32", "Custom_B6", "Custom_C42", "Custom_C10"],
         },
       },
     },
@@ -2338,33 +2357,32 @@ export const ManagedHsmListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const MhsmPrivateEndpointConnectionsListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MhsmPrivateEndpointConnectionsListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "MhsmPrivateEndpointConnection",
-              },
+export const MhsmPrivateEndpointConnectionsListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmPrivateEndpointConnectionsListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MhsmPrivateEndpointConnection",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const DeletedManagedHsmListResult: coreClient.CompositeMapper = {
   type: {
@@ -3384,49 +3402,47 @@ export const SecretAttributes: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionsPutHeaders",
-      modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+export const PrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionsPutHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionsDeleteHeaders",
-      modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionsDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ManagedHsmsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -3488,40 +3504,38 @@ export const ManagedHsmsPurgeDeletedHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const MhsmPrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MhsmPrivateEndpointConnectionsPutHeaders",
-      modelProperties: {
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+export const MhsmPrivateEndpointConnectionsPutHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmPrivateEndpointConnectionsPutHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
-export const MhsmPrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MhsmPrivateEndpointConnectionsDeleteHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const MhsmPrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MhsmPrivateEndpointConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};

@@ -1,5 +1,13 @@
 # Release History
     
+## 3.3.0 (2025-04-30)
+    
+### Features Added
+
+  - Added Interface MhsmServiceTagRule
+  - Interface MhsmNetworkRuleSet has a new optional parameter serviceTags
+    
+    
 ## 3.2.0 (2025-03-12)
     
 ### Features Added

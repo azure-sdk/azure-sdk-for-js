@@ -101,10 +101,7 @@ export interface ManagedHsms {
     parameters: ManagedHsm,
     options?: ManagedHsmsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedHsmsUpdateResponse>,
-      ManagedHsmsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ManagedHsmsUpdateResponse>, ManagedHsmsUpdateResponse>
   >;
   /**
    * Update a managed HSM Pool in the specified subscription.

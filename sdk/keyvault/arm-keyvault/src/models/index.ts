@@ -749,6 +749,8 @@ export interface MhsmNetworkRuleSet {
   defaultAction?: NetworkRuleAction;
   /** The list of IP address rules. */
   ipRules?: MhsmipRule[];
+  /** The list of service tags. */
+  serviceTags?: MhsmServiceTagRule[];
   /** The list of virtual network rules. */
   virtualNetworkRules?: MhsmVirtualNetworkRule[];
 }
@@ -757,6 +759,12 @@ export interface MhsmNetworkRuleSet {
 export interface MhsmipRule {
   /** An IPv4 address range in CIDR notation, such as '124.56.78.91' (simple IP address) or '124.56.78.0/24' (all addresses that start with 124.56.78). */
   value: string;
+}
+
+/** A rule governing the accessibility of a managed hsm pool from a specific service tags. */
+export interface MhsmServiceTagRule {
+  /** Name of the service tag. */
+  tag: string;
 }
 
 /** A rule governing the accessibility of a managed hsm pool from a specific virtual network. */
@@ -2057,8 +2065,7 @@ export type ManagedHsmSkuName =
   | "Custom_C10";
 
 /** Optional parameters. */
-export interface KeysCreateIfNotExistOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysCreateIfNotExistOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createIfNotExist operation. */
 export type KeysCreateIfNotExistResponse = Key;
@@ -2076,85 +2083,73 @@ export interface KeysListOptionalParams extends coreClient.OperationOptions {}
 export type KeysListResponse = KeyListResult;
 
 /** Optional parameters. */
-export interface KeysGetVersionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysGetVersionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVersion operation. */
 export type KeysGetVersionResponse = Key;
 
 /** Optional parameters. */
-export interface KeysListVersionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysListVersionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersions operation. */
 export type KeysListVersionsResponse = KeyListResult;
 
 /** Optional parameters. */
-export interface KeysListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type KeysListNextResponse = KeyListResult;
 
 /** Optional parameters. */
-export interface KeysListVersionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KeysListVersionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersionsNext operation. */
 export type KeysListVersionsNextResponse = KeyListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysCreateIfNotExistOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysCreateIfNotExistOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createIfNotExist operation. */
 export type ManagedHsmKeysCreateIfNotExistResponse = ManagedHsmKey;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedHsmKeysGetResponse = ManagedHsmKey;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedHsmKeysListResponse = ManagedHsmKeyListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysGetVersionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysGetVersionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVersion operation. */
 export type ManagedHsmKeysGetVersionResponse = ManagedHsmKey;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysListVersionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysListVersionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersions operation. */
 export type ManagedHsmKeysListVersionsResponse = ManagedHsmKeyListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ManagedHsmKeysListNextResponse = ManagedHsmKeyListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmKeysListVersionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmKeysListVersionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVersionsNext operation. */
 export type ManagedHsmKeysListVersionsNextResponse = ManagedHsmKeyListResult;
 
 /** Optional parameters. */
-export interface VaultsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2165,15 +2160,13 @@ export interface VaultsCreateOrUpdateOptionalParams
 export type VaultsCreateOrUpdateResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type VaultsUpdateResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface VaultsGetOptionalParams extends coreClient.OperationOptions {}
@@ -2182,15 +2175,13 @@ export interface VaultsGetOptionalParams extends coreClient.OperationOptions {}
 export type VaultsGetResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsUpdateAccessPolicyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsUpdateAccessPolicyOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAccessPolicy operation. */
 export type VaultsUpdateAccessPolicyResponse = VaultAccessPolicyParameters;
 
 /** Optional parameters. */
-export interface VaultsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
@@ -2199,8 +2190,7 @@ export interface VaultsListByResourceGroupOptionalParams
 export type VaultsListByResourceGroupResponse = VaultListResult;
 
 /** Optional parameters. */
-export interface VaultsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
@@ -2209,22 +2199,19 @@ export interface VaultsListBySubscriptionOptionalParams
 export type VaultsListBySubscriptionResponse = VaultListResult;
 
 /** Optional parameters. */
-export interface VaultsListDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeleted operation. */
 export type VaultsListDeletedResponse = DeletedVaultListResult;
 
 /** Optional parameters. */
-export interface VaultsGetDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsGetDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleted operation. */
 export type VaultsGetDeletedResponse = DeletedVault;
 
 /** Optional parameters. */
-export interface VaultsPurgeDeletedOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsPurgeDeletedOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2241,54 +2228,47 @@ export interface VaultsListOptionalParams extends coreClient.OperationOptions {
 export type VaultsListResponse = ResourceListResult;
 
 /** Optional parameters. */
-export interface VaultsCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
 export type VaultsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface VaultsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VaultsListByResourceGroupNextResponse = VaultListResult;
 
 /** Optional parameters. */
-export interface VaultsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type VaultsListBySubscriptionNextResponse = VaultListResult;
 
 /** Optional parameters. */
-export interface VaultsListDeletedNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListDeletedNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeletedNext operation. */
 export type VaultsListDeletedNextResponse = DeletedVaultListResult;
 
 /** Optional parameters. */
-export interface VaultsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type VaultsListNextResponse = ResourceListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsPutOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsPutOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type PrivateEndpointConnectionsPutResponse =
-  PrivateEndpointConnectionsPutHeaders & PrivateEndpointConnection;
+export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnectionsPutHeaders &
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -2300,16 +2280,14 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type PrivateEndpointConnectionsListByResourceResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByResourceNextOptionalParams
@@ -2324,12 +2302,10 @@ export interface PrivateLinkResourcesListByVaultOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVault operation. */
-export type PrivateLinkResourcesListByVaultResponse =
-  PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByVaultResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2340,8 +2316,7 @@ export interface ManagedHsmsCreateOrUpdateOptionalParams
 export type ManagedHsmsCreateOrUpdateResponse = ManagedHsm;
 
 /** Optional parameters. */
-export interface ManagedHsmsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2352,8 +2327,7 @@ export interface ManagedHsmsUpdateOptionalParams
 export type ManagedHsmsUpdateResponse = ManagedHsm;
 
 /** Optional parameters. */
-export interface ManagedHsmsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2361,15 +2335,13 @@ export interface ManagedHsmsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ManagedHsmsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedHsmsGetResponse = ManagedHsm;
 
 /** Optional parameters. */
-export interface ManagedHsmsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
@@ -2378,8 +2350,7 @@ export interface ManagedHsmsListByResourceGroupOptionalParams
 export type ManagedHsmsListByResourceGroupResponse = ManagedHsmListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
   /** Maximum number of results to return. */
   top?: number;
 }
@@ -2388,22 +2359,19 @@ export interface ManagedHsmsListBySubscriptionOptionalParams
 export type ManagedHsmsListBySubscriptionResponse = ManagedHsmListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmsListDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmsListDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeleted operation. */
 export type ManagedHsmsListDeletedResponse = DeletedManagedHsmListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmsGetDeletedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmsGetDeletedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeleted operation. */
 export type ManagedHsmsGetDeletedResponse = DeletedManagedHsm;
 
 /** Optional parameters. */
-export interface ManagedHsmsPurgeDeletedOptionalParams
-  extends coreClient.OperationOptions {
+export interface ManagedHsmsPurgeDeletedOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -2418,8 +2386,7 @@ export interface ManagedHsmsCheckMhsmNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkMhsmNameAvailability operation. */
-export type ManagedHsmsCheckMhsmNameAvailabilityResponse =
-  CheckMhsmNameAvailabilityResult;
+export type ManagedHsmsCheckMhsmNameAvailabilityResponse = CheckMhsmNameAvailabilityResult;
 
 /** Optional parameters. */
 export interface ManagedHsmsListByResourceGroupNextOptionalParams
@@ -2436,8 +2403,7 @@ export interface ManagedHsmsListBySubscriptionNextOptionalParams
 export type ManagedHsmsListBySubscriptionNextResponse = ManagedHsmListResult;
 
 /** Optional parameters. */
-export interface ManagedHsmsListDeletedNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedHsmsListDeletedNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeletedNext operation. */
 export type ManagedHsmsListDeletedNextResponse = DeletedManagedHsmListResult;
@@ -2455,16 +2421,15 @@ export interface MhsmPrivateEndpointConnectionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type MhsmPrivateEndpointConnectionsGetResponse =
-  MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsGetResponse = MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsPutOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the put operation. */
-export type MhsmPrivateEndpointConnectionsPutResponse =
-  MhsmPrivateEndpointConnectionsPutHeaders & MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsPutResponse = MhsmPrivateEndpointConnectionsPutHeaders &
+  MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
@@ -2476,8 +2441,7 @@ export interface MhsmPrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type MhsmPrivateEndpointConnectionsDeleteResponse =
-  MhsmPrivateEndpointConnection;
+export type MhsmPrivateEndpointConnectionsDeleteResponse = MhsmPrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface MhsmPrivateEndpointConnectionsListByResourceNextOptionalParams
@@ -2492,47 +2456,40 @@ export interface MhsmPrivateLinkResourcesListByMhsmResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByMhsmResource operation. */
-export type MhsmPrivateLinkResourcesListByMhsmResourceResponse =
-  MhsmPrivateLinkResourceListResult;
+export type MhsmPrivateLinkResourcesListByMhsmResourceResponse = MhsmPrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface MhsmRegionsListByResourceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MhsmRegionsListByResourceOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
 export type MhsmRegionsListByResourceResponse = MhsmRegionsListResult;
 
 /** Optional parameters. */
-export interface MhsmRegionsListByResourceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface MhsmRegionsListByResourceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
 export type MhsmRegionsListByResourceNextResponse = MhsmRegionsListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SecretsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SecretsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type SecretsCreateOrUpdateResponse = Secret;
 
 /** Optional parameters. */
-export interface SecretsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SecretsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type SecretsUpdateResponse = Secret;
@@ -2553,15 +2510,13 @@ export interface SecretsListOptionalParams extends coreClient.OperationOptions {
 export type SecretsListResponse = SecretListResult;
 
 /** Optional parameters. */
-export interface SecretsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SecretsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SecretsListNextResponse = SecretListResult;
 
 /** Optional parameters. */
-export interface KeyVaultManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface KeyVaultManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
