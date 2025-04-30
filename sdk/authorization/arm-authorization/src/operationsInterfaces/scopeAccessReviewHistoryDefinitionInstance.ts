@@ -8,7 +8,7 @@
 
 import {
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
-  ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
+  ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse,
 } from "../models/index.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinitionInstance. */
@@ -25,8 +25,6 @@ export interface ScopeAccessReviewHistoryDefinitionInstance {
     scope: string,
     historyDefinitionId: string,
     instanceId: string,
-    options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
-  ): Promise<
-    ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
-  >;
+    options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
+  ): Promise<ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse>;
 }

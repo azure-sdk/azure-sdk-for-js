@@ -14,7 +14,5 @@ export interface GlobalAdministrator {
    * Elevates access for a Global Administrator.
    * @param options The options parameters.
    */
-  elevateAccess(
-    options?: GlobalAdministratorElevateAccessOptionalParams
-  ): Promise<void>;
+  elevateAccess(options?: GlobalAdministratorElevateAccessOptionalParams): Promise<void>;
 }

@@ -11,7 +11,7 @@ import {
   ScopeAccessReviewDefaultSettingsGetResponse,
   AccessReviewScheduleSettings,
   ScopeAccessReviewDefaultSettingsPutOptionalParams,
-  ScopeAccessReviewDefaultSettingsPutResponse
+  ScopeAccessReviewDefaultSettingsPutResponse,
 } from "../models/index.js";
 
 /** Interface representing a ScopeAccessReviewDefaultSettings. */
@@ -23,7 +23,7 @@ export interface ScopeAccessReviewDefaultSettings {
    */
   get(
     scope: string,
-    options?: ScopeAccessReviewDefaultSettingsGetOptionalParams
+    options?: ScopeAccessReviewDefaultSettingsGetOptionalParams,
   ): Promise<ScopeAccessReviewDefaultSettingsGetResponse>;
   /**
    * Get access review default settings for the subscription
@@ -34,6 +34,6 @@ export interface ScopeAccessReviewDefaultSettings {
   put(
     scope: string,
     properties: AccessReviewScheduleSettings,
-    options?: ScopeAccessReviewDefaultSettingsPutOptionalParams
+    options?: ScopeAccessReviewDefaultSettingsPutOptionalParams,
   ): Promise<ScopeAccessReviewDefaultSettingsPutResponse>;
 }

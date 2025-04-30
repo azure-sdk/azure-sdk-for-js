@@ -55,7 +55,7 @@ import {
   AlertConfigurationsImpl,
   AlertDefinitionsImpl,
   AlertIncidentsImpl,
-  AlertOperationImpl
+  AlertOperationImpl,
 } from "./operations/index.js";
 import {
   ClassicAdministrators,
@@ -103,7 +103,7 @@ import {
   AlertConfigurations,
   AlertDefinitions,
   AlertIncidents,
-  AlertOperation
+  AlertOperation,
 } from "./operationsInterfaces/index.js";
 import { AuthorizationManagementClientOptionalParams } from "./models/index.js";
 
@@ -120,18 +120,16 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AuthorizationManagementClientOptionalParams
+    options?: AuthorizationManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: AuthorizationManagementClientOptionalParams
+    options?: AuthorizationManagementClientOptionalParams,
   );
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionIdOrOptions?:
-      | AuthorizationManagementClientOptionalParams
-      | string,
-    options?: AuthorizationManagementClientOptionalParams
+    subscriptionIdOrOptions?: AuthorizationManagementClientOptionalParams | string,
+    options?: AuthorizationManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -151,7 +149,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     }
     const defaults: AuthorizationManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-authorization/10.0.0-beta.2`;
@@ -164,20 +162,19 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -187,19 +184,17 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -210,98 +205,60 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
     this.classicAdministrators = new ClassicAdministratorsImpl(this);
     this.globalAdministrator = new GlobalAdministratorImpl(this);
     this.denyAssignments = new DenyAssignmentsImpl(this);
-    this.providerOperationsMetadataOperations = new ProviderOperationsMetadataOperationsImpl(
-      this
-    );
+    this.providerOperationsMetadataOperations = new ProviderOperationsMetadataOperationsImpl(this);
     this.roleAssignments = new RoleAssignmentsImpl(this);
     this.permissions = new PermissionsImpl(this);
     this.roleDefinitions = new RoleDefinitionsImpl(this);
     this.operations = new OperationsImpl(this);
-    this.accessReviewHistoryDefinitions = new AccessReviewHistoryDefinitionsImpl(
-      this
-    );
+    this.accessReviewHistoryDefinitions = new AccessReviewHistoryDefinitionsImpl(this);
     this.accessReviewHistoryDefinitionOperations = new AccessReviewHistoryDefinitionOperationsImpl(
-      this
+      this,
     );
     this.accessReviewHistoryDefinitionInstance = new AccessReviewHistoryDefinitionInstanceImpl(
-      this
+      this,
     );
     this.accessReviewHistoryDefinitionInstances = new AccessReviewHistoryDefinitionInstancesImpl(
-      this
+      this,
     );
-    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(
-      this
-    );
+    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(this);
     this.accessReviewInstances = new AccessReviewInstancesImpl(this);
-    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(
-      this
-    );
-    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(
-      this
-    );
+    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(this);
+    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(this);
     this.accessReviewInstanceContactedReviewers = new AccessReviewInstanceContactedReviewersImpl(
-      this
+      this,
     );
     this.accessReviewDefaultSettingsOperations = new AccessReviewDefaultSettingsOperationsImpl(
-      this
+      this,
     );
-    this.scopeAccessReviewHistoryDefinitions = new ScopeAccessReviewHistoryDefinitionsImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinition = new ScopeAccessReviewHistoryDefinitionImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinitionInstance = new ScopeAccessReviewHistoryDefinitionInstanceImpl(
-      this
-    );
-    this.scopeAccessReviewHistoryDefinitionInstances = new ScopeAccessReviewHistoryDefinitionInstancesImpl(
-      this
-    );
-    this.scopeAccessReviewScheduleDefinitions = new ScopeAccessReviewScheduleDefinitionsImpl(
-      this
-    );
+    this.scopeAccessReviewHistoryDefinitions = new ScopeAccessReviewHistoryDefinitionsImpl(this);
+    this.scopeAccessReviewHistoryDefinition = new ScopeAccessReviewHistoryDefinitionImpl(this);
+    this.scopeAccessReviewHistoryDefinitionInstance =
+      new ScopeAccessReviewHistoryDefinitionInstanceImpl(this);
+    this.scopeAccessReviewHistoryDefinitionInstances =
+      new ScopeAccessReviewHistoryDefinitionInstancesImpl(this);
+    this.scopeAccessReviewScheduleDefinitions = new ScopeAccessReviewScheduleDefinitionsImpl(this);
     this.scopeAccessReviewInstances = new ScopeAccessReviewInstancesImpl(this);
     this.scopeAccessReviewInstance = new ScopeAccessReviewInstanceImpl(this);
-    this.scopeAccessReviewInstanceDecisions = new ScopeAccessReviewInstanceDecisionsImpl(
-      this
-    );
-    this.scopeAccessReviewInstanceContactedReviewers = new ScopeAccessReviewInstanceContactedReviewersImpl(
-      this
-    );
-    this.scopeAccessReviewDefaultSettings = new ScopeAccessReviewDefaultSettingsImpl(
-      this
-    );
-    this.accessReviewScheduleDefinitionsAssignedForMyApproval = new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstancesAssignedForMyApproval = new AccessReviewInstancesAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(
-      this
-    );
-    this.tenantLevelAccessReviewInstanceContactedReviewers = new TenantLevelAccessReviewInstanceContactedReviewersImpl(
-      this
-    );
+    this.scopeAccessReviewInstanceDecisions = new ScopeAccessReviewInstanceDecisionsImpl(this);
+    this.scopeAccessReviewInstanceContactedReviewers =
+      new ScopeAccessReviewInstanceContactedReviewersImpl(this);
+    this.scopeAccessReviewDefaultSettings = new ScopeAccessReviewDefaultSettingsImpl(this);
+    this.accessReviewScheduleDefinitionsAssignedForMyApproval =
+      new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(this);
+    this.accessReviewInstancesAssignedForMyApproval =
+      new AccessReviewInstancesAssignedForMyApprovalImpl(this);
+    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(this);
+    this.tenantLevelAccessReviewInstanceContactedReviewers =
+      new TenantLevelAccessReviewInstanceContactedReviewersImpl(this);
     this.eligibleChildResources = new EligibleChildResourcesImpl(this);
     this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
-    this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
-      this
-    );
-    this.roleAssignmentScheduleRequests = new RoleAssignmentScheduleRequestsImpl(
-      this
-    );
+    this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(this);
+    this.roleAssignmentScheduleRequests = new RoleAssignmentScheduleRequestsImpl(this);
     this.roleEligibilitySchedules = new RoleEligibilitySchedulesImpl(this);
-    this.roleEligibilityScheduleInstances = new RoleEligibilityScheduleInstancesImpl(
-      this
-    );
-    this.roleEligibilityScheduleRequests = new RoleEligibilityScheduleRequestsImpl(
-      this
-    );
+    this.roleEligibilityScheduleInstances = new RoleEligibilityScheduleInstancesImpl(this);
+    this.roleEligibilityScheduleRequests = new RoleEligibilityScheduleRequestsImpl(this);
     this.roleManagementPolicies = new RoleManagementPoliciesImpl(this);
-    this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
-      this
-    );
+    this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(this);
     this.alerts = new AlertsImpl(this);
     this.alertConfigurations = new AlertConfigurationsImpl(this);
     this.alertDefinitions = new AlertDefinitionsImpl(this);

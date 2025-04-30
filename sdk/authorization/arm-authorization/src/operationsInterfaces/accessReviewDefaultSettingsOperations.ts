@@ -11,7 +11,7 @@ import {
   AccessReviewDefaultSettingsGetResponse,
   AccessReviewScheduleSettings,
   AccessReviewDefaultSettingsPutOptionalParams,
-  AccessReviewDefaultSettingsPutResponse
+  AccessReviewDefaultSettingsPutResponse,
 } from "../models/index.js";
 
 /** Interface representing a AccessReviewDefaultSettingsOperations. */
@@ -21,7 +21,7 @@ export interface AccessReviewDefaultSettingsOperations {
    * @param options The options parameters.
    */
   get(
-    options?: AccessReviewDefaultSettingsGetOptionalParams
+    options?: AccessReviewDefaultSettingsGetOptionalParams,
   ): Promise<AccessReviewDefaultSettingsGetResponse>;
   /**
    * Get access review default settings for the subscription
@@ -30,6 +30,6 @@ export interface AccessReviewDefaultSettingsOperations {
    */
   put(
     properties: AccessReviewScheduleSettings,
-    options?: AccessReviewDefaultSettingsPutOptionalParams
+    options?: AccessReviewDefaultSettingsPutOptionalParams,
   ): Promise<AccessReviewDefaultSettingsPutResponse>;
 }

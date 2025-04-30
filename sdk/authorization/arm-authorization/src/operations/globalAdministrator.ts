@@ -29,13 +29,8 @@ export class GlobalAdministratorImpl implements GlobalAdministrator {
    * Elevates access for a Global Administrator.
    * @param options The options parameters.
    */
-  elevateAccess(
-    options?: GlobalAdministratorElevateAccessOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { options },
-      elevateAccessOperationSpec
-    );
+  elevateAccess(options?: GlobalAdministratorElevateAccessOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ options }, elevateAccessOperationSpec);
   }
 }
 // Operation Specifications
@@ -47,11 +42,11 @@ const elevateAccessOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

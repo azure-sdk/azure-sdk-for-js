@@ -13,12 +13,13 @@ import * as Parameters from "../models/parameters.js";
 import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
 import {
   ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
-  ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
+  ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse,
 } from "../models/index.js";
 
 /** Class containing ScopeAccessReviewHistoryDefinitionInstance operations. */
 export class ScopeAccessReviewHistoryDefinitionInstanceImpl
-  implements ScopeAccessReviewHistoryDefinitionInstance {
+  implements ScopeAccessReviewHistoryDefinitionInstance
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -41,13 +42,11 @@ export class ScopeAccessReviewHistoryDefinitionInstanceImpl
     scope: string,
     historyDefinitionId: string,
     instanceId: string,
-    options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
-  ): Promise<
-    ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse
-  > {
+    options?: ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams,
+  ): Promise<ScopeAccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse> {
     return this.client.sendOperationRequest(
       { scope, historyDefinitionId, instanceId, options },
-      generateDownloadUriOperationSpec
+      generateDownloadUriOperationSpec,
     );
   }
 }
@@ -55,24 +54,23 @@ export class ScopeAccessReviewHistoryDefinitionInstanceImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const generateDownloadUriOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}/instances/{instanceId}/generateDownloadUri",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}/instances/{instanceId}/generateDownloadUri",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewHistoryInstance
+      bodyMapper: Mappers.AccessReviewHistoryInstance,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.historyDefinitionId,
     Parameters.instanceId,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -14,7 +14,7 @@ import {
   RoleManagementPoliciesGetResponse,
   RoleManagementPoliciesUpdateOptionalParams,
   RoleManagementPoliciesUpdateResponse,
-  RoleManagementPoliciesDeleteOptionalParams
+  RoleManagementPoliciesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface RoleManagementPolicies {
    */
   listForScope(
     scope: string,
-    options?: RoleManagementPoliciesListForScopeOptionalParams
+    options?: RoleManagementPoliciesListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleManagementPolicy>;
   /**
    * Get the specified role management policy for a resource scope
@@ -38,7 +38,7 @@ export interface RoleManagementPolicies {
   get(
     scope: string,
     roleManagementPolicyName: string,
-    options?: RoleManagementPoliciesGetOptionalParams
+    options?: RoleManagementPoliciesGetOptionalParams,
   ): Promise<RoleManagementPoliciesGetResponse>;
   /**
    * Update a role management policy
@@ -51,7 +51,7 @@ export interface RoleManagementPolicies {
     scope: string,
     roleManagementPolicyName: string,
     parameters: RoleManagementPolicy,
-    options?: RoleManagementPoliciesUpdateOptionalParams
+    options?: RoleManagementPoliciesUpdateOptionalParams,
   ): Promise<RoleManagementPoliciesUpdateResponse>;
   /**
    * Delete a role management policy
@@ -62,6 +62,6 @@ export interface RoleManagementPolicies {
   delete(
     scope: string,
     roleManagementPolicyName: string,
-    options?: RoleManagementPoliciesDeleteOptionalParams
+    options?: RoleManagementPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

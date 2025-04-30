@@ -18,7 +18,7 @@ import {
   EligibleChildResourcesGetNextOptionalParams,
   EligibleChildResourcesGetOptionalParams,
   EligibleChildResourcesGetResponse,
-  EligibleChildResourcesGetNextResponse
+  EligibleChildResourcesGetNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class EligibleChildResourcesImpl implements EligibleChildResources {
    */
   public list(
     scope: string,
-    options?: EligibleChildResourcesGetOptionalParams
+    options?: EligibleChildResourcesGetOptionalParams,
   ): PagedAsyncIterableIterator<EligibleChildResource> {
     const iter = this.getPagingAll(scope, options);
     return {
@@ -56,14 +56,14 @@ export class EligibleChildResourcesImpl implements EligibleChildResources {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *getPagingPage(
     scope: string,
     options?: EligibleChildResourcesGetOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EligibleChildResource[]> {
     let result: EligibleChildResourcesGetResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class EligibleChildResourcesImpl implements EligibleChildResources {
 
   private async *getPagingAll(
     scope: string,
-    options?: EligibleChildResourcesGetOptionalParams
+    options?: EligibleChildResourcesGetOptionalParams,
   ): AsyncIterableIterator<EligibleChildResource> {
     for await (const page of this.getPagingPage(scope, options)) {
       yield* page;
@@ -99,12 +99,9 @@ export class EligibleChildResourcesImpl implements EligibleChildResources {
    */
   private _get(
     scope: string,
-    options?: EligibleChildResourcesGetOptionalParams
+    options?: EligibleChildResourcesGetOptionalParams,
   ): Promise<EligibleChildResourcesGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, getOperationSpec);
   }
 
   /**
@@ -116,12 +113,9 @@ export class EligibleChildResourcesImpl implements EligibleChildResources {
   private _getNext(
     scope: string,
     nextLink: string,
-    options?: EligibleChildResourcesGetNextOptionalParams
+    options?: EligibleChildResourcesGetNextOptionalParams,
   ): Promise<EligibleChildResourcesGetNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      getNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, getNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -132,29 +126,29 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EligibleChildResourcesListResult
+      bodyMapper: Mappers.EligibleChildResourcesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EligibleChildResourcesListResult
+      bodyMapper: Mappers.EligibleChildResourcesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

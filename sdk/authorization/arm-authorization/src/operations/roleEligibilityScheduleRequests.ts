@@ -25,13 +25,12 @@ import {
   RoleEligibilityScheduleRequestsCancelOptionalParams,
   RoleEligibilityScheduleRequestsValidateOptionalParams,
   RoleEligibilityScheduleRequestsValidateResponse,
-  RoleEligibilityScheduleRequestsListForScopeNextResponse
+  RoleEligibilityScheduleRequestsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleEligibilityScheduleRequests operations. */
-export class RoleEligibilityScheduleRequestsImpl
-  implements RoleEligibilityScheduleRequests {
+export class RoleEligibilityScheduleRequestsImpl implements RoleEligibilityScheduleRequests {
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -49,7 +48,7 @@ export class RoleEligibilityScheduleRequestsImpl
    */
   public listForScope(
     scope: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleEligibilityScheduleRequest> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -64,14 +63,14 @@ export class RoleEligibilityScheduleRequestsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleEligibilityScheduleRequest[]> {
     let result: RoleEligibilityScheduleRequestsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +92,7 @@ export class RoleEligibilityScheduleRequestsImpl
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
   ): AsyncIterableIterator<RoleEligibilityScheduleRequest> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -103,11 +102,9 @@ export class RoleEligibilityScheduleRequestsImpl
   /**
    * Creates a role eligibility schedule request.
    * @param scope The scope of the role eligibility schedule request to create. The scope can be any REST
-   *              resource instance. For example, use
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/' for a subscription,
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}'
-   *              for a resource group, and
-   *              '/providers/Microsoft.Subscription/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              resource instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
    *              for a resource.
    * @param roleEligibilityScheduleRequestName The name of the role eligibility to create. It can be any
    *                                           valid GUID.
@@ -118,11 +115,11 @@ export class RoleEligibilityScheduleRequestsImpl
     scope: string,
     roleEligibilityScheduleRequestName: string,
     parameters: RoleEligibilityScheduleRequest,
-    options?: RoleEligibilityScheduleRequestsCreateOptionalParams
+    options?: RoleEligibilityScheduleRequestsCreateOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleEligibilityScheduleRequestName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -136,11 +133,11 @@ export class RoleEligibilityScheduleRequestsImpl
   get(
     scope: string,
     roleEligibilityScheduleRequestName: string,
-    options?: RoleEligibilityScheduleRequestsGetOptionalParams
+    options?: RoleEligibilityScheduleRequestsGetOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleEligibilityScheduleRequestName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -151,12 +148,9 @@ export class RoleEligibilityScheduleRequestsImpl
    */
   private _listForScope(
     scope: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsListForScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listForScopeOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listForScopeOperationSpec);
   }
 
   /**
@@ -168,11 +162,11 @@ export class RoleEligibilityScheduleRequestsImpl
   cancel(
     scope: string,
     roleEligibilityScheduleRequestName: string,
-    options?: RoleEligibilityScheduleRequestsCancelOptionalParams
+    options?: RoleEligibilityScheduleRequestsCancelOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, roleEligibilityScheduleRequestName, options },
-      cancelOperationSpec
+      cancelOperationSpec,
     );
   }
 
@@ -187,11 +181,11 @@ export class RoleEligibilityScheduleRequestsImpl
     scope: string,
     roleEligibilityScheduleRequestName: string,
     parameters: RoleEligibilityScheduleRequest,
-    options?: RoleEligibilityScheduleRequestsValidateOptionalParams
+    options?: RoleEligibilityScheduleRequestsValidateOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsValidateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleEligibilityScheduleRequestName, parameters, options },
-      validateOperationSpec
+      validateOperationSpec,
     );
   }
 
@@ -204,11 +198,11 @@ export class RoleEligibilityScheduleRequestsImpl
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleEligibilityScheduleRequestsListForScopeNextOptionalParams
+    options?: RoleEligibilityScheduleRequestsListForScopeNextOptionalParams,
   ): Promise<RoleEligibilityScheduleRequestsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -216,120 +210,115 @@ export class RoleEligibilityScheduleRequestsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.RoleEligibilityScheduleRequest
+      bodyMapper: Mappers.RoleEligibilityScheduleRequest,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleEligibilityScheduleRequestName
+    Parameters.roleEligibilityScheduleRequestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleRequest
+      bodyMapper: Mappers.RoleEligibilityScheduleRequest,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleEligibilityScheduleRequestName
+    Parameters.roleEligibilityScheduleRequestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests",
+  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleRequestListResult
+      bodyMapper: Mappers.RoleEligibilityScheduleRequestListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion5],
+  queryParameters: [Parameters.filter, Parameters.apiVersion4],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/cancel",
+  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/cancel",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleEligibilityScheduleRequestName
+    Parameters.roleEligibilityScheduleRequestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const validateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/validate",
+  path: "/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}/validate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleRequest
+      bodyMapper: Mappers.RoleEligibilityScheduleRequest,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion5],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
-    Parameters.roleEligibilityScheduleRequestName
+    Parameters.roleEligibilityScheduleRequestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleEligibilityScheduleRequestListResult
+      bodyMapper: Mappers.RoleEligibilityScheduleRequestListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

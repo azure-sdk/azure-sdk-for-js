@@ -43,7 +43,7 @@ import {
   RoleAssignmentsListForSubscriptionNextResponse,
   RoleAssignmentsListForResourceGroupNextResponse,
   RoleAssignmentsListForResourceNextResponse,
-  RoleAssignmentsListForScopeNextResponse
+  RoleAssignmentsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +64,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    * @param options The options parameters.
    */
   public listForSubscription(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+    options?: RoleAssignmentsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment> {
     const iter = this.listForSubscriptionPagingAll(options);
     return {
@@ -79,13 +79,13 @@ export class RoleAssignmentsImpl implements RoleAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForSubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listForSubscriptionPagingPage(
     options?: RoleAssignmentsListForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleAssignment[]> {
     let result: RoleAssignmentsListForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +106,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   private async *listForSubscriptionPagingAll(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+    options?: RoleAssignmentsListForSubscriptionOptionalParams,
   ): AsyncIterableIterator<RoleAssignment> {
     for await (const page of this.listForSubscriptionPagingPage(options)) {
       yield* page;
@@ -120,7 +120,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   public listForResourceGroup(
     resourceGroupName: string,
-    options?: RoleAssignmentsListForResourceGroupOptionalParams
+    options?: RoleAssignmentsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment> {
     const iter = this.listForResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -134,19 +134,15 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listForResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listForResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listForResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RoleAssignmentsListForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleAssignment[]> {
     let result: RoleAssignmentsListForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,11 +154,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listForResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listForResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -172,12 +164,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 
   private async *listForResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RoleAssignmentsListForResourceGroupOptionalParams
+    options?: RoleAssignmentsListForResourceGroupOptionalParams,
   ): AsyncIterableIterator<RoleAssignment> {
-    for await (const page of this.listForResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listForResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -196,14 +185,14 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+    options?: RoleAssignmentsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment> {
     const iter = this.listForResourcePagingAll(
       resourceGroupName,
       resourceProviderNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     );
     return {
       next() {
@@ -222,9 +211,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
           resourceType,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -234,7 +223,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     resourceType: string,
     resourceName: string,
     options?: RoleAssignmentsListForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleAssignment[]> {
     let result: RoleAssignmentsListForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -244,7 +233,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         resourceProviderNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -258,7 +247,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         resourceType,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -272,14 +261,14 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+    options?: RoleAssignmentsListForResourceOptionalParams,
   ): AsyncIterableIterator<RoleAssignment> {
     for await (const page of this.listForResourcePagingPage(
       resourceGroupName,
       resourceProviderNamespace,
       resourceType,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -295,7 +284,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   public listForScope(
     scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams
+    options?: RoleAssignmentsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignment> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -310,14 +299,14 @@ export class RoleAssignmentsImpl implements RoleAssignments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: RoleAssignmentsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RoleAssignment[]> {
     let result: RoleAssignmentsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -339,7 +328,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams
+    options?: RoleAssignmentsListForScopeOptionalParams,
   ): AsyncIterableIterator<RoleAssignment> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -351,12 +340,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    * @param options The options parameters.
    */
   private _listForSubscription(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+    options?: RoleAssignmentsListForSubscriptionOptionalParams,
   ): Promise<RoleAssignmentsListForSubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listForSubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listForSubscriptionOperationSpec);
   }
 
   /**
@@ -366,11 +352,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   private _listForResourceGroup(
     resourceGroupName: string,
-    options?: RoleAssignmentsListForResourceGroupOptionalParams
+    options?: RoleAssignmentsListForResourceGroupOptionalParams,
   ): Promise<RoleAssignmentsListForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listForResourceGroupOperationSpec
+      listForResourceGroupOperationSpec,
     );
   }
 
@@ -388,7 +374,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     resourceProviderNamespace: string,
     resourceType: string,
     resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+    options?: RoleAssignmentsListForResourceOptionalParams,
   ): Promise<RoleAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -396,9 +382,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         resourceProviderNamespace,
         resourceType,
         resourceName,
-        options
+        options,
       },
-      listForResourceOperationSpec
+      listForResourceOperationSpec,
     );
   }
 
@@ -414,11 +400,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   get(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsGetOptionalParams
+    options?: RoleAssignmentsGetOptionalParams,
   ): Promise<RoleAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -436,11 +422,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     scope: string,
     roleAssignmentName: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateOptionalParams
+    options?: RoleAssignmentsCreateOptionalParams,
   ): Promise<RoleAssignmentsCreateResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -456,11 +442,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   delete(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsDeleteOptionalParams
+    options?: RoleAssignmentsDeleteOptionalParams,
   ): Promise<RoleAssignmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -474,12 +460,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   private _listForScope(
     scope: string,
-    options?: RoleAssignmentsListForScopeOptionalParams
+    options?: RoleAssignmentsListForScopeOptionalParams,
   ): Promise<RoleAssignmentsListForScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listForScopeOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listForScopeOperationSpec);
   }
 
   /**
@@ -492,12 +475,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   getById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsGetByIdOptionalParams
+    options?: RoleAssignmentsGetByIdOptionalParams,
   ): Promise<RoleAssignmentsGetByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, options },
-      getByIdOperationSpec
-    );
+    return this.client.sendOperationRequest({ roleAssignmentId, options }, getByIdOperationSpec);
   }
 
   /**
@@ -512,11 +492,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   createById(
     roleAssignmentId: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateByIdOptionalParams
+    options?: RoleAssignmentsCreateByIdOptionalParams,
   ): Promise<RoleAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
       { roleAssignmentId, parameters, options },
-      createByIdOperationSpec
+      createByIdOperationSpec,
     );
   }
 
@@ -530,12 +510,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   deleteById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsDeleteByIdOptionalParams
+    options?: RoleAssignmentsDeleteByIdOptionalParams,
   ): Promise<RoleAssignmentsDeleteByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, options },
-      deleteByIdOperationSpec
-    );
+    return this.client.sendOperationRequest({ roleAssignmentId, options }, deleteByIdOperationSpec);
   }
 
   /**
@@ -545,11 +522,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
    */
   private _listForSubscriptionNext(
     nextLink: string,
-    options?: RoleAssignmentsListForSubscriptionNextOptionalParams
+    options?: RoleAssignmentsListForSubscriptionNextOptionalParams,
   ): Promise<RoleAssignmentsListForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listForSubscriptionNextOperationSpec
+      listForSubscriptionNextOperationSpec,
     );
   }
 
@@ -562,11 +539,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   private _listForResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RoleAssignmentsListForResourceGroupNextOptionalParams
+    options?: RoleAssignmentsListForResourceGroupNextOptionalParams,
   ): Promise<RoleAssignmentsListForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listForResourceGroupNextOperationSpec
+      listForResourceGroupNextOperationSpec,
     );
   }
 
@@ -586,7 +563,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
     resourceType: string,
     resourceName: string,
     nextLink: string,
-    options?: RoleAssignmentsListForResourceNextOptionalParams
+    options?: RoleAssignmentsListForResourceNextOptionalParams,
   ): Promise<RoleAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -595,9 +572,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         resourceType,
         resourceName,
         nextLink,
-        options
+        options,
       },
-      listForResourceNextOperationSpec
+      listForResourceNextOperationSpec,
     );
   }
 
@@ -613,11 +590,11 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: RoleAssignmentsListForScopeNextOptionalParams
+    options?: RoleAssignmentsListForScopeNextOptionalParams,
   ): Promise<RoleAssignmentsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -625,272 +602,234 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter1,
-    Parameters.tenantId
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter1, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/roleAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter1,
-    Parameters.tenantId
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter1, Parameters.tenantId],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion1,
-    Parameters.filter1,
-    Parameters.tenantId
-  ],
+  queryParameters: [Parameters.apiVersion1, Parameters.filter1, Parameters.tenantId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName1
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleAssignmentName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     201: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleAssignmentName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.roleAssignmentName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion1,
     Parameters.filter1,
     Parameters.tenantId,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{roleAssignmentId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{roleAssignmentId}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     201: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteByIdOperationSpec: coreClient.OperationSpec = {
   path: "/{roleAssignmentId}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignment
+      bodyMapper: Mappers.RoleAssignment,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1, Parameters.tenantId],
   urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -899,23 +838,23 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceProviderNamespace,
     Parameters.resourceType,
-    Parameters.resourceName1
+    Parameters.resourceName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
+      bodyMapper: Mappers.RoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

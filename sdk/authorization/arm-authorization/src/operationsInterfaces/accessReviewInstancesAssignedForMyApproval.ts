@@ -11,7 +11,7 @@ import {
   AccessReviewInstance,
   AccessReviewInstancesAssignedForMyApprovalListOptionalParams,
   AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams,
-  AccessReviewInstancesAssignedForMyApprovalGetByIdResponse
+  AccessReviewInstancesAssignedForMyApprovalGetByIdResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface AccessReviewInstancesAssignedForMyApproval {
    */
   list(
     scheduleDefinitionId: string,
-    options?: AccessReviewInstancesAssignedForMyApprovalListOptionalParams
+    options?: AccessReviewInstancesAssignedForMyApprovalListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewInstance>;
   /**
    * Get single access review instance assigned for my approval.
@@ -35,6 +35,6 @@ export interface AccessReviewInstancesAssignedForMyApproval {
   getById(
     scheduleDefinitionId: string,
     id: string,
-    options?: AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams
+    options?: AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams,
   ): Promise<AccessReviewInstancesAssignedForMyApprovalGetByIdResponse>;
 }

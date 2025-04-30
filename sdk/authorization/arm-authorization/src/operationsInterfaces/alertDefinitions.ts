@@ -11,7 +11,7 @@ import {
   AlertDefinition,
   AlertDefinitionsListForScopeOptionalParams,
   AlertDefinitionsGetOptionalParams,
-  AlertDefinitionsGetResponse
+  AlertDefinitionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface AlertDefinitions {
    */
   listForScope(
     scope: string,
-    options?: AlertDefinitionsListForScopeOptionalParams
+    options?: AlertDefinitionsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<AlertDefinition>;
   /**
    * Get the specified alert definition.
@@ -41,6 +41,6 @@ export interface AlertDefinitions {
   get(
     scope: string,
     alertDefinitionId: string,
-    options?: AlertDefinitionsGetOptionalParams
+    options?: AlertDefinitionsGetOptionalParams,
   ): Promise<AlertDefinitionsGetResponse>;
 }

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Alert,
@@ -31,7 +27,7 @@ import {
   AlertsRefreshResponse,
   AlertsRefreshAllOptionalParams,
   AlertsRefreshAllResponse,
-  AlertsListForScopeNextResponse
+  AlertsListForScopeNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +50,7 @@ export class AlertsImpl implements Alerts {
    */
   public listForScope(
     scope: string,
-    options?: AlertsListForScopeOptionalParams
+    options?: AlertsListForScopeOptionalParams,
   ): PagedAsyncIterableIterator<Alert> {
     const iter = this.listForScopePagingAll(scope, options);
     return {
@@ -69,14 +65,14 @@ export class AlertsImpl implements Alerts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listForScopePagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listForScopePagingPage(
     scope: string,
     options?: AlertsListForScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Alert[]> {
     let result: AlertsListForScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +94,7 @@ export class AlertsImpl implements Alerts {
 
   private async *listForScopePagingAll(
     scope: string,
-    options?: AlertsListForScopeOptionalParams
+    options?: AlertsListForScopeOptionalParams,
   ): AsyncIterableIterator<Alert> {
     for await (const page of this.listForScopePagingPage(scope, options)) {
       yield* page;
@@ -119,12 +115,9 @@ export class AlertsImpl implements Alerts {
   get(
     scope: string,
     alertId: string,
-    options?: AlertsGetOptionalParams
+    options?: AlertsGetOptionalParams,
   ): Promise<AlertsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, alertId, options },
-      getOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, alertId, options }, getOperationSpec);
   }
 
   /**
@@ -138,11 +131,11 @@ export class AlertsImpl implements Alerts {
     scope: string,
     alertId: string,
     parameters: Alert,
-    options?: AlertsUpdateOptionalParams
+    options?: AlertsUpdateOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, alertId, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -153,12 +146,9 @@ export class AlertsImpl implements Alerts {
    */
   private _listForScope(
     scope: string,
-    options?: AlertsListForScopeOptionalParams
+    options?: AlertsListForScopeOptionalParams,
   ): Promise<AlertsListForScopeResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listForScopeOperationSpec
-    );
+    return this.client.sendOperationRequest({ scope, options }, listForScopeOperationSpec);
   }
 
   /**
@@ -170,30 +160,23 @@ export class AlertsImpl implements Alerts {
   async beginRefresh(
     scope: string,
     alertId: string,
-    options?: AlertsRefreshOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AlertsRefreshResponse>,
-      AlertsRefreshResponse
-    >
-  > {
+    options?: AlertsRefreshOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AlertsRefreshResponse>, AlertsRefreshResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AlertsRefreshResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +185,8 @@ export class AlertsImpl implements Alerts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,15 +194,15 @@ export class AlertsImpl implements Alerts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, alertId, options },
-      spec: refreshOperationSpec
+      spec: refreshOperationSpec,
     });
     const poller = await createHttpPoller<
       AlertsRefreshResponse,
@@ -227,7 +210,7 @@ export class AlertsImpl implements Alerts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -242,7 +225,7 @@ export class AlertsImpl implements Alerts {
   async beginRefreshAndWait(
     scope: string,
     alertId: string,
-    options?: AlertsRefreshOptionalParams
+    options?: AlertsRefreshOptionalParams,
   ): Promise<AlertsRefreshResponse> {
     const poller = await this.beginRefresh(scope, alertId, options);
     return poller.pollUntilDone();
@@ -255,30 +238,23 @@ export class AlertsImpl implements Alerts {
    */
   async beginRefreshAll(
     scope: string,
-    options?: AlertsRefreshAllOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AlertsRefreshAllResponse>,
-      AlertsRefreshAllResponse
-    >
-  > {
+    options?: AlertsRefreshAllOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<AlertsRefreshAllResponse>, AlertsRefreshAllResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AlertsRefreshAllResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -287,8 +263,8 @@ export class AlertsImpl implements Alerts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -296,15 +272,15 @@ export class AlertsImpl implements Alerts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { scope, options },
-      spec: refreshAllOperationSpec
+      spec: refreshAllOperationSpec,
     });
     const poller = await createHttpPoller<
       AlertsRefreshAllResponse,
@@ -312,7 +288,7 @@ export class AlertsImpl implements Alerts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -325,7 +301,7 @@ export class AlertsImpl implements Alerts {
    */
   async beginRefreshAllAndWait(
     scope: string,
-    options?: AlertsRefreshAllOptionalParams
+    options?: AlertsRefreshAllOptionalParams,
   ): Promise<AlertsRefreshAllResponse> {
     const poller = await this.beginRefreshAll(scope, options);
     return poller.pollUntilDone();
@@ -340,11 +316,11 @@ export class AlertsImpl implements Alerts {
   private _listForScopeNext(
     scope: string,
     nextLink: string,
-    options?: AlertsListForScopeNextOptionalParams
+    options?: AlertsListForScopeNextOptionalParams,
   ): Promise<AlertsListForScopeNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listForScopeNextOperationSpec
+      listForScopeNextOperationSpec,
     );
   }
 }
@@ -352,127 +328,123 @@ export class AlertsImpl implements Alerts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Alert
+      bodyMapper: Mappers.Alert,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}",
   httpMethod: "PATCH",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertListResult
+      bodyMapper: Mappers.AlertListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/refresh",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/{alertId}/refresh",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshHeaders
+      headersMapper: Mappers.AlertsRefreshHeaders,
     },
     201: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshHeaders
+      headersMapper: Mappers.AlertsRefreshHeaders,
     },
     202: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshHeaders
+      headersMapper: Mappers.AlertsRefreshHeaders,
     },
     204: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshHeaders
+      headersMapper: Mappers.AlertsRefreshHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.alertId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/refresh",
+  path: "/{scope}/providers/Microsoft.Authorization/roleManagementAlerts/refresh",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshAllHeaders
+      headersMapper: Mappers.AlertsRefreshAllHeaders,
     },
     201: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshAllHeaders
+      headersMapper: Mappers.AlertsRefreshAllHeaders,
     },
     202: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshAllHeaders
+      headersMapper: Mappers.AlertsRefreshAllHeaders,
     },
     204: {
       bodyMapper: Mappers.AlertOperationResult,
-      headersMapper: Mappers.AlertsRefreshAllHeaders
+      headersMapper: Mappers.AlertsRefreshAllHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion6],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listForScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertListResult
+      bodyMapper: Mappers.AlertListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

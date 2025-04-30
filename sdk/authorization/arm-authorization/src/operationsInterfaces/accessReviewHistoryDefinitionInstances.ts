@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AccessReviewHistoryInstance,
-  AccessReviewHistoryDefinitionInstancesListOptionalParams
+  AccessReviewHistoryDefinitionInstancesListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,6 +22,6 @@ export interface AccessReviewHistoryDefinitionInstances {
    */
   list(
     historyDefinitionId: string,
-    options?: AccessReviewHistoryDefinitionInstancesListOptionalParams
+    options?: AccessReviewHistoryDefinitionInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewHistoryInstance>;
 }

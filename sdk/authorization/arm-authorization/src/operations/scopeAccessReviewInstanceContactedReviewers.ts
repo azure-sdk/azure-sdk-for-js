@@ -18,13 +18,14 @@ import {
   ScopeAccessReviewInstanceContactedReviewersListNextOptionalParams,
   ScopeAccessReviewInstanceContactedReviewersListOptionalParams,
   ScopeAccessReviewInstanceContactedReviewersListResponse,
-  ScopeAccessReviewInstanceContactedReviewersListNextResponse
+  ScopeAccessReviewInstanceContactedReviewersListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScopeAccessReviewInstanceContactedReviewers operations. */
 export class ScopeAccessReviewInstanceContactedReviewersImpl
-  implements ScopeAccessReviewInstanceContactedReviewers {
+  implements ScopeAccessReviewInstanceContactedReviewers
+{
   private readonly client: AuthorizationManagementClient;
 
   /**
@@ -46,7 +47,7 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewContactedReviewer> {
     const iter = this.listPagingAll(scope, scheduleDefinitionId, id, options);
     return {
@@ -60,14 +61,8 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          scope,
-          scheduleDefinitionId,
-          id,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(scope, scheduleDefinitionId, id, options, settings);
+      },
     };
   }
 
@@ -76,7 +71,7 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AccessReviewContactedReviewer[]> {
     let result: ScopeAccessReviewInstanceContactedReviewersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,13 +83,7 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        scope,
-        scheduleDefinitionId,
-        id,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(scope, scheduleDefinitionId, id, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -106,14 +95,9 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams,
   ): AsyncIterableIterator<AccessReviewContactedReviewer> {
-    for await (const page of this.listPagingPage(
-      scope,
-      scheduleDefinitionId,
-      id,
-      options
-    )) {
+    for await (const page of this.listPagingPage(scope, scheduleDefinitionId, id, options)) {
       yield* page;
     }
   }
@@ -129,11 +113,11 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
     scope: string,
     scheduleDefinitionId: string,
     id: string,
-    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams
+    options?: ScopeAccessReviewInstanceContactedReviewersListOptionalParams,
   ): Promise<ScopeAccessReviewInstanceContactedReviewersListResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -150,11 +134,11 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
     scheduleDefinitionId: string,
     id: string,
     nextLink: string,
-    options?: ScopeAccessReviewInstanceContactedReviewersListNextOptionalParams
+    options?: ScopeAccessReviewInstanceContactedReviewersListNextOptionalParams,
   ): Promise<ScopeAccessReviewInstanceContactedReviewersListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, scheduleDefinitionId, id, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -162,45 +146,44 @@ export class ScopeAccessReviewInstanceContactedReviewersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
+  path: "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/contactedReviewers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessReviewContactedReviewerListResult
+      bodyMapper: Mappers.AccessReviewContactedReviewerListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDefinition
-    }
+      bodyMapper: Mappers.ErrorDefinition,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scheduleDefinitionId,
     Parameters.id,
-    Parameters.scope1
+    Parameters.scope1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

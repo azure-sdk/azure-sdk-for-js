@@ -16,7 +16,7 @@ import {
   AccessReviewScheduleDefinitionProperties,
   AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse,
-  AccessReviewScheduleDefinitionsStopOptionalParams
+  AccessReviewScheduleDefinitionsStopOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface AccessReviewScheduleDefinitions {
    * @param options The options parameters.
    */
   list(
-    options?: AccessReviewScheduleDefinitionsListOptionalParams
+    options?: AccessReviewScheduleDefinitionsListOptionalParams,
   ): PagedAsyncIterableIterator<AccessReviewScheduleDefinition>;
   /**
    * Get single access review definition
@@ -36,7 +36,7 @@ export interface AccessReviewScheduleDefinitions {
    */
   getById(
     scheduleDefinitionId: string,
-    options?: AccessReviewScheduleDefinitionsGetByIdOptionalParams
+    options?: AccessReviewScheduleDefinitionsGetByIdOptionalParams,
   ): Promise<AccessReviewScheduleDefinitionsGetByIdResponse>;
   /**
    * Delete access review schedule definition
@@ -45,7 +45,7 @@ export interface AccessReviewScheduleDefinitions {
    */
   deleteById(
     scheduleDefinitionId: string,
-    options?: AccessReviewScheduleDefinitionsDeleteByIdOptionalParams
+    options?: AccessReviewScheduleDefinitionsDeleteByIdOptionalParams,
   ): Promise<void>;
   /**
    * Create or Update access review schedule definition.
@@ -56,7 +56,7 @@ export interface AccessReviewScheduleDefinitions {
   createOrUpdateById(
     scheduleDefinitionId: string,
     properties: AccessReviewScheduleDefinitionProperties,
-    options?: AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
+    options?: AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams,
   ): Promise<AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse>;
   /**
    * Stop access review definition
@@ -65,6 +65,6 @@ export interface AccessReviewScheduleDefinitions {
    */
   stop(
     scheduleDefinitionId: string,
-    options?: AccessReviewScheduleDefinitionsStopOptionalParams
+    options?: AccessReviewScheduleDefinitionsStopOptionalParams,
   ): Promise<void>;
 }
