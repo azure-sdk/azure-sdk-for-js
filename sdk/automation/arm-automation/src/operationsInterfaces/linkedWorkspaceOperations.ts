@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  LinkedWorkspaceGetOptionalParams,
-  LinkedWorkspaceGetResponse
-} from "../models/index.js";
+import { LinkedWorkspaceGetOptionalParams, LinkedWorkspaceGetResponse } from "../models/index.js";
 
 /** Interface representing a LinkedWorkspaceOperations. */
 export interface LinkedWorkspaceOperations {
@@ -22,6 +19,6 @@ export interface LinkedWorkspaceOperations {
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: LinkedWorkspaceGetOptionalParams
+    options?: LinkedWorkspaceGetOptionalParams,
   ): Promise<LinkedWorkspaceGetResponse>;
 }

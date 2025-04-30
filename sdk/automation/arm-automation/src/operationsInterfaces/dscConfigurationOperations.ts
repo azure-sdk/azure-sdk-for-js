@@ -21,7 +21,7 @@ import {
   DscConfigurationUpdate$jsonOptionalParams,
   DscConfigurationUpdateResponse,
   DscConfigurationGetContentOptionalParams,
-  DscConfigurationGetContentResponse
+  DscConfigurationGetContentResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface DscConfigurationOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: DscConfigurationListByAutomationAccountOptionalParams
+    options?: DscConfigurationListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<DscConfiguration>;
   /**
    * Delete the dsc configuration identified by configuration name.
@@ -49,7 +49,7 @@ export interface DscConfigurationOperations {
     resourceGroupName: string,
     automationAccountName: string,
     configurationName: string,
-    options?: DscConfigurationDeleteOptionalParams
+    options?: DscConfigurationDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve the configuration identified by configuration name.
@@ -62,7 +62,7 @@ export interface DscConfigurationOperations {
     resourceGroupName: string,
     automationAccountName: string,
     configurationName: string,
-    options?: DscConfigurationGetOptionalParams
+    options?: DscConfigurationGetOptionalParams,
   ): Promise<DscConfigurationGetResponse>;
   /**
    * Create the configuration identified by configuration name.
@@ -76,7 +76,7 @@ export interface DscConfigurationOperations {
           string,
           "text/plain; charset=utf-8",
           string,
-          DscConfigurationCreateOrUpdate$textOptionalParams?
+          DscConfigurationCreateOrUpdate$textOptionalParams?,
         ]
       | [
           string,
@@ -84,7 +84,7 @@ export interface DscConfigurationOperations {
           string,
           "application/json",
           DscConfigurationCreateOrUpdateParameters,
-          DscConfigurationCreateOrUpdate$jsonOptionalParams?
+          DscConfigurationCreateOrUpdate$jsonOptionalParams?,
         ]
   ): Promise<DscConfigurationCreateOrUpdateResponse>;
   /**
@@ -98,15 +98,9 @@ export interface DscConfigurationOperations {
           string,
           string,
           "text/plain; charset=utf-8",
-          DscConfigurationUpdate$textOptionalParams?
+          DscConfigurationUpdate$textOptionalParams?,
         ]
-      | [
-          string,
-          string,
-          string,
-          "application/json",
-          DscConfigurationUpdate$jsonOptionalParams?
-        ]
+      | [string, string, string, "application/json", DscConfigurationUpdate$jsonOptionalParams?]
   ): Promise<DscConfigurationUpdateResponse>;
   /**
    * Retrieve the configuration script identified by configuration name.
@@ -119,6 +113,6 @@ export interface DscConfigurationOperations {
     resourceGroupName: string,
     automationAccountName: string,
     configurationName: string,
-    options?: DscConfigurationGetContentOptionalParams
+    options?: DscConfigurationGetContentOptionalParams,
   ): Promise<DscConfigurationGetContentResponse>;
 }

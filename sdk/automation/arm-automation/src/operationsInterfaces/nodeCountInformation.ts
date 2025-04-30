@@ -9,7 +9,7 @@
 import {
   CountType,
   NodeCountInformationGetOptionalParams,
-  NodeCountInformationGetResponse
+  NodeCountInformationGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a NodeCountInformation. */
@@ -25,6 +25,6 @@ export interface NodeCountInformation {
     resourceGroupName: string,
     automationAccountName: string,
     countType: CountType,
-    options?: NodeCountInformationGetOptionalParams
+    options?: NodeCountInformationGetOptionalParams,
   ): Promise<NodeCountInformationGetResponse>;
 }

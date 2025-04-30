@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Statistics,
-  StatisticsListByAutomationAccountOptionalParams
-} from "../models/index.js";
+import { Statistics, StatisticsListByAutomationAccountOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StatisticsOperations. */
@@ -24,6 +21,6 @@ export interface StatisticsOperations {
   listByAutomationAccount(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: StatisticsListByAutomationAccountOptionalParams
+    options?: StatisticsListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<Statistics>;
 }

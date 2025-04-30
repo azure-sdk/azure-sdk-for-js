@@ -23,13 +23,12 @@ import {
   SourceControlSyncJobCreateResponse,
   SourceControlSyncJobGetOptionalParams,
   SourceControlSyncJobGetResponse,
-  SourceControlSyncJobListByAutomationAccountNextResponse
+  SourceControlSyncJobListByAutomationAccountNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SourceControlSyncJobOperations operations. */
-export class SourceControlSyncJobOperationsImpl
-  implements SourceControlSyncJobOperations {
+export class SourceControlSyncJobOperationsImpl implements SourceControlSyncJobOperations {
   private readonly client: AutomationClient;
 
   /**
@@ -51,13 +50,13 @@ export class SourceControlSyncJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlSyncJobListByAutomationAccountOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
   ): PagedAsyncIterableIterator<SourceControlSyncJob> {
     const iter = this.listByAutomationAccountPagingAll(
       resourceGroupName,
       automationAccountName,
       sourceControlName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +74,9 @@ export class SourceControlSyncJobOperationsImpl
           automationAccountName,
           sourceControlName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -86,7 +85,7 @@ export class SourceControlSyncJobOperationsImpl
     automationAccountName: string,
     sourceControlName: string,
     options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SourceControlSyncJob[]> {
     let result: SourceControlSyncJobListByAutomationAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -95,7 +94,7 @@ export class SourceControlSyncJobOperationsImpl
         resourceGroupName,
         automationAccountName,
         sourceControlName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +107,7 @@ export class SourceControlSyncJobOperationsImpl
         automationAccountName,
         sourceControlName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,13 +120,13 @@ export class SourceControlSyncJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlSyncJobListByAutomationAccountOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
   ): AsyncIterableIterator<SourceControlSyncJob> {
     for await (const page of this.listByAutomationAccountPagingPage(
       resourceGroupName,
       automationAccountName,
       sourceControlName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -148,7 +147,7 @@ export class SourceControlSyncJobOperationsImpl
     sourceControlName: string,
     sourceControlSyncJobId: string,
     parameters: SourceControlSyncJobCreateParameters,
-    options?: SourceControlSyncJobCreateOptionalParams
+    options?: SourceControlSyncJobCreateOptionalParams,
   ): Promise<SourceControlSyncJobCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -157,9 +156,9 @@ export class SourceControlSyncJobOperationsImpl
         sourceControlName,
         sourceControlSyncJobId,
         parameters,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -176,7 +175,7 @@ export class SourceControlSyncJobOperationsImpl
     automationAccountName: string,
     sourceControlName: string,
     sourceControlSyncJobId: string,
-    options?: SourceControlSyncJobGetOptionalParams
+    options?: SourceControlSyncJobGetOptionalParams,
   ): Promise<SourceControlSyncJobGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -184,9 +183,9 @@ export class SourceControlSyncJobOperationsImpl
         automationAccountName,
         sourceControlName,
         sourceControlSyncJobId,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,11 +200,11 @@ export class SourceControlSyncJobOperationsImpl
     resourceGroupName: string,
     automationAccountName: string,
     sourceControlName: string,
-    options?: SourceControlSyncJobListByAutomationAccountOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountOptionalParams,
   ): Promise<SourceControlSyncJobListByAutomationAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, automationAccountName, sourceControlName, options },
-      listByAutomationAccountOperationSpec
+      listByAutomationAccountOperationSpec,
     );
   }
 
@@ -223,7 +222,7 @@ export class SourceControlSyncJobOperationsImpl
     automationAccountName: string,
     sourceControlName: string,
     nextLink: string,
-    options?: SourceControlSyncJobListByAutomationAccountNextOptionalParams
+    options?: SourceControlSyncJobListByAutomationAccountNextOptionalParams,
   ): Promise<SourceControlSyncJobListByAutomationAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -231,9 +230,9 @@ export class SourceControlSyncJobOperationsImpl
         automationAccountName,
         sourceControlName,
         nextLink,
-        options
+        options,
       },
-      listByAutomationAccountNextOperationSpec
+      listByAutomationAccountNextOperationSpec,
     );
   }
 }
@@ -241,97 +240,94 @@ export class SourceControlSyncJobOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.SourceControlSyncJob
+      bodyMapper: Mappers.SourceControlSyncJob,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters8,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.sourceControlName,
-    Parameters.sourceControlSyncJobId
+    Parameters.sourceControlSyncJobId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs/{sourceControlSyncJobId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlSyncJobById
+      bodyMapper: Mappers.SourceControlSyncJobById,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.sourceControlName,
-    Parameters.sourceControlSyncJobId
+    Parameters.sourceControlSyncJobId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/sourceControls/{sourceControlName}/sourceControlSyncJobs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlSyncJobListResult
+      bodyMapper: Mappers.SourceControlSyncJobListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
-    Parameters.sourceControlName
+    Parameters.subscriptionId,
+    Parameters.sourceControlName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByAutomationAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SourceControlSyncJobListResult
+      bodyMapper: Mappers.SourceControlSyncJobListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.automationAccountName,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.sourceControlName
+    Parameters.sourceControlName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

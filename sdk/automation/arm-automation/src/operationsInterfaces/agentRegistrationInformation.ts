@@ -11,7 +11,7 @@ import {
   AgentRegistrationInformationGetResponse,
   AgentRegistrationRegenerateKeyParameter,
   AgentRegistrationInformationRegenerateKeyOptionalParams,
-  AgentRegistrationInformationRegenerateKeyResponse
+  AgentRegistrationInformationRegenerateKeyResponse,
 } from "../models/index.js";
 
 /** Interface representing a AgentRegistrationInformation. */
@@ -25,7 +25,7 @@ export interface AgentRegistrationInformation {
   get(
     resourceGroupName: string,
     automationAccountName: string,
-    options?: AgentRegistrationInformationGetOptionalParams
+    options?: AgentRegistrationInformationGetOptionalParams,
   ): Promise<AgentRegistrationInformationGetResponse>;
   /**
    * Regenerate a primary or secondary agent registration key
@@ -38,6 +38,6 @@ export interface AgentRegistrationInformation {
     resourceGroupName: string,
     automationAccountName: string,
     parameters: AgentRegistrationRegenerateKeyParameter,
-    options?: AgentRegistrationInformationRegenerateKeyOptionalParams
+    options?: AgentRegistrationInformationRegenerateKeyOptionalParams,
   ): Promise<AgentRegistrationInformationRegenerateKeyResponse>;
 }
