@@ -15,8 +15,5 @@ export interface LiveToken {
    * @param resourceUri The identifier of the resource.
    * @param options The options parameters.
    */
-  get(
-    resourceUri: string,
-    options?: LiveTokenGetOptionalParams,
-  ): Promise<LiveTokenGetResponse>;
+  get(resourceUri: string, options?: LiveTokenGetOptionalParams): Promise<LiveTokenGetResponse>;
 }

@@ -52,13 +52,7 @@ export class AnnotationsImpl implements Annotations {
     end: string,
     options?: AnnotationsListOptionalParams,
   ): PagedAsyncIterableIterator<Annotation> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      resourceName,
-      start,
-      end,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, resourceName, start, end, options);
     return {
       next() {
         return iter.next();
@@ -70,14 +64,7 @@ export class AnnotationsImpl implements Annotations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          resourceName,
-          start,
-          end,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, resourceName, start, end, options, settings);
       },
     };
   }
@@ -91,13 +78,7 @@ export class AnnotationsImpl implements Annotations {
     _settings?: PageSettings,
   ): AsyncIterableIterator<Annotation[]> {
     let result: AnnotationsListResponse;
-    result = await this._list(
-      resourceGroupName,
-      resourceName,
-      start,
-      end,
-      options,
-    );
+    result = await this._list(resourceGroupName, resourceName, start, end, options);
     yield result.value || [];
   }
 

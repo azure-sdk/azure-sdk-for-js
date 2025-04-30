@@ -54,12 +54,7 @@ export class WebTestLocationsImpl implements WebTestLocations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
       },
     };
   }
@@ -80,11 +75,7 @@ export class WebTestLocationsImpl implements WebTestLocations {
     resourceName: string,
     options?: WebTestLocationsListOptionalParams,
   ): AsyncIterableIterator<ApplicationInsightsComponentWebTestLocation> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      resourceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
       yield* page;
     }
   }

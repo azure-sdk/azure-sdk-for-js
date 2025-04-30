@@ -22,9 +22,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing ProactiveDetectionConfigurations operations. */
-export class ProactiveDetectionConfigurationsImpl
-  implements ProactiveDetectionConfigurations
-{
+export class ProactiveDetectionConfigurationsImpl implements ProactiveDetectionConfigurations {
   private readonly client: ApplicationInsightsManagementClient;
 
   /**
@@ -115,8 +113,7 @@ const listOperationSpec: coreClient.OperationSpec = {
           element: {
             type: {
               name: "Composite",
-              className:
-                "ApplicationInsightsComponentProactiveDetectionConfiguration",
+              className: "ApplicationInsightsComponentProactiveDetectionConfiguration",
             },
           },
         },
@@ -138,8 +135,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper:
-        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
+      bodyMapper: Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
     },
   },
   queryParameters: [Parameters.apiVersion1],
@@ -158,8 +154,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper:
-        Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
+      bodyMapper: Mappers.ApplicationInsightsComponentProactiveDetectionConfiguration,
     },
   },
   requestBody: Parameters.proactiveDetectionProperties,

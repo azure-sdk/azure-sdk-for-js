@@ -105,10 +105,7 @@ export class WorkbooksImpl implements Workbooks {
     category: CategoryType,
     options?: WorkbooksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Workbook> {
-    for await (const page of this.listBySubscriptionPagingPage(
-      category,
-      options,
-    )) {
+    for await (const page of this.listBySubscriptionPagingPage(category, options)) {
       yield* page;
     }
   }
@@ -124,11 +121,7 @@ export class WorkbooksImpl implements Workbooks {
     category: CategoryType,
     options?: WorkbooksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workbook> {
-    const iter = this.listByResourceGroupPagingAll(
-      resourceGroupName,
-      category,
-      options,
-    );
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, category, options);
     return {
       next() {
         return iter.next();
@@ -140,12 +133,7 @@ export class WorkbooksImpl implements Workbooks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          category,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, category, options, settings);
       },
     };
   }
@@ -159,22 +147,14 @@ export class WorkbooksImpl implements Workbooks {
     let result: WorkbooksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
-        resourceGroupName,
-        category,
-        options,
-      );
+      result = await this._listByResourceGroup(resourceGroupName, category, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -207,11 +187,7 @@ export class WorkbooksImpl implements Workbooks {
     resourceName: string,
     options?: WorkbooksRevisionsListOptionalParams,
   ): PagedAsyncIterableIterator<Workbook> {
-    const iter = this.revisionsListPagingAll(
-      resourceGroupName,
-      resourceName,
-      options,
-    );
+    const iter = this.revisionsListPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -223,12 +199,7 @@ export class WorkbooksImpl implements Workbooks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.revisionsListPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings,
-        );
+        return this.revisionsListPagingPage(resourceGroupName, resourceName, options, settings);
       },
     };
   }
@@ -242,11 +213,7 @@ export class WorkbooksImpl implements Workbooks {
     let result: WorkbooksRevisionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._revisionsList(
-        resourceGroupName,
-        resourceName,
-        options,
-      );
+      result = await this._revisionsList(resourceGroupName, resourceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -289,10 +256,7 @@ export class WorkbooksImpl implements Workbooks {
     category: CategoryType,
     options?: WorkbooksListBySubscriptionOptionalParams,
   ): Promise<WorkbooksListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { category, options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ category, options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -511,11 +475,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.apiVersion5,
     Parameters.sourceId,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -666,11 +626,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.WorkbookError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

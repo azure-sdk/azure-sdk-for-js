@@ -126,11 +126,7 @@ export class ComponentsImpl implements Components {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -150,11 +146,7 @@ export class ComponentsImpl implements Components {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,10 +158,7 @@ export class ComponentsImpl implements Components {
     resourceGroupName: string,
     options?: ComponentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApplicationInsightsComponent> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -178,9 +167,7 @@ export class ComponentsImpl implements Components {
    * Gets a list of all Application Insights components within a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ComponentsListOptionalParams,
-  ): Promise<ComponentsListResponse> {
+  private _list(options?: ComponentsListOptionalParams): Promise<ComponentsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -282,7 +269,7 @@ export class ComponentsImpl implements Components {
    * should run the query prior to using for a purge request to verify that the results are expected.
    * Note: this operation is intended for Classic resources, for  workspace-based Application Insights
    * resource please run purge operation (directly on the
-   * workspace)(  https://learn.microsoft.com/rest/api/loganalytics/workspace-purge/purge) , scoped to
+   * workspace)(https://docs.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge) , scoped to
    * specific resource id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
@@ -331,10 +318,7 @@ export class ComponentsImpl implements Components {
     nextLink: string,
     options?: ComponentsListNextOptionalParams,
   ): Promise<ComponentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -385,11 +369,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -536,11 +516,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponseComponents,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
