@@ -1,5 +1,23 @@
 # Release History
     
+## 5.0.0-beta.1 (2025-05-01)
+Compared with version 4.1.0
+    
+### Features Added
+
+  - Added Interface ConfigurationStoresDeleteHeaders
+  - Added Interface TelemetryProperties
+  - Interface ConfigurationStore has a new optional parameter defaultKeyValueRevisionRetentionPeriodInSeconds
+  - Interface ConfigurationStore has a new optional parameter telemetry
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter defaultKeyValueRevisionRetentionPeriodInSeconds
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter telemetry
+
+### Breaking Changes
+
+  - Operation KeyValues.createOrUpdate has a new signature
+  - Interface KeyValuesCreateOrUpdateOptionalParams no longer has parameter keyValueParameters
+    
+    
 ## 4.1.0 (2024-11-11)
     
 ### Features Added

@@ -246,6 +246,21 @@ export const DataPlaneProxyProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const TelemetryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryProperties",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -469,6 +484,19 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DataPlaneProxyProperties",
+        },
+      },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
+        },
+      },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
         },
       },
     },
@@ -1674,6 +1702,12 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
       enablePurgeProtection: {
         defaultValue: false,
         serializedName: "properties.enablePurgeProtection",
@@ -1693,6 +1727,40 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Recover", "Default"],
+        },
+      },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
+        },
+      },
+    },
+  },
+};
+
+export const ConfigurationStoresDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationStoresDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },

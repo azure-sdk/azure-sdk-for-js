@@ -24,9 +24,7 @@ export interface Operations {
    * Lists the operations available from this provider.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationDefinition>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDefinition>;
   /**
    * Checks whether the configuration store name is available for use.
    * @param checkNameAvailabilityParameters The object containing information for the availability
