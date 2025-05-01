@@ -6,7 +6,6 @@
 
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
@@ -35,6 +34,23 @@ export interface ChatCompletionsNamedToolChoice {
 // @public
 export interface ChatCompletionsNamedToolChoiceFunction {
     name: string;
+}
+
+// @public
+export interface ChatCompletionsOptions extends Record<string, unknown> {
+    frequency_penalty?: number;
+    max_tokens?: number;
+    messages: Array<ChatRequestMessage>;
+    model?: string;
+    presence_penalty?: number;
+    response_format?: ChatCompletionsResponseFormat;
+    seed?: number;
+    stop?: string[];
+    stream?: boolean;
+    temperature?: number;
+    tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
+    tools?: Array<ChatCompletionsToolDefinition>;
+    top_p?: number;
 }
 
 // @public
@@ -236,6 +252,15 @@ export interface EmbeddingItemOutput {
 }
 
 // @public
+export interface EmbeddingsOptions extends Record<string, unknown> {
+    dimensions?: number;
+    encoding_format?: EmbeddingEncodingFormat;
+    input: string[];
+    input_type?: EmbeddingInputType;
+    model?: string;
+}
+
+// @public
 export interface EmbeddingsResultOutput {
     data: Array<EmbeddingItemOutput>;
     id: string;
@@ -248,8 +273,6 @@ export interface EmbeddingsUsageOutput {
     prompt_tokens: number;
     total_tokens: number;
 }
-
-export { ErrorModel }
 
 // @public
 export type ExtraParameters = string;
@@ -270,7 +293,7 @@ export interface FunctionCallOutput {
 export interface FunctionDefinition {
     description?: string;
     name: string;
-    parameters?: unknown;
+    parameters?: Record<string, unknown>;
 }
 
 // @public (undocumented)
@@ -288,22 +311,7 @@ export interface GetChatCompletions200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GetChatCompletionsBodyParam {
-    // (undocumented)
-    body: {
-        messages: Array<ChatRequestMessage>;
-        frequency_penalty?: number;
-        stream?: boolean;
-        presence_penalty?: number;
-        temperature?: number;
-        top_p?: number;
-        max_tokens?: number;
-        response_format?: ChatCompletionsResponseFormat;
-        stop?: string[];
-        tools?: Array<ChatCompletionsToolDefinition>;
-        tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
-        seed?: number;
-        model?: string;
-    };
+    body: ChatCompletionsOptions;
 }
 
 // @public (undocumented)
@@ -350,14 +358,7 @@ export interface GetEmbeddings200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GetEmbeddingsBodyParam {
-    // (undocumented)
-    body?: {
-        input: string[];
-        dimensions?: number;
-        encoding_format?: EmbeddingEncodingFormat;
-        input_type?: EmbeddingInputType;
-        model?: string;
-    };
+    body: EmbeddingsOptions;
 }
 
 // @public (undocumented)
@@ -404,14 +405,7 @@ export interface GetImageEmbeddings200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GetImageEmbeddingsBodyParam {
-    // (undocumented)
-    body: {
-        input: Array<ImageEmbeddingInput>;
-        dimensions?: number;
-        encoding_format?: EmbeddingEncodingFormat;
-        input_type?: EmbeddingInputType;
-        model?: string;
-    };
+    body: ImageEmbeddingsOptions;
 }
 
 // @public (undocumented)
@@ -478,6 +472,15 @@ export type GetModelInfoParameters = RequestParameters;
 export interface ImageEmbeddingInput {
     image: string;
     text?: string;
+}
+
+// @public
+export interface ImageEmbeddingsOptions extends Record<string, unknown> {
+    dimensions?: number;
+    encoding_format?: EmbeddingEncodingFormat;
+    input: Array<ImageEmbeddingInput>;
+    input_type?: EmbeddingInputType;
+    model?: string;
 }
 
 // @public (undocumented)
