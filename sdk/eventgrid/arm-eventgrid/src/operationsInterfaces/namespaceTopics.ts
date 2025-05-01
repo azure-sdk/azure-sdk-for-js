@@ -129,10 +129,7 @@ export interface NamespaceTopics {
     namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters,
     options?: NamespaceTopicsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<NamespaceTopicsUpdateResponse>,
-      NamespaceTopicsUpdateResponse
-    >
+    SimplePollerLike<OperationState<NamespaceTopicsUpdateResponse>, NamespaceTopicsUpdateResponse>
   >;
   /**
    * Asynchronously updates a namespace topic with the specified parameters.

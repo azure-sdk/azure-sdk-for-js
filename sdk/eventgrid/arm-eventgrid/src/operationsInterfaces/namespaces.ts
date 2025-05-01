@@ -124,12 +124,7 @@ export interface Namespaces {
     namespaceName: string,
     namespaceUpdateParameters: NamespaceUpdateParameters,
     options?: NamespacesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesUpdateResponse>,
-      NamespacesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<NamespacesUpdateResponse>, NamespacesUpdateResponse>>;
   /**
    * Asynchronously updates a namespace with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.

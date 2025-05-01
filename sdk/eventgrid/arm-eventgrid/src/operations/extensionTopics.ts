@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  ExtensionTopicsGetOptionalParams,
-  ExtensionTopicsGetResponse,
-} from "../models/index.js";
+import { ExtensionTopicsGetOptionalParams, ExtensionTopicsGetResponse } from "../models/index.js";
 
 /** Class containing ExtensionTopics operations. */
 export class ExtensionTopicsImpl implements ExtensionTopics {
@@ -42,10 +39,7 @@ export class ExtensionTopicsImpl implements ExtensionTopics {
     scope: string,
     options?: ExtensionTopicsGetOptionalParams,
   ): Promise<ExtensionTopicsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, getOperationSpec);
   }
 }
 // Operation Specifications

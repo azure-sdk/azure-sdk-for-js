@@ -118,10 +118,7 @@ export interface SystemTopics {
     systemTopicUpdateParameters: SystemTopicUpdateParameters,
     options?: SystemTopicsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SystemTopicsUpdateResponse>,
-      SystemTopicsUpdateResponse
-    >
+    SimplePollerLike<OperationState<SystemTopicsUpdateResponse>, SystemTopicsUpdateResponse>
   >;
   /**
    * Asynchronously updates a system topic with the specified parameters.

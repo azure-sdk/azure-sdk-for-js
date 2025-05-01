@@ -21,9 +21,7 @@ export interface VerifiedPartners {
    * Get a list of all verified partners.
    * @param options The options parameters.
    */
-  list(
-    options?: VerifiedPartnersListOptionalParams,
-  ): PagedAsyncIterableIterator<VerifiedPartner>;
+  list(options?: VerifiedPartnersListOptionalParams): PagedAsyncIterableIterator<VerifiedPartner>;
   /**
    * Get properties of a verified partner.
    * @param verifiedPartnerName Name of the verified partner.

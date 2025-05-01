@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EventSubscription,
@@ -41,9 +37,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PartnerTopicEventSubscriptions operations. */
-export class PartnerTopicEventSubscriptionsImpl
-  implements PartnerTopicEventSubscriptions
-{
+export class PartnerTopicEventSubscriptionsImpl implements PartnerTopicEventSubscriptions {
   private readonly client: EventGridManagementClient;
 
   /**
@@ -65,11 +59,7 @@ export class PartnerTopicEventSubscriptionsImpl
     partnerTopicName: string,
     options?: PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription> {
-    const iter = this.listByPartnerTopicPagingAll(
-      resourceGroupName,
-      partnerTopicName,
-      options,
-    );
+    const iter = this.listByPartnerTopicPagingAll(resourceGroupName, partnerTopicName, options);
     return {
       next() {
         return iter.next();
@@ -100,11 +90,7 @@ export class PartnerTopicEventSubscriptionsImpl
     let result: PartnerTopicEventSubscriptionsListByPartnerTopicResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPartnerTopic(
-        resourceGroupName,
-        partnerTopicName,
-        options,
-      );
+      result = await this._listByPartnerTopic(resourceGroupName, partnerTopicName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -190,8 +176,7 @@ export class PartnerTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -291,8 +276,7 @@ export class PartnerTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -389,8 +373,7 @@ export class PartnerTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

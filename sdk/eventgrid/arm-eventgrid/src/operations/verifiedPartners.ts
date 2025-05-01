@@ -99,10 +99,7 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
     verifiedPartnerName: string,
     options?: VerifiedPartnersGetOptionalParams,
   ): Promise<VerifiedPartnersGetResponse> {
-    return this.client.sendOperationRequest(
-      { verifiedPartnerName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ verifiedPartnerName, options }, getOperationSpec);
   }
 
   /**
@@ -124,10 +121,7 @@ export class VerifiedPartnersImpl implements VerifiedPartners {
     nextLink: string,
     options?: VerifiedPartnersListNextOptionalParams,
   ): Promise<VerifiedPartnersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

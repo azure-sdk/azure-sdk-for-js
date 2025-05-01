@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Topic,
@@ -135,11 +131,7 @@ export class TopicsImpl implements Topics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -159,11 +151,7 @@ export class TopicsImpl implements Topics {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -175,10 +163,7 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     options?: TopicsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Topic> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -295,10 +280,7 @@ export class TopicsImpl implements Topics {
     topicInfo: Topic,
     options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TopicsCreateOrUpdateResponse>,
-      TopicsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<TopicsCreateOrUpdateResponse>, TopicsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -310,8 +292,7 @@ export class TopicsImpl implements Topics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -367,12 +348,7 @@ export class TopicsImpl implements Topics {
     topicInfo: Topic,
     options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<TopicsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      topicName,
-      topicInfo,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, topicName, topicInfo, options);
     return poller.pollUntilDone();
   }
 
@@ -386,9 +362,7 @@ export class TopicsImpl implements Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -399,8 +373,7 @@ export class TopicsImpl implements Topics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -454,11 +427,7 @@ export class TopicsImpl implements Topics {
     topicName: string,
     options?: TopicsDeleteOptionalParams,
   ): Promise<TopicsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      topicName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, topicName, options);
     return poller.pollUntilDone();
   }
 
@@ -485,8 +454,7 @@ export class TopicsImpl implements Topics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -555,10 +523,7 @@ export class TopicsImpl implements Topics {
   private _listBySubscription(
     options?: TopicsListBySubscriptionOptionalParams,
   ): Promise<TopicsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -606,10 +571,7 @@ export class TopicsImpl implements Topics {
     regenerateKeyRequest: TopicRegenerateKeyRequest,
     options?: TopicsRegenerateKeyOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TopicsRegenerateKeyResponse>,
-      TopicsRegenerateKeyResponse
-    >
+    SimplePollerLike<OperationState<TopicsRegenerateKeyResponse>, TopicsRegenerateKeyResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -621,8 +583,7 @@ export class TopicsImpl implements Topics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -865,11 +826,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -952,11 +909,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

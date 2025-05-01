@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Namespaces } from "../operationsInterfaces/index.js";
+import { PartnerDestinations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -16,39 +16,34 @@ import { EventGridManagementClient } from "../eventGridManagementClient.js";
 import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Namespace,
-  NamespacesListBySubscriptionNextOptionalParams,
-  NamespacesListBySubscriptionOptionalParams,
-  NamespacesListBySubscriptionResponse,
-  NamespacesListByResourceGroupNextOptionalParams,
-  NamespacesListByResourceGroupOptionalParams,
-  NamespacesListByResourceGroupResponse,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  NamespacesCreateOrUpdateOptionalParams,
-  NamespacesCreateOrUpdateResponse,
-  NamespacesDeleteOptionalParams,
-  NamespaceUpdateParameters,
-  NamespacesUpdateOptionalParams,
-  NamespacesUpdateResponse,
-  NamespacesListSharedAccessKeysOptionalParams,
-  NamespacesListSharedAccessKeysResponse,
-  NamespaceRegenerateKeyRequest,
-  NamespacesRegenerateKeyOptionalParams,
-  NamespacesRegenerateKeyResponse,
-  NamespacesValidateCustomDomainOwnershipOptionalParams,
-  NamespacesValidateCustomDomainOwnershipResponse,
-  NamespacesListBySubscriptionNextResponse,
-  NamespacesListByResourceGroupNextResponse,
+  PartnerDestination,
+  PartnerDestinationsListBySubscriptionNextOptionalParams,
+  PartnerDestinationsListBySubscriptionOptionalParams,
+  PartnerDestinationsListBySubscriptionResponse,
+  PartnerDestinationsListByResourceGroupNextOptionalParams,
+  PartnerDestinationsListByResourceGroupOptionalParams,
+  PartnerDestinationsListByResourceGroupResponse,
+  PartnerDestinationsGetOptionalParams,
+  PartnerDestinationsGetResponse,
+  PartnerDestinationsCreateOrUpdateOptionalParams,
+  PartnerDestinationsCreateOrUpdateResponse,
+  PartnerDestinationsDeleteOptionalParams,
+  PartnerDestinationUpdateParameters,
+  PartnerDestinationsUpdateOptionalParams,
+  PartnerDestinationsUpdateResponse,
+  PartnerDestinationsActivateOptionalParams,
+  PartnerDestinationsActivateResponse,
+  PartnerDestinationsListBySubscriptionNextResponse,
+  PartnerDestinationsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Namespaces operations. */
-export class NamespacesImpl implements Namespaces {
+/** Class containing PartnerDestinations operations. */
+export class PartnerDestinationsImpl implements PartnerDestinations {
   private readonly client: EventGridManagementClient;
 
   /**
-   * Initialize a new instance of the class Namespaces class.
+   * Initialize a new instance of the class PartnerDestinations class.
    * @param client Reference to the service client
    */
   constructor(client: EventGridManagementClient) {
@@ -56,12 +51,12 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * List all the namespaces under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: NamespacesListBySubscriptionOptionalParams,
-  ): PagedAsyncIterableIterator<Namespace> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
       next() {
@@ -80,10 +75,10 @@ export class NamespacesImpl implements Namespaces {
   }
 
   private async *listBySubscriptionPagingPage(
-    options?: NamespacesListBySubscriptionOptionalParams,
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Namespace[]> {
-    let result: NamespacesListBySubscriptionResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listBySubscription(options);
@@ -102,22 +97,22 @@ export class NamespacesImpl implements Namespaces {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: NamespacesListBySubscriptionOptionalParams,
-  ): AsyncIterableIterator<Namespace> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all the namespaces under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Namespace> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<PartnerDestination> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
@@ -137,10 +132,10 @@ export class NamespacesImpl implements Namespaces {
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams,
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Namespace[]> {
-    let result: NamespacesListByResourceGroupResponse;
+  ): AsyncIterableIterator<PartnerDestination[]> {
+    let result: PartnerDestinationsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listByResourceGroup(resourceGroupName, options);
@@ -160,52 +155,52 @@ export class NamespacesImpl implements Namespaces {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Namespace> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<PartnerDestination> {
     for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Get properties of a namespace.
+   * Get properties of a partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesGetOptionalParams,
-  ): Promise<NamespacesGetResponse> {
+    partnerDestinationName: string,
+    options?: PartnerDestinationsGetOptionalParams,
+  ): Promise<PartnerDestinationsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
+      { resourceGroupName, partnerDestinationName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Asynchronously creates or updates a new namespace with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
-   * @param namespaceInfo Namespace information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    namespaceName: string,
-    namespaceInfo: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NamespacesCreateOrUpdateResponse>,
-      NamespacesCreateOrUpdateResponse
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>,
+      PartnerDestinationsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NamespacesCreateOrUpdateResponse> => {
+    ): Promise<PartnerDestinationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -241,12 +236,17 @@ export class NamespacesImpl implements Namespaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, namespaceName, namespaceInfo, options },
+      args: {
+        resourceGroupName,
+        partnerDestinationName,
+        partnerDestination,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      NamespacesCreateOrUpdateResponse,
-      OperationState<NamespacesCreateOrUpdateResponse>
+      PartnerDestinationsCreateOrUpdateResponse,
+      OperationState<PartnerDestinationsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -257,37 +257,37 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Asynchronously creates or updates a new namespace with the specified parameters.
+   * Asynchronously creates a new partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
-   * @param namespaceInfo Namespace information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestination Partner destination create information.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    namespaceName: string,
-    namespaceInfo: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
-  ): Promise<NamespacesCreateOrUpdateResponse> {
+    partnerDestinationName: string,
+    partnerDestination: PartnerDestination,
+    options?: PartnerDestinationsCreateOrUpdateOptionalParams,
+  ): Promise<PartnerDestinationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      namespaceName,
-      namespaceInfo,
+      partnerDestinationName,
+      partnerDestination,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Delete existing namespace.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -328,7 +328,7 @@ export class NamespacesImpl implements Namespaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, namespaceName, options },
+      args: { resourceGroupName, partnerDestinationName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -341,37 +341,42 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Delete existing namespace.
+   * Delete existing partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
+    partnerDestinationName: string,
+    options?: PartnerDestinationsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, namespaceName, options);
+    const poller = await this.beginDelete(resourceGroupName, partnerDestinationName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Asynchronously updates a namespace with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
-   * @param namespaceUpdateParameters Namespace update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    namespaceName: string,
-    namespaceUpdateParameters: NamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<NamespacesUpdateResponse>, NamespacesUpdateResponse>> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PartnerDestinationsUpdateResponse>,
+      PartnerDestinationsUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NamespacesUpdateResponse> => {
+    ): Promise<PartnerDestinationsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -409,15 +414,15 @@ export class NamespacesImpl implements Namespaces {
       sendOperationFn,
       args: {
         resourceGroupName,
-        namespaceName,
-        namespaceUpdateParameters,
+        partnerDestinationName,
+        partnerDestinationUpdateParameters,
         options,
       },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      NamespacesUpdateResponse,
-      OperationState<NamespacesUpdateResponse>
+      PartnerDestinationsUpdateResponse,
+      OperationState<PartnerDestinationsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -428,46 +433,46 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Asynchronously updates a namespace with the specified parameters.
+   * Asynchronously updates a partner destination with the specified parameters.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
-   * @param namespaceUpdateParameters Namespace update information.
+   * @param partnerDestinationName Name of the partner destination.
+   * @param partnerDestinationUpdateParameters Partner destination update information.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    namespaceName: string,
-    namespaceUpdateParameters: NamespaceUpdateParameters,
-    options?: NamespacesUpdateOptionalParams,
-  ): Promise<NamespacesUpdateResponse> {
+    partnerDestinationName: string,
+    partnerDestinationUpdateParameters: PartnerDestinationUpdateParameters,
+    options?: PartnerDestinationsUpdateOptionalParams,
+  ): Promise<PartnerDestinationsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      namespaceName,
-      namespaceUpdateParameters,
+      partnerDestinationName,
+      partnerDestinationUpdateParameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the namespaces under an Azure subscription.
+   * List all the partner destinations under an Azure subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: NamespacesListBySubscriptionOptionalParams,
-  ): Promise<NamespacesListBySubscriptionResponse> {
+    options?: PartnerDestinationsListBySubscriptionOptionalParams,
+  ): Promise<PartnerDestinationsListBySubscriptionResponse> {
     return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
-   * List all the namespaces under a resource group.
+   * List all the partner destinations under a resource group.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: NamespacesListByResourceGroupOptionalParams,
-  ): Promise<NamespacesListByResourceGroupResponse> {
+    options?: PartnerDestinationsListByResourceGroupOptionalParams,
+  ): Promise<PartnerDestinationsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
       listByResourceGroupOperationSpec,
@@ -475,203 +480,20 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * List the two keys used to publish to a namespace.
+   * Activate a newly created partner destination.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the namespace.
+   * @param partnerDestinationName Name of the partner destination.
    * @param options The options parameters.
    */
-  listSharedAccessKeys(
+  activate(
     resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesListSharedAccessKeysOptionalParams,
-  ): Promise<NamespacesListSharedAccessKeysResponse> {
+    partnerDestinationName: string,
+    options?: PartnerDestinationsActivateOptionalParams,
+  ): Promise<PartnerDestinationsActivateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, options },
-      listSharedAccessKeysOperationSpec,
+      { resourceGroupName, partnerDestinationName, options },
+      activateOperationSpec,
     );
-  }
-
-  /**
-   * Regenerate a shared access key for a namespace.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the Namespace.
-   * @param regenerateKeyRequest Request body to regenerate key.
-   * @param options The options parameters.
-   */
-  async beginRegenerateKey(
-    resourceGroupName: string,
-    namespaceName: string,
-    regenerateKeyRequest: NamespaceRegenerateKeyRequest,
-    options?: NamespacesRegenerateKeyOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesRegenerateKeyResponse>,
-      NamespacesRegenerateKeyResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<NamespacesRegenerateKeyResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, namespaceName, regenerateKeyRequest, options },
-      spec: regenerateKeyOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      NamespacesRegenerateKeyResponse,
-      OperationState<NamespacesRegenerateKeyResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Regenerate a shared access key for a namespace.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the Namespace.
-   * @param regenerateKeyRequest Request body to regenerate key.
-   * @param options The options parameters.
-   */
-  async beginRegenerateKeyAndWait(
-    resourceGroupName: string,
-    namespaceName: string,
-    regenerateKeyRequest: NamespaceRegenerateKeyRequest,
-    options?: NamespacesRegenerateKeyOptionalParams,
-  ): Promise<NamespacesRegenerateKeyResponse> {
-    const poller = await this.beginRegenerateKey(
-      resourceGroupName,
-      namespaceName,
-      regenerateKeyRequest,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Performs ownership validation via checking TXT records for all custom domains in a namespace.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the Namespace.
-   * @param options The options parameters.
-   */
-  async beginValidateCustomDomainOwnership(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesValidateCustomDomainOwnershipOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesValidateCustomDomainOwnershipResponse>,
-      NamespacesValidateCustomDomainOwnershipResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<NamespacesValidateCustomDomainOwnershipResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, namespaceName, options },
-      spec: validateCustomDomainOwnershipOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      NamespacesValidateCustomDomainOwnershipResponse,
-      OperationState<NamespacesValidateCustomDomainOwnershipResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Performs ownership validation via checking TXT records for all custom domains in a namespace.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param namespaceName Name of the Namespace.
-   * @param options The options parameters.
-   */
-  async beginValidateCustomDomainOwnershipAndWait(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesValidateCustomDomainOwnershipOptionalParams,
-  ): Promise<NamespacesValidateCustomDomainOwnershipResponse> {
-    const poller = await this.beginValidateCustomDomainOwnership(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -681,8 +503,8 @@ export class NamespacesImpl implements Namespaces {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: NamespacesListBySubscriptionNextOptionalParams,
-  ): Promise<NamespacesListBySubscriptionNextResponse> {
+    options?: PartnerDestinationsListBySubscriptionNextOptionalParams,
+  ): Promise<PartnerDestinationsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
       listBySubscriptionNextOperationSpec,
@@ -698,8 +520,8 @@ export class NamespacesImpl implements Namespaces {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: NamespacesListByResourceGroupNextOptionalParams,
-  ): Promise<NamespacesListByResourceGroupNextResponse> {
+    options?: PartnerDestinationsListByResourceGroupNextOptionalParams,
+  ): Promise<PartnerDestinationsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
       listByResourceGroupNextOperationSpec,
@@ -710,11 +532,11 @@ export class NamespacesImpl implements Namespaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -725,45 +547,45 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     201: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     202: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     204: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.namespaceInfo,
+  requestBody: Parameters.partnerDestination,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -779,49 +601,49 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     201: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     202: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     204: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.PartnerDestination,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.namespaceUpdateParameters,
+  requestBody: Parameters.partnerDestinationUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/namespaces",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespacesListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -833,11 +655,11 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespacesListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -848,12 +670,12 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSharedAccessKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/listKeys",
+const activateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerDestinations/{partnerDestinationName}/activate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceSharedAccessKeys,
+      bodyMapper: Mappers.PartnerDestination,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -864,69 +686,7 @@ const listSharedAccessKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const regenerateKeyOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/regenerateKey",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NamespaceSharedAccessKeys,
-    },
-    201: {
-      bodyMapper: Mappers.NamespaceSharedAccessKeys,
-    },
-    202: {
-      bodyMapper: Mappers.NamespaceSharedAccessKeys,
-    },
-    204: {
-      bodyMapper: Mappers.NamespaceSharedAccessKeys,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.regenerateKeyRequest1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const validateCustomDomainOwnershipOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/namespaces/{namespaceName}/validateCustomDomainOwnership",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomDomainOwnershipValidationResult,
-    },
-    201: {
-      bodyMapper: Mappers.CustomDomainOwnershipValidationResult,
-    },
-    202: {
-      bodyMapper: Mappers.CustomDomainOwnershipValidationResult,
-    },
-    204: {
-      bodyMapper: Mappers.CustomDomainOwnershipValidationResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
+    Parameters.partnerDestinationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -936,7 +696,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespacesListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -951,7 +711,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespacesListResult,
+      bodyMapper: Mappers.PartnerDestinationsListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

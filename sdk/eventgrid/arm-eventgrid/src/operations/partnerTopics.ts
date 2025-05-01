@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PartnerTopic,
@@ -131,11 +127,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -155,11 +147,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -171,10 +159,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
     resourceGroupName: string,
     options?: PartnerTopicsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<PartnerTopic> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -236,8 +221,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -288,11 +272,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
     partnerTopicName: string,
     options?: PartnerTopicsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      partnerTopicName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, partnerTopicName, options);
     return poller.pollUntilDone();
   }
 
@@ -327,10 +307,7 @@ export class PartnerTopicsImpl implements PartnerTopics {
   private _listBySubscription(
     options?: PartnerTopicsListBySubscriptionOptionalParams,
   ): Promise<PartnerTopicsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -519,11 +496,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     default: {},
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -574,11 +547,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
