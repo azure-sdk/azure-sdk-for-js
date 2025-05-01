@@ -13,17 +13,15 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EventSubscription,
   DomainTopicEventSubscriptionsListNextOptionalParams,
   DomainTopicEventSubscriptionsListOptionalParams,
   DomainTopicEventSubscriptionsListResponse,
+  DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
   DomainTopicEventSubscriptionsGetOptionalParams,
   DomainTopicEventSubscriptionsGetResponse,
   DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams,
@@ -34,16 +32,12 @@ import {
   DomainTopicEventSubscriptionsUpdateResponse,
   DomainTopicEventSubscriptionsGetFullUrlOptionalParams,
   DomainTopicEventSubscriptionsGetFullUrlResponse,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainTopicEventSubscriptionsGetDeliveryAttributesResponse,
   DomainTopicEventSubscriptionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DomainTopicEventSubscriptions operations. */
-export class DomainTopicEventSubscriptionsImpl
-  implements DomainTopicEventSubscriptions
-{
+export class DomainTopicEventSubscriptionsImpl implements DomainTopicEventSubscriptions {
   private readonly client: EventGridManagementClient;
 
   /**
@@ -67,12 +61,7 @@ export class DomainTopicEventSubscriptionsImpl
     topicName: string,
     options?: DomainTopicEventSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<EventSubscription> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      domainName,
-      topicName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, domainName, topicName, options);
     return {
       next() {
         return iter.next();
@@ -84,13 +73,7 @@ export class DomainTopicEventSubscriptionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          domainName,
-          topicName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, domainName, topicName, options, settings);
       },
     };
   }
@@ -105,12 +88,7 @@ export class DomainTopicEventSubscriptionsImpl
     let result: DomainTopicEventSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        domainName,
-        topicName,
-        options,
-      );
+      result = await this._list(resourceGroupName, domainName, topicName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -145,6 +123,33 @@ export class DomainTopicEventSubscriptionsImpl
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * Get all delivery attributes for an event subscription for domain topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the top level domain.
+   * @param topicName Name of the domain topic.
+   * @param eventSubscriptionName Name of the event subscription.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    domainName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  ): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        domainName,
+        topicName,
+        eventSubscriptionName,
+        options,
+      },
+      getDeliveryAttributesOperationSpec,
+    );
   }
 
   /**
@@ -208,8 +213,7 @@ export class DomainTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -314,8 +318,7 @@ export class DomainTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -418,8 +421,7 @@ export class DomainTopicEventSubscriptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -544,33 +546,6 @@ export class DomainTopicEventSubscriptionsImpl
   }
 
   /**
-   * Get all delivery attributes for an event subscription for domain topic.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param domainName Name of the top level domain.
-   * @param topicName Name of the domain topic.
-   * @param eventSubscriptionName Name of the event subscription.
-   * @param options The options parameters.
-   */
-  getDeliveryAttributes(
-    resourceGroupName: string,
-    domainName: string,
-    topicName: string,
-    eventSubscriptionName: string,
-    options?: DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  ): Promise<DomainTopicEventSubscriptionsGetDeliveryAttributesResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        domainName,
-        topicName,
-        eventSubscriptionName,
-        options,
-      },
-      getDeliveryAttributesOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param domainName Name of the top level domain.
@@ -594,6 +569,27 @@ export class DomainTopicEventSubscriptionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeliveryAttributeListResult,
+    },
+    default: {},
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.domainName,
+    Parameters.topicName,
+    Parameters.eventSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}",
   httpMethod: "GET",
@@ -731,27 +727,6 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.domainName,
     Parameters.topicName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/domains/{domainName}/topics/{topicName}/eventSubscriptions/{eventSubscriptionName}/getDeliveryAttributes",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DeliveryAttributeListResult,
-    },
-    default: {},
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.domainName,
-    Parameters.topicName,
-    Parameters.eventSubscriptionName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

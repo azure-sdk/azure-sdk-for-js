@@ -40,9 +40,7 @@ export class TopicTypesImpl implements TopicTypes {
    * List all registered topic types.
    * @param options The options parameters.
    */
-  public list(
-    options?: TopicTypesListOptionalParams,
-  ): PagedAsyncIterableIterator<TopicTypeInfo> {
+  public list(options?: TopicTypesListOptionalParams): PagedAsyncIterableIterator<TopicTypeInfo> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -117,10 +115,7 @@ export class TopicTypesImpl implements TopicTypes {
     topicTypeName: string,
     options?: TopicTypesListEventTypesOptionalParams,
   ): AsyncIterableIterator<EventType> {
-    for await (const page of this.listEventTypesPagingPage(
-      topicTypeName,
-      options,
-    )) {
+    for await (const page of this.listEventTypesPagingPage(topicTypeName, options)) {
       yield* page;
     }
   }
@@ -129,9 +124,7 @@ export class TopicTypesImpl implements TopicTypes {
    * List all registered topic types.
    * @param options The options parameters.
    */
-  private _list(
-    options?: TopicTypesListOptionalParams,
-  ): Promise<TopicTypesListResponse> {
+  private _list(options?: TopicTypesListOptionalParams): Promise<TopicTypesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -144,10 +137,7 @@ export class TopicTypesImpl implements TopicTypes {
     topicTypeName: string,
     options?: TopicTypesGetOptionalParams,
   ): Promise<TopicTypesGetResponse> {
-    return this.client.sendOperationRequest(
-      { topicTypeName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ topicTypeName, options }, getOperationSpec);
   }
 
   /**

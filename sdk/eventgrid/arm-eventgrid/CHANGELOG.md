@@ -1,5 +1,122 @@
 # Release History
     
+## 14.3.0-beta.1 (2025-05-01)
+Compared with version 14.2.0
+    
+### Features Added
+
+  - Added operation group NetworkSecurityPerimeterConfigurations
+  - Added operation group PartnerDestinations
+  - Added Interface AzureADPartnerClientAuthentication
+  - Added Interface ClientAuthenticationSettings
+  - Added Interface CustomJwtAuthenticationManagedIdentity
+  - Added Interface CustomJwtAuthenticationSettings
+  - Added Interface CustomWebhookAuthenticationManagedIdentity
+  - Added Interface EncodedIssuerCertificateInfo
+  - Added Interface ExtendedLocation
+  - Added Interface FederatedIdentityCredentialInfo
+  - Added Interface IssuerCertificateInfo
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationIssues
+  - Added Interface NetworkSecurityPerimeterConfigurationList
+  - Added Interface NetworkSecurityPerimeterConfigurationProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileHeaders
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NetworkSecurityPerimeterInfo
+  - Added Interface NetworkSecurityPerimeterProfileAccessRule
+  - Added Interface NetworkSecurityPerimeterSubscription
+  - Added Interface PartnerClientAuthentication
+  - Added Interface PartnerDestination
+  - Added Interface PartnerDestinationInfo
+  - Added Interface PartnerDestinationsActivateOptionalParams
+  - Added Interface PartnerDestinationsCreateOrUpdateOptionalParams
+  - Added Interface PartnerDestinationsDeleteHeaders
+  - Added Interface PartnerDestinationsDeleteOptionalParams
+  - Added Interface PartnerDestinationsGetOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupNextOptionalParams
+  - Added Interface PartnerDestinationsListByResourceGroupOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionNextOptionalParams
+  - Added Interface PartnerDestinationsListBySubscriptionOptionalParams
+  - Added Interface PartnerDestinationsListResult
+  - Added Interface PartnerDestinationsUpdateHeaders
+  - Added Interface PartnerDestinationsUpdateOptionalParams
+  - Added Interface PartnerDestinationUpdateParameters
+  - Added Interface PartnerEventSubscriptionDestination
+  - Added Interface PartnerRegistrationsCreateOrUpdateHeaders
+  - Added Interface PartnerUpdateDestinationInfo
+  - Added Interface ResourceAssociation
+  - Added Interface ResourceMoveChangeHistory
+  - Added Interface ResourceSku
+  - Added Interface WebhookAuthenticationSettings
+  - Added Interface WebhookPartnerDestinationInfo
+  - Added Interface WebhookUpdatePartnerDestinationInfo
+  - Added Type Alias AlternativeAuthenticationNameSource
+  - Added Type Alias CustomJwtAuthenticationManagedIdentityType
+  - Added Type Alias CustomWebhookAuthenticationManagedIdentityType
+  - Added Type Alias NetworkSecurityPerimeterAssociationAccessMode
+  - Added Type Alias NetworkSecurityPerimeterConfigProvisioningState
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Type Alias NetworkSecurityPerimeterConfigurationIssueType
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsGetResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsListResponse
+  - Added Type Alias NetworkSecurityPerimeterConfigurationsReconcileResponse
+  - Added Type Alias NetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Type Alias NetworkSecurityPerimeterResourceType
+  - Added Type Alias PartnerClientAuthenticationType
+  - Added Type Alias PartnerClientAuthenticationUnion
+  - Added Type Alias PartnerDestinationActivationState
+  - Added Type Alias PartnerDestinationInfoUnion
+  - Added Type Alias PartnerDestinationProvisioningState
+  - Added Type Alias PartnerDestinationsActivateResponse
+  - Added Type Alias PartnerDestinationsCreateOrUpdateResponse
+  - Added Type Alias PartnerDestinationsGetResponse
+  - Added Type Alias PartnerDestinationsListByResourceGroupNextResponse
+  - Added Type Alias PartnerDestinationsListByResourceGroupResponse
+  - Added Type Alias PartnerDestinationsListBySubscriptionNextResponse
+  - Added Type Alias PartnerDestinationsListBySubscriptionResponse
+  - Added Type Alias PartnerDestinationsUpdateResponse
+  - Added Type Alias PartnerEndpointType
+  - Added Type Alias PartnerUpdateDestinationInfoUnion
+  - Added Type Alias ResourceKind
+  - Added Type Alias Sku
+  - Interface Channel has a new optional parameter partnerDestinationInfo
+  - Interface ChannelUpdateParameters has a new optional parameter partnerDestinationInfo
+  - Interface Domain has a new optional parameter sku
+  - Interface DomainUpdateParameters has a new optional parameter sku
+  - Interface EventSubscriptionIdentity has a new optional parameter federatedIdentityCredentialInfo
+  - Interface Subscription has a new optional parameter tags
+  - Interface SubscriptionUpdateParameters has a new optional parameter tags
+  - Interface Topic has a new optional parameter extendedLocation
+  - Interface Topic has a new optional parameter kind
+  - Interface Topic has a new optional parameter sku
+  - Interface TopicSpacesConfiguration has a new optional parameter clientAuthentication
+  - Interface TopicUpdateParameters has a new optional parameter sku
+  - Interface UpdateTopicSpacesConfigurationInfo has a new optional parameter clientAuthentication
+  - Interface VerifiedPartner has a new optional parameter partnerDestinationDetails
+  - Type of parameter endpointType of interface EventSubscriptionDestination is changed from "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "MonitorAlert" | "NamespaceTopic" to "WebHook" | "EventHub" | "StorageQueue" | "HybridConnection" | "ServiceBusQueue" | "ServiceBusTopic" | "AzureFunction" | "PartnerDestination" | "MonitorAlert" | "NamespaceTopic"
+  - Added Enum KnownAlternativeAuthenticationNameSource
+  - Added Enum KnownCustomJwtAuthenticationManagedIdentityType
+  - Added Enum KnownCustomWebhookAuthenticationManagedIdentityType
+  - Added Enum KnownNetworkSecurityPerimeterAssociationAccessMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigProvisioningState
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationIssueType
+  - Added Enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection
+  - Added Enum KnownNetworkSecurityPerimeterResourceType
+  - Added Enum KnownPartnerClientAuthenticationType
+  - Added Enum KnownPartnerDestinationActivationState
+  - Added Enum KnownPartnerDestinationProvisioningState
+  - Added Enum KnownPartnerEndpointType
+  - Added Enum KnownResourceKind
+  - Added Enum KnownSku
+  - Enum KnownChannelProvisioningState has a new value IdleDueToMirroredPartnerDestinationDeletion
+  - Enum KnownChannelType has a new value PartnerDestination
+  - Enum KnownEndpointType has a new value PartnerDestination
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+    
+    
 ## 14.2.0 (2025-03-11)
     
 ### Features Added

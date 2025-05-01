@@ -51,12 +51,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     parentName: string,
     options?: PrivateLinkResourcesListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByResourcePagingAll(
-      resourceGroupName,
-      parentType,
-      parentName,
-      options,
-    );
+    const iter = this.listByResourcePagingAll(resourceGroupName, parentType, parentName, options);
     return {
       next() {
         return iter.next();
@@ -89,12 +84,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     let result: PrivateLinkResourcesListByResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResource(
-        resourceGroupName,
-        parentType,
-        parentName,
-        options,
-      );
+      result = await this._listByResource(resourceGroupName, parentType, parentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

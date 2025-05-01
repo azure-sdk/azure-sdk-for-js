@@ -69,10 +69,7 @@ export interface Domains {
     domainInfo: Domain,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>
   >;
   /**
    * Asynchronously creates or updates a new domain with the specified parameters.

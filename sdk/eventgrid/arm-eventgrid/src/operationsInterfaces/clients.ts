@@ -60,10 +60,7 @@ export interface Clients {
     clientInfo: Client,
     options?: ClientsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClientsCreateOrUpdateResponse>,
-      ClientsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ClientsCreateOrUpdateResponse>, ClientsCreateOrUpdateResponse>
   >;
   /**
    * Create or update a client with the specified parameters.

@@ -23,9 +23,7 @@ export interface TopicTypes {
    * List all registered topic types.
    * @param options The options parameters.
    */
-  list(
-    options?: TopicTypesListOptionalParams,
-  ): PagedAsyncIterableIterator<TopicTypeInfo>;
+  list(options?: TopicTypesListOptionalParams): PagedAsyncIterableIterator<TopicTypeInfo>;
   /**
    * List event types for a topic type.
    * @param topicTypeName Name of the topic type.
@@ -40,8 +38,5 @@ export interface TopicTypes {
    * @param topicTypeName Name of the topic type.
    * @param options The options parameters.
    */
-  get(
-    topicTypeName: string,
-    options?: TopicTypesGetOptionalParams,
-  ): Promise<TopicTypesGetResponse>;
+  get(topicTypeName: string, options?: TopicTypesGetOptionalParams): Promise<TopicTypesGetResponse>;
 }

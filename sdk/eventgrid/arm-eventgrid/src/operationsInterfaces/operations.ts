@@ -16,7 +16,5 @@ export interface Operations {
    * List the available operations supported by the Microsoft.EventGrid resource provider.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

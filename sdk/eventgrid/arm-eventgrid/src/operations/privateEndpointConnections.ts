@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateEndpointConnection,
@@ -36,9 +32,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
   private readonly client: EventGridManagementClient;
 
   /**
@@ -64,12 +58,7 @@ export class PrivateEndpointConnectionsImpl
     parentName: string,
     options?: PrivateEndpointConnectionsListByResourceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
-    const iter = this.listByResourcePagingAll(
-      resourceGroupName,
-      parentType,
-      parentName,
-      options,
-    );
+    const iter = this.listByResourcePagingAll(resourceGroupName, parentType, parentName, options);
     return {
       next() {
         return iter.next();
@@ -102,12 +91,7 @@ export class PrivateEndpointConnectionsImpl
     let result: PrivateEndpointConnectionsListByResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResource(
-        resourceGroupName,
-        parentType,
-        parentName,
-        options,
-      );
+      result = await this._listByResource(resourceGroupName, parentType, parentName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -207,8 +191,7 @@ export class PrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -321,8 +304,7 @@ export class PrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

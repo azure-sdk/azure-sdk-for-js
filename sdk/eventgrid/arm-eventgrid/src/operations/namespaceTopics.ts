@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NamespaceTopic,
@@ -64,11 +60,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
     namespaceName: string,
     options?: NamespaceTopicsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<NamespaceTopic> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listByNamespacePagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -80,12 +72,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listByNamespacePagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -99,11 +86,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
     let result: NamespaceTopicsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
+      result = await this._listByNamespace(resourceGroupName, namespaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -186,8 +169,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -285,8 +267,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -340,12 +321,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
     topicName: string,
     options?: NamespaceTopicsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      namespaceName,
-      topicName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, namespaceName, topicName, options);
     return poller.pollUntilDone();
   }
 
@@ -364,10 +340,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
     namespaceTopicUpdateParameters: NamespaceTopicUpdateParameters,
     options?: NamespaceTopicsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<NamespaceTopicsUpdateResponse>,
-      NamespaceTopicsUpdateResponse
-    >
+    SimplePollerLike<OperationState<NamespaceTopicsUpdateResponse>, NamespaceTopicsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -379,8 +352,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -521,8 +493,7 @@ export class NamespaceTopicsImpl implements NamespaceTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

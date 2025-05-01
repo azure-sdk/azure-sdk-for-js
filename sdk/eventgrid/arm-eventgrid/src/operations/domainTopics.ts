@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventGridManagementClient } from "../eventGridManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DomainTopic,
@@ -56,11 +52,7 @@ export class DomainTopicsImpl implements DomainTopics {
     domainName: string,
     options?: DomainTopicsListByDomainOptionalParams,
   ): PagedAsyncIterableIterator<DomainTopic> {
-    const iter = this.listByDomainPagingAll(
-      resourceGroupName,
-      domainName,
-      options,
-    );
+    const iter = this.listByDomainPagingAll(resourceGroupName, domainName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class DomainTopicsImpl implements DomainTopics {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByDomainPagingPage(
-          resourceGroupName,
-          domainName,
-          options,
-          settings,
-        );
+        return this.listByDomainPagingPage(resourceGroupName, domainName, options, settings);
       },
     };
   }
@@ -116,11 +103,7 @@ export class DomainTopicsImpl implements DomainTopics {
     domainName: string,
     options?: DomainTopicsListByDomainOptionalParams,
   ): AsyncIterableIterator<DomainTopic> {
-    for await (const page of this.listByDomainPagingPage(
-      resourceGroupName,
-      domainName,
-      options,
-    )) {
+    for await (const page of this.listByDomainPagingPage(resourceGroupName, domainName, options)) {
       yield* page;
     }
   }
@@ -172,8 +155,7 @@ export class DomainTopicsImpl implements DomainTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -261,8 +243,7 @@ export class DomainTopicsImpl implements DomainTopics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -315,12 +296,7 @@ export class DomainTopicsImpl implements DomainTopics {
     domainTopicName: string,
     options?: DomainTopicsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      domainName,
-      domainTopicName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, domainName, domainTopicName, options);
     return poller.pollUntilDone();
   }
 

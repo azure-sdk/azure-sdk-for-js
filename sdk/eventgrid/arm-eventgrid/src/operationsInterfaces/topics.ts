@@ -87,10 +87,7 @@ export interface Topics {
     topicInfo: Topic,
     options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TopicsCreateOrUpdateResponse>,
-      TopicsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<TopicsCreateOrUpdateResponse>, TopicsCreateOrUpdateResponse>
   >;
   /**
    * Asynchronously creates a new topic with the specified parameters.
@@ -115,9 +112,7 @@ export interface Topics {
     resourceGroupName: string,
     topicName: string,
     options?: TopicsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<TopicsDeleteResponse>, TopicsDeleteResponse>>;
   /**
    * Delete existing topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
@@ -179,10 +174,7 @@ export interface Topics {
     regenerateKeyRequest: TopicRegenerateKeyRequest,
     options?: TopicsRegenerateKeyOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<TopicsRegenerateKeyResponse>,
-      TopicsRegenerateKeyResponse
-    >
+    SimplePollerLike<OperationState<TopicsRegenerateKeyResponse>, TopicsRegenerateKeyResponse>
   >;
   /**
    * Regenerate a shared access key for a topic.

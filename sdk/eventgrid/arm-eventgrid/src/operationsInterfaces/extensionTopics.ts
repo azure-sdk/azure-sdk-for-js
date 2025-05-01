@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  ExtensionTopicsGetOptionalParams,
-  ExtensionTopicsGetResponse,
-} from "../models/index.js";
+import { ExtensionTopicsGetOptionalParams, ExtensionTopicsGetResponse } from "../models/index.js";
 
 /** Interface representing a ExtensionTopics. */
 export interface ExtensionTopics {
