@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -39,7 +39,7 @@ extends:
       - name: azure-storage-blob
         safeName: azurestorageblob
         triggeringPaths:
-        - /sdk/identity/
+          - /sdk/identity/
       - name: azure-storage-file-share
         safeName: azurestoragefileshare
       - name: azure-storage-file-datalake
@@ -48,3 +48,5 @@ extends:
         safeName: azurestoragequeue
       - name: azure-storage-blob-changefeed
         safeName: azurestorageblobchangefeed
+      - name: azure-rest-azure-storage-blob-rest
+        safeName: azurerestazurestorageblobrest
