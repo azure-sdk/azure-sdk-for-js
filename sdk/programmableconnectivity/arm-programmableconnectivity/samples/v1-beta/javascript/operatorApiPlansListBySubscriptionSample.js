@@ -8,14 +8,18 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list OperatorApiPlan resources by subscription ID.
  *
  * @summary list OperatorApiPlan resources by subscription ID.
- * x-ms-original-file: 2024-01-15-preview/OperatorApiPlans_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-03-30-preview/OperatorApiPlans_ListBySubscription_MaximumSet_Gen.json
  */
-async function operatorApiPlansListBySubscription() {
+async function operatorApiPlansListBySubscriptionMaximumSetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "B976474B-99FA-4C25-A3BD-8B05C3C3D07A";
+  const subscriptionId = "93519EA0-206F-42A3-8126-A234F19328E0";
   const client = new ProgrammableConnectivityClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operatorApiPlans.listBySubscription()) {
+  for await (const item of client.operatorApiPlans.listBySubscription({
+    filter: "lbnapngejadkls",
+    top: 18,
+    skip: 2,
+  })) {
     resArray.push(item);
   }
 
@@ -23,7 +27,7 @@ async function operatorApiPlansListBySubscription() {
 }
 
 async function main() {
-  await operatorApiPlansListBySubscription();
+  await operatorApiPlansListBySubscriptionMaximumSetGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

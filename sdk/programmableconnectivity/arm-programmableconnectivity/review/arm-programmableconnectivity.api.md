@@ -14,21 +14,43 @@ import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AccountType = string;
-
-// @public
 export type ActionType = string;
 
 // @public
-export interface ApplicationProperties {
-    applicationDescription?: string;
-    applicationType?: string;
-    legalName?: string;
-    name?: string;
-    organizationDescription?: string;
-    privacyContactEmailAddress?: string;
-    taxNumber?: string;
+export interface ApplicationOwnerProperties {
+    contactEmailAddress: string;
+    dataProtectionOfficer: Person;
+    legalName: string;
+    legalRepresentative: Person;
+    localRepresentatives: LocalRepresentative[];
+    name: string;
+    organizationDescription: string;
+    organizationIdentificationId: string;
+    organizationIdentificationIssuer: string;
+    organizationIdentificationType: string;
+    organizationType: OrganizationType;
+    privacyManager: Person;
+    privacyPolicyUrl: string;
+    registeredGeographicAddress: GeographicAddress;
+    taxNumber: string;
+    tradingName: string;
 }
+
+// @public
+export interface ApplicationProperties {
+    applicationDescription: string;
+    category: Category;
+    commercialName: string;
+    name: string;
+    privacyPolicyUrl: string;
+    privacyRightsRequestEmailAddress: string;
+}
+
+// @public
+export type Category = string;
+
+// @public
+export type Context = string;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -37,6 +59,27 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface DataProcessing {
+    contexts: Context[];
+    duration: Duration;
+    frequency: Frequency;
+    processingOperation: ProcessingOperation;
+    storageRegions: DataRegions[];
+    transitRegions: DataRegions[];
+}
+
+// @public
+export interface DataRegions {
+    commercialActivity: boolean;
+    commercialOrganization?: string;
+    countryCode: string;
+    dataPrivacyFrameworkUrl: string;
+}
+
+// @public
+export type Duration = string;
 
 // @public
 export interface ErrorAdditionalInfo {
@@ -59,12 +102,17 @@ export interface ErrorResponse {
 }
 
 // @public
+export type Frequency = string;
+
+// @public
 export interface Gateway extends TrackedResource {
     properties?: GatewayProperties;
 }
 
 // @public
 export interface GatewayProperties {
+    configuredApplication: ApplicationProperties;
+    configuredApplicationOwner: ApplicationOwnerProperties;
     readonly gatewayBaseUrl?: string;
     readonly operatorApiConnections?: string[];
     readonly provisioningState?: ProvisioningState;
@@ -112,14 +160,333 @@ export interface GatewayTagsUpdate {
 }
 
 // @public
-export enum KnownAccountType {
-    AzureManaged = "AzureManaged",
-    UserManaged = "UserManaged"
+export interface GeographicAddress {
+    city?: string;
+    countryCode: string;
+    locality?: string;
+    postalCode?: string;
+    stateOrProvince?: string;
+    streetName?: string;
+    streetNumber?: string;
 }
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCategory {
+    // (undocumented)
+    Agriculture = "Agriculture",
+    // (undocumented)
+    ArtAndDesign = "Art and design",
+    // (undocumented)
+    AutoAndVehicle = "Auto and vehicle",
+    // (undocumented)
+    Beauty = "Beauty",
+    // (undocumented)
+    BooksAndReference = "Books and reference",
+    // (undocumented)
+    Business = "Business",
+    // (undocumented)
+    Construction = "Construction",
+    // (undocumented)
+    Defense = "Defense",
+    // (undocumented)
+    DeveloperTools = "Developer tools",
+    // (undocumented)
+    Education = "Education",
+    // (undocumented)
+    Engineering = "Engineering",
+    // (undocumented)
+    EventsAndEntertainment = "Events and entertainment",
+    // (undocumented)
+    Finance = "Finance",
+    // (undocumented)
+    FoodAndDrink = "Food and drink",
+    // (undocumented)
+    Games = "Games",
+    // (undocumented)
+    HealthAndFitness = "Health and fitness",
+    // (undocumented)
+    Healthcare = "Healthcare",
+    // (undocumented)
+    Information = "Information",
+    // (undocumented)
+    Kids = "Kids",
+    // (undocumented)
+    LibrariesAndDemo = "Libraries and demo",
+    // (undocumented)
+    Lifestyle = "Lifestyle",
+    // (undocumented)
+    Manufacturing = "Manufacturing",
+    // (undocumented)
+    MapsAndNavigation = "Maps and navigation",
+    // (undocumented)
+    Media = "Media",
+    // (undocumented)
+    Medical = "Medical",
+    // (undocumented)
+    Mining = "Mining",
+    // (undocumented)
+    MusicAndAudio = "Music and audio",
+    // (undocumented)
+    NewsAndMagazines = "News and magazines",
+    // (undocumented)
+    Organizations = "Organizations",
+    // (undocumented)
+    Other = "Other",
+    // (undocumented)
+    PhotoAndVideo = "Photo and video",
+    // (undocumented)
+    Productivity = "Productivity",
+    // (undocumented)
+    PublicService = "Public service",
+    // (undocumented)
+    RealEstate = "Real estate",
+    // (undocumented)
+    Shopping = "Shopping",
+    // (undocumented)
+    SocialNetworkingAndCommunications = "Social networking and communications",
+    // (undocumented)
+    Sports = "Sports",
+    // (undocumented)
+    Tourism = "Tourism",
+    // (undocumented)
+    Trading = "Trading",
+    // (undocumented)
+    Transportation = "Transportation",
+    // (undocumented)
+    TravelAndLocal = "Travel and local",
+    // (undocumented)
+    Utilities = "Utilities",
+    // (undocumented)
+    Water = "Water",
+    // (undocumented)
+    Weather = "Weather"
+}
+
+// @public
+export enum KnownContext {
+    // (undocumented)
+    AlgorithmicLogic = "Algorithmic logic",
+    // (undocumented)
+    AssistiveAutomation = "Assistive automation",
+    // (undocumented)
+    AutomatedDecisionMaking = "Automated decision making",
+    // (undocumented)
+    AutomatedScoringOfIndividuals = "Automated scoring of individuals",
+    // (undocumented)
+    AutomationLevel = "Automation level",
+    // (undocumented)
+    Autonomous = "Autonomous",
+    // (undocumented)
+    CannotChallengeProcess = "Cannot challenge process",
+    // (undocumented)
+    CannotChallengeProcessInput = "Cannot challenge process input",
+    // (undocumented)
+    CannotChallengeProcessOutput = "Cannot challenge process output",
+    // (undocumented)
+    CannotCorrectProcess = "Cannot correct process",
+    // (undocumented)
+    CannotCorrectProcessInput = "Cannot correct process input",
+    // (undocumented)
+    CannotCorrectProcessOutput = "Cannot correct process output",
+    // (undocumented)
+    CannotObjectToProcess = "Cannot object to process",
+    // (undocumented)
+    CannotOptInToProcess = "Cannot opt in to process",
+    // (undocumented)
+    CannotOptOutFromProcess = "Cannot opt out from process",
+    // (undocumented)
+    CannotReverseProcessEffects = "Cannot reverse process effects",
+    // (undocumented)
+    CannotReverseProcessInput = "Cannot reverse process input",
+    // (undocumented)
+    CannotReverseProcessOutput = "Cannot reverse process output",
+    // (undocumented)
+    CannotWithdrawFromProcess = "Cannot withdraw from process",
+    // (undocumented)
+    ChallengingProcess = "Challenging process",
+    // (undocumented)
+    ChallengingProcessInput = "Challenging process input",
+    // (undocumented)
+    ChallengingProcessOutput = "Challenging process output",
+    // (undocumented)
+    CompletelyManualProcessing = "Completely manual processing",
+    // (undocumented)
+    ConditionalAutomation = "Conditional automation",
+    // (undocumented)
+    ConsentControl = "Consent control",
+    // (undocumented)
+    CorrectingProcess = "Correcting process",
+    // (undocumented)
+    CorrectingProcessInput = "Correcting process input",
+    // (undocumented)
+    CorrectingProcessOutput = "Correcting process output",
+    // (undocumented)
+    DataControllerDataSource = "Data controller data source",
+    // (undocumented)
+    DataPublishedByDataSubject = "Data published by data subject",
+    // (undocumented)
+    DataSource = "Data source",
+    // (undocumented)
+    DataSubject = "Data subject",
+    // (undocumented)
+    DataSubjectDataSource = "Data subject data source",
+    // (undocumented)
+    DataSubjectScale = "Data subject scale",
+    // (undocumented)
+    DataVolume = "Data volume",
+    // (undocumented)
+    DecisionMaking = "Decision making",
+    // (undocumented)
+    EntityActiveInvolvement = "Entity active involvement",
+    // (undocumented)
+    EntityInvolvement = "Entity involvement",
+    // (undocumented)
+    EntityNonInvolvement = "Entity non involvement",
+    // (undocumented)
+    EntityNonPermissiveInvolvement = "Entity non permissive involvement",
+    // (undocumented)
+    EntityPassiveInvolvement = "Entity passive involvement",
+    // (undocumented)
+    EntityPermissiveInvolvement = "Entity permissive involvement",
+    // (undocumented)
+    EvaluationOfIndividuals = "Evaluation of individuals",
+    // (undocumented)
+    EvaluationScoring = "Evaluation scoring",
+    // (undocumented)
+    FullAutomation = "Full automation",
+    // (undocumented)
+    GeographicCoverage = "Geographic coverage",
+    // (undocumented)
+    GlobalScale = "Global scale",
+    // (undocumented)
+    HighAutomation = "High automation",
+    // (undocumented)
+    HugeDataVolume = "Huge data volume",
+    // (undocumented)
+    HugeScaleOfDataSubjects = "Huge scale of data subjects",
+    // (undocumented)
+    HumanInvolved = "Human involved",
+    // (undocumented)
+    HumanInvolvement = "Human involvement",
+    // (undocumented)
+    HumanInvolvementForControl = "Human involvement for control",
+    // (undocumented)
+    HumanInvolvementForDecision = "Human involvement for decision",
+    // (undocumented)
+    HumanInvolvementForInput = "Human involvement for input",
+    // (undocumented)
+    HumanInvolvementForIntervention = "Human involvement for intervention",
+    // (undocumented)
+    HumanInvolvementForOversight = "Human involvement for oversight",
+    // (undocumented)
+    HumanInvolvementForVerification = "Human involvement for verification",
+    // (undocumented)
+    HumanNotInvolved = "Human not involved",
+    // (undocumented)
+    InnovativeUseOfExistingTechnology = "Innovative use of existing technology",
+    // (undocumented)
+    InnovativeUseOfNewTechnologies = "Innovative use of new technologies",
+    // (undocumented)
+    InnovativeUseOfTechnology = "Innovative use of technology",
+    // (undocumented)
+    LargeDataVolume = "Large data volume",
+    // (undocumented)
+    LargeScaleOfDataSubjects = "Large scale of data subjects",
+    // (undocumented)
+    LargeScaleProcessing = "Large scale processing",
+    // (undocumented)
+    LocalEnvironmentScale = "Local environment scale",
+    // (undocumented)
+    LocalityScale = "Locality scale",
+    // (undocumented)
+    MediumDataVolume = "Medium data volume",
+    // (undocumented)
+    MediumScaleOfDataSubjects = "Medium scale of data subjects",
+    // (undocumented)
+    MediumScaleProcessing = "Medium scale processing",
+    // (undocumented)
+    MultiNationalScale = "Multi national scale",
+    // (undocumented)
+    NationalScale = "National scale",
+    // (undocumented)
+    NearlyGlobalScale = "Nearly global scale",
+    // (undocumented)
+    NonPublicDataSource = "Non public data source",
+    // (undocumented)
+    NotAutomated = "Not automated",
+    // (undocumented)
+    ObjectingToProcess = "Objecting to process",
+    // (undocumented)
+    ObtainConsent = "Obtain consent",
+    // (undocumented)
+    OptingInToProcess = "Opting in to process",
+    // (undocumented)
+    OptingOutFromProcess = "Opting out from process",
+    // (undocumented)
+    PartialAutomation = "Partial automation",
+    // (undocumented)
+    ProcessingCondition = "Processing condition",
+    // (undocumented)
+    ProcessingDuration = "Processing duration",
+    // (undocumented)
+    ProcessingLocation = "Processing location",
+    // (undocumented)
+    ProcessingScale = "Processing scale",
+    // (undocumented)
+    ProvideConsent = "Provide consent",
+    // (undocumented)
+    PublicDataSource = "Public data source",
+    // (undocumented)
+    ReaffirmConsent = "Reaffirm consent",
+    // (undocumented)
+    RegionalScale = "Regional scale",
+    // (undocumented)
+    ReversingProcessEffects = "Reversing process effects",
+    // (undocumented)
+    ReversingProcessInput = "Reversing process input",
+    // (undocumented)
+    ReversingProcessOutput = "Reversing process output",
+    // (undocumented)
+    Scale = "Scale",
+    // (undocumented)
+    ScoringOfIndividuals = "Scoring of individuals",
+    // (undocumented)
+    SingularDataVolume = "Singular data volume",
+    // (undocumented)
+    SingularScaleOfDataSubjects = "Singular scale of data subjects",
+    // (undocumented)
+    SmallDataVolume = "Small data volume",
+    // (undocumented)
+    SmallScaleOfDataSubjects = "Small scale of data subjects",
+    // (undocumented)
+    SmallScaleProcessing = "Small scale processing",
+    // (undocumented)
+    SporadicDataVolume = "Sporadic data volume",
+    // (undocumented)
+    SporadicScaleOfDataSubjects = "Sporadic scale of data subjects",
+    // (undocumented)
+    StorageCondition = "Storage condition",
+    // (undocumented)
+    StorageDeletion = "Storage deletion",
+    // (undocumented)
+    StorageDuration = "Storage duration",
+    // (undocumented)
+    StorageLocation = "Storage location",
+    // (undocumented)
+    StorageRestoration = "Storage restoration",
+    // (undocumented)
+    SystematicMonitoring = "Systematic monitoring",
+    // (undocumented)
+    ThirdPartyDataSource = "Third party data source",
+    // (undocumented)
+    WithdrawConsent = "Withdraw consent",
+    // (undocumented)
+    WithdrawingFromProcess = "Withdrawing from process"
 }
 
 // @public
@@ -131,10 +498,166 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDuration {
+    // (undocumented)
+    EndlessDuration = "Endless",
+    // (undocumented)
+    FixedOccurrencesDuration = "Fixed occurrences",
+    // (undocumented)
+    IndeterminateDuration = "Indeterminate",
+    // (undocumented)
+    TemporalDuration = "Temporal",
+    // (undocumented)
+    UntilEventDuration = "Until event",
+    // (undocumented)
+    UntilTimeDuration = "Until time"
+}
+
+// @public
+export enum KnownFrequency {
+    // (undocumented)
+    ContinuousFrequency = "Continuous",
+    // (undocumented)
+    OftenFrequency = "Often",
+    // (undocumented)
+    SingularFrequency = "Singular",
+    // (undocumented)
+    SporadicFrequency = "Sporadic"
+}
+
+// @public
+export enum KnownOrganizationType {
+    // (undocumented)
+    AcademicScientificOrganization = "Academic scientific organization",
+    // (undocumented)
+    ForProfitOrganization = "For profit organization",
+    // (undocumented)
+    GovernmentalOrganization = "Governmental organization",
+    // (undocumented)
+    IndustryConsortium = "Industry consortium",
+    // (undocumented)
+    InternationalOrganization = "International organization",
+    // (undocumented)
+    NonGovernmentalOrganization = "Non-governmental organization",
+    // (undocumented)
+    NonProfitOrganization = "Non-profit organization",
+    // (undocumented)
+    OrganizationalUnit = "Organizational unit"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProcessingOperation {
+    // (undocumented)
+    Access = "Access",
+    // (undocumented)
+    Acquire = "Acquire",
+    // (undocumented)
+    Adapt = "Adapt",
+    // (undocumented)
+    Aggregate = "Aggregate",
+    // (undocumented)
+    Align = "Align",
+    // (undocumented)
+    Alter = "Alter",
+    // (undocumented)
+    Analyze = "Analyze",
+    // (undocumented)
+    Anonymize = "Anonymize",
+    // (undocumented)
+    Assess = "Assess",
+    // (undocumented)
+    Collect = "Collect",
+    // (undocumented)
+    Combine = "Combine",
+    // (undocumented)
+    Consult = "Consult",
+    // (undocumented)
+    Copy = "Copy",
+    // (undocumented)
+    CrossBorderTransfer = "Cross border transfer",
+    // (undocumented)
+    Delete = "Delete",
+    // (undocumented)
+    Derive = "Derive",
+    // (undocumented)
+    Destruct = "Destruct",
+    // (undocumented)
+    Disclose = "Disclose",
+    // (undocumented)
+    DiscloseByTransmission = "Disclose by transmission",
+    // (undocumented)
+    Display = "Display",
+    // (undocumented)
+    Disseminate = "Disseminate",
+    // (undocumented)
+    Download = "Download",
+    // (undocumented)
+    Erase = "Erase",
+    // (undocumented)
+    Export = "Export",
+    // (undocumented)
+    Filter = "Filter",
+    // (undocumented)
+    Format = "Format",
+    // (undocumented)
+    Generate = "Generate",
+    // (undocumented)
+    Infer = "Infer",
+    // (undocumented)
+    MakeAvailable = "Make available",
+    // (undocumented)
+    Match = "Match",
+    // (undocumented)
+    Modify = "Modify",
+    // (undocumented)
+    Monitor = "Monitor",
+    // (undocumented)
+    Move = "Move",
+    // (undocumented)
+    Observe = "Observe",
+    // (undocumented)
+    Obtain = "Obtain",
+    // (undocumented)
+    Organize = "Organize",
+    // (undocumented)
+    Profiling = "Profiling",
+    // (undocumented)
+    Pseudonymize = "Pseudonymize",
+    // (undocumented)
+    Query = "Query",
+    // (undocumented)
+    Record = "Record",
+    // (undocumented)
+    Reformat = "Reformat",
+    // (undocumented)
+    Remove = "Remove",
+    // (undocumented)
+    Restrict = "Restrict",
+    // (undocumented)
+    Retrieve = "Retrieve",
+    // (undocumented)
+    Screen = "Screen",
+    // (undocumented)
+    Share = "Share",
+    // (undocumented)
+    Store = "Store",
+    // (undocumented)
+    Structure = "Structure",
+    // (undocumented)
+    Transfer = "Transfer",
+    // (undocumented)
+    Transform = "Transform",
+    // (undocumented)
+    Transmit = "Transmit",
+    // (undocumented)
+    Use = "Use"
 }
 
 // @public
@@ -149,17 +672,217 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPurpose {
+    // (undocumented)
+    AcademicResearch = "Academic Research",
+    // (undocumented)
+    AccountManagement = "Account Management",
+    // (undocumented)
+    Advertising = "Advertising",
+    // (undocumented)
+    AgeVerification = "Age Verification",
+    // (undocumented)
+    CombatClimateChange = "Combat Climate Change",
+    // (undocumented)
+    CommercialPurpose = "Commercial Purpose",
+    // (undocumented)
+    CommercialResearch = "Commercial Research",
+    // (undocumented)
+    CommunicationForCustomerCare = "Communication For Customer Care",
+    // (undocumented)
+    CommunicationManagement = "Communication Management",
+    // (undocumented)
+    CounterMoneyLaundering = "Counter Money Laundering",
+    // (undocumented)
+    Counterterrorism = "Counter-terrorism",
+    // (undocumented)
+    CreditChecking = "Credit Checking",
+    // (undocumented)
+    CustomerCare = "Customer Care",
+    // (undocumented)
+    CustomerClaimsManagement = "Customer Claims Management",
+    // (undocumented)
+    CustomerManagement = "Customer Management",
+    // (undocumented)
+    CustomerOrderManagement = "Customer Order Management",
+    // (undocumented)
+    CustomerRelationshipManagement = "Customer Relationship Management",
+    // (undocumented)
+    CustomerSolvencyMonitoring = "Customer Solvency Monitoring",
+    // (undocumented)
+    DataAltruism = "Data Altruism",
+    // (undocumented)
+    DeliveryOfGoods = "Delivery Of Goods",
+    // (undocumented)
+    DirectMarketing = "Direct Marketing",
+    // (undocumented)
+    DisputeManagement = "Dispute Management",
+    // (undocumented)
+    EnforceAccessControl = "Enforce Access Control",
+    // (undocumented)
+    EnforceSecurity = "Enforce Security",
+    // (undocumented)
+    EstablishContractualAgreement = "Establish Contractual Agreement",
+    // (undocumented)
+    FraudPreventionAndDetection = "Fraud Prevention And Detection",
+    // (undocumented)
+    FulfillmentOfContractualObligation = "Fulfillment Of Contractual Obligation",
+    // (undocumented)
+    FulfillmentOfObligation = "Fulfillment Of Obligation",
+    // (undocumented)
+    HumanResourceManagement = "Human Resource Management",
+    // (undocumented)
+    IdentityAuthentication = "Identity Authentication",
+    // (undocumented)
+    IdentityVerification = "Identity Verification",
+    // (undocumented)
+    ImproveExistingProductsAndServices = "Improve Existing Products And Services",
+    // (undocumented)
+    ImproveHealthcare = "Improve Healthcare",
+    // (undocumented)
+    ImproveInternalCRMProcesses = "Improve Internal CRM Processes",
+    // (undocumented)
+    ImprovePublicServices = "Improve Public Services",
+    // (undocumented)
+    ImproveTransportMobility = "Improve Transport Mobility",
+    // (undocumented)
+    IncreaseServiceRobustness = "Increase Service Robustness",
+    // (undocumented)
+    InternalResourceOptimization = "Internal Resource Optimization",
+    // (undocumented)
+    LegalCompliance = "Legal Compliance",
+    // (undocumented)
+    MaintainCreditCheckingDatabase = "Maintain Credit Checking Database",
+    // (undocumented)
+    MaintainCreditRatingDatabase = "Maintain Credit Rating Database",
+    // (undocumented)
+    MaintainFraudDatabase = "Maintain Fraud Database",
+    // (undocumented)
+    Marketing = "Marketing",
+    // (undocumented)
+    MemberPartnerManagement = "Member Partner Management",
+    // (undocumented)
+    MisusePreventionAndDetection = "Misuse Prevention And Detection",
+    // (undocumented)
+    NonCommercialPurpose = "Non Commercial Purpose",
+    // (undocumented)
+    NonCommercialResearch = "Non Commercial Research",
+    // (undocumented)
+    OptimizationForConsumer = "Optimization For Consumer",
+    // (undocumented)
+    OptimizationForController = "Optimization For Controller",
+    // (undocumented)
+    OptimizeUserInterface = "Optimize User Interface",
+    // (undocumented)
+    OrganizationComplianceManagement = "Organization Compliance Management",
+    // (undocumented)
+    OrganizationGovernance = "Organization Governance",
+    // (undocumented)
+    OrganizationRiskManagement = "Organization Risk Management",
+    // (undocumented)
+    PaymentManagement = "Payment Management",
+    // (undocumented)
+    Personalization = "Personalization",
+    // (undocumented)
+    PersonalizedAdvertising = "Personalized Advertising",
+    // (undocumented)
+    PersonalizedBenefits = "Personalized Benefits",
+    // (undocumented)
+    PersonnelHiring = "Personnel Hiring",
+    // (undocumented)
+    PersonnelManagement = "Personnel Management",
+    // (undocumented)
+    PersonnelPayment = "Personnel Payment",
+    // (undocumented)
+    ProtectionOfIPR = "Protection Of IPR",
+    // (undocumented)
+    ProtectionOfNationalSecurity = "Protection Of National Security",
+    // (undocumented)
+    ProtectionOfPublicSecurity = "Protection Of Public Security",
+    // (undocumented)
+    ProvideEventRecommendations = "Provide Event Recommendations",
+    // (undocumented)
+    ProvideOfficialStatistics = "Provide Official Statistics",
+    // (undocumented)
+    ProvidePersonalizedRecommendations = "Provide Personalized Recommendations",
+    // (undocumented)
+    ProvideProductRecommendations = "Provide Product Recommendations",
+    // (undocumented)
+    PublicBenefit = "Public Benefit",
+    // (undocumented)
+    PublicPolicyMaking = "Public Policy Making",
+    // (undocumented)
+    PublicRelations = "Public Relations",
+    // (undocumented)
+    RecordManagement = "Record Management",
+    // (undocumented)
+    RepairImpairments = "Repair Impairments",
+    // (undocumented)
+    RequestedServiceProvision = "Requested Service Provision",
+    // (undocumented)
+    ResearchAndDevelopment = "Research And Development",
+    // (undocumented)
+    RightsFulfillment = "Rights Fulfillment",
+    // (undocumented)
+    ScientificResearch = "Scientific Research",
+    // (undocumented)
+    SearchFunctionalities = "Search Functionalities",
+    // (undocumented)
+    SellDataToThirdParties = "Sell Data To Third Parties",
+    // (undocumented)
+    SellInsightsFromData = "Sell Insights From Data",
+    // (undocumented)
+    SellProducts = "Sell Products",
+    // (undocumented)
+    SellProductsToDataSubject = "Sell Products To Data Subject",
+    // (undocumented)
+    Serviceoptimization = "Service Optimization",
+    // (undocumented)
+    ServicePersonalization = "Service Personalization",
+    // (undocumented)
+    ServiceProvision = "Service Provision",
+    // (undocumented)
+    ServiceRegistration = "Service Registration",
+    // (undocumented)
+    ServiceUsageAnalytics = "Service Usage Analytics",
+    // (undocumented)
+    SocialMediaMarketing = "Social Media Marketing",
+    // (undocumented)
+    TargetedAdvertising = "Targeted Advertising",
+    // (undocumented)
+    TechnicalServiceProvision = "Technical Service Provision",
+    // (undocumented)
+    UserInterfacePersonalization = "User Interface Personalization",
+    // (undocumented)
+    VendorManagement = "Vendor Management",
+    // (undocumented)
+    VendorPayment = "Vendor Payment",
+    // (undocumented)
+    VendorRecordsManagement = "Vendor Records Management",
+    // (undocumented)
+    VendorSelectionAssessment = "Vendor Selection Assessment",
+    // (undocumented)
+    Verification = "Verification"
+}
+
+// @public
 export enum KnownVersions {
-    V20240115Preview = "2024-01-15-preview"
+    V20240115Preview = "2024-01-15-preview",
+    V20250330Preview = "2025-03-30-preview"
+}
+
+// @public
+export interface LocalRepresentative {
+    countryCode: string;
+    representative: Person;
 }
 
 // @public
 export interface MarketplaceProperties {
-    legacyOfferId?: string;
     offerId?: string;
     planId?: string;
+    readonly planTermsAndConditionsLinks: string[];
     publisherId?: string;
-    termId?: string;
 }
 
 // @public
@@ -195,16 +918,16 @@ export interface OperatorApiConnection extends TrackedResource {
 
 // @public
 export interface OperatorApiConnectionProperties {
-    accountType: AccountType;
-    appId?: string;
-    appSecret?: string;
     readonly camaraApiName?: string;
-    configuredApplication?: ApplicationProperties;
+    dataProcessingList: DataProcessing[];
     gatewayId: string;
     operatorApiPlanId: string;
     readonly operatorName?: string;
+    planTermsAndConditionsAccepted: boolean;
+    readonly planTermsAndConditionsLinks?: string[];
     readonly provisioningState?: ProvisioningState;
-    saasProperties?: SaasProperties;
+    purposeReason: string;
+    purposes: Purpose[];
     readonly status?: Status;
 }
 
@@ -253,11 +976,11 @@ export interface OperatorApiConnectionUpdate {
 
 // @public
 export interface OperatorApiConnectionUpdateProperties {
-    appId?: string;
-    appSecret?: string;
-    configuredApplication?: ApplicationProperties;
+    dataProcessingList?: DataProcessing[];
     operatorApiPlanId?: string;
-    saasProperties?: SaasProperties;
+    planTermsAndConditionsAccepted?: boolean;
+    purposeReason?: string;
+    purposes?: Purpose[];
 }
 
 // @public
@@ -295,6 +1018,9 @@ export interface OperatorApiPlansOperations {
 }
 
 // @public
+export type OrganizationType = string;
+
+// @public
 export type Origin = string;
 
 // @public
@@ -308,6 +1034,16 @@ export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageS
 export interface PageSettings {
     continuationToken?: string;
 }
+
+// @public
+export interface Person {
+    emailAddress: string;
+    familyName: string;
+    givenName: string;
+}
+
+// @public
+export type ProcessingOperation = string;
 
 // @public (undocumented)
 export class ProgrammableConnectivityClient {
@@ -332,6 +1068,9 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type Purpose = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -347,12 +1086,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface SaasProperties {
-    saasResourceId?: string;
-    saasSubscriptionId?: string;
 }
 
 // @public

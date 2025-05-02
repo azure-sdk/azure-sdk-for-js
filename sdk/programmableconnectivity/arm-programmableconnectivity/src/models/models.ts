@@ -175,7 +175,7 @@ export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditiona
   return item;
 }
 
-/** A Programmable Connectivity Gateway resource */
+/** A Programmable Connectivity Gateway resource. */
 export interface Gateway extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: GatewayProperties;
@@ -207,18 +207,27 @@ export function gatewayDeserializer(item: any): Gateway {
   };
 }
 
-/** Gateway resource properties */
+/** Gateway resource properties. */
 export interface GatewayProperties {
-  /** List of Operator API Connections selected by the user */
+  /** List of Operator API Connections selected by the user. */
   readonly operatorApiConnections?: string[];
-  /** Base URL of the Gateway resource. This is the URL that the users would use to make Open API Gateway requests to the Operators via Azure. */
+  /** Base URL of the Gateway resource. This is the URL that the users would use to make Network API requests to the Operators via Azure. */
   readonly gatewayBaseUrl?: string;
   /** The status of the last operation on the Gateway resource. */
   readonly provisioningState?: ProvisioningState;
+  /** Details about the Application that would use the Operator's Network APIs. */
+  configuredApplication: ApplicationProperties;
+  /** Details about the Organization owning the Application that would use the Operator's Network APIs. */
+  configuredApplicationOwner: ApplicationOwnerProperties;
 }
 
 export function gatewayPropertiesSerializer(item: GatewayProperties): any {
-  return item;
+  return {
+    configuredApplication: applicationPropertiesSerializer(item["configuredApplication"]),
+    configuredApplicationOwner: applicationOwnerPropertiesSerializer(
+      item["configuredApplicationOwner"],
+    ),
+  };
 }
 
 export function gatewayPropertiesDeserializer(item: any): GatewayProperties {
@@ -230,6 +239,10 @@ export function gatewayPropertiesDeserializer(item: any): GatewayProperties {
         }),
     gatewayBaseUrl: item["gatewayBaseUrl"],
     provisioningState: item["provisioningState"],
+    configuredApplication: applicationPropertiesDeserializer(item["configuredApplication"]),
+    configuredApplicationOwner: applicationOwnerPropertiesDeserializer(
+      item["configuredApplicationOwner"],
+    ),
   };
 }
 
@@ -265,6 +278,352 @@ export enum KnownProvisioningState {
  * **Accepted**: The resource create or update request has been accepted
  */
 export type ProvisioningState = string;
+
+/** Details about the Application that would use the Operator's Network APIs. */
+export interface ApplicationProperties {
+  /** Name of the application. */
+  name: string;
+  /** Description of the application. */
+  applicationDescription: string;
+  /** The category of the application. */
+  category: Category;
+  /** Commercial name of the application. */
+  commercialName: string;
+  /** Privacy rights request email address. */
+  privacyRightsRequestEmailAddress: string;
+  /** URL for the organization's privacy policy. */
+  privacyPolicyUrl: string;
+}
+
+export function applicationPropertiesSerializer(item: ApplicationProperties): any {
+  return {
+    name: item["name"],
+    applicationDescription: item["applicationDescription"],
+    category: item["category"],
+    commercialName: item["commercialName"],
+    privacyRightsRequestEmailAddress: item["privacyRightsRequestEmailAddress"],
+    privacyPolicyUrl: item["privacyPolicyUrl"],
+  };
+}
+
+export function applicationPropertiesDeserializer(item: any): ApplicationProperties {
+  return {
+    name: item["name"],
+    applicationDescription: item["applicationDescription"],
+    category: item["category"],
+    commercialName: item["commercialName"],
+    privacyRightsRequestEmailAddress: item["privacyRightsRequestEmailAddress"],
+    privacyPolicyUrl: item["privacyPolicyUrl"],
+  };
+}
+
+/** Valid values for category based on https://www.tmforum.org/oda/open-apis/directory/open-gateway-onboarding-and-ordering-component-suite-TMF931 */
+export enum KnownCategory {
+  Agriculture = "Agriculture",
+  ArtAndDesign = "Art and design",
+  AutoAndVehicle = "Auto and vehicle",
+  Beauty = "Beauty",
+  BooksAndReference = "Books and reference",
+  Business = "Business",
+  Construction = "Construction",
+  Defense = "Defense",
+  DeveloperTools = "Developer tools",
+  Education = "Education",
+  Engineering = "Engineering",
+  EventsAndEntertainment = "Events and entertainment",
+  Finance = "Finance",
+  FoodAndDrink = "Food and drink",
+  Games = "Games",
+  HealthAndFitness = "Health and fitness",
+  Healthcare = "Healthcare",
+  Information = "Information",
+  Kids = "Kids",
+  LibrariesAndDemo = "Libraries and demo",
+  Lifestyle = "Lifestyle",
+  Manufacturing = "Manufacturing",
+  MapsAndNavigation = "Maps and navigation",
+  Media = "Media",
+  Medical = "Medical",
+  Mining = "Mining",
+  MusicAndAudio = "Music and audio",
+  NewsAndMagazines = "News and magazines",
+  Organizations = "Organizations",
+  Other = "Other",
+  PhotoAndVideo = "Photo and video",
+  Productivity = "Productivity",
+  PublicService = "Public service",
+  RealEstate = "Real estate",
+  Shopping = "Shopping",
+  SocialNetworkingAndCommunications = "Social networking and communications",
+  Sports = "Sports",
+  Tourism = "Tourism",
+  Utilities = "Utilities",
+  Trading = "Trading",
+  Transportation = "Transportation",
+  TravelAndLocal = "Travel and local",
+  Water = "Water",
+  Weather = "Weather",
+}
+
+/**
+ * Valid values for category based on https://www.tmforum.org/oda/open-apis/directory/open-gateway-onboarding-and-ordering-component-suite-TMF931 \
+ * {@link KnownCategory} can be used interchangeably with Category,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Agriculture** \
+ * **Art and design** \
+ * **Auto and vehicle** \
+ * **Beauty** \
+ * **Books and reference** \
+ * **Business** \
+ * **Construction** \
+ * **Defense** \
+ * **Developer tools** \
+ * **Education** \
+ * **Engineering** \
+ * **Events and entertainment** \
+ * **Finance** \
+ * **Food and drink** \
+ * **Games** \
+ * **Health and fitness** \
+ * **Healthcare** \
+ * **Information** \
+ * **Kids** \
+ * **Libraries and demo** \
+ * **Lifestyle** \
+ * **Manufacturing** \
+ * **Maps and navigation** \
+ * **Media** \
+ * **Medical** \
+ * **Mining** \
+ * **Music and audio** \
+ * **News and magazines** \
+ * **Organizations** \
+ * **Other** \
+ * **Photo and video** \
+ * **Productivity** \
+ * **Public service** \
+ * **Real estate** \
+ * **Shopping** \
+ * **Social networking and communications** \
+ * **Sports** \
+ * **Tourism** \
+ * **Utilities** \
+ * **Trading** \
+ * **Transportation** \
+ * **Travel and local** \
+ * **Water** \
+ * **Weather**
+ */
+export type Category = string;
+
+/** Details about the Application Owner (i.e. organization) that would use the Operator's Network APIs. */
+export interface ApplicationOwnerProperties {
+  /** Common name of the organization owning the application. */
+  name: string;
+  /** Legal name of the organization owning the application. */
+  legalName: string;
+  /** Trading name of the organization owning the application. */
+  tradingName: string;
+  /** A description of the organization owning the application. */
+  organizationDescription: string;
+  /** Unique Tax Number for the user's organization in the country/region the APC Gateway is being purchased. */
+  taxNumber: string;
+  /** The type of organization that the Application Owner is. */
+  organizationType: OrganizationType;
+  /** ID number for official identification of the organization. */
+  organizationIdentificationId: string;
+  /** Issuing organization of the ID for official identification of the organization. */
+  organizationIdentificationIssuer: string;
+  /** Type of official identification of the organization. */
+  organizationIdentificationType: string;
+  /** Email address for the person responsible for the use of Network APIs in this application. */
+  contactEmailAddress: string;
+  /** Legal representative of the organization. */
+  legalRepresentative: Person;
+  /** Privacy manager of the organization. */
+  privacyManager: Person;
+  /** Data Protection Officer of the organization. */
+  dataProtectionOfficer: Person;
+  /** Registered Geographic address. */
+  registeredGeographicAddress: GeographicAddress;
+  /** URL for the organization's privacy policy. */
+  privacyPolicyUrl: string;
+  /** List of local representatives. */
+  localRepresentatives: LocalRepresentative[];
+}
+
+export function applicationOwnerPropertiesSerializer(item: ApplicationOwnerProperties): any {
+  return {
+    name: item["name"],
+    legalName: item["legalName"],
+    tradingName: item["tradingName"],
+    organizationDescription: item["organizationDescription"],
+    taxNumber: item["taxNumber"],
+    organizationType: item["organizationType"],
+    organizationIdentificationId: item["organizationIdentificationId"],
+    organizationIdentificationIssuer: item["organizationIdentificationIssuer"],
+    organizationIdentificationType: item["organizationIdentificationType"],
+    contactEmailAddress: item["contactEmailAddress"],
+    legalRepresentative: personSerializer(item["legalRepresentative"]),
+    privacyManager: personSerializer(item["privacyManager"]),
+    dataProtectionOfficer: personSerializer(item["dataProtectionOfficer"]),
+    registeredGeographicAddress: geographicAddressSerializer(item["registeredGeographicAddress"]),
+    privacyPolicyUrl: item["privacyPolicyUrl"],
+    localRepresentatives: localRepresentativeArraySerializer(item["localRepresentatives"]),
+  };
+}
+
+export function applicationOwnerPropertiesDeserializer(item: any): ApplicationOwnerProperties {
+  return {
+    name: item["name"],
+    legalName: item["legalName"],
+    tradingName: item["tradingName"],
+    organizationDescription: item["organizationDescription"],
+    taxNumber: item["taxNumber"],
+    organizationType: item["organizationType"],
+    organizationIdentificationId: item["organizationIdentificationId"],
+    organizationIdentificationIssuer: item["organizationIdentificationIssuer"],
+    organizationIdentificationType: item["organizationIdentificationType"],
+    contactEmailAddress: item["contactEmailAddress"],
+    legalRepresentative: personDeserializer(item["legalRepresentative"]),
+    privacyManager: personDeserializer(item["privacyManager"]),
+    dataProtectionOfficer: personDeserializer(item["dataProtectionOfficer"]),
+    registeredGeographicAddress: geographicAddressDeserializer(item["registeredGeographicAddress"]),
+    privacyPolicyUrl: item["privacyPolicyUrl"],
+    localRepresentatives: localRepresentativeArrayDeserializer(item["localRepresentatives"]),
+  };
+}
+
+/** Valid values for the Organization Type based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownOrganizationType {
+  AcademicScientificOrganization = "Academic scientific organization",
+  ForProfitOrganization = "For profit organization",
+  GovernmentalOrganization = "Governmental organization",
+  IndustryConsortium = "Industry consortium",
+  InternationalOrganization = "International organization",
+  NonGovernmentalOrganization = "Non-governmental organization",
+  NonProfitOrganization = "Non-profit organization",
+  OrganizationalUnit = "Organizational unit",
+}
+
+/**
+ * Valid values for the Organization Type based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownOrganizationType} can be used interchangeably with OrganizationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Academic scientific organization** \
+ * **For profit organization** \
+ * **Governmental organization** \
+ * **Industry consortium** \
+ * **International organization** \
+ * **Non-governmental organization** \
+ * **Non-profit organization** \
+ * **Organizational unit**
+ */
+export type OrganizationType = string;
+
+/** Model defining a contactable person. */
+export interface Person {
+  /** Family name of the contactable person. */
+  familyName: string;
+  /** Given name of the contactable person. */
+  givenName: string;
+  /** Email address of the contactable person. */
+  emailAddress: string;
+}
+
+export function personSerializer(item: Person): any {
+  return {
+    familyName: item["familyName"],
+    givenName: item["givenName"],
+    emailAddress: item["emailAddress"],
+  };
+}
+
+export function personDeserializer(item: any): Person {
+  return {
+    familyName: item["familyName"],
+    givenName: item["givenName"],
+    emailAddress: item["emailAddress"],
+  };
+}
+
+/** Model defining a geographic address. */
+export interface GeographicAddress {
+  /** Street Number of the address. */
+  streetNumber?: string;
+  /** Street Name of the address. */
+  streetName?: string;
+  /** Locality of the address. */
+  locality?: string;
+  /** City of the address. */
+  city?: string;
+  /** State or province of the address. */
+  stateOrProvince?: string;
+  /** Postal code of the address. */
+  postalCode?: string;
+  /** Country code of the address. */
+  countryCode: string;
+}
+
+export function geographicAddressSerializer(item: GeographicAddress): any {
+  return {
+    streetNumber: item["streetNumber"],
+    streetName: item["streetName"],
+    locality: item["locality"],
+    city: item["city"],
+    stateOrProvince: item["stateOrProvince"],
+    postalCode: item["postalCode"],
+    countryCode: item["countryCode"],
+  };
+}
+
+export function geographicAddressDeserializer(item: any): GeographicAddress {
+  return {
+    streetNumber: item["streetNumber"],
+    streetName: item["streetName"],
+    locality: item["locality"],
+    city: item["city"],
+    stateOrProvince: item["stateOrProvince"],
+    postalCode: item["postalCode"],
+    countryCode: item["countryCode"],
+  };
+}
+
+export function localRepresentativeArraySerializer(result: Array<LocalRepresentative>): any[] {
+  return result.map((item) => {
+    return localRepresentativeSerializer(item);
+  });
+}
+
+export function localRepresentativeArrayDeserializer(result: Array<LocalRepresentative>): any[] {
+  return result.map((item) => {
+    return localRepresentativeDeserializer(item);
+  });
+}
+
+/** Model defining a local representative for a country/region. */
+export interface LocalRepresentative {
+  /** Country code for the country/region the local representative is representing. */
+  countryCode: string;
+  /** Local representative for this country/region. */
+  representative: Person;
+}
+
+export function localRepresentativeSerializer(item: LocalRepresentative): any {
+  return {
+    countryCode: item["countryCode"],
+    representative: personSerializer(item["representative"]),
+  };
+}
+
+export function localRepresentativeDeserializer(item: any): LocalRepresentative {
+  return {
+    countryCode: item["countryCode"],
+    representative: personDeserializer(item["representative"]),
+  };
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -444,18 +803,8 @@ export function operatorApiConnectionDeserializer(item: any): OperatorApiConnect
 export interface OperatorApiConnectionProperties {
   /** Reference to the Operator API Plan Resource ID. */
   operatorApiPlanId: string;
-  /** Details about the SaaS offer purchased from the marketplace. */
-  saasProperties?: SaasProperties;
-  /** Details about the Application that would use the Operator's Network APIs. */
-  configuredApplication?: ApplicationProperties;
-  /** Application ID of the App Developer that is registered with the Operator in a specific country/region. */
-  appId?: string;
   /** Reference to the APC Gateway resource ID. */
   gatewayId: string;
-  /** Type of the account the user has with the Operator's Network API infrastructure. AzureManaged | UserManaged. */
-  accountType: AccountType;
-  /** Application secret linked to the 'appId'. This should be stored securely and is not returned back when the resource information is read. */
-  appSecret?: string;
   /** Name of the Operator in the linked Operator API Plan belongs to. */
   readonly operatorName?: string;
   /** The Network API for the current operator in the country/region provided in the linked Operator API Plan. */
@@ -464,6 +813,22 @@ export interface OperatorApiConnectionProperties {
   readonly provisioningState?: ProvisioningState;
   /** The status of the OperatorApiConnection resource. */
   readonly status?: Status;
+  /**
+   * Whether the caller has accepted the Terms and Conditions of the associated Operator API Plan.
+   * After creation, the planTermsAndConditionsLink property is set to the Terms and Conditions that
+   * have been accepted.
+   *
+   * Must be set to True, as the Terms and Conditions must be accepted.
+   */
+  planTermsAndConditionsAccepted: boolean;
+  /** Links to the Terms and Conditions of the Operator API Plan that were accepted on creation. */
+  readonly planTermsAndConditionsLinks?: string[];
+  /** The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple. */
+  purposes: Purpose[];
+  /** Explanation of the reason that justifies the purpose: specifically why is the API used for the application's use case. */
+  purposeReason: string;
+  /** List of ways the data returned on this API is processed. */
+  dataProcessingList: DataProcessing[];
 }
 
 export function operatorApiConnectionPropertiesSerializer(
@@ -471,16 +836,13 @@ export function operatorApiConnectionPropertiesSerializer(
 ): any {
   return {
     operatorApiPlanId: item["operatorApiPlanId"],
-    saasProperties: !item["saasProperties"]
-      ? item["saasProperties"]
-      : saasPropertiesSerializer(item["saasProperties"]),
-    configuredApplication: !item["configuredApplication"]
-      ? item["configuredApplication"]
-      : applicationPropertiesSerializer(item["configuredApplication"]),
-    appId: item["appId"],
     gatewayId: item["gatewayId"],
-    accountType: item["accountType"],
-    appSecret: item["appSecret"],
+    planTermsAndConditionsAccepted: item["planTermsAndConditionsAccepted"],
+    purposes: item["purposes"].map((p: any) => {
+      return p;
+    }),
+    purposeReason: item["purposeReason"],
+    dataProcessingList: dataProcessingArraySerializer(item["dataProcessingList"]),
   };
 }
 
@@ -489,104 +851,24 @@ export function operatorApiConnectionPropertiesDeserializer(
 ): OperatorApiConnectionProperties {
   return {
     operatorApiPlanId: item["operatorApiPlanId"],
-    saasProperties: !item["saasProperties"]
-      ? item["saasProperties"]
-      : saasPropertiesDeserializer(item["saasProperties"]),
-    configuredApplication: !item["configuredApplication"]
-      ? item["configuredApplication"]
-      : applicationPropertiesDeserializer(item["configuredApplication"]),
-    appId: item["appId"],
     gatewayId: item["gatewayId"],
-    accountType: item["accountType"],
-    appSecret: item["appSecret"],
     operatorName: item["operatorName"],
     camaraApiName: item["camaraApiName"],
     provisioningState: item["provisioningState"],
     status: !item["status"] ? item["status"] : statusDeserializer(item["status"]),
+    planTermsAndConditionsAccepted: item["planTermsAndConditionsAccepted"],
+    planTermsAndConditionsLinks: !item["planTermsAndConditionsLinks"]
+      ? item["planTermsAndConditionsLinks"]
+      : item["planTermsAndConditionsLinks"].map((p: any) => {
+          return p;
+        }),
+    purposes: item["purposes"].map((p: any) => {
+      return p;
+    }),
+    purposeReason: item["purposeReason"],
+    dataProcessingList: dataProcessingArrayDeserializer(item["dataProcessingList"]),
   };
 }
-
-/** Details about the SaaS offer purchased from the marketplace. */
-export interface SaasProperties {
-  /** Subscription ID of the SaaS offer purchased from the marketplace. */
-  saasSubscriptionId?: string;
-  /** Resource ID of the SaaS offer purchased from the marketplace. */
-  saasResourceId?: string;
-}
-
-export function saasPropertiesSerializer(item: SaasProperties): any {
-  return {
-    saasSubscriptionId: item["saasSubscriptionId"],
-    saasResourceId: item["saasResourceId"],
-  };
-}
-
-export function saasPropertiesDeserializer(item: any): SaasProperties {
-  return {
-    saasSubscriptionId: item["saasSubscriptionId"],
-    saasResourceId: item["saasResourceId"],
-  };
-}
-
-/** Details about the Application that would use the Operator's Network APIs. */
-export interface ApplicationProperties {
-  /** Name of the application. Example: Contoso App. */
-  name?: string;
-  /** Description of the application. */
-  applicationDescription?: string;
-  /** The category that describes the application. */
-  applicationType?: string;
-  /** Legal name of the organization owning the application. */
-  legalName?: string;
-  /** A description of the organization owning the application. */
-  organizationDescription?: string;
-  /** Unique Tax Number for the user's organization in the country/region the APC Gateway is being purchased. */
-  taxNumber?: string;
-  /** Email address of the Privacy contact or Data Protection officer of the organization. */
-  privacyContactEmailAddress?: string;
-}
-
-export function applicationPropertiesSerializer(item: ApplicationProperties): any {
-  return {
-    name: item["name"],
-    applicationDescription: item["applicationDescription"],
-    applicationType: item["applicationType"],
-    legalName: item["legalName"],
-    organizationDescription: item["organizationDescription"],
-    taxNumber: item["taxNumber"],
-    privacyContactEmailAddress: item["privacyContactEmailAddress"],
-  };
-}
-
-export function applicationPropertiesDeserializer(item: any): ApplicationProperties {
-  return {
-    name: item["name"],
-    applicationDescription: item["applicationDescription"],
-    applicationType: item["applicationType"],
-    legalName: item["legalName"],
-    organizationDescription: item["organizationDescription"],
-    taxNumber: item["taxNumber"],
-    privacyContactEmailAddress: item["privacyContactEmailAddress"],
-  };
-}
-
-/** The Account Type of the Operator API Connections. */
-export enum KnownAccountType {
-  /** Managed by Azure on-behalf-of the user. */
-  AzureManaged = "AzureManaged",
-  /** Managed by the User themselves on the Operator end. */
-  UserManaged = "UserManaged",
-}
-
-/**
- * The Account Type of the Operator API Connections. \
- * {@link KnownAccountType} can be used interchangeably with AccountType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureManaged**: Managed by Azure on-behalf-of the user. \
- * **UserManaged**: Managed by the User themselves on the Operator end.
- */
-export type AccountType = string;
 
 /** Description of the current status of the OperatorApiConnection resource. */
 export interface Status {
@@ -600,6 +882,694 @@ export function statusDeserializer(item: any): Status {
   return {
     state: item["state"],
     reason: item["reason"],
+  };
+}
+
+/** Valid values for the purpose based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownPurpose {
+  AcademicResearch = "Academic Research",
+  AccountManagement = "Account Management",
+  Advertising = "Advertising",
+  AgeVerification = "Age Verification",
+  CombatClimateChange = "Combat Climate Change",
+  CommercialPurpose = "Commercial Purpose",
+  CommercialResearch = "Commercial Research",
+  CommunicationForCustomerCare = "Communication For Customer Care",
+  CommunicationManagement = "Communication Management",
+  CounterMoneyLaundering = "Counter Money Laundering",
+  Counterterrorism = "Counter-terrorism",
+  CreditChecking = "Credit Checking",
+  CustomerCare = "Customer Care",
+  CustomerClaimsManagement = "Customer Claims Management",
+  CustomerManagement = "Customer Management",
+  CustomerOrderManagement = "Customer Order Management",
+  CustomerRelationshipManagement = "Customer Relationship Management",
+  CustomerSolvencyMonitoring = "Customer Solvency Monitoring",
+  DataAltruism = "Data Altruism",
+  DeliveryOfGoods = "Delivery Of Goods",
+  DirectMarketing = "Direct Marketing",
+  DisputeManagement = "Dispute Management",
+  EnforceAccessControl = "Enforce Access Control",
+  EnforceSecurity = "Enforce Security",
+  EstablishContractualAgreement = "Establish Contractual Agreement",
+  FraudPreventionAndDetection = "Fraud Prevention And Detection",
+  FulfillmentOfContractualObligation = "Fulfillment Of Contractual Obligation",
+  FulfillmentOfObligation = "Fulfillment Of Obligation",
+  HumanResourceManagement = "Human Resource Management",
+  IdentityAuthentication = "Identity Authentication",
+  IdentityVerification = "Identity Verification",
+  ImproveExistingProductsAndServices = "Improve Existing Products And Services",
+  ImproveHealthcare = "Improve Healthcare",
+  ImproveInternalCRMProcesses = "Improve Internal CRM Processes",
+  ImprovePublicServices = "Improve Public Services",
+  ImproveTransportMobility = "Improve Transport Mobility",
+  IncreaseServiceRobustness = "Increase Service Robustness",
+  InternalResourceOptimization = "Internal Resource Optimization",
+  LegalCompliance = "Legal Compliance",
+  MaintainCreditCheckingDatabase = "Maintain Credit Checking Database",
+  MaintainCreditRatingDatabase = "Maintain Credit Rating Database",
+  MaintainFraudDatabase = "Maintain Fraud Database",
+  Marketing = "Marketing",
+  MemberPartnerManagement = "Member Partner Management",
+  MisusePreventionAndDetection = "Misuse Prevention And Detection",
+  NonCommercialPurpose = "Non Commercial Purpose",
+  NonCommercialResearch = "Non Commercial Research",
+  OptimizationForConsumer = "Optimization For Consumer",
+  OptimizationForController = "Optimization For Controller",
+  OptimizeUserInterface = "Optimize User Interface",
+  OrganizationComplianceManagement = "Organization Compliance Management",
+  OrganizationGovernance = "Organization Governance",
+  OrganizationRiskManagement = "Organization Risk Management",
+  PaymentManagement = "Payment Management",
+  Personalization = "Personalization",
+  PersonalizedAdvertising = "Personalized Advertising",
+  PersonalizedBenefits = "Personalized Benefits",
+  PersonnelHiring = "Personnel Hiring",
+  PersonnelManagement = "Personnel Management",
+  PersonnelPayment = "Personnel Payment",
+  ProtectionOfIPR = "Protection Of IPR",
+  ProtectionOfNationalSecurity = "Protection Of National Security",
+  ProtectionOfPublicSecurity = "Protection Of Public Security",
+  ProvideEventRecommendations = "Provide Event Recommendations",
+  ProvideOfficialStatistics = "Provide Official Statistics",
+  ProvidePersonalizedRecommendations = "Provide Personalized Recommendations",
+  ProvideProductRecommendations = "Provide Product Recommendations",
+  PublicBenefit = "Public Benefit",
+  PublicPolicyMaking = "Public Policy Making",
+  PublicRelations = "Public Relations",
+  RecordManagement = "Record Management",
+  RepairImpairments = "Repair Impairments",
+  RequestedServiceProvision = "Requested Service Provision",
+  ResearchAndDevelopment = "Research And Development",
+  RightsFulfillment = "Rights Fulfillment",
+  ScientificResearch = "Scientific Research",
+  SearchFunctionalities = "Search Functionalities",
+  SellDataToThirdParties = "Sell Data To Third Parties",
+  SellInsightsFromData = "Sell Insights From Data",
+  SellProducts = "Sell Products",
+  SellProductsToDataSubject = "Sell Products To Data Subject",
+  Serviceoptimization = "Service Optimization",
+  ServicePersonalization = "Service Personalization",
+  ServiceProvision = "Service Provision",
+  ServiceRegistration = "Service Registration",
+  ServiceUsageAnalytics = "Service Usage Analytics",
+  SocialMediaMarketing = "Social Media Marketing",
+  TargetedAdvertising = "Targeted Advertising",
+  TechnicalServiceProvision = "Technical Service Provision",
+  UserInterfacePersonalization = "User Interface Personalization",
+  VendorManagement = "Vendor Management",
+  VendorPayment = "Vendor Payment",
+  VendorRecordsManagement = "Vendor Records Management",
+  VendorSelectionAssessment = "Vendor Selection Assessment",
+  Verification = "Verification",
+}
+
+/**
+ * Valid values for the purpose based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownPurpose} can be used interchangeably with Purpose,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Academic Research** \
+ * **Account Management** \
+ * **Advertising** \
+ * **Age Verification** \
+ * **Combat Climate Change** \
+ * **Commercial Purpose** \
+ * **Commercial Research** \
+ * **Communication For Customer Care** \
+ * **Communication Management** \
+ * **Counter Money Laundering** \
+ * **Counter-terrorism** \
+ * **Credit Checking** \
+ * **Customer Care** \
+ * **Customer Claims Management** \
+ * **Customer Management** \
+ * **Customer Order Management** \
+ * **Customer Relationship Management** \
+ * **Customer Solvency Monitoring** \
+ * **Data Altruism** \
+ * **Delivery Of Goods** \
+ * **Direct Marketing** \
+ * **Dispute Management** \
+ * **Enforce Access Control** \
+ * **Enforce Security** \
+ * **Establish Contractual Agreement** \
+ * **Fraud Prevention And Detection** \
+ * **Fulfillment Of Contractual Obligation** \
+ * **Fulfillment Of Obligation** \
+ * **Human Resource Management** \
+ * **Identity Authentication** \
+ * **Identity Verification** \
+ * **Improve Existing Products And Services** \
+ * **Improve Healthcare** \
+ * **Improve Internal CRM Processes** \
+ * **Improve Public Services** \
+ * **Improve Transport Mobility** \
+ * **Increase Service Robustness** \
+ * **Internal Resource Optimization** \
+ * **Legal Compliance** \
+ * **Maintain Credit Checking Database** \
+ * **Maintain Credit Rating Database** \
+ * **Maintain Fraud Database** \
+ * **Marketing** \
+ * **Member Partner Management** \
+ * **Misuse Prevention And Detection** \
+ * **Non Commercial Purpose** \
+ * **Non Commercial Research** \
+ * **Optimization For Consumer** \
+ * **Optimization For Controller** \
+ * **Optimize User Interface** \
+ * **Organization Compliance Management** \
+ * **Organization Governance** \
+ * **Organization Risk Management** \
+ * **Payment Management** \
+ * **Personalization** \
+ * **Personalized Advertising** \
+ * **Personalized Benefits** \
+ * **Personnel Hiring** \
+ * **Personnel Management** \
+ * **Personnel Payment** \
+ * **Protection Of IPR** \
+ * **Protection Of National Security** \
+ * **Protection Of Public Security** \
+ * **Provide Event Recommendations** \
+ * **Provide Official Statistics** \
+ * **Provide Personalized Recommendations** \
+ * **Provide Product Recommendations** \
+ * **Public Benefit** \
+ * **Public Policy Making** \
+ * **Public Relations** \
+ * **Record Management** \
+ * **Repair Impairments** \
+ * **Requested Service Provision** \
+ * **Research And Development** \
+ * **Rights Fulfillment** \
+ * **Scientific Research** \
+ * **Search Functionalities** \
+ * **Sell Data To Third Parties** \
+ * **Sell Insights From Data** \
+ * **Sell Products** \
+ * **Sell Products To Data Subject** \
+ * **Service Optimization** \
+ * **Service Personalization** \
+ * **Service Provision** \
+ * **Service Registration** \
+ * **Service Usage Analytics** \
+ * **Social Media Marketing** \
+ * **Targeted Advertising** \
+ * **Technical Service Provision** \
+ * **User Interface Personalization** \
+ * **Vendor Management** \
+ * **Vendor Payment** \
+ * **Vendor Records Management** \
+ * **Vendor Selection Assessment** \
+ * **Verification**
+ */
+export type Purpose = string;
+
+export function dataProcessingArraySerializer(result: Array<DataProcessing>): any[] {
+  return result.map((item) => {
+    return dataProcessingSerializer(item);
+  });
+}
+
+export function dataProcessingArrayDeserializer(result: Array<DataProcessing>): any[] {
+  return result.map((item) => {
+    return dataProcessingDeserializer(item);
+  });
+}
+
+/** Model defining how received data is processed. */
+export interface DataProcessing {
+  /** The operation that is performed on the data received. */
+  processingOperation: ProcessingOperation;
+  /** The contexts in which the data is processed. */
+  contexts: Context[];
+  /** The duration or temporal limitation of the data processing. */
+  duration: Duration;
+  /** The frequency of the data processing. */
+  frequency: Frequency;
+  /** The countries/regions the data transits through. */
+  transitRegions: DataRegions[];
+  /** The countries/regions the data is stored in. */
+  storageRegions: DataRegions[];
+}
+
+export function dataProcessingSerializer(item: DataProcessing): any {
+  return {
+    processingOperation: item["processingOperation"],
+    contexts: item["contexts"].map((p: any) => {
+      return p;
+    }),
+    duration: item["duration"],
+    frequency: item["frequency"],
+    transitRegions: dataRegionsArraySerializer(item["transitRegions"]),
+    storageRegions: dataRegionsArraySerializer(item["storageRegions"]),
+  };
+}
+
+export function dataProcessingDeserializer(item: any): DataProcessing {
+  return {
+    processingOperation: item["processingOperation"],
+    contexts: item["contexts"].map((p: any) => {
+      return p;
+    }),
+    duration: item["duration"],
+    frequency: item["frequency"],
+    transitRegions: dataRegionsArrayDeserializer(item["transitRegions"]),
+    storageRegions: dataRegionsArrayDeserializer(item["storageRegions"]),
+  };
+}
+
+/** Valid values for the processing operation based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownProcessingOperation {
+  Access = "Access",
+  Acquire = "Acquire",
+  Adapt = "Adapt",
+  Aggregate = "Aggregate",
+  Align = "Align",
+  Alter = "Alter",
+  Analyze = "Analyze",
+  Anonymize = "Anonymize",
+  Assess = "Assess",
+  Collect = "Collect",
+  Combine = "Combine",
+  Consult = "Consult",
+  Copy = "Copy",
+  CrossBorderTransfer = "Cross border transfer",
+  Delete = "Delete",
+  Derive = "Derive",
+  Destruct = "Destruct",
+  Disclose = "Disclose",
+  DiscloseByTransmission = "Disclose by transmission",
+  Display = "Display",
+  Disseminate = "Disseminate",
+  Download = "Download",
+  Erase = "Erase",
+  Export = "Export",
+  Filter = "Filter",
+  Format = "Format",
+  Generate = "Generate",
+  Infer = "Infer",
+  MakeAvailable = "Make available",
+  Match = "Match",
+  Modify = "Modify",
+  Monitor = "Monitor",
+  Move = "Move",
+  Observe = "Observe",
+  Obtain = "Obtain",
+  Organize = "Organize",
+  Profiling = "Profiling",
+  Pseudonymize = "Pseudonymize",
+  Query = "Query",
+  Record = "Record",
+  Reformat = "Reformat",
+  Remove = "Remove",
+  Restrict = "Restrict",
+  Retrieve = "Retrieve",
+  Screen = "Screen",
+  Share = "Share",
+  Store = "Store",
+  Structure = "Structure",
+  Transfer = "Transfer",
+  Transform = "Transform",
+  Transmit = "Transmit",
+  Use = "Use",
+}
+
+/**
+ * Valid values for the processing operation based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownProcessingOperation} can be used interchangeably with ProcessingOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Access** \
+ * **Acquire** \
+ * **Adapt** \
+ * **Aggregate** \
+ * **Align** \
+ * **Alter** \
+ * **Analyze** \
+ * **Anonymize** \
+ * **Assess** \
+ * **Collect** \
+ * **Combine** \
+ * **Consult** \
+ * **Copy** \
+ * **Cross border transfer** \
+ * **Delete** \
+ * **Derive** \
+ * **Destruct** \
+ * **Disclose** \
+ * **Disclose by transmission** \
+ * **Display** \
+ * **Disseminate** \
+ * **Download** \
+ * **Erase** \
+ * **Export** \
+ * **Filter** \
+ * **Format** \
+ * **Generate** \
+ * **Infer** \
+ * **Make available** \
+ * **Match** \
+ * **Modify** \
+ * **Monitor** \
+ * **Move** \
+ * **Observe** \
+ * **Obtain** \
+ * **Organize** \
+ * **Profiling** \
+ * **Pseudonymize** \
+ * **Query** \
+ * **Record** \
+ * **Reformat** \
+ * **Remove** \
+ * **Restrict** \
+ * **Retrieve** \
+ * **Screen** \
+ * **Share** \
+ * **Store** \
+ * **Structure** \
+ * **Transfer** \
+ * **Transform** \
+ * **Transmit** \
+ * **Use**
+ */
+export type ProcessingOperation = string;
+
+/** Valid values for the context based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownContext {
+  AlgorithmicLogic = "Algorithmic logic",
+  AssistiveAutomation = "Assistive automation",
+  AutomatedDecisionMaking = "Automated decision making",
+  AutomatedScoringOfIndividuals = "Automated scoring of individuals",
+  AutomationLevel = "Automation level",
+  Autonomous = "Autonomous",
+  CannotChallengeProcess = "Cannot challenge process",
+  CannotChallengeProcessInput = "Cannot challenge process input",
+  CannotChallengeProcessOutput = "Cannot challenge process output",
+  CannotCorrectProcess = "Cannot correct process",
+  CannotCorrectProcessInput = "Cannot correct process input",
+  CannotCorrectProcessOutput = "Cannot correct process output",
+  CannotObjectToProcess = "Cannot object to process",
+  CannotOptInToProcess = "Cannot opt in to process",
+  CannotOptOutFromProcess = "Cannot opt out from process",
+  CannotReverseProcessEffects = "Cannot reverse process effects",
+  CannotReverseProcessInput = "Cannot reverse process input",
+  CannotReverseProcessOutput = "Cannot reverse process output",
+  CannotWithdrawFromProcess = "Cannot withdraw from process",
+  ChallengingProcess = "Challenging process",
+  ChallengingProcessInput = "Challenging process input",
+  ChallengingProcessOutput = "Challenging process output",
+  ConditionalAutomation = "Conditional automation",
+  ConsentControl = "Consent control",
+  CorrectingProcess = "Correcting process",
+  CorrectingProcessInput = "Correcting process input",
+  CorrectingProcessOutput = "Correcting process output",
+  CompletelyManualProcessing = "Completely manual processing",
+  DataControllerDataSource = "Data controller data source",
+  DataPublishedByDataSubject = "Data published by data subject",
+  DataSource = "Data source",
+  DataSubject = "Data subject",
+  DataSubjectDataSource = "Data subject data source",
+  DataSubjectScale = "Data subject scale",
+  DataVolume = "Data volume",
+  DecisionMaking = "Decision making",
+  EntityActiveInvolvement = "Entity active involvement",
+  EntityInvolvement = "Entity involvement",
+  EntityNonInvolvement = "Entity non involvement",
+  EntityNonPermissiveInvolvement = "Entity non permissive involvement",
+  EntityPassiveInvolvement = "Entity passive involvement",
+  EntityPermissiveInvolvement = "Entity permissive involvement",
+  EvaluationOfIndividuals = "Evaluation of individuals",
+  EvaluationScoring = "Evaluation scoring",
+  FullAutomation = "Full automation",
+  GeographicCoverage = "Geographic coverage",
+  GlobalScale = "Global scale",
+  HighAutomation = "High automation",
+  HugeDataVolume = "Huge data volume",
+  HugeScaleOfDataSubjects = "Huge scale of data subjects",
+  HumanInvolved = "Human involved",
+  HumanInvolvement = "Human involvement",
+  HumanInvolvementForControl = "Human involvement for control",
+  HumanInvolvementForDecision = "Human involvement for decision",
+  HumanInvolvementForInput = "Human involvement for input",
+  HumanInvolvementForIntervention = "Human involvement for intervention",
+  HumanInvolvementForOversight = "Human involvement for oversight",
+  HumanInvolvementForVerification = "Human involvement for verification",
+  HumanNotInvolved = "Human not involved",
+  InnovativeUseOfExistingTechnology = "Innovative use of existing technology",
+  InnovativeUseOfNewTechnologies = "Innovative use of new technologies",
+  InnovativeUseOfTechnology = "Innovative use of technology",
+  LargeDataVolume = "Large data volume",
+  LargeScaleOfDataSubjects = "Large scale of data subjects",
+  LargeScaleProcessing = "Large scale processing",
+  LocalEnvironmentScale = "Local environment scale",
+  LocalityScale = "Locality scale",
+  MediumDataVolume = "Medium data volume",
+  MediumScaleOfDataSubjects = "Medium scale of data subjects",
+  MediumScaleProcessing = "Medium scale processing",
+  MultiNationalScale = "Multi national scale",
+  NationalScale = "National scale",
+  NearlyGlobalScale = "Nearly global scale",
+  NonPublicDataSource = "Non public data source",
+  NotAutomated = "Not automated",
+  ObjectingToProcess = "Objecting to process",
+  ObtainConsent = "Obtain consent",
+  OptingInToProcess = "Opting in to process",
+  OptingOutFromProcess = "Opting out from process",
+  PartialAutomation = "Partial automation",
+  ProcessingCondition = "Processing condition",
+  ProcessingDuration = "Processing duration",
+  ProcessingLocation = "Processing location",
+  ProcessingScale = "Processing scale",
+  ProvideConsent = "Provide consent",
+  PublicDataSource = "Public data source",
+  ReaffirmConsent = "Reaffirm consent",
+  RegionalScale = "Regional scale",
+  ReversingProcessEffects = "Reversing process effects",
+  ReversingProcessInput = "Reversing process input",
+  ReversingProcessOutput = "Reversing process output",
+  Scale = "Scale",
+  ScoringOfIndividuals = "Scoring of individuals",
+  SingularDataVolume = "Singular data volume",
+  SingularScaleOfDataSubjects = "Singular scale of data subjects",
+  SmallDataVolume = "Small data volume",
+  SmallScaleOfDataSubjects = "Small scale of data subjects",
+  SmallScaleProcessing = "Small scale processing",
+  SporadicDataVolume = "Sporadic data volume",
+  SporadicScaleOfDataSubjects = "Sporadic scale of data subjects",
+  StorageCondition = "Storage condition",
+  StorageDeletion = "Storage deletion",
+  StorageDuration = "Storage duration",
+  StorageLocation = "Storage location",
+  StorageRestoration = "Storage restoration",
+  SystematicMonitoring = "Systematic monitoring",
+  ThirdPartyDataSource = "Third party data source",
+  WithdrawConsent = "Withdraw consent",
+  WithdrawingFromProcess = "Withdrawing from process",
+}
+
+/**
+ * Valid values for the context based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownContext} can be used interchangeably with Context,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Algorithmic logic** \
+ * **Assistive automation** \
+ * **Automated decision making** \
+ * **Automated scoring of individuals** \
+ * **Automation level** \
+ * **Autonomous** \
+ * **Cannot challenge process** \
+ * **Cannot challenge process input** \
+ * **Cannot challenge process output** \
+ * **Cannot correct process** \
+ * **Cannot correct process input** \
+ * **Cannot correct process output** \
+ * **Cannot object to process** \
+ * **Cannot opt in to process** \
+ * **Cannot opt out from process** \
+ * **Cannot reverse process effects** \
+ * **Cannot reverse process input** \
+ * **Cannot reverse process output** \
+ * **Cannot withdraw from process** \
+ * **Challenging process** \
+ * **Challenging process input** \
+ * **Challenging process output** \
+ * **Conditional automation** \
+ * **Consent control** \
+ * **Correcting process** \
+ * **Correcting process input** \
+ * **Correcting process output** \
+ * **Completely manual processing** \
+ * **Data controller data source** \
+ * **Data published by data subject** \
+ * **Data source** \
+ * **Data subject** \
+ * **Data subject data source** \
+ * **Data subject scale** \
+ * **Data volume** \
+ * **Decision making** \
+ * **Entity active involvement** \
+ * **Entity involvement** \
+ * **Entity non involvement** \
+ * **Entity non permissive involvement** \
+ * **Entity passive involvement** \
+ * **Entity permissive involvement** \
+ * **Evaluation of individuals** \
+ * **Evaluation scoring** \
+ * **Full automation** \
+ * **Geographic coverage** \
+ * **Global scale** \
+ * **High automation** \
+ * **Huge data volume** \
+ * **Huge scale of data subjects** \
+ * **Human involved** \
+ * **Human involvement** \
+ * **Human involvement for control** \
+ * **Human involvement for decision** \
+ * **Human involvement for input** \
+ * **Human involvement for intervention** \
+ * **Human involvement for oversight** \
+ * **Human involvement for verification** \
+ * **Human not involved** \
+ * **Innovative use of existing technology** \
+ * **Innovative use of new technologies** \
+ * **Innovative use of technology** \
+ * **Large data volume** \
+ * **Large scale of data subjects** \
+ * **Large scale processing** \
+ * **Local environment scale** \
+ * **Locality scale** \
+ * **Medium data volume** \
+ * **Medium scale of data subjects** \
+ * **Medium scale processing** \
+ * **Multi national scale** \
+ * **National scale** \
+ * **Nearly global scale** \
+ * **Non public data source** \
+ * **Not automated** \
+ * **Objecting to process** \
+ * **Obtain consent** \
+ * **Opting in to process** \
+ * **Opting out from process** \
+ * **Partial automation** \
+ * **Processing condition** \
+ * **Processing duration** \
+ * **Processing location** \
+ * **Processing scale** \
+ * **Provide consent** \
+ * **Public data source** \
+ * **Reaffirm consent** \
+ * **Regional scale** \
+ * **Reversing process effects** \
+ * **Reversing process input** \
+ * **Reversing process output** \
+ * **Scale** \
+ * **Scoring of individuals** \
+ * **Singular data volume** \
+ * **Singular scale of data subjects** \
+ * **Small data volume** \
+ * **Small scale of data subjects** \
+ * **Small scale processing** \
+ * **Sporadic data volume** \
+ * **Sporadic scale of data subjects** \
+ * **Storage condition** \
+ * **Storage deletion** \
+ * **Storage duration** \
+ * **Storage location** \
+ * **Storage restoration** \
+ * **Systematic monitoring** \
+ * **Third party data source** \
+ * **Withdraw consent** \
+ * **Withdrawing from process**
+ */
+export type Context = string;
+
+/** Valid values for the duration based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownDuration {
+  EndlessDuration = "Endless",
+  FixedOccurrencesDuration = "Fixed occurrences",
+  IndeterminateDuration = "Indeterminate",
+  TemporalDuration = "Temporal",
+  UntilEventDuration = "Until event",
+  UntilTimeDuration = "Until time",
+}
+
+/**
+ * Valid values for the duration based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownDuration} can be used interchangeably with Duration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Endless** \
+ * **Fixed occurrences** \
+ * **Indeterminate** \
+ * **Temporal** \
+ * **Until event** \
+ * **Until time**
+ */
+export type Duration = string;
+
+/** Valid values for the frequency based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. */
+export enum KnownFrequency {
+  ContinuousFrequency = "Continuous",
+  OftenFrequency = "Often",
+  SingularFrequency = "Singular",
+  SporadicFrequency = "Sporadic",
+}
+
+/**
+ * Valid values for the frequency based on W3C Data Privacy Vocabulary v2 https://w3c.github.io/dpv/2.0/dpv/. \
+ * {@link KnownFrequency} can be used interchangeably with Frequency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Continuous** \
+ * **Often** \
+ * **Singular** \
+ * **Sporadic**
+ */
+export type Frequency = string;
+
+export function dataRegionsArraySerializer(result: Array<DataRegions>): any[] {
+  return result.map((item) => {
+    return dataRegionsSerializer(item);
+  });
+}
+
+export function dataRegionsArrayDeserializer(result: Array<DataRegions>): any[] {
+  return result.map((item) => {
+    return dataRegionsDeserializer(item);
+  });
+}
+
+/** Model defining the information required about the countries/regions the data transits through or is stored in. */
+export interface DataRegions {
+  /** The country code of the country/region the data transits through or is stored in. */
+  countryCode: string;
+  /** The commercial organization who is managing the data. */
+  commercialOrganization?: string;
+  /** Flag to indicate if commercial activity applies to this data management. */
+  commercialActivity: boolean;
+  /** URL of the organization or governmental data privacy framework. */
+  dataPrivacyFrameworkUrl: string;
+}
+
+export function dataRegionsSerializer(item: DataRegions): any {
+  return {
+    countryCode: item["countryCode"],
+    commercialOrganization: item["commercialOrganization"],
+    commercialActivity: item["commercialActivity"],
+    dataPrivacyFrameworkUrl: item["dataPrivacyFrameworkUrl"],
+  };
+}
+
+export function dataRegionsDeserializer(item: any): DataRegions {
+  return {
+    countryCode: item["countryCode"],
+    commercialOrganization: item["commercialOrganization"],
+    commercialActivity: item["commercialActivity"],
+    dataPrivacyFrameworkUrl: item["dataPrivacyFrameworkUrl"],
   };
 }
 
@@ -624,14 +1594,20 @@ export function operatorApiConnectionUpdateSerializer(item: OperatorApiConnectio
 export interface OperatorApiConnectionUpdateProperties {
   /** Reference to the Operator API Plan Resource ID. */
   operatorApiPlanId?: string;
-  /** Details about the SaaS offer purchased from the marketplace. */
-  saasProperties?: SaasProperties;
-  /** Details about the Application that would use the Operator's Network APIs. */
-  configuredApplication?: ApplicationProperties;
-  /** Application ID of the App Developer that is registered with the Operator in a specific country/region. */
-  appId?: string;
-  /** Application secret linked to the 'appId'. This should be stored securely and is not returned back when the resource information is read. */
-  appSecret?: string;
+  /**
+   * Whether the caller has accepted the Terms and Conditions of the associated Operator API Plan.
+   * After creation, the planTermsAndConditionsLink property is set to the Terms and Conditions that
+   * have been accepted.
+   *
+   * Must be set to True, as the Terms and Conditions must be accepted.
+   */
+  planTermsAndConditionsAccepted?: boolean;
+  /** The purpose for which the Application will use the API. Max Items 1 currently as Operators do not support multiple. */
+  purposes?: Purpose[];
+  /** Explanation of the reason that justifies the purpose: specifically why is the API used for the application's use case. */
+  purposeReason?: string;
+  /** List of ways the data returned on this API is processed. */
+  dataProcessingList?: DataProcessing[];
 }
 
 export function operatorApiConnectionUpdatePropertiesSerializer(
@@ -639,14 +1615,16 @@ export function operatorApiConnectionUpdatePropertiesSerializer(
 ): any {
   return {
     operatorApiPlanId: item["operatorApiPlanId"],
-    saasProperties: !item["saasProperties"]
-      ? item["saasProperties"]
-      : saasPropertiesSerializer(item["saasProperties"]),
-    configuredApplication: !item["configuredApplication"]
-      ? item["configuredApplication"]
-      : applicationPropertiesSerializer(item["configuredApplication"]),
-    appId: item["appId"],
-    appSecret: item["appSecret"],
+    planTermsAndConditionsAccepted: item["planTermsAndConditionsAccepted"],
+    purposes: !item["purposes"]
+      ? item["purposes"]
+      : item["purposes"].map((p: any) => {
+          return p;
+        }),
+    purposeReason: item["purposeReason"],
+    dataProcessingList: !item["dataProcessingList"]
+      ? item["dataProcessingList"]
+      : dataProcessingArraySerializer(item["dataProcessingList"]),
   };
 }
 
@@ -752,23 +1730,25 @@ export function operatorApiPlanPropertiesDeserializer(item: any): OperatorApiPla
 export interface MarketplaceProperties {
   /** Azure marketplace Offer ID for this plan. */
   offerId?: string;
-  /** Azure marketplace Legacy Offer ID for this plan. This is used to fetch the details of the plan from the Azure marketplace. */
-  legacyOfferId?: string;
   /** Azure marketplace Publisher ID for this plan. */
   publisherId?: string;
   /** Azure marketplace Plan ID for this plan. */
   planId?: string;
-  /** Azure marketplace Term ID for this plan. */
-  termId?: string;
+  /**
+   * Links to the Terms and Conditions of the Plan that must be accepted to create an
+   * associated Operator Api Connection
+   */
+  readonly planTermsAndConditionsLinks: string[];
 }
 
 export function marketplacePropertiesDeserializer(item: any): MarketplaceProperties {
   return {
     offerId: item["offerId"],
-    legacyOfferId: item["legacyOfferId"],
     publisherId: item["publisherId"],
     planId: item["planId"],
-    termId: item["termId"],
+    planTermsAndConditionsLinks: item["planTermsAndConditionsLinks"].map((p: any) => {
+      return p;
+    }),
   };
 }
 
@@ -811,4 +1791,6 @@ export function operatorApiPlanArrayDeserializer(result: Array<OperatorApiPlan>)
 export enum KnownVersions {
   /** The 2024-01-15-preview API version. */
   V20240115Preview = "2024-01-15-preview",
+  /** The 2025-03-30-preview API version. */
+  V20250330Preview = "2025-03-30-preview",
 }

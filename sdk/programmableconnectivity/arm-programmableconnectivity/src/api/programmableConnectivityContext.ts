@@ -44,7 +44,7 @@ export function createProgrammableConnectivity(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-01-15-preview";
+  const apiVersion = options.apiVersion ?? "2025-03-30-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
