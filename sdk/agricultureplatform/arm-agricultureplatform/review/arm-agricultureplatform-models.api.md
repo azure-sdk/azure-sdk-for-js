@@ -156,7 +156,8 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     Provisioning = "Provisioning",
     Succeeded = "Succeeded",
-    Updating = "Updating"
+    Updating = "Updating",
+    VAlidationFailed = "Validation Failed"
 }
 
 // @public
