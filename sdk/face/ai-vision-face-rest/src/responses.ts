@@ -25,6 +25,7 @@ import type {
   LargePersonGroupPersonFaceOutput,
   LivenessSessionOutput,
   LivenessWithVerifySessionOutput,
+  SettingLivenessAbuseMonitoringOutput,
 } from "./outputModels.js";
 
 /** A successful call returns an array of face entries ranked by face rectangle size in descending order. An empty response indicates no faces detected. */
@@ -1343,4 +1344,38 @@ export interface GetSessionImageDefaultResponse extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetSessionImageDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetSettingLivenessAbuseMonitoring200Response extends HttpResponse {
+  status: "200";
+  body: SettingLivenessAbuseMonitoringOutput;
+}
+
+export interface GetSettingLivenessAbuseMonitoringDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetSettingLivenessAbuseMonitoringDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetSettingLivenessAbuseMonitoringDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface PatchSettingLivenessAbuseMonitoring200Response extends HttpResponse {
+  status: "200";
+  body: SettingLivenessAbuseMonitoringOutput;
+}
+
+export interface PatchSettingLivenessAbuseMonitoringDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface PatchSettingLivenessAbuseMonitoringDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & PatchSettingLivenessAbuseMonitoringDefaultHeaders;
 }

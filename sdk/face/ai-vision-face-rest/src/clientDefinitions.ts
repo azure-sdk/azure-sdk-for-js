@@ -79,6 +79,8 @@ import type {
   DeleteLivenessWithVerifySessionParameters,
   GetLivenessWithVerifySessionResultParameters,
   GetSessionImageParameters,
+  GetSettingLivenessAbuseMonitoringParameters,
+  PatchSettingLivenessAbuseMonitoringParameters,
 } from "./parameters.js";
 import type {
   DetectFromUrl200Response,
@@ -235,6 +237,10 @@ import type {
   GetLivenessWithVerifySessionResultDefaultResponse,
   GetSessionImage200Response,
   GetSessionImageDefaultResponse,
+  GetSettingLivenessAbuseMonitoring200Response,
+  GetSettingLivenessAbuseMonitoringDefaultResponse,
+  PatchSettingLivenessAbuseMonitoring200Response,
+  PatchSettingLivenessAbuseMonitoringDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -1162,6 +1168,22 @@ export interface GetSessionImage {
   ): StreamableMethod<GetSessionImage200Response | GetSessionImageDefaultResponse>;
 }
 
+export interface GetSettingLivenessAbuseMonitoring {
+  /** Get the liveness abuse monitoring setting. */
+  get(
+    options?: GetSettingLivenessAbuseMonitoringParameters,
+  ): StreamableMethod<
+    GetSettingLivenessAbuseMonitoring200Response | GetSettingLivenessAbuseMonitoringDefaultResponse
+  >;
+  /** Update the liveness abuse monitoring setting. */
+  patch(
+    options: PatchSettingLivenessAbuseMonitoringParameters,
+  ): StreamableMethod<
+    | PatchSettingLivenessAbuseMonitoring200Response
+    | PatchSettingLivenessAbuseMonitoringDefaultResponse
+  >;
+}
+
 export interface Routes {
   /** Resource for '/detect' has methods for the following verbs: post */
   (path: "/detect"): DetectFromUrl;
@@ -1293,6 +1315,8 @@ export interface Routes {
   ): DeleteLivenessWithVerifySession;
   /** Resource for '/sessionImages/\{sessionImageId\}' has methods for the following verbs: get */
   (path: "/sessionImages/{sessionImageId}", sessionImageId: string): GetSessionImage;
+  /** Resource for '/settings/liveness-abuse-monitoring' has methods for the following verbs: get, patch */
+  (path: "/settings/liveness-abuse-monitoring"): GetSettingLivenessAbuseMonitoring;
 }
 
 export type FaceClient = Client & {

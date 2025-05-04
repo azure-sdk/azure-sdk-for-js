@@ -65,6 +65,8 @@ export interface CreateLivenessSessionContent {
   deviceCorrelationId?: string;
   /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
   authTokenTimeToLiveInSeconds?: number;
+  /** The number of times a client can attempt a liveness check using the same authToken. Default value is 1. Maximum value is 3. */
+  numberOfClientAttemptsAllowed?: number;
 }
 
 export interface CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor {
@@ -87,16 +89,6 @@ export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartD
   body: LivenessModel;
 }
 
-export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
-  name: "deviceCorrelationId";
-  body: string;
-}
-
-export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
-  name: "authTokenTimeToLiveInSeconds";
-  body: number;
-}
-
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
   name: "returnVerifyImageHash";
   body: boolean;
@@ -112,6 +104,27 @@ export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
+  name: "deviceCorrelationId";
+  body: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
+  name: "authTokenTimeToLiveInSeconds";
+  body: number;
+}
+
+export interface CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor {
+  name: "numberOfClientAttemptsAllowed";
+  body: number;
+}
+
+/** Use to update the liveness abuse monitoring setting. */
+export interface SettingLivenessAbuseMonitoringUpdate {
+  /** enable or disable liveness abuse monitoring */
+  enabled: boolean;
 }
 
 /** Alias for DetectionModel */
@@ -134,11 +147,12 @@ export type CreateLivenessWithVerifySessionContent =
       | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor
       | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor
       | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor
-      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
-      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
       | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
+      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
+      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
+      | CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor
     >;
 /** API versions for Azure AI Face API. */
-export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
+export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2" | "v1.3-preview.1";
