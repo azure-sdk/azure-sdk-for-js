@@ -18,6 +18,12 @@ import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AbuseMonitoringResultOutput {
+    isAbuseDetected: boolean;
+    otherFlaggedSessions: Array<OtherFlaggedSessionsOutput>;
+}
+
+// @public
 export interface AccessoryItemOutput {
     confidence: number;
     type: AccessoryTypeOutput;
@@ -503,6 +509,11 @@ export interface BlurPropertiesOutput {
 }
 
 // @public
+export interface ClientInformationOutput {
+    ip: string;
+}
+
+// @public
 function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: FaceClientOptions): FaceClient;
 export default createClient;
 
@@ -691,6 +702,7 @@ export interface CreateLivenessSessionContent {
     enableSessionImage?: boolean;
     livenessModelVersion?: LivenessModel;
     livenessOperationMode: LivenessOperationMode;
+    numberOfClientAttemptsAllowed?: number;
 }
 
 // @public (undocumented)
@@ -730,7 +742,7 @@ export interface CreateLivenessWithVerifySessionBodyParam {
 }
 
 // @public
-export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor>;
+export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor | CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor>;
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
@@ -778,6 +790,14 @@ export interface CreateLivenessWithVerifySessionContentLivenessOperationModePart
     body: LivenessOperationMode;
     // (undocumented)
     name: "livenessOperationMode";
+}
+
+// @public (undocumented)
+export interface CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor {
+    // (undocumented)
+    body: number;
+    // (undocumented)
+    name: "numberOfClientAttemptsAllowed";
 }
 
 // @public (undocumented)
@@ -2466,6 +2486,38 @@ export interface GetSessionImageDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetSessionImageParameters = RequestParameters;
 
+// @public (undocumented)
+export interface GetSettingLivenessAbuseMonitoring {
+    get(options?: GetSettingLivenessAbuseMonitoringParameters): StreamableMethod<GetSettingLivenessAbuseMonitoring200Response | GetSettingLivenessAbuseMonitoringDefaultResponse>;
+    patch(options: PatchSettingLivenessAbuseMonitoringParameters): StreamableMethod<PatchSettingLivenessAbuseMonitoring200Response | PatchSettingLivenessAbuseMonitoringDefaultResponse>;
+}
+
+// @public
+export interface GetSettingLivenessAbuseMonitoring200Response extends HttpResponse {
+    // (undocumented)
+    body: SettingLivenessAbuseMonitoringOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSettingLivenessAbuseMonitoringDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSettingLivenessAbuseMonitoringDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSettingLivenessAbuseMonitoringDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSettingLivenessAbuseMonitoringParameters = RequestParameters;
+
 // @public
 export type GlassesTypeOutput = string;
 
@@ -2939,6 +2991,12 @@ export function isUnexpected(response: GetLivenessWithVerifySessionResult200Resp
 // @public (undocumented)
 export function isUnexpected(response: GetSessionImage200Response | GetSessionImageDefaultResponse): response is GetSessionImageDefaultResponse;
 
+// @public (undocumented)
+export function isUnexpected(response: GetSettingLivenessAbuseMonitoring200Response | GetSettingLivenessAbuseMonitoringDefaultResponse): response is GetSettingLivenessAbuseMonitoringDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: PatchSettingLivenessAbuseMonitoring200Response | PatchSettingLivenessAbuseMonitoringDefaultResponse): response is PatchSettingLivenessAbuseMonitoringDefaultResponse;
+
 // @public
 export interface LandmarkCoordinateOutput {
     x: number;
@@ -3020,8 +3078,10 @@ export interface LivenessResultOutput {
 
 // @public
 export interface LivenessSessionAttemptOutput {
+    abuseMonitoringResult?: AbuseMonitoringResultOutput;
     attemptId: number;
     attemptStatus: OperationStateOutput;
+    clientInformation?: Array<ClientInformationOutput>;
     error?: LivenessErrorOutput;
     result?: LivenessResultOutput;
 }
@@ -3029,6 +3089,7 @@ export interface LivenessSessionAttemptOutput {
 // @public
 export interface LivenessSessionOutput {
     authToken: string;
+    isAbuseMonitoringEnabled?: boolean;
     modelVersion?: LivenessModelOutput;
     results: LivenessSessionResultsOutput;
     readonly sessionId: string;
@@ -3065,8 +3126,10 @@ export interface LivenessWithVerifyResultOutput {
 
 // @public
 export interface LivenessWithVerifySessionAttemptOutput {
+    abuseMonitoringResult?: AbuseMonitoringResultOutput;
     attemptId: number;
     attemptStatus: OperationStateOutput;
+    clientInformation?: Array<ClientInformationOutput>;
     error?: LivenessErrorOutput;
     result?: LivenessWithVerifyResultOutput;
 }
@@ -3074,6 +3137,7 @@ export interface LivenessWithVerifySessionAttemptOutput {
 // @public
 export interface LivenessWithVerifySessionOutput {
     authToken: string;
+    isAbuseMonitoringEnabled?: boolean;
     modelVersion?: LivenessModelOutput;
     results: LivenessWithVerifySessionResultsOutput;
     readonly sessionId: string;
@@ -3116,6 +3180,44 @@ export type OperationStateOutput = string;
 
 // @public
 export type OperationStatusOutput = string;
+
+// @public
+export interface OtherFlaggedSessionsOutput {
+    attemptId: number;
+    sessionId: string;
+    sessionImageId?: string;
+}
+
+// @public
+export interface PatchSettingLivenessAbuseMonitoring200Response extends HttpResponse {
+    // (undocumented)
+    body: SettingLivenessAbuseMonitoringOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PatchSettingLivenessAbuseMonitoringBodyParam {
+    body: SettingLivenessAbuseMonitoringUpdate;
+}
+
+// @public (undocumented)
+export interface PatchSettingLivenessAbuseMonitoringDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface PatchSettingLivenessAbuseMonitoringDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PatchSettingLivenessAbuseMonitoringDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PatchSettingLivenessAbuseMonitoringParameters = PatchSettingLivenessAbuseMonitoringBodyParam & RequestParameters;
 
 // @public
 export interface PersonGroupOutput {
@@ -3186,6 +3288,18 @@ export interface Routes {
     (path: "/detectLivenessWithVerify-sessions"): CreateLivenessWithVerifySession;
     (path: "/detectLivenessWithVerify-sessions/{sessionId}", sessionId: string): DeleteLivenessWithVerifySession;
     (path: "/sessionImages/{sessionImageId}", sessionImageId: string): GetSessionImage;
+    (path: "/settings/liveness-abuse-monitoring"): GetSettingLivenessAbuseMonitoring;
+}
+
+// @public
+export interface SettingLivenessAbuseMonitoringOutput {
+    enabled: boolean;
+    name: "liveness-abuse-monitoring";
+}
+
+// @public
+export interface SettingLivenessAbuseMonitoringUpdate {
+    enabled: boolean;
 }
 
 // @public
@@ -3787,7 +3901,7 @@ export interface VerifyFromPersonGroupDefaultResponse extends HttpResponse {
 export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam & RequestParameters;
 
 // @public
-export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
+export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2" | "v1.3-preview.1";
 
 // (No @packageDocumentation comment for this package)
 

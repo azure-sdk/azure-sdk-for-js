@@ -14,6 +14,7 @@ import type {
   UserDefinedFields,
   CreateLivenessSessionContent,
   CreateLivenessWithVerifySessionContent,
+  SettingLivenessAbuseMonitoringUpdate,
 } from "./models.js";
 
 export interface DetectFromUrlBodyParam {
@@ -906,3 +907,12 @@ export type CreateLivenessWithVerifySessionParameters =
 export type DeleteLivenessWithVerifySessionParameters = RequestParameters;
 export type GetLivenessWithVerifySessionResultParameters = RequestParameters;
 export type GetSessionImageParameters = RequestParameters;
+export type GetSettingLivenessAbuseMonitoringParameters = RequestParameters;
+
+export interface PatchSettingLivenessAbuseMonitoringBodyParam {
+  /** Body parameter. */
+  body: SettingLivenessAbuseMonitoringUpdate;
+}
+
+export type PatchSettingLivenessAbuseMonitoringParameters =
+  PatchSettingLivenessAbuseMonitoringBodyParam & RequestParameters;
