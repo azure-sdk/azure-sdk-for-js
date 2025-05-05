@@ -107,10 +107,7 @@ export class HealthReportsImpl implements HealthReports {
     scope: string,
     options?: HealthReportsListOptionalParams,
   ): Promise<HealthReportsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -141,10 +138,7 @@ export class HealthReportsImpl implements HealthReports {
     nextLink: string,
     options?: HealthReportsListNextOptionalParams,
   ): Promise<HealthReportsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -161,7 +155,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
+  queryParameters: [Parameters.apiVersion12],
   urlParameters: [Parameters.$host, Parameters.scope2],
   headerParameters: [Parameters.accept],
   serializer,
@@ -177,12 +171,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion14],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.healthReportName,
-  ],
+  queryParameters: [Parameters.apiVersion12],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.healthReportName],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -94,9 +94,7 @@ export class SecureScoresImpl implements SecureScores {
    * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
-  private _list(
-    options?: SecureScoresListOptionalParams,
-  ): Promise<SecureScoresListResponse> {
+  private _list(options?: SecureScoresListOptionalParams): Promise<SecureScoresListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -111,10 +109,7 @@ export class SecureScoresImpl implements SecureScores {
     secureScoreName: string,
     options?: SecureScoresGetOptionalParams,
   ): Promise<SecureScoresGetResponse> {
-    return this.client.sendOperationRequest(
-      { secureScoreName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ secureScoreName, options }, getOperationSpec);
   }
 
   /**
@@ -126,10 +121,7 @@ export class SecureScoresImpl implements SecureScores {
     nextLink: string,
     options?: SecureScoresListNextOptionalParams,
   ): Promise<SecureScoresListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -146,7 +138,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -162,12 +154,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.secureScoreName,
-  ],
+  queryParameters: [Parameters.apiVersion19],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.secureScoreName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -182,11 +170,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

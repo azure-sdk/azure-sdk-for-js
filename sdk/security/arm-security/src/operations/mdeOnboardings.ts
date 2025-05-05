@@ -34,9 +34,7 @@ export class MdeOnboardingsImpl implements MdeOnboardings {
    * The configuration or data needed to onboard the machine to MDE
    * @param options The options parameters.
    */
-  list(
-    options?: MdeOnboardingsListOptionalParams,
-  ): Promise<MdeOnboardingsListResponse> {
+  list(options?: MdeOnboardingsListOptionalParams): Promise<MdeOnboardingsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -44,9 +42,7 @@ export class MdeOnboardingsImpl implements MdeOnboardings {
    * The default configuration or data needed to onboard the machine to MDE
    * @param options The options parameters.
    */
-  get(
-    options?: MdeOnboardingsGetOptionalParams,
-  ): Promise<MdeOnboardingsGetResponse> {
+  get(options?: MdeOnboardingsGetOptionalParams): Promise<MdeOnboardingsGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 }
@@ -64,7 +60,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -80,7 +76,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,

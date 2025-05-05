@@ -25,9 +25,7 @@ export interface SecurityContacts {
    * List all security contact configurations for the subscription
    * @param options The options parameters.
    */
-  list(
-    options?: SecurityContactsListOptionalParams,
-  ): PagedAsyncIterableIterator<SecurityContact>;
+  list(options?: SecurityContactsListOptionalParams): PagedAsyncIterableIterator<SecurityContact>;
   /**
    * Get Default Security contact configurations for the subscription
    * @param securityContactName Name of the security contact object
