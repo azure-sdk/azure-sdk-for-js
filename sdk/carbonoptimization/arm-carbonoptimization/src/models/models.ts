@@ -899,6 +899,8 @@ export interface CarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionD
   dataType: "TopItemsMonthlySummaryData";
   /** Item name, it can be resource name, resource type name, location, resource group name or subscriptionId. It depends on category type. */
   itemName: string;
+  /** Item type */
+  itemType: string;
   /** Item category, see supported type value defined in CategoryTypeEnum */
   categoryType: CategoryTypeEnum;
   /** The date, representing the month, for which the emissions data is reported, formatted as yyyy-MM-dd (e.g., 2024-03-01) */
@@ -915,6 +917,7 @@ export function carbonEmissionTopItemMonthlySummaryDataDeserializer(
     monthOverMonthEmissionsChangeRatio: item["monthOverMonthEmissionsChangeRatio"],
     monthlyEmissionsChangeValue: item["monthlyEmissionsChangeValue"],
     itemName: item["itemName"],
+    itemType: item["itemType"],
     categoryType: item["categoryType"],
     date: item["date"],
   };
@@ -1145,4 +1148,5 @@ export function carbonEmissionDataAvailableDateRangeDeserializer(
 export enum KnownVersions {
   /** The 2025-04-01 API version. */
   V20250401 = "2025-04-01",
+  V20250601 = "2025-06-01",
 }

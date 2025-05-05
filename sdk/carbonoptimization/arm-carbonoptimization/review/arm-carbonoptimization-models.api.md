@@ -60,6 +60,7 @@ export interface CarbonEmissionTopItemMonthlySummaryData extends CarbonEmissionD
     dataType: "TopItemsMonthlySummaryData";
     date: string;
     itemName: string;
+    itemType: string;
 }
 
 // @public
@@ -187,7 +188,9 @@ export enum KnownSortDirectionEnum {
 
 // @public
 export enum KnownVersions {
-    V20250401 = "2025-04-01"
+    V20250401 = "2025-04-01",
+    // (undocumented)
+    V20250601 = "2025-06-01"
 }
 
 // @public
