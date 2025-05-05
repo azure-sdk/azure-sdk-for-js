@@ -79,8 +79,5 @@ export interface Pricings {
    *                - Supported resources are (VirtualMachines)
    * @param options The options parameters.
    */
-  list(
-    scopeId: string,
-    options?: PricingsListOptionalParams,
-  ): Promise<PricingsListResponse>;
+  list(scopeId: string, options?: PricingsListOptionalParams): Promise<PricingsListResponse>;
 }

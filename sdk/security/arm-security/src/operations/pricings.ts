@@ -50,10 +50,7 @@ export class PricingsImpl implements Pricings {
     pricingName: string,
     options?: PricingsGetOptionalParams,
   ): Promise<PricingsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scopeId, pricingName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scopeId, pricingName, options }, getOperationSpec);
   }
 
   /**
@@ -93,10 +90,7 @@ export class PricingsImpl implements Pricings {
     pricingName: string,
     options?: PricingsDeleteOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { scopeId, pricingName, options },
-      deleteOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scopeId, pricingName, options }, deleteOperationSpec);
   }
 
   /**
@@ -112,14 +106,8 @@ export class PricingsImpl implements Pricings {
    *                - Supported resources are (VirtualMachines)
    * @param options The options parameters.
    */
-  list(
-    scopeId: string,
-    options?: PricingsListOptionalParams,
-  ): Promise<PricingsListResponse> {
-    return this.client.sendOperationRequest(
-      { scopeId, options },
-      listOperationSpec,
-    );
+  list(scopeId: string, options?: PricingsListOptionalParams): Promise<PricingsListResponse> {
+    return this.client.sendOperationRequest({ scopeId, options }, listOperationSpec);
   }
 }
 // Operation Specifications
@@ -136,12 +124,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion26],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scopeId,
-    Parameters.pricingName1,
-  ],
+  queryParameters: [Parameters.apiVersion25],
+  urlParameters: [Parameters.$host, Parameters.scopeId, Parameters.pricingName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -160,12 +144,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.pricing,
-  queryParameters: [Parameters.apiVersion26],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scopeId,
-    Parameters.pricingName1,
-  ],
+  queryParameters: [Parameters.apiVersion25],
+  urlParameters: [Parameters.$host, Parameters.scopeId, Parameters.pricingName1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -180,12 +160,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion26],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scopeId,
-    Parameters.pricingName1,
-  ],
+  queryParameters: [Parameters.apiVersion25],
+  urlParameters: [Parameters.$host, Parameters.scopeId, Parameters.pricingName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -200,7 +176,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion26],
+  queryParameters: [Parameters.filter, Parameters.apiVersion25],
   urlParameters: [Parameters.$host, Parameters.scopeId],
   headerParameters: [Parameters.accept],
   serializer,

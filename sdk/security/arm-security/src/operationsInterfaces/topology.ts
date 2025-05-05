@@ -22,9 +22,7 @@ export interface Topology {
    * Gets a list that allows to build a topology view of a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: TopologyListOptionalParams,
-  ): PagedAsyncIterableIterator<TopologyResource>;
+  list(options?: TopologyListOptionalParams): PagedAsyncIterableIterator<TopologyResource>;
   /**
    * Gets a list that allows to build a topology view of a subscription and location.
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from

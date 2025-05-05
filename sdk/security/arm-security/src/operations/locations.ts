@@ -42,9 +42,7 @@ export class LocationsImpl implements Locations {
    * read or write other resources in ASC according to their ID.
    * @param options The options parameters.
    */
-  public list(
-    options?: LocationsListOptionalParams,
-  ): PagedAsyncIterableIterator<AscLocation> {
+  public list(options?: LocationsListOptionalParams): PagedAsyncIterableIterator<AscLocation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -98,9 +96,7 @@ export class LocationsImpl implements Locations {
    * read or write other resources in ASC according to their ID.
    * @param options The options parameters.
    */
-  private _list(
-    options?: LocationsListOptionalParams,
-  ): Promise<LocationsListResponse> {
+  private _list(options?: LocationsListOptionalParams): Promise<LocationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -110,14 +106,8 @@ export class LocationsImpl implements Locations {
    *                    Get locations
    * @param options The options parameters.
    */
-  get(
-    ascLocation: string,
-    options?: LocationsGetOptionalParams,
-  ): Promise<LocationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { ascLocation, options },
-      getOperationSpec,
-    );
+  get(ascLocation: string, options?: LocationsGetOptionalParams): Promise<LocationsGetResponse> {
+    return this.client.sendOperationRequest({ ascLocation, options }, getOperationSpec);
   }
 
   /**
@@ -129,10 +119,7 @@ export class LocationsImpl implements Locations {
     nextLink: string,
     options?: LocationsListNextOptionalParams,
   ): Promise<LocationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -166,11 +153,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -185,11 +168,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

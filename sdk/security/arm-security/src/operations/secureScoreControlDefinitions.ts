@@ -27,9 +27,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecureScoreControlDefinitions operations. */
-export class SecureScoreControlDefinitionsImpl
-  implements SecureScoreControlDefinitions
-{
+export class SecureScoreControlDefinitionsImpl implements SecureScoreControlDefinitions {
   private readonly client: SecurityCenter;
 
   /**
@@ -167,10 +165,7 @@ export class SecureScoreControlDefinitionsImpl
   private _listBySubscription(
     options?: SecureScoreControlDefinitionsListBySubscriptionOptionalParams,
   ): Promise<SecureScoreControlDefinitionsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -182,10 +177,7 @@ export class SecureScoreControlDefinitionsImpl
     nextLink: string,
     options?: SecureScoreControlDefinitionsListNextOptionalParams,
   ): Promise<SecureScoreControlDefinitionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -217,7 +209,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -233,7 +225,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20],
+  queryParameters: [Parameters.apiVersion19],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -264,11 +256,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

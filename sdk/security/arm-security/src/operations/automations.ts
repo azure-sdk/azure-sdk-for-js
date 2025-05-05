@@ -53,9 +53,7 @@ export class AutomationsImpl implements Automations {
    * response to get the next page of security automations for the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: AutomationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Automation> {
+  public list(options?: AutomationsListOptionalParams): PagedAsyncIterableIterator<Automation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -126,11 +124,7 @@ export class AutomationsImpl implements Automations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -150,11 +144,7 @@ export class AutomationsImpl implements Automations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,10 +156,7 @@ export class AutomationsImpl implements Automations {
     resourceGroupName: string,
     options?: AutomationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Automation> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -179,9 +166,7 @@ export class AutomationsImpl implements Automations {
    * response to get the next page of security automations for the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: AutomationsListOptionalParams,
-  ): Promise<AutomationsListResponse> {
+  private _list(options?: AutomationsListOptionalParams): Promise<AutomationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -309,10 +294,7 @@ export class AutomationsImpl implements Automations {
     nextLink: string,
     options?: AutomationsListNextOptionalParams,
   ): Promise<AutomationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -347,7 +329,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -363,12 +345,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -383,7 +361,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -408,7 +386,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -431,7 +409,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.automation1,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -452,7 +430,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -474,7 +452,7 @@ const validateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.automation,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -496,11 +474,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

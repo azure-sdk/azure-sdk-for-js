@@ -113,10 +113,7 @@ export class SecurityContactsImpl implements SecurityContacts {
     securityContactName: SecurityContactName,
     options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse> {
-    return this.client.sendOperationRequest(
-      { securityContactName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ securityContactName, options }, getOperationSpec);
   }
 
   /**
@@ -145,10 +142,7 @@ export class SecurityContactsImpl implements SecurityContacts {
     securityContactName: SecurityContactName,
     options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { securityContactName, options },
-      deleteOperationSpec,
-    );
+    return this.client.sendOperationRequest({ securityContactName, options }, deleteOperationSpec);
   }
 
   /**
@@ -160,10 +154,7 @@ export class SecurityContactsImpl implements SecurityContacts {
     nextLink: string,
     options?: SecurityContactsListNextOptionalParams,
   ): Promise<SecurityContactsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -180,7 +171,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion13],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -196,12 +187,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.securityContactName,
-  ],
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.securityContactName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -220,12 +207,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.securityContactName,
-  ],
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.securityContactName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -240,12 +223,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.securityContactName,
-  ],
+  queryParameters: [Parameters.apiVersion13],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.securityContactName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -260,11 +239,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

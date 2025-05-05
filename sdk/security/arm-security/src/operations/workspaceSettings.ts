@@ -117,10 +117,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
     workspaceSettingName: string,
     options?: WorkspaceSettingsGetOptionalParams,
   ): Promise<WorkspaceSettingsGetResponse> {
-    return this.client.sendOperationRequest(
-      { workspaceSettingName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ workspaceSettingName, options }, getOperationSpec);
   }
 
   /**
@@ -167,10 +164,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
     workspaceSettingName: string,
     options?: WorkspaceSettingsDeleteOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { workspaceSettingName, options },
-      deleteOperationSpec,
-    );
+    return this.client.sendOperationRequest({ workspaceSettingName, options }, deleteOperationSpec);
   }
 
   /**
@@ -182,10 +176,7 @@ export class WorkspaceSettingsImpl implements WorkspaceSettings {
     nextLink: string,
     options?: WorkspaceSettingsListNextOptionalParams,
   ): Promise<WorkspaceSettingsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -219,11 +210,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.workspaceSettingName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -240,11 +227,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.workspaceSetting,
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.workspaceSettingName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -262,11 +245,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.workspaceSetting,
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.workspaceSettingName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -281,11 +260,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.workspaceSettingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.workspaceSettingName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -300,11 +275,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

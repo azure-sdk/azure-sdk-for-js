@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegulatoryComplianceAssessments operations. */
-export class RegulatoryComplianceAssessmentsImpl
-  implements RegulatoryComplianceAssessments
-{
+export class RegulatoryComplianceAssessmentsImpl implements RegulatoryComplianceAssessments {
   private readonly client: SecurityCenter;
 
   /**
