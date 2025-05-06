@@ -34,9 +34,14 @@ export interface AdditionalCacheNodeProperties {
     readonly cacheNodeState?: number;
     readonly cacheNodeStateDetailedText?: string;
     readonly cacheNodeStateShortText?: string;
+    creationMethod?: number;
+    readonly currentTlsCertificate?: MccCacheNodeTlsCertificate;
     driveConfiguration?: CacheNodeDriveConfiguration[];
     readonly isProvisioned?: boolean;
     isProxyRequired?: ProxyRequired;
+    readonly issuesCount?: number;
+    readonly issuesList?: string[];
+    readonly lastAutoUpdateInfo?: MccCacheNodeAutoUpdateInfo;
     optionalProperty1?: string;
     optionalProperty2?: string;
     optionalProperty3?: string;
@@ -44,9 +49,8 @@ export interface AdditionalCacheNodeProperties {
     optionalProperty5?: string;
     osType?: OsType;
     readonly productVersion?: string;
-    proxyUrl?: string;
     proxyUrlConfiguration?: ProxyUrlConfiguration;
-    updateCycleType?: CycleType;
+    readonly tlsStatus?: string;
     updateInfoDetails?: string;
     updateRequestedDateTime?: Date;
 }
@@ -78,7 +82,6 @@ export interface AdditionalCustomerProperties {
     optionalProperty4?: string;
     optionalProperty5?: string;
     readonly peeringDbLastUpdateDate?: Date;
-    readonly peeringDbLastUpdateTime?: Date;
     readonly signupPhaseStatusCode?: number;
     readonly signupPhaseStatusText?: string;
     readonly signupStatus?: boolean;
@@ -170,24 +173,12 @@ export interface CacheNodeEntity {
 export interface CacheNodeInstallProperties {
     cacheNodeId?: string;
     customerId?: string;
+    driveConfiguration?: CacheNodeDriveConfiguration[];
     readonly primaryAccountKey?: string;
+    proxyUrlConfiguration?: ProxyUrlConfiguration;
     readonly registrationKey?: string;
     readonly secondaryAccountKey?: string;
-}
-
-// @public
-export interface CacheNodeOldResponse {
-    error?: ErrorDetail;
-    readonly provisioningState?: ProvisioningState;
-    readonly status?: string;
-    statusCode?: string;
-    statusDetails?: string;
-    statusText?: string;
-}
-
-// @public
-export interface CacheNodePreviewResource extends TrackedResource {
-    properties?: CacheNodeOldResponse;
+    readonly tlsCertificateProvisioningKey?: string;
 }
 
 // @public
@@ -203,48 +194,11 @@ export interface CacheNodeProperty {
 }
 
 // @public
-export interface CacheNodesOperationsCreateorUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CacheNodesOperationsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CacheNodesOperationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CacheNodesOperationsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CacheNodesOperationsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CacheNodesOperationsOperations {
-    createorUpdate: (resourceGroupName: string, customerResourceName: string, resource: CacheNodePreviewResource, options?: CacheNodesOperationsCreateorUpdateOptionalParams) => PollerLike<OperationState<CacheNodePreviewResource>, CacheNodePreviewResource>;
-    delete: (resourceGroupName: string, customerResourceName: string, options?: CacheNodesOperationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, customerResourceName: string, options?: CacheNodesOperationsGetOptionalParams) => Promise<CacheNodePreviewResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: CacheNodesOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<CacheNodePreviewResource>;
-    listBySubscription: (options?: CacheNodesOperationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CacheNodePreviewResource>;
-    update: (resourceGroupName: string, customerResourceName: string, properties: ConnectedCachePatchResource, options?: CacheNodesOperationsUpdateOptionalParams) => Promise<CacheNodePreviewResource>;
-}
-
-// @public
-export interface CacheNodesOperationsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export type ConfigurationState = string;
 
 // @public (undocumented)
 export class ConnectedCacheClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ConnectedCacheClientOptionalParams);
-    readonly cacheNodesOperations: CacheNodesOperationsOperations;
-    readonly enterpriseCustomerOperations: EnterpriseCustomerOperationsOperations;
     readonly enterpriseMccCacheNodesOperations: EnterpriseMccCacheNodesOperationsOperations;
     readonly enterpriseMccCustomers: EnterpriseMccCustomersOperations;
     readonly ispCacheNodesOperations: IspCacheNodesOperationsOperations;
@@ -309,44 +263,6 @@ export interface CustomerProperty {
 export type CustomerTransitState = string;
 
 // @public
-export type CycleType = string;
-
-// @public
-export interface EnterpriseCustomerOperationsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface EnterpriseCustomerOperationsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EnterpriseCustomerOperationsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EnterpriseCustomerOperationsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EnterpriseCustomerOperationsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface EnterpriseCustomerOperationsOperations {
-    createOrUpdate: (resourceGroupName: string, customerResourceName: string, resource: EnterprisePreviewResource, options?: EnterpriseCustomerOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EnterprisePreviewResource>, EnterprisePreviewResource>;
-    delete: (resourceGroupName: string, customerResourceName: string, options?: EnterpriseCustomerOperationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, customerResourceName: string, options?: EnterpriseCustomerOperationsGetOptionalParams) => Promise<EnterprisePreviewResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: EnterpriseCustomerOperationsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<EnterprisePreviewResource>;
-    listBySubscription: (options?: EnterpriseCustomerOperationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<EnterprisePreviewResource>;
-    update: (resourceGroupName: string, customerResourceName: string, properties: ConnectedCachePatchResource, options?: EnterpriseCustomerOperationsUpdateOptionalParams) => Promise<EnterprisePreviewResource>;
-}
-
-// @public
-export interface EnterpriseCustomerOperationsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface EnterpriseMccCacheNodeResource extends TrackedResource {
     properties?: CacheNodeProperty;
 }
@@ -362,7 +278,19 @@ export interface EnterpriseMccCacheNodesOperationsDeleteOptionalParams extends O
 }
 
 // @public
+export interface EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -378,7 +306,10 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     createOrUpdate: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, resource: EnterpriseMccCacheNodeResource, options?: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource>;
     delete: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsGetOptionalParams) => Promise<EnterpriseMccCacheNodeResource>;
+    getCacheNodeAutoUpdateHistory: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams) => Promise<MccCacheNodeAutoUpdateHistory>;
     getCacheNodeInstallDetails: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams) => Promise<MccCacheNodeInstallDetails>;
+    getCacheNodeMccIssueDetailsHistory: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams) => Promise<MccCacheNodeIssueHistory>;
+    getCacheNodeTlsCertificateHistory: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams) => Promise<MccCacheNodeTlsCertificateHistory>;
     listByEnterpriseMccCustomerResource: (resourceGroupName: string, customerResourceName: string, options?: EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams) => PagedAsyncIterableIterator<EnterpriseMccCacheNodeResource>;
     update: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, properties: ConnectedCachePatchResource, options?: EnterpriseMccCacheNodesOperationsUpdateOptionalParams) => Promise<EnterpriseMccCacheNodeResource>;
 }
@@ -429,11 +360,6 @@ export interface EnterpriseMccCustomersUpdateOptionalParams extends OperationOpt
 }
 
 // @public
-export interface EnterprisePreviewResource extends TrackedResource {
-    properties?: CacheNodeOldResponse;
-}
-
-// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, any>;
     readonly type?: string;
@@ -446,6 +372,11 @@ export interface ErrorDetail {
     readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -468,7 +399,15 @@ export interface IspCacheNodesOperationsGetBgpCidrsOptionalParams extends Operat
 }
 
 // @public
+export interface IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -485,7 +424,9 @@ export interface IspCacheNodesOperationsOperations {
     delete: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsGetOptionalParams) => Promise<IspCacheNodeResource>;
     getBgpCidrs: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsGetBgpCidrsOptionalParams) => Promise<MccCacheNodeBgpCidrDetails>;
+    getCacheNodeAutoUpdateHistory: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams) => Promise<MccCacheNodeAutoUpdateHistory>;
     getCacheNodeInstallDetails: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams) => Promise<MccCacheNodeInstallDetails>;
+    getCacheNodeMccIssueDetailsHistory: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, options?: IspCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams) => Promise<MccCacheNodeIssueHistory>;
     listByIspCustomerResource: (resourceGroupName: string, customerResourceName: string, options?: IspCacheNodesOperationsListByIspCustomerResourceOptionalParams) => PagedAsyncIterableIterator<IspCacheNodeResource>;
     update: (resourceGroupName: string, customerResourceName: string, cacheNodeResourceName: string, properties: ConnectedCachePatchResource, options?: IspCacheNodesOperationsUpdateOptionalParams) => Promise<IspCacheNodeResource>;
 }
@@ -558,7 +499,7 @@ export enum KnownBgpReviewStateEnum {
 // @public
 export enum KnownConfigurationState {
     Configured = "Configured",
-    NotConfigured_Ip = "NotConfigured_Ip"
+    NotConfiguredIp = "NotConfigured_Ip"
 }
 
 // @public
@@ -574,13 +515,6 @@ export enum KnownCustomerTransitState {
     CombinedTransit = "CombinedTransit",
     NoTransit = "NoTransit",
     TransitOnly = "TransitOnly"
-}
-
-// @public
-export enum KnownCycleType {
-    Fast = "Fast",
-    Preview = "Preview",
-    Slow = "Slow"
 }
 
 // @public
@@ -616,7 +550,41 @@ export enum KnownProxyRequired {
 
 // @public
 export enum KnownVersions {
-    v2023_05_01_preview = "2023-05-01-preview"
+    V20230501Preview = "2023-05-01-preview",
+    V20241130Preview = "2024-11-30-preview"
+}
+
+// @public
+export interface MccCacheNodeAutoUpdateHistory extends TrackedResource {
+    properties?: MccCacheNodeAutoUpdateHistoryProperties;
+}
+
+// @public
+export interface MccCacheNodeAutoUpdateHistoryProperties {
+    autoUpdateHistory?: MccCacheNodeAutoUpdateInfo[];
+    readonly cacheNodeId?: string;
+    readonly customerId?: string;
+}
+
+// @public
+export interface MccCacheNodeAutoUpdateInfo {
+    readonly autoUpdateLastAppliedStatus?: number;
+    readonly autoUpdateLastAppliedStatusDetailedText?: string;
+    readonly autoUpdateLastAppliedStatusText?: string;
+    readonly autoUpdateRingType?: number;
+    readonly createdDateTimeUtc?: Date;
+    readonly imageUriBeforeUpdate?: string;
+    readonly imageUriTargeted?: string;
+    readonly imageUriTerminal?: string;
+    readonly movedToTerminalStateDateTime?: Date;
+    readonly planChangeLogText?: string;
+    readonly planId?: number;
+    readonly ruleRequestedDay?: number;
+    readonly ruleRequestedHour?: string;
+    readonly ruleRequestedMinute?: string;
+    readonly ruleRequestedWeek?: number;
+    readonly timeToGoLiveDateTime?: string;
+    readonly updatedRegistryDateTimeUtc?: Date;
 }
 
 // @public
@@ -630,9 +598,54 @@ export interface MccCacheNodeInstallDetails extends TrackedResource {
 }
 
 // @public
+export interface MccCacheNodeIssueHistory extends TrackedResource {
+    properties?: MccCacheNodeIssueHistoryProperties;
+}
+
+// @public
+export interface MccCacheNodeIssueHistoryProperties {
+    readonly cacheNodeId?: string;
+    readonly customerId?: string;
+    mccIssueHistory?: MccIssue[];
+}
+
+// @public
+export interface MccCacheNodeTlsCertificate {
+    readonly actionRequired?: string;
+    readonly certificateFileName?: string;
+    readonly expiryDate?: Date;
+    readonly notBeforeDate?: Date;
+    readonly subject?: string;
+    readonly subjectAltName?: string;
+    readonly thumbprint?: string;
+}
+
+// @public
+export interface MccCacheNodeTlsCertificateHistory extends TrackedResource {
+    properties?: MccCacheNodeTlsCertificateProperties;
+}
+
+// @public
+export interface MccCacheNodeTlsCertificateProperties {
+    readonly cacheNodeId?: string;
+    readonly customerId?: string;
+    tlsCertificateHistory?: MccCacheNodeTlsCertificate[];
+}
+
+// @public
+export interface MccIssue {
+    readonly detailString?: string;
+    readonly helpLink?: string;
+    readonly issueEndDate?: Date;
+    readonly issueStartDate?: Date;
+    readonly mccIssueType?: string;
+    readonly toastString?: string;
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
