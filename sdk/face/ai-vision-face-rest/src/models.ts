@@ -87,16 +87,6 @@ export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartD
   body: LivenessModel;
 }
 
-export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
-  name: "deviceCorrelationId";
-  body: string;
-}
-
-export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
-  name: "authTokenTimeToLiveInSeconds";
-  body: number;
-}
-
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
   name: "returnVerifyImageHash";
   body: boolean;
@@ -112,6 +102,16 @@ export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
+  name: "deviceCorrelationId";
+  body: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
+  name: "authTokenTimeToLiveInSeconds";
+  body: number;
 }
 
 /** Alias for DetectionModel */
@@ -134,11 +134,11 @@ export type CreateLivenessWithVerifySessionContent =
       | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor
       | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor
       | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor
-      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
-      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
       | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
+      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
+      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
     >;
 /** API versions for Azure AI Face API. */
 export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
