@@ -1,0 +1,4 @@
+directory: specification/dell/Dell.Storage.Management
+commit: 4413f511f328694e43925c5d29ad935079e46805
+repo: ../azure-rest-api-specs
+additionalDirectories: 
