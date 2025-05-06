@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RunCommandDocumentBase,
@@ -44,9 +40,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineRunCommands operations. */
-export class VirtualMachineRunCommandsImpl
-  implements VirtualMachineRunCommands
-{
+export class VirtualMachineRunCommandsImpl implements VirtualMachineRunCommands {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -126,11 +120,7 @@ export class VirtualMachineRunCommandsImpl
     vmName: string,
     options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand> {
-    const iter = this.listByVirtualMachinePagingAll(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const iter = this.listByVirtualMachinePagingAll(resourceGroupName, vmName, options);
     return {
       next() {
         return iter.next();
@@ -142,12 +132,7 @@ export class VirtualMachineRunCommandsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVirtualMachinePagingPage(
-          resourceGroupName,
-          vmName,
-          options,
-          settings,
-        );
+        return this.listByVirtualMachinePagingPage(resourceGroupName, vmName, options, settings);
       },
     };
   }
@@ -161,11 +146,7 @@ export class VirtualMachineRunCommandsImpl
     let result: VirtualMachineRunCommandsListByVirtualMachineResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVirtualMachine(
-        resourceGroupName,
-        vmName,
-        options,
-      );
+      result = await this._listByVirtualMachine(resourceGroupName, vmName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -208,10 +189,7 @@ export class VirtualMachineRunCommandsImpl
     location: string,
     options?: VirtualMachineRunCommandsListOptionalParams,
   ): Promise<VirtualMachineRunCommandsListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -225,10 +203,7 @@ export class VirtualMachineRunCommandsImpl
     commandId: string,
     options?: VirtualMachineRunCommandsGetOptionalParams,
   ): Promise<VirtualMachineRunCommandsGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, commandId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, commandId, options }, getOperationSpec);
   }
 
   /**
@@ -261,8 +236,7 @@ export class VirtualMachineRunCommandsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -360,8 +334,7 @@ export class VirtualMachineRunCommandsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -452,8 +425,7 @@ export class VirtualMachineRunCommandsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -506,12 +478,7 @@ export class VirtualMachineRunCommandsImpl
     runCommandName: string,
     options?: VirtualMachineRunCommandsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      vmName,
-      runCommandName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, vmName, runCommandName, options);
     return poller.pollUntilDone();
   }
 
@@ -562,10 +529,7 @@ export class VirtualMachineRunCommandsImpl
     nextLink: string,
     options?: VirtualMachineRunCommandsListNextOptionalParams,
   ): Promise<VirtualMachineRunCommandsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -599,11 +563,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.location, Parameters.subscriptionId],
   headerParameters: [Parameters.accept1],
   serializer,
 };
