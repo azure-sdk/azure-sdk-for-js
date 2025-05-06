@@ -25,36 +25,12 @@ export type TaskStepUpdateParametersUnion =
   | FileTaskStepUpdateParameters
   | EncodedTaskStepUpdateParameters;
 
-/** The result of a request to list archives for a container registry. */
-export interface ArchiveListResult {
-  /** The list of archives. Since this list may be incomplete, the nextLink field should be used to request the next list of distributions. */
-  value?: Archive[];
-  /** The URI that can be used to request the next list of archives. */
+/** The result of a request to list cache rules for a container registry. */
+export interface CacheRulesListResult {
+  /** The list of cache rules. */
+  value?: CacheRule[];
+  /** If provided, client must use NextLink URI to request next list of cache rules. */
   nextLink?: string;
-}
-
-/** The properties of a archive. */
-export interface ArchiveProperties {
-  /** The package source of the archive. */
-  packageSource?: ArchivePackageSourceProperties;
-  /** The published version of the archive. */
-  publishedVersion?: string;
-  repositoryEndpointPrefix?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly repositoryEndpoint?: string;
-  /**
-   * The provisioning state of the archive at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** The properties of the archive package source. */
-export interface ArchivePackageSourceProperties {
-  /** The type of package source for a archive. */
-  type?: PackageSourceType;
-  /** The external repository url. */
-  url?: string;
 }
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
@@ -146,40 +122,10 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** The parameters for updating a archive. */
-export interface ArchiveUpdateParameters {
-  /** The published version of the archive. */
-  publishedVersion?: string;
-}
-
-/** The result of a request to list export pipelines for a container registry. */
-export interface ArchiveVersionListResult {
-  /** The list of export pipelines. Since this list may be incomplete, the nextLink field should be used to request the next list of export pipelines. */
-  value?: ArchiveVersion[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The result of a request to list cache rules for a container registry. */
-export interface CacheRulesListResult {
-  /** The list of cache rules. */
-  value?: CacheRule[];
-  /** If provided, client must use NextLink URI to request next list of cache rules. */
-  nextLink?: string;
-}
-
 /** The parameters for updating a cache rule. */
 export interface CacheRuleUpdateParameters {
   /** The ARM resource ID of the credential store which is associated with the Cache rule. */
   credentialSetResourceId?: string;
-}
-
-/** The result of a request to list connected registries for a container registry. */
-export interface ConnectedRegistryListResult {
-  /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
-  value?: ConnectedRegistry[];
-  /** The URI that can be used to request the next list of connected registries. */
-  nextLink?: string;
 }
 
 /** The activation properties of the connected registry. */
@@ -332,6 +278,14 @@ export interface SyncUpdateProperties {
   messageTtl?: string;
 }
 
+/** The result of a request to list connected registries for a container registry. */
+export interface ConnectedRegistryListResult {
+  /** The list of connected registries. Since this list may be incomplete, the nextLink field should be used to request the next list of connected registries. */
+  value?: ConnectedRegistry[];
+  /** The URI that can be used to request the next list of connected registries. */
+  nextLink?: string;
+}
+
 /** The result of a request to list credential sets for a container registry. */
 export interface CredentialSetListResult {
   /** The list of credential sets. Since this list may be incomplete, the nextLink field should be used to request the next list of credential sets. */
@@ -412,28 +366,6 @@ export interface CredentialSetUpdateParameters {
   authCredentials?: AuthCredential[];
 }
 
-/** The result of a request to list export pipelines for a container registry. */
-export interface ExportPipelineListResult {
-  /** The list of export pipelines. Since this list may be incomplete, the nextLink field should be used to request the next list of export pipelines. */
-  value?: ExportPipeline[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The properties of the export pipeline target. */
-export interface ExportPipelineTargetProperties {
-  /** The type of target for the export pipeline. */
-  type?: string;
-  /**
-   * The target uri of the export pipeline.
-   * When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
-   * When 'AzureStorageBlobContainer':  "https://accountName.blob.core.windows.net/containerName"
-   */
-  uri?: string;
-  /** They key vault secret uri to obtain the target storage SAS token. */
-  keyVaultUri: string;
-}
-
 export interface ImportImageParameters {
   /** The source of the image. */
   source: ImportSource;
@@ -466,38 +398,6 @@ export interface ImportSourceCredentials {
   username?: string;
   /** The password used to authenticate with the source registry. */
   password: string;
-}
-
-/** The result of a request to list import pipelines for a container registry. */
-export interface ImportPipelineListResult {
-  /** The list of import pipelines. Since this list may be incomplete, the nextLink field should be used to request the next list of import pipelines. */
-  value?: ImportPipeline[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The properties of the import pipeline source. */
-export interface ImportPipelineSourceProperties {
-  /** The type of source for the import pipeline. */
-  type?: PipelineSourceType;
-  /**
-   * The source uri of the import pipeline.
-   * When 'AzureStorageBlob': "https://accountName.blob.core.windows.net/containerName/blobName"
-   * When 'AzureStorageBlobContainer': "https://accountName.blob.core.windows.net/containerName"
-   */
-  uri?: string;
-  /** They key vault secret uri to obtain the source storage SAS token. */
-  keyVaultUri: string;
-}
-
-export interface PipelineTriggerProperties {
-  /** The source trigger properties of the pipeline. */
-  sourceTrigger?: PipelineSourceTriggerProperties;
-}
-
-export interface PipelineSourceTriggerProperties {
-  /** The current status of the source trigger. */
-  status: TriggerStatus;
 }
 
 /** The result of a request to list container registry operations. */
@@ -577,102 +477,16 @@ export interface RegistryNameCheckRequest {
   name: string;
   /** The resource type of the container registry. This field must be set to 'Microsoft.ContainerRegistry/registries'. */
   type: "Microsoft.ContainerRegistry/registries";
-  /** The resource group name of the container registry. */
-  resourceGroupName?: string;
-  /** The auto generated domain name label of the container registry. This value defaults to "Unsecure". */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
 }
 
 /** The result of a request to check the availability of a container registry name. */
 export interface RegistryNameStatus {
-  /** The complete login server name with domain name label (DNL) hash, if available */
-  availableLoginServerName?: string;
   /** The value that indicates whether the name is available. */
   nameAvailable?: boolean;
   /** If any, the reason that the name is not available. */
   reason?: string;
   /** If any, the error message that provides more detail for the reason that the name is not available. */
   message?: string;
-}
-
-/** The result of a request to list pipeline runs for a container registry. */
-export interface PipelineRunListResult {
-  /** The list of pipeline runs. Since this list may be incomplete, the nextLink field should be used to request the next list of pipeline runs. */
-  value?: PipelineRun[];
-  /** The URI that can be used to request the next list of pipeline runs. */
-  nextLink?: string;
-}
-
-/** The request properties provided for a pipeline run. */
-export interface PipelineRunRequest {
-  /** The resource ID of the pipeline to run. */
-  pipelineResourceId?: string;
-  /**
-   * List of source artifacts to be transferred by the pipeline.
-   * Specify an image by repository ('hello-world'). This will use the 'latest' tag.
-   * Specify an image by tag ('hello-world:latest').
-   * Specify an image by sha256-based manifest digest ('hello-world@sha256:abc123').
-   */
-  artifacts?: string[];
-  /** The source properties of the pipeline run. */
-  source?: PipelineRunSourceProperties;
-  /** The target properties of the pipeline run. */
-  target?: PipelineRunTargetProperties;
-  /** The digest of the tar used to transfer the artifacts. */
-  catalogDigest?: string;
-}
-
-export interface PipelineRunSourceProperties {
-  /** The type of the source. */
-  type?: PipelineRunSourceType;
-  /** The name of the source. */
-  name?: string;
-}
-
-export interface PipelineRunTargetProperties {
-  /** The type of the target. */
-  type?: PipelineRunTargetType;
-  /** The name of the target. */
-  name?: string;
-}
-
-/** The response properties returned for a pipeline run. */
-export interface PipelineRunResponse {
-  /** The current status of the pipeline run. */
-  status?: string;
-  /** The artifacts imported in the pipeline run. */
-  importedArtifacts?: string[];
-  /** The current progress of the copy operation. */
-  progress?: ProgressProperties;
-  /** The time the pipeline run started. */
-  startTime?: Date;
-  /** The time the pipeline run finished. */
-  finishTime?: Date;
-  /** The source of the pipeline run. */
-  source?: ImportPipelineSourceProperties;
-  /** The target of the pipeline run. */
-  target?: ExportPipelineTargetProperties;
-  /** The digest of the tar used to transfer the artifacts. */
-  catalogDigest?: string;
-  /** The trigger that caused the pipeline run. */
-  trigger?: PipelineTriggerDescriptor;
-  /** The detailed error message for the pipeline run in the case of failure. */
-  pipelineRunErrorMessage?: string;
-}
-
-export interface ProgressProperties {
-  /** The percentage complete of the copy operation. */
-  percentage?: string;
-}
-
-export interface PipelineTriggerDescriptor {
-  /** The source trigger that caused the pipeline run. */
-  sourceTrigger?: PipelineSourceTriggerDescriptor;
-}
-
-export interface PipelineSourceTriggerDescriptor {
-  /** The timestamp when the source update happened. */
-  timestamp?: Date;
 }
 
 /** The result of a request to list private endpoint connections for a container registry. */
@@ -765,8 +579,6 @@ export interface Policies {
   exportPolicy?: ExportPolicy;
   /** The policy for using ARM audience token for a container registry. */
   azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
-  /** The soft delete policy for a container registry. */
-  softDeletePolicy?: SoftDeletePolicy;
 }
 
 /** The quarantine policy for a container registry. */
@@ -806,19 +618,6 @@ export interface ExportPolicy {
 export interface AzureADAuthenticationAsArmPolicy {
   /** The value that indicates whether the policy is enabled or not. */
   status?: AzureADAuthenticationAsArmPolicyStatus;
-}
-
-/** The soft delete policy for a container registry */
-export interface SoftDeletePolicy {
-  /** The number of days after which a soft-deleted item is permanently deleted. */
-  retentionDays?: number;
-  /**
-   * The timestamp when the policy was last updated.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastUpdatedTime?: Date;
-  /** The value that indicates whether the policy is enabled or not. */
-  status?: PolicyStatus;
 }
 
 export interface EncryptionProperty {
@@ -902,10 +701,6 @@ export interface RegistryUpdateParameters {
   networkRuleBypassOptions?: NetworkRuleBypassOptions;
   /** Enables registry-wide pull from unauthenticated clients. */
   anonymousPullEnabled?: boolean;
-  /** Determines whether registry artifacts are indexed for metadata search. */
-  metadataSearch?: MetadataSearch;
-  /** Determines registry role assignment mode. */
-  roleAssignmentMode?: RoleAssignmentMode;
 }
 
 /** The result of a request to get container registry quota usages. */
@@ -1239,6 +1034,34 @@ export interface CallbackConfig {
   customHeaders?: { [propertyName: string]: string };
 }
 
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponseForContainerRegistry {
+  /** Azure container registry build API error body. */
+  error?: ErrorResponseBody;
+}
+
+/** An error response from the Azure Container Registry service. */
+export interface ErrorResponseBody {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
+  /** an array of additional nested error response info objects, as described by this contract. */
+  details?: InnerErrorDescription[];
+}
+
+/** inner error. */
+export interface InnerErrorDescription {
+  /** error code. */
+  code: string;
+  /** error message. */
+  message: string;
+  /** target of the particular error. */
+  target?: string;
+}
+
 /** The parameters for updating an agent pool. */
 export interface AgentPoolUpdateParameters {
   /** The ARM resource tags. */
@@ -1264,11 +1087,7 @@ export interface AgentPoolQueueStatus {
 /** The request parameters for scheduling a run. */
 export interface RunRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "DockerBuildRequest"
-    | "FileTaskRunRequest"
-    | "TaskRunRequest"
-    | "EncodedTaskRunRequest";
+  type: "DockerBuildRequest" | "FileTaskRunRequest" | "TaskRunRequest" | "EncodedTaskRunRequest";
   /** The value that indicates whether archiving is enabled for the run or not. */
   isArchiveEnabled?: boolean;
   /** The dedicated agent pool for the run. */
@@ -1518,12 +1337,6 @@ export interface Credentials {
 
 /** Describes the credential parameters for accessing the source registry. */
 export interface SourceRegistryCredentials {
-  /**
-   * The Entra identity used for source registry login.
-   * The value is `[system]` for system-assigned managed identity, `[caller]` for caller identity,
-   * and client ID for user-assigned managed identity.
-   */
-  identity?: string;
   /**
    * The authentication mode which determines the source registry login scope. The credentials for the source registry
    * will be generated using the given scope. These credentials will be used to login to
@@ -1775,46 +1588,6 @@ export interface OverrideTaskStepProperties {
   updateTriggerToken?: string;
 }
 
-/** The properties of the Debian package Archive. */
-export interface DebianArchiveProperties extends ArchiveProperties {
-  /** Debian distribution Name. */
-  distributionName?: string;
-}
-
-/** The properties of the archive package source. */
-export interface DebianArchivePackageSourceProperties
-  extends ArchivePackageSourceProperties {
-  /** Upstream Debian distribution Name. */
-  distributionName?: string;
-}
-
-/** An object that represents a archive for a container registry. */
-export interface Archive extends ProxyResource {
-  /** The package source of the archive. */
-  packageSource?: ArchivePackageSourceProperties;
-  /** The published version of the archive. */
-  publishedVersion?: string;
-  repositoryEndpointPrefix?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly repositoryEndpoint?: string;
-  /**
-   * The provisioning state of the archive at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents an export pipeline for a container registry. */
-export interface ArchiveVersion extends ProxyResource {
-  /**
-   * The provisioning state of the archive at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The detailed error message for the archive version in the case of failure. */
-  archiveVersionErrorMessage?: string;
-}
-
 /** An object that represents a cache rule for a container registry. */
 export interface CacheRule extends ProxyResource {
   /** The ARM resource ID of the credential store which is associated with the cache rule. */
@@ -1907,60 +1680,6 @@ export interface CredentialSet extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents an export pipeline for a container registry. */
-export interface ExportPipeline extends ProxyResource {
-  /** The location of the export pipeline. */
-  location?: string;
-  /** The identity of the export pipeline. */
-  identity?: IdentityProperties;
-  /** The target properties of the export pipeline. */
-  target?: ExportPipelineTargetProperties;
-  /** The list of all options configured for the pipeline. */
-  options?: PipelineOptions[];
-  /**
-   * The provisioning state of the pipeline at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents an import pipeline for a container registry. */
-export interface ImportPipeline extends ProxyResource {
-  /** The location of the import pipeline. */
-  location?: string;
-  /** The identity of the import pipeline. */
-  identity?: IdentityProperties;
-  /** The source properties of the import pipeline. */
-  source?: ImportPipelineSourceProperties;
-  /** The properties that describe the trigger of the import pipeline. */
-  trigger?: PipelineTriggerProperties;
-  /** The list of all options configured for the pipeline. */
-  options?: PipelineOptions[];
-  /**
-   * The provisioning state of the pipeline at the time the operation was called.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/** An object that represents a pipeline run for a container registry. */
-export interface PipelineRun extends ProxyResource {
-  /**
-   * The provisioning state of a pipeline run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The request parameters for a pipeline run. */
-  request?: PipelineRunRequest;
-  /**
-   * The response of a pipeline run.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly response?: PipelineRunResponse;
-  /** How the pipeline run should be forced to recreate even if the pipeline run configuration has not changed. */
-  forceUpdateTag?: string;
 }
 
 /** An object that represents a private endpoint connection for a container registry. */
@@ -2156,12 +1875,6 @@ export interface Registry extends Resource {
   zoneRedundancy?: ZoneRedundancy;
   /** Enables registry-wide pull from unauthenticated clients. */
   anonymousPullEnabled?: boolean;
-  /** Determines whether registry artifacts are indexed for metadata search. */
-  metadataSearch?: MetadataSearch;
-  /** Determines the domain name label reuse scope. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
-  /** Determines registry role assignment mode. */
-  roleAssignmentMode?: RoleAssignmentMode;
 }
 
 /** An object that represents a replication for a container registry. */
@@ -2398,8 +2111,7 @@ export interface EncodedTaskStep extends TaskStepProperties {
 }
 
 /** The properties for updating a docker build step. */
-export interface DockerBuildStepUpdateParameters
-  extends TaskStepUpdateParameters {
+export interface DockerBuildStepUpdateParameters extends TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Docker";
   /** The fully qualified image names including the repository and tag. */
@@ -2429,8 +2141,7 @@ export interface FileTaskStepUpdateParameters extends TaskStepUpdateParameters {
 }
 
 /** The properties for updating encoded task step. */
-export interface EncodedTaskStepUpdateParameters
-  extends TaskStepUpdateParameters {
+export interface EncodedTaskStepUpdateParameters extends TaskStepUpdateParameters {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "EncodedTask";
   /** Base64 encoded value of the template/definition file content. */
@@ -2439,26 +2150,6 @@ export interface EncodedTaskStepUpdateParameters
   encodedValuesContent?: string;
   /** The collection of overridable values that can be passed when running a task. */
   values?: SetValue[];
-}
-
-/** Defines headers for Archives_create operation. */
-export interface ArchivesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for Archives_delete operation. */
-export interface ArchivesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for ArchiveVersions_create operation. */
-export interface ArchiveVersionsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ArchiveVersions_delete operation. */
-export interface ArchiveVersionsDeleteHeaders {
-  location?: string;
 }
 
 /** Defines headers for CacheRules_create operation. */
@@ -2481,14 +2172,14 @@ export interface ConnectedRegistriesCreateHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Defines headers for ConnectedRegistries_delete operation. */
-export interface ConnectedRegistriesDeleteHeaders {
-  location?: string;
-}
-
 /** Defines headers for ConnectedRegistries_update operation. */
 export interface ConnectedRegistriesUpdateHeaders {
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for ConnectedRegistries_delete operation. */
+export interface ConnectedRegistriesDeleteHeaders {
+  location?: string;
 }
 
 /** Defines headers for ConnectedRegistries_deactivate operation. */
@@ -2509,16 +2200,6 @@ export interface CredentialSetsDeleteHeaders {
 /** Defines headers for CredentialSets_update operation. */
 export interface CredentialSetsUpdateHeaders {
   azureAsyncOperation?: string;
-}
-
-/** Defines headers for ExportPipelines_create operation. */
-export interface ExportPipelinesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ExportPipelines_delete operation. */
-export interface ExportPipelinesDeleteHeaders {
-  location?: string;
 }
 
 /** Defines headers for Registries_importImage operation. */
@@ -2543,26 +2224,6 @@ export interface RegistriesUpdateHeaders {
 
 /** Defines headers for Registries_generateCredentials operation. */
 export interface RegistriesGenerateCredentialsHeaders {
-  location?: string;
-}
-
-/** Defines headers for ImportPipelines_create operation. */
-export interface ImportPipelinesCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for ImportPipelines_delete operation. */
-export interface ImportPipelinesDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for PipelineRuns_create operation. */
-export interface PipelineRunsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for PipelineRuns_delete operation. */
-export interface PipelineRunsDeleteHeaders {
   location?: string;
 }
 
@@ -2635,46 +2296,6 @@ export interface WebhooksDeleteHeaders {
 export interface WebhooksUpdateHeaders {
   azureAsyncOperation?: string;
 }
-
-/** Defines headers for AgentPools_create operation. */
-export interface AgentPoolsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for AgentPools_delete operation. */
-export interface AgentPoolsDeleteHeaders {
-  location?: string;
-}
-
-/** Defines headers for AgentPools_update operation. */
-export interface AgentPoolsUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for TaskRuns_create operation. */
-export interface TaskRunsCreateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Defines headers for TaskRuns_update operation. */
-export interface TaskRunsUpdateHeaders {
-  azureAsyncOperation?: string;
-}
-
-/** Known values of {@link PackageSourceType} that the service accepts. */
-export enum KnownPackageSourceType {
-  /** Remote */
-  Remote = "remote",
-}
-
-/**
- * Defines values for PackageSourceType. \
- * {@link KnownPackageSourceType} can be used interchangeably with PackageSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **remote**
- */
-export type PackageSourceType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -2931,30 +2552,6 @@ export enum KnownCredentialHealthStatus {
  */
 export type CredentialHealthStatus = string;
 
-/** Known values of {@link PipelineOptions} that the service accepts. */
-export enum KnownPipelineOptions {
-  /** OverwriteTags */
-  OverwriteTags = "OverwriteTags",
-  /** OverwriteBlobs */
-  OverwriteBlobs = "OverwriteBlobs",
-  /** DeleteSourceBlobOnSuccess */
-  DeleteSourceBlobOnSuccess = "DeleteSourceBlobOnSuccess",
-  /** ContinueOnErrors */
-  ContinueOnErrors = "ContinueOnErrors",
-}
-
-/**
- * Defines values for PipelineOptions. \
- * {@link KnownPipelineOptions} can be used interchangeably with PipelineOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **OverwriteTags** \
- * **OverwriteBlobs** \
- * **DeleteSourceBlobOnSuccess** \
- * **ContinueOnErrors**
- */
-export type PipelineOptions = string;
-
 /** Known values of {@link ImportMode} that the service accepts. */
 export enum KnownImportMode {
   /** NoForce */
@@ -2972,96 +2569,6 @@ export enum KnownImportMode {
  * **Force**
  */
 export type ImportMode = string;
-
-/** Known values of {@link PipelineSourceType} that the service accepts. */
-export enum KnownPipelineSourceType {
-  /** AzureStorageBlobContainer */
-  AzureStorageBlobContainer = "AzureStorageBlobContainer",
-}
-
-/**
- * Defines values for PipelineSourceType. \
- * {@link KnownPipelineSourceType} can be used interchangeably with PipelineSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlobContainer**
- */
-export type PipelineSourceType = string;
-
-/** Known values of {@link TriggerStatus} that the service accepts. */
-export enum KnownTriggerStatus {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for TriggerStatus. \
- * {@link KnownTriggerStatus} can be used interchangeably with TriggerStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type TriggerStatus = string;
-
-/** Known values of {@link AutoGeneratedDomainNameLabelScope} that the service accepts. */
-export enum KnownAutoGeneratedDomainNameLabelScope {
-  /** Unsecure */
-  Unsecure = "Unsecure",
-  /** TenantReuse */
-  TenantReuse = "TenantReuse",
-  /** SubscriptionReuse */
-  SubscriptionReuse = "SubscriptionReuse",
-  /** ResourceGroupReuse */
-  ResourceGroupReuse = "ResourceGroupReuse",
-  /** NoReuse */
-  NoReuse = "NoReuse",
-}
-
-/**
- * Defines values for AutoGeneratedDomainNameLabelScope. \
- * {@link KnownAutoGeneratedDomainNameLabelScope} can be used interchangeably with AutoGeneratedDomainNameLabelScope,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Unsecure** \
- * **TenantReuse** \
- * **SubscriptionReuse** \
- * **ResourceGroupReuse** \
- * **NoReuse**
- */
-export type AutoGeneratedDomainNameLabelScope = string;
-
-/** Known values of {@link PipelineRunSourceType} that the service accepts. */
-export enum KnownPipelineRunSourceType {
-  /** AzureStorageBlob */
-  AzureStorageBlob = "AzureStorageBlob",
-}
-
-/**
- * Defines values for PipelineRunSourceType. \
- * {@link KnownPipelineRunSourceType} can be used interchangeably with PipelineRunSourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlob**
- */
-export type PipelineRunSourceType = string;
-
-/** Known values of {@link PipelineRunTargetType} that the service accepts. */
-export enum KnownPipelineRunTargetType {
-  /** AzureStorageBlob */
-  AzureStorageBlob = "AzureStorageBlob",
-}
-
-/**
- * Defines values for PipelineRunTargetType. \
- * {@link KnownPipelineRunTargetType} can be used interchangeably with PipelineRunTargetType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureStorageBlob**
- */
-export type PipelineRunTargetType = string;
 
 /** Known values of {@link ConnectionStatus} that the service accepts. */
 export enum KnownConnectionStatus {
@@ -3326,42 +2833,6 @@ export enum KnownZoneRedundancy {
  * **Disabled**
  */
 export type ZoneRedundancy = string;
-
-/** Known values of {@link MetadataSearch} that the service accepts. */
-export enum KnownMetadataSearch {
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for MetadataSearch. \
- * {@link KnownMetadataSearch} can be used interchangeably with MetadataSearch,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
- */
-export type MetadataSearch = string;
-
-/** Known values of {@link RoleAssignmentMode} that the service accepts. */
-export enum KnownRoleAssignmentMode {
-  /** AbacRepositoryPermissions */
-  AbacRepositoryPermissions = "AbacRepositoryPermissions",
-  /** LegacyRegistryPermissions */
-  LegacyRegistryPermissions = "LegacyRegistryPermissions",
-}
-
-/**
- * Defines values for RoleAssignmentMode. \
- * {@link KnownRoleAssignmentMode} can be used interchangeably with RoleAssignmentMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AbacRepositoryPermissions** \
- * **LegacyRegistryPermissions**
- */
-export type RoleAssignmentMode = string;
 
 /** Known values of {@link RegistryUsageUnit} that the service accepts. */
 export enum KnownRegistryUsageUnit {
@@ -3663,6 +3134,24 @@ export enum KnownBaseImageDependencyType {
  */
 export type BaseImageDependencyType = string;
 
+/** Known values of {@link TriggerStatus} that the service accepts. */
+export enum KnownTriggerStatus {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
+
+/**
+ * Defines values for TriggerStatus. \
+ * {@link KnownTriggerStatus} can be used interchangeably with TriggerStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type TriggerStatus = string;
+
 /** Known values of {@link SourceControlType} that the service accepts. */
 export enum KnownSourceControlType {
   /** Github */
@@ -3798,119 +3287,19 @@ export type ResourceIdentityType =
 export type PasswordName = "password" | "password2";
 
 /** Optional parameters. */
-export interface ArchivesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ArchivesListResponse = ArchiveListResult;
-
-/** Optional parameters. */
-export interface ArchivesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ArchivesGetResponse = Archive;
-
-/** Optional parameters. */
-export interface ArchivesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ArchivesCreateResponse = Archive;
-
-/** Optional parameters. */
-export interface ArchivesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ArchivesDeleteResponse = ArchivesDeleteHeaders;
-
-/** Optional parameters. */
-export interface ArchivesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ArchivesUpdateResponse = Archive;
-
-/** Optional parameters. */
-export interface ArchivesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ArchivesListNextResponse = ArchiveListResult;
-
-/** Optional parameters. */
-export interface ArchiveVersionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ArchiveVersionsListResponse = ArchiveVersionListResult;
-
-/** Optional parameters. */
-export interface ArchiveVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ArchiveVersionsGetResponse = ArchiveVersion;
-
-/** Optional parameters. */
-export interface ArchiveVersionsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ArchiveVersionsCreateResponse = ArchiveVersion;
-
-/** Optional parameters. */
-export interface ArchiveVersionsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the delete operation. */
-export type ArchiveVersionsDeleteResponse = ArchiveVersionsDeleteHeaders;
-
-/** Optional parameters. */
-export interface ArchiveVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ArchiveVersionsListNextResponse = ArchiveVersionListResult;
-
-/** Optional parameters. */
-export interface CacheRulesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheRulesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CacheRulesListResponse = CacheRulesListResult;
 
 /** Optional parameters. */
-export interface CacheRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheRulesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CacheRulesGetResponse = CacheRule;
 
 /** Optional parameters. */
-export interface CacheRulesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CacheRulesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3921,8 +3310,7 @@ export interface CacheRulesCreateOptionalParams
 export type CacheRulesCreateResponse = CacheRule;
 
 /** Optional parameters. */
-export interface CacheRulesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CacheRulesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3933,8 +3321,7 @@ export interface CacheRulesDeleteOptionalParams
 export type CacheRulesDeleteResponse = CacheRulesDeleteHeaders;
 
 /** Optional parameters. */
-export interface CacheRulesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CacheRulesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3945,32 +3332,19 @@ export interface CacheRulesUpdateOptionalParams
 export type CacheRulesUpdateResponse = CacheRule;
 
 /** Optional parameters. */
-export interface CacheRulesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CacheRulesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CacheRulesListNextResponse = CacheRulesListResult;
 
 /** Optional parameters. */
-export interface ConnectedRegistriesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** An OData filter expression that describes a subset of connectedRegistries to return. The parameters that can be filtered are parent.id (the resource id of the connectedRegistry parent), mode, and connectionState. The supported operator is eq. */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
-
-/** Optional parameters. */
-export interface ConnectedRegistriesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedRegistriesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectedRegistriesGetResponse = ConnectedRegistry;
 
 /** Optional parameters. */
-export interface ConnectedRegistriesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedRegistriesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3981,17 +3355,7 @@ export interface ConnectedRegistriesCreateOptionalParams
 export type ConnectedRegistriesCreateResponse = ConnectedRegistry;
 
 /** Optional parameters. */
-export interface ConnectedRegistriesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ConnectedRegistriesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedRegistriesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4002,8 +3366,7 @@ export interface ConnectedRegistriesUpdateOptionalParams
 export type ConnectedRegistriesUpdateResponse = ConnectedRegistry;
 
 /** Optional parameters. */
-export interface ConnectedRegistriesDeactivateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConnectedRegistriesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4011,29 +3374,42 @@ export interface ConnectedRegistriesDeactivateOptionalParams
 }
 
 /** Optional parameters. */
-export interface ConnectedRegistriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectedRegistriesListOptionalParams extends coreClient.OperationOptions {
+  /** An OData filter expression that describes a subset of connectedRegistries to return. The parameters that can be filtered are parent.id (the resource id of the connectedRegistry parent), mode, and connectionState. The supported operator is eq. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ConnectedRegistriesListResponse = ConnectedRegistryListResult;
+
+/** Optional parameters. */
+export interface ConnectedRegistriesDeactivateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConnectedRegistriesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConnectedRegistriesListNextResponse = ConnectedRegistryListResult;
 
 /** Optional parameters. */
-export interface CredentialSetsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialSetsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CredentialSetsListResponse = CredentialSetListResult;
 
 /** Optional parameters. */
-export interface CredentialSetsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialSetsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CredentialSetsGetResponse = CredentialSet;
 
 /** Optional parameters. */
-export interface CredentialSetsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CredentialSetsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4044,8 +3420,7 @@ export interface CredentialSetsCreateOptionalParams
 export type CredentialSetsCreateResponse = CredentialSet;
 
 /** Optional parameters. */
-export interface CredentialSetsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CredentialSetsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4056,8 +3431,7 @@ export interface CredentialSetsDeleteOptionalParams
 export type CredentialSetsDeleteResponse = CredentialSetsDeleteHeaders;
 
 /** Optional parameters. */
-export interface CredentialSetsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CredentialSetsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4068,57 +3442,13 @@ export interface CredentialSetsUpdateOptionalParams
 export type CredentialSetsUpdateResponse = CredentialSet;
 
 /** Optional parameters. */
-export interface CredentialSetsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CredentialSetsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CredentialSetsListNextResponse = CredentialSetListResult;
 
 /** Optional parameters. */
-export interface ExportPipelinesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ExportPipelinesListResponse = ExportPipelineListResult;
-
-/** Optional parameters. */
-export interface ExportPipelinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ExportPipelinesGetResponse = ExportPipeline;
-
-/** Optional parameters. */
-export interface ExportPipelinesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ExportPipelinesCreateResponse = ExportPipeline;
-
-/** Optional parameters. */
-export interface ExportPipelinesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ExportPipelinesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ExportPipelinesListNextResponse = ExportPipelineListResult;
-
-/** Optional parameters. */
-export interface RegistriesImportImageOptionalParams
-  extends coreClient.OperationOptions {
+export interface RegistriesImportImageOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4133,29 +3463,25 @@ export interface RegistriesCheckNameAvailabilityOptionalParams
 export type RegistriesCheckNameAvailabilityResponse = RegistryNameStatus;
 
 /** Optional parameters. */
-export interface RegistriesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RegistriesListResponse = RegistryListResult;
 
 /** Optional parameters. */
-export interface RegistriesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type RegistriesListByResourceGroupResponse = RegistryListResult;
 
 /** Optional parameters. */
-export interface RegistriesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RegistriesGetResponse = Registry;
 
 /** Optional parameters. */
-export interface RegistriesCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RegistriesCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4166,8 +3492,7 @@ export interface RegistriesCreateOptionalParams
 export type RegistriesCreateResponse = Registry;
 
 /** Optional parameters. */
-export interface RegistriesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface RegistriesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4175,8 +3500,7 @@ export interface RegistriesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface RegistriesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface RegistriesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4187,8 +3511,7 @@ export interface RegistriesUpdateOptionalParams
 export type RegistriesUpdateResponse = Registry;
 
 /** Optional parameters. */
-export interface RegistriesListUsagesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesListUsagesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsages operation. */
 export type RegistriesListUsagesResponse = RegistryUsageListResult;
@@ -4198,8 +3521,7 @@ export interface RegistriesListPrivateLinkResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateLinkResources operation. */
-export type RegistriesListPrivateLinkResourcesResponse =
-  PrivateLinkResourceListResult;
+export type RegistriesListPrivateLinkResourcesResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface RegistriesGetPrivateLinkResourceOptionalParams
@@ -4209,23 +3531,19 @@ export interface RegistriesGetPrivateLinkResourceOptionalParams
 export type RegistriesGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface RegistriesListCredentialsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesListCredentialsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCredentials operation. */
 export type RegistriesListCredentialsResponse = RegistryListCredentialsResult;
 
 /** Optional parameters. */
-export interface RegistriesRegenerateCredentialOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesRegenerateCredentialOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateCredential operation. */
-export type RegistriesRegenerateCredentialResponse =
-  RegistryListCredentialsResult;
+export type RegistriesRegenerateCredentialResponse = RegistryListCredentialsResult;
 
 /** Optional parameters. */
-export interface RegistriesGenerateCredentialsOptionalParams
-  extends coreClient.OperationOptions {
+export interface RegistriesGenerateCredentialsOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4236,8 +3554,12 @@ export interface RegistriesGenerateCredentialsOptionalParams
 export type RegistriesGenerateCredentialsResponse = GenerateCredentialsResult;
 
 /** Optional parameters. */
-export interface RegistriesScheduleRunOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesScheduleRunOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the scheduleRun operation. */
 export type RegistriesScheduleRunResponse = Run;
@@ -4250,8 +3572,7 @@ export interface RegistriesGetBuildSourceUploadUrlOptionalParams
 export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
 
 /** Optional parameters. */
-export interface RegistriesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegistriesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RegistriesListNextResponse = RegistryListResult;
@@ -4268,118 +3589,28 @@ export interface RegistriesListPrivateLinkResourcesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPrivateLinkResourcesNext operation. */
-export type RegistriesListPrivateLinkResourcesNextResponse =
-  PrivateLinkResourceListResult;
+export type RegistriesListPrivateLinkResourcesNextResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
-export interface ImportPipelinesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ImportPipelinesListResponse = ImportPipelineListResult;
-
-/** Optional parameters. */
-export interface ImportPipelinesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ImportPipelinesGetResponse = ImportPipeline;
-
-/** Optional parameters. */
-export interface ImportPipelinesCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type ImportPipelinesCreateResponse = ImportPipeline;
-
-/** Optional parameters. */
-export interface ImportPipelinesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ImportPipelinesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ImportPipelinesListNextResponse = ImportPipelineListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface PipelineRunsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PipelineRunsListResponse = PipelineRunListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PipelineRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type PipelineRunsGetResponse = PipelineRun;
-
-/** Optional parameters. */
-export interface PipelineRunsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type PipelineRunsCreateResponse = PipelineRun;
-
-/** Optional parameters. */
-export interface PipelineRunsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface PipelineRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type PipelineRunsListNextResponse = PipelineRunListResult;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
-
-/** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -4394,8 +3625,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -4411,26 +3641,22 @@ export interface PrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateEndpointConnectionsListNextResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface ReplicationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ReplicationsListResponse = ReplicationListResult;
 
 /** Optional parameters. */
-export interface ReplicationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ReplicationsGetResponse = Replication;
 
 /** Optional parameters. */
-export interface ReplicationsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReplicationsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4441,8 +3667,7 @@ export interface ReplicationsCreateOptionalParams
 export type ReplicationsCreateResponse = Replication;
 
 /** Optional parameters. */
-export interface ReplicationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReplicationsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4450,8 +3675,7 @@ export interface ReplicationsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ReplicationsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReplicationsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4462,29 +3686,25 @@ export interface ReplicationsUpdateOptionalParams
 export type ReplicationsUpdateResponse = Replication;
 
 /** Optional parameters. */
-export interface ReplicationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ReplicationsListNextResponse = ReplicationListResult;
 
 /** Optional parameters. */
-export interface ScopeMapsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScopeMapsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ScopeMapsListResponse = ScopeMapListResult;
 
 /** Optional parameters. */
-export interface ScopeMapsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScopeMapsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ScopeMapsGetResponse = ScopeMap;
 
 /** Optional parameters. */
-export interface ScopeMapsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ScopeMapsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4495,8 +3715,7 @@ export interface ScopeMapsCreateOptionalParams
 export type ScopeMapsCreateResponse = ScopeMap;
 
 /** Optional parameters. */
-export interface ScopeMapsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ScopeMapsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4504,8 +3723,7 @@ export interface ScopeMapsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ScopeMapsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ScopeMapsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4516,8 +3734,7 @@ export interface ScopeMapsUpdateOptionalParams
 export type ScopeMapsUpdateResponse = ScopeMap;
 
 /** Optional parameters. */
-export interface ScopeMapsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ScopeMapsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ScopeMapsListNextResponse = ScopeMapListResult;
@@ -4535,8 +3752,7 @@ export interface TokensGetOptionalParams extends coreClient.OperationOptions {}
 export type TokensGetResponse = Token;
 
 /** Optional parameters. */
-export interface TokensCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TokensCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4547,8 +3763,7 @@ export interface TokensCreateOptionalParams
 export type TokensCreateResponse = Token;
 
 /** Optional parameters. */
-export interface TokensDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface TokensDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4556,8 +3771,7 @@ export interface TokensDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface TokensUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TokensUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4568,29 +3782,25 @@ export interface TokensUpdateOptionalParams
 export type TokensUpdateResponse = Token;
 
 /** Optional parameters. */
-export interface TokensListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TokensListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TokensListNextResponse = TokenListResult;
 
 /** Optional parameters. */
-export interface WebhooksListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WebhooksListResponse = WebhookListResult;
 
 /** Optional parameters. */
-export interface WebhooksGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WebhooksGetResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhooksCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebhooksCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4601,8 +3811,7 @@ export interface WebhooksCreateOptionalParams
 export type WebhooksCreateResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhooksDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebhooksDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4610,8 +3819,7 @@ export interface WebhooksDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebhooksUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebhooksUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4622,50 +3830,43 @@ export interface WebhooksUpdateOptionalParams
 export type WebhooksUpdateResponse = Webhook;
 
 /** Optional parameters. */
-export interface WebhooksPingOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksPingOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the ping operation. */
 export type WebhooksPingResponse = EventInfo;
 
 /** Optional parameters. */
-export interface WebhooksListEventsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksListEventsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEvents operation. */
 export type WebhooksListEventsResponse = EventListResult;
 
 /** Optional parameters. */
-export interface WebhooksGetCallbackConfigOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksGetCallbackConfigOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCallbackConfig operation. */
 export type WebhooksGetCallbackConfigResponse = CallbackConfig;
 
 /** Optional parameters. */
-export interface WebhooksListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WebhooksListNextResponse = WebhookListResult;
 
 /** Optional parameters. */
-export interface WebhooksListEventsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebhooksListEventsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listEventsNext operation. */
 export type WebhooksListEventsNextResponse = EventListResult;
 
 /** Optional parameters. */
-export interface AgentPoolsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AgentPoolsGetResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AgentPoolsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4676,20 +3877,15 @@ export interface AgentPoolsCreateOptionalParams
 export type AgentPoolsCreateResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
-/** Contains response data for the delete operation. */
-export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
-
 /** Optional parameters. */
-export interface AgentPoolsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AgentPoolsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4700,22 +3896,19 @@ export interface AgentPoolsUpdateOptionalParams
 export type AgentPoolsUpdateResponse = AgentPool;
 
 /** Optional parameters. */
-export interface AgentPoolsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgentPoolsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 /** Optional parameters. */
-export interface AgentPoolsGetQueueStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgentPoolsGetQueueStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getQueueStatus operation. */
 export type AgentPoolsGetQueueStatusResponse = AgentPoolQueueStatus;
 
 /** Optional parameters. */
-export interface AgentPoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AgentPoolsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AgentPoolsListNextResponse = AgentPoolListResult;
@@ -4738,38 +3931,44 @@ export interface RunsGetOptionalParams extends coreClient.OperationOptions {}
 export type RunsGetResponse = Run;
 
 /** Optional parameters. */
-export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {}
+export interface RunsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type RunsUpdateResponse = Run;
 
 /** Optional parameters. */
-export interface RunsGetLogSasUrlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunsGetLogSasUrlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLogSasUrl operation. */
 export type RunsGetLogSasUrlResponse = RunGetLogResult;
 
 /** Optional parameters. */
-export interface RunsCancelOptionalParams extends coreClient.OperationOptions {}
+export interface RunsCancelOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface RunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RunsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RunsListNextResponse = RunListResult;
 
 /** Optional parameters. */
-export interface TaskRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TaskRunsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TaskRunsGetResponse = TaskRun;
 
 /** Optional parameters. */
-export interface TaskRunsCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TaskRunsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4780,12 +3979,15 @@ export interface TaskRunsCreateOptionalParams
 export type TaskRunsCreateResponse = TaskRun;
 
 /** Optional parameters. */
-export interface TaskRunsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TaskRunsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface TaskRunsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface TaskRunsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -4796,22 +3998,19 @@ export interface TaskRunsUpdateOptionalParams
 export type TaskRunsUpdateResponse = TaskRun;
 
 /** Optional parameters. */
-export interface TaskRunsGetDetailsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TaskRunsGetDetailsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetails operation. */
 export type TaskRunsGetDetailsResponse = TaskRun;
 
 /** Optional parameters. */
-export interface TaskRunsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TaskRunsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TaskRunsListResponse = TaskRunListResult;
 
 /** Optional parameters. */
-export interface TaskRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TaskRunsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TaskRunsListNextResponse = TaskRunListResult;
@@ -4829,33 +4028,43 @@ export interface TasksGetOptionalParams extends coreClient.OperationOptions {}
 export type TasksGetResponse = Task;
 
 /** Optional parameters. */
-export interface TasksCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TasksCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the create operation. */
 export type TasksCreateResponse = Task;
 
 /** Optional parameters. */
-export interface TasksDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TasksDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
-export interface TasksUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type TasksUpdateResponse = Task;
 
 /** Optional parameters. */
-export interface TasksGetDetailsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TasksGetDetailsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDetails operation. */
 export type TasksGetDetailsResponse = Task;
 
 /** Optional parameters. */
-export interface TasksListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TasksListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TasksListNextResponse = TaskListResult;
@@ -4865,8 +4074,6 @@ export interface ContainerRegistryManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

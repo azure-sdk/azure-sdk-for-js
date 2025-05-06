@@ -53,9 +53,7 @@ export interface Registries {
    * Lists all the container registries under the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: RegistriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Registry>;
+  list(options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry>;
   /**
    * Lists all the container registries under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -135,12 +133,7 @@ export interface Registries {
     registryName: string,
     registry: Registry,
     options?: RegistriesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesCreateResponse>,
-      RegistriesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<RegistriesCreateResponse>, RegistriesCreateResponse>>;
   /**
    * Creates a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -188,12 +181,7 @@ export interface Registries {
     registryName: string,
     registryUpdateParameters: RegistryUpdateParameters,
     options?: RegistriesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesUpdateResponse>,
-      RegistriesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<RegistriesUpdateResponse>, RegistriesUpdateResponse>>;
   /**
    * Updates a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -294,7 +282,22 @@ export interface Registries {
    * @param runRequest The parameters of a run that needs to scheduled.
    * @param options The options parameters.
    */
-  scheduleRun(
+  beginScheduleRun(
+    resourceGroupName: string,
+    registryName: string,
+    runRequest: RunRequestUnion,
+    options?: RegistriesScheduleRunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<RegistriesScheduleRunResponse>, RegistriesScheduleRunResponse>
+  >;
+  /**
+   * Schedules a new run based on the request parameters and add it to the run queue.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param runRequest The parameters of a run that needs to scheduled.
+   * @param options The options parameters.
+   */
+  beginScheduleRunAndWait(
     resourceGroupName: string,
     registryName: string,
     runRequest: RunRequestUnion,

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CacheRule,
@@ -72,12 +68,7 @@ export class CacheRulesImpl implements CacheRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -98,12 +89,7 @@ export class CacheRulesImpl implements CacheRules {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,11 +102,7 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     options?: CacheRulesListOptionalParams,
   ): AsyncIterableIterator<CacheRule> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -175,12 +157,7 @@ export class CacheRulesImpl implements CacheRules {
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
     options?: CacheRulesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesCreateResponse>,
-      CacheRulesCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<CacheRulesCreateResponse>, CacheRulesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -191,8 +168,7 @@ export class CacheRulesImpl implements CacheRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -279,12 +255,7 @@ export class CacheRulesImpl implements CacheRules {
     registryName: string,
     cacheRuleName: string,
     options?: CacheRulesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesDeleteResponse>,
-      CacheRulesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<CacheRulesDeleteResponse>, CacheRulesDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -295,8 +266,7 @@ export class CacheRulesImpl implements CacheRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -353,12 +323,7 @@ export class CacheRulesImpl implements CacheRules {
     cacheRuleName: string,
     options?: CacheRulesDeleteOptionalParams,
   ): Promise<CacheRulesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      cacheRuleName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, registryName, cacheRuleName, options);
     return poller.pollUntilDone();
   }
 
@@ -376,12 +341,7 @@ export class CacheRulesImpl implements CacheRules {
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
     options?: CacheRulesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesUpdateResponse>,
-      CacheRulesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<CacheRulesUpdateResponse>, CacheRulesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -392,8 +352,7 @@ export class CacheRulesImpl implements CacheRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
