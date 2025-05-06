@@ -2,33 +2,49 @@
 // Licensed under the MIT License.
 
 import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
-import {
-  enterpriseMccCustomersGet,
-  enterpriseMccCustomersCreateOrUpdate,
-  enterpriseMccCustomersUpdate,
-  enterpriseMccCustomersDelete,
-  enterpriseMccCustomersListByResourceGroup,
-  enterpriseMccCustomersListBySubscription,
-} from "../../api/enterpriseMccCustomers/index.js";
-import {
-  EnterpriseMccCustomersGetOptionalParams,
-  EnterpriseMccCustomersCreateOrUpdateOptionalParams,
-  EnterpriseMccCustomersUpdateOptionalParams,
-  EnterpriseMccCustomersDeleteOptionalParams,
-  EnterpriseMccCustomersListByResourceGroupOptionalParams,
-  EnterpriseMccCustomersListBySubscriptionOptionalParams,
-} from "../../api/options.js";
 import { ConnectedCachePatchResource, EnterpriseMccCustomerResource } from "../../models/models.js";
+import {
+  EnterpriseMccCustomersListBySubscriptionOptionalParams,
+  EnterpriseMccCustomersListByResourceGroupOptionalParams,
+  EnterpriseMccCustomersDeleteOptionalParams,
+  EnterpriseMccCustomersUpdateOptionalParams,
+  EnterpriseMccCustomersCreateOrUpdateOptionalParams,
+  EnterpriseMccCustomersGetOptionalParams,
+} from "../../api/enterpriseMccCustomers/options.js";
+import {
+  enterpriseMccCustomersListBySubscription,
+  enterpriseMccCustomersListByResourceGroup,
+  enterpriseMccCustomersDelete,
+  enterpriseMccCustomersUpdate,
+  enterpriseMccCustomersCreateOrUpdate,
+  enterpriseMccCustomersGet,
+} from "../../api/enterpriseMccCustomers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EnterpriseMccCustomers operations. */
 export interface EnterpriseMccCustomersOperations {
-  /** Gets the enterprise mcc customer resource information using this get call */
-  get: (
+  /** This api gets information about all enterpriseMccCustomer resources under the given subscription */
+  listBySubscription: (
+    options?: EnterpriseMccCustomersListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
+  /** This api gets the information about all enterprise mcc customer resources under the given subscription and resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
+  /** This api deletes an existing enterprise mcc customer resource */
+  delete: (
     resourceGroupName: string,
     customerResourceName: string,
-    options?: EnterpriseMccCustomersGetOptionalParams,
+    options?: EnterpriseMccCustomersDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** This api updates an existing enterprise mcc customer resource */
+  update: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    properties: ConnectedCachePatchResource,
+    options?: EnterpriseMccCustomersUpdateOptionalParams,
   ) => Promise<EnterpriseMccCustomerResource>;
   /** This api creates an enterprise mcc customer with the specified create parameters */
   createOrUpdate: (
@@ -37,42 +53,38 @@ export interface EnterpriseMccCustomersOperations {
     resource: EnterpriseMccCustomerResource,
     options?: EnterpriseMccCustomersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<EnterpriseMccCustomerResource>, EnterpriseMccCustomerResource>;
-  /** This api updates an existing enterprise mcc customer resource */
-  update: (
+  /** Gets the enterprise mcc customer resource information using this get call */
+  get: (
     resourceGroupName: string,
     customerResourceName: string,
-    properties: ConnectedCachePatchResource,
-    options?: EnterpriseMccCustomersUpdateOptionalParams,
+    options?: EnterpriseMccCustomersGetOptionalParams,
   ) => Promise<EnterpriseMccCustomerResource>;
-  /** This api deletes an existing enterprise mcc customer resource */
-  delete: (
-    resourceGroupName: string,
-    customerResourceName: string,
-    options?: EnterpriseMccCustomersDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** This api gets the information about all enterprise mcc customer resources under the given subscription and resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
-  /** This api gets information about all enterpriseMccCustomer resources under the given subscription */
-  listBySubscription: (
-    options?: EnterpriseMccCustomersListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
 }
 
-export function getEnterpriseMccCustomers(context: ConnectedCacheContext, subscriptionId: string) {
+function _getEnterpriseMccCustomers(context: ConnectedCacheContext) {
   return {
-    get: (
+    listBySubscription: (options?: EnterpriseMccCustomersListBySubscriptionOptionalParams) =>
+      enterpriseMccCustomersListBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
+    ) => enterpriseMccCustomersListByResourceGroup(context, resourceGroupName, options),
+    delete: (
       resourceGroupName: string,
       customerResourceName: string,
-      options?: EnterpriseMccCustomersGetOptionalParams,
+      options?: EnterpriseMccCustomersDeleteOptionalParams,
+    ) => enterpriseMccCustomersDelete(context, resourceGroupName, customerResourceName, options),
+    update: (
+      resourceGroupName: string,
+      customerResourceName: string,
+      properties: ConnectedCachePatchResource,
+      options?: EnterpriseMccCustomersUpdateOptionalParams,
     ) =>
-      enterpriseMccCustomersGet(
+      enterpriseMccCustomersUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
+        properties,
         options,
       ),
     createOrUpdate: (
@@ -83,58 +95,23 @@ export function getEnterpriseMccCustomers(context: ConnectedCacheContext, subscr
     ) =>
       enterpriseMccCustomersCreateOrUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         resource,
         options,
       ),
-    update: (
+    get: (
       resourceGroupName: string,
       customerResourceName: string,
-      properties: ConnectedCachePatchResource,
-      options?: EnterpriseMccCustomersUpdateOptionalParams,
-    ) =>
-      enterpriseMccCustomersUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        properties,
-        options,
-      ),
-    delete: (
-      resourceGroupName: string,
-      customerResourceName: string,
-      options?: EnterpriseMccCustomersDeleteOptionalParams,
-    ) =>
-      enterpriseMccCustomersDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        options,
-      ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
-    ) =>
-      enterpriseMccCustomersListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (options?: EnterpriseMccCustomersListBySubscriptionOptionalParams) =>
-      enterpriseMccCustomersListBySubscription(context, subscriptionId, options),
+      options?: EnterpriseMccCustomersGetOptionalParams,
+    ) => enterpriseMccCustomersGet(context, resourceGroupName, customerResourceName, options),
   };
 }
 
-export function getEnterpriseMccCustomersOperations(
+export function _getEnterpriseMccCustomersOperations(
   context: ConnectedCacheContext,
-  subscriptionId: string,
 ): EnterpriseMccCustomersOperations {
   return {
-    ...getEnterpriseMccCustomers(context, subscriptionId),
+    ..._getEnterpriseMccCustomers(context),
   };
 }

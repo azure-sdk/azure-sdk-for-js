@@ -3,37 +3,88 @@
 
 import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
 import {
-  enterpriseMccCacheNodesOperationsGet,
-  enterpriseMccCacheNodesOperationsCreateOrUpdate,
-  enterpriseMccCacheNodesOperationsUpdate,
-  enterpriseMccCacheNodesOperationsDelete,
-  enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource,
-  enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails,
-} from "../../api/enterpriseMccCacheNodesOperations/index.js";
-import {
-  EnterpriseMccCacheNodesOperationsGetOptionalParams,
-  EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
-  EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
-  EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
-  EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
-  EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
-} from "../../api/options.js";
-import {
-  EnterpriseMccCacheNodeResource,
   ConnectedCachePatchResource,
   MccCacheNodeInstallDetails,
+  MccCacheNodeAutoUpdateHistory,
+  MccCacheNodeIssueHistory,
+  EnterpriseMccCacheNodeResource,
+  MccCacheNodeTlsCertificateHistory,
 } from "../../models/models.js";
+import {
+  EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams,
+  EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
+  EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
+  EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
+  EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
+  EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
+  EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
+  EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
+  EnterpriseMccCacheNodesOperationsGetOptionalParams,
+} from "../../api/enterpriseMccCacheNodesOperations/options.js";
+import {
+  enterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistory,
+  enterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistory,
+  enterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistory,
+  enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails,
+  enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource,
+  enterpriseMccCacheNodesOperationsDelete,
+  enterpriseMccCacheNodesOperationsUpdate,
+  enterpriseMccCacheNodesOperationsCreateOrUpdate,
+  enterpriseMccCacheNodesOperationsGet,
+} from "../../api/enterpriseMccCacheNodesOperations/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EnterpriseMccCacheNodesOperations operations. */
 export interface EnterpriseMccCacheNodesOperationsOperations {
-  /** This api gets ispCacheNode resource information */
-  get: (
+  /** This api gets ispCacheNode resource tls certificate histrory information */
+  getCacheNodeTlsCertificateHistory: (
     resourceGroupName: string,
     customerResourceName: string,
     cacheNodeResourceName: string,
-    options?: EnterpriseMccCacheNodesOperationsGetOptionalParams,
+    options?: EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams,
+  ) => Promise<MccCacheNodeTlsCertificateHistory>;
+  /** This api gets ispCacheNode resource issues details histrory information */
+  getCacheNodeMccIssueDetailsHistory: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    cacheNodeResourceName: string,
+    options?: EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
+  ) => Promise<MccCacheNodeIssueHistory>;
+  /** This api gets ispCacheNode resource auto update histrory information */
+  getCacheNodeAutoUpdateHistory: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    cacheNodeResourceName: string,
+    options?: EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
+  ) => Promise<MccCacheNodeAutoUpdateHistory>;
+  /** This api gets secrets of the ispCacheNode resource install details */
+  getCacheNodeInstallDetails: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    cacheNodeResourceName: string,
+    options?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
+  ) => Promise<MccCacheNodeInstallDetails>;
+  /** This api retrieves information about all ispCacheNode resources under the given subscription and resource group */
+  listByEnterpriseMccCustomerResource: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    options?: EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
+  ) => PagedAsyncIterableIterator<EnterpriseMccCacheNodeResource>;
+  /** This api deletes an existing ispCacheNode resource */
+  delete: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    cacheNodeResourceName: string,
+    options?: EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** This api updates an existing ispCacheNode resource */
+  update: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    cacheNodeResourceName: string,
+    properties: ConnectedCachePatchResource,
+    options?: EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
   ) => Promise<EnterpriseMccCacheNodeResource>;
   /** This api creates an ispCacheNode with the specified create parameters */
   createOrUpdate: (
@@ -43,96 +94,64 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     resource: EnterpriseMccCacheNodeResource,
     options?: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource>;
-  /** This api updates an existing ispCacheNode resource */
-  update: (
+  /** This api gets ispCacheNode resource information */
+  get: (
     resourceGroupName: string,
     customerResourceName: string,
     cacheNodeResourceName: string,
-    properties: ConnectedCachePatchResource,
-    options?: EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
+    options?: EnterpriseMccCacheNodesOperationsGetOptionalParams,
   ) => Promise<EnterpriseMccCacheNodeResource>;
-  /** This api deletes an existing ispCacheNode resource */
-  delete: (
-    resourceGroupName: string,
-    customerResourceName: string,
-    cacheNodeResourceName: string,
-    options?: EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** This api retrieves information about all ispCacheNode resources under the given subscription and resource group */
-  listByEnterpriseMccCustomerResource: (
-    resourceGroupName: string,
-    customerResourceName: string,
-    options?: EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
-  ) => PagedAsyncIterableIterator<EnterpriseMccCacheNodeResource>;
-  /** This api gets secrets of the ispCacheNode resource install details */
-  getCacheNodeInstallDetails: (
-    resourceGroupName: string,
-    customerResourceName: string,
-    cacheNodeResourceName: string,
-    options?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
-  ) => Promise<MccCacheNodeInstallDetails>;
 }
 
-export function getEnterpriseMccCacheNodesOperations(
-  context: ConnectedCacheContext,
-  subscriptionId: string,
-) {
+function _getEnterpriseMccCacheNodesOperations(context: ConnectedCacheContext) {
   return {
-    get: (
+    getCacheNodeTlsCertificateHistory: (
       resourceGroupName: string,
       customerResourceName: string,
       cacheNodeResourceName: string,
-      options?: EnterpriseMccCacheNodesOperationsGetOptionalParams,
+      options?: EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams,
     ) =>
-      enterpriseMccCacheNodesOperationsGet(
+      enterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistory(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         cacheNodeResourceName,
         options,
       ),
-    createOrUpdate: (
+    getCacheNodeMccIssueDetailsHistory: (
       resourceGroupName: string,
       customerResourceName: string,
       cacheNodeResourceName: string,
-      resource: EnterpriseMccCacheNodeResource,
-      options?: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
+      options?: EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
     ) =>
-      enterpriseMccCacheNodesOperationsCreateOrUpdate(
+      enterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistory(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         cacheNodeResourceName,
-        resource,
         options,
       ),
-    update: (
+    getCacheNodeAutoUpdateHistory: (
       resourceGroupName: string,
       customerResourceName: string,
       cacheNodeResourceName: string,
-      properties: ConnectedCachePatchResource,
-      options?: EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
+      options?: EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
     ) =>
-      enterpriseMccCacheNodesOperationsUpdate(
+      enterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistory(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         cacheNodeResourceName,
-        properties,
         options,
       ),
-    delete: (
+    getCacheNodeInstallDetails: (
       resourceGroupName: string,
       customerResourceName: string,
       cacheNodeResourceName: string,
-      options?: EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
+      options?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
     ) =>
-      enterpriseMccCacheNodesOperationsDelete(
+      enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         cacheNodeResourceName,
@@ -145,20 +164,61 @@ export function getEnterpriseMccCacheNodesOperations(
     ) =>
       enterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResource(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         options,
       ),
-    getCacheNodeInstallDetails: (
+    delete: (
       resourceGroupName: string,
       customerResourceName: string,
       cacheNodeResourceName: string,
-      options?: EnterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams,
+      options?: EnterpriseMccCacheNodesOperationsDeleteOptionalParams,
     ) =>
-      enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetails(
+      enterpriseMccCacheNodesOperationsDelete(
         context,
-        subscriptionId,
+        resourceGroupName,
+        customerResourceName,
+        cacheNodeResourceName,
+        options,
+      ),
+    update: (
+      resourceGroupName: string,
+      customerResourceName: string,
+      cacheNodeResourceName: string,
+      properties: ConnectedCachePatchResource,
+      options?: EnterpriseMccCacheNodesOperationsUpdateOptionalParams,
+    ) =>
+      enterpriseMccCacheNodesOperationsUpdate(
+        context,
+        resourceGroupName,
+        customerResourceName,
+        cacheNodeResourceName,
+        properties,
+        options,
+      ),
+    createOrUpdate: (
+      resourceGroupName: string,
+      customerResourceName: string,
+      cacheNodeResourceName: string,
+      resource: EnterpriseMccCacheNodeResource,
+      options?: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
+    ) =>
+      enterpriseMccCacheNodesOperationsCreateOrUpdate(
+        context,
+        resourceGroupName,
+        customerResourceName,
+        cacheNodeResourceName,
+        resource,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      customerResourceName: string,
+      cacheNodeResourceName: string,
+      options?: EnterpriseMccCacheNodesOperationsGetOptionalParams,
+    ) =>
+      enterpriseMccCacheNodesOperationsGet(
+        context,
         resourceGroupName,
         customerResourceName,
         cacheNodeResourceName,
@@ -167,11 +227,10 @@ export function getEnterpriseMccCacheNodesOperations(
   };
 }
 
-export function getEnterpriseMccCacheNodesOperationsOperations(
+export function _getEnterpriseMccCacheNodesOperationsOperations(
   context: ConnectedCacheContext,
-  subscriptionId: string,
 ): EnterpriseMccCacheNodesOperationsOperations {
   return {
-    ...getEnterpriseMccCacheNodesOperations(context, subscriptionId),
+    ..._getEnterpriseMccCacheNodesOperations(context),
   };
 }

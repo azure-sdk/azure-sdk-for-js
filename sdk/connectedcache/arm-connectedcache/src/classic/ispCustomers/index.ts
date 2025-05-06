@@ -2,33 +2,49 @@
 // Licensed under the MIT License.
 
 import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
+import { IspCustomerResource, ConnectedCachePatchResource } from "../../models/models.js";
 import {
-  ispCustomersGet,
-  ispCustomersCreateOrUpdate,
-  ispCustomersUpdate,
-  ispCustomersDelete,
-  ispCustomersListByResourceGroup,
-  ispCustomersListBySubscription,
-} from "../../api/ispCustomers/index.js";
-import {
-  IspCustomersGetOptionalParams,
-  IspCustomersCreateOrUpdateOptionalParams,
-  IspCustomersUpdateOptionalParams,
-  IspCustomersDeleteOptionalParams,
-  IspCustomersListByResourceGroupOptionalParams,
   IspCustomersListBySubscriptionOptionalParams,
-} from "../../api/options.js";
-import { ConnectedCachePatchResource, IspCustomerResource } from "../../models/models.js";
+  IspCustomersListByResourceGroupOptionalParams,
+  IspCustomersDeleteOptionalParams,
+  IspCustomersUpdateOptionalParams,
+  IspCustomersCreateOrUpdateOptionalParams,
+  IspCustomersGetOptionalParams,
+} from "../../api/ispCustomers/options.js";
+import {
+  ispCustomersListBySubscription,
+  ispCustomersListByResourceGroup,
+  ispCustomersDelete,
+  ispCustomersUpdate,
+  ispCustomersCreateOrUpdate,
+  ispCustomersGet,
+} from "../../api/ispCustomers/operations.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IspCustomers operations. */
 export interface IspCustomersOperations {
-  /** Gets the ispCustomer resource information using this get call */
-  get: (
+  /** This api gets information about all ispCustomer resources under the given subscription */
+  listBySubscription: (
+    options?: IspCustomersListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<IspCustomerResource>;
+  /** This api gets the information about all ispCustomer resources under the given subscription and resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: IspCustomersListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<IspCustomerResource>;
+  /** This api deletes an existing ispCustomer resource */
+  delete: (
     resourceGroupName: string,
     customerResourceName: string,
-    options?: IspCustomersGetOptionalParams,
+    options?: IspCustomersDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
+  /** This api updates an existing ispCustomer resource */
+  update: (
+    resourceGroupName: string,
+    customerResourceName: string,
+    properties: ConnectedCachePatchResource,
+    options?: IspCustomersUpdateOptionalParams,
   ) => Promise<IspCustomerResource>;
   /** This api creates an ispCustomer with the specified create parameters */
   createOrUpdate: (
@@ -37,37 +53,33 @@ export interface IspCustomersOperations {
     resource: IspCustomerResource,
     options?: IspCustomersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<IspCustomerResource>, IspCustomerResource>;
-  /** This api updates an existing ispCustomer resource */
-  update: (
+  /** Gets the ispCustomer resource information using this get call */
+  get: (
     resourceGroupName: string,
     customerResourceName: string,
-    properties: ConnectedCachePatchResource,
-    options?: IspCustomersUpdateOptionalParams,
+    options?: IspCustomersGetOptionalParams,
   ) => Promise<IspCustomerResource>;
-  /** This api deletes an existing ispCustomer resource */
-  delete: (
-    resourceGroupName: string,
-    customerResourceName: string,
-    options?: IspCustomersDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** This api gets the information about all ispCustomer resources under the given subscription and resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: IspCustomersListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<IspCustomerResource>;
-  /** This api gets information about all ispCustomer resources under the given subscription */
-  listBySubscription: (
-    options?: IspCustomersListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<IspCustomerResource>;
 }
 
-export function getIspCustomers(context: ConnectedCacheContext, subscriptionId: string) {
+function _getIspCustomers(context: ConnectedCacheContext) {
   return {
-    get: (
+    listBySubscription: (options?: IspCustomersListBySubscriptionOptionalParams) =>
+      ispCustomersListBySubscription(context, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: IspCustomersListByResourceGroupOptionalParams,
+    ) => ispCustomersListByResourceGroup(context, resourceGroupName, options),
+    delete: (
       resourceGroupName: string,
       customerResourceName: string,
-      options?: IspCustomersGetOptionalParams,
-    ) => ispCustomersGet(context, subscriptionId, resourceGroupName, customerResourceName, options),
+      options?: IspCustomersDeleteOptionalParams,
+    ) => ispCustomersDelete(context, resourceGroupName, customerResourceName, options),
+    update: (
+      resourceGroupName: string,
+      customerResourceName: string,
+      properties: ConnectedCachePatchResource,
+      options?: IspCustomersUpdateOptionalParams,
+    ) => ispCustomersUpdate(context, resourceGroupName, customerResourceName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       customerResourceName: string,
@@ -76,46 +88,21 @@ export function getIspCustomers(context: ConnectedCacheContext, subscriptionId: 
     ) =>
       ispCustomersCreateOrUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         customerResourceName,
         resource,
         options,
       ),
-    update: (
+    get: (
       resourceGroupName: string,
       customerResourceName: string,
-      properties: ConnectedCachePatchResource,
-      options?: IspCustomersUpdateOptionalParams,
-    ) =>
-      ispCustomersUpdate(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        properties,
-        options,
-      ),
-    delete: (
-      resourceGroupName: string,
-      customerResourceName: string,
-      options?: IspCustomersDeleteOptionalParams,
-    ) =>
-      ispCustomersDelete(context, subscriptionId, resourceGroupName, customerResourceName, options),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: IspCustomersListByResourceGroupOptionalParams,
-    ) => ispCustomersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: IspCustomersListBySubscriptionOptionalParams) =>
-      ispCustomersListBySubscription(context, subscriptionId, options),
+      options?: IspCustomersGetOptionalParams,
+    ) => ispCustomersGet(context, resourceGroupName, customerResourceName, options),
   };
 }
 
-export function getIspCustomersOperations(
-  context: ConnectedCacheContext,
-  subscriptionId: string,
-): IspCustomersOperations {
+export function _getIspCustomersOperations(context: ConnectedCacheContext): IspCustomersOperations {
   return {
-    ...getIspCustomers(context, subscriptionId),
+    ..._getIspCustomers(context),
   };
 }

@@ -2,24 +2,22 @@
 // Licensed under the MIT License.
 
 import { ConnectedCacheClient } from "./connectedCacheClient.js";
-import { _enterpriseCustomerOperationsCreateOrUpdateDeserialize } from "./api/enterpriseCustomerOperations/index.js";
-import { _cacheNodesOperationsCreateorUpdateDeserialize } from "./api/cacheNodesOperations/index.js";
 import {
-  _ispCustomersCreateOrUpdateDeserialize,
-  _ispCustomersDeleteDeserialize,
-} from "./api/ispCustomers/index.js";
-import {
-  _ispCacheNodesOperationsCreateOrUpdateDeserialize,
-  _ispCacheNodesOperationsDeleteDeserialize,
-} from "./api/ispCacheNodesOperations/index.js";
-import {
-  _enterpriseMccCustomersCreateOrUpdateDeserialize,
-  _enterpriseMccCustomersDeleteDeserialize,
-} from "./api/enterpriseMccCustomers/index.js";
-import {
-  _enterpriseMccCacheNodesOperationsCreateOrUpdateDeserialize,
   _enterpriseMccCacheNodesOperationsDeleteDeserialize,
-} from "./api/enterpriseMccCacheNodesOperations/index.js";
+  _enterpriseMccCacheNodesOperationsCreateOrUpdateDeserialize,
+} from "./api/enterpriseMccCacheNodesOperations/operations.js";
+import {
+  _enterpriseMccCustomersDeleteDeserialize,
+  _enterpriseMccCustomersCreateOrUpdateDeserialize,
+} from "./api/enterpriseMccCustomers/operations.js";
+import {
+  _ispCacheNodesOperationsDeleteDeserialize,
+  _ispCacheNodesOperationsCreateOrUpdateDeserialize,
+} from "./api/ispCacheNodesOperations/operations.js";
+import {
+  _ispCustomersDeleteDeserialize,
+  _ispCustomersCreateOrUpdateDeserialize,
+} from "./api/ispCustomers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -93,44 +91,9 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers/{customerResourceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}":
     {
-      deserializer: _enterpriseCustomerOperationsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes/{customerResourceName}":
-    {
-      deserializer: _cacheNodesOperationsCreateorUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}":
-    {
-      deserializer: _ispCustomersCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}":
-    {
-      deserializer: _ispCustomersDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}":
-    {
-      deserializer: _ispCacheNodesOperationsCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}":
-    {
-      deserializer: _ispCacheNodesOperationsDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}":
-    {
-      deserializer: _enterpriseMccCustomersCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}":
-    {
-      deserializer: _enterpriseMccCustomersDeleteDeserialize,
+      deserializer: _enterpriseMccCacheNodesOperationsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}":
@@ -138,10 +101,35 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _enterpriseMccCacheNodesOperationsCreateOrUpdateDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}":
     {
-      deserializer: _enterpriseMccCacheNodesOperationsDeleteDeserialize,
+      deserializer: _enterpriseMccCustomersDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}":
+    {
+      deserializer: _enterpriseMccCustomersCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}":
+    {
+      deserializer: _ispCacheNodesOperationsDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}":
+    {
+      deserializer: _ispCacheNodesOperationsCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}":
+    {
+      deserializer: _ispCustomersDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}":
+    {
+      deserializer: _ispCustomersCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
     },
 };
 
