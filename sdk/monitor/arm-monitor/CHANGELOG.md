@@ -1,15 +1,143 @@
 # Release History
-
-## 8.0.0-beta.6 (Unreleased)
-
+    
+## 8.0.0-beta.6 (2025-05-06)
+Compared with version 7.0.0
+    
 ### Features Added
+
+  - Added Interface DynamicMetricCriteria
+  - Added Interface ErrorDetailAdditionalInfoItem
+  - Added Interface ErrorResponseError
+  - Added Interface ErrorResponseErrorAdditionalInfoItem
+  - Added Interface Identity
+  - Added Interface MetricAlertMultipleResourceMultipleMetricCriteria
+  - Added Interface MetricAlertPropertiesBase
+  - Added Interface MetricAlertPropertiesBaseForPatch
+  - Added Interface MetricAlertResource
+  - Added Interface MetricAlertSingleResourceMultipleMetricCriteria
+  - Added Interface MetricAlertsMetricProperties
+  - Added Interface MetricAlertsMetricPropertiesForPatch
+  - Added Interface MetricAlertsQueryProperties
+  - Added Interface MetricAlertsQueryPropertiesForPatch
+  - Added Interface MetricCriteria
+  - Added Interface MetricQueryCriteria
+  - Added Interface QueryResolveConfiguration
+  - Added Interface UserIdentityProperties
+  - Added Interface WebtestLocationAvailabilityCriteria
+  - Added Type Alias IdentityType
+  - Added Type Alias Kind
+  - Added Type Alias Kinds
+  - Added Type Alias KindsEnum
+  - Added Type Alias UniqueKindEnum
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface MetricAlertResourcePatch has a new optional parameter identity
+  - Interface MonitorClientOptionalParams has a new optional parameter apiVersion
+  - Added Enum KnownKind
+  - Added Enum KnownKinds
+  - Added Enum KnownKindsEnum
+  - Added Enum KnownUniqueKindEnum
+  - Added function getContinuationToken
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group ActionGroups
+  - Removed operation group ActivityLogAlerts
+  - Removed operation group ActivityLogs
+  - Removed operation group AlertRuleIncidents
+  - Removed operation group AlertRules
+  - Removed operation group AutoscaleSettings
+  - Removed operation group Baselines
+  - Removed operation group DataCollectionEndpoints
+  - Removed operation group DataCollectionRuleAssociations
+  - Removed operation group DataCollectionRules
+  - Removed operation group DiagnosticSettings
+  - Removed operation group DiagnosticSettingsCategory
+  - Removed operation group EventCategories
+  - Removed operation group LogProfiles
+  - Removed operation group MetricAlertsStatus
+  - Removed operation group MetricDefinitions
+  - Removed operation group MetricNamespaces
+  - Removed operation group Metrics
+  - Removed operation group Operations
+  - Removed operation group PrivateEndpointConnections
+  - Removed operation group PrivateLinkResources
+  - Removed operation group PrivateLinkScopedResources
+  - Removed operation group PrivateLinkScopeOperationStatus
+  - Removed operation group PrivateLinkScopes
+  - Removed operation group ScheduledQueryRules
+  - Removed operation group TenantActivityLogs
+  - Removed operation group VMInsights
+  - Interface ErrorDetail no longer has parameter details
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+  - Interface MetricAlertResourcePatch no longer has parameter actions
+  - Interface MetricAlertResourcePatch no longer has parameter autoMitigate
+  - Interface MetricAlertResourcePatch no longer has parameter criteria
+  - Interface MetricAlertResourcePatch no longer has parameter evaluationFrequency
+  - Interface MetricAlertResourcePatch no longer has parameter isMigrated
+  - Interface MetricAlertResourcePatch no longer has parameter lastUpdatedTime
+  - Interface MetricAlertResourcePatch no longer has parameter targetResourceRegion
+  - Interface MetricAlertResourcePatch no longer has parameter targetResourceType
+  - Interface MetricAlertResourcePatch no longer has parameter windowSize
+  - Interface MetricAlertResourcePatch has a new required parameter kind
+  - Type of parameter additionalInfo of interface ErrorDetail is changed from ErrorAdditionalInfo[] to ErrorDetailAdditionalInfoItem[]
+  - Class MonitorClient no longer has parameter actionGroups
+  - Class MonitorClient no longer has parameter activityLogAlerts
+  - Class MonitorClient no longer has parameter activityLogs
+  - Class MonitorClient no longer has parameter alertRuleIncidents
+  - Class MonitorClient no longer has parameter alertRules
+  - Class MonitorClient no longer has parameter autoscaleSettings
+  - Class MonitorClient no longer has parameter baselines
+  - Class MonitorClient no longer has parameter dataCollectionEndpoints
+  - Class MonitorClient no longer has parameter dataCollectionRuleAssociations
+  - Class MonitorClient no longer has parameter dataCollectionRules
+  - Class MonitorClient no longer has parameter diagnosticSettings
+  - Class MonitorClient no longer has parameter diagnosticSettingsCategory
+  - Class MonitorClient no longer has parameter eventCategories
+  - Class MonitorClient no longer has parameter logProfiles
+  - Class MonitorClient no longer has parameter metricAlertsStatus
+  - Class MonitorClient no longer has parameter metricDefinitions
+  - Class MonitorClient no longer has parameter metricNamespaces
+  - Class MonitorClient no longer has parameter metrics
+  - Class MonitorClient no longer has parameter operations
+  - Class MonitorClient no longer has parameter privateEndpointConnections
+  - Class MonitorClient no longer has parameter privateLinkResources
+  - Class MonitorClient no longer has parameter privateLinkScopedResources
+  - Class MonitorClient no longer has parameter privateLinkScopeOperationStatus
+  - Class MonitorClient no longer has parameter privateLinkScopes
+  - Class MonitorClient no longer has parameter scheduledQueryRules
+  - Class MonitorClient no longer has parameter tenantActivityLogs
+  - Class MonitorClient no longer has parameter vMInsights
+  - Removed Enum KnownAlertSeverity
+  - Removed Enum KnownBaselineSensitivity
+  - Removed Enum KnownConditionalOperator
+  - Removed Enum KnownCreatedByType
+  - Removed Enum KnownDataStatus
+  - Removed Enum KnownEnabled
+  - Removed Enum KnownKnownDataCollectionEndpointProvisioningState
+  - Removed Enum KnownKnownDataCollectionEndpointResourceKind
+  - Removed Enum KnownKnownDataCollectionRuleAssociationProvisioningState
+  - Removed Enum KnownKnownDataCollectionRuleProvisioningState
+  - Removed Enum KnownKnownDataCollectionRuleResourceKind
+  - Removed Enum KnownKnownDataFlowStreams
+  - Removed Enum KnownKnownExtensionDataSourceStreams
+  - Removed Enum KnownKnownPerfCounterDataSourceStreams
+  - Removed Enum KnownKnownPublicNetworkAccessOptions
+  - Removed Enum KnownKnownSyslogDataSourceFacilityNames
+  - Removed Enum KnownKnownSyslogDataSourceLogLevels
+  - Removed Enum KnownKnownSyslogDataSourceStreams
+  - Removed Enum KnownKnownWindowsEventLogDataSourceStreams
+  - Removed Enum KnownMetricClass
+  - Removed Enum KnownMetricTriggerType
+  - Removed Enum KnownMetricUnit
+  - Removed Enum KnownNamespaceClassification
+  - Removed Enum KnownOnboardingStatus
+  - Removed Enum KnownProvisioningState
+  - Removed Enum KnownQueryType
+  - Removed Enum KnownScaleRuleMetricDimensionOperationType
+  - Enum KnownOperator no longer has value Include
+    
+    
 ## 8.0.0-beta.5 (2024-03-28)
     
 ### Features Added
