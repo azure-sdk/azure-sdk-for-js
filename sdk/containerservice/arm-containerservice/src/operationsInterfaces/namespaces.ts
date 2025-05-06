@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   Namespace,
   NamespacesListByManagedClusterOptionalParams,
   NamespacesGetOptionalParams,
@@ -98,12 +98,7 @@ export interface Namespaces {
     resourceName: string,
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesDeleteResponse>,
-      NamespacesDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<NamespacesDeleteResponse>, NamespacesDeleteResponse>>;
   /**
    * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
