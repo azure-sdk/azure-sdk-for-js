@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureVMwareSolutionAPI } from "../src/index.js";
+import { AzureVMwareSolutionAPIClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new AzureVMwareSolutionAPI(new DefaultAzureCredential(), subscriptionId);
+    const client = new AzureVMwareSolutionAPIClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -18,7 +18,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
+    const client = new AzureVMwareSolutionAPIClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {
