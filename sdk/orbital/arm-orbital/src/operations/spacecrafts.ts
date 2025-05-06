@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureOrbital } from "../azureOrbital.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Spacecraft,
@@ -28,22 +24,21 @@ import {
   SpacecraftsListOptionalParams,
   SpacecraftsListResponse,
   AvailableContacts,
-  ContactParametersContactProfile,
+  ContactParameters,
   SpacecraftsListAvailableContactsNextOptionalParams,
   SpacecraftsListAvailableContactsOptionalParams,
   SpacecraftsListAvailableContactsResponse,
   SpacecraftsGetOptionalParams,
   SpacecraftsGetResponse,
-  SpacecraftLink,
   SpacecraftsCreateOrUpdateOptionalParams,
   SpacecraftsCreateOrUpdateResponse,
-  SpacecraftsDeleteOptionalParams,
   TagsObject,
   SpacecraftsUpdateTagsOptionalParams,
   SpacecraftsUpdateTagsResponse,
+  SpacecraftsDeleteOptionalParams,
   SpacecraftsListBySubscriptionNextResponse,
   SpacecraftsListNextResponse,
-  SpacecraftsListAvailableContactsNextResponse
+  SpacecraftsListAvailableContactsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +59,7 @@ export class SpacecraftsImpl implements Spacecrafts {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -79,13 +74,13 @@ export class SpacecraftsImpl implements Spacecrafts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: SpacecraftsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Spacecraft[]> {
     let result: SpacecraftsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -106,7 +101,7 @@ export class SpacecraftsImpl implements Spacecrafts {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Spacecraft> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -120,7 +115,7 @@ export class SpacecraftsImpl implements Spacecrafts {
    */
   public list(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -135,14 +130,14 @@ export class SpacecraftsImpl implements Spacecrafts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: SpacecraftsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Spacecraft[]> {
     let result: SpacecraftsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -154,11 +149,7 @@ export class SpacecraftsImpl implements Spacecrafts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -168,7 +159,7 @@ export class SpacecraftsImpl implements Spacecrafts {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
   ): AsyncIterableIterator<Spacecraft> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
@@ -180,29 +171,20 @@ export class SpacecraftsImpl implements Spacecrafts {
    * ground station for more than the minimum viable contact duration provided in the contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact (ISO 8601 UTC standard).
-   * @param endTime End time of a contact (ISO 8601 UTC standard).
+   * @param parameters The parameters to provide for the contacts.
    * @param options The options parameters.
    */
   public beginListAvailableContactsAndWait(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
+    parameters: ContactParameters,
+    options?: SpacecraftsListAvailableContactsOptionalParams,
   ): PagedAsyncIterableIterator<AvailableContacts> {
     const iter = this.listAvailableContactsPagingAll(
       resourceGroupName,
       spacecraftName,
-      contactProfile,
-      groundStationName,
-      startTime,
-      endTime,
-      options
+      parameters,
+      options,
     );
     return {
       next() {
@@ -218,26 +200,20 @@ export class SpacecraftsImpl implements Spacecrafts {
         return this.listAvailableContactsPagingPage(
           resourceGroupName,
           spacecraftName,
-          contactProfile,
-          groundStationName,
-          startTime,
-          endTime,
+          parameters,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listAvailableContactsPagingPage(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
+    parameters: ContactParameters,
     options?: SpacecraftsListAvailableContactsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableContacts[]> {
     let result: SpacecraftsListAvailableContactsResponse;
     let continuationToken = settings?.continuationToken;
@@ -245,11 +221,8 @@ export class SpacecraftsImpl implements Spacecrafts {
       const poller = await this._listAvailableContacts(
         resourceGroupName,
         spacecraftName,
-        contactProfile,
-        groundStationName,
-        startTime,
-        endTime,
-        options
+        parameters,
+        options,
       );
       result = await poller.pollUntilDone();
       let page = result.value || [];
@@ -261,12 +234,9 @@ export class SpacecraftsImpl implements Spacecrafts {
       result = await this._listAvailableContactsNext(
         resourceGroupName,
         spacecraftName,
-        contactProfile,
-        groundStationName,
-        startTime,
-        endTime,
+        parameters,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -278,20 +248,14 @@ export class SpacecraftsImpl implements Spacecrafts {
   private async *listAvailableContactsPagingAll(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
+    parameters: ContactParameters,
+    options?: SpacecraftsListAvailableContactsOptionalParams,
   ): AsyncIterableIterator<AvailableContacts> {
     for await (const page of this.listAvailableContactsPagingPage(
       resourceGroupName,
       spacecraftName,
-      contactProfile,
-      groundStationName,
-      startTime,
-      endTime,
-      options
+      parameters,
+      options,
     )) {
       yield* page;
     }
@@ -302,12 +266,9 @@ export class SpacecraftsImpl implements Spacecrafts {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
   ): Promise<SpacecraftsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -317,12 +278,9 @@ export class SpacecraftsImpl implements Spacecrafts {
    */
   private _list(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
   ): Promise<SpacecraftsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -334,11 +292,11 @@ export class SpacecraftsImpl implements Spacecrafts {
   get(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: SpacecraftsGetOptionalParams
+    options?: SpacecraftsGetOptionalParams,
   ): Promise<SpacecraftsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, spacecraftName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -346,22 +304,14 @@ export class SpacecraftsImpl implements Spacecrafts {
    * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param location The geo-location where the resource lives
-   * @param titleLine Title line of the two-line element set (TLE).
-   * @param tleLine1 Line 1 of the two-line element set (TLE).
-   * @param tleLine2 Line 2 of the two-line element set (TLE).
-   * @param links Immutable list of Spacecraft links.
+   * @param parameters The parameters to provide for the created spacecraft.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     spacecraftName: string,
-    location: string,
-    titleLine: string,
-    tleLine1: string,
-    tleLine2: string,
-    links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    parameters: Spacecraft,
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpacecraftsCreateOrUpdateResponse>,
@@ -370,21 +320,19 @@ export class SpacecraftsImpl implements Spacecrafts {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SpacecraftsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -393,8 +341,8 @@ export class SpacecraftsImpl implements Spacecrafts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -402,24 +350,15 @@ export class SpacecraftsImpl implements Spacecrafts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        spacecraftName,
-        location,
-        titleLine,
-        tleLine1,
-        tleLine2,
-        links,
-        options
-      },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, spacecraftName, parameters, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       SpacecraftsCreateOrUpdateResponse,
@@ -427,7 +366,7 @@ export class SpacecraftsImpl implements Spacecrafts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -437,115 +376,20 @@ export class SpacecraftsImpl implements Spacecrafts {
    * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param location The geo-location where the resource lives
-   * @param titleLine Title line of the two-line element set (TLE).
-   * @param tleLine1 Line 1 of the two-line element set (TLE).
-   * @param tleLine2 Line 2 of the two-line element set (TLE).
-   * @param links Immutable list of Spacecraft links.
+   * @param parameters The parameters to provide for the created spacecraft.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     spacecraftName: string,
-    location: string,
-    titleLine: string,
-    tleLine1: string,
-    tleLine2: string,
-    links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    parameters: Spacecraft,
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<SpacecraftsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       spacecraftName,
-      location,
-      titleLine,
-      tleLine1,
-      tleLine2,
-      links,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a specified spacecraft resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, spacecraftName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a specified spacecraft resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      spacecraftName,
-      options
+      parameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -561,30 +405,25 @@ export class SpacecraftsImpl implements Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SpacecraftsUpdateTagsResponse>,
-      SpacecraftsUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<SpacecraftsUpdateTagsResponse>, SpacecraftsUpdateTagsResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SpacecraftsUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -593,8 +432,8 @@ export class SpacecraftsImpl implements Spacecrafts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -602,15 +441,15 @@ export class SpacecraftsImpl implements Spacecrafts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, spacecraftName, parameters, options },
-      spec: updateTagsOperationSpec
+      spec: updateTagsOperationSpec,
     });
     const poller = await createHttpPoller<
       SpacecraftsUpdateTagsResponse,
@@ -618,7 +457,7 @@ export class SpacecraftsImpl implements Spacecrafts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -635,59 +474,43 @@ export class SpacecraftsImpl implements Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<SpacecraftsUpdateTagsResponse> {
     const poller = await this.beginUpdateTags(
       resourceGroupName,
       spacecraftName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns list of available contacts. A contact is available if the spacecraft is visible from the
-   * ground station for more than the minimum viable contact duration provided in the contact profile.
+   * Deletes a specified spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact (ISO 8601 UTC standard).
-   * @param endTime End time of a contact (ISO 8601 UTC standard).
    * @param options The options parameters.
    */
-  private async _listAvailableContacts(
+  async beginDelete(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SpacecraftsListAvailableContactsResponse>,
-      SpacecraftsListAvailableContactsResponse
-    >
-  > {
+    options?: SpacecraftsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SpacecraftsListAvailableContactsResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -696,8 +519,8 @@ export class SpacecraftsImpl implements Spacecrafts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -705,23 +528,100 @@ export class SpacecraftsImpl implements Spacecrafts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        spacecraftName,
-        contactProfile,
-        groundStationName,
-        startTime,
-        endTime,
-        options
-      },
-      spec: listAvailableContactsOperationSpec
+      args: { resourceGroupName, spacecraftName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes a specified spacecraft resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    spacecraftName: string,
+    options?: SpacecraftsDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(resourceGroupName, spacecraftName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Returns list of available contacts. A contact is available if the spacecraft is visible from the
+   * ground station for more than the minimum viable contact duration provided in the contact profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID.
+   * @param parameters The parameters to provide for the contacts.
+   * @param options The options parameters.
+   */
+  private async _listAvailableContacts(
+    resourceGroupName: string,
+    spacecraftName: string,
+    parameters: ContactParameters,
+    options?: SpacecraftsListAvailableContactsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SpacecraftsListAvailableContactsResponse>,
+      SpacecraftsListAvailableContactsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SpacecraftsListAvailableContactsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, spacecraftName, parameters, options },
+      spec: listAvailableContactsOperationSpec,
     });
     const poller = await createHttpPoller<
       SpacecraftsListAvailableContactsResponse,
@@ -729,7 +629,7 @@ export class SpacecraftsImpl implements Spacecrafts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -742,11 +642,11 @@ export class SpacecraftsImpl implements Spacecrafts {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: SpacecraftsListBySubscriptionNextOptionalParams
+    options?: SpacecraftsListBySubscriptionNextOptionalParams,
   ): Promise<SpacecraftsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -759,11 +659,11 @@ export class SpacecraftsImpl implements Spacecrafts {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: SpacecraftsListNextOptionalParams
+    options?: SpacecraftsListNextOptionalParams,
   ): Promise<SpacecraftsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -771,35 +671,20 @@ export class SpacecraftsImpl implements Spacecrafts {
    * ListAvailableContactsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact (ISO 8601 UTC standard).
-   * @param endTime End time of a contact (ISO 8601 UTC standard).
+   * @param parameters The parameters to provide for the contacts.
    * @param nextLink The nextLink from the previous successful call to the ListAvailableContacts method.
    * @param options The options parameters.
    */
   private _listAvailableContactsNext(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
+    parameters: ContactParameters,
     nextLink: string,
-    options?: SpacecraftsListAvailableContactsNextOptionalParams
+    options?: SpacecraftsListAvailableContactsNextOptionalParams,
   ): Promise<SpacecraftsListAvailableContactsNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        spacecraftName,
-        contactProfile,
-        groundStationName,
-        startTime,
-        endTime,
-        nextLink,
-        options
-      },
-      listAvailableContactsNextOperationSpec
+      { resourceGroupName, spacecraftName, parameters, nextLink, options },
+      listAvailableContactsNextOperationSpec,
     );
   }
 }
@@ -807,153 +692,109 @@ export class SpacecraftsImpl implements Spacecrafts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/spacecrafts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpacecraftListResult
+      bodyMapper: Mappers.SpacecraftListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpacecraftListResult
+      bodyMapper: Mappers.SpacecraftListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spacecraftName
+    Parameters.spacecraftName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     201: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     202: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     204: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      tags: ["options", "tags"],
-      location: ["location"],
-      provisioningState: ["options", "provisioningState"],
-      noradId: ["options", "noradId"],
-      titleLine: ["titleLine"],
-      tleLine1: ["tleLine1"],
-      tleLine2: ["tleLine2"],
-      links: ["links"]
+      bodyMapper: Mappers.ErrorResponse,
     },
-    mapper: { ...Mappers.Spacecraft, required: true }
   },
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spacecraftName
+    Parameters.spacecraftName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.spacecraftName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     201: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     202: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     204: {
-      bodyMapper: Mappers.Spacecraft
+      bodyMapper: Mappers.Spacecraft,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -961,114 +802,123 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spacecraftName
+    Parameters.spacecraftName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listAvailableContactsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/listAvailableContacts",
-  httpMethod: "POST",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.AvailableContactsListResult
-    },
-    201: {
-      bodyMapper: Mappers.AvailableContactsListResult
-    },
-    202: {
-      bodyMapper: Mappers.AvailableContactsListResult
-    },
-    204: {
-      bodyMapper: Mappers.AvailableContactsListResult
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      contactProfile: ["contactProfile"],
-      groundStationName: ["groundStationName"],
-      startTime: ["startTime"],
-      endTime: ["endTime"]
+      bodyMapper: Mappers.ErrorResponse,
     },
-    mapper: { ...Mappers.ContactParameters, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spacecraftName
+    Parameters.spacecraftName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAvailableContactsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/listAvailableContacts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AvailableContactsListResult,
+    },
+    201: {
+      bodyMapper: Mappers.AvailableContactsListResult,
+    },
+    202: {
+      bodyMapper: Mappers.AvailableContactsListResult,
+    },
+    204: {
+      bodyMapper: Mappers.AvailableContactsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.spacecraftName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpacecraftListResult
+      bodyMapper: Mappers.SpacecraftListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpacecraftListResult
+      bodyMapper: Mappers.SpacecraftListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAvailableContactsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableContactsListResult
+      bodyMapper: Mappers.AvailableContactsListResult,
     },
     202: {
-      headersMapper: Mappers.SpacecraftsListAvailableContactsNextHeaders
+      headersMapper: Mappers.SpacecraftsListAvailableContactsNextHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -8,27 +8,23 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
+  AvailableGroundStationsImpl,
+  ContactProfilesImpl,
+  OperationsResultsImpl,
   SpacecraftsImpl,
   ContactsImpl,
-  ContactProfilesImpl,
-  AvailableGroundStationsImpl,
-  OperationsResultsImpl
 } from "./operations/index.js";
 import {
   Operations,
+  AvailableGroundStations,
+  ContactProfiles,
+  OperationsResults,
   Spacecrafts,
   Contacts,
-  ContactProfiles,
-  AvailableGroundStations,
-  OperationsResults
 } from "./operationsInterfaces/index.js";
 import { AzureOrbitalOptionalParams } from "./models/index.js";
 
@@ -46,7 +42,7 @@ export class AzureOrbital extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: AzureOrbitalOptionalParams
+    options?: AzureOrbitalOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -61,10 +57,10 @@ export class AzureOrbital extends coreClient.ServiceClient {
     }
     const defaults: AzureOrbitalOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-orbital/2.0.1`;
+    const packageDetails = `azsdk-js-arm-orbital/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -74,20 +70,19 @@ export class AzureOrbital extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -97,19 +92,17 @@ export class AzureOrbital extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -119,11 +112,11 @@ export class AzureOrbital extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2022-11-01";
     this.operations = new OperationsImpl(this);
+    this.availableGroundStations = new AvailableGroundStationsImpl(this);
+    this.contactProfiles = new ContactProfilesImpl(this);
+    this.operationsResults = new OperationsResultsImpl(this);
     this.spacecrafts = new SpacecraftsImpl(this);
     this.contacts = new ContactsImpl(this);
-    this.contactProfiles = new ContactProfilesImpl(this);
-    this.availableGroundStations = new AvailableGroundStationsImpl(this);
-    this.operationsResults = new OperationsResultsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -134,10 +127,7 @@ export class AzureOrbital extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -150,15 +140,15 @@ export class AzureOrbital extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   operations: Operations;
+  availableGroundStations: AvailableGroundStations;
+  contactProfiles: ContactProfiles;
+  operationsResults: OperationsResults;
   spacecrafts: Spacecrafts;
   contacts: Contacts;
-  contactProfiles: ContactProfiles;
-  availableGroundStations: AvailableGroundStations;
-  operationsResults: OperationsResults;
 }

@@ -1,15 +1,67 @@
 # Release History
-
-## 2.0.1 (Unreleased)
-
+    
+## 3.0.0 (2025-05-06)
+    
 ### Features Added
+
+  - Added operation OperationsResults.get
+  - Added Interface AzureResourceManagerArmResponseAvailableContactsListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Type Alias OperationsListNextResponse
+  - Interface ContactProfilesCreateOrUpdateHeaders has a new optional parameter retryAfter
+  - Interface ContactProfilesDeleteHeaders has a new optional parameter retryAfter
+  - Interface ContactProfilesUpdateTagsHeaders has a new optional parameter retryAfter
+  - Interface ContactsCreateHeaders has a new optional parameter retryAfter
+  - Interface ContactsDeleteHeaders has a new optional parameter retryAfter
+  - Interface SpacecraftsCreateOrUpdateHeaders has a new optional parameter retryAfter
+  - Interface SpacecraftsDeleteHeaders has a new optional parameter retryAfter
+  - Interface SpacecraftsListAvailableContactsHeaders has a new optional parameter retryAfter
+  - Interface SpacecraftsListAvailableContactsNextHeaders has a new optional parameter retryAfter
+  - Interface SpacecraftsUpdateTagsHeaders has a new optional parameter retryAfter
+  - Add parameters of OperationsResultsGetHeaders to TypeAlias OperationsResultsGetResponse
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation OperationsResults.beginGet
+  - Removed operation OperationsResults.beginGetAndWait
+  - Operation ContactProfiles.beginCreateOrUpdate has a new signature
+  - Operation ContactProfiles.beginCreateOrUpdateAndWait has a new signature
+  - Operation Spacecrafts.beginCreateOrUpdate has a new signature
+  - Operation Spacecrafts.beginCreateOrUpdateAndWait has a new signature
+  - Operation Spacecrafts.beginListAvailableContactsAndWait has a new signature
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter autoTrackingConfiguration
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter eventHubUri
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter minimumElevationDegrees
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter minimumViableContactDuration
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter provisioningState
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter tags
+  - Interface ContactProfilesCreateOrUpdateOptionalParams no longer has parameter thirdPartyConfigurations
+  - Interface OperationsResultsGetOptionalParams no longer has parameter resumeFrom
+  - Interface OperationsResultsGetOptionalParams no longer has parameter updateIntervalInMs
+  - Interface SpacecraftsCreateOrUpdateOptionalParams no longer has parameter noradId
+  - Interface SpacecraftsCreateOrUpdateOptionalParams no longer has parameter provisioningState
+  - Interface SpacecraftsCreateOrUpdateOptionalParams no longer has parameter tags
+  - Parameter value of interface AvailableContactsListResult is now required
+  - Parameter value of interface AvailableGroundStationListResult is now required
+  - Parameter value of interface ContactListResult is now required
+  - Parameter value of interface ContactProfileListResult is now required
+  - Parameter value of interface SpacecraftListResult is now required
+  - Type of parameter spacecraft of interface AvailableContacts is changed from AvailableContactsSpacecraft to ResourceReference
+  - Type of parameter contactProfile of interface Contact is changed from ContactsPropertiesContactProfile to ResourceReference
+  - Type of parameter provisioningState of interface Contact is changed from ContactsPropertiesProvisioningState to ProvisioningState
+  - Type of parameter contactProfile of interface ContactParameters is changed from ContactParametersContactProfile to ResourceReference
+  - Type of parameter provisioningState of interface ContactProfile is changed from ContactProfilesPropertiesProvisioningState to ProvisioningState
+  - Type of parameter properties of interface OperationResult is changed from Record<string, unknown> to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter value of interface OperationResult is changed from Record<string, unknown>[] to {
+        [propertyName: string]: any;
+    }[]
+  - Removed Enum KnownCapability
+  - Removed Enum KnownContactProfilesPropertiesProvisioningState
+  - Removed Enum KnownContactsPropertiesProvisioningState
+    
+    
 ## 2.0.0 (2023-03-08)
     
 ### Features Added
@@ -90,4 +142,4 @@
     
 ## 1.0.0 (2022-06-02)
 
-The package of @azure/arm-orbital is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-orbital is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

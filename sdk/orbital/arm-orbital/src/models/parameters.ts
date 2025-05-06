@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  Spacecraft as SpacecraftMapper,
+  ContactProfile as ContactProfileMapper,
   TagsObject as TagsObjectMapper,
+  Spacecraft as SpacecraftMapper,
   ContactParameters as ContactParametersMapper,
   Contact as ContactMapper,
-  ContactProfile as ContactProfileMapper
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,10 +37,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -50,23 +50,46 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const capability: OperationQueryParameter = {
+  parameterPath: "capability",
+  mapper: {
+    serializedName: "capability",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const skiptoken: OperationQueryParameter = {
@@ -74,9 +97,9 @@ export const skiptoken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skiptoken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -84,25 +107,25 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const spacecraftName: OperationURLParameter = {
-  parameterPath: "spacecraftName",
+export const contactProfileName: OperationURLParameter = {
+  parameterPath: "contactProfileName",
   mapper: {
-    serializedName: "spacecraftName",
+    serializedName: "contactProfileName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -112,86 +135,68 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const tags: OperationParameter = {
-  parameterPath: ["options", "tags"],
-  mapper: SpacecraftMapper
-};
-
-export const location: OperationParameter = {
-  parameterPath: "location",
-  mapper: SpacecraftMapper
-};
-
-export const provisioningState: OperationParameter = {
-  parameterPath: ["options", "provisioningState"],
-  mapper: SpacecraftMapper
-};
-
-export const noradId: OperationParameter = {
-  parameterPath: ["options", "noradId"],
-  mapper: SpacecraftMapper
-};
-
-export const titleLine: OperationParameter = {
-  parameterPath: "titleLine",
-  mapper: SpacecraftMapper
-};
-
-export const tleLine1: OperationParameter = {
-  parameterPath: "tleLine1",
-  mapper: SpacecraftMapper
-};
-
-export const tleLine2: OperationParameter = {
-  parameterPath: "tleLine2",
-  mapper: SpacecraftMapper
-};
-
-export const links: OperationParameter = {
-  parameterPath: "links",
-  mapper: SpacecraftMapper
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ContactProfileMapper,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: TagsObjectMapper
+  mapper: TagsObjectMapper,
 };
 
-export const contactProfile: OperationParameter = {
-  parameterPath: "contactProfile",
-  mapper: ContactParametersMapper
-};
-
-export const groundStationName: OperationParameter = {
-  parameterPath: "groundStationName",
-  mapper: ContactParametersMapper
-};
-
-export const startTime: OperationParameter = {
-  parameterPath: "startTime",
-  mapper: ContactParametersMapper
-};
-
-export const endTime: OperationParameter = {
-  parameterPath: "endTime",
-  mapper: ContactParametersMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const spacecraftName: OperationURLParameter = {
+  parameterPath: "spacecraftName",
+  mapper: {
+    serializedName: "spacecraftName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SpacecraftMapper,
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ContactParametersMapper,
 };
 
 export const contactName: OperationURLParameter = {
@@ -200,112 +205,12 @@ export const contactName: OperationURLParameter = {
     serializedName: "contactName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const parameters3: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
-  mapper: ContactMapper
-};
-
-export const contactProfileName: OperationURLParameter = {
-  parameterPath: "contactProfileName",
-  mapper: {
-    serializedName: "contactProfileName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const tags1: OperationParameter = {
-  parameterPath: ["options", "tags"],
-  mapper: ContactProfileMapper
-};
-
-export const location1: OperationParameter = {
-  parameterPath: "location",
-  mapper: ContactProfileMapper
-};
-
-export const provisioningState1: OperationParameter = {
-  parameterPath: ["options", "provisioningState"],
-  mapper: ContactProfileMapper
-};
-
-export const minimumViableContactDuration: OperationParameter = {
-  parameterPath: ["options", "minimumViableContactDuration"],
-  mapper: ContactProfileMapper
-};
-
-export const minimumElevationDegrees: OperationParameter = {
-  parameterPath: ["options", "minimumElevationDegrees"],
-  mapper: ContactProfileMapper
-};
-
-export const autoTrackingConfiguration: OperationParameter = {
-  parameterPath: ["options", "autoTrackingConfiguration"],
-  mapper: ContactProfileMapper
-};
-
-export const eventHubUri: OperationParameter = {
-  parameterPath: ["options", "eventHubUri"],
-  mapper: ContactProfileMapper
-};
-
-export const networkConfiguration: OperationParameter = {
-  parameterPath: "networkConfiguration",
-  mapper: ContactProfileMapper
-};
-
-export const thirdPartyConfigurations: OperationParameter = {
-  parameterPath: ["options", "thirdPartyConfigurations"],
-  mapper: ContactProfileMapper
-};
-
-export const links1: OperationParameter = {
-  parameterPath: "links",
-  mapper: ContactProfileMapper
-};
-
-export const capability: OperationQueryParameter = {
-  parameterPath: "capability",
-  mapper: {
-    serializedName: "capability",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const location2: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const operationId: OperationURLParameter = {
-  parameterPath: "operationId",
-  mapper: {
-    constraints: {
-      MinLength: 1
-    },
-    serializedName: "operationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  mapper: ContactMapper,
 };

@@ -6,10 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OperationsResultsGetOptionalParams,
-  OperationsResultsGetResponse
+  OperationsResultsGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a OperationsResults. */
@@ -20,25 +19,9 @@ export interface OperationsResults {
    * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
-  beginGet(
+  get(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<OperationsResultsGetResponse>,
-      OperationsResultsGetResponse
-    >
-  >;
-  /**
-   * Returns operation results.
-   * @param location The name of Azure region.
-   * @param operationId The ID of an ongoing async operation.
-   * @param options The options parameters.
-   */
-  beginGetAndWait(
-    location: string,
-    operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<OperationsResultsGetResponse>;
 }

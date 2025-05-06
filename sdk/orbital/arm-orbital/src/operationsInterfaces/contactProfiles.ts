@@ -14,14 +14,12 @@ import {
   ContactProfilesListOptionalParams,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
-  ContactProfilesPropertiesNetworkConfiguration,
-  ContactProfileLink,
   ContactProfilesCreateOrUpdateOptionalParams,
   ContactProfilesCreateOrUpdateResponse,
-  ContactProfilesDeleteOptionalParams,
   TagsObject,
   ContactProfilesUpdateTagsOptionalParams,
-  ContactProfilesUpdateTagsResponse
+  ContactProfilesUpdateTagsResponse,
+  ContactProfilesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +30,7 @@ export interface ContactProfiles {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
    * Returns list of contact profiles by Resource Group.
@@ -41,7 +39,7 @@ export interface ContactProfiles {
    */
   list(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile>;
   /**
    * Gets the specified contact Profile in a specified resource group.
@@ -52,24 +50,20 @@ export interface ContactProfiles {
   get(
     resourceGroupName: string,
     contactProfileName: string,
-    options?: ContactProfilesGetOptionalParams
+    options?: ContactProfilesGetOptionalParams,
   ): Promise<ContactProfilesGetResponse>;
   /**
    * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param contactProfileName Contact Profile name.
-   * @param location The geo-location where the resource lives
-   * @param networkConfiguration Network configuration of customer virtual network.
-   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+   * @param parameters The parameters to provide for the created Contact Profile.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     contactProfileName: string,
-    location: string,
-    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
-    links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    parameters: ContactProfile,
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesCreateOrUpdateResponse>,
@@ -80,41 +74,15 @@ export interface ContactProfiles {
    * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param contactProfileName Contact Profile name.
-   * @param location The geo-location where the resource lives
-   * @param networkConfiguration Network configuration of customer virtual network.
-   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+   * @param parameters The parameters to provide for the created Contact Profile.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     contactProfileName: string,
-    location: string,
-    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
-    links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    parameters: ContactProfile,
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<ContactProfilesCreateOrUpdateResponse>;
-  /**
-   * Deletes a specified contact profile resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile name.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified contact profile resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile name.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Updates the specified contact profile tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -126,7 +94,7 @@ export interface ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesUpdateTagsResponse>,
@@ -144,6 +112,28 @@ export interface ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<ContactProfilesUpdateTagsResponse>;
+  /**
+   * Deletes a specified contact profile resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile name.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    contactProfileName: string,
+    options?: ContactProfilesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a specified contact profile resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile name.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    contactProfileName: string,
+    options?: ContactProfilesDeleteOptionalParams,
+  ): Promise<void>;
 }

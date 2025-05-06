@@ -12,14 +12,8 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureOrbital } from "../azureOrbital.js";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
-import {
   OperationsResultsGetOptionalParams,
-  OperationsResultsGetResponse
+  OperationsResultsGetResponse,
 } from "../models/index.js";
 
 /** Class containing OperationsResults operations. */
@@ -40,118 +34,39 @@ export class OperationsResultsImpl implements OperationsResults {
    * @param operationId The ID of an ongoing async operation.
    * @param options The options parameters.
    */
-  async beginGet(
+  get(
     location: string,
     operationId: string,
-    options?: OperationsResultsGetOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<OperationsResultsGetResponse>,
-      OperationsResultsGetResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<OperationsResultsGetResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { location, operationId, options },
-      spec: getOperationSpec
-    });
-    const poller = await createHttpPoller<
-      OperationsResultsGetResponse,
-      OperationState<OperationsResultsGetResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Returns operation results.
-   * @param location The name of Azure region.
-   * @param operationId The ID of an ongoing async operation.
-   * @param options The options parameters.
-   */
-  async beginGetAndWait(
-    location: string,
-    operationId: string,
-    options?: OperationsResultsGetOptionalParams
+    options?: OperationsResultsGetOptionalParams,
   ): Promise<OperationsResultsGetResponse> {
-    const poller = await this.beginGet(location, operationId, options);
-    return poller.pollUntilDone();
+    return this.client.sendOperationRequest({ location, operationId, options }, getOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/locations/{location}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationResult
-    },
-    201: {
-      bodyMapper: Mappers.OperationResult
+      bodyMapper: Mappers.OperationResult,
+      headersMapper: Mappers.OperationsResultsGetHeaders,
     },
     202: {
-      bodyMapper: Mappers.OperationResult
-    },
-    204: {
-      bodyMapper: Mappers.OperationResult
+      headersMapper: Mappers.OperationsResultsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location2,
-    Parameters.operationId
+    Parameters.location,
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
