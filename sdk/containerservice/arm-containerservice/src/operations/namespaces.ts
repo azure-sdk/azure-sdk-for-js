@@ -6,21 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Namespaces } from "../operationsInterfaces/index.js";
+import { Namespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
+import {
   Namespace,
   NamespacesListByManagedClusterNextOptionalParams,
   NamespacesListByManagedClusterOptionalParams,
@@ -63,11 +58,7 @@ export class NamespacesImpl implements Namespaces {
     resourceName: string,
     options?: NamespacesListByManagedClusterOptionalParams,
   ): PagedAsyncIterableIterator<Namespace> {
-    const iter = this.listByManagedClusterPagingAll(
-      resourceGroupName,
-      resourceName,
-      options,
-    );
+    const iter = this.listByManagedClusterPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -98,12 +89,8 @@ export class NamespacesImpl implements Namespaces {
     let result: NamespacesListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(
-        resourceGroupName,
-        resourceName,
-        options,
-      );
-      const page = result.value || [];
+      result = await this._listByManagedCluster(resourceGroupName, resourceName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -116,7 +103,7 @@ export class NamespacesImpl implements Namespaces {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -202,8 +189,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -289,12 +275,7 @@ export class NamespacesImpl implements Namespaces {
     resourceName: string,
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesDeleteResponse>,
-      NamespacesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<NamespacesDeleteResponse>, NamespacesDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -305,8 +286,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -362,12 +342,7 @@ export class NamespacesImpl implements Namespaces {
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
   ): Promise<NamespacesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      resourceName,
-      namespaceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, resourceName, namespaceName, options);
     return poller.pollUntilDone();
   }
 

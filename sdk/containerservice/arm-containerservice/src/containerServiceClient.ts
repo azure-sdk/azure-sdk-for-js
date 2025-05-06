@@ -8,12 +8,8 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
-import type * as coreAuth from "@azure/core-auth";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   ManagedClustersImpl,
@@ -32,7 +28,7 @@ import {
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
 } from "./operations/index.js";
-import type {
+import {
   Operations,
   ManagedClusters,
   ContainerService,
@@ -50,7 +46,7 @@ import type {
   TrustedAccessRoleBindings,
   LoadBalancers,
 } from "./operationsInterfaces/index.js";
-import type { ContainerServiceClientOptionalParams } from "./models/index.js";
+import { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
@@ -84,7 +80,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/22.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerservice/22.0.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -96,8 +92,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -107,8 +102,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -124,11 +118,9 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -138,7 +130,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2025-02-02-preview";
+    this.apiVersion = options.apiVersion || "2025-03-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.containerService = new ContainerServiceImpl(this);
@@ -148,11 +140,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.machines = new MachinesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.resolvePrivateLinkServiceId = new ResolvePrivateLinkServiceIdImpl(
-      this,
-    );
-    this.operationStatusResultOperations =
-      new OperationStatusResultOperationsImpl(this);
+    this.resolvePrivateLinkServiceId = new ResolvePrivateLinkServiceIdImpl(this);
+    this.operationStatusResultOperations = new OperationStatusResultOperationsImpl(this);
     this.snapshots = new SnapshotsImpl(this);
     this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
@@ -168,10 +157,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
