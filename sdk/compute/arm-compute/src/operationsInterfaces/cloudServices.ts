@@ -38,9 +38,7 @@ export interface CloudServices {
    * is null to fetch all the Cloud Services.
    * @param options The options parameters.
    */
-  listAll(
-    options?: CloudServicesListAllOptionalParams,
-  ): PagedAsyncIterableIterator<CloudService>;
+  listAll(options?: CloudServicesListAllOptionalParams): PagedAsyncIterableIterator<CloudService>;
   /**
    * Gets a list of all cloud services under a resource group. Use nextLink property in the response to
    * get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services.
@@ -91,10 +89,7 @@ export interface CloudServices {
     cloudServiceName: string,
     options?: CloudServicesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CloudServicesUpdateResponse>,
-      CloudServicesUpdateResponse
-    >
+    SimplePollerLike<OperationState<CloudServicesUpdateResponse>, CloudServicesUpdateResponse>
   >;
   /**
    * Update a cloud service.

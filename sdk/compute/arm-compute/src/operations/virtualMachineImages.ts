@@ -227,10 +227,7 @@ export class VirtualMachineImagesImpl implements VirtualMachineImages {
     location: string,
     options?: VirtualMachineImagesListPublishersOptionalParams,
   ): Promise<VirtualMachineImagesListPublishersResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listPublishersOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listPublishersOperationSpec);
   }
 
   /**
@@ -362,12 +359,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand1,
-    Parameters.top,
-    Parameters.orderby,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1, Parameters.top, Parameters.orderby],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -432,11 +424,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -504,12 +492,7 @@ const listWithPropertiesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.orderby,
-    Parameters.expand5,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.orderby, Parameters.expand5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

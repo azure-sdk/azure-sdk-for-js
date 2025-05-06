@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CloudService,
@@ -157,11 +153,7 @@ export class CloudServicesImpl implements CloudServices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -205,8 +197,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -261,11 +252,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesCreateOrUpdateOptionalParams,
   ): Promise<CloudServicesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -280,10 +267,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CloudServicesUpdateResponse>,
-      CloudServicesUpdateResponse
-    >
+    SimplePollerLike<OperationState<CloudServicesUpdateResponse>, CloudServicesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -295,8 +279,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -350,11 +333,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesUpdateOptionalParams,
   ): Promise<CloudServicesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -379,8 +358,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -431,11 +409,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -495,10 +469,7 @@ export class CloudServicesImpl implements CloudServices {
     resourceGroupName: string,
     options?: CloudServicesListOptionalParams,
   ): Promise<CloudServicesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -522,8 +493,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -574,11 +544,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesStartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -604,8 +570,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -657,11 +622,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesPowerOffOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPowerOff(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginPowerOff(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -686,8 +647,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -738,11 +698,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesRestartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginRestart(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -768,8 +724,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -821,11 +776,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesReimageOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginReimage(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginReimage(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -852,8 +803,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -906,11 +856,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesRebuildOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRebuild(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginRebuild(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -935,8 +881,7 @@ export class CloudServicesImpl implements CloudServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -987,11 +932,7 @@ export class CloudServicesImpl implements CloudServices {
     cloudServiceName: string,
     options?: CloudServicesDeleteInstancesOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeleteInstances(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const poller = await this.beginDeleteInstances(resourceGroupName, cloudServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -1004,10 +945,7 @@ export class CloudServicesImpl implements CloudServices {
     nextLink: string,
     options?: CloudServicesListAllNextOptionalParams,
   ): Promise<CloudServicesListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -1186,11 +1124,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1345,11 +1279,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

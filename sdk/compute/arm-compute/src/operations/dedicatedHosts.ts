@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DedicatedHost,
@@ -65,11 +61,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostGroupName: string,
     options?: DedicatedHostsListByHostGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHost> {
-    const iter = this.listByHostGroupPagingAll(
-      resourceGroupName,
-      hostGroupName,
-      options,
-    );
+    const iter = this.listByHostGroupPagingAll(resourceGroupName, hostGroupName, options);
     return {
       next() {
         return iter.next();
@@ -81,12 +73,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByHostGroupPagingPage(
-          resourceGroupName,
-          hostGroupName,
-          options,
-          settings,
-        );
+        return this.listByHostGroupPagingPage(resourceGroupName, hostGroupName, options, settings);
       },
     };
   }
@@ -100,11 +87,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     let result: DedicatedHostsListByHostGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByHostGroup(
-        resourceGroupName,
-        hostGroupName,
-        options,
-      );
+      result = await this._listByHostGroup(resourceGroupName, hostGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -188,12 +171,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     _settings?: PageSettings,
   ): AsyncIterableIterator<string[]> {
     let result: DedicatedHostsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
+    result = await this._listAvailableSizes(resourceGroupName, hostGroupName, hostName, options);
     yield result.value || [];
   }
 
@@ -243,8 +221,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -327,10 +304,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     parameters: DedicatedHostUpdate,
     options?: DedicatedHostsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHostsUpdateResponse>,
-      DedicatedHostsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -342,8 +316,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -434,8 +407,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -488,12 +460,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, hostGroupName, hostName, options);
     return poller.pollUntilDone();
   }
 
@@ -560,8 +527,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -617,12 +583,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRestartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
+    const poller = await this.beginRestart(resourceGroupName, hostGroupName, hostName, options);
     return poller.pollUntilDone();
   }
 
@@ -642,10 +603,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHostsRedeployResponse>,
-      DedicatedHostsRedeployResponse
-    >
+    SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -657,8 +615,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -717,12 +674,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<DedicatedHostsRedeployResponse> {
-    const poller = await this.beginRedeploy(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
+    const poller = await this.beginRedeploy(resourceGroupName, hostGroupName, hostName, options);
     return poller.pollUntilDone();
   }
 

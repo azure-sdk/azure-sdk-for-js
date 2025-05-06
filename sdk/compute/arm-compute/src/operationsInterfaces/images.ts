@@ -54,10 +54,7 @@ export interface Images {
     parameters: Image,
     options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ImagesCreateOrUpdateResponse>,
-      ImagesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>
   >;
   /**
    * Create or update an image.
@@ -84,9 +81,7 @@ export interface Images {
     imageName: string,
     parameters: ImageUpdate,
     options?: ImagesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>>;
   /**
    * Update an image.
    * @param resourceGroupName The name of the resource group.

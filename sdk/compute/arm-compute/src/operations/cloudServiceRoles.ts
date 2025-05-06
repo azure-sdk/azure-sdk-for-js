@@ -48,11 +48,7 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
     cloudServiceName: string,
     options?: CloudServiceRolesListOptionalParams,
   ): PagedAsyncIterableIterator<CloudServiceRole> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, cloudServiceName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +60,7 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          cloudServiceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, cloudServiceName, options, settings);
       },
     };
   }
@@ -108,11 +99,7 @@ export class CloudServiceRolesImpl implements CloudServiceRoles {
     cloudServiceName: string,
     options?: CloudServiceRolesListOptionalParams,
   ): AsyncIterableIterator<CloudServiceRole> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, cloudServiceName, options)) {
       yield* page;
     }
   }

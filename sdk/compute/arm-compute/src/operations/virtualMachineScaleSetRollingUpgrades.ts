@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
@@ -60,8 +56,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -112,11 +107,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesCancelOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginCancel(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
+    const poller = await this.beginCancel(resourceGroupName, vmScaleSetName, options);
     return poller.pollUntilDone();
   }
 
@@ -143,8 +134,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -197,11 +187,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStartOSUpgrade(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    );
+    const poller = await this.beginStartOSUpgrade(resourceGroupName, vmScaleSetName, options);
     return poller.pollUntilDone();
   }
 
@@ -228,8 +214,7 @@ export class VirtualMachineScaleSetRollingUpgradesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

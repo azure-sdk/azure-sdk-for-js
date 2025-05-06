@@ -7065,6 +7065,9 @@ export interface VirtualMachineNetworkInterfaceConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7105,6 +7108,9 @@ export interface VirtualMachinePublicIPAddressConfiguration {
     publicIPAllocationMethod?: PublicIPAllocationMethod;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7588,6 +7594,9 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
     name: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -7640,6 +7649,9 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
     publicIPAddressVersion?: IPVersion;
     publicIPPrefix?: SubResource;
     sku?: PublicIPAddressSku;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8045,6 +8057,9 @@ export interface VirtualMachineScaleSetUpdateNetworkConfiguration {
     name?: string;
     networkSecurityGroup?: SubResource;
     primary?: boolean;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8081,6 +8096,9 @@ export interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration {
     idleTimeoutInMinutes?: number;
     name?: string;
     publicIPPrefix?: SubResource;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -8914,6 +8932,8 @@ export interface WindowsParameters {
     kbNumbersToExclude?: string[];
     kbNumbersToInclude?: string[];
     maxPatchPublishDate?: Date;
+    patchNameMasksToExclude?: string[];
+    patchNameMasksToInclude?: string[];
 }
 
 // @public

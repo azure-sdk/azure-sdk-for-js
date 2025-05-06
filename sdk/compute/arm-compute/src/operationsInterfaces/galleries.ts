@@ -38,9 +38,7 @@ export interface Galleries {
    * List galleries under a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: GalleriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Gallery>;
+  list(options?: GalleriesListOptionalParams): PagedAsyncIterableIterator<Gallery>;
   /**
    * Create or update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
@@ -87,12 +85,7 @@ export interface Galleries {
     galleryName: string,
     gallery: GalleryUpdate,
     options?: GalleriesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GalleriesUpdateResponse>,
-      GalleriesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<GalleriesUpdateResponse>, GalleriesUpdateResponse>>;
   /**
    * Update a Shared Image Gallery.
    * @param resourceGroupName The name of the resource group.
