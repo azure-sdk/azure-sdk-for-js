@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   UpdateDomain,
@@ -32,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServicesUpdateDomain operations. */
-export class CloudServicesUpdateDomainImpl
-  implements CloudServicesUpdateDomain
-{
+export class CloudServicesUpdateDomainImpl implements CloudServicesUpdateDomain {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -56,11 +50,7 @@ export class CloudServicesUpdateDomainImpl
     cloudServiceName: string,
     options?: CloudServicesUpdateDomainListUpdateDomainsOptionalParams,
   ): PagedAsyncIterableIterator<UpdateDomain> {
-    const iter = this.listUpdateDomainsPagingAll(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const iter = this.listUpdateDomainsPagingAll(resourceGroupName, cloudServiceName, options);
     return {
       next() {
         return iter.next();
@@ -91,11 +81,7 @@ export class CloudServicesUpdateDomainImpl
     let result: CloudServicesUpdateDomainListUpdateDomainsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listUpdateDomains(
-        resourceGroupName,
-        cloudServiceName,
-        options,
-      );
+      result = await this._listUpdateDomains(resourceGroupName, cloudServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -154,8 +140,7 @@ export class CloudServicesUpdateDomainImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

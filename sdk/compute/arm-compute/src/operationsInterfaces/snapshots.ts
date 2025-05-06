@@ -42,9 +42,7 @@ export interface Snapshots {
    * Lists snapshots under a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: SnapshotsListOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot>;
+  list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Creates or updates a snapshot.
    * @param resourceGroupName The name of the resource group.
@@ -94,12 +92,7 @@ export interface Snapshots {
     snapshotName: string,
     snapshot: SnapshotUpdate,
     options?: SnapshotsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsUpdateResponse>,
-      SnapshotsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>>;
   /**
    * Updates (patches) a snapshot.
    * @param resourceGroupName The name of the resource group.
@@ -169,10 +162,7 @@ export interface Snapshots {
     grantAccessData: GrantAccessData,
     options?: SnapshotsGrantAccessOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsGrantAccessResponse>,
-      SnapshotsGrantAccessResponse
-    >
+    SimplePollerLike<OperationState<SnapshotsGrantAccessResponse>, SnapshotsGrantAccessResponse>
   >;
   /**
    * Grants access to a snapshot.

@@ -103,10 +103,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
     location: string,
     options?: SharedGalleriesListOptionalParams,
   ): Promise<SharedGalleriesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -137,10 +134,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
     nextLink: string,
     options?: SharedGalleriesListNextOptionalParams,
   ): Promise<SharedGalleriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -158,11 +152,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location1],
   headerParameters: [Parameters.accept],
   serializer,
 };
