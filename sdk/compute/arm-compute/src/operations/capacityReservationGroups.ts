@@ -35,9 +35,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CapacityReservationGroups operations. */
-export class CapacityReservationGroupsImpl
-  implements CapacityReservationGroups
-{
+export class CapacityReservationGroupsImpl implements CapacityReservationGroups {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -70,11 +68,7 @@ export class CapacityReservationGroupsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -94,11 +88,7 @@ export class CapacityReservationGroupsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,10 +100,7 @@ export class CapacityReservationGroupsImpl
     resourceGroupName: string,
     options?: CapacityReservationGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CapacityReservationGroup> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -275,10 +262,7 @@ export class CapacityReservationGroupsImpl
   private _listBySubscription(
     options?: CapacityReservationGroupsListBySubscriptionOptionalParams,
   ): Promise<CapacityReservationGroupsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -418,11 +402,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -437,11 +417,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand9,
-    Parameters.resourceIdsOnly,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand9, Parameters.resourceIdsOnly],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -477,11 +453,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

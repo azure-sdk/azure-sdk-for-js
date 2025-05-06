@@ -1,5 +1,19 @@
 # Release History
     
+## 22.5.0 (2025-05-06)
+    
+### Features Added
+
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter tags
+  - Interface VirtualMachinePublicIPAddressConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetPublicIPAddressConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter tags
+  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter tags
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
+  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added

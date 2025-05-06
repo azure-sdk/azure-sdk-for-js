@@ -58,10 +58,7 @@ export interface Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DisksCreateOrUpdateResponse>,
-      DisksCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a disk.
@@ -92,9 +89,7 @@ export interface Disks {
     diskName: string,
     disk: DiskUpdate,
     options?: DisksUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>>;
   /**
    * Updates (patches) a disk.
    * @param resourceGroupName The name of the resource group.
@@ -163,12 +158,7 @@ export interface Disks {
     diskName: string,
     grantAccessData: GrantAccessData,
     options?: DisksGrantAccessOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DisksGrantAccessResponse>,
-      DisksGrantAccessResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DisksGrantAccessResponse>, DisksGrantAccessResponse>>;
   /**
    * Grants access to a disk.
    * @param resourceGroupName The name of the resource group.
