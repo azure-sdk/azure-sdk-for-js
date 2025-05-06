@@ -7,8 +7,8 @@
  */
 
 export * from "./operations.js";
+export * from "./availableGroundStations.js";
+export * from "./contactProfiles.js";
+export * from "./operationsResults.js";
 export * from "./spacecrafts.js";
 export * from "./contacts.js";
-export * from "./contactProfiles.js";
-export * from "./availableGroundStations.js";
-export * from "./operationsResults.js";

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureOrbital } from "../azureOrbital.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ContactProfile,
@@ -29,16 +25,14 @@ import {
   ContactProfilesListResponse,
   ContactProfilesGetOptionalParams,
   ContactProfilesGetResponse,
-  ContactProfilesPropertiesNetworkConfiguration,
-  ContactProfileLink,
   ContactProfilesCreateOrUpdateOptionalParams,
   ContactProfilesCreateOrUpdateResponse,
-  ContactProfilesDeleteOptionalParams,
   TagsObject,
   ContactProfilesUpdateTagsOptionalParams,
   ContactProfilesUpdateTagsResponse,
+  ContactProfilesDeleteOptionalParams,
   ContactProfilesListBySubscriptionNextResponse,
-  ContactProfilesListNextResponse
+  ContactProfilesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +53,7 @@ export class ContactProfilesImpl implements ContactProfiles {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -74,13 +68,13 @@ export class ContactProfilesImpl implements ContactProfiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: ContactProfilesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContactProfile[]> {
     let result: ContactProfilesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +95,7 @@ export class ContactProfilesImpl implements ContactProfiles {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: ContactProfilesListBySubscriptionOptionalParams
+    options?: ContactProfilesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ContactProfile> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -115,7 +109,7 @@ export class ContactProfilesImpl implements ContactProfiles {
    */
   public list(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
   ): PagedAsyncIterableIterator<ContactProfile> {
     const iter = this.listPagingAll(resourceGroupName, options);
     return {
@@ -130,14 +124,14 @@ export class ContactProfilesImpl implements ContactProfiles {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceGroupName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
     options?: ContactProfilesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ContactProfile[]> {
     let result: ContactProfilesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -149,11 +143,7 @@ export class ContactProfilesImpl implements ContactProfiles {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -163,11 +153,33 @@ export class ContactProfilesImpl implements ContactProfiles {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
+    options?: ContactProfilesListOptionalParams,
   ): AsyncIterableIterator<ContactProfile> {
     for await (const page of this.listPagingPage(resourceGroupName, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Returns list of contact profiles by Subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: ContactProfilesListBySubscriptionOptionalParams,
+  ): Promise<ContactProfilesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+  }
+
+  /**
+   * Returns list of contact profiles by Resource Group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    options?: ContactProfilesListOptionalParams,
+  ): Promise<ContactProfilesListResponse> {
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -179,11 +191,11 @@ export class ContactProfilesImpl implements ContactProfiles {
   get(
     resourceGroupName: string,
     contactProfileName: string,
-    options?: ContactProfilesGetOptionalParams
+    options?: ContactProfilesGetOptionalParams,
   ): Promise<ContactProfilesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, contactProfileName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -191,18 +203,14 @@ export class ContactProfilesImpl implements ContactProfiles {
    * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param contactProfileName Contact Profile name.
-   * @param location The geo-location where the resource lives
-   * @param networkConfiguration Network configuration of customer virtual network.
-   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+   * @param parameters The parameters to provide for the created Contact Profile.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     contactProfileName: string,
-    location: string,
-    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
-    links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    parameters: ContactProfile,
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesCreateOrUpdateResponse>,
@@ -211,21 +219,19 @@ export class ContactProfilesImpl implements ContactProfiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContactProfilesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -234,8 +240,8 @@ export class ContactProfilesImpl implements ContactProfiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -243,22 +249,15 @@ export class ContactProfilesImpl implements ContactProfiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        contactProfileName,
-        location,
-        networkConfiguration,
-        links,
-        options
-      },
-      spec: createOrUpdateOperationSpec
+      args: { resourceGroupName, contactProfileName, parameters, options },
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ContactProfilesCreateOrUpdateResponse,
@@ -266,7 +265,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -276,109 +275,20 @@ export class ContactProfilesImpl implements ContactProfiles {
    * Creates or updates a contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param contactProfileName Contact Profile name.
-   * @param location The geo-location where the resource lives
-   * @param networkConfiguration Network configuration of customer virtual network.
-   * @param links Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+   * @param parameters The parameters to provide for the created Contact Profile.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     contactProfileName: string,
-    location: string,
-    networkConfiguration: ContactProfilesPropertiesNetworkConfiguration,
-    links: ContactProfileLink[],
-    options?: ContactProfilesCreateOrUpdateOptionalParams
+    parameters: ContactProfile,
+    options?: ContactProfilesCreateOrUpdateOptionalParams,
   ): Promise<ContactProfilesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       contactProfileName,
-      location,
-      networkConfiguration,
-      links,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a specified contact profile resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile name.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, contactProfileName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes a specified contact profile resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param contactProfileName Contact Profile name.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    contactProfileName: string,
-    options?: ContactProfilesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      contactProfileName,
-      options
+      parameters,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -394,7 +304,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContactProfilesUpdateTagsResponse>,
@@ -403,21 +313,19 @@ export class ContactProfilesImpl implements ContactProfiles {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContactProfilesUpdateTagsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -426,8 +334,8 @@ export class ContactProfilesImpl implements ContactProfiles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -435,15 +343,15 @@ export class ContactProfilesImpl implements ContactProfiles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, contactProfileName, parameters, options },
-      spec: updateTagsOperationSpec
+      spec: updateTagsOperationSpec,
     });
     const poller = await createHttpPoller<
       ContactProfilesUpdateTagsResponse,
@@ -451,7 +359,7 @@ export class ContactProfilesImpl implements ContactProfiles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -468,43 +376,92 @@ export class ContactProfilesImpl implements ContactProfiles {
     resourceGroupName: string,
     contactProfileName: string,
     parameters: TagsObject,
-    options?: ContactProfilesUpdateTagsOptionalParams
+    options?: ContactProfilesUpdateTagsOptionalParams,
   ): Promise<ContactProfilesUpdateTagsResponse> {
     const poller = await this.beginUpdateTags(
       resourceGroupName,
       contactProfileName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns list of contact profiles by Subscription.
+   * Deletes a specified contact profile resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
-  private _listBySubscription(
-    options?: ContactProfilesListBySubscriptionOptionalParams
-  ): Promise<ContactProfilesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+  async beginDelete(
+    resourceGroupName: string,
+    contactProfileName: string,
+    options?: ContactProfilesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, contactProfileName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Returns list of contact profiles by Resource Group.
+   * Deletes a specified contact profile resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param contactProfileName Contact Profile name.
    * @param options The options parameters.
    */
-  private _list(
+  async beginDeleteAndWait(
     resourceGroupName: string,
-    options?: ContactProfilesListOptionalParams
-  ): Promise<ContactProfilesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
+    contactProfileName: string,
+    options?: ContactProfilesDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(resourceGroupName, contactProfileName, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -514,11 +471,11 @@ export class ContactProfilesImpl implements ContactProfiles {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: ContactProfilesListBySubscriptionNextOptionalParams
+    options?: ContactProfilesListBySubscriptionNextOptionalParams,
   ): Promise<ContactProfilesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -531,129 +488,121 @@ export class ContactProfilesImpl implements ContactProfiles {
   private _listNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: ContactProfilesListNextOptionalParams
+    options?: ContactProfilesListNextOptionalParams,
   ): Promise<ContactProfilesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/contactProfiles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactProfileListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContactProfile,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.contactProfileName
+    Parameters.contactProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     201: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     202: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     204: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      tags: ["options", "tags"],
-      location: ["location"],
-      provisioningState: ["options", "provisioningState"],
-      minimumViableContactDuration: ["options", "minimumViableContactDuration"],
-      minimumElevationDegrees: ["options", "minimumElevationDegrees"],
-      autoTrackingConfiguration: ["options", "autoTrackingConfiguration"],
-      eventHubUri: ["options", "eventHubUri"],
-      networkConfiguration: ["networkConfiguration"],
-      thirdPartyConfigurations: ["options", "thirdPartyConfigurations"],
-      links: ["links"]
+      bodyMapper: Mappers.ErrorResponse,
     },
-    mapper: { ...Mappers.ContactProfile, required: true }
   },
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.contactProfileName
+    Parameters.contactProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.contactProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     201: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     202: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     204: {
-      bodyMapper: Mappers.ContactProfile
+      bodyMapper: Mappers.ContactProfile,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -661,86 +610,66 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.contactProfileName
+    Parameters.contactProfileName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Orbital/contactProfiles",
-  httpMethod: "GET",
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles/{contactProfileName}",
+  httpMethod: "DELETE",
   responses: {
-    200: {
-      bodyMapper: Mappers.ContactProfileListResult
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/contactProfiles",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ContactProfileListResult
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.contactProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactProfileListResult
+      bodyMapper: Mappers.ContactProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactProfileListResult
+      bodyMapper: Mappers.ContactProfileListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

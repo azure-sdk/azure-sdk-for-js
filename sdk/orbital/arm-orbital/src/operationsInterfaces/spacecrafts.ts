@@ -13,17 +13,16 @@ import {
   SpacecraftsListBySubscriptionOptionalParams,
   SpacecraftsListOptionalParams,
   AvailableContacts,
-  ContactParametersContactProfile,
+  ContactParameters,
   SpacecraftsListAvailableContactsOptionalParams,
   SpacecraftsGetOptionalParams,
   SpacecraftsGetResponse,
-  SpacecraftLink,
   SpacecraftsCreateOrUpdateOptionalParams,
   SpacecraftsCreateOrUpdateResponse,
-  SpacecraftsDeleteOptionalParams,
   TagsObject,
   SpacecraftsUpdateTagsOptionalParams,
-  SpacecraftsUpdateTagsResponse
+  SpacecraftsUpdateTagsResponse,
+  SpacecraftsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +33,7 @@ export interface Spacecrafts {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SpacecraftsListBySubscriptionOptionalParams
+    options?: SpacecraftsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
    * Returns list of spacecrafts by resource group.
@@ -43,27 +42,21 @@ export interface Spacecrafts {
    */
   list(
     resourceGroupName: string,
-    options?: SpacecraftsListOptionalParams
+    options?: SpacecraftsListOptionalParams,
   ): PagedAsyncIterableIterator<Spacecraft>;
   /**
    * Returns list of available contacts. A contact is available if the spacecraft is visible from the
    * ground station for more than the minimum viable contact duration provided in the contact profile.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param contactProfile The reference to the contact profile resource.
-   * @param groundStationName Name of Azure Ground Station.
-   * @param startTime Start time of a contact (ISO 8601 UTC standard).
-   * @param endTime End time of a contact (ISO 8601 UTC standard).
+   * @param parameters The parameters to provide for the contacts.
    * @param options The options parameters.
    */
   beginListAvailableContactsAndWait(
     resourceGroupName: string,
     spacecraftName: string,
-    contactProfile: ContactParametersContactProfile,
-    groundStationName: string,
-    startTime: Date,
-    endTime: Date,
-    options?: SpacecraftsListAvailableContactsOptionalParams
+    parameters: ContactParameters,
+    options?: SpacecraftsListAvailableContactsOptionalParams,
   ): PagedAsyncIterableIterator<AvailableContacts>;
   /**
    * Gets the specified spacecraft in a specified resource group.
@@ -74,28 +67,20 @@ export interface Spacecrafts {
   get(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: SpacecraftsGetOptionalParams
+    options?: SpacecraftsGetOptionalParams,
   ): Promise<SpacecraftsGetResponse>;
   /**
    * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param location The geo-location where the resource lives
-   * @param titleLine Title line of the two-line element set (TLE).
-   * @param tleLine1 Line 1 of the two-line element set (TLE).
-   * @param tleLine2 Line 2 of the two-line element set (TLE).
-   * @param links Immutable list of Spacecraft links.
+   * @param parameters The parameters to provide for the created spacecraft.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     spacecraftName: string,
-    location: string,
-    titleLine: string,
-    tleLine1: string,
-    tleLine2: string,
-    links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    parameters: Spacecraft,
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpacecraftsCreateOrUpdateResponse>,
@@ -106,45 +91,15 @@ export interface Spacecrafts {
    * Creates or updates a spacecraft resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param spacecraftName Spacecraft ID.
-   * @param location The geo-location where the resource lives
-   * @param titleLine Title line of the two-line element set (TLE).
-   * @param tleLine1 Line 1 of the two-line element set (TLE).
-   * @param tleLine2 Line 2 of the two-line element set (TLE).
-   * @param links Immutable list of Spacecraft links.
+   * @param parameters The parameters to provide for the created spacecraft.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     spacecraftName: string,
-    location: string,
-    titleLine: string,
-    tleLine1: string,
-    tleLine2: string,
-    links: SpacecraftLink[],
-    options?: SpacecraftsCreateOrUpdateOptionalParams
+    parameters: Spacecraft,
+    options?: SpacecraftsCreateOrUpdateOptionalParams,
   ): Promise<SpacecraftsCreateOrUpdateResponse>;
-  /**
-   * Deletes a specified spacecraft resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a specified spacecraft resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param spacecraftName Spacecraft ID.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    spacecraftName: string,
-    options?: SpacecraftsDeleteOptionalParams
-  ): Promise<void>;
   /**
    * Updates the specified spacecraft tags.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -156,12 +111,9 @@ export interface Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SpacecraftsUpdateTagsResponse>,
-      SpacecraftsUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<SpacecraftsUpdateTagsResponse>, SpacecraftsUpdateTagsResponse>
   >;
   /**
    * Updates the specified spacecraft tags.
@@ -174,6 +126,28 @@ export interface Spacecrafts {
     resourceGroupName: string,
     spacecraftName: string,
     parameters: TagsObject,
-    options?: SpacecraftsUpdateTagsOptionalParams
+    options?: SpacecraftsUpdateTagsOptionalParams,
   ): Promise<SpacecraftsUpdateTagsResponse>;
+  /**
+   * Deletes a specified spacecraft resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    spacecraftName: string,
+    options?: SpacecraftsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a specified spacecraft resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param spacecraftName Spacecraft ID.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    spacecraftName: string,
+    options?: SpacecraftsDeleteOptionalParams,
+  ): Promise<void>;
 }

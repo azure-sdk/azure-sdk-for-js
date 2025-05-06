@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureOrbital } from "../azureOrbital.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Contact,
@@ -29,7 +25,7 @@ import {
   ContactsCreateOptionalParams,
   ContactsCreateResponse,
   ContactsDeleteOptionalParams,
-  ContactsListNextResponse
+  ContactsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +50,7 @@ export class ContactsImpl implements Contacts {
   public list(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: ContactsListOptionalParams
+    options?: ContactsListOptionalParams,
   ): PagedAsyncIterableIterator<Contact> {
     const iter = this.listPagingAll(resourceGroupName, spacecraftName, options);
     return {
@@ -68,13 +64,8 @@ export class ContactsImpl implements Contacts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          spacecraftName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, spacecraftName, options, settings);
+      },
     };
   }
 
@@ -82,7 +73,7 @@ export class ContactsImpl implements Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     options?: ContactsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Contact[]> {
     let result: ContactsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,12 +85,7 @@ export class ContactsImpl implements Contacts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        spacecraftName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, spacecraftName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,13 +96,9 @@ export class ContactsImpl implements Contacts {
   private async *listPagingAll(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: ContactsListOptionalParams
+    options?: ContactsListOptionalParams,
   ): AsyncIterableIterator<Contact> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      spacecraftName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, spacecraftName, options)) {
       yield* page;
     }
   }
@@ -130,11 +112,11 @@ export class ContactsImpl implements Contacts {
   private _list(
     resourceGroupName: string,
     spacecraftName: string,
-    options?: ContactsListOptionalParams
+    options?: ContactsListOptionalParams,
   ): Promise<ContactsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, spacecraftName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +131,11 @@ export class ContactsImpl implements Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsGetOptionalParams
+    options?: ContactsGetOptionalParams,
   ): Promise<ContactsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, spacecraftName, contactName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,30 +152,23 @@ export class ContactsImpl implements Contacts {
     spacecraftName: string,
     contactName: string,
     parameters: Contact,
-    options?: ContactsCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ContactsCreateResponse>,
-      ContactsCreateResponse
-    >
-  > {
+    options?: ContactsCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<ContactsCreateResponse>, ContactsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ContactsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +177,8 @@ export class ContactsImpl implements Contacts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,8 +186,8 @@ export class ContactsImpl implements Contacts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -223,9 +198,9 @@ export class ContactsImpl implements Contacts {
         spacecraftName,
         contactName,
         parameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ContactsCreateResponse,
@@ -233,7 +208,7 @@ export class ContactsImpl implements Contacts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -252,14 +227,14 @@ export class ContactsImpl implements Contacts {
     spacecraftName: string,
     contactName: string,
     parameters: Contact,
-    options?: ContactsCreateOptionalParams
+    options?: ContactsCreateOptionalParams,
   ): Promise<ContactsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       spacecraftName,
       contactName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,25 +250,23 @@ export class ContactsImpl implements Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsDeleteOptionalParams
+    options?: ContactsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +275,8 @@ export class ContactsImpl implements Contacts {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,20 +284,20 @@ export class ContactsImpl implements Contacts {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, spacecraftName, contactName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -341,14 +314,9 @@ export class ContactsImpl implements Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     contactName: string,
-    options?: ContactsDeleteOptionalParams
+    options?: ContactsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      spacecraftName,
-      contactName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, spacecraftName, contactName, options);
     return poller.pollUntilDone();
   }
 
@@ -363,11 +331,11 @@ export class ContactsImpl implements Contacts {
     resourceGroupName: string,
     spacecraftName: string,
     nextLink: string,
-    options?: ContactsListNextOptionalParams
+    options?: ContactsListNextOptionalParams,
   ): Promise<ContactsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, spacecraftName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -375,38 +343,36 @@ export class ContactsImpl implements Contacts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactListResult
+      bodyMapper: Mappers.ContactListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skiptoken],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spacecraftName
+    Parameters.spacecraftName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Contact
+      bodyMapper: Mappers.Contact,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -414,48 +380,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
-    Parameters.contactName
+    Parameters.contactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Contact
+      bodyMapper: Mappers.Contact,
     },
     201: {
-      bodyMapper: Mappers.Contact
+      bodyMapper: Mappers.Contact,
     },
     202: {
-      bodyMapper: Mappers.Contact
+      bodyMapper: Mappers.Contact,
     },
     204: {
-      bodyMapper: Mappers.Contact
+      bodyMapper: Mappers.Contact,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
-    Parameters.contactName
+    Parameters.contactName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/contacts/{contactName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -463,8 +427,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -472,29 +436,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
-    Parameters.contactName
+    Parameters.contactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ContactListResult
+      bodyMapper: Mappers.ContactListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.spacecraftName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
