@@ -120,10 +120,7 @@ export interface EmailServices {
     parameters: EmailServiceResourceUpdate,
     options?: EmailServicesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<EmailServicesUpdateResponse>,
-      EmailServicesUpdateResponse
-    >
+    SimplePollerLike<OperationState<EmailServicesUpdateResponse>, EmailServicesUpdateResponse>
   >;
   /**
    * Operation to update an existing EmailService.

@@ -365,8 +365,7 @@ export interface SenderUsernameResourceCollection {
 }
 
 /** Data POST-ed to the nameAvailability action */
-export interface NameAvailabilityParameters
-  extends CheckNameAvailabilityRequest {}
+export interface NameAvailabilityParameters extends CheckNameAvailabilityRequest {}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -429,6 +428,8 @@ export interface CommunicationServiceResource extends TrackedResource {
   readonly immutableResourceId?: string;
   /** List of email Domain resource Ids. */
   linkedDomains?: string[];
+  /** Disable local authentication for the CommunicationService. */
+  disableLocalAuth?: boolean;
 }
 
 /** A class representing a Domains resource. */
@@ -915,15 +916,13 @@ export type ProvisioningState = string;
 export type KeyType = "Primary" | "Secondary";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -933,8 +932,7 @@ export interface CommunicationServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type CommunicationServicesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResponse;
+export type CommunicationServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface CommunicationServicesLinkNotificationHubOptionalParams
@@ -944,35 +942,30 @@ export interface CommunicationServicesLinkNotificationHubOptionalParams
 }
 
 /** Contains response data for the linkNotificationHub operation. */
-export type CommunicationServicesLinkNotificationHubResponse =
-  LinkedNotificationHub;
+export type CommunicationServicesLinkNotificationHubResponse = LinkedNotificationHub;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type CommunicationServicesListBySubscriptionResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type CommunicationServicesListByResourceGroupResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
-export interface CommunicationServicesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommunicationServicesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CommunicationServicesUpdateResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
-export interface CommunicationServicesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommunicationServicesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CommunicationServicesGetResponse = CommunicationServiceResource;
@@ -987,12 +980,10 @@ export interface CommunicationServicesCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type CommunicationServicesCreateOrUpdateResponse =
-  CommunicationServiceResource;
+export type CommunicationServicesCreateOrUpdateResponse = CommunicationServiceResource;
 
 /** Optional parameters. */
-export interface CommunicationServicesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CommunicationServicesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1000,8 +991,7 @@ export interface CommunicationServicesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface CommunicationServicesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CommunicationServicesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type CommunicationServicesListKeysResponse = CommunicationServiceKeys;
@@ -1011,24 +1001,21 @@ export interface CommunicationServicesRegenerateKeyOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKey operation. */
-export type CommunicationServicesRegenerateKeyResponse =
-  CommunicationServiceKeys;
+export type CommunicationServicesRegenerateKeyResponse = CommunicationServiceKeys;
 
 /** Optional parameters. */
 export interface CommunicationServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type CommunicationServicesListBySubscriptionNextResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListBySubscriptionNextResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface CommunicationServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type CommunicationServicesListByResourceGroupNextResponse =
-  CommunicationServiceResourceList;
+export type CommunicationServicesListByResourceGroupNextResponse = CommunicationServiceResourceList;
 
 /** Optional parameters. */
 export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
@@ -1037,8 +1024,7 @@ export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
 export type DomainsGetResponse = DomainResource;
 
 /** Optional parameters. */
-export interface DomainsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1049,8 +1035,7 @@ export interface DomainsCreateOrUpdateOptionalParams
 export type DomainsCreateOrUpdateResponse = DomainResource;
 
 /** Optional parameters. */
-export interface DomainsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1058,8 +1043,7 @@ export interface DomainsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface DomainsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1077,8 +1061,7 @@ export interface DomainsListByEmailServiceResourceOptionalParams
 export type DomainsListByEmailServiceResourceResponse = DomainResourceList;
 
 /** Optional parameters. */
-export interface DomainsInitiateVerificationOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsInitiateVerificationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1086,12 +1069,10 @@ export interface DomainsInitiateVerificationOptionalParams
 }
 
 /** Contains response data for the initiateVerification operation. */
-export type DomainsInitiateVerificationResponse =
-  DomainsInitiateVerificationHeaders;
+export type DomainsInitiateVerificationResponse = DomainsInitiateVerificationHeaders;
 
 /** Optional parameters. */
-export interface DomainsCancelVerificationOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsCancelVerificationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1099,8 +1080,7 @@ export interface DomainsCancelVerificationOptionalParams
 }
 
 /** Contains response data for the cancelVerification operation. */
-export type DomainsCancelVerificationResponse =
-  DomainsCancelVerificationHeaders;
+export type DomainsCancelVerificationResponse = DomainsCancelVerificationHeaders;
 
 /** Optional parameters. */
 export interface DomainsListByEmailServiceResourceNextOptionalParams
@@ -1110,15 +1090,13 @@ export interface DomainsListByEmailServiceResourceNextOptionalParams
 export type DomainsListByEmailServiceResourceNextResponse = DomainResourceList;
 
 /** Optional parameters. */
-export interface EmailServicesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EmailServicesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EmailServicesGetResponse = EmailServiceResource;
 
 /** Optional parameters. */
-export interface EmailServicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface EmailServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1129,8 +1107,7 @@ export interface EmailServicesCreateOrUpdateOptionalParams
 export type EmailServicesCreateOrUpdateResponse = EmailServiceResource;
 
 /** Optional parameters. */
-export interface EmailServicesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface EmailServicesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1138,8 +1115,7 @@ export interface EmailServicesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface EmailServicesUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface EmailServicesUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1178,50 +1154,42 @@ export interface EmailServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type EmailServicesListBySubscriptionNextResponse =
-  EmailServiceResourceList;
+export type EmailServicesListBySubscriptionNextResponse = EmailServiceResourceList;
 
 /** Optional parameters. */
 export interface EmailServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type EmailServicesListByResourceGroupNextResponse =
-  EmailServiceResourceList;
+export type EmailServicesListByResourceGroupNextResponse = EmailServiceResourceList;
 
 /** Optional parameters. */
-export interface SenderUsernamesListByDomainsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SenderUsernamesListByDomainsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomains operation. */
-export type SenderUsernamesListByDomainsResponse =
-  SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsResponse = SenderUsernameResourceCollection;
 
 /** Optional parameters. */
-export interface SenderUsernamesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SenderUsernamesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SenderUsernamesGetResponse = SenderUsernameResource;
 
 /** Optional parameters. */
-export interface SenderUsernamesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SenderUsernamesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type SenderUsernamesCreateOrUpdateResponse = SenderUsernameResource;
 
 /** Optional parameters. */
-export interface SenderUsernamesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SenderUsernamesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface SenderUsernamesListByDomainsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDomainsNext operation. */
-export type SenderUsernamesListByDomainsNextResponse =
-  SenderUsernameResourceCollection;
+export type SenderUsernamesListByDomainsNextResponse = SenderUsernameResourceCollection;
 
 /** Optional parameters. */
 export interface CommunicationServiceManagementClientOptionalParams

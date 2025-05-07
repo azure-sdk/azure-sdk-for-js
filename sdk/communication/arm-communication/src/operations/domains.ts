@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DomainResource,
@@ -99,11 +95,7 @@ export class DomainsImpl implements Domains {
     let result: DomainsListByEmailServiceResourceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByEmailServiceResource(
-        resourceGroupName,
-        emailServiceName,
-        options,
-      );
+      result = await this._listByEmailServiceResource(resourceGroupName, emailServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -172,10 +164,7 @@ export class DomainsImpl implements Domains {
     parameters: DomainResource,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -187,8 +176,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -287,8 +275,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -342,12 +329,7 @@ export class DomainsImpl implements Domains {
     domainName: string,
     options?: DomainsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      emailServiceName,
-      domainName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, emailServiceName, domainName, options);
     return poller.pollUntilDone();
   }
 
@@ -365,12 +347,7 @@ export class DomainsImpl implements Domains {
     domainName: string,
     parameters: UpdateDomainRequestParameters,
     options?: DomainsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsUpdateResponse>,
-      DomainsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DomainsUpdateResponse>, DomainsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -381,8 +358,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -504,8 +480,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -610,8 +585,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EmailServiceResource,
@@ -129,11 +125,7 @@ export class EmailServicesImpl implements EmailServices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -153,11 +145,7 @@ export class EmailServicesImpl implements EmailServices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -169,10 +157,7 @@ export class EmailServicesImpl implements EmailServices {
     resourceGroupName: string,
     options?: EmailServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<EmailServiceResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -222,8 +207,7 @@ export class EmailServicesImpl implements EmailServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -310,8 +294,7 @@ export class EmailServicesImpl implements EmailServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -363,11 +346,7 @@ export class EmailServicesImpl implements EmailServices {
     emailServiceName: string,
     options?: EmailServicesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      emailServiceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, emailServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -384,10 +363,7 @@ export class EmailServicesImpl implements EmailServices {
     parameters: EmailServiceResourceUpdate,
     options?: EmailServicesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<EmailServicesUpdateResponse>,
-      EmailServicesUpdateResponse
-    >
+    SimplePollerLike<OperationState<EmailServicesUpdateResponse>, EmailServicesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -399,8 +375,7 @@ export class EmailServicesImpl implements EmailServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -457,12 +432,7 @@ export class EmailServicesImpl implements EmailServices {
     parameters: EmailServiceResourceUpdate,
     options?: EmailServicesUpdateOptionalParams,
   ): Promise<EmailServicesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      emailServiceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, emailServiceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -473,10 +443,7 @@ export class EmailServicesImpl implements EmailServices {
   private _listBySubscription(
     options?: EmailServicesListBySubscriptionOptionalParams,
   ): Promise<EmailServicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -677,33 +644,28 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listVerifiedExchangeOnlineDomainsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Communication/listVerifiedExchangeOnlineDomains",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: { name: "Sequence", element: { type: { name: "String" } } },
-        },
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
+const listVerifiedExchangeOnlineDomainsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Communication/listVerifiedExchangeOnlineDomains",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Sequence", element: { type: { name: "String" } } },
       },
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.subscriptionId],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -715,11 +677,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
