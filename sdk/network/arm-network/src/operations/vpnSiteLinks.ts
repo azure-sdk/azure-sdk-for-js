@@ -47,11 +47,7 @@ export class VpnSiteLinksImpl implements VpnSiteLinks {
     vpnSiteName: string,
     options?: VpnSiteLinksListByVpnSiteOptionalParams,
   ): PagedAsyncIterableIterator<VpnSiteLink> {
-    const iter = this.listByVpnSitePagingAll(
-      resourceGroupName,
-      vpnSiteName,
-      options,
-    );
+    const iter = this.listByVpnSitePagingAll(resourceGroupName, vpnSiteName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class VpnSiteLinksImpl implements VpnSiteLinks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVpnSitePagingPage(
-          resourceGroupName,
-          vpnSiteName,
-          options,
-          settings,
-        );
+        return this.listByVpnSitePagingPage(resourceGroupName, vpnSiteName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class VpnSiteLinksImpl implements VpnSiteLinks {
     let result: VpnSiteLinksListByVpnSiteResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByVpnSite(
-        resourceGroupName,
-        vpnSiteName,
-        options,
-      );
+      result = await this._listByVpnSite(resourceGroupName, vpnSiteName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

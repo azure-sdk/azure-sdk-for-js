@@ -38,9 +38,7 @@ export interface RouteFilters {
    * Gets all route filters in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: RouteFiltersListOptionalParams,
-  ): PagedAsyncIterableIterator<RouteFilter>;
+  list(options?: RouteFiltersListOptionalParams): PagedAsyncIterableIterator<RouteFilter>;
   /**
    * Deletes the specified route filter.
    * @param resourceGroupName The name of the resource group.

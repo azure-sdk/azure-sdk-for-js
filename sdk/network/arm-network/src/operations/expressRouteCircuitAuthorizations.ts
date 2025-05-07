@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ExpressRouteCircuitAuthorization,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRouteCircuitAuthorizations operations. */
-export class ExpressRouteCircuitAuthorizationsImpl
-  implements ExpressRouteCircuitAuthorizations
-{
+export class ExpressRouteCircuitAuthorizationsImpl implements ExpressRouteCircuitAuthorizations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -70,12 +64,7 @@ export class ExpressRouteCircuitAuthorizationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          circuitName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, circuitName, options, settings);
       },
     };
   }
@@ -96,12 +85,7 @@ export class ExpressRouteCircuitAuthorizationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        circuitName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, circuitName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,11 +98,7 @@ export class ExpressRouteCircuitAuthorizationsImpl
     circuitName: string,
     options?: ExpressRouteCircuitAuthorizationsListOptionalParams,
   ): AsyncIterableIterator<ExpressRouteCircuitAuthorization> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      circuitName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, circuitName, options)) {
       yield* page;
     }
   }
@@ -146,8 +126,7 @@ export class ExpressRouteCircuitAuthorizationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -260,8 +239,7 @@ export class ExpressRouteCircuitAuthorizationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

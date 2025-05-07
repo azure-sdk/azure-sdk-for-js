@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PrivateDnsZoneGroup,
@@ -56,11 +52,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     resourceGroupName: string,
     options?: PrivateDnsZoneGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateDnsZoneGroup> {
-    const iter = this.listPagingAll(
-      privateEndpointName,
-      resourceGroupName,
-      options,
-    );
+    const iter = this.listPagingAll(privateEndpointName, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          privateEndpointName,
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(privateEndpointName, resourceGroupName, options, settings);
       },
     };
   }
@@ -91,11 +78,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     let result: PrivateDnsZoneGroupsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        privateEndpointName,
-        resourceGroupName,
-        options,
-      );
+      result = await this._list(privateEndpointName, resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -120,11 +103,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
     resourceGroupName: string,
     options?: PrivateDnsZoneGroupsListOptionalParams,
   ): AsyncIterableIterator<PrivateDnsZoneGroup> {
-    for await (const page of this.listPagingPage(
-      privateEndpointName,
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(privateEndpointName, resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -152,8 +131,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -275,8 +253,7 @@ export class PrivateDnsZoneGroupsImpl implements PrivateDnsZoneGroups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,7 +432,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters64,
+  requestBody: Parameters.parameters72,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

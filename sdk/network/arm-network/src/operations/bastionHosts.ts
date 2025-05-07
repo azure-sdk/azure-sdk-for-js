@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BastionHost,
@@ -56,9 +52,7 @@ export class BastionHostsImpl implements BastionHosts {
    * Lists all Bastion Hosts in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: BastionHostsListOptionalParams,
-  ): PagedAsyncIterableIterator<BastionHost> {
+  public list(options?: BastionHostsListOptionalParams): PagedAsyncIterableIterator<BastionHost> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -127,11 +121,7 @@ export class BastionHostsImpl implements BastionHosts {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -151,11 +141,7 @@ export class BastionHostsImpl implements BastionHosts {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -167,10 +153,7 @@ export class BastionHostsImpl implements BastionHosts {
     resourceGroupName: string,
     options?: BastionHostsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BastionHost> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -196,8 +179,7 @@ export class BastionHostsImpl implements BastionHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -249,11 +231,7 @@ export class BastionHostsImpl implements BastionHosts {
     bastionHostName: string,
     options?: BastionHostsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      bastionHostName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, bastionHostName, options);
     return poller.pollUntilDone();
   }
 
@@ -302,8 +280,7 @@ export class BastionHostsImpl implements BastionHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -382,10 +359,7 @@ export class BastionHostsImpl implements BastionHosts {
     parameters: TagsObject,
     options?: BastionHostsUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BastionHostsUpdateTagsResponse>,
-      BastionHostsUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<BastionHostsUpdateTagsResponse>, BastionHostsUpdateTagsResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -397,8 +371,7 @@ export class BastionHostsImpl implements BastionHosts {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -468,9 +441,7 @@ export class BastionHostsImpl implements BastionHosts {
    * Lists all Bastion Hosts in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: BastionHostsListOptionalParams,
-  ): Promise<BastionHostsListResponse> {
+  private _list(options?: BastionHostsListOptionalParams): Promise<BastionHostsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -498,10 +469,7 @@ export class BastionHostsImpl implements BastionHosts {
     nextLink: string,
     options?: BastionHostsListNextOptionalParams,
   ): Promise<BastionHostsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -659,11 +627,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -678,11 +642,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -46,9 +46,7 @@ export interface VirtualHubs {
    * Lists all the VirtualHubs in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VirtualHubsListOptionalParams,
-  ): PagedAsyncIterableIterator<VirtualHub>;
+  list(options?: VirtualHubsListOptionalParams): PagedAsyncIterableIterator<VirtualHub>;
   /**
    * Retrieves the details of a VirtualHub.
    * @param resourceGroupName The resource group name of the VirtualHub.

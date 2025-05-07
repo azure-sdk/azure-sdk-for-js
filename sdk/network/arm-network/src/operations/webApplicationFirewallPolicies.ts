@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   WebApplicationFirewallPolicy,
@@ -38,9 +34,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WebApplicationFirewallPolicies operations. */
-export class WebApplicationFirewallPoliciesImpl
-  implements WebApplicationFirewallPolicies
-{
+export class WebApplicationFirewallPoliciesImpl implements WebApplicationFirewallPolicies {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -92,11 +86,7 @@ export class WebApplicationFirewallPoliciesImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -176,10 +166,7 @@ export class WebApplicationFirewallPoliciesImpl
     resourceGroupName: string,
     options?: WebApplicationFirewallPoliciesListOptionalParams,
   ): Promise<WebApplicationFirewallPoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -249,8 +236,7 @@ export class WebApplicationFirewallPoliciesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -302,11 +288,7 @@ export class WebApplicationFirewallPoliciesImpl
     policyName: string,
     options?: WebApplicationFirewallPoliciesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      policyName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, policyName, options);
     return poller.pollUntilDone();
   }
 
@@ -336,10 +318,7 @@ export class WebApplicationFirewallPoliciesImpl
     nextLink: string,
     options?: WebApplicationFirewallPoliciesListAllNextOptionalParams,
   ): Promise<WebApplicationFirewallPoliciesListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -357,11 +336,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -416,7 +391,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters92,
+  requestBody: Parameters.parameters100,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -481,11 +456,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

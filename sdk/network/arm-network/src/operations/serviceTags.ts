@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  ServiceTagsListOptionalParams,
-  ServiceTagsListResponse,
-} from "../models/index.js";
+import { ServiceTagsListOptionalParams, ServiceTagsListResponse } from "../models/index.js";
 
 /** Class containing ServiceTags operations. */
 export class ServiceTagsImpl implements ServiceTags {
@@ -39,10 +36,7 @@ export class ServiceTagsImpl implements ServiceTags {
     location: string,
     options?: ServiceTagsListOptionalParams,
   ): Promise<ServiceTagsListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 }
 // Operation Specifications
@@ -60,11 +54,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
