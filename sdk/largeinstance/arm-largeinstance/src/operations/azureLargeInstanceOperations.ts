@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { LargeInstanceManagementClient } from "../largeInstanceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AzureLargeInstance,
@@ -44,9 +40,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AzureLargeInstanceOperations operations. */
-export class AzureLargeInstanceOperationsImpl
-  implements AzureLargeInstanceOperations
-{
+export class AzureLargeInstanceOperationsImpl implements AzureLargeInstanceOperations {
   private readonly client: LargeInstanceManagementClient;
 
   /**
@@ -134,11 +128,7 @@ export class AzureLargeInstanceOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -158,11 +148,7 @@ export class AzureLargeInstanceOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -174,10 +160,7 @@ export class AzureLargeInstanceOperationsImpl
     resourceGroupName: string,
     options?: AzureLargeInstanceListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AzureLargeInstance> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -190,10 +173,7 @@ export class AzureLargeInstanceOperationsImpl
   private _listBySubscription(
     options?: AzureLargeInstanceListBySubscriptionOptionalParams,
   ): Promise<AzureLargeInstanceListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -276,8 +256,7 @@ export class AzureLargeInstanceOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -332,11 +311,7 @@ export class AzureLargeInstanceOperationsImpl
     azureLargeInstanceName: string,
     options?: AzureLargeInstanceRestartOptionalParams,
   ): Promise<AzureLargeInstanceRestartResponse> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      azureLargeInstanceName,
-      options,
-    );
+    const poller = await this.beginRestart(resourceGroupName, azureLargeInstanceName, options);
     return poller.pollUntilDone();
   }
 
@@ -366,8 +341,7 @@ export class AzureLargeInstanceOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -422,11 +396,7 @@ export class AzureLargeInstanceOperationsImpl
     azureLargeInstanceName: string,
     options?: AzureLargeInstanceShutdownOptionalParams,
   ): Promise<AzureLargeInstanceShutdownResponse> {
-    const poller = await this.beginShutdown(
-      resourceGroupName,
-      azureLargeInstanceName,
-      options,
-    );
+    const poller = await this.beginShutdown(resourceGroupName, azureLargeInstanceName, options);
     return poller.pollUntilDone();
   }
 
@@ -456,8 +426,7 @@ export class AzureLargeInstanceOperationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -512,11 +481,7 @@ export class AzureLargeInstanceOperationsImpl
     azureLargeInstanceName: string,
     options?: AzureLargeInstanceStartOptionalParams,
   ): Promise<AzureLargeInstanceStartResponse> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      azureLargeInstanceName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, azureLargeInstanceName, options);
     return poller.pollUntilDone();
   }
 
@@ -583,11 +548,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -738,11 +699,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
