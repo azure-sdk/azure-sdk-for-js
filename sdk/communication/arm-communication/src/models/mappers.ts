@@ -944,6 +944,12 @@ export const CommunicationServiceResource: coreClient.CompositeMapper = {
           },
         },
       },
+      disableLocalAuth: {
+        serializedName: "properties.disableLocalAuth",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -1071,21 +1077,20 @@ export const SenderUsernameResource: coreClient.CompositeMapper = {
   },
 };
 
-export const CommunicationServicesCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "CommunicationServicesCreateOrUpdateHeaders",
-      modelProperties: {
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
+export const CommunicationServicesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationServicesCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const CommunicationServicesDeleteHeaders: coreClient.CompositeMapper = {
   type: {

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CommunicationServiceManagementClient } from "../communicationServiceManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CommunicationServiceResource,
@@ -137,11 +133,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -161,11 +153,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -177,10 +165,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
     resourceGroupName: string,
     options?: CommunicationServicesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<CommunicationServiceResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -224,10 +209,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
   private _listBySubscription(
     options?: CommunicationServicesListBySubscriptionOptionalParams,
   ): Promise<CommunicationServicesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -309,8 +291,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -402,8 +383,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,11 +435,7 @@ export class CommunicationServicesImpl implements CommunicationServices {
     communicationServiceName: string,
     options?: CommunicationServicesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      communicationServiceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, communicationServiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -604,11 +580,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -765,11 +737,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
