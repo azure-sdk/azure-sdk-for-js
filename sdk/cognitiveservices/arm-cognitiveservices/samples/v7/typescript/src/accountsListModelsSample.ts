@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List available Models for the requested Cognitive Services account
  * x-ms-original-file: specification/cognitiveservices/resource-manager/Microsoft.CognitiveServices/stable/2024-10-01/examples/ListAccountModels.json
  */
-async function listAccountModels() {
+async function listAccountModels(): Promise<void> {
   const subscriptionId =
     process.env["COGNITIVESERVICES_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -36,7 +36,7 @@ async function listAccountModels() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAccountModels();
 }
 
