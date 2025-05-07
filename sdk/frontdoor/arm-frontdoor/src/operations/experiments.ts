@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Experiment,
@@ -59,11 +55,7 @@ export class ExperimentsImpl implements Experiments {
     profileName: string,
     options?: ExperimentsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<Experiment> {
-    const iter = this.listByProfilePagingAll(
-      resourceGroupName,
-      profileName,
-      options,
-    );
+    const iter = this.listByProfilePagingAll(resourceGroupName, profileName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class ExperimentsImpl implements Experiments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProfilePagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listByProfilePagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -94,11 +81,7 @@ export class ExperimentsImpl implements Experiments {
     let result: ExperimentsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProfile(
-        resourceGroupName,
-        profileName,
-        options,
-      );
+      result = await this._listByProfile(resourceGroupName, profileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -198,8 +181,7 @@ export class ExperimentsImpl implements Experiments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -288,10 +270,7 @@ export class ExperimentsImpl implements Experiments {
     parameters: ExperimentUpdateModel,
     options?: ExperimentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExperimentsUpdateResponse>,
-      ExperimentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -303,8 +282,7 @@ export class ExperimentsImpl implements Experiments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -401,8 +379,7 @@ export class ExperimentsImpl implements Experiments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,12 +432,7 @@ export class ExperimentsImpl implements Experiments {
     experimentName: string,
     options?: ExperimentsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      profileName,
-      experimentName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, profileName, experimentName, options);
     return poller.pollUntilDone();
   }
 

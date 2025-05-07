@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FrontDoor,
@@ -56,9 +52,7 @@ export class FrontDoorsImpl implements FrontDoors {
    * Lists all of the Front Doors within an Azure subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: FrontDoorsListOptionalParams,
-  ): PagedAsyncIterableIterator<FrontDoor> {
+  public list(options?: FrontDoorsListOptionalParams): PagedAsyncIterableIterator<FrontDoor> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -127,11 +121,7 @@ export class FrontDoorsImpl implements FrontDoors {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -151,11 +141,7 @@ export class FrontDoorsImpl implements FrontDoors {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -167,10 +153,7 @@ export class FrontDoorsImpl implements FrontDoors {
     resourceGroupName: string,
     options?: FrontDoorsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<FrontDoor> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -179,9 +162,7 @@ export class FrontDoorsImpl implements FrontDoors {
    * Lists all of the Front Doors within an Azure subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: FrontDoorsListOptionalParams,
-  ): Promise<FrontDoorsListResponse> {
+  private _list(options?: FrontDoorsListOptionalParams): Promise<FrontDoorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -246,8 +227,7 @@ export class FrontDoorsImpl implements FrontDoors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -334,8 +314,7 @@ export class FrontDoorsImpl implements FrontDoors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -387,11 +366,7 @@ export class FrontDoorsImpl implements FrontDoors {
     frontDoorName: string,
     options?: FrontDoorsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      frontDoorName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, frontDoorName, options);
     return poller.pollUntilDone();
   }
 
@@ -423,10 +398,7 @@ export class FrontDoorsImpl implements FrontDoors {
     nextLink: string,
     options?: FrontDoorsListNextOptionalParams,
   ): Promise<FrontDoorsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -477,11 +449,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -594,11 +562,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
