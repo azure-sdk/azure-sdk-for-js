@@ -6,46 +6,41 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { Namespaces } from "../operationsInterfaces/index.js";
+import { ManagedNamespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
-  SimplePollerLike,
-  OperationState} from "@azure/core-lro";
-import {
-  createHttpPoller,
-} from "@azure/core-lro";
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
-import type {
-  Namespace,
-  NamespacesListByManagedClusterNextOptionalParams,
-  NamespacesListByManagedClusterOptionalParams,
-  NamespacesListByManagedClusterResponse,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  NamespacesCreateOrUpdateOptionalParams,
-  NamespacesCreateOrUpdateResponse,
-  NamespacesDeleteOptionalParams,
-  NamespacesDeleteResponse,
+import {
+  ManagedNamespace,
+  ManagedNamespacesListByManagedClusterNextOptionalParams,
+  ManagedNamespacesListByManagedClusterOptionalParams,
+  ManagedNamespacesListByManagedClusterResponse,
+  ManagedNamespacesGetOptionalParams,
+  ManagedNamespacesGetResponse,
+  ManagedNamespacesCreateOrUpdateOptionalParams,
+  ManagedNamespacesCreateOrUpdateResponse,
+  ManagedNamespacesDeleteOptionalParams,
+  ManagedNamespacesDeleteResponse,
   TagsObject,
-  NamespacesUpdateOptionalParams,
-  NamespacesUpdateResponse,
-  NamespacesListCredentialOptionalParams,
-  NamespacesListCredentialResponse,
-  NamespacesListByManagedClusterNextResponse,
+  ManagedNamespacesUpdateOptionalParams,
+  ManagedNamespacesUpdateResponse,
+  ManagedNamespacesListCredentialOptionalParams,
+  ManagedNamespacesListCredentialResponse,
+  ManagedNamespacesListByManagedClusterNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Namespaces operations. */
-export class NamespacesImpl implements Namespaces {
+/** Class containing ManagedNamespaces operations. */
+export class ManagedNamespacesImpl implements ManagedNamespaces {
   private readonly client: ContainerServiceClient;
 
   /**
-   * Initialize a new instance of the class Namespaces class.
+   * Initialize a new instance of the class ManagedNamespaces class.
    * @param client Reference to the service client
    */
   constructor(client: ContainerServiceClient) {
@@ -61,13 +56,9 @@ export class NamespacesImpl implements Namespaces {
   public listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: NamespacesListByManagedClusterOptionalParams,
-  ): PagedAsyncIterableIterator<Namespace> {
-    const iter = this.listByManagedClusterPagingAll(
-      resourceGroupName,
-      resourceName,
-      options,
-    );
+    options?: ManagedNamespacesListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedNamespace> {
+    const iter = this.listByManagedClusterPagingAll(resourceGroupName, resourceName, options);
     return {
       next() {
         return iter.next();
@@ -92,18 +83,14 @@ export class NamespacesImpl implements Namespaces {
   private async *listByManagedClusterPagingPage(
     resourceGroupName: string,
     resourceName: string,
-    options?: NamespacesListByManagedClusterOptionalParams,
+    options?: ManagedNamespacesListByManagedClusterOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Namespace[]> {
-    let result: NamespacesListByManagedClusterResponse;
+  ): AsyncIterableIterator<ManagedNamespace[]> {
+    let result: ManagedNamespacesListByManagedClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedCluster(
-        resourceGroupName,
-        resourceName,
-        options,
-      );
-      const page = result.value || [];
+      result = await this._listByManagedCluster(resourceGroupName, resourceName, options);
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -116,7 +103,7 @@ export class NamespacesImpl implements Namespaces {
         options,
       );
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -125,8 +112,8 @@ export class NamespacesImpl implements Namespaces {
   private async *listByManagedClusterPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: NamespacesListByManagedClusterOptionalParams,
-  ): AsyncIterableIterator<Namespace> {
+    options?: ManagedNamespacesListByManagedClusterOptionalParams,
+  ): AsyncIterableIterator<ManagedNamespace> {
     for await (const page of this.listByManagedClusterPagingPage(
       resourceGroupName,
       resourceName,
@@ -145,8 +132,8 @@ export class NamespacesImpl implements Namespaces {
   private _listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: NamespacesListByManagedClusterOptionalParams,
-  ): Promise<NamespacesListByManagedClusterResponse> {
+    options?: ManagedNamespacesListByManagedClusterOptionalParams,
+  ): Promise<ManagedNamespacesListByManagedClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
       listByManagedClusterOperationSpec,
@@ -157,53 +144,52 @@ export class NamespacesImpl implements Namespaces {
    * Gets the specified namespace of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesGetOptionalParams,
-  ): Promise<NamespacesGetResponse> {
+    managedNamespaceName: string,
+    options?: ManagedNamespacesGetOptionalParams,
+  ): Promise<ManagedNamespacesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, namespaceName, options },
+      { resourceGroupName, resourceName, managedNamespaceName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates or updates a namespace in the specified managed cluster.
+   * Creates or updates a managed namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    parameters: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
+    managedNamespaceName: string,
+    parameters: ManagedNamespace,
+    options?: ManagedNamespacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NamespacesCreateOrUpdateResponse>,
-      NamespacesCreateOrUpdateResponse
+      OperationState<ManagedNamespacesCreateOrUpdateResponse>,
+      ManagedNamespacesCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NamespacesCreateOrUpdateResponse> => {
+    ): Promise<ManagedNamespacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -235,15 +221,15 @@ export class NamespacesImpl implements Namespaces {
       args: {
         resourceGroupName,
         resourceName,
-        namespaceName,
+        managedNamespaceName,
         parameters,
         options,
       },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
-      NamespacesCreateOrUpdateResponse,
-      OperationState<NamespacesCreateOrUpdateResponse>
+      ManagedNamespacesCreateOrUpdateResponse,
+      OperationState<ManagedNamespacesCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -253,24 +239,24 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Creates or updates a namespace in the specified managed cluster.
+   * Creates or updates a managed namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    parameters: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
-  ): Promise<NamespacesCreateOrUpdateResponse> {
+    managedNamespaceName: string,
+    parameters: ManagedNamespace,
+    options?: ManagedNamespacesCreateOrUpdateOptionalParams,
+  ): Promise<ManagedNamespacesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
-      namespaceName,
+      managedNamespaceName,
       parameters,
       options,
     );
@@ -281,32 +267,31 @@ export class NamespacesImpl implements Namespaces {
    * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
+    managedNamespaceName: string,
+    options?: ManagedNamespacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NamespacesDeleteResponse>,
-      NamespacesDeleteResponse
+      OperationState<ManagedNamespacesDeleteResponse>,
+      ManagedNamespacesDeleteResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<NamespacesDeleteResponse> => {
+    ): Promise<ManagedNamespacesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -335,12 +320,12 @@ export class NamespacesImpl implements Namespaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, resourceName, namespaceName, options },
+      args: { resourceGroupName, resourceName, managedNamespaceName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      NamespacesDeleteResponse,
-      OperationState<NamespacesDeleteResponse>
+      ManagedNamespacesDeleteResponse,
+      OperationState<ManagedNamespacesDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -353,29 +338,29 @@ export class NamespacesImpl implements Namespaces {
    * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
-  ): Promise<NamespacesDeleteResponse> {
+    managedNamespaceName: string,
+    options?: ManagedNamespacesDeleteOptionalParams,
+  ): Promise<ManagedNamespacesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
-      namespaceName,
+      managedNamespaceName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Updates tags on a namespace.
+   * Updates tags on a managed namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters Parameters supplied to the patch namespace operation, we only support patch tags
    *                   for now.
    * @param options The options parameters.
@@ -383,12 +368,18 @@ export class NamespacesImpl implements Namespaces {
   update(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
+    managedNamespaceName: string,
     parameters: TagsObject,
-    options?: NamespacesUpdateOptionalParams,
-  ): Promise<NamespacesUpdateResponse> {
+    options?: ManagedNamespacesUpdateOptionalParams,
+  ): Promise<ManagedNamespacesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, namespaceName, parameters, options },
+      {
+        resourceGroupName,
+        resourceName,
+        managedNamespaceName,
+        parameters,
+        options,
+      },
       updateOperationSpec,
     );
   }
@@ -397,17 +388,17 @@ export class NamespacesImpl implements Namespaces {
    * Lists the credentials of a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   listCredential(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesListCredentialOptionalParams,
-  ): Promise<NamespacesListCredentialResponse> {
+    managedNamespaceName: string,
+    options?: ManagedNamespacesListCredentialOptionalParams,
+  ): Promise<ManagedNamespacesListCredentialResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, namespaceName, options },
+      { resourceGroupName, resourceName, managedNamespaceName, options },
       listCredentialOperationSpec,
     );
   }
@@ -423,8 +414,8 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: NamespacesListByManagedClusterNextOptionalParams,
-  ): Promise<NamespacesListByManagedClusterNextResponse> {
+    options?: ManagedNamespacesListByManagedClusterNextOptionalParams,
+  ): Promise<ManagedNamespacesListByManagedClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
       listByManagedClusterNextOperationSpec,
@@ -435,11 +426,11 @@ export class NamespacesImpl implements Namespaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceListResult,
+      bodyMapper: Mappers.ManagedNamespaceListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -456,11 +447,11 @@ const listByManagedClusterOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -472,26 +463,26 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.namespaceName,
+    Parameters.managedNamespaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     201: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     202: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     204: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -504,27 +495,27 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.namespaceName,
+    Parameters.managedNamespaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.NamespacesDeleteHeaders,
+      headersMapper: Mappers.ManagedNamespacesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.NamespacesDeleteHeaders,
+      headersMapper: Mappers.ManagedNamespacesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.NamespacesDeleteHeaders,
+      headersMapper: Mappers.ManagedNamespacesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.NamespacesDeleteHeaders,
+      headersMapper: Mappers.ManagedNamespacesDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -536,17 +527,17 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.namespaceName,
+    Parameters.managedNamespaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Namespace,
+      bodyMapper: Mappers.ManagedNamespace,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -559,14 +550,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.namespaceName,
+    Parameters.managedNamespaceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const listCredentialOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/namespaces/{namespaceName}/listCredential",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}/listCredential",
   httpMethod: "POST",
   responses: {
     200: {
@@ -582,7 +573,7 @@ const listCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.namespaceName,
+    Parameters.managedNamespaceName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -592,7 +583,7 @@ const listByManagedClusterNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceListResult,
+      bodyMapper: Mappers.ManagedNamespaceListResult,
     },
     default: {
       bodyMapper: Mappers.CloudError,
