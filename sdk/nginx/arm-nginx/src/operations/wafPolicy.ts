@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Configurations } from "../operationsInterfaces/index.js";
+import { WafPolicy } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -16,28 +16,26 @@ import { NginxManagementClient } from "../nginxManagementClient.js";
 import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  NginxConfigurationResponse,
-  ConfigurationsListNextOptionalParams,
-  ConfigurationsListOptionalParams,
-  ConfigurationsListResponse,
-  ConfigurationsGetOptionalParams,
-  ConfigurationsGetResponse,
-  ConfigurationsCreateOrUpdateOptionalParams,
-  ConfigurationsCreateOrUpdateResponse,
-  ConfigurationsDeleteOptionalParams,
-  ConfigurationsDeleteResponse,
-  ConfigurationsAnalysisOptionalParams,
-  ConfigurationsAnalysisResponse,
-  ConfigurationsListNextResponse,
+  NginxDeploymentWafPolicyMetadata,
+  WafPolicyListNextOptionalParams,
+  WafPolicyListOptionalParams,
+  WafPolicyListResponse,
+  WafPolicyGetOptionalParams,
+  WafPolicyGetResponse,
+  WafPolicyCreateOptionalParams,
+  WafPolicyCreateResponse,
+  WafPolicyDeleteOptionalParams,
+  WafPolicyDeleteResponse,
+  WafPolicyListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Configurations operations. */
-export class ConfigurationsImpl implements Configurations {
+/** Class containing WafPolicy operations. */
+export class WafPolicyImpl implements WafPolicy {
   private readonly client: NginxManagementClient;
 
   /**
-   * Initialize a new instance of the class Configurations class.
+   * Initialize a new instance of the class WafPolicy class.
    * @param client Reference to the service client
    */
   constructor(client: NginxManagementClient) {
@@ -45,7 +43,7 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * List the NGINX configuration of given NGINX deployment.
+   * List Waf Policies of given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
@@ -53,8 +51,8 @@ export class ConfigurationsImpl implements Configurations {
   public list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams,
-  ): PagedAsyncIterableIterator<NginxConfigurationResponse> {
+    options?: WafPolicyListOptionalParams,
+  ): PagedAsyncIterableIterator<NginxDeploymentWafPolicyMetadata> {
     const iter = this.listPagingAll(resourceGroupName, deploymentName, options);
     return {
       next() {
@@ -75,10 +73,10 @@ export class ConfigurationsImpl implements Configurations {
   private async *listPagingPage(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams,
+    options?: WafPolicyListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<NginxConfigurationResponse[]> {
-    let result: ConfigurationsListResponse;
+  ): AsyncIterableIterator<NginxDeploymentWafPolicyMetadata[]> {
+    let result: WafPolicyListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, deploymentName, options);
@@ -99,73 +97,49 @@ export class ConfigurationsImpl implements Configurations {
   private async *listPagingAll(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams,
-  ): AsyncIterableIterator<NginxConfigurationResponse> {
+    options?: WafPolicyListOptionalParams,
+  ): AsyncIterableIterator<NginxDeploymentWafPolicyMetadata> {
     for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
   }
 
   /**
-   * List the NGINX configuration of given NGINX deployment.
+   * Get the Nginx Waf Policy of given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    deploymentName: string,
-    options?: ConfigurationsListOptionalParams,
-  ): Promise<ConfigurationsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
-   * Get the NGINX configuration of given NGINX deployment
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsGetOptionalParams,
-  ): Promise<ConfigurationsGetResponse> {
+    wafPolicyName: string,
+    options?: WafPolicyGetOptionalParams,
+  ): Promise<WafPolicyGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, configurationName, options },
+      { resourceGroupName, deploymentName, wafPolicyName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update the NGINX configuration for given NGINX deployment
+   * Create or update the Nginx Waf Policy for given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
-  async beginCreateOrUpdate(
+  async beginCreate(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConfigurationsCreateOrUpdateResponse>,
-      ConfigurationsCreateOrUpdateResponse
-    >
-  > {
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<WafPolicyCreateResponse>, WafPolicyCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ConfigurationsCreateOrUpdateResponse> => {
+    ): Promise<WafPolicyCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -201,12 +175,12 @@ export class ConfigurationsImpl implements Configurations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, deploymentName, configurationName, options },
-      spec: createOrUpdateOperationSpec,
+      args: { resourceGroupName, deploymentName, wafPolicyName, options },
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      ConfigurationsCreateOrUpdateResponse,
-      OperationState<ConfigurationsCreateOrUpdateResponse>
+      WafPolicyCreateResponse,
+      OperationState<WafPolicyCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -217,48 +191,44 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Create or update the NGINX configuration for given NGINX deployment
+   * Create or update the Nginx Waf Policy for given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
-  async beginCreateOrUpdateAndWait(
+  async beginCreateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams,
-  ): Promise<ConfigurationsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ): Promise<WafPolicyCreateResponse> {
+    const poller = await this.beginCreate(
       resourceGroupName,
       deploymentName,
-      configurationName,
+      wafPolicyName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Reset the NGINX configuration of given NGINX deployment to default
+   * Reset the Nginx Waf Policy of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ConfigurationsDeleteResponse>, ConfigurationsDeleteResponse>
-  > {
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<WafPolicyDeleteResponse>, WafPolicyDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ConfigurationsDeleteResponse> => {
+    ): Promise<WafPolicyDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -294,12 +264,12 @@ export class ConfigurationsImpl implements Configurations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, deploymentName, configurationName, options },
+      args: { resourceGroupName, deploymentName, wafPolicyName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
-      ConfigurationsDeleteResponse,
-      OperationState<ConfigurationsDeleteResponse>
+      WafPolicyDeleteResponse,
+      OperationState<WafPolicyDeleteResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -309,45 +279,41 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Reset the NGINX configuration of given NGINX deployment to default
+   * Reset the Nginx Waf Policy of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams,
-  ): Promise<ConfigurationsDeleteResponse> {
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ): Promise<WafPolicyDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       deploymentName,
-      configurationName,
+      wafPolicyName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+   * List Waf Policies of given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
-  analysis(
+  private _list(
     resourceGroupName: string,
     deploymentName: string,
-    configurationName: string,
-    options?: ConfigurationsAnalysisOptionalParams,
-  ): Promise<ConfigurationsAnalysisResponse> {
+    options?: WafPolicyListOptionalParams,
+  ): Promise<WafPolicyListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, deploymentName, configurationName, options },
-      analysisOperationSpec,
+      { resourceGroupName, deploymentName, options },
+      listOperationSpec,
     );
   }
 
@@ -362,8 +328,8 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     nextLink: string,
-    options?: ConfigurationsListNextOptionalParams,
-  ): Promise<ConfigurationsListNextResponse> {
+    options?: WafPolicyListNextOptionalParams,
+  ): Promise<WafPolicyListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, nextLink, options },
       listNextOperationSpec,
@@ -373,33 +339,12 @@ export class ConfigurationsImpl implements Configurations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NginxConfigurationListResponse,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfigurationResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -411,59 +356,59 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName,
+    Parameters.wafPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfigurationResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicy,
     },
     201: {
-      bodyMapper: Mappers.NginxConfigurationResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicy,
     },
     202: {
-      bodyMapper: Mappers.NginxConfigurationResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicy,
     },
     204: {
-      bodyMapper: Mappers.NginxConfigurationResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicy,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName,
+    Parameters.wafPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies/{wafPolicyName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ConfigurationsDeleteHeaders,
+      headersMapper: Mappers.WafPolicyDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ConfigurationsDeleteHeaders,
+      headersMapper: Mappers.WafPolicyDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ConfigurationsDeleteHeaders,
+      headersMapper: Mappers.WafPolicyDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ConfigurationsDeleteHeaders,
+      headersMapper: Mappers.WafPolicyDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -475,33 +420,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName,
+    Parameters.wafPolicyName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const analysisOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}/analyze",
-  httpMethod: "POST",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/wafPolicies",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AnalysisResult,
+      bodyMapper: Mappers.NginxDeploymentWafPolicyListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -509,7 +451,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfigurationListResponse,
+      bodyMapper: Mappers.NginxDeploymentWafPolicyListResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

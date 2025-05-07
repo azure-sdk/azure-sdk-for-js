@@ -9,21 +9,21 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  NginxCertificate,
-  CertificatesListOptionalParams,
-  CertificatesGetOptionalParams,
-  CertificatesGetResponse,
-  CertificatesCreateOrUpdateOptionalParams,
-  CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams,
-  CertificatesDeleteResponse,
+  NginxDeploymentWafPolicyMetadata,
+  WafPolicyListOptionalParams,
+  WafPolicyGetOptionalParams,
+  WafPolicyGetResponse,
+  WafPolicyCreateOptionalParams,
+  WafPolicyCreateResponse,
+  WafPolicyDeleteOptionalParams,
+  WafPolicyDeleteResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Certificates. */
-export interface Certificates {
+/** Interface representing a WafPolicy. */
+export interface WafPolicy {
   /**
-   * List all certificates of given NGINX deployment
+   * List Waf Policies of given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
@@ -31,78 +31,71 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<NginxCertificate>;
+    options?: WafPolicyListOptionalParams,
+  ): PagedAsyncIterableIterator<NginxDeploymentWafPolicyMetadata>;
   /**
-   * Get a certificate of given NGINX deployment
+   * Get the Nginx Waf Policy of given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param certificateName The name of certificate
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     deploymentName: string,
-    certificateName: string,
-    options?: CertificatesGetOptionalParams,
-  ): Promise<CertificatesGetResponse>;
+    wafPolicyName: string,
+    options?: WafPolicyGetOptionalParams,
+  ): Promise<WafPolicyGetResponse>;
   /**
-   * Create or update the NGINX certificates for given NGINX deployment
+   * Create or update the Nginx Waf Policy for given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param certificateName The name of certificate
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
-  beginCreateOrUpdate(
+  beginCreate(
     resourceGroupName: string,
     deploymentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CertificatesCreateOrUpdateResponse>,
-      CertificatesCreateOrUpdateResponse
-    >
-  >;
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<WafPolicyCreateResponse>, WafPolicyCreateResponse>>;
   /**
-   * Create or update the NGINX certificates for given NGINX deployment
+   * Create or update the Nginx Waf Policy for given Nginx deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param certificateName The name of certificate
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
-  beginCreateOrUpdateAndWait(
+  beginCreateAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams,
-  ): Promise<CertificatesCreateOrUpdateResponse>;
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ): Promise<WafPolicyCreateResponse>;
   /**
-   * Deletes a certificate from the NGINX deployment
+   * Reset the Nginx Waf Policy of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param certificateName The name of certificate
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     deploymentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
-  >;
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<WafPolicyDeleteResponse>, WafPolicyDeleteResponse>>;
   /**
-   * Deletes a certificate from the NGINX deployment
+   * Reset the Nginx Waf Policy of given Nginx deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param deploymentName The name of targeted NGINX deployment
-   * @param certificateName The name of certificate
+   * @param wafPolicyName The name of Waf Policy
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     deploymentName: string,
-    certificateName: string,
-    options?: CertificatesDeleteOptionalParams,
-  ): Promise<CertificatesDeleteResponse>;
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ): Promise<WafPolicyDeleteResponse>;
 }
