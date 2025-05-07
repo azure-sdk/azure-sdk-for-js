@@ -49,12 +49,7 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     databaseName: string,
     options?: DatabaseOperationsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseOperation> {
-    const iter = this.listByDatabasePagingAll(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      options,
-    );
+    const iter = this.listByDatabasePagingAll(resourceGroupName, serverName, databaseName, options);
     return {
       next() {
         return iter.next();
@@ -87,12 +82,7 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     let result: DatabaseOperationsListByDatabaseResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDatabase(
-        resourceGroupName,
-        serverName,
-        databaseName,
-        options,
-      );
+      result = await this._listByDatabase(resourceGroupName, serverName, databaseName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

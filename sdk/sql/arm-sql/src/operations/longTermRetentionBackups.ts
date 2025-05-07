@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   LongTermRetentionBackup,
@@ -122,11 +118,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        locationName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(locationName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -138,10 +130,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     locationName: string,
     options?: LongTermRetentionBackupsListByLocationOptionalParams,
   ): AsyncIterableIterator<LongTermRetentionBackup> {
-    for await (const page of this.listByLocationPagingPage(
-      locationName,
-      options,
-    )) {
+    for await (const page of this.listByLocationPagingPage(locationName, options)) {
       yield* page;
     }
   }
@@ -157,11 +146,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     longTermRetentionServerName: string,
     options?: LongTermRetentionBackupsListByServerOptionalParams,
   ): PagedAsyncIterableIterator<LongTermRetentionBackup> {
-    const iter = this.listByServerPagingAll(
-      locationName,
-      longTermRetentionServerName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(locationName, longTermRetentionServerName, options);
     return {
       next() {
         return iter.next();
@@ -192,11 +177,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     let result: LongTermRetentionBackupsListByServerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByServer(
-        locationName,
-        longTermRetentionServerName,
-        options,
-      );
+      result = await this._listByServer(locationName, longTermRetentionServerName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -370,11 +351,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     let result: LongTermRetentionBackupsListByResourceGroupLocationResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroupLocation(
-        resourceGroupName,
-        locationName,
-        options,
-      );
+      result = await this._listByResourceGroupLocation(resourceGroupName, locationName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -614,10 +591,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
     locationName: string,
     options?: LongTermRetentionBackupsListByLocationOptionalParams,
   ): Promise<LongTermRetentionBackupsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -713,8 +687,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -818,8 +791,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -930,8 +902,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1041,8 +1012,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1245,8 +1215,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1358,8 +1327,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1478,8 +1446,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1597,8 +1564,7 @@ export class LongTermRetentionBackupsImpl implements LongTermRetentionBackups {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1845,11 +1811,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
