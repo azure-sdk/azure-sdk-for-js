@@ -68,6 +68,7 @@ export interface CommunicationServiceManagementClientOptionalParams extends core
 // @public
 export interface CommunicationServiceResource extends TrackedResource {
     dataLocation?: string;
+    disableLocalAuth?: boolean;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
     readonly immutableResourceId?: string;
