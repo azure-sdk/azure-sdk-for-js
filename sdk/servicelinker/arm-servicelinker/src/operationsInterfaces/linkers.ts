@@ -30,11 +30,13 @@ import {
 export interface Linkers {
   /**
    * list dryrun jobs
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   listDryrun(
+    providers: string,
     resourceUri: string,
     options?: LinkersListDryrunOptionalParams,
   ): PagedAsyncIterableIterator<DryrunResource>;
@@ -50,18 +52,24 @@ export interface Linkers {
   ): PagedAsyncIterableIterator<DaprConfigurationResource>;
   /**
    * get a dryrun job
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
    * @param options The options parameters.
    */
   getDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     options?: LinkersGetDryrunOptionalParams,
   ): Promise<LinkersGetDryrunResponse>;
   /**
    * create a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -69,18 +77,19 @@ export interface Linkers {
    * @param options The options parameters.
    */
   beginCreateDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunResource,
     options?: LinkersCreateDryrunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkersCreateDryrunResponse>,
-      LinkersCreateDryrunResponse
-    >
+    SimplePollerLike<OperationState<LinkersCreateDryrunResponse>, LinkersCreateDryrunResponse>
   >;
   /**
    * create a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -88,6 +97,8 @@ export interface Linkers {
    * @param options The options parameters.
    */
   beginCreateDryrunAndWait(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunResource,
@@ -95,6 +106,8 @@ export interface Linkers {
   ): Promise<LinkersCreateDryrunResponse>;
   /**
    * add a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -102,18 +115,19 @@ export interface Linkers {
    * @param options The options parameters.
    */
   beginUpdateDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunPatch,
     options?: LinkersUpdateDryrunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkersUpdateDryrunResponse>,
-      LinkersUpdateDryrunResponse
-    >
+    SimplePollerLike<OperationState<LinkersUpdateDryrunResponse>, LinkersUpdateDryrunResponse>
   >;
   /**
    * add a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -121,6 +135,8 @@ export interface Linkers {
    * @param options The options parameters.
    */
   beginUpdateDryrunAndWait(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunPatch,
@@ -128,24 +144,32 @@ export interface Linkers {
   ): Promise<LinkersUpdateDryrunResponse>;
   /**
    * delete a dryrun job
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
    * @param options The options parameters.
    */
   deleteDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     options?: LinkersDeleteDryrunOptionalParams,
   ): Promise<void>;
   /**
    * Generate configurations for a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   generateConfigurations(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkersGenerateConfigurationsOptionalParams,

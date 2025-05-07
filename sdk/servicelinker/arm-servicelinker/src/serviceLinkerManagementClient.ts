@@ -8,43 +8,59 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  ConnectorImpl,
   LinkerImpl,
   LinkersImpl,
-  OperationsImpl,
   ConfigurationNamesImpl,
+  OperationsImpl,
+  ConnectorImpl,
 } from "./operations/index.js";
 import {
-  Connector,
   Linker,
   Linkers,
-  Operations,
   ConfigurationNames,
+  Operations,
+  Connector,
 } from "./operationsInterfaces/index.js";
 import { ServiceLinkerManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ServiceLinkerManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
+    subscriptionId: string,
+    options?: ServiceLinkerManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ServiceLinkerManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ServiceLinkerManagementClientOptionalParams | string,
     options?: ServiceLinkerManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -56,7 +72,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-servicelinker/2.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-servicelinker/3.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -68,8 +84,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -79,8 +94,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -96,24 +110,24 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
     }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-07-01-preview";
-    this.connector = new ConnectorImpl(this);
     this.linker = new LinkerImpl(this);
     this.linkers = new LinkersImpl(this);
-    this.operations = new OperationsImpl(this);
     this.configurationNames = new ConfigurationNamesImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.connector = new ConnectorImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -124,10 +138,7 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -145,9 +156,9 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  connector: Connector;
   linker: Linker;
   linkers: Linkers;
-  operations: Operations;
   configurationNames: ConfigurationNames;
+  operations: Operations;
+  connector: Connector;
 }
