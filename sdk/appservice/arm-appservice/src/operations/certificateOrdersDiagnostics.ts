@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CertificateOrdersDiagnostics operations. */
-export class CertificateOrdersDiagnosticsImpl
-  implements CertificateOrdersDiagnostics
-{
+export class CertificateOrdersDiagnosticsImpl implements CertificateOrdersDiagnostics {
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -181,75 +179,72 @@ export class CertificateOrdersDiagnosticsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listAppServiceCertificateOrderDetectorResponseOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponseCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listAppServiceCertificateOrderDetectorResponseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.certificateOrderName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getAppServiceCertificateOrderDetectorResponseOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors/{detectorName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponse,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.startTime,
-      Parameters.endTime,
-      Parameters.timeGrain,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.certificateOrderName,
-      Parameters.detectorName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listAppServiceCertificateOrderDetectorResponseNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponseCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.certificateOrderName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAppServiceCertificateOrderDetectorResponseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors/{detectorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.certificateOrderName,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.startTime,
+    Parameters.endTime,
+    Parameters.timeGrain,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.certificateOrderName,
+    Parameters.detectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAppServiceCertificateOrderDetectorResponseNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.certificateOrderName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

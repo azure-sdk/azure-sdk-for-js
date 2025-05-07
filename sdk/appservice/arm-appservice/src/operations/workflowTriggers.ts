@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   WorkflowTrigger,
@@ -60,12 +56,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     workflowName: string,
     options?: WorkflowTriggersListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTrigger> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, name, workflowName, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +68,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          name,
-          workflowName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, name, workflowName, options, settings);
       },
     };
   }
@@ -125,12 +110,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     workflowName: string,
     options?: WorkflowTriggersListOptionalParams,
   ): AsyncIterableIterator<WorkflowTrigger> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, name, workflowName, options)) {
       yield* page;
     }
   }
@@ -221,8 +201,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -277,13 +256,7 @@ export class WorkflowTriggersImpl implements WorkflowTriggers {
     triggerName: string,
     options?: WorkflowTriggersRunOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRun(
-      resourceGroupName,
-      name,
-      workflowName,
-      triggerName,
-      options,
-    );
+    const poller = await this.beginRun(resourceGroupName, name, workflowName, triggerName, options);
     return poller.pollUntilDone();
   }
 

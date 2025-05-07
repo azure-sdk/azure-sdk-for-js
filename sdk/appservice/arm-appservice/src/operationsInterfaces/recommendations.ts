@@ -35,9 +35,7 @@ export interface Recommendations {
    * Description for List all recommendations for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: RecommendationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Recommendation>;
+  list(options?: RecommendationsListOptionalParams): PagedAsyncIterableIterator<Recommendation>;
   /**
    * Description for Get past recommendations for an app, optionally specified by the time range.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -86,9 +84,7 @@ export interface Recommendations {
    * Description for Reset all recommendation opt-out settings for a subscription.
    * @param options The options parameters.
    */
-  resetAllFilters(
-    options?: RecommendationsResetAllFiltersOptionalParams,
-  ): Promise<void>;
+  resetAllFilters(options?: RecommendationsResetAllFiltersOptionalParams): Promise<void>;
   /**
    * Description for Disables the specified rule so it will not apply to a subscription in the future.
    * @param name Rule name

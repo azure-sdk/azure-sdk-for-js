@@ -178,10 +178,7 @@ export class ProviderImpl implements Provider {
     location: string,
     options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
   ): PagedAsyncIterableIterator<FunctionAppStack> {
-    const iter = this.getFunctionAppStacksForLocationPagingAll(
-      location,
-      options,
-    );
+    const iter = this.getFunctionAppStacksForLocationPagingAll(location, options);
     return {
       next() {
         return iter.next();
@@ -193,11 +190,7 @@ export class ProviderImpl implements Provider {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getFunctionAppStacksForLocationPagingPage(
-          location,
-          options,
-          settings,
-        );
+        return this.getFunctionAppStacksForLocationPagingPage(location, options, settings);
       },
     };
   }
@@ -233,10 +226,7 @@ export class ProviderImpl implements Provider {
     location: string,
     options?: ProviderGetFunctionAppStacksForLocationOptionalParams,
   ): AsyncIterableIterator<FunctionAppStack> {
-    for await (const page of this.getFunctionAppStacksForLocationPagingPage(
-      location,
-      options,
-    )) {
+    for await (const page of this.getFunctionAppStacksForLocationPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -262,11 +252,7 @@ export class ProviderImpl implements Provider {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getWebAppStacksForLocationPagingPage(
-          location,
-          options,
-          settings,
-        );
+        return this.getWebAppStacksForLocationPagingPage(location, options, settings);
       },
     };
   }
@@ -286,11 +272,7 @@ export class ProviderImpl implements Provider {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getWebAppStacksForLocationNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._getWebAppStacksForLocationNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -302,10 +284,7 @@ export class ProviderImpl implements Provider {
     location: string,
     options?: ProviderGetWebAppStacksForLocationOptionalParams,
   ): AsyncIterableIterator<WebAppStack> {
-    for await (const page of this.getWebAppStacksForLocationPagingPage(
-      location,
-      options,
-    )) {
+    for await (const page of this.getWebAppStacksForLocationPagingPage(location, options)) {
       yield* page;
     }
   }
@@ -457,10 +436,7 @@ export class ProviderImpl implements Provider {
       yield page;
     }
     while (continuationToken) {
-      result = await this._getAvailableStacksOnPremNext(
-        continuationToken,
-        options,
-      );
+      result = await this._getAvailableStacksOnPremNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -483,10 +459,7 @@ export class ProviderImpl implements Provider {
   private _getAvailableStacks(
     options?: ProviderGetAvailableStacksOptionalParams,
   ): Promise<ProviderGetAvailableStacksResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getAvailableStacksOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getAvailableStacksOperationSpec);
   }
 
   /**
@@ -496,10 +469,7 @@ export class ProviderImpl implements Provider {
   private _getFunctionAppStacks(
     options?: ProviderGetFunctionAppStacksOptionalParams,
   ): Promise<ProviderGetFunctionAppStacksResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getFunctionAppStacksOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getFunctionAppStacksOperationSpec);
   }
 
   /**
@@ -540,10 +510,7 @@ export class ProviderImpl implements Provider {
   private _listOperations(
     options?: ProviderListOperationsOptionalParams,
   ): Promise<ProviderListOperationsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listOperationsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
 
   /**
@@ -553,10 +520,7 @@ export class ProviderImpl implements Provider {
   private _getWebAppStacks(
     options?: ProviderGetWebAppStacksOptionalParams,
   ): Promise<ProviderGetWebAppStacksResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getWebAppStacksOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getWebAppStacksOperationSpec);
   }
 
   /**
@@ -566,10 +530,7 @@ export class ProviderImpl implements Provider {
   private _getAvailableStacksOnPrem(
     options?: ProviderGetAvailableStacksOnPremOptionalParams,
   ): Promise<ProviderGetAvailableStacksOnPremResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getAvailableStacksOnPremOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getAvailableStacksOnPremOperationSpec);
   }
 
   /**
@@ -647,10 +608,7 @@ export class ProviderImpl implements Provider {
     nextLink: string,
     options?: ProviderListOperationsNextOptionalParams,
   ): Promise<ProviderListOperationsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listOperationsNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listOperationsNextOperationSpec);
   }
 
   /**
@@ -829,22 +787,21 @@ const getFunctionAppStacksNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getFunctionAppStacksForLocationNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.FunctionAppStackCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getFunctionAppStacksForLocationNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FunctionAppStackCollection,
     },
-    urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.location],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getWebAppStacksForLocationNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -901,11 +858,7 @@ const getAvailableStacksOnPremNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -1670,10 +1670,7 @@ export interface WebApps {
     siteEnvelope: Site,
     options?: WebAppsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsCreateOrUpdateResponse>,
-      WebAppsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<WebAppsCreateOrUpdateResponse>, WebAppsCreateOrUpdateResponse>
   >;
   /**
    * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
@@ -2605,10 +2602,7 @@ export interface WebApps {
     functionEnvelope: FunctionEnvelope,
     options?: WebAppsCreateFunctionOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsCreateFunctionResponse>,
-      WebAppsCreateFunctionResponse
-    >
+    SimplePollerLike<OperationState<WebAppsCreateFunctionResponse>, WebAppsCreateFunctionResponse>
   >;
   /**
    * Description for Create function for web site, or a deployment slot.
@@ -3136,10 +3130,7 @@ export interface WebApps {
     migrationOptions: StorageMigrationOptions,
     options?: WebAppsMigrateStorageOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsMigrateStorageResponse>,
-      WebAppsMigrateStorageResponse
-    >
+    SimplePollerLike<OperationState<WebAppsMigrateStorageResponse>, WebAppsMigrateStorageResponse>
   >;
   /**
    * Description for Restores a web app.
@@ -3169,10 +3160,7 @@ export interface WebApps {
     migrationRequestEnvelope: MigrateMySqlRequest,
     options?: WebAppsMigrateMySqlOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsMigrateMySqlResponse>,
-      WebAppsMigrateMySqlResponse
-    >
+    SimplePollerLike<OperationState<WebAppsMigrateMySqlResponse>, WebAppsMigrateMySqlResponse>
   >;
   /**
    * Description for Migrates a local (in-app) MySql database to a remote MySql database.
@@ -6988,11 +6976,7 @@ export interface WebApps {
    * @param name Name of the app.
    * @param options The options parameters.
    */
-  stop(
-    resourceGroupName: string,
-    name: string,
-    options?: WebAppsStopOptionalParams,
-  ): Promise<void>;
+  stop(resourceGroupName: string, name: string, options?: WebAppsStopOptionalParams): Promise<void>;
   /**
    * Description for Stop ongoing capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

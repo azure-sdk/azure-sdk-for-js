@@ -39,9 +39,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ResourceHealthMetadataOperations operations. */
-export class ResourceHealthMetadataOperationsImpl
-  implements ResourceHealthMetadataOperations
-{
+export class ResourceHealthMetadataOperationsImpl implements ResourceHealthMetadataOperations {
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -128,11 +126,7 @@ export class ResourceHealthMetadataOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -152,11 +146,7 @@ export class ResourceHealthMetadataOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -168,10 +158,7 @@ export class ResourceHealthMetadataOperationsImpl
     resourceGroupName: string,
     options?: ResourceHealthMetadataListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ResourceHealthMetadata> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -200,12 +187,7 @@ export class ResourceHealthMetadataOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBySitePagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listBySitePagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -226,12 +208,7 @@ export class ResourceHealthMetadataOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySiteNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listBySiteNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -244,11 +221,7 @@ export class ResourceHealthMetadataOperationsImpl
     name: string,
     options?: ResourceHealthMetadataListBySiteOptionalParams,
   ): AsyncIterableIterator<ResourceHealthMetadata> {
-    for await (const page of this.listBySitePagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listBySitePagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -267,12 +240,7 @@ export class ResourceHealthMetadataOperationsImpl
     slot: string,
     options?: ResourceHealthMetadataListBySiteSlotOptionalParams,
   ): PagedAsyncIterableIterator<ResourceHealthMetadata> {
-    const iter = this.listBySiteSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listBySiteSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -284,13 +252,7 @@ export class ResourceHealthMetadataOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBySiteSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listBySiteSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -305,12 +267,7 @@ export class ResourceHealthMetadataOperationsImpl
     let result: ResourceHealthMetadataListBySiteSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySiteSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listBySiteSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -456,10 +413,7 @@ export class ResourceHealthMetadataOperationsImpl
     nextLink: string,
     options?: ResourceHealthMetadataListNextOptionalParams,
   ): Promise<ResourceHealthMetadataListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -550,11 +504,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -655,11 +605,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

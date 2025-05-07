@@ -1133,11 +1133,10 @@ export const staticSiteUserRolesInvitationEnvelope: OperationParameter = {
   mapper: StaticSiteUserInvitationRequestResourceMapper,
 };
 
-export const staticSiteCustomDomainRequestPropertiesEnvelope: OperationParameter =
-  {
-    parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
-    mapper: StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
-  };
+export const staticSiteCustomDomainRequestPropertiesEnvelope: OperationParameter = {
+  parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
+  mapper: StaticSiteCustomDomainRequestPropertiesARMResourceMapper,
+};
 
 export const resetPropertiesEnvelope: OperationParameter = {
   parameterPath: "resetPropertiesEnvelope",
@@ -1705,9 +1704,7 @@ export const containerName: OperationURLParameter = {
   parameterPath: "containerName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "(^[a-zA-Z0-9]$)|(^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$)",
-      ),
+      Pattern: new RegExp("(^[a-zA-Z0-9]$)|(^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]$)"),
     },
     serializedName: "containerName",
     required: true,

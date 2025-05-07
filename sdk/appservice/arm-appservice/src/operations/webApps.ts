@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Site,
@@ -977,9 +973,7 @@ export class WebAppsImpl implements WebApps {
    * Description for Get all apps for a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: WebAppsListOptionalParams,
-  ): PagedAsyncIterableIterator<Site> {
+  public list(options?: WebAppsListOptionalParams): PagedAsyncIterableIterator<Site> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -1019,9 +1013,7 @@ export class WebAppsImpl implements WebApps {
     }
   }
 
-  private async *listPagingAll(
-    options?: WebAppsListOptionalParams,
-  ): AsyncIterableIterator<Site> {
+  private async *listPagingAll(options?: WebAppsListOptionalParams): AsyncIterableIterator<Site> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -1048,11 +1040,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -1072,11 +1060,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -1088,10 +1072,7 @@ export class WebAppsImpl implements WebApps {
     resourceGroupName: string,
     options?: WebAppsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Site> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -1119,12 +1100,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBackupsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listBackupsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1145,12 +1121,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBackupsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listBackupsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -1163,11 +1134,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListBackupsOptionalParams,
   ): AsyncIterableIterator<BackupItem> {
-    for await (const page of this.listBackupsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listBackupsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -1219,11 +1186,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListBasicPublishingCredentialsPoliciesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBasicPublishingCredentialsPolicies(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listBasicPublishingCredentialsPolicies(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1268,11 +1231,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListConfigurationsOptionalParams,
   ): PagedAsyncIterableIterator<SiteConfigResource> {
-    const iter = this.listConfigurationsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listConfigurationsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1284,12 +1243,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listConfigurationsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listConfigurationsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1328,11 +1282,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListConfigurationsOptionalParams,
   ): AsyncIterableIterator<SiteConfigResource> {
-    for await (const page of this.listConfigurationsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listConfigurationsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -1348,11 +1298,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsGetAppSettingsKeyVaultReferencesOptionalParams,
   ): PagedAsyncIterableIterator<ApiKVReference> {
-    const iter = this.getAppSettingsKeyVaultReferencesPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getAppSettingsKeyVaultReferencesPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1383,11 +1329,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsGetAppSettingsKeyVaultReferencesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getAppSettingsKeyVaultReferences(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getAppSettingsKeyVaultReferences(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1517,11 +1459,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListConfigurationSnapshotInfoOptionalParams,
   ): PagedAsyncIterableIterator<SiteConfigurationSnapshotInfo> {
-    const iter = this.listConfigurationSnapshotInfoPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listConfigurationSnapshotInfoPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1552,11 +1490,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListConfigurationSnapshotInfoResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listConfigurationSnapshotInfo(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listConfigurationSnapshotInfo(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1601,11 +1535,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListContinuousWebJobsOptionalParams,
   ): PagedAsyncIterableIterator<ContinuousWebJob> {
-    const iter = this.listContinuousWebJobsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listContinuousWebJobsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1617,12 +1547,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listContinuousWebJobsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listContinuousWebJobsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1636,11 +1561,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListContinuousWebJobsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listContinuousWebJobs(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listContinuousWebJobs(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1720,11 +1641,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListProductionSiteDeploymentStatusesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listProductionSiteDeploymentStatuses(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listProductionSiteDeploymentStatuses(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1769,11 +1686,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListDeploymentsOptionalParams,
   ): PagedAsyncIterableIterator<Deployment> {
-    const iter = this.listDeploymentsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listDeploymentsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1785,12 +1698,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDeploymentsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listDeploymentsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1811,12 +1719,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listDeploymentsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listDeploymentsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -1829,11 +1732,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListDeploymentsOptionalParams,
   ): AsyncIterableIterator<Deployment> {
-    for await (const page of this.listDeploymentsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listDeploymentsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -1849,11 +1748,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListDomainOwnershipIdentifiersOptionalParams,
   ): PagedAsyncIterableIterator<Identifier> {
-    const iter = this.listDomainOwnershipIdentifiersPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listDomainOwnershipIdentifiersPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1884,11 +1779,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListDomainOwnershipIdentifiersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDomainOwnershipIdentifiers(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listDomainOwnershipIdentifiers(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1945,12 +1836,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listFunctionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listFunctionsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1971,12 +1857,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listFunctionsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listFunctionsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -1989,11 +1870,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListFunctionsOptionalParams,
   ): AsyncIterableIterator<FunctionEnvelope> {
-    for await (const page of this.listFunctionsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listFunctionsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -2009,11 +1886,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListHostNameBindingsOptionalParams,
   ): PagedAsyncIterableIterator<HostNameBinding> {
-    const iter = this.listHostNameBindingsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listHostNameBindingsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -2025,12 +1898,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listHostNameBindingsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listHostNameBindingsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -2044,11 +1912,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListHostNameBindingsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listHostNameBindings(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listHostNameBindings(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2093,11 +1957,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListInstanceIdentifiersOptionalParams,
   ): PagedAsyncIterableIterator<WebSiteInstanceStatus> {
-    const iter = this.listInstanceIdentifiersPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listInstanceIdentifiersPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -2109,12 +1969,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listInstanceIdentifiersPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listInstanceIdentifiersPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -2128,11 +1983,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListInstanceIdentifiersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInstanceIdentifiers(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listInstanceIdentifiers(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2181,12 +2032,7 @@ export class WebAppsImpl implements WebApps {
     instanceId: string,
     options?: WebAppsListInstanceProcessesOptionalParams,
   ): PagedAsyncIterableIterator<ProcessInfo> {
-    const iter = this.listInstanceProcessesPagingAll(
-      resourceGroupName,
-      name,
-      instanceId,
-      options,
-    );
+    const iter = this.listInstanceProcessesPagingAll(resourceGroupName, name, instanceId, options);
     return {
       next() {
         return iter.next();
@@ -2219,12 +2065,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListInstanceProcessesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInstanceProcesses(
-        resourceGroupName,
-        name,
-        instanceId,
-        options,
-      );
+      result = await this._listInstanceProcesses(resourceGroupName, name, instanceId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2480,11 +2321,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteBackupsOptionalParams,
   ): PagedAsyncIterableIterator<BackupItem> {
-    const iter = this.listSiteBackupsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listSiteBackupsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -2496,12 +2333,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSiteBackupsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listSiteBackupsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -2522,12 +2354,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listSiteBackupsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listSiteBackupsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -2540,11 +2367,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteBackupsOptionalParams,
   ): AsyncIterableIterator<BackupItem> {
-    for await (const page of this.listSiteBackupsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listSiteBackupsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -2560,11 +2383,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListPerfMonCountersOptionalParams,
   ): PagedAsyncIterableIterator<PerfMonResponse> {
-    const iter = this.listPerfMonCountersPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listPerfMonCountersPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -2576,12 +2395,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPerfMonCountersPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listPerfMonCountersPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -2595,11 +2409,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListPerfMonCountersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPerfMonCounters(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listPerfMonCounters(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2624,11 +2434,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListPerfMonCountersOptionalParams,
   ): AsyncIterableIterator<PerfMonResponse> {
-    for await (const page of this.listPerfMonCountersPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listPerfMonCountersPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -2644,11 +2450,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsGetPrivateEndpointConnectionListOptionalParams,
   ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
-    const iter = this.getPrivateEndpointConnectionListPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getPrivateEndpointConnectionListPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -2679,11 +2481,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsGetPrivateEndpointConnectionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getPrivateEndpointConnectionList(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getPrivateEndpointConnectionList(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2741,12 +2539,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listProcessesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listProcessesPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -2767,12 +2560,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listProcessesNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listProcessesNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -2785,11 +2573,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListProcessesOptionalParams,
   ): AsyncIterableIterator<ProcessInfo> {
-    for await (const page of this.listProcessesPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listProcessesPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -2808,12 +2592,7 @@ export class WebAppsImpl implements WebApps {
     processId: string,
     options?: WebAppsListProcessModulesOptionalParams,
   ): PagedAsyncIterableIterator<ProcessModuleInfo> {
-    const iter = this.listProcessModulesPagingAll(
-      resourceGroupName,
-      name,
-      processId,
-      options,
-    );
+    const iter = this.listProcessModulesPagingAll(resourceGroupName, name, processId, options);
     return {
       next() {
         return iter.next();
@@ -2846,12 +2625,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListProcessModulesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listProcessModules(
-        resourceGroupName,
-        name,
-        processId,
-        options,
-      );
+      result = await this._listProcessModules(resourceGroupName, name, processId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2902,12 +2676,7 @@ export class WebAppsImpl implements WebApps {
     processId: string,
     options?: WebAppsListProcessThreadsOptionalParams,
   ): PagedAsyncIterableIterator<ProcessThreadInfo> {
-    const iter = this.listProcessThreadsPagingAll(
-      resourceGroupName,
-      name,
-      processId,
-      options,
-    );
+    const iter = this.listProcessThreadsPagingAll(resourceGroupName, name, processId, options);
     return {
       next() {
         return iter.next();
@@ -2940,12 +2709,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListProcessThreadsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listProcessThreads(
-        resourceGroupName,
-        name,
-        processId,
-        options,
-      );
+      result = await this._listProcessThreads(resourceGroupName, name, processId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -2993,11 +2757,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListPublicCertificatesOptionalParams,
   ): PagedAsyncIterableIterator<PublicCertificate> {
-    const iter = this.listPublicCertificatesPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listPublicCertificatesPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -3009,12 +2769,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPublicCertificatesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listPublicCertificatesPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -3028,11 +2783,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListPublicCertificatesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPublicCertificates(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listPublicCertificates(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -3077,11 +2828,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteContainersOptionalParams,
   ): PagedAsyncIterableIterator<SiteContainer> {
-    const iter = this.listSiteContainersPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listSiteContainersPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -3093,12 +2840,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSiteContainersPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listSiteContainersPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -3137,11 +2879,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteContainersOptionalParams,
   ): AsyncIterableIterator<SiteContainer> {
-    for await (const page of this.listSiteContainersPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listSiteContainersPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -3157,11 +2895,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteExtensionsOptionalParams,
   ): PagedAsyncIterableIterator<SiteExtensionInfo> {
-    const iter = this.listSiteExtensionsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listSiteExtensionsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -3173,12 +2907,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSiteExtensionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listSiteExtensionsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -3217,11 +2946,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSiteExtensionsOptionalParams,
   ): AsyncIterableIterator<SiteExtensionInfo> {
-    for await (const page of this.listSiteExtensionsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listSiteExtensionsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -3249,12 +2974,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSlotsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listSlotsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -3275,12 +2995,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listSlotsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listSlotsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -3293,11 +3008,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSlotsOptionalParams,
   ): AsyncIterableIterator<Site> {
-    for await (const page of this.listSlotsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listSlotsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -3316,12 +3027,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListBackupsSlotOptionalParams,
   ): PagedAsyncIterableIterator<BackupItem> {
-    const iter = this.listBackupsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listBackupsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -3333,13 +3039,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBackupsSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listBackupsSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -3354,12 +3054,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListBackupsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBackupsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listBackupsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -3504,12 +3199,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListConfigurationsSlotOptionalParams,
   ): PagedAsyncIterableIterator<SiteConfigResource> {
-    const iter = this.listConfigurationsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listConfigurationsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -3542,12 +3232,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListConfigurationsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listConfigurationsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listConfigurationsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -3879,12 +3564,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListContinuousWebJobsSlotOptionalParams,
   ): PagedAsyncIterableIterator<ContinuousWebJob> {
-    const iter = this.listContinuousWebJobsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listContinuousWebJobsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -3917,12 +3597,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListContinuousWebJobsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listContinuousWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listContinuousWebJobsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4067,12 +3742,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListDeploymentsSlotOptionalParams,
   ): PagedAsyncIterableIterator<Deployment> {
-    const iter = this.listDeploymentsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listDeploymentsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -4084,13 +3754,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDeploymentsSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listDeploymentsSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -4105,12 +3769,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListDeploymentsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDeploymentsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listDeploymentsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4254,12 +3913,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListInstanceFunctionsSlotOptionalParams,
   ): PagedAsyncIterableIterator<FunctionEnvelope> {
-    const iter = this.listInstanceFunctionsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listInstanceFunctionsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -4292,12 +3946,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListInstanceFunctionsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInstanceFunctionsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listInstanceFunctionsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4348,12 +3997,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListHostNameBindingsSlotOptionalParams,
   ): PagedAsyncIterableIterator<HostNameBinding> {
-    const iter = this.listHostNameBindingsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listHostNameBindingsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -4386,12 +4030,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListHostNameBindingsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listHostNameBindingsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listHostNameBindingsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4442,12 +4081,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListInstanceIdentifiersSlotOptionalParams,
   ): PagedAsyncIterableIterator<WebSiteInstanceStatus> {
-    const iter = this.listInstanceIdentifiersSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listInstanceIdentifiersSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -4480,12 +4114,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListInstanceIdentifiersSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInstanceIdentifiersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listInstanceIdentifiersSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4869,12 +4498,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListSiteBackupsSlotOptionalParams,
   ): PagedAsyncIterableIterator<BackupItem> {
-    const iter = this.listSiteBackupsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listSiteBackupsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -4886,13 +4510,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSiteBackupsSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listSiteBackupsSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -4907,12 +4525,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSiteBackupsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSiteBackupsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listSiteBackupsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -4962,12 +4575,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListPerfMonCountersSlotOptionalParams,
   ): PagedAsyncIterableIterator<PerfMonResponse> {
-    const iter = this.listPerfMonCountersSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listPerfMonCountersSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5000,12 +4608,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListPerfMonCountersSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPerfMonCountersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listPerfMonCountersSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5150,12 +4753,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListProcessesSlotOptionalParams,
   ): PagedAsyncIterableIterator<ProcessInfo> {
-    const iter = this.listProcessesSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listProcessesSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5167,13 +4765,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listProcessesSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listProcessesSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -5188,12 +4780,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListProcessesSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listProcessesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listProcessesSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5452,12 +5039,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListPublicCertificatesSlotOptionalParams,
   ): PagedAsyncIterableIterator<PublicCertificate> {
-    const iter = this.listPublicCertificatesSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listPublicCertificatesSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5490,12 +5072,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListPublicCertificatesSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPublicCertificatesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listPublicCertificatesSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5546,12 +5123,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListSiteContainersSlotOptionalParams,
   ): PagedAsyncIterableIterator<SiteContainer> {
-    const iter = this.listSiteContainersSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listSiteContainersSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5584,12 +5156,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSiteContainersSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSiteContainersSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listSiteContainersSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5640,12 +5207,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListSiteExtensionsSlotOptionalParams,
   ): PagedAsyncIterableIterator<SiteExtensionInfo> {
-    const iter = this.listSiteExtensionsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listSiteExtensionsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5678,12 +5240,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSiteExtensionsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSiteExtensionsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listSiteExtensionsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5836,12 +5393,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListSnapshotsSlotOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot> {
-    const iter = this.listSnapshotsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listSnapshotsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -5853,13 +5405,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSnapshotsSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listSnapshotsSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -5874,12 +5420,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSnapshotsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSnapshotsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listSnapshotsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -5967,12 +5508,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSnapshotsFromDRSecondarySlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSnapshotsFromDRSecondarySlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listSnapshotsFromDRSecondarySlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6023,12 +5559,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListTriggeredWebJobsSlotOptionalParams,
   ): PagedAsyncIterableIterator<TriggeredWebJob> {
-    const iter = this.listTriggeredWebJobsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listTriggeredWebJobsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -6061,12 +5592,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListTriggeredWebJobsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listTriggeredWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listTriggeredWebJobsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6220,12 +5746,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListUsagesSlotOptionalParams,
   ): PagedAsyncIterableIterator<CsmUsageQuota> {
-    const iter = this.listUsagesSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listUsagesSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -6237,13 +5758,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listUsagesSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listUsagesSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -6258,12 +5773,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListUsagesSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listUsagesSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listUsagesSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6314,12 +5824,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListWebJobsSlotOptionalParams,
   ): PagedAsyncIterableIterator<WebJob> {
-    const iter = this.listWebJobsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listWebJobsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -6331,13 +5836,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listWebJobsSlotPagingPage(
-          resourceGroupName,
-          name,
-          slot,
-          options,
-          settings,
-        );
+        return this.listWebJobsSlotPagingPage(resourceGroupName, name, slot, options, settings);
       },
     };
   }
@@ -6352,12 +5851,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListWebJobsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listWebJobsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listWebJobsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6510,12 +6004,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSnapshotsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listSnapshotsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -6536,12 +6025,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listSnapshotsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listSnapshotsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -6554,11 +6038,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSnapshotsOptionalParams,
   ): AsyncIterableIterator<Snapshot> {
-    for await (const page of this.listSnapshotsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listSnapshotsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -6574,11 +6054,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListSnapshotsFromDRSecondaryOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot> {
-    const iter = this.listSnapshotsFromDRSecondaryPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listSnapshotsFromDRSecondaryPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -6609,11 +6085,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListSnapshotsFromDRSecondaryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSnapshotsFromDRSecondary(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listSnapshotsFromDRSecondary(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6658,11 +6130,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListTriggeredWebJobsOptionalParams,
   ): PagedAsyncIterableIterator<TriggeredWebJob> {
-    const iter = this.listTriggeredWebJobsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listTriggeredWebJobsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -6674,12 +6142,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listTriggeredWebJobsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listTriggeredWebJobsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -6693,11 +6156,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListTriggeredWebJobsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listTriggeredWebJobs(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listTriggeredWebJobs(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6782,12 +6241,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListTriggeredWebJobHistoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listTriggeredWebJobHistory(
-        resourceGroupName,
-        name,
-        webJobName,
-        options,
-      );
+      result = await this._listTriggeredWebJobHistory(resourceGroupName, name, webJobName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -6847,12 +6301,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listUsagesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listUsagesPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -6873,12 +6322,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listUsagesNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listUsagesNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -6891,11 +6335,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListUsagesOptionalParams,
   ): AsyncIterableIterator<CsmUsageQuota> {
-    for await (const page of this.listUsagesPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listUsagesPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -6923,12 +6363,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listWebJobsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listWebJobsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -6949,12 +6384,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listWebJobsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listWebJobsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -6967,11 +6397,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListWebJobsOptionalParams,
   ): AsyncIterableIterator<WebJob> {
-    for await (const page of this.listWebJobsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listWebJobsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -6989,12 +6415,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsListInstanceWorkflowsSlotOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowEnvelope> {
-    const iter = this.listInstanceWorkflowsSlotPagingAll(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const iter = this.listInstanceWorkflowsSlotPagingAll(resourceGroupName, name, slot, options);
     return {
       next() {
         return iter.next();
@@ -7027,12 +6448,7 @@ export class WebAppsImpl implements WebApps {
     let result: WebAppsListInstanceWorkflowsSlotResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listInstanceWorkflowsSlot(
-        resourceGroupName,
-        name,
-        slot,
-        options,
-      );
+      result = await this._listInstanceWorkflowsSlot(resourceGroupName, name, slot, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -7092,12 +6508,7 @@ export class WebAppsImpl implements WebApps {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listWorkflowsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listWorkflowsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -7118,12 +6529,7 @@ export class WebAppsImpl implements WebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listWorkflowsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listWorkflowsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -7136,11 +6542,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListWorkflowsOptionalParams,
   ): AsyncIterableIterator<WorkflowEnvelope> {
-    for await (const page of this.listWorkflowsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listWorkflowsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -7149,9 +6551,7 @@ export class WebAppsImpl implements WebApps {
    * Description for Get all apps for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: WebAppsListOptionalParams,
-  ): Promise<WebAppsListResponse> {
+  private _list(options?: WebAppsListOptionalParams): Promise<WebAppsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -7181,10 +6581,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsGetOptionalParams,
   ): Promise<WebAppsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, name, options }, getOperationSpec);
   }
 
   /**
@@ -7202,10 +6599,7 @@ export class WebAppsImpl implements WebApps {
     siteEnvelope: Site,
     options?: WebAppsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsCreateOrUpdateResponse>,
-      WebAppsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<WebAppsCreateOrUpdateResponse>, WebAppsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -7217,8 +6611,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -7276,12 +6669,7 @@ export class WebAppsImpl implements WebApps {
     siteEnvelope: Site,
     options?: WebAppsCreateOrUpdateOptionalParams,
   ): Promise<WebAppsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      name,
-      siteEnvelope,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, name, siteEnvelope, options);
     return poller.pollUntilDone();
   }
 
@@ -7482,8 +6870,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -7538,13 +6925,7 @@ export class WebAppsImpl implements WebApps {
     request: RestoreRequest,
     options?: WebAppsRestoreOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestore(
-      resourceGroupName,
-      name,
-      backupId,
-      request,
-      options,
-    );
+    const poller = await this.beginRestore(resourceGroupName, name, backupId, request, options);
     return poller.pollUntilDone();
   }
 
@@ -8076,8 +7457,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -8131,11 +7511,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsListPublishingCredentialsOptionalParams,
   ): Promise<WebAppsListPublishingCredentialsResponse> {
-    const poller = await this.beginListPublishingCredentials(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const poller = await this.beginListPublishingCredentials(resourceGroupName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -8497,8 +7873,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -8836,8 +8211,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -9022,10 +8396,7 @@ export class WebAppsImpl implements WebApps {
     functionEnvelope: FunctionEnvelope,
     options?: WebAppsCreateFunctionOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsCreateFunctionResponse>,
-      WebAppsCreateFunctionResponse
-    >
+    SimplePollerLike<OperationState<WebAppsCreateFunctionResponse>, WebAppsCreateFunctionResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -9037,8 +8408,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -9687,8 +9057,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -10017,10 +9386,7 @@ export class WebAppsImpl implements WebApps {
     migrationOptions: StorageMigrationOptions,
     options?: WebAppsMigrateStorageOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsMigrateStorageResponse>,
-      WebAppsMigrateStorageResponse
-    >
+    SimplePollerLike<OperationState<WebAppsMigrateStorageResponse>, WebAppsMigrateStorageResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -10032,8 +9398,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -10120,10 +9485,7 @@ export class WebAppsImpl implements WebApps {
     migrationRequestEnvelope: MigrateMySqlRequest,
     options?: WebAppsMigrateMySqlOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WebAppsMigrateMySqlResponse>,
-      WebAppsMigrateMySqlResponse
-    >
+    SimplePollerLike<OperationState<WebAppsMigrateMySqlResponse>, WebAppsMigrateMySqlResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -10135,8 +9497,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -10379,8 +9740,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -10771,8 +10131,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -10874,8 +10233,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -11256,8 +10614,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -11310,12 +10667,7 @@ export class WebAppsImpl implements WebApps {
     request: RestoreRequest,
     options?: WebAppsRestoreFromBackupBlobOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestoreFromBackupBlob(
-      resourceGroupName,
-      name,
-      request,
-      options,
-    );
+    const poller = await this.beginRestoreFromBackupBlob(resourceGroupName, name, request, options);
     return poller.pollUntilDone();
   }
 
@@ -11342,8 +10694,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -11429,8 +10780,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -11633,8 +10983,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -11787,8 +11136,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -12083,8 +11431,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -12769,8 +12116,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -13203,8 +12549,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -13585,8 +12930,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -13764,8 +13108,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -14501,8 +13844,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -15043,8 +14385,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -15495,8 +14836,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -15604,8 +14944,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16043,8 +15382,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16135,8 +15473,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16227,8 +15564,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16455,8 +15791,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16595,8 +15930,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16652,13 +15986,7 @@ export class WebAppsImpl implements WebApps {
     slotSwapEntity: CsmSlotEntity,
     options?: WebAppsSwapSlotOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginSwapSlot(
-      resourceGroupName,
-      name,
-      slot,
-      slotSwapEntity,
-      options,
-    );
+    const poller = await this.beginSwapSlot(resourceGroupName, name, slot, slotSwapEntity, options);
     return poller.pollUntilDone();
   }
 
@@ -16751,8 +16079,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16911,8 +16238,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -16968,12 +16294,7 @@ export class WebAppsImpl implements WebApps {
     slot: string,
     options?: WebAppsStartNetworkTraceSlotOptionalParams,
   ): Promise<WebAppsStartNetworkTraceSlotResponse> {
-    const poller = await this.beginStartNetworkTraceSlot(
-      resourceGroupName,
-      name,
-      slot,
-      options,
-    );
+    const poller = await this.beginStartNetworkTraceSlot(resourceGroupName, name, slot, options);
     return poller.pollUntilDone();
   }
 
@@ -17496,8 +16817,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -17638,8 +16958,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -17783,8 +17102,7 @@ export class WebAppsImpl implements WebApps {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -17838,11 +17156,7 @@ export class WebAppsImpl implements WebApps {
     name: string,
     options?: WebAppsStartNetworkTraceOptionalParams,
   ): Promise<WebAppsStartNetworkTraceResponse> {
-    const poller = await this.beginStartNetworkTrace(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const poller = await this.beginStartNetworkTrace(resourceGroupName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -18418,10 +17732,7 @@ export class WebAppsImpl implements WebApps {
     nextLink: string,
     options?: WebAppsListNextOptionalParams,
   ): Promise<WebAppsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -19927,11 +19238,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.includeSlots],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -20224,28 +19531,27 @@ const restoreOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listBasicPublishingCredentialsPoliciesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listBasicPublishingCredentialsPoliciesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getFtpAllowedOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/ftp",
   httpMethod: "GET",
@@ -20615,28 +19921,27 @@ const getBackupConfigurationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getAppSettingsKeyVaultReferencesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getAppSettingsKeyVaultReferencesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getAppSettingKeyVaultReferenceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings/{appSettingKey}",
   httpMethod: "GET",
@@ -20659,51 +19964,49 @@ const getAppSettingKeyVaultReferenceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getSiteConnectionStringKeyVaultReferencesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getSiteConnectionStringKeyVaultReferencesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getSiteConnectionStringKeyVaultReferenceOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings/{connectionStringKey}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReference,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.connectionStringKey,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSiteConnectionStringKeyVaultReferenceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings/{connectionStringKey}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.connectionStringKey,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const updateConnectionStringsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/connectionstrings",
   httpMethod: "PUT",
@@ -21064,27 +20367,26 @@ const getConfigurationSnapshotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const recoverSiteConfigurationSnapshotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots/{snapshotId}/recover",
-    httpMethod: "POST",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const recoverSiteConfigurationSnapshotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots/{snapshotId}/recover",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.snapshotId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.snapshotId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getWebSiteContainerLogsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs",
   httpMethod: "POST",
@@ -21244,60 +20546,58 @@ const stopContinuousWebJobOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listProductionSiteDeploymentStatusesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CsmDeploymentStatusCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listProductionSiteDeploymentStatusesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getProductionSiteDeploymentStatusOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus/{deploymentStatusId}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CsmDeploymentStatus,
-      },
-      201: {
-        bodyMapper: Mappers.CsmDeploymentStatus,
-      },
-      202: {
-        bodyMapper: Mappers.CsmDeploymentStatus,
-      },
-      204: {
-        bodyMapper: Mappers.CsmDeploymentStatus,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.deploymentStatusId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getProductionSiteDeploymentStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deploymentStatus/{deploymentStatusId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatus,
+    },
+    201: {
+      bodyMapper: Mappers.CsmDeploymentStatus,
+    },
+    202: {
+      bodyMapper: Mappers.CsmDeploymentStatus,
+    },
+    204: {
+      bodyMapper: Mappers.CsmDeploymentStatus,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.deploymentStatusId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listDeploymentsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments",
   httpMethod: "GET",
@@ -21474,31 +20774,30 @@ const getDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.Identifier,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Identifier,
     },
-    requestBody: Parameters.domainOwnershipIdentifier1,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.domainOwnershipIdentifierName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.domainOwnershipIdentifier1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainOwnershipIdentifierName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
   httpMethod: "DELETE",
@@ -21853,7 +21152,9 @@ const listFunctionKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.StringDictionary,
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "String" } } },
+      },
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,
@@ -22252,31 +21553,30 @@ const getRelayServiceConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateRelayServiceConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection/{entityName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RelayServiceConnectionEntity,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateRelayServiceConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection/{entityName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RelayServiceConnectionEntity,
     },
-    requestBody: Parameters.connectionEnvelope2,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.entityName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.entityName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteRelayServiceConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection/{entityName}",
   httpMethod: "DELETE",
@@ -22804,28 +22104,27 @@ const getMigrateMySqlStatusOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getSwiftVirtualNetworkConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getSwiftVirtualNetworkConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateSwiftVirtualNetworkConnectionWithCheckOperationSpec: coreClient.OperationSpec =
   {
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
@@ -22872,30 +22171,29 @@ const deleteSwiftVirtualNetworkOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateSwiftVirtualNetworkConnectionWithCheckOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-    httpMethod: "PATCH",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const updateSwiftVirtualNetworkConnectionWithCheckOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
     },
-    requestBody: Parameters.connectionEnvelope3,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listNetworkFeaturesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkFeatures/{view}",
   httpMethod: "GET",
@@ -22982,62 +22280,61 @@ const startWebSiteNetworkTraceOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const startWebSiteNetworkTraceOperationOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/startOperation",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
+const startWebSiteNetworkTraceOperationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/startOperation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
         },
-      },
-      201: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      202: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      204: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.durationInSeconds,
-      Parameters.maxFrameLength,
-      Parameters.sasUrl,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    201: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    202: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    204: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.durationInSeconds,
+    Parameters.maxFrameLength,
+    Parameters.sasUrl,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const stopWebSiteNetworkTraceOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/stop",
   httpMethod: "POST",
@@ -23147,27 +22444,26 @@ const getNetworkTracesV2OperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const generateNewSitePublishingPasswordOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/newpassword",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const generateNewSitePublishingPasswordOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/newpassword",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listPerfMonCountersOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/perfcounters",
   httpMethod: "GET",
@@ -23365,28 +22661,27 @@ const putPrivateAccessVnetOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
@@ -23409,40 +22704,39 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
     },
-    requestBody: Parameters.privateEndpointWrapper,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.privateEndpointConnectionName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.privateEndpointWrapper,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
@@ -23767,33 +23061,32 @@ const deletePublicCertificateOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listPublishingProfileXmlWithSecretsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publishxml",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: { name: "Stream" },
-          serializedName: "parsedResponse",
-        },
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+const listPublishingProfileXmlWithSecretsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publishxml",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse",
       },
     },
-    requestBody: Parameters.publishingProfileOptions,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.contentType, Parameters.accept3],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.publishingProfileOptions,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept3],
+  mediaType: "json",
+  serializer,
+};
 const resetProductionSlotConfigOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resetSlotConfig",
   httpMethod: "POST",
@@ -23822,11 +23115,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.softRestart,
-    Parameters.synchronous,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.softRestart, Parameters.synchronous],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -24427,29 +23716,28 @@ const restoreSlotOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listBasicPublishingCredentialsPoliciesSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listBasicPublishingCredentialsPoliciesSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getFtpAllowedSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/ftp",
   httpMethod: "GET",
@@ -24656,29 +23944,28 @@ const getAuthSettingsSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getAuthSettingsV2WithoutSecretsSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SiteAuthSettingsV2,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getAuthSettingsV2WithoutSecretsSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const updateAuthSettingsV2SlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
   httpMethod: "PUT",
@@ -24837,100 +24124,96 @@ const getBackupConfigurationSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getAppSettingsKeyVaultReferencesSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getAppSettingsKeyVaultReferencesSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getAppSettingKeyVaultReferenceSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings/{appSettingKey}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReference,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.appSettingKey,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getSiteConnectionStringKeyVaultReferencesSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAppSettingKeyVaultReferenceSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings/{appSettingKey}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getSiteConnectionStringKeyVaultReferenceSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings/{connectionStringKey}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReference,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.connectionStringKey,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.appSettingKey,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSiteConnectionStringKeyVaultReferencesSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSiteConnectionStringKeyVaultReferenceSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings/{connectionStringKey}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.connectionStringKey,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const updateConnectionStringsSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/connectionstrings",
   httpMethod: "PUT",
@@ -24977,29 +24260,28 @@ const listConnectionStringsSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getDiagnosticLogsConfigurationSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/logs",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SiteLogsConfig,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getDiagnosticLogsConfigurationSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/logs",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteLogsConfig,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const updateDiagnosticLogsConfigSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/logs",
   httpMethod: "PUT",
@@ -25217,29 +24499,28 @@ const updateConfigurationSlotOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listConfigurationSnapshotInfoSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web/snapshots",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listConfigurationSnapshotInfoSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web/snapshots",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getConfigurationSnapshotSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web/snapshots/{snapshotId}",
   httpMethod: "GET",
@@ -25263,28 +24544,27 @@ const getConfigurationSnapshotSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const recoverSiteConfigurationSnapshotSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web/snapshots/{snapshotId}/recover",
-    httpMethod: "POST",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const recoverSiteConfigurationSnapshotSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web/snapshots/{snapshotId}/recover",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.snapshotId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.snapshotId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getWebSiteContainerLogsSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/containerlogs",
   httpMethod: "POST",
@@ -25451,29 +24731,28 @@ const stopContinuousWebJobSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSlotSiteDeploymentStatusesSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CsmDeploymentStatusCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSlotSiteDeploymentStatusesSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getSlotSiteDeploymentStatusSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus/{deploymentStatusId}",
   httpMethod: "GET",
@@ -25645,128 +24924,123 @@ const discoverBackupSlotOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listDomainOwnershipIdentifiersSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.IdentifierCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listDomainOwnershipIdentifiersSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IdentifierCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.Identifier,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.domainOwnershipIdentifierName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const createOrUpdateDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.Identifier,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Identifier,
     },
-    requestBody: Parameters.domainOwnershipIdentifier1,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.domainOwnershipIdentifierName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const deleteDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.domainOwnershipIdentifierName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const updateDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
-    httpMethod: "PATCH",
-    responses: {
-      200: {
-        bodyMapper: Mappers.Identifier,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.domainOwnershipIdentifierName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Identifier,
     },
-    requestBody: Parameters.domainOwnershipIdentifier1,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.domainOwnershipIdentifierName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.domainOwnershipIdentifier1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.domainOwnershipIdentifierName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.domainOwnershipIdentifierName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateDomainOwnershipIdentifierSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/domainOwnershipIdentifiers/{domainOwnershipIdentifierName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Identifier,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.domainOwnershipIdentifier1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.domainOwnershipIdentifierName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getMSDeployStatusSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy",
   httpMethod: "GET",
@@ -25981,36 +25255,35 @@ const deleteInstanceFunctionSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateFunctionSecretSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/keys/{keyName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.KeyInfo,
-      },
-      201: {
-        bodyMapper: Mappers.KeyInfo,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateFunctionSecretSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/keys/{keyName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.KeyInfo,
     },
-    requestBody: Parameters.key,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.functionName,
-      Parameters.keyName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.KeyInfo,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.key,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.functionName,
+    Parameters.keyName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteFunctionSecretSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/{functionName}/keys/{keyName}",
   httpMethod: "DELETE",
@@ -26243,32 +25516,31 @@ const getHostNameBindingSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateHostNameBindingSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hostNameBindings/{hostName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.HostNameBinding,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateHostNameBindingSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hostNameBindings/{hostName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HostNameBinding,
     },
-    requestBody: Parameters.hostNameBinding,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.hostName1,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.hostNameBinding,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.hostName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteHostNameBindingSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hostNameBindings/{hostName}",
   httpMethod: "DELETE",
@@ -26315,33 +25587,32 @@ const getHybridConnectionSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateHybridConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.HybridConnection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateHybridConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.HybridConnection,
     },
-    requestBody: Parameters.connectionEnvelope1,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.namespaceName,
-      Parameters.relayName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.namespaceName,
+    Parameters.relayName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteHybridConnectionSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridConnectionNamespaces/{namespaceName}/relays/{relayName}",
   httpMethod: "DELETE",
@@ -26460,83 +25731,80 @@ const getRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RelayServiceConnectionEntity,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RelayServiceConnectionEntity,
     },
-    requestBody: Parameters.connectionEnvelope2,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.entityName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const deleteRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {},
-      404: {
-        isError: true,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.entityName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const updateRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
-    httpMethod: "PATCH",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RelayServiceConnectionEntity,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  requestBody: Parameters.connectionEnvelope2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.entityName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    404: {
+      isError: true,
     },
-    requestBody: Parameters.connectionEnvelope2,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.entityName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.entityName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateRelayServiceConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection/{entityName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RelayServiceConnectionEntity,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.entityName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listInstanceIdentifiersSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances",
   httpMethod: "GET",
@@ -26605,44 +25873,43 @@ const getInstanceMsDeployStatusSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createInstanceMSDeployOperationSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.MSDeployStatus,
-      },
-      201: {
-        bodyMapper: Mappers.MSDeployStatus,
-      },
-      202: {
-        bodyMapper: Mappers.MSDeployStatus,
-      },
-      204: {
-        bodyMapper: Mappers.MSDeployStatus,
-      },
-      409: {
-        isError: true,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createInstanceMSDeployOperationSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MSDeployStatus,
     },
-    requestBody: Parameters.mSDeploy,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.instanceId,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.MSDeployStatus,
+    },
+    202: {
+      bodyMapper: Mappers.MSDeployStatus,
+    },
+    204: {
+      bodyMapper: Mappers.MSDeployStatus,
+    },
+    409: {
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.mSDeploy,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getInstanceMSDeployLogSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}/extensions/MSDeploy/log",
   httpMethod: "GET",
@@ -26947,29 +26214,28 @@ const getMigrateMySqlStatusSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getSwiftVirtualNetworkConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getSwiftVirtualNetworkConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOperationSpec: coreClient.OperationSpec =
   {
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
@@ -27018,31 +26284,30 @@ const deleteSwiftVirtualNetworkSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateSwiftVirtualNetworkConnectionWithCheckSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-    httpMethod: "PATCH",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SwiftVirtualNetwork,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const updateSwiftVirtualNetworkConnectionWithCheckSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SwiftVirtualNetwork,
     },
-    requestBody: Parameters.connectionEnvelope3,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listNetworkFeaturesSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkFeatures/{view}",
   httpMethod: "GET",
@@ -27132,63 +26397,62 @@ const startWebSiteNetworkTraceSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const startWebSiteNetworkTraceOperationSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
+const startWebSiteNetworkTraceOperationSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
         },
-      },
-      201: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      202: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      204: {
-        bodyMapper: {
-          type: {
-            name: "Sequence",
-            element: { type: { name: "Composite", className: "NetworkTrace" } },
-          },
-        },
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
       },
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.durationInSeconds,
-      Parameters.maxFrameLength,
-      Parameters.sasUrl,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    201: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    202: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    204: {
+      bodyMapper: {
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "NetworkTrace" } },
+        },
+      },
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.durationInSeconds,
+    Parameters.maxFrameLength,
+    Parameters.sasUrl,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const stopWebSiteNetworkTraceSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/stop",
   httpMethod: "POST",
@@ -27302,28 +26566,27 @@ const getNetworkTracesSlotV2OperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const generateNewSitePublishingPasswordSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/newpassword",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const generateNewSitePublishingPasswordSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/newpassword",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listPerfMonCountersSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/perfcounters",
   httpMethod: "GET",
@@ -27530,129 +26793,125 @@ const putPrivateAccessVnetSlotOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getPrivateEndpointConnectionListSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+const getPrivateEndpointConnectionListSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getPrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const approveOrRejectPrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    201: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.privateEndpointWrapper,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deletePrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getPrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+    201: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.privateEndpointConnectionName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const approveOrRejectPrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+    202: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
     },
-    requestBody: Parameters.privateEndpointWrapper,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.privateEndpointConnectionName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const deletePrivateEndpointConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: { name: "Dictionary", value: { type: { name: "any" } } },
-        },
-      },
-      201: {
-        bodyMapper: {
-          type: { name: "Dictionary", value: { type: { name: "any" } } },
-        },
-      },
-      202: {
-        bodyMapper: {
-          type: { name: "Dictionary", value: { type: { name: "any" } } },
-        },
-      },
-      204: {
-        bodyMapper: {
-          type: { name: "Dictionary", value: { type: { name: "any" } } },
-        },
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+    204: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
       },
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.privateEndpointConnectionName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getPrivateLinkResourcesSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateLinkResources",
   httpMethod: "GET",
@@ -27903,32 +27162,31 @@ const getPublicCertificateSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdatePublicCertificateSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publicCertificates/{publicCertificateName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicCertificate,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdatePublicCertificateSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publicCertificates/{publicCertificateName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicCertificate,
     },
-    requestBody: Parameters.publicCertificate,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-      Parameters.publicCertificateName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.publicCertificate,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.publicCertificateName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deletePublicCertificateSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publicCertificates/{publicCertificateName}",
   httpMethod: "DELETE",
@@ -27951,34 +27209,33 @@ const deletePublicCertificateSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listPublishingProfileXmlWithSecretsSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publishxml",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: { name: "Stream" },
-          serializedName: "parsedResponse",
-        },
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
+const listPublishingProfileXmlWithSecretsSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publishxml",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse",
       },
     },
-    requestBody: Parameters.publishingProfileOptions,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.contentType, Parameters.accept3],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.publishingProfileOptions,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept3],
+  mediaType: "json",
+  serializer,
+};
 const resetSlotConfigurationSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resetSlotConfig",
   httpMethod: "POST",
@@ -28008,11 +27265,7 @@ const restartSlotOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.softRestart,
-    Parameters.synchronous,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.softRestart, Parameters.synchronous],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -28374,29 +27627,28 @@ const listSnapshotsSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSnapshotsFromDRSecondarySlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/snapshotsdr",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SnapshotCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSnapshotsFromDRSecondarySlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/snapshotsdr",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getSourceControlSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
   httpMethod: "GET",
@@ -28890,32 +28142,31 @@ const getVnetConnectionSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateVnetConnectionSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.VnetInfoResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateVnetConnectionSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VnetInfoResource,
     },
-    requestBody: Parameters.connectionEnvelope4,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.vnetName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.vnetName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteVnetConnectionSlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}",
   httpMethod: "DELETE",
@@ -28992,33 +28243,32 @@ const getVnetConnectionGatewaySlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateVnetConnectionGatewaySlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.VnetGateway,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateVnetConnectionGatewaySlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VnetGateway,
     },
-    requestBody: Parameters.connectionEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.vnetName,
-      Parameters.gatewayName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.vnetName,
+    Parameters.gatewayName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const updateVnetConnectionGatewaySlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
   httpMethod: "PATCH",
@@ -29090,30 +28340,29 @@ const getWebJobSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSlotDifferencesFromProductionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsdiffs",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SlotDifferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSlotDifferencesFromProductionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsdiffs",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SlotDifferenceCollection,
     },
-    requestBody: Parameters.slotSwapEntity,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.slotSwapEntity,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const swapSlotWithProductionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsswap",
   httpMethod: "POST",
@@ -29751,32 +29000,31 @@ const getVnetConnectionGatewayOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateVnetConnectionGatewayOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.VnetGateway,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateVnetConnectionGatewayOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VnetGateway,
     },
-    requestBody: Parameters.connectionEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.vnetName,
-      Parameters.gatewayName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectionEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.vnetName,
+    Parameters.gatewayName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const updateVnetConnectionGatewayOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
   httpMethod: "PATCH",
@@ -30036,11 +29284,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -30085,28 +29329,27 @@ const listBackupsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listBasicPublishingCredentialsPoliciesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listBasicPublishingCredentialsPoliciesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listConfigurationsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30128,72 +29371,69 @@ const listConfigurationsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getAppSettingsKeyVaultReferencesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getAppSettingsKeyVaultReferencesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getSiteConnectionStringKeyVaultReferencesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listConfigurationSnapshotInfoNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSiteConnectionStringKeyVaultReferencesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listConfigurationSnapshotInfoNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listContinuousWebJobsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30215,28 +29455,27 @@ const listContinuousWebJobsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listProductionSiteDeploymentStatusesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CsmDeploymentStatusCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listProductionSiteDeploymentStatusesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listDeploymentsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30258,28 +29497,27 @@ const listDeploymentsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listDomainOwnershipIdentifiersNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.IdentifierCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listDomainOwnershipIdentifiersNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IdentifierCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listFunctionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30465,28 +29703,27 @@ const listPerfMonCountersNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listProcessesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30670,29 +29907,28 @@ const listBackupsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listBasicPublishingCredentialsPoliciesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listBasicPublishingCredentialsPoliciesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublishingCredentialsPoliciesCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listConfigurationsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30715,75 +29951,72 @@ const listConfigurationsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getAppSettingsKeyVaultReferencesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getAppSettingsKeyVaultReferencesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getSiteConnectionStringKeyVaultReferencesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiKVReferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listConfigurationSnapshotInfoSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSiteConnectionStringKeyVaultReferencesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listConfigurationSnapshotInfoSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteConfigurationSnapshotInfoCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listContinuousWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30806,29 +30039,28 @@ const listContinuousWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSlotSiteDeploymentStatusesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CsmDeploymentStatusCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSlotSiteDeploymentStatusesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmDeploymentStatusCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listDeploymentsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30851,29 +30083,28 @@ const listDeploymentsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listDomainOwnershipIdentifiersSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.IdentifierCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listDomainOwnershipIdentifiersSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IdentifierCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listInstanceFunctionsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -30969,62 +30200,60 @@ const listInstanceProcessesSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listInstanceProcessModulesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ProcessModuleInfoCollection,
-      },
-      404: {
-        isError: true,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listInstanceProcessModulesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProcessModuleInfoCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-      Parameters.instanceId,
-      Parameters.processId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listInstanceProcessThreadsSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ProcessThreadInfoCollection,
-      },
-      404: {
-        isError: true,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    404: {
+      isError: true,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-      Parameters.instanceId,
-      Parameters.processId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+    Parameters.instanceId,
+    Parameters.processId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listInstanceProcessThreadsSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProcessThreadInfoCollection,
+    },
+    404: {
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+    Parameters.instanceId,
+    Parameters.processId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSiteBackupsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -31069,29 +30298,28 @@ const listPerfMonCountersSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getPrivateEndpointConnectionListSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getPrivateEndpointConnectionListSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listProcessesSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -31283,29 +30511,28 @@ const listSnapshotsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSnapshotsFromDRSecondarySlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SnapshotCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSnapshotsFromDRSecondarySlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listTriggeredWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -31328,33 +30555,32 @@ const listTriggeredWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listTriggeredWebJobHistorySlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.TriggeredJobHistoryCollection,
-      },
-      404: {
-        isError: true,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listTriggeredWebJobHistorySlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TriggeredJobHistoryCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.slot,
-      Parameters.webJobName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    404: {
+      isError: true,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.slot,
+    Parameters.webJobName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listUsagesSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -31399,29 +30625,28 @@ const listWebJobsSlotNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSlotDifferencesFromProductionNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SlotDifferenceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSlotDifferencesFromProductionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SlotDifferenceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listSnapshotsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -31443,28 +30668,27 @@ const listSnapshotsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSnapshotsFromDRSecondaryNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SnapshotCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSnapshotsFromDRSecondaryNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SnapshotCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listTriggeredWebJobsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

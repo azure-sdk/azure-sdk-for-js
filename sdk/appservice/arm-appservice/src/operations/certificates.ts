@@ -50,9 +50,7 @@ export class CertificatesImpl implements Certificates {
    * Description for Get all certificates for a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: CertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<Certificate> {
+  public list(options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -121,11 +119,7 @@ export class CertificatesImpl implements Certificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -145,11 +139,7 @@ export class CertificatesImpl implements Certificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -161,10 +151,7 @@ export class CertificatesImpl implements Certificates {
     resourceGroupName: string,
     options?: CertificatesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Certificate> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -173,9 +160,7 @@ export class CertificatesImpl implements Certificates {
    * Description for Get all certificates for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: CertificatesListOptionalParams,
-  ): Promise<CertificatesListResponse> {
+  private _list(options?: CertificatesListOptionalParams): Promise<CertificatesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -205,10 +190,7 @@ export class CertificatesImpl implements Certificates {
     name: string,
     options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, name, options }, getOperationSpec);
   }
 
   /**
@@ -275,10 +257,7 @@ export class CertificatesImpl implements Certificates {
     nextLink: string,
     options?: CertificatesListNextOptionalParams,
   ): Promise<CertificatesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -329,11 +308,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -435,11 +410,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

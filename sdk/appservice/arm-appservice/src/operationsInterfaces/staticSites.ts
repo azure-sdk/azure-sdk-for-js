@@ -153,9 +153,7 @@ export interface StaticSites {
    * Description for Get all Static Sites for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: StaticSitesListOptionalParams,
-  ): PagedAsyncIterableIterator<StaticSiteARMResource>;
+  list(options?: StaticSitesListOptionalParams): PagedAsyncIterableIterator<StaticSiteARMResource>;
   /**
    * Description for Gets all static sites in the specified resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1352,10 +1350,7 @@ export interface StaticSites {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesLinkBackendOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StaticSitesLinkBackendResponse>,
-      StaticSitesLinkBackendResponse
-    >
+    SimplePollerLike<OperationState<StaticSitesLinkBackendResponse>, StaticSitesLinkBackendResponse>
   >;
   /**
    * Link backend to a static site

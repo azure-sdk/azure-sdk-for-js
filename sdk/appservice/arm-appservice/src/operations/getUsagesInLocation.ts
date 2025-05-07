@@ -103,10 +103,7 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
     location: string,
     options?: GetUsagesInLocationListOptionalParams,
   ): Promise<GetUsagesInLocationListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -120,10 +117,7 @@ export class GetUsagesInLocationImpl implements GetUsagesInLocation {
     nextLink: string,
     options?: GetUsagesInLocationListNextOptionalParams,
   ): Promise<GetUsagesInLocationListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -141,11 +135,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location1],
   headerParameters: [Parameters.accept],
   serializer,
 };
