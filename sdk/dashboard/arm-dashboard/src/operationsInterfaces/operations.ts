@@ -16,7 +16,5 @@ export interface Operations {
    * List all available API operations provided by Microsoft.Dashboard.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
