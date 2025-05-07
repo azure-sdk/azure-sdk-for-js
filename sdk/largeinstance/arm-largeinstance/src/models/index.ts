@@ -414,26 +414,26 @@ export interface AzureLargeStorageInstance extends TrackedResource {
 
 /** Defines headers for AzureLargeInstance_restart operation. */
 export interface AzureLargeInstanceRestartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_shutdown operation. */
 export interface AzureLargeInstanceShutdownHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for AzureLargeInstance_start operation. */
 export interface AzureLargeInstanceStartHeaders {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -784,31 +784,14 @@ export enum KnownAzureLargeInstanceForcePowerState {
  */
 export type AzureLargeInstanceForcePowerState = string;
 
-/** Known values of {@link Versions} that the service accepts. */
-export enum KnownVersions {
-  /** Azure Large Instance api version 2023-07-20-preview. */
-  V20230720Preview = "2023-07-20-preview",
-}
-
-/**
- * Defines values for Versions. \
- * {@link KnownVersions} can be used interchangeably with Versions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **2023-07-20-preview**: Azure Large Instance api version 2023-07-20-preview.
- */
-export type Versions = string;
-
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
@@ -818,34 +801,29 @@ export interface AzureLargeInstanceListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AzureLargeInstanceListBySubscriptionResponse =
-  AzureLargeInstanceListResult;
+export type AzureLargeInstanceListBySubscriptionResponse = AzureLargeInstanceListResult;
 
 /** Optional parameters. */
 export interface AzureLargeInstanceListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AzureLargeInstanceListByResourceGroupResponse =
-  AzureLargeInstanceListResult;
+export type AzureLargeInstanceListByResourceGroupResponse = AzureLargeInstanceListResult;
 
 /** Optional parameters. */
-export interface AzureLargeInstanceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AzureLargeInstanceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AzureLargeInstanceGetResponse = AzureLargeInstance;
 
 /** Optional parameters. */
-export interface AzureLargeInstanceUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AzureLargeInstanceUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type AzureLargeInstanceUpdateResponse = AzureLargeInstance;
 
 /** Optional parameters. */
-export interface AzureLargeInstanceRestartOptionalParams
-  extends coreClient.OperationOptions {
+export interface AzureLargeInstanceRestartOptionalParams extends coreClient.OperationOptions {
   /** When set to 'active', this parameter empowers the server with the ability to forcefully terminate and halt any existing processes that may be running on the server */
   forceParameter?: ForceState;
   /** Delay to wait until next poll, in milliseconds. */
@@ -858,8 +836,7 @@ export interface AzureLargeInstanceRestartOptionalParams
 export type AzureLargeInstanceRestartResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface AzureLargeInstanceShutdownOptionalParams
-  extends coreClient.OperationOptions {
+export interface AzureLargeInstanceShutdownOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -870,8 +847,7 @@ export interface AzureLargeInstanceShutdownOptionalParams
 export type AzureLargeInstanceShutdownResponse = OperationStatusResult;
 
 /** Optional parameters. */
-export interface AzureLargeInstanceStartOptionalParams
-  extends coreClient.OperationOptions {
+export interface AzureLargeInstanceStartOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -886,16 +862,14 @@ export interface AzureLargeInstanceListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AzureLargeInstanceListBySubscriptionNextResponse =
-  AzureLargeInstanceListResult;
+export type AzureLargeInstanceListBySubscriptionNextResponse = AzureLargeInstanceListResult;
 
 /** Optional parameters. */
 export interface AzureLargeInstanceListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AzureLargeInstanceListByResourceGroupNextResponse =
-  AzureLargeInstanceListResult;
+export type AzureLargeInstanceListByResourceGroupNextResponse = AzureLargeInstanceListResult;
 
 /** Optional parameters. */
 export interface AzureLargeStorageInstanceListBySubscriptionOptionalParams
@@ -914,8 +888,7 @@ export type AzureLargeStorageInstanceListByResourceGroupResponse =
   AzureLargeStorageInstanceListResult;
 
 /** Optional parameters. */
-export interface AzureLargeStorageInstanceGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AzureLargeStorageInstanceGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AzureLargeStorageInstanceGetResponse = AzureLargeStorageInstance;
