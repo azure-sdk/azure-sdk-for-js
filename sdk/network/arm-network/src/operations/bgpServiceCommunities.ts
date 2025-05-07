@@ -107,10 +107,7 @@ export class BgpServiceCommunitiesImpl implements BgpServiceCommunities {
     nextLink: string,
     options?: BgpServiceCommunitiesListNextOptionalParams,
   ): Promise<BgpServiceCommunitiesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +140,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FirewallPolicyDeploymentsDeployOptionalParams,
@@ -23,9 +19,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyDeployments operations. */
-export class FirewallPolicyDeploymentsImpl
-  implements FirewallPolicyDeployments
-{
+export class FirewallPolicyDeploymentsImpl implements FirewallPolicyDeployments {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -62,8 +56,7 @@ export class FirewallPolicyDeploymentsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -118,11 +111,7 @@ export class FirewallPolicyDeploymentsImpl
     firewallPolicyName: string,
     options?: FirewallPolicyDeploymentsDeployOptionalParams,
   ): Promise<FirewallPolicyDeploymentsDeployResponse> {
-    const poller = await this.beginDeploy(
-      resourceGroupName,
-      firewallPolicyName,
-      options,
-    );
+    const poller = await this.beginDeploy(resourceGroupName, firewallPolicyName, options);
     return poller.pollUntilDone();
   }
 }

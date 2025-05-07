@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApplicationGateway,
@@ -117,11 +113,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -211,10 +203,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAvailableSslPredefinedPoliciesPagingPage(
-          options,
-          settings,
-        );
+        return this.listAvailableSslPredefinedPoliciesPagingPage(options, settings);
       },
     };
   }
@@ -233,10 +222,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAvailableSslPredefinedPoliciesNext(
-        continuationToken,
-        options,
-      );
+      result = await this._listAvailableSslPredefinedPoliciesNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -247,9 +233,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   private async *listAvailableSslPredefinedPoliciesPagingAll(
     options?: ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams,
   ): AsyncIterableIterator<ApplicationGatewaySslPredefinedPolicy> {
-    for await (const page of this.listAvailableSslPredefinedPoliciesPagingPage(
-      options,
-    )) {
+    for await (const page of this.listAvailableSslPredefinedPoliciesPagingPage(options)) {
       yield* page;
     }
   }
@@ -275,8 +259,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -328,11 +311,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      applicationGatewayName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, applicationGatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -381,8 +360,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -476,10 +454,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     resourceGroupName: string,
     options?: ApplicationGatewaysListOptionalParams,
   ): Promise<ApplicationGatewaysListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -513,8 +488,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -566,11 +540,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysStartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      applicationGatewayName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, applicationGatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -595,8 +565,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -648,11 +617,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     applicationGatewayName: string,
     options?: ApplicationGatewaysStopOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStop(
-      resourceGroupName,
-      applicationGatewayName,
-      options,
-    );
+    const poller = await this.beginStop(resourceGroupName, applicationGatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -682,8 +647,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -775,8 +739,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -855,10 +818,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   listAvailableServerVariables(
     options?: ApplicationGatewaysListAvailableServerVariablesOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableServerVariablesResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableServerVariablesOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAvailableServerVariablesOperationSpec);
   }
 
   /**
@@ -868,10 +828,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   listAvailableRequestHeaders(
     options?: ApplicationGatewaysListAvailableRequestHeadersOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableRequestHeadersResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableRequestHeadersOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAvailableRequestHeadersOperationSpec);
   }
 
   /**
@@ -881,10 +838,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   listAvailableResponseHeaders(
     options?: ApplicationGatewaysListAvailableResponseHeadersOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableResponseHeadersResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableResponseHeadersOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAvailableResponseHeadersOperationSpec);
   }
 
   /**
@@ -894,10 +848,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   listAvailableWafRuleSets(
     options?: ApplicationGatewaysListAvailableWafRuleSetsOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableWafRuleSetsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableWafRuleSetsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAvailableWafRuleSetsOperationSpec);
   }
 
   /**
@@ -907,10 +858,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
   listAvailableSslOptions(
     options?: ApplicationGatewaysListAvailableSslOptionsOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableSslOptionsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listAvailableSslOptionsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listAvailableSslOptionsOperationSpec);
   }
 
   /**
@@ -967,10 +915,7 @@ export class ApplicationGatewaysImpl implements ApplicationGateways {
     nextLink: string,
     options?: ApplicationGatewaysListAllNextOptionalParams,
   ): Promise<ApplicationGatewaysListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -1102,11 +1047,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1318,23 +1259,22 @@ const listAvailableSslOptionsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listAvailableSslPredefinedPoliciesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApplicationGatewayAvailableSslPredefinedPolicies,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listAvailableSslPredefinedPoliciesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayAvailableSslPredefinedPolicies,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.subscriptionId],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getSslPredefinedPolicyOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}",
   httpMethod: "GET",
@@ -1347,11 +1287,7 @@ const getSslPredefinedPolicyOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.predefinedPolicyName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.predefinedPolicyName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1386,31 +1322,22 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listAvailableSslPredefinedPoliciesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApplicationGatewayAvailableSslPredefinedPolicies,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listAvailableSslPredefinedPoliciesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationGatewayAvailableSslPredefinedPolicies,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

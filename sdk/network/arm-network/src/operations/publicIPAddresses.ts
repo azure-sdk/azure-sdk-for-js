@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PublicIPAddress,
@@ -365,11 +361,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -684,8 +676,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -737,11 +728,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     publicIpAddressName: string,
     options?: PublicIPAddressesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      publicIpAddressName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, publicIpAddressName, options);
     return poller.pollUntilDone();
   }
 
@@ -790,8 +777,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -895,10 +881,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     resourceGroupName: string,
     options?: PublicIPAddressesListOptionalParams,
   ): Promise<PublicIPAddressesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -927,8 +910,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1135,10 +1117,7 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
     nextLink: string,
     options?: PublicIPAddressesListAllNextOptionalParams,
   ): Promise<PublicIPAddressesListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -1215,53 +1194,51 @@ export class PublicIPAddressesImpl implements PublicIPAddresses {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listCloudServicePublicIPAddressesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listCloudServicePublicIPAddressesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.cloudServiceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServiceRoleInstancePublicIPAddressesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.cloudServiceName,
-      Parameters.roleInstanceName,
-      Parameters.networkInterfaceName,
-      Parameters.ipConfigurationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.cloudServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listCloudServiceRoleInstancePublicIPAddressesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.cloudServiceName,
+    Parameters.roleInstanceName,
+    Parameters.networkInterfaceName,
+    Parameters.ipConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getCloudServicePublicIPAddressOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
   httpMethod: "GET",
@@ -1413,11 +1390,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1451,127 +1424,77 @@ const ddosProtectionStatusOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listVirtualMachineScaleSetPublicIPAddressesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/publicipaddresses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.virtualMachineScaleSetName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-      Parameters.ipConfigurationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddress,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.virtualMachineScaleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVirtualMachineScaleSetVMPublicIPAddressesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
-    queryParameters: [Parameters.expand, Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-      Parameters.ipConfigurationName,
-      Parameters.publicIpAddressName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServicePublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.cloudServiceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+  },
+  queryParameters: [Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex,
+    Parameters.ipConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getVirtualMachineScaleSetPublicIPAddressOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses/{publicIpAddressName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddress,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.cloudServiceName,
-      Parameters.roleInstanceName,
-      Parameters.networkInterfaceName,
-      Parameters.ipConfigurationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listAllNextOperationSpec: coreClient.OperationSpec = {
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.expand, Parameters.apiVersion1],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex,
+    Parameters.ipConfigurationName,
+    Parameters.publicIpAddressName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listCloudServicePublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -1584,9 +1507,50 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.cloudServiceName,
   ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listCloudServiceRoleInstancePublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.cloudServiceName,
+    Parameters.roleInstanceName,
+    Parameters.networkInterfaceName,
+    Parameters.ipConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAllNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1610,50 +1574,48 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listVirtualMachineScaleSetPublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.virtualMachineScaleSetName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PublicIPAddressListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.networkInterfaceName,
-      Parameters.virtualMachineScaleSetName,
-      Parameters.virtualmachineIndex,
-      Parameters.ipConfigurationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.virtualMachineScaleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listVirtualMachineScaleSetVMPublicIPAddressesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PublicIPAddressListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.networkInterfaceName,
+    Parameters.virtualMachineScaleSetName,
+    Parameters.virtualmachineIndex,
+    Parameters.ipConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

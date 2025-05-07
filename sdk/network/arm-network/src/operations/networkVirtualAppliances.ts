@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkVirtualAppliance,
@@ -37,6 +33,11 @@ import {
   NetworkVirtualAppliancesCreateOrUpdateResponse,
   NetworkVirtualAppliancesRestartOptionalParams,
   NetworkVirtualAppliancesRestartResponse,
+  NetworkVirtualAppliancesReimageOptionalParams,
+  NetworkVirtualAppliancesReimageResponse,
+  NetworkVirtualApplianceBootDiagnosticParameters,
+  NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  NetworkVirtualAppliancesGetBootDiagnosticLogsResponse,
   NetworkVirtualAppliancesListByResourceGroupNextResponse,
   NetworkVirtualAppliancesListNextResponse,
 } from "../models/index.js";
@@ -75,11 +76,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -99,11 +96,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -115,10 +108,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
     resourceGroupName: string,
     options?: NetworkVirtualAppliancesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NetworkVirtualAppliance> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -198,8 +188,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -251,11 +240,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
     networkVirtualApplianceName: string,
     options?: NetworkVirtualAppliancesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      networkVirtualApplianceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, networkVirtualApplianceName, options);
     return poller.pollUntilDone();
   }
 
@@ -323,8 +308,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -421,8 +405,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -477,9 +460,191 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
     networkVirtualApplianceName: string,
     options?: NetworkVirtualAppliancesRestartOptionalParams,
   ): Promise<NetworkVirtualAppliancesRestartResponse> {
-    const poller = await this.beginRestart(
+    const poller = await this.beginRestart(resourceGroupName, networkVirtualApplianceName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Reimages one VM belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  async beginReimage(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesReimageOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesReimageResponse>,
+      NetworkVirtualAppliancesReimageResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkVirtualAppliancesReimageResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, networkVirtualApplianceName, options },
+      spec: reimageOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkVirtualAppliancesReimageResponse,
+      OperationState<NetworkVirtualAppliancesReimageResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Reimages one VM belonging to the specified Network Virtual Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param options The options parameters.
+   */
+  async beginReimageAndWait(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    options?: NetworkVirtualAppliancesReimageOptionalParams,
+  ): Promise<NetworkVirtualAppliancesReimageResponse> {
+    const poller = await this.beginReimage(resourceGroupName, networkVirtualApplianceName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual
+   * Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param request Parameters supplied to retrieve boot diagnostic logs for a NVA VM instance
+   * @param options The options parameters.
+   */
+  async beginGetBootDiagnosticLogs(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    request: NetworkVirtualApplianceBootDiagnosticParameters,
+    options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>,
+      NetworkVirtualAppliancesGetBootDiagnosticLogsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        networkVirtualApplianceName,
+        request,
+        options,
+      },
+      spec: getBootDiagnosticLogsOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NetworkVirtualAppliancesGetBootDiagnosticLogsResponse,
+      OperationState<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Retrieves the boot diagnostic logs for a VM instance belonging to the specified Network Virtual
+   * Appliance.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkVirtualApplianceName The name of Network Virtual Appliance.
+   * @param request Parameters supplied to retrieve boot diagnostic logs for a NVA VM instance
+   * @param options The options parameters.
+   */
+  async beginGetBootDiagnosticLogsAndWait(
+    resourceGroupName: string,
+    networkVirtualApplianceName: string,
+    request: NetworkVirtualApplianceBootDiagnosticParameters,
+    options?: NetworkVirtualAppliancesGetBootDiagnosticLogsOptionalParams,
+  ): Promise<NetworkVirtualAppliancesGetBootDiagnosticLogsResponse> {
+    const poller = await this.beginGetBootDiagnosticLogs(
       resourceGroupName,
       networkVirtualApplianceName,
+      request,
       options,
     );
     return poller.pollUntilDone();
@@ -536,10 +701,7 @@ export class NetworkVirtualAppliancesImpl implements NetworkVirtualAppliances {
     nextLink: string,
     options?: NetworkVirtualAppliancesListNextOptionalParams,
   ): Promise<NetworkVirtualAppliancesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -631,7 +793,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters44,
+  requestBody: Parameters.parameters52,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -675,6 +837,70 @@ const restartOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
+const reimageOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/reimage",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceIds,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceIds,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceIds,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceIds,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.networkVirtualApplianceInstanceIds,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkVirtualApplianceName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getBootDiagnosticLogsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/getBootDiagnosticLogs",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceId,
+    },
+    201: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceId,
+    },
+    202: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceId,
+    },
+    204: {
+      bodyMapper: Mappers.NetworkVirtualApplianceInstanceId,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.request1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkVirtualApplianceName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances",
   httpMethod: "GET",
@@ -687,11 +913,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -742,11 +964,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

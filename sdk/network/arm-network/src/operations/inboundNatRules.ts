@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   InboundNatRule,
@@ -56,11 +52,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
     loadBalancerName: string,
     options?: InboundNatRulesListOptionalParams,
   ): PagedAsyncIterableIterator<InboundNatRule> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -116,11 +103,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
     loadBalancerName: string,
     options?: InboundNatRulesListOptionalParams,
   ): AsyncIterableIterator<InboundNatRule> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }
@@ -165,8 +148,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -284,8 +266,7 @@ export class InboundNatRulesImpl implements InboundNatRules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

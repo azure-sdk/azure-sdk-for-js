@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ReachabilityAnalysisRun,
@@ -59,12 +55,7 @@ export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
     workspaceName: string,
     options?: ReachabilityAnalysisRunsListOptionalParams,
   ): PagedAsyncIterableIterator<ReachabilityAnalysisRun> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      workspaceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, workspaceName, options);
     return {
       next() {
         return iter.next();
@@ -97,12 +88,7 @@ export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
     let result: ReachabilityAnalysisRunsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkManagerName,
-        workspaceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkManagerName, workspaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -245,8 +231,7 @@ export class ReachabilityAnalysisRunsImpl implements ReachabilityAnalysisRuns {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

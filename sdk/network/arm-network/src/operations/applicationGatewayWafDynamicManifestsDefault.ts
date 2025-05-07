@@ -39,10 +39,7 @@ export class ApplicationGatewayWafDynamicManifestsDefaultImpl
     location: string,
     options?: ApplicationGatewayWafDynamicManifestsDefaultGetOptionalParams,
   ): Promise<ApplicationGatewayWafDynamicManifestsDefaultGetResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, getOperationSpec);
   }
 }
 // Operation Specifications
@@ -60,11 +57,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
