@@ -9,14 +9,18 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ManagedGrafana as ManagedGrafanaMapper,
   ManagedGrafanaUpdateParameters as ManagedGrafanaUpdateParametersMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ManagedPrivateEndpointModel as ManagedPrivateEndpointModelMapper,
-  ManagedPrivateEndpointUpdateParameters as ManagedPrivateEndpointUpdateParametersMapper
+  ManagedPrivateEndpointUpdateParameters as ManagedPrivateEndpointUpdateParametersMapper,
+  IntegrationFabric as IntegrationFabricMapper,
+  IntegrationFabricUpdateParameters as IntegrationFabricUpdateParametersMapper,
+  ManagedDashboard as ManagedDashboardMapper,
+  ManagedDashboardUpdateParameters as ManagedDashboardUpdateParametersMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -26,9 +30,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,22 +41,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2024-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -61,24 +65,24 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -86,25 +90,28 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
   parameterPath: "workspaceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"),
+    },
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -114,19 +121,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestBodyParameters: OperationParameter = {
   parameterPath: "requestBodyParameters",
-  mapper: ManagedGrafanaMapper
+  mapper: ManagedGrafanaMapper,
 };
 
 export const requestBodyParameters1: OperationParameter = {
   parameterPath: "requestBodyParameters",
-  mapper: ManagedGrafanaUpdateParametersMapper
+  mapper: ManagedGrafanaUpdateParametersMapper,
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -135,14 +142,14 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
 };
 
 export const privateLinkResourceName: OperationURLParameter = {
@@ -151,9 +158,9 @@ export const privateLinkResourceName: OperationURLParameter = {
     serializedName: "privateLinkResourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const managedPrivateEndpointName: OperationURLParameter = {
@@ -162,17 +169,65 @@ export const managedPrivateEndpointName: OperationURLParameter = {
     serializedName: "managedPrivateEndpointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const requestBodyParameters2: OperationParameter = {
   parameterPath: "requestBodyParameters",
-  mapper: ManagedPrivateEndpointModelMapper
+  mapper: ManagedPrivateEndpointModelMapper,
 };
 
 export const requestBodyParameters3: OperationParameter = {
   parameterPath: "requestBodyParameters",
-  mapper: ManagedPrivateEndpointUpdateParametersMapper
+  mapper: ManagedPrivateEndpointUpdateParametersMapper,
+};
+
+export const integrationFabricName: OperationURLParameter = {
+  parameterPath: "integrationFabricName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$"),
+    },
+    serializedName: "integrationFabricName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const requestBodyParameters4: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: IntegrationFabricMapper,
+};
+
+export const requestBodyParameters5: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: IntegrationFabricUpdateParametersMapper,
+};
+
+export const dashboardName: OperationURLParameter = {
+  parameterPath: "dashboardName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"),
+    },
+    serializedName: "dashboardName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const requestBodyParameters6: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: ManagedDashboardMapper,
+};
+
+export const requestBodyParameters7: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: ManagedDashboardUpdateParametersMapper,
 };

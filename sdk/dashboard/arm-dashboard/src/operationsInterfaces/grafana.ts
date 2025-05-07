@@ -23,7 +23,7 @@ import {
   GrafanaCheckEnterpriseDetailsOptionalParams,
   GrafanaCheckEnterpriseDetailsResponse,
   GrafanaFetchAvailablePluginsOptionalParams,
-  GrafanaFetchAvailablePluginsResponse
+  GrafanaFetchAvailablePluginsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,9 +33,7 @@ export interface Grafana {
    * List all resources of workspaces for Grafana under the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: GrafanaListOptionalParams
-  ): PagedAsyncIterableIterator<ManagedGrafana>;
+  list(options?: GrafanaListOptionalParams): PagedAsyncIterableIterator<ManagedGrafana>;
   /**
    * List all resources of workspaces for Grafana under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -43,7 +41,7 @@ export interface Grafana {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: GrafanaListByResourceGroupOptionalParams
+    options?: GrafanaListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedGrafana>;
   /**
    * Get the properties of a specific workspace for Grafana resource.
@@ -54,7 +52,7 @@ export interface Grafana {
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaGetOptionalParams
+    options?: GrafanaGetOptionalParams,
   ): Promise<GrafanaGetResponse>;
   /**
    * Create or update a workspace for Grafana resource. This API is idempotent, so user can either create
@@ -68,13 +66,8 @@ export interface Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafana,
-    options?: GrafanaCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GrafanaCreateResponse>,
-      GrafanaCreateResponse
-    >
-  >;
+    options?: GrafanaCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<GrafanaCreateResponse>, GrafanaCreateResponse>>;
   /**
    * Create or update a workspace for Grafana resource. This API is idempotent, so user can either create
    * a new grafana or update an existing grafana.
@@ -87,7 +80,7 @@ export interface Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafana,
-    options?: GrafanaCreateOptionalParams
+    options?: GrafanaCreateOptionalParams,
   ): Promise<GrafanaCreateResponse>;
   /**
    * Update a workspace for Grafana resource.
@@ -100,7 +93,7 @@ export interface Grafana {
     resourceGroupName: string,
     workspaceName: string,
     requestBodyParameters: ManagedGrafanaUpdateParameters,
-    options?: GrafanaUpdateOptionalParams
+    options?: GrafanaUpdateOptionalParams,
   ): Promise<GrafanaUpdateResponse>;
   /**
    * Delete a workspace for Grafana resource.
@@ -111,7 +104,7 @@ export interface Grafana {
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaDeleteOptionalParams
+    options?: GrafanaDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a workspace for Grafana resource.
@@ -122,7 +115,7 @@ export interface Grafana {
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaDeleteOptionalParams
+    options?: GrafanaDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieve enterprise add-on details information
@@ -133,7 +126,7 @@ export interface Grafana {
   checkEnterpriseDetails(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaCheckEnterpriseDetailsOptionalParams
+    options?: GrafanaCheckEnterpriseDetailsOptionalParams,
   ): Promise<GrafanaCheckEnterpriseDetailsResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -143,6 +136,6 @@ export interface Grafana {
   fetchAvailablePlugins(
     resourceGroupName: string,
     workspaceName: string,
-    options?: GrafanaFetchAvailablePluginsOptionalParams
+    options?: GrafanaFetchAvailablePluginsOptionalParams,
   ): Promise<GrafanaFetchAvailablePluginsResponse>;
 }

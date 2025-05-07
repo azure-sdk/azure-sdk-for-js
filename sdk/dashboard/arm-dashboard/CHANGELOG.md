@@ -1,15 +1,62 @@
 # Release History
-
-## 1.1.1 (Unreleased)
-
+    
+## 1.2.0-beta.1 (2025-05-07)
+Compared with version 1.1.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group Dashboards
+  - Added operation group IntegrationFabrics
+  - Added operation group ManagedDashboards
+  - Added Interface DashboardsGetOptionalParams
+  - Added Interface DashboardsListBySubscriptionNextOptionalParams
+  - Added Interface DashboardsListBySubscriptionOptionalParams
+  - Added Interface DashboardsListNextOptionalParams
+  - Added Interface DashboardsListOptionalParams
+  - Added Interface IntegrationFabric
+  - Added Interface IntegrationFabricListResponse
+  - Added Interface IntegrationFabricProperties
+  - Added Interface IntegrationFabricPropertiesUpdateParameters
+  - Added Interface IntegrationFabricsCreateHeaders
+  - Added Interface IntegrationFabricsCreateOptionalParams
+  - Added Interface IntegrationFabricsDeleteHeaders
+  - Added Interface IntegrationFabricsDeleteOptionalParams
+  - Added Interface IntegrationFabricsGetOptionalParams
+  - Added Interface IntegrationFabricsListNextOptionalParams
+  - Added Interface IntegrationFabricsListOptionalParams
+  - Added Interface IntegrationFabricsUpdateHeaders
+  - Added Interface IntegrationFabricsUpdateOptionalParams
+  - Added Interface IntegrationFabricUpdateParameters
+  - Added Interface ManagedDashboard
+  - Added Interface ManagedDashboardListResponse
+  - Added Interface ManagedDashboardsCreateHeaders
+  - Added Interface ManagedDashboardsCreateOptionalParams
+  - Added Interface ManagedDashboardsDeleteOptionalParams
+  - Added Interface ManagedDashboardsUpdateOptionalParams
+  - Added Interface ManagedDashboardUpdateParameters
+  - Added Interface Security
+  - Added Interface Snapshots
+  - Added Interface UnifiedAlertingScreenshots
+  - Added Interface Users
+  - Added Type Alias DashboardsGetResponse
+  - Added Type Alias DashboardsListBySubscriptionNextResponse
+  - Added Type Alias DashboardsListBySubscriptionResponse
+  - Added Type Alias DashboardsListNextResponse
+  - Added Type Alias DashboardsListResponse
+  - Added Type Alias IntegrationFabricsCreateResponse
+  - Added Type Alias IntegrationFabricsDeleteResponse
+  - Added Type Alias IntegrationFabricsGetResponse
+  - Added Type Alias IntegrationFabricsListNextResponse
+  - Added Type Alias IntegrationFabricsListResponse
+  - Added Type Alias IntegrationFabricsUpdateResponse
+  - Added Type Alias ManagedDashboardsCreateResponse
+  - Added Type Alias ManagedDashboardsUpdateResponse
+  - Interface GrafanaConfigurations has a new optional parameter security
+  - Interface GrafanaConfigurations has a new optional parameter snapshots
+  - Interface GrafanaConfigurations has a new optional parameter unifiedAlertingScreenshots
+  - Interface GrafanaConfigurations has a new optional parameter users
+    
+    
 ## 1.1.0 (2023-11-10)
     
 ### Features Added
