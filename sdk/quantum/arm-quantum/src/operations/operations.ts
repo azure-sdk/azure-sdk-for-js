@@ -12,7 +12,7 @@ import { Operations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient.js";
+import { AzureQuantumManagementAPI } from "../azureQuantumManagementAPI.js";
 import {
   Operation,
   OperationsListNextOptionalParams,
@@ -24,23 +24,21 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AzureQuantumManagementClient;
+  private readonly client: AzureQuantumManagementAPI;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuantumManagementClient) {
+  constructor(client: AzureQuantumManagementAPI) {
     this.client = client;
   }
 
   /**
-   * Returns list of operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -89,12 +87,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Returns list of operations.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -121,7 +114,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -137,7 +130,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationsList,
+      bodyMapper: Mappers.OperationListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

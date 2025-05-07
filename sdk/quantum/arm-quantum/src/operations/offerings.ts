@@ -12,7 +12,7 @@ import { Offerings } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient.js";
+import { AzureQuantumManagementAPI } from "../azureQuantumManagementAPI.js";
 import {
   ProviderDescription,
   OfferingsListNextOptionalParams,
@@ -24,13 +24,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Offerings operations. */
 export class OfferingsImpl implements Offerings {
-  private readonly client: AzureQuantumManagementClient;
+  private readonly client: AzureQuantumManagementAPI;
 
   /**
    * Initialize a new instance of the class Offerings class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuantumManagementClient) {
+  constructor(client: AzureQuantumManagementAPI) {
     this.client = client;
   }
 
@@ -101,10 +101,7 @@ export class OfferingsImpl implements Offerings {
     locationName: string,
     options?: OfferingsListOptionalParams,
   ): Promise<OfferingsListResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, listOperationSpec);
   }
 
   /**
@@ -139,11 +136,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -160,8 +153,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
