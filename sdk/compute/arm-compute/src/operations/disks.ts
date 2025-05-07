@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Disk,
@@ -77,11 +73,7 @@ export class DisksImpl implements Disks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -101,11 +93,7 @@ export class DisksImpl implements Disks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -117,10 +105,7 @@ export class DisksImpl implements Disks {
     resourceGroupName: string,
     options?: DisksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Disk> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -129,9 +114,7 @@ export class DisksImpl implements Disks {
    * Lists all the disks under a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DisksListOptionalParams,
-  ): PagedAsyncIterableIterator<Disk> {
+  public list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -171,9 +154,7 @@ export class DisksImpl implements Disks {
     }
   }
 
-  private async *listPagingAll(
-    options?: DisksListOptionalParams,
-  ): AsyncIterableIterator<Disk> {
+  private async *listPagingAll(options?: DisksListOptionalParams): AsyncIterableIterator<Disk> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -194,10 +175,7 @@ export class DisksImpl implements Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DisksCreateOrUpdateResponse>,
-      DisksCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DisksCreateOrUpdateResponse>, DisksCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -209,8 +187,7 @@ export class DisksImpl implements Disks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -268,12 +245,7 @@ export class DisksImpl implements Disks {
     disk: Disk,
     options?: DisksCreateOrUpdateOptionalParams,
   ): Promise<DisksCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      diskName,
-      disk,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, diskName, disk, options);
     return poller.pollUntilDone();
   }
 
@@ -291,9 +263,7 @@ export class DisksImpl implements Disks {
     diskName: string,
     disk: DiskUpdate,
     options?: DisksUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<DisksUpdateResponse>, DisksUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -304,8 +274,7 @@ export class DisksImpl implements Disks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -337,13 +306,13 @@ export class DisksImpl implements Disks {
       args: { resourceGroupName, diskName, disk, options },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<
-      DisksUpdateResponse,
-      OperationState<DisksUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
+    const poller = await createHttpPoller<DisksUpdateResponse, OperationState<DisksUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -363,12 +332,7 @@ export class DisksImpl implements Disks {
     disk: DiskUpdate,
     options?: DisksUpdateOptionalParams,
   ): Promise<DisksUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      diskName,
-      disk,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, diskName, disk, options);
     return poller.pollUntilDone();
   }
 
@@ -414,8 +378,7 @@ export class DisksImpl implements Disks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -509,12 +472,7 @@ export class DisksImpl implements Disks {
     diskName: string,
     grantAccessData: GrantAccessData,
     options?: DisksGrantAccessOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DisksGrantAccessResponse>,
-      DisksGrantAccessResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<DisksGrantAccessResponse>, DisksGrantAccessResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -525,8 +483,7 @@ export class DisksImpl implements Disks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -617,8 +574,7 @@ export class DisksImpl implements Disks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -672,11 +628,7 @@ export class DisksImpl implements Disks {
     diskName: string,
     options?: DisksRevokeAccessOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRevokeAccess(
-      resourceGroupName,
-      diskName,
-      options,
-    );
+    const poller = await this.beginRevokeAccess(resourceGroupName, diskName, options);
     return poller.pollUntilDone();
   }
 
@@ -706,10 +658,7 @@ export class DisksImpl implements Disks {
     nextLink: string,
     options?: DisksListNextOptionalParams,
   ): Promise<DisksListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -733,7 +682,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.disk,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -762,7 +711,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.disk1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -781,7 +730,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Disk,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -795,7 +744,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -812,12 +761,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DiskList,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -829,7 +774,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DiskList,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -852,7 +797,7 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.grantAccessData,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -867,7 +812,7 @@ const revokeAccessOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}/endGetAccess",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -901,11 +846,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DiskList,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -32,9 +32,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServiceOperatingSystems operations. */
-export class CloudServiceOperatingSystemsImpl
-  implements CloudServiceOperatingSystems
-{
+export class CloudServiceOperatingSystemsImpl implements CloudServiceOperatingSystems {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -88,11 +86,7 @@ export class CloudServiceOperatingSystemsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listOSVersionsNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listOSVersionsNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -152,11 +146,7 @@ export class CloudServiceOperatingSystemsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listOSFamiliesNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listOSFamiliesNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -202,10 +192,7 @@ export class CloudServiceOperatingSystemsImpl
     location: string,
     options?: CloudServiceOperatingSystemsListOSVersionsOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSVersionsResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOSVersionsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOSVersionsOperationSpec);
   }
 
   /**
@@ -237,10 +224,7 @@ export class CloudServiceOperatingSystemsImpl
     location: string,
     options?: CloudServiceOperatingSystemsListOSFamiliesOptionalParams,
   ): Promise<CloudServiceOperatingSystemsListOSFamiliesResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOSFamiliesOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOSFamiliesOperationSpec);
   }
 
   /**
@@ -291,7 +275,7 @@ const getOSVersionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -312,12 +296,8 @@ const listOSVersionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -332,7 +312,7 @@ const getOSFamilyOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -353,12 +333,8 @@ const listOSFamiliesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location1,
-  ],
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location1],
   headerParameters: [Parameters.accept],
   serializer,
 };

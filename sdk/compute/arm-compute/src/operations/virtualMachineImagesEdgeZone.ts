@@ -25,9 +25,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing VirtualMachineImagesEdgeZone operations. */
-export class VirtualMachineImagesEdgeZoneImpl
-  implements VirtualMachineImagesEdgeZone
-{
+export class VirtualMachineImagesEdgeZoneImpl implements VirtualMachineImagesEdgeZone {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -194,12 +192,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.expand1,
-    Parameters.top,
-    Parameters.orderby,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1, Parameters.top, Parameters.orderby],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

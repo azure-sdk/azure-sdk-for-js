@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RequestRateByIntervalInput,
@@ -65,8 +61,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -122,11 +117,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     parameters: RequestRateByIntervalInput,
     options?: LogAnalyticsExportRequestRateByIntervalOptionalParams,
   ): Promise<LogAnalyticsExportRequestRateByIntervalResponse> {
-    const poller = await this.beginExportRequestRateByInterval(
-      location,
-      parameters,
-      options,
-    );
+    const poller = await this.beginExportRequestRateByInterval(location, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -156,8 +147,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -212,11 +202,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
     parameters: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse> {
-    const poller = await this.beginExportThrottledRequests(
-      location,
-      parameters,
-      options,
-    );
+    const poller = await this.beginExportThrottledRequests(location, parameters, options);
     return poller.pollUntilDone();
   }
 }
@@ -245,11 +231,7 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.location, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -276,11 +258,7 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.location, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

@@ -110,10 +110,7 @@ export interface VirtualMachines {
     parameters: VirtualMachineCaptureParameters,
     options?: VirtualMachinesCaptureOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesCaptureResponse>,
-      VirtualMachinesCaptureResponse
-    >
+    SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>
   >;
   /**
    * Captures the VM by copying virtual hard disks of the VM and outputs a template that can be used to
@@ -175,10 +172,7 @@ export interface VirtualMachines {
     parameters: VirtualMachineUpdate,
     options?: VirtualMachinesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesUpdateResponse>,
-      VirtualMachinesUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>
   >;
   /**
    * The operation to update a virtual machine.
