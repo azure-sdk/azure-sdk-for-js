@@ -18,6 +18,7 @@ import {
   AnalysisCreate as AnalysisCreateMapper,
   NginxDeployment as NginxDeploymentMapper,
   NginxDeploymentUpdateParameters as NginxDeploymentUpdateParametersMapper,
+  NginxDeploymentWafPolicy as NginxDeploymentWafPolicyMapper,
 } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
@@ -91,9 +92,7 @@ export const deploymentName: OperationURLParameter = {
   parameterPath: "deploymentName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "deploymentName",
     required: true,
@@ -107,9 +106,7 @@ export const apiKeyName: OperationURLParameter = {
   parameterPath: "apiKeyName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$",
-      ),
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
     },
     serializedName: "apiKeyName",
     required: true,
@@ -122,7 +119,7 @@ export const apiKeyName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-11-01-preview",
+    defaultValue: "2025-03-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -146,6 +143,9 @@ export const nextLink: OperationURLParameter = {
 export const certificateName: OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
+    },
     serializedName: "certificateName",
     required: true,
     type: {
@@ -162,6 +162,9 @@ export const body1: OperationParameter = {
 export const configurationName: OperationURLParameter = {
   parameterPath: "configurationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
+    },
     serializedName: "configurationName",
     required: true,
     type: {
@@ -180,20 +183,6 @@ export const body3: OperationParameter = {
   mapper: AnalysisCreateMapper,
 };
 
-export const configurationName1: OperationURLParameter = {
-  parameterPath: "configurationName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]*$"),
-    },
-    serializedName: "configurationName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const body4: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: NginxDeploymentMapper,
@@ -202,4 +191,23 @@ export const body4: OperationParameter = {
 export const body5: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: NginxDeploymentUpdateParametersMapper,
+};
+
+export const wafPolicyName: OperationURLParameter = {
+  parameterPath: "wafPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([a-z0-9A-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]|[a-z0-9A-Z])$"),
+    },
+    serializedName: "wafPolicyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const body6: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: NginxDeploymentWafPolicyMapper,
 };

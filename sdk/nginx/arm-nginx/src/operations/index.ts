@@ -10,4 +10,6 @@ export * from "./apiKeys.js";
 export * from "./certificates.js";
 export * from "./configurations.js";
 export * from "./deployments.js";
+export * from "./wafPolicy.js";
+export * from "./defaultWafPolicy.js";
 export * from "./operations.js";

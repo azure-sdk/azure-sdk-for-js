@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NginxManagementClient } from "../nginxManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NginxCertificate,
@@ -29,6 +25,7 @@ import {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
+  CertificatesDeleteResponse,
   CertificatesListNextResponse,
 } from "../models/index.js";
 
@@ -68,12 +65,7 @@ export class CertificatesImpl implements Certificates {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          deploymentName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, deploymentName, options, settings);
       },
     };
   }
@@ -94,12 +86,7 @@ export class CertificatesImpl implements Certificates {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        deploymentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, deploymentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +99,7 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     options?: CertificatesListOptionalParams,
   ): AsyncIterableIterator<NginxCertificate> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      deploymentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, deploymentName, options)) {
       yield* page;
     }
   }
@@ -168,8 +151,7 @@ export class CertificatesImpl implements Certificates {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -247,19 +229,20 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<CertificatesDeleteResponse>, CertificatesDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<CertificatesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -291,7 +274,10 @@ export class CertificatesImpl implements Certificates {
       args: { resourceGroupName, deploymentName, certificateName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      CertificatesDeleteResponse,
+      OperationState<CertificatesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
     });
@@ -311,7 +297,7 @@ export class CertificatesImpl implements Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<CertificatesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       deploymentName,
@@ -419,10 +405,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.CertificatesDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.CertificatesDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.CertificatesDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.CertificatesDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
