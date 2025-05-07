@@ -30,7 +30,7 @@ import {
   UserAssignedIdentitiesGetResponse,
   UserAssignedIdentitiesDeleteOptionalParams,
   UserAssignedIdentitiesListBySubscriptionNextResponse,
-  UserAssignedIdentitiesListByResourceGroupNextResponse
+  UserAssignedIdentitiesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,7 +51,7 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams
+    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Identity> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -66,13 +66,13 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: UserAssignedIdentitiesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Identity[]> {
     let result: UserAssignedIdentitiesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams
+    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<Identity> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -107,7 +107,7 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams
+    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Identity> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -121,19 +121,15 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: UserAssignedIdentitiesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Identity[]> {
     let result: UserAssignedIdentitiesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -145,11 +141,7 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -159,12 +151,9 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams
+    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Identity> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -174,12 +163,9 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams
+    options?: UserAssignedIdentitiesListBySubscriptionOptionalParams,
   ): Promise<UserAssignedIdentitiesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -189,11 +175,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams
+    options?: UserAssignedIdentitiesListByResourceGroupOptionalParams,
   ): Promise<UserAssignedIdentitiesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -208,11 +194,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
     resourceGroupName: string,
     resourceName: string,
     parameters: Identity,
-    options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams
+    options?: UserAssignedIdentitiesCreateOrUpdateOptionalParams,
   ): Promise<UserAssignedIdentitiesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -227,11 +213,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
     resourceGroupName: string,
     resourceName: string,
     parameters: IdentityUpdate,
-    options?: UserAssignedIdentitiesUpdateOptionalParams
+    options?: UserAssignedIdentitiesUpdateOptionalParams,
   ): Promise<UserAssignedIdentitiesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -244,11 +230,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: UserAssignedIdentitiesGetOptionalParams
+    options?: UserAssignedIdentitiesGetOptionalParams,
   ): Promise<UserAssignedIdentitiesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -261,11 +247,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: UserAssignedIdentitiesDeleteOptionalParams
+    options?: UserAssignedIdentitiesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -276,11 +262,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: UserAssignedIdentitiesListBySubscriptionNextOptionalParams
+    options?: UserAssignedIdentitiesListBySubscriptionNextOptionalParams,
   ): Promise<UserAssignedIdentitiesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -293,11 +279,11 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: UserAssignedIdentitiesListByResourceGroupNextOptionalParams
+    options?: UserAssignedIdentitiesListByResourceGroupNextOptionalParams,
   ): Promise<UserAssignedIdentitiesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -305,57 +291,50 @@ export class UserAssignedIdentitiesImpl implements UserAssignedIdentities {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserAssignedIdentitiesListResult
+      bodyMapper: Mappers.UserAssignedIdentitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserAssignedIdentitiesListResult
+      bodyMapper: Mappers.UserAssignedIdentitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Identity
+      bodyMapper: Mappers.Identity,
     },
     201: {
-      bodyMapper: Mappers.Identity
+      bodyMapper: Mappers.Identity,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -363,23 +342,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Identity
+      bodyMapper: Mappers.Identity,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -387,91 +365,85 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Identity
+      bodyMapper: Mappers.Identity,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserAssignedIdentitiesListResult
+      bodyMapper: Mappers.UserAssignedIdentitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UserAssignedIdentitiesListResult
+      bodyMapper: Mappers.UserAssignedIdentitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
