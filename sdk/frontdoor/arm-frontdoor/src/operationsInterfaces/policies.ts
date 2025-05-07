@@ -65,10 +65,7 @@ export interface Policies {
     parameters: WebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesCreateOrUpdateResponse>,
-      PoliciesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>
   >;
   /**
    * Create or update policy with specified rule set name within a resource group.
@@ -96,12 +93,7 @@ export interface Policies {
     policyName: string,
     parameters: TagsObject,
     options?: PoliciesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesUpdateResponse>,
-      PoliciesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
   /**
    * Patch a specific frontdoor webApplicationFirewall policy for tags update under the specified
    * subscription and resource group.
