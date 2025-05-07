@@ -4,22 +4,14 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
+import * as coreAuth from '@azure/core-auth';
+import * as coreClient from '@azure/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -36,6 +28,12 @@ export interface DeidService extends TrackedResource {
 }
 
 // @public
+export interface DeidServiceListResult {
+    nextLink?: string;
+    value: DeidService[];
+}
+
+// @public
 export interface DeidServiceProperties {
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
@@ -44,63 +42,129 @@ export interface DeidServiceProperties {
 }
 
 // @public
-export interface DeidServicesCreateOptionalParams extends OperationOptions {
+export interface DeidServices {
+    beginCreate(resourceGroupName: string, deidServiceName: string, resource: DeidService, options?: DeidServicesCreateOptionalParams): Promise<SimplePollerLike<OperationState<DeidServicesCreateResponse>, DeidServicesCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, deidServiceName: string, resource: DeidService, options?: DeidServicesCreateOptionalParams): Promise<DeidServicesCreateResponse>;
+    beginDelete(resourceGroupName: string, deidServiceName: string, options?: DeidServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DeidServicesDeleteResponse>, DeidServicesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, deidServiceName: string, options?: DeidServicesDeleteOptionalParams): Promise<DeidServicesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, deidServiceName: string, properties: DeidUpdate, options?: DeidServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeidServicesUpdateResponse>, DeidServicesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, deidServiceName: string, properties: DeidUpdate, options?: DeidServicesUpdateOptionalParams): Promise<DeidServicesUpdateResponse>;
+    get(resourceGroupName: string, deidServiceName: string, options?: DeidServicesGetOptionalParams): Promise<DeidServicesGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: DeidServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DeidService>;
+    listBySubscription(options?: DeidServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<DeidService>;
+}
+
+// @public
+export interface DeidServicesCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DeidServicesCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeidServicesDeleteOptionalParams extends OperationOptions {
+export type DeidServicesCreateResponse = DeidService;
+
+// @public
+export interface DeidServicesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DeidServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeidServicesGetOptionalParams extends OperationOptions {
+export type DeidServicesDeleteResponse = DeidServicesDeleteHeaders;
+
+// @public
+export interface DeidServicesGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface DeidServicesListByResourceGroupOptionalParams extends OperationOptions {
+export type DeidServicesGetResponse = DeidService;
+
+// @public
+export interface DeidServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface DeidServicesListBySubscriptionOptionalParams extends OperationOptions {
+export type DeidServicesListByResourceGroupNextResponse = DeidServiceListResult;
+
+// @public
+export interface DeidServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface DeidServicesOperations {
-    create: (resourceGroupName: string, deidServiceName: string, resource: DeidService, options?: DeidServicesCreateOptionalParams) => PollerLike<OperationState<DeidService>, DeidService>;
-    delete: (resourceGroupName: string, deidServiceName: string, options?: DeidServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, deidServiceName: string, options?: DeidServicesGetOptionalParams) => Promise<DeidService>;
-    listByResourceGroup: (resourceGroupName: string, options?: DeidServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DeidService>;
-    listBySubscription: (options?: DeidServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DeidService>;
-    update: (resourceGroupName: string, deidServiceName: string, properties: DeidUpdate, options?: DeidServicesUpdateOptionalParams) => PollerLike<OperationState<DeidService>, DeidService>;
+export type DeidServicesListByResourceGroupResponse = DeidServiceListResult;
+
+// @public
+export interface DeidServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface DeidServicesUpdateOptionalParams extends OperationOptions {
+export type DeidServicesListBySubscriptionNextResponse = DeidServiceListResult;
+
+// @public
+export interface DeidServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DeidServicesListBySubscriptionResponse = DeidServiceListResult;
+
+// @public
+export interface DeidServicesUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface DeidServicesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type DeidServicesUpdateResponse = DeidService;
 
 // @public
 export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
-    tags?: Record<string, string>;
-}
-
-// @public (undocumented)
-export class HealthDataAIServicesClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: HealthDataAIServicesClientOptionalParams);
-    readonly deidServices: DeidServicesOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-    readonly privateLinks: PrivateLinksOperations;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
-export interface HealthDataAIServicesClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export enum KnownActionType {
@@ -157,16 +221,13 @@ export enum KnownProvisioningState {
 }
 
 // @public
-export enum KnownVersions {
-    V2024_09_20 = "2024-09-20"
-}
-
-// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
 }
 
 // @public
@@ -175,13 +236,41 @@ export type ManagedServiceIdentityType = string;
 // @public
 export interface ManagedServiceIdentityUpdate {
     type?: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public (undocumented)
+export class MicrosoftHealthDataAIServices extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftHealthDataAIServicesOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    deidServices: DeidServices;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinks: PrivateLinks;
+    // (undocumented)
+    subscriptionId: string;
+}
+
+// @public
+export interface MicrosoftHealthDataAIServicesOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -196,28 +285,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+export interface Operations {
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
+
+// @public
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListNextResponse = OperationListResult;
+
+// @public
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export interface PrivateEndpoint {
@@ -226,7 +319,10 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
-    properties?: PrivateEndpointConnectionProperties;
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -246,30 +342,71 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
+export interface PrivateEndpointConnectionResourceListResult {
+    nextLink?: string;
+    value: PrivateEndpointConnectionResource[];
+}
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreate(resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
+    beginDelete(resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    get(resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByDeidService(resourceGroupName: string, deidServiceName: string, options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnectionResource;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams extends OperationOptions {
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnectionResource;
+
+// @public
+export interface PrivateEndpointConnectionsListByDeidServiceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateEndpointConnectionsOperations {
-    create: (resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, resource: PrivateEndpointConnectionResource, options?: PrivateEndpointConnectionsCreateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnectionResource>, PrivateEndpointConnectionResource>;
-    delete: (resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, deidServiceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnectionResource>;
-    listByDeidService: (resourceGroupName: string, deidServiceName: string, options?: PrivateEndpointConnectionsListByDeidServiceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnectionResource>;
+export type PrivateEndpointConnectionsListByDeidServiceNextResponse = PrivateEndpointConnectionResourceListResult;
+
+// @public
+export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type PrivateEndpointConnectionsListByDeidServiceResponse = PrivateEndpointConnectionResourceListResult;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
@@ -280,10 +417,21 @@ export interface PrivateLinkResource extends ProxyResource {
 }
 
 // @public
+export interface PrivateLinkResourceListResult {
+    nextLink?: string;
+    value: PrivateLinkResource[];
+}
+
+// @public
 export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     requiredZoneNames?: string[];
+}
+
+// @public
+export interface PrivateLinks {
+    listByDeidService(resourceGroupName: string, deidServiceName: string, options?: PrivateLinksListByDeidServiceOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
 // @public
@@ -294,13 +442,18 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export interface PrivateLinksListByDeidServiceOptionalParams extends OperationOptions {
+export interface PrivateLinksListByDeidServiceNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface PrivateLinksOperations {
-    listByDeidService: (resourceGroupName: string, deidServiceName: string, options?: PrivateLinksListByDeidServiceOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
+export type PrivateLinksListByDeidServiceNextResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinksListByDeidServiceOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type PrivateLinksListByDeidServiceResponse = PrivateLinkResourceListResult;
 
 // @public
 export type ProvisioningState = string;
@@ -321,16 +474,6 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HealthDataAIServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -343,7 +486,9 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: Record<string, string>;
+    tags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public

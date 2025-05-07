@@ -1,13 +1,13 @@
-# Azure HealthDataAIServices client library for JavaScript
+# Azure MicrosoftHealthDataAIServices client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure HealthDataAIServices client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure MicrosoftHealthDataAIServices client.
 
-Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-healthdataaiservices)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices/samples)
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/arm-healthdataaiservices) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-healthdataaiservices) |
+[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
 
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-healthdataaiservices` package
 
-Install the Azure HealthDataAIServices client library for JavaScript with `npm`:
+Install the Azure MicrosoftHealthDataAIServices client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-healthdataaiservices
 ```
 
-### Create and authenticate a `HealthDataAIServicesClient`
+### Create and authenticate a `MicrosoftHealthDataAIServices`
 
-To create a client object to access the Azure HealthDataAIServices API, you will need the `endpoint` of your Azure HealthDataAIServices resource and a `credential`. The Azure HealthDataAIServices client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure HealthDataAIServices resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure MicrosoftHealthDataAIServices API, you will need the `endpoint` of your Azure MicrosoftHealthDataAIServices resource and a `credential`. The Azure MicrosoftHealthDataAIServices client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure MicrosoftHealthDataAIServices resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,43 +43,41 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure HealthDataAIServices** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure MicrosoftHealthDataAIServices** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { HealthDataAIServicesClient } from "@azure/arm-healthdataaiservices";
+import { MicrosoftHealthDataAIServices } from "@azure/arm-healthdataaiservices";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new HealthDataAIServicesClient(new DefaultAzureCredential(), subscriptionId);
+const client = new MicrosoftHealthDataAIServices(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { HealthDataAIServicesClient } from "@azure/arm-healthdataaiservices";
+import { MicrosoftHealthDataAIServices } from "@azure/arm-healthdataaiservices";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
-const client = new HealthDataAIServicesClient(credential, subscriptionId);
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new MicrosoftHealthDataAIServices(credential, subscriptionId);
 ```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### HealthDataAIServicesClient
+### MicrosoftHealthDataAIServices
 
-`HealthDataAIServicesClient` is the primary interface for developers using the Azure HealthDataAIServices client library. Explore the methods on this client object to understand the different features of the Azure HealthDataAIServices service that you can access.
+`MicrosoftHealthDataAIServices` is the primary interface for developers using the Azure MicrosoftHealthDataAIServices client library. Explore the methods on this client object to understand the different features of the Azure MicrosoftHealthDataAIServices service that you can access.
 
 ## Troubleshooting
 
@@ -97,7 +95,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -107,6 +105,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
