@@ -1,5 +1,40 @@
 # Release History
     
+## 5.0.0-beta.1 (2025-05-08)
+Compared with version 4.1.0
+    
+### Features Added
+
+  - Added operation group ExperimentationOperations
+  - Added Interface ConfigurationStoresDeleteHeaders
+  - Added Interface Experimentation
+  - Added Interface ExperimentationCreateOptionalParams
+  - Added Interface ExperimentationDeleteHeaders
+  - Added Interface ExperimentationDeleteOptionalParams
+  - Added Interface ExperimentationGetOptionalParams
+  - Added Interface ExperimentationListNextOptionalParams
+  - Added Interface ExperimentationListOptionalParams
+  - Added Interface ExperimentationListResult
+  - Added Interface ManagedOnBehalfOfConfiguration
+  - Added Interface MoboBrokerResource
+  - Added Interface TelemetryProperties
+  - Added Type Alias ExperimentationCreateResponse
+  - Added Type Alias ExperimentationDeleteResponse
+  - Added Type Alias ExperimentationGetResponse
+  - Added Type Alias ExperimentationListNextResponse
+  - Added Type Alias ExperimentationListResponse
+  - Interface ConfigurationStore has a new optional parameter defaultKeyValueRevisionRetentionPeriodInSeconds
+  - Interface ConfigurationStore has a new optional parameter managedOnBehalfOfConfiguration
+  - Interface ConfigurationStore has a new optional parameter telemetry
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter defaultKeyValueRevisionRetentionPeriodInSeconds
+  - Interface ConfigurationStoreUpdateParameters has a new optional parameter telemetry
+
+### Breaking Changes
+
+  - Operation KeyValues.createOrUpdate has a new signature
+  - Interface KeyValuesCreateOrUpdateOptionalParams no longer has parameter keyValueParameters
+    
+    
 ## 4.1.0 (2024-11-11)
     
 ### Features Added

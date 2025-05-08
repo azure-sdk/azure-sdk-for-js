@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AppConfigurationManagementClient } from "../appConfigurationManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SnapshotsGetOptionalParams,
@@ -38,9 +34,9 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Gets the properties of the specified snapshot. NOTE: This operation is intended for use in Azure
-   * Resource Manager (ARM) Template deployments. For all other scenarios involving App Configuration
-   * snapshots the data plane API should be used instead.
+   * Gets the properties of the specified snapshot. NOTE: This operation is intended for use in ARM
+   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
+   * API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.
@@ -59,9 +55,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM)
-   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
-   * API should be used instead.
+   * Creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration snapshots the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.
@@ -74,12 +69,7 @@ export class SnapshotsImpl implements Snapshots {
     snapshotName: string,
     body: Snapshot,
     options?: SnapshotsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsCreateResponse>,
-      SnapshotsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<SnapshotsCreateResponse>, SnapshotsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -90,8 +80,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -136,9 +125,8 @@ export class SnapshotsImpl implements Snapshots {
   }
 
   /**
-   * Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM)
-   * Template deployments. For all other scenarios involving App Configuration snapshots the data plane
-   * API should be used instead.
+   * Creates a snapshot. NOTE: This operation is intended for use in ARM Template deployments. For all
+   * other scenarios involving App Configuration snapshots the data plane API should be used instead.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param snapshotName The name of the snapshot.

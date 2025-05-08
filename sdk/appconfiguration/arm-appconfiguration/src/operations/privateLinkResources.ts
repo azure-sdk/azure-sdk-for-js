@@ -82,11 +82,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     let result: PrivateLinkResourcesListByConfigurationStoreResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByConfigurationStore(
-        resourceGroupName,
-        configStoreName,
-        options,
-      );
+      result = await this._listByConfigurationStore(resourceGroupName, configStoreName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
