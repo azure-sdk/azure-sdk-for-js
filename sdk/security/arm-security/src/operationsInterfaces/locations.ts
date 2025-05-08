@@ -23,17 +23,12 @@ export interface Locations {
    * read or write other resources in ASC according to their ID.
    * @param options The options parameters.
    */
-  list(
-    options?: LocationsListOptionalParams,
-  ): PagedAsyncIterableIterator<AscLocation>;
+  list(options?: LocationsListOptionalParams): PagedAsyncIterableIterator<AscLocation>;
   /**
    * Details of a specific location
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
    *                    Get locations
    * @param options The options parameters.
    */
-  get(
-    ascLocation: string,
-    options?: LocationsGetOptionalParams,
-  ): Promise<LocationsGetResponse>;
+  get(ascLocation: string, options?: LocationsGetOptionalParams): Promise<LocationsGetResponse>;
 }

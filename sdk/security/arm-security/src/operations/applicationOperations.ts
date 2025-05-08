@@ -41,10 +41,7 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
     applicationId: string,
     options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse> {
-    return this.client.sendOperationRequest(
-      { applicationId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ applicationId, options }, getOperationSpec);
   }
 
   /**
@@ -69,14 +66,8 @@ export class ApplicationOperationsImpl implements ApplicationOperations {
    * @param applicationId The security Application key - unique key for the standard application
    * @param options The options parameters.
    */
-  delete(
-    applicationId: string,
-    options?: ApplicationDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { applicationId, options },
-      deleteOperationSpec,
-    );
+  delete(applicationId: string, options?: ApplicationDeleteOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ applicationId, options }, deleteOperationSpec);
   }
 }
 // Operation Specifications
@@ -93,12 +84,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.applicationId,
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.applicationId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -117,12 +104,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.applicationId,
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.applicationId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -131,11 +114,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.applicationId,
-  ],
+  queryParameters: [Parameters.apiVersion8],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.applicationId],
   serializer,
 };
