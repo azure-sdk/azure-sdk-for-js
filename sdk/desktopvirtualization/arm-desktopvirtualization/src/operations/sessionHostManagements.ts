@@ -8,34 +8,32 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { MsixPackages } from "../operationsInterfaces/index.js";
+import { SessionHostManagements } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
-  MsixPackage,
-  MsixPackagesListNextOptionalParams,
-  MsixPackagesListOptionalParams,
-  MsixPackagesListResponse,
-  MsixPackagesGetOptionalParams,
-  MsixPackagesGetResponse,
-  MsixPackagesCreateOrUpdateOptionalParams,
-  MsixPackagesCreateOrUpdateResponse,
-  MsixPackagePatch,
-  MsixPackagesUpdateOptionalParams,
-  MsixPackagesUpdateResponse,
-  MsixPackagesDeleteOptionalParams,
-  MsixPackagesListNextResponse,
+  SessionHostManagement,
+  SessionHostManagementsListByHostPoolNextOptionalParams,
+  SessionHostManagementsListByHostPoolOptionalParams,
+  SessionHostManagementsListByHostPoolResponse,
+  SessionHostManagementsGetOptionalParams,
+  SessionHostManagementsGetResponse,
+  SessionHostManagementsCreateOrUpdateOptionalParams,
+  SessionHostManagementsCreateOrUpdateResponse,
+  SessionHostManagementsUpdateOptionalParams,
+  SessionHostManagementsUpdateResponse,
+  SessionHostManagementsListByHostPoolNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing MsixPackages operations. */
-export class MsixPackagesImpl implements MsixPackages {
+/** Class containing SessionHostManagements operations. */
+export class SessionHostManagementsImpl implements SessionHostManagements {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
-   * Initialize a new instance of the class MsixPackages class.
+   * Initialize a new instance of the class SessionHostManagements class.
    * @param client Reference to the service client
    */
   constructor(client: DesktopVirtualizationAPIClient) {
@@ -43,17 +41,17 @@ export class MsixPackagesImpl implements MsixPackages {
   }
 
   /**
-   * List MSIX packages in hostpool.
+   * List SessionHostManagements.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  public list(
+  public listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams,
-  ): PagedAsyncIterableIterator<MsixPackage> {
-    const iter = this.listPagingAll(resourceGroupName, hostPoolName, options);
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<SessionHostManagement> {
+    const iter = this.listByHostPoolPagingAll(resourceGroupName, hostPoolName, options);
     return {
       next() {
         return iter.next();
@@ -65,28 +63,33 @@ export class MsixPackagesImpl implements MsixPackages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceGroupName, hostPoolName, options, settings);
+        return this.listByHostPoolPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
 
-  private async *listPagingPage(
+  private async *listByHostPoolPagingPage(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams,
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<MsixPackage[]> {
-    let result: MsixPackagesListResponse;
+  ): AsyncIterableIterator<SessionHostManagement[]> {
+    let result: SessionHostManagementsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, hostPoolName, options);
+      result = await this._listByHostPool(resourceGroupName, hostPoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceGroupName, hostPoolName, continuationToken, options);
+      result = await this._listByHostPoolNext(
+        resourceGroupName,
+        hostPoolName,
+        continuationToken,
+        options,
+      );
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -94,168 +97,124 @@ export class MsixPackagesImpl implements MsixPackages {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByHostPoolPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams,
-  ): AsyncIterableIterator<MsixPackage> {
-    for await (const page of this.listPagingPage(resourceGroupName, hostPoolName, options)) {
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): AsyncIterableIterator<SessionHostManagement> {
+    for await (const page of this.listByHostPoolPagingPage(
+      resourceGroupName,
+      hostPoolName,
+      options,
+    )) {
       yield* page;
     }
   }
 
   /**
-   * List MSIX packages in hostpool.
+   * List SessionHostManagements.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  private _list(
+  private _listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams,
-  ): Promise<MsixPackagesListResponse> {
+    options?: SessionHostManagementsListByHostPoolOptionalParams,
+  ): Promise<SessionHostManagementsListByHostPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listOperationSpec,
+      listByHostPoolOperationSpec,
     );
   }
 
   /**
-   * Get a msixpackage.
+   * Get a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesGetOptionalParams,
-  ): Promise<MsixPackagesGetResponse> {
+    options?: SessionHostManagementsGetOptionalParams,
+  ): Promise<SessionHostManagementsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixPackageFullName, options },
+      { resourceGroupName, hostPoolName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create or update a MSIX package.
+   * Create or update a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
-   * @param msixPackage Object containing  MSIX Package definitions.
+   * @param sessionHostManagement Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     hostPoolName: string,
-    msixPackageFullName: string,
-    msixPackage: MsixPackage,
-    options?: MsixPackagesCreateOrUpdateOptionalParams,
-  ): Promise<MsixPackagesCreateOrUpdateResponse> {
+    sessionHostManagement: SessionHostManagement,
+    options?: SessionHostManagementsCreateOrUpdateOptionalParams,
+  ): Promise<SessionHostManagementsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        hostPoolName,
-        msixPackageFullName,
-        msixPackage,
-        options,
-      },
+      { resourceGroupName, hostPoolName, sessionHostManagement, options },
       createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Update an  MSIX Package.
+   * Update a SessionHostManagement.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
-   * @param msixPackage The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     hostPoolName: string,
-    msixPackageFullName: string,
-    msixPackage: MsixPackagePatch,
-    options?: MsixPackagesUpdateOptionalParams,
-  ): Promise<MsixPackagesUpdateResponse> {
+    options?: SessionHostManagementsUpdateOptionalParams,
+  ): Promise<SessionHostManagementsUpdateResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        hostPoolName,
-        msixPackageFullName,
-        msixPackage,
-        options,
-      },
+      { resourceGroupName, hostPoolName, options },
       updateOperationSpec,
     );
   }
 
   /**
-   * Remove an MSIX Package.
+   * ListByHostPoolNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param msixPackageFullName The version specific package full name of the MSIX package within
-   *                            specified hostpool
+   * @param nextLink The nextLink from the previous successful call to the ListByHostPool method.
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
-    hostPoolName: string,
-    msixPackageFullName: string,
-    options?: MsixPackagesDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostPoolName, msixPackageFullName, options },
-      deleteOperationSpec,
-    );
-  }
-
-  /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
+  private _listByHostPoolNext(
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: MsixPackagesListNextOptionalParams,
-  ): Promise<MsixPackagesListNextResponse> {
+    options?: SessionHostManagementsListByHostPoolNextOptionalParams,
+  ): Promise<SessionHostManagementsListByHostPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listNextOperationSpec,
+      listByHostPoolNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
+const listByHostPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList,
+      bodyMapper: Mappers.SessionHostManagementList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -266,11 +225,11 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage,
+      bodyMapper: Mappers.SessionHostManagement,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -282,89 +241,65 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage,
+      bodyMapper: Mappers.SessionHostManagement,
     },
     201: {
-      bodyMapper: Mappers.MsixPackage,
+      bodyMapper: Mappers.SessionHostManagement,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.msixPackage,
+  requestBody: Parameters.sessionHostManagement,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHostManagements/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage,
+      bodyMapper: Mappers.SessionHostManagement,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.msixPackage1,
+  requestBody: Parameters.sessionHostManagement1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostPoolName,
-    Parameters.msixPackageFullName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList,
+      bodyMapper: Mappers.SessionHostManagementList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

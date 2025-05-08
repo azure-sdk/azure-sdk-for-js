@@ -45,11 +45,7 @@ export class StartMenuItemsImpl implements StartMenuItems {
     applicationGroupName: string,
     options?: StartMenuItemsListOptionalParams,
   ): PagedAsyncIterableIterator<StartMenuItem> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      applicationGroupName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, applicationGroupName, options);
     return {
       next() {
         return iter.next();
@@ -61,12 +57,7 @@ export class StartMenuItemsImpl implements StartMenuItems {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, applicationGroupName, options, settings);
       },
     };
   }
@@ -80,11 +71,7 @@ export class StartMenuItemsImpl implements StartMenuItems {
     let result: StartMenuItemsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        applicationGroupName,
-        options,
-      );
+      result = await this._list(resourceGroupName, applicationGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -165,7 +152,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StartMenuItemList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -191,7 +178,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.StartMenuItemList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [

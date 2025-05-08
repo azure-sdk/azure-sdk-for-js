@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all of the available operations the Desktop Virtualization resource provider supports.
+   * List the operations for the provider
    * @param options The options parameters.
    */
   public list(
@@ -89,12 +89,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all of the available operations the Desktop Virtualization resource provider supports.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +105,7 @@ export class OperationsImpl implements Operations {
     nextLink: string,
     options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -121,10 +116,10 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceProviderOperationList,
+      bodyMapper: Mappers.ResourceProviderOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -137,10 +132,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceProviderOperationList,
+      bodyMapper: Mappers.ResourceProviderOperationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
