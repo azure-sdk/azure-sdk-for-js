@@ -13,6 +13,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Run,
   RunsListNextOptionalParams,
@@ -65,12 +67,7 @@ export class RunsImpl implements Runs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -91,12 +88,7 @@ export class RunsImpl implements Runs {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,11 +101,7 @@ export class RunsImpl implements Runs {
     registryName: string,
     options?: RunsListOptionalParams,
   ): AsyncIterableIterator<Run> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -162,17 +150,95 @@ export class RunsImpl implements Runs {
    * @param runUpdateParameters The run update properties.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    runUpdateParameters: RunUpdateParameters,
+    options?: RunsUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<RunsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        registryName,
+        runId,
+        runUpdateParameters,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<RunsUpdateResponse, OperationState<RunsUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+      },
+    );
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Patch the run properties.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param runId The run ID.
+   * @param runUpdateParameters The run update properties.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     registryName: string,
     runId: string,
     runUpdateParameters: RunUpdateParameters,
     options?: RunsUpdateOptionalParams,
   ): Promise<RunsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runId, runUpdateParameters, options },
-      updateOperationSpec,
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      registryName,
+      runId,
+      runUpdateParameters,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -201,16 +267,77 @@ export class RunsImpl implements Runs {
    * @param runId The run ID.
    * @param options The options parameters.
    */
-  cancel(
+  async beginCancel(
+    resourceGroupName: string,
+    registryName: string,
+    runId: string,
+    options?: RunsCancelOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, registryName, runId, options },
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancel an existing run.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param runId The run ID.
+   * @param options The options parameters.
+   */
+  async beginCancelAndWait(
     resourceGroupName: string,
     registryName: string,
     runId: string,
     options?: RunsCancelOptionalParams,
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, registryName, runId, options },
-      cancelOperationSpec,
-    );
+    const poller = await this.beginCancel(resourceGroupName, registryName, runId, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -243,10 +370,10 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -264,10 +391,10 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Run,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -285,12 +412,21 @@ const updateOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Run,
     },
+    201: {
+      bodyMapper: Mappers.Run,
+    },
+    202: {
+      bodyMapper: Mappers.Run,
+    },
+    204: {
+      bodyMapper: Mappers.Run,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
   requestBody: Parameters.runUpdateParameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -310,10 +446,10 @@ const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunGetLogResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -329,11 +465,14 @@ const cancelOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -352,7 +491,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseForContainerRegistry,
     },
   },
   urlParameters: [

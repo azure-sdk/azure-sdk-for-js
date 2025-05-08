@@ -62,12 +62,7 @@ export interface ScopeMaps {
     scopeMapName: string,
     scopeMapCreateParameters: ScopeMap,
     options?: ScopeMapsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsCreateResponse>,
-      ScopeMapsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ScopeMapsCreateResponse>, ScopeMapsCreateResponse>>;
   /**
    * Creates a scope map for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -123,12 +118,7 @@ export interface ScopeMaps {
     scopeMapName: string,
     scopeMapUpdateParameters: ScopeMapUpdateParameters,
     options?: ScopeMapsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ScopeMapsUpdateResponse>,
-      ScopeMapsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ScopeMapsUpdateResponse>, ScopeMapsUpdateResponse>>;
   /**
    * Updates a scope map with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
