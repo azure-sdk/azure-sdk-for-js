@@ -3230,7 +3230,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-resourcemover@file:projects/arm-resourcemover.tgz':
-    resolution: {integrity: sha512-NNpApe+Ha90kOlHW2/aL7CBn0mqx0179T50Ko7Xi0MO9k8egNO6zM/BRSDHuzUwXZ/df4obBcI4mCTZ27VhaPg==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-/+5Eco9lFsBjfQYAdA6CIVOhKHNtUnukhO0Ix0l6vWXCKW4qvEHn5T97vcop34G5cpBrUadu7+lI52pKrp8gaw==, tarball: file:projects/arm-resourcemover.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-resources-profile-2020-09-01-hybrid@file:projects/arm-resources-profile-2020-09-01-hybrid.tgz':

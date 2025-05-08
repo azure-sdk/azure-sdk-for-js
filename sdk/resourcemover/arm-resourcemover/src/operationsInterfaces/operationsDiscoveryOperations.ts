@@ -8,13 +8,13 @@
 
 import {
   OperationsDiscoveryGetOptionalParams,
-  OperationsDiscoveryGetResponse
+  OperationsDiscoveryGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a OperationsDiscoveryOperations. */
 export interface OperationsDiscoveryOperations {
   /** @param options The options parameters. */
   get(
-    options?: OperationsDiscoveryGetOptionalParams
+    options?: OperationsDiscoveryGetOptionalParams,
   ): Promise<OperationsDiscoveryGetResponse>;
 }

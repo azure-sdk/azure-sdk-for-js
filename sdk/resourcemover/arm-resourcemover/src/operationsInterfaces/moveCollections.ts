@@ -33,7 +33,7 @@ import {
   MoveCollectionsBulkRemoveOptionalParams,
   MoveCollectionsBulkRemoveResponse,
   MoveCollectionsListRequiredForOptionalParams,
-  MoveCollectionsListRequiredForResponse
+  MoveCollectionsListRequiredForResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export interface MoveCollections {
    * @param options The options parameters.
    */
   listMoveCollectionsBySubscription(
-    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams
+    options?: MoveCollectionsListMoveCollectionsBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<MoveCollection>;
   /**
    * Get all the Move Collections in the resource group.
@@ -53,7 +53,7 @@ export interface MoveCollections {
    */
   listMoveCollectionsByResourceGroup(
     resourceGroupName: string,
-    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams
+    options?: MoveCollectionsListMoveCollectionsByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MoveCollection>;
   /**
    * Creates or updates a move collection.
@@ -64,7 +64,7 @@ export interface MoveCollections {
   create(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCreateOptionalParams
+    options?: MoveCollectionsCreateOptionalParams,
   ): Promise<MoveCollectionsCreateResponse>;
   /**
    * Updates a move collection.
@@ -75,7 +75,7 @@ export interface MoveCollections {
   update(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsUpdateOptionalParams
+    options?: MoveCollectionsUpdateOptionalParams,
   ): Promise<MoveCollectionsUpdateResponse>;
   /**
    * Deletes a move collection.
@@ -86,7 +86,7 @@ export interface MoveCollections {
   beginDelete(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDeleteOptionalParams
+    options?: MoveCollectionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsDeleteResponse>,
@@ -102,7 +102,7 @@ export interface MoveCollections {
   beginDeleteAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDeleteOptionalParams
+    options?: MoveCollectionsDeleteOptionalParams,
   ): Promise<MoveCollectionsDeleteResponse>;
   /**
    * Gets the move collection.
@@ -113,7 +113,7 @@ export interface MoveCollections {
   get(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsGetOptionalParams
+    options?: MoveCollectionsGetOptionalParams,
   ): Promise<MoveCollectionsGetResponse>;
   /**
    * Initiates prepare for the set of resources included in the request body. The prepare operation is on
@@ -127,7 +127,7 @@ export interface MoveCollections {
   beginPrepare(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsPrepareOptionalParams
+    options?: MoveCollectionsPrepareOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsPrepareResponse>,
@@ -146,7 +146,7 @@ export interface MoveCollections {
   beginPrepareAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsPrepareOptionalParams
+    options?: MoveCollectionsPrepareOptionalParams,
   ): Promise<MoveCollectionsPrepareResponse>;
   /**
    * Moves the set of resources included in the request body. The move operation is triggered after the
@@ -160,7 +160,7 @@ export interface MoveCollections {
   beginInitiateMove(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsInitiateMoveOptionalParams
+    options?: MoveCollectionsInitiateMoveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsInitiateMoveResponse>,
@@ -179,7 +179,7 @@ export interface MoveCollections {
   beginInitiateMoveAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsInitiateMoveOptionalParams
+    options?: MoveCollectionsInitiateMoveOptionalParams,
   ): Promise<MoveCollectionsInitiateMoveResponse>;
   /**
    * Commits the set of resources included in the request body. The commit operation is triggered on the
@@ -193,7 +193,7 @@ export interface MoveCollections {
   beginCommit(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCommitOptionalParams
+    options?: MoveCollectionsCommitOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsCommitResponse>,
@@ -212,7 +212,7 @@ export interface MoveCollections {
   beginCommitAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsCommitOptionalParams
+    options?: MoveCollectionsCommitOptionalParams,
   ): Promise<MoveCollectionsCommitResponse>;
   /**
    * Discards the set of resources included in the request body. The discard operation is triggered on
@@ -226,7 +226,7 @@ export interface MoveCollections {
   beginDiscard(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDiscardOptionalParams
+    options?: MoveCollectionsDiscardOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsDiscardResponse>,
@@ -245,7 +245,7 @@ export interface MoveCollections {
   beginDiscardAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsDiscardOptionalParams
+    options?: MoveCollectionsDiscardOptionalParams,
   ): Promise<MoveCollectionsDiscardResponse>;
   /**
    * Computes, resolves and validate the dependencies of the moveResources in the move collection.
@@ -256,7 +256,7 @@ export interface MoveCollections {
   beginResolveDependencies(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsResolveDependenciesOptionalParams
+    options?: MoveCollectionsResolveDependenciesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsResolveDependenciesResponse>,
@@ -272,7 +272,7 @@ export interface MoveCollections {
   beginResolveDependenciesAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsResolveDependenciesOptionalParams
+    options?: MoveCollectionsResolveDependenciesOptionalParams,
   ): Promise<MoveCollectionsResolveDependenciesResponse>;
   /**
    * Removes the set of move resources included in the request body from move collection. The
@@ -285,7 +285,7 @@ export interface MoveCollections {
   beginBulkRemove(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsBulkRemoveOptionalParams
+    options?: MoveCollectionsBulkRemoveOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MoveCollectionsBulkRemoveResponse>,
@@ -303,7 +303,7 @@ export interface MoveCollections {
   beginBulkRemoveAndWait(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: MoveCollectionsBulkRemoveOptionalParams
+    options?: MoveCollectionsBulkRemoveOptionalParams,
   ): Promise<MoveCollectionsBulkRemoveResponse>;
   /**
    * List of the move resources for which an arm resource is required for.
@@ -316,6 +316,6 @@ export interface MoveCollections {
     resourceGroupName: string,
     moveCollectionName: string,
     sourceId: string,
-    options?: MoveCollectionsListRequiredForOptionalParams
+    options?: MoveCollectionsListRequiredForOptionalParams,
   ): Promise<MoveCollectionsListRequiredForResponse>;
 }

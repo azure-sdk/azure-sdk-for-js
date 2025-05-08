@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   UnresolvedDependency,
-  UnresolvedDependenciesGetOptionalParams
+  UnresolvedDependenciesGetOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,6 +24,6 @@ export interface UnresolvedDependencies {
   list(
     resourceGroupName: string,
     moveCollectionName: string,
-    options?: UnresolvedDependenciesGetOptionalParams
+    options?: UnresolvedDependenciesGetOptionalParams,
   ): PagedAsyncIterableIterator<UnresolvedDependency>;
 }
