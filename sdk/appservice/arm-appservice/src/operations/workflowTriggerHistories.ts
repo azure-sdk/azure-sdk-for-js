@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   WorkflowTriggerHistory,
@@ -58,13 +54,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     triggerName: string,
     options?: WorkflowTriggerHistoriesListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowTriggerHistory> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      name,
-      workflowName,
-      triggerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, name, workflowName, triggerName, options);
     return {
       next() {
         return iter.next();
@@ -99,13 +89,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
     let result: WorkflowTriggerHistoriesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        name,
-        workflowName,
-        triggerName,
-        options,
-      );
+      result = await this._list(resourceGroupName, name, workflowName, triggerName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -225,8 +209,7 @@ export class WorkflowTriggerHistoriesImpl implements WorkflowTriggerHistories {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

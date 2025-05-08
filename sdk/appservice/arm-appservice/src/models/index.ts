@@ -1126,10 +1126,7 @@ export interface RampUpRule {
   minReroutePercentage?: number;
   /** Specifies upper boundary below which ReroutePercentage will stay. */
   maxReroutePercentage?: number;
-  /**
-   * Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. See TiPCallback site extension for the scaffold and contracts.
-   * https://www.siteextensions.net/packages/TiPCallback/
-   */
+  /** Custom decision algorithm can be provided in TiPCallback site extension which URL can be specified. */
   changeDecisionCallbackUrl?: string;
   /** Name of the routing rule. The recommended name would be to point to the slot which will receive the traffic in the experiment. */
   name?: string;
@@ -3309,7 +3306,7 @@ export interface AzureActiveDirectory {
 export interface AzureActiveDirectoryRegistration {
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://login.microsoftonline.com/v2.0/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://login.microsoftonline.com/v2.0/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
@@ -5768,8 +5765,7 @@ export interface PremierAddOn extends Resource {
 }
 
 /** ARM resource for a certificate order that is purchased through Azure. */
-export interface AppServiceCertificateOrderPatchResource
-  extends ProxyOnlyResource {
+export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
   /** State of the Key Vault secret. */
   certificates?: { [propertyName: string]: AppServiceCertificate };
   /** Certificate distinguished name. */
@@ -6205,8 +6201,7 @@ export interface Usage extends ProxyOnlyResource {
 }
 
 /** Remote Private Endpoint Connection ARM resource. */
-export interface RemotePrivateEndpointConnectionARMResource
-  extends ProxyOnlyResource {
+export interface RemotePrivateEndpointConnectionARMResource extends ProxyOnlyResource {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly provisioningState?: string;
   /** PrivateEndpoint of a remote private endpoint connection */
@@ -7207,8 +7202,7 @@ export interface DatabaseConnection extends ProxyOnlyResource {
 }
 
 /** Static Site Function Overview ARM resource. */
-export interface StaticSiteFunctionOverviewARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteFunctionOverviewARMResource extends ProxyOnlyResource {
   /**
    * The name for the function
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7222,8 +7216,7 @@ export interface StaticSiteFunctionOverviewARMResource
 }
 
 /** Static Site User Provided Function App ARM resource. */
-export interface StaticSiteUserProvidedFunctionAppARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteUserProvidedFunctionAppARMResource extends ProxyOnlyResource {
   /** The resource id of the function app registered with the static site */
   functionAppResourceId?: string;
   /** The region of the function app registered with the static site */
@@ -7250,8 +7243,7 @@ export interface StaticSiteZipDeploymentARMResource extends ProxyOnlyResource {
 }
 
 /** Static site basic auth properties ARM resource. */
-export interface StaticSiteBasicAuthPropertiesARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteBasicAuthPropertiesARMResource extends ProxyOnlyResource {
   /** The password for basic auth. */
   password?: string;
   /** Url to the secret in Key Vault. */
@@ -7268,8 +7260,7 @@ export interface StaticSiteBasicAuthPropertiesARMResource
 }
 
 /** Static sites user roles invitation resource. */
-export interface StaticSiteUserInvitationRequestResource
-  extends ProxyOnlyResource {
+export interface StaticSiteUserInvitationRequestResource extends ProxyOnlyResource {
   /** The domain name for the static site custom domain. */
   domain?: string;
   /** The identity provider for the static site user. */
@@ -7283,8 +7274,7 @@ export interface StaticSiteUserInvitationRequestResource
 }
 
 /** Static sites user roles invitation link resource. */
-export interface StaticSiteUserInvitationResponseResource
-  extends ProxyOnlyResource {
+export interface StaticSiteUserInvitationResponseResource extends ProxyOnlyResource {
   /**
    * The expiration time of the invitation
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7298,8 +7288,7 @@ export interface StaticSiteUserInvitationResponseResource
 }
 
 /** Static Site Custom Domain Overview ARM resource. */
-export interface StaticSiteCustomDomainOverviewARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteCustomDomainOverviewARMResource extends ProxyOnlyResource {
   /**
    * The domain name for the static site custom domain.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -7325,8 +7314,7 @@ export interface StaticSiteCustomDomainOverviewARMResource
 }
 
 /** Static Site Custom Domain Request Properties ARM resource. */
-export interface StaticSiteCustomDomainRequestPropertiesARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteCustomDomainRequestPropertiesARMResource extends ProxyOnlyResource {
   /** Validation method for adding a custom domain */
   validationMethod?: string;
 }
@@ -7338,8 +7326,7 @@ export interface StringList extends ProxyOnlyResource {
 }
 
 /** Static Site Reset Properties ARM resource. */
-export interface StaticSiteResetPropertiesARMResource
-  extends ProxyOnlyResource {
+export interface StaticSiteResetPropertiesARMResource extends ProxyOnlyResource {
   /** The token which proves admin privileges to the repository. */
   repositoryToken?: string;
   /** Determines whether the repository should be updated with the new properties. */
@@ -7686,8 +7673,7 @@ export interface RestoreRequest extends ProxyOnlyResource {
 }
 
 /** Publishing Credentials Policies parameters. */
-export interface CsmPublishingCredentialsPoliciesEntity
-  extends ProxyOnlyResource {
+export interface CsmPublishingCredentialsPoliciesEntity extends ProxyOnlyResource {
   /** <code>true</code> to allow access to a publishing method; otherwise, <code>false</code>. */
   allow?: boolean;
 }
@@ -7915,7 +7901,7 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
   clientSecretCertificateThumbprint?: string;
   /**
    * The OpenID Connect Issuer URI that represents the entity which issues access tokens for this application.
-   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. https://sts.windows.net/{tenant-guid}/.
+   * When using Azure Active Directory, this value is the URI of the directory tenant, e.g. `https://sts.windows.net/{tenant-guid}/`.
    * This URI is a case-sensitive identifier for the token issuer.
    * More information on OpenID Connect Discovery: http://openid.net/specs/openid-connect-discovery-1_0.html
    */
@@ -8070,8 +8056,7 @@ export interface SiteAuthSettingsV2 extends ProxyOnlyResource {
 }
 
 /** AzureStorageInfo dictionary resource. */
-export interface AzureStoragePropertyDictionaryResource
-  extends ProxyOnlyResource {
+export interface AzureStoragePropertyDictionaryResource extends ProxyOnlyResource {
   /** Azure storage accounts. */
   properties?: { [propertyName: string]: AzureStorageInfoValue };
 }
@@ -8832,8 +8817,7 @@ export interface WebJob extends ProxyOnlyResource {
 }
 
 /** Private Endpoint Connection Approval ARM resource. */
-export interface PrivateLinkConnectionApprovalRequestResource
-  extends ProxyOnlyResource {
+export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
@@ -9169,8 +9153,7 @@ export interface OperationResult extends OperationResultProperties {
 }
 
 /** The workflow run action repetition definition. */
-export interface WorkflowRunActionRepetitionDefinition
-  extends WorkflowResource {
+export interface WorkflowRunActionRepetitionDefinition extends WorkflowResource {
   /** The start time of the workflow scope repetition. */
   startTime?: Date;
   /** The end time of the workflow scope repetition. */
@@ -10574,12 +10557,7 @@ export type CertificateProductType =
   | "StandardDomainValidatedSsl"
   | "StandardDomainValidatedWildCardSsl";
 /** Defines values for ProvisioningState. */
-export type ProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "InProgress"
-  | "Deleting";
+export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
 /** Defines values for CertificateOrderStatus. */
 export type CertificateOrderStatus =
   | "Pendingissuance"
@@ -10638,12 +10616,7 @@ export type RenderingType =
   | "SearchComponent"
   | "AppInsightEnablement";
 /** Defines values for InsightStatus. */
-export type InsightStatus =
-  | "Critical"
-  | "Warning"
-  | "Info"
-  | "Success"
-  | "None";
+export type InsightStatus = "Critical" | "Warning" | "Info" | "Success" | "None";
 /** Defines values for DomainType. */
 export type DomainType = "Regular" | "SoftDeleted";
 /** Defines values for DomainStatus. */
@@ -10678,17 +10651,9 @@ export type HostNameType = "Verified" | "Managed";
 /** Defines values for DnsType. */
 export type DnsType = "AzureDns" | "DefaultDomainRegistrarDns";
 /** Defines values for HostingEnvironmentStatus. */
-export type HostingEnvironmentStatus =
-  | "Preparing"
-  | "Ready"
-  | "Scaling"
-  | "Deleting";
+export type HostingEnvironmentStatus = "Preparing" | "Ready" | "Scaling" | "Deleting";
 /** Defines values for CustomDnsSuffixProvisioningState. */
-export type CustomDnsSuffixProvisioningState =
-  | "Succeeded"
-  | "Failed"
-  | "Degraded"
-  | "InProgress";
+export type CustomDnsSuffixProvisioningState = "Succeeded" | "Failed" | "Degraded" | "InProgress";
 /** Defines values for ComputeModeOptions. */
 export type ComputeModeOptions = "Shared" | "Dedicated" | "Dynamic";
 /** Defines values for WorkerSizeOptions. */
@@ -10708,10 +10673,7 @@ export type WorkerSizeOptions =
 /** Defines values for UsageState. */
 export type UsageState = "Normal" | "Exceeded";
 /** Defines values for SiteAvailabilityState. */
-export type SiteAvailabilityState =
-  | "Normal"
-  | "Limited"
-  | "DisasterRecoveryMode";
+export type SiteAvailabilityState = "Normal" | "Limited" | "DisasterRecoveryMode";
 /** Defines values for SslState. */
 export type SslState = "Disabled" | "SniEnabled" | "IpBasedEnabled";
 /** Defines values for HostType. */
@@ -10745,25 +10707,13 @@ export type AutoHealActionType = "Recycle" | "LogEvent" | "CustomAction";
 /** Defines values for AzureStorageType. */
 export type AzureStorageType = "AzureFiles" | "AzureBlob";
 /** Defines values for AzureStorageState. */
-export type AzureStorageState =
-  | "Ok"
-  | "InvalidCredentials"
-  | "InvalidShare"
-  | "NotValidated";
+export type AzureStorageState = "Ok" | "InvalidCredentials" | "InvalidShare" | "NotValidated";
 /** Defines values for ClientCertMode. */
-export type ClientCertMode =
-  | "Required"
-  | "Optional"
-  | "OptionalInteractiveUser";
+export type ClientCertMode = "Required" | "Optional" | "OptionalInteractiveUser";
 /** Defines values for IPMode. */
 export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 /** Defines values for RedundancyMode. */
-export type RedundancyMode =
-  | "None"
-  | "Manual"
-  | "Failover"
-  | "ActiveActive"
-  | "GeoRedundant";
+export type RedundancyMode = "None" | "Manual" | "Failover" | "ActiveActive" | "GeoRedundant";
 /** Defines values for AutoGeneratedDomainNameLabelScope. */
 export type AutoGeneratedDomainNameLabelScope =
   | "TenantReuse"
@@ -10777,12 +10727,7 @@ export type ManagedServiceIdentityType =
   | "SystemAssigned, UserAssigned"
   | "None";
 /** Defines values for OperationStatus. */
-export type OperationStatus =
-  | "InProgress"
-  | "Failed"
-  | "Succeeded"
-  | "TimedOut"
-  | "Created";
+export type OperationStatus = "InProgress" | "Failed" | "Succeeded" | "TimedOut" | "Created";
 /** Defines values for StatusOptions. */
 export type StatusOptions = "Ready" | "Pending" | "Creating";
 /** Defines values for IssueType. */
@@ -10796,10 +10741,7 @@ export type IssueType =
   | "PlatformIssue"
   | "Other";
 /** Defines values for SolutionType. */
-export type SolutionType =
-  | "QuickSolution"
-  | "DeepInvestigation"
-  | "BestPractices";
+export type SolutionType = "QuickSolution" | "DeepInvestigation" | "BestPractices";
 /** Defines values for KubeEnvironmentProvisioningState. */
 export type KubeEnvironmentProvisioningState =
   | "Succeeded"
@@ -10819,11 +10761,7 @@ export type FrontEndServiceType = "NodePort" | "LoadBalancer";
 /** Defines values for StackPreferredOs. */
 export type StackPreferredOs = "Windows" | "Linux";
 /** Defines values for NotificationLevel. */
-export type NotificationLevel =
-  | "Critical"
-  | "Warning"
-  | "Information"
-  | "NonUrgentSuggestion";
+export type NotificationLevel = "Critical" | "Warning" | "Information" | "NonUrgentSuggestion";
 /** Defines values for Channels. */
 export type Channels = "Notification" | "Api" | "Email" | "Webhook" | "All";
 /** Defines values for AppServicePlanRestrictions. */
@@ -10860,9 +10798,7 @@ export type BackupRestoreOperationType =
   | "Snapshot"
   | "CloudFS";
 /** Defines values for UnauthenticatedClientAction. */
-export type UnauthenticatedClientAction =
-  | "RedirectToLoginPage"
-  | "AllowAnonymous";
+export type UnauthenticatedClientAction = "RedirectToLoginPage" | "AllowAnonymous";
 /** Defines values for BuiltInAuthenticationProvider. */
 export type BuiltInAuthenticationProvider =
   | "AzureActiveDirectory"
@@ -10878,9 +10814,7 @@ export type UnauthenticatedClientActionV2 =
   | "Return401"
   | "Return403";
 /** Defines values for CookieExpirationConvention. */
-export type CookieExpirationConvention =
-  | "FixedTime"
-  | "IdentityProviderDerived";
+export type CookieExpirationConvention = "FixedTime" | "IdentityProviderDerived";
 /** Defines values for ForwardProxyConvention. */
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
 /** Defines values for ResolveStatus. */
@@ -10919,33 +10853,19 @@ export type MSDeployLogEntryType = "Message" | "Warning" | "Error";
 /** Defines values for SiteRuntimeState. */
 export type SiteRuntimeState = "READY" | "STOPPED" | "UNKNOWN";
 /** Defines values for CloneAbilityResult. */
-export type CloneAbilityResult =
-  | "Cloneable"
-  | "PartiallyCloneable"
-  | "NotCloneable";
+export type CloneAbilityResult = "Cloneable" | "PartiallyCloneable" | "NotCloneable";
 /** Defines values for MySqlMigrationType. */
 export type MySqlMigrationType = "LocalToRemote" | "RemoteToLocal";
 /** Defines values for PublicCertificateLocation. */
-export type PublicCertificateLocation =
-  | "CurrentUserMy"
-  | "LocalMachineMy"
-  | "Unknown";
+export type PublicCertificateLocation = "CurrentUserMy" | "LocalMachineMy" | "Unknown";
 /** Defines values for AuthType. */
-export type AuthType =
-  | "Anonymous"
-  | "UserCredentials"
-  | "SystemIdentity"
-  | "UserAssigned";
+export type AuthType = "Anonymous" | "UserCredentials" | "SystemIdentity" | "UserAssigned";
 /** Defines values for SiteExtensionType. */
 export type SiteExtensionType = "Gallery" | "WebRoot";
 /** Defines values for TriggeredWebJobStatus. */
 export type TriggeredWebJobStatus = "Success" | "Failed" | "Error";
 /** Defines values for WorkflowHealthState. */
-export type WorkflowHealthState =
-  | "NotSpecified"
-  | "Healthy"
-  | "Unhealthy"
-  | "Unknown";
+export type WorkflowHealthState = "NotSpecified" | "Healthy" | "Unhealthy" | "Unknown";
 /** Defines values for DaysOfWeek. */
 export type DaysOfWeek =
   | "Sunday"
@@ -10970,8 +10890,7 @@ export interface AppServiceCertificateOrdersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AppServiceCertificateOrdersListResponse =
-  AppServiceCertificateOrderCollection;
+export type AppServiceCertificateOrdersListResponse = AppServiceCertificateOrderCollection;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams
@@ -10986,8 +10905,7 @@ export type AppServiceCertificateOrdersListByResourceGroupResponse =
   AppServiceCertificateOrderCollection;
 
 /** Optional parameters. */
-export interface AppServiceCertificateOrdersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceCertificateOrdersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AppServiceCertificateOrdersGetResponse = AppServiceCertificateOrder;
@@ -11002,8 +10920,7 @@ export interface AppServiceCertificateOrdersCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AppServiceCertificateOrdersCreateOrUpdateResponse =
-  AppServiceCertificateOrder;
+export type AppServiceCertificateOrdersCreateOrUpdateResponse = AppServiceCertificateOrder;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersDeleteOptionalParams
@@ -11014,24 +10931,21 @@ export interface AppServiceCertificateOrdersUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type AppServiceCertificateOrdersUpdateResponse =
-  AppServiceCertificateOrder;
+export type AppServiceCertificateOrdersUpdateResponse = AppServiceCertificateOrder;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersListCertificatesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCertificates operation. */
-export type AppServiceCertificateOrdersListCertificatesResponse =
-  AppServiceCertificateCollection;
+export type AppServiceCertificateOrdersListCertificatesResponse = AppServiceCertificateCollection;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersGetCertificateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCertificate operation. */
-export type AppServiceCertificateOrdersGetCertificateResponse =
-  AppServiceCertificateResource;
+export type AppServiceCertificateOrdersGetCertificateResponse = AppServiceCertificateResource;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
@@ -11055,8 +10969,7 @@ export interface AppServiceCertificateOrdersUpdateCertificateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateCertificate operation. */
-export type AppServiceCertificateOrdersUpdateCertificateResponse =
-  AppServiceCertificateResource;
+export type AppServiceCertificateOrdersUpdateCertificateResponse = AppServiceCertificateResource;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersReissueOptionalParams
@@ -11098,16 +11011,14 @@ export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistoryOptio
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the retrieveCertificateEmailHistory operation. */
-export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse =
-  CertificateEmail[];
+export type AppServiceCertificateOrdersRetrieveCertificateEmailHistoryResponse = CertificateEmail[];
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AppServiceCertificateOrdersListNextResponse =
-  AppServiceCertificateOrderCollection;
+export type AppServiceCertificateOrdersListNextResponse = AppServiceCertificateOrderCollection;
 
 /** Optional parameters. */
 export interface AppServiceCertificateOrdersListByResourceGroupNextOptionalParams
@@ -11161,43 +11072,37 @@ export interface CertificateRegistrationProviderListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type CertificateRegistrationProviderListOperationsResponse =
-  CsmOperationCollection;
+export type CertificateRegistrationProviderListOperationsResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface CertificateRegistrationProviderListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type CertificateRegistrationProviderListOperationsNextResponse =
-  CsmOperationCollection;
+export type CertificateRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface DomainRegistrationProviderListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type DomainRegistrationProviderListOperationsResponse =
-  CsmOperationCollection;
+export type DomainRegistrationProviderListOperationsResponse = CsmOperationCollection;
 
 /** Optional parameters. */
 export interface DomainRegistrationProviderListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type DomainRegistrationProviderListOperationsNextResponse =
-  CsmOperationCollection;
+export type DomainRegistrationProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
-export interface DomainsCheckAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsCheckAvailabilityOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAvailability operation. */
 export type DomainsCheckAvailabilityResponse = DomainAvailabilityCheckResult;
 
 /** Optional parameters. */
-export interface DomainsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DomainsListResponse = DomainCollection;
@@ -11207,19 +11112,16 @@ export interface DomainsGetControlCenterSsoRequestOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getControlCenterSsoRequest operation. */
-export type DomainsGetControlCenterSsoRequestResponse =
-  DomainControlCenterSsoRequest;
+export type DomainsGetControlCenterSsoRequestResponse = DomainControlCenterSsoRequest;
 
 /** Optional parameters. */
-export interface DomainsListRecommendationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListRecommendationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendations operation. */
 export type DomainsListRecommendationsResponse = NameIdentifierCollection;
 
 /** Optional parameters. */
-export interface DomainsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type DomainsListByResourceGroupResponse = DomainCollection;
@@ -11231,8 +11133,7 @@ export interface DomainsGetOptionalParams extends coreClient.OperationOptions {}
 export type DomainsGetResponse = Domain;
 
 /** Optional parameters. */
-export interface DomainsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11243,15 +11144,13 @@ export interface DomainsCreateOrUpdateOptionalParams
 export type DomainsCreateOrUpdateResponse = Domain;
 
 /** Optional parameters. */
-export interface DomainsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DomainsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Specify <code>true</code> to delete the domain immediately. The default is <code>false</code> which deletes the domain after 24 hours. */
   forceHardDeleteDomain?: boolean;
 }
 
 /** Optional parameters. */
-export interface DomainsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type DomainsUpdateResponse = Domain;
@@ -11261,12 +11160,10 @@ export interface DomainsListOwnershipIdentifiersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOwnershipIdentifiers operation. */
-export type DomainsListOwnershipIdentifiersResponse =
-  DomainOwnershipIdentifierCollection;
+export type DomainsListOwnershipIdentifiersResponse = DomainOwnershipIdentifierCollection;
 
 /** Optional parameters. */
-export interface DomainsGetOwnershipIdentifierOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsGetOwnershipIdentifierOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOwnershipIdentifier operation. */
 export type DomainsGetOwnershipIdentifierResponse = DomainOwnershipIdentifier;
@@ -11276,8 +11173,7 @@ export interface DomainsCreateOrUpdateOwnershipIdentifierOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateOwnershipIdentifier operation. */
-export type DomainsCreateOrUpdateOwnershipIdentifierResponse =
-  DomainOwnershipIdentifier;
+export type DomainsCreateOrUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
 
 /** Optional parameters. */
 export interface DomainsDeleteOwnershipIdentifierOptionalParams
@@ -11288,37 +11184,31 @@ export interface DomainsUpdateOwnershipIdentifierOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateOwnershipIdentifier operation. */
-export type DomainsUpdateOwnershipIdentifierResponse =
-  DomainOwnershipIdentifier;
+export type DomainsUpdateOwnershipIdentifierResponse = DomainOwnershipIdentifier;
 
 /** Optional parameters. */
-export interface DomainsRenewOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsRenewOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DomainsTransferOutOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsTransferOutOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the transferOut operation. */
 export type DomainsTransferOutResponse = Domain;
 
 /** Optional parameters. */
-export interface DomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DomainsListNextResponse = DomainCollection;
 
 /** Optional parameters. */
-export interface DomainsListRecommendationsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListRecommendationsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendationsNext operation. */
 export type DomainsListRecommendationsNextResponse = NameIdentifierCollection;
 
 /** Optional parameters. */
-export interface DomainsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DomainsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type DomainsListByResourceGroupNextResponse = DomainCollection;
@@ -11328,33 +11218,28 @@ export interface DomainsListOwnershipIdentifiersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOwnershipIdentifiersNext operation. */
-export type DomainsListOwnershipIdentifiersNextResponse =
-  DomainOwnershipIdentifierCollection;
+export type DomainsListOwnershipIdentifiersNextResponse = DomainOwnershipIdentifierCollection;
 
 /** Optional parameters. */
-export interface TopLevelDomainsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TopLevelDomainsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type TopLevelDomainsListResponse = TopLevelDomainCollection;
 
 /** Optional parameters. */
-export interface TopLevelDomainsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TopLevelDomainsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TopLevelDomainsGetResponse = TopLevelDomain;
 
 /** Optional parameters. */
-export interface TopLevelDomainsListAgreementsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TopLevelDomainsListAgreementsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAgreements operation. */
 export type TopLevelDomainsListAgreementsResponse = TldLegalAgreementCollection;
 
 /** Optional parameters. */
-export interface TopLevelDomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TopLevelDomainsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type TopLevelDomainsListNextResponse = TopLevelDomainCollection;
@@ -11364,28 +11249,23 @@ export interface TopLevelDomainsListAgreementsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAgreementsNext operation. */
-export type TopLevelDomainsListAgreementsNextResponse =
-  TldLegalAgreementCollection;
+export type TopLevelDomainsListAgreementsNextResponse = TldLegalAgreementCollection;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceEnvironmentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AppServiceEnvironmentsListResponse =
-  AppServiceEnvironmentCollection;
+export type AppServiceEnvironmentsListResponse = AppServiceEnvironmentCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AppServiceEnvironmentsListByResourceGroupResponse =
-  AppServiceEnvironmentCollection;
+export type AppServiceEnvironmentsListByResourceGroupResponse = AppServiceEnvironmentCollection;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceEnvironmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AppServiceEnvironmentsGetResponse = AppServiceEnvironmentResource;
@@ -11400,12 +11280,10 @@ export interface AppServiceEnvironmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AppServiceEnvironmentsCreateOrUpdateResponse =
-  AppServiceEnvironmentResource;
+export type AppServiceEnvironmentsCreateOrUpdateResponse = AppServiceEnvironmentResource;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Specify <code>true</code> to force the deletion even if the App Service Environment contains resources. The default is <code>false</code>. */
   forceDelete?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
@@ -11415,20 +11293,17 @@ export interface AppServiceEnvironmentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type AppServiceEnvironmentsUpdateResponse =
-  AppServiceEnvironmentResource;
+export type AppServiceEnvironmentsUpdateResponse = AppServiceEnvironmentResource;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListCapacitiesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCapacities operation. */
-export type AppServiceEnvironmentsListCapacitiesResponse =
-  StampCapacityCollection;
+export type AppServiceEnvironmentsListCapacitiesResponse = StampCapacityCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetVipInfoOptionalParams
@@ -11470,8 +11345,10 @@ export interface AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationOpti
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the deleteAseCustomDnsSuffixConfiguration operation. */
-export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse =
-  Record<string, unknown>;
+export type AppServiceEnvironmentsDeleteAseCustomDnsSuffixConfigurationResponse = Record<
+  string,
+  unknown
+>;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams
@@ -11494,16 +11371,14 @@ export interface AppServiceEnvironmentsListDiagnosticsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDiagnostics operation. */
-export type AppServiceEnvironmentsListDiagnosticsResponse =
-  HostingEnvironmentDiagnostics[];
+export type AppServiceEnvironmentsListDiagnosticsResponse = HostingEnvironmentDiagnostics[];
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetDiagnosticsItemOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDiagnosticsItem operation. */
-export type AppServiceEnvironmentsGetDiagnosticsItemResponse =
-  HostingEnvironmentDiagnostics;
+export type AppServiceEnvironmentsGetDiagnosticsItemResponse = HostingEnvironmentDiagnostics;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams
@@ -11518,8 +11393,7 @@ export interface AppServiceEnvironmentsListMultiRolePoolsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMultiRolePools operation. */
-export type AppServiceEnvironmentsListMultiRolePoolsResponse =
-  WorkerPoolCollection;
+export type AppServiceEnvironmentsListMultiRolePoolsResponse = WorkerPoolCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetMultiRolePoolOptionalParams
@@ -11538,16 +11412,14 @@ export interface AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams
 }
 
 /** Contains response data for the createOrUpdateMultiRolePool operation. */
-export type AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse =
-  WorkerPoolResource;
+export type AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse = WorkerPoolResource;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateMultiRolePool operation. */
-export type AppServiceEnvironmentsUpdateMultiRolePoolResponse =
-  WorkerPoolResource;
+export type AppServiceEnvironmentsUpdateMultiRolePoolResponse = WorkerPoolResource;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams
@@ -11570,16 +11442,14 @@ export interface AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMultiRolePoolSkus operation. */
-export type AppServiceEnvironmentsListMultiRolePoolSkusResponse =
-  SkuInfoCollection;
+export type AppServiceEnvironmentsListMultiRolePoolSkusResponse = SkuInfoCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsTestUpgradeAvailableNotificationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsUpgradeOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsUpgradeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11647,24 +11517,20 @@ export interface AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalPa
 }
 
 /** Contains response data for the deletePrivateEndpointConnection operation. */
-export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse =
-  Record<string, unknown>;
+export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResources operation. */
-export type AppServiceEnvironmentsGetPrivateLinkResourcesResponse =
-  PrivateLinkResourcesWrapper;
+export type AppServiceEnvironmentsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsRebootOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceEnvironmentsRebootOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsResumeOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsResumeOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11679,8 +11545,7 @@ export interface AppServiceEnvironmentsListAppServicePlansOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAppServicePlans operation. */
-export type AppServiceEnvironmentsListAppServicePlansResponse =
-  AppServicePlanCollection;
+export type AppServiceEnvironmentsListAppServicePlansResponse = AppServicePlanCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWebAppsOptionalParams
@@ -11693,8 +11558,7 @@ export interface AppServiceEnvironmentsListWebAppsOptionalParams
 export type AppServiceEnvironmentsListWebAppsResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsSuspendOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServiceEnvironmentsSuspendOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11719,8 +11583,7 @@ export interface AppServiceEnvironmentsListWorkerPoolsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkerPools operation. */
-export type AppServiceEnvironmentsListWorkerPoolsResponse =
-  WorkerPoolCollection;
+export type AppServiceEnvironmentsListWorkerPoolsResponse = WorkerPoolCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetWorkerPoolOptionalParams
@@ -11739,8 +11602,7 @@ export interface AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams
 }
 
 /** Contains response data for the createOrUpdateWorkerPool operation. */
-export type AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse =
-  WorkerPoolResource;
+export type AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse = WorkerPoolResource;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsUpdateWorkerPoolOptionalParams
@@ -11770,8 +11632,7 @@ export interface AppServiceEnvironmentsListWorkerPoolSkusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkerPoolSkus operation. */
-export type AppServiceEnvironmentsListWorkerPoolSkusResponse =
-  SkuInfoCollection;
+export type AppServiceEnvironmentsListWorkerPoolSkusResponse = SkuInfoCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWebWorkerUsagesOptionalParams
@@ -11781,28 +11642,24 @@ export interface AppServiceEnvironmentsListWebWorkerUsagesOptionalParams
 export type AppServiceEnvironmentsListWebWorkerUsagesResponse = UsageCollection;
 
 /** Optional parameters. */
-export interface AppServiceEnvironmentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServiceEnvironmentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AppServiceEnvironmentsListNextResponse =
-  AppServiceEnvironmentCollection;
+export type AppServiceEnvironmentsListNextResponse = AppServiceEnvironmentCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AppServiceEnvironmentsListByResourceGroupNextResponse =
-  AppServiceEnvironmentCollection;
+export type AppServiceEnvironmentsListByResourceGroupNextResponse = AppServiceEnvironmentCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListCapacitiesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCapacitiesNext operation. */
-export type AppServiceEnvironmentsListCapacitiesNextResponse =
-  StampCapacityCollection;
+export type AppServiceEnvironmentsListCapacitiesNextResponse = StampCapacityCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsChangeVnetNextOptionalParams
@@ -11824,8 +11681,7 @@ export interface AppServiceEnvironmentsListMultiRolePoolsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMultiRolePoolsNext operation. */
-export type AppServiceEnvironmentsListMultiRolePoolsNextResponse =
-  WorkerPoolCollection;
+export type AppServiceEnvironmentsListMultiRolePoolsNextResponse = WorkerPoolCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsNextOptionalParams
@@ -11848,16 +11704,14 @@ export interface AppServiceEnvironmentsListMultiRolePoolSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMultiRolePoolSkusNext operation. */
-export type AppServiceEnvironmentsListMultiRolePoolSkusNextResponse =
-  SkuInfoCollection;
+export type AppServiceEnvironmentsListMultiRolePoolSkusNextResponse = SkuInfoCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListMultiRoleUsagesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMultiRoleUsagesNext operation. */
-export type AppServiceEnvironmentsListMultiRoleUsagesNextResponse =
-  UsageCollection;
+export type AppServiceEnvironmentsListMultiRoleUsagesNextResponse = UsageCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextOptionalParams
@@ -11887,8 +11741,7 @@ export interface AppServiceEnvironmentsListAppServicePlansNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAppServicePlansNext operation. */
-export type AppServiceEnvironmentsListAppServicePlansNextResponse =
-  AppServicePlanCollection;
+export type AppServiceEnvironmentsListAppServicePlansNextResponse = AppServicePlanCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWebAppsNextOptionalParams
@@ -11909,16 +11762,14 @@ export interface AppServiceEnvironmentsListUsagesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
-export type AppServiceEnvironmentsListUsagesNextResponse =
-  CsmUsageQuotaCollection;
+export type AppServiceEnvironmentsListUsagesNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWorkerPoolsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkerPoolsNext operation. */
-export type AppServiceEnvironmentsListWorkerPoolsNextResponse =
-  WorkerPoolCollection;
+export type AppServiceEnvironmentsListWorkerPoolsNextResponse = WorkerPoolCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsNextOptionalParams
@@ -11941,20 +11792,17 @@ export interface AppServiceEnvironmentsListWorkerPoolSkusNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkerPoolSkusNext operation. */
-export type AppServiceEnvironmentsListWorkerPoolSkusNextResponse =
-  SkuInfoCollection;
+export type AppServiceEnvironmentsListWorkerPoolSkusNextResponse = SkuInfoCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListWebWorkerUsagesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebWorkerUsagesNext operation. */
-export type AppServiceEnvironmentsListWebWorkerUsagesNextResponse =
-  UsageCollection;
+export type AppServiceEnvironmentsListWebWorkerUsagesNextResponse = UsageCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansListOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServicePlansListOptionalParams extends coreClient.OperationOptions {
   /**
    * Specify <code>true</code> to return all App Service plan properties. The default is <code>false</code>, which returns a subset of the properties.
    *  Retrieval of all properties may increase the API latency.
@@ -11970,19 +11818,16 @@ export interface AppServicePlansListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AppServicePlansListByResourceGroupResponse =
-  AppServicePlanCollection;
+export type AppServicePlansListByResourceGroupResponse = AppServicePlanCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AppServicePlansGetResponse = AppServicePlan;
 
 /** Optional parameters. */
-export interface AppServicePlansCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServicePlansCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -11993,12 +11838,10 @@ export interface AppServicePlansCreateOrUpdateOptionalParams
 export type AppServicePlansCreateOrUpdateResponse = AppServicePlan;
 
 /** Optional parameters. */
-export interface AppServicePlansDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServicePlansUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type AppServicePlansUpdateResponse = AppServicePlan;
@@ -12026,43 +11869,37 @@ export interface AppServicePlansListHybridConnectionKeysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHybridConnectionKeys operation. */
-export type AppServicePlansListHybridConnectionKeysResponse =
-  HybridConnectionKey;
+export type AppServicePlansListHybridConnectionKeysResponse = HybridConnectionKey;
 
 /** Optional parameters. */
 export interface AppServicePlansListWebAppsByHybridConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsByHybridConnection operation. */
-export type AppServicePlansListWebAppsByHybridConnectionResponse =
-  ResourceCollection;
+export type AppServicePlansListWebAppsByHybridConnectionResponse = ResourceCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansGetHybridConnectionPlanLimitOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHybridConnectionPlanLimit operation. */
-export type AppServicePlansGetHybridConnectionPlanLimitResponse =
-  HybridConnectionLimits;
+export type AppServicePlansGetHybridConnectionPlanLimitResponse = HybridConnectionLimits;
 
 /** Optional parameters. */
 export interface AppServicePlansListHybridConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHybridConnections operation. */
-export type AppServicePlansListHybridConnectionsResponse =
-  HybridConnectionCollection;
+export type AppServicePlansListHybridConnectionsResponse = HybridConnectionCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansRestartWebAppsOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServicePlansRestartWebAppsOptionalParams extends coreClient.OperationOptions {
   /** Specify <code>true</code> to perform a soft restart, applies the configuration settings and restarts the apps if necessary. The default is <code>false</code>, which always restarts and reprovisions the apps */
   softRestart?: boolean;
 }
 
 /** Optional parameters. */
-export interface AppServicePlansListWebAppsOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServicePlansListWebAppsOptionalParams extends coreClient.OperationOptions {
   /** Supported filter: $filter=state eq running. Returns only web apps that are currently running */
   filter?: string;
   /** Skip to a web app in the list of webapps associated with app service plan. If specified, the resulting list will contain web apps starting from (including) the skipToken. Otherwise, the resulting list contains web apps from the start of the list */
@@ -12082,8 +11919,7 @@ export interface AppServicePlansGetServerFarmSkusOptionalParams
 export type AppServicePlansGetServerFarmSkusResponse = Record<string, unknown>;
 
 /** Optional parameters. */
-export interface AppServicePlansListUsagesOptionalParams
-  extends coreClient.OperationOptions {
+export interface AppServicePlansListUsagesOptionalParams extends coreClient.OperationOptions {
   /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2'). */
   filter?: string;
 }
@@ -12092,8 +11928,7 @@ export interface AppServicePlansListUsagesOptionalParams
 export type AppServicePlansListUsagesResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansListVnetsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansListVnetsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnets operation. */
 export type AppServicePlansListVnetsResponse = VnetInfoResource[];
@@ -12106,8 +11941,7 @@ export interface AppServicePlansGetVnetFromServerFarmOptionalParams
 export type AppServicePlansGetVnetFromServerFarmResponse = VnetInfoResource;
 
 /** Optional parameters. */
-export interface AppServicePlansGetVnetGatewayOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansGetVnetGatewayOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetGateway operation. */
 export type AppServicePlansGetVnetGatewayResponse = VnetGateway;
@@ -12127,8 +11961,7 @@ export interface AppServicePlansListRoutesForVnetOptionalParams
 export type AppServicePlansListRoutesForVnetResponse = VnetRoute[];
 
 /** Optional parameters. */
-export interface AppServicePlansGetRouteForVnetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansGetRouteForVnetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRouteForVnet operation. */
 export type AppServicePlansGetRouteForVnetResponse = VnetRoute[];
@@ -12141,23 +11974,19 @@ export interface AppServicePlansCreateOrUpdateVnetRouteOptionalParams
 export type AppServicePlansCreateOrUpdateVnetRouteResponse = VnetRoute;
 
 /** Optional parameters. */
-export interface AppServicePlansDeleteVnetRouteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansDeleteVnetRouteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServicePlansUpdateVnetRouteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansUpdateVnetRouteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateVnetRoute operation. */
 export type AppServicePlansUpdateVnetRouteResponse = VnetRoute;
 
 /** Optional parameters. */
-export interface AppServicePlansRebootWorkerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansRebootWorkerOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface AppServicePlansListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type AppServicePlansListNextResponse = AppServicePlanCollection;
@@ -12167,42 +11996,36 @@ export interface AppServicePlansListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AppServicePlansListByResourceGroupNextResponse =
-  AppServicePlanCollection;
+export type AppServicePlansListByResourceGroupNextResponse = AppServicePlanCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansListWebAppsByHybridConnectionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsByHybridConnectionNext operation. */
-export type AppServicePlansListWebAppsByHybridConnectionNextResponse =
-  ResourceCollection;
+export type AppServicePlansListWebAppsByHybridConnectionNextResponse = ResourceCollection;
 
 /** Optional parameters. */
 export interface AppServicePlansListHybridConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHybridConnectionsNext operation. */
-export type AppServicePlansListHybridConnectionsNextResponse =
-  HybridConnectionCollection;
+export type AppServicePlansListHybridConnectionsNextResponse = HybridConnectionCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansListWebAppsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansListWebAppsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebAppsNext operation. */
 export type AppServicePlansListWebAppsNextResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface AppServicePlansListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface AppServicePlansListUsagesNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type AppServicePlansListUsagesNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface CertificatesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesListOptionalParams extends coreClient.OperationOptions {
   /** Return only information specified in the filter (using OData syntax). For example: $filter=KeyVaultId eq 'KeyVaultId' */
   filter?: string;
 }
@@ -12218,33 +12041,28 @@ export interface CertificatesListByResourceGroupOptionalParams
 export type CertificatesListByResourceGroupResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificatesGetResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type CertificatesCreateOrUpdateResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface CertificatesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type CertificatesUpdateResponse = Certificate;
 
 /** Optional parameters. */
-export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = CertificateCollection;
@@ -12257,15 +12075,13 @@ export interface CertificatesListByResourceGroupNextOptionalParams
 export type CertificatesListByResourceGroupNextResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface DeletedWebAppsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedWebAppsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DeletedWebAppsListResponse = DeletedWebAppCollection;
 
 /** Optional parameters. */
-export interface DeletedWebAppsListByLocationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedWebAppsListByLocationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByLocation operation. */
 export type DeletedWebAppsListByLocationResponse = DeletedWebAppCollection;
@@ -12278,8 +12094,7 @@ export interface DeletedWebAppsGetDeletedWebAppByLocationOptionalParams
 export type DeletedWebAppsGetDeletedWebAppByLocationResponse = DeletedSite;
 
 /** Optional parameters. */
-export interface DeletedWebAppsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeletedWebAppsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeletedWebAppsListNextResponse = DeletedWebAppCollection;
@@ -12296,8 +12111,7 @@ export interface DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHostingEnvironmentDetectorResponses operation. */
-export type DiagnosticsListHostingEnvironmentDetectorResponsesResponse =
-  DetectorResponseCollection;
+export type DiagnosticsListHostingEnvironmentDetectorResponsesResponse = DetectorResponseCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
@@ -12311,16 +12125,14 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
 }
 
 /** Contains response data for the getHostingEnvironmentDetectorResponse operation. */
-export type DiagnosticsGetHostingEnvironmentDetectorResponseResponse =
-  DetectorResponse;
+export type DiagnosticsGetHostingEnvironmentDetectorResponseResponse = DetectorResponse;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDetectorResponsesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorResponses operation. */
-export type DiagnosticsListSiteDetectorResponsesResponse =
-  DetectorResponseCollection;
+export type DiagnosticsListSiteDetectorResponsesResponse = DetectorResponseCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsGetSiteDetectorResponseOptionalParams
@@ -12341,8 +12153,7 @@ export interface DiagnosticsListSiteDiagnosticCategoriesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDiagnosticCategories operation. */
-export type DiagnosticsListSiteDiagnosticCategoriesResponse =
-  DiagnosticCategoryCollection;
+export type DiagnosticsListSiteDiagnosticCategoriesResponse = DiagnosticCategoryCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams
@@ -12352,22 +12163,19 @@ export interface DiagnosticsGetSiteDiagnosticCategoryOptionalParams
 export type DiagnosticsGetSiteDiagnosticCategoryResponse = DiagnosticCategory;
 
 /** Optional parameters. */
-export interface DiagnosticsListSiteAnalysesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsListSiteAnalysesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteAnalyses operation. */
 export type DiagnosticsListSiteAnalysesResponse = DiagnosticAnalysisCollection;
 
 /** Optional parameters. */
-export interface DiagnosticsGetSiteAnalysisOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsGetSiteAnalysisOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteAnalysis operation. */
 export type DiagnosticsGetSiteAnalysisResponse = AnalysisDefinition;
 
 /** Optional parameters. */
-export interface DiagnosticsExecuteSiteAnalysisOptionalParams
-  extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteAnalysisOptionalParams extends coreClient.OperationOptions {
   /** Start Time */
   startTime?: Date;
   /** End Time */
@@ -12380,22 +12188,19 @@ export interface DiagnosticsExecuteSiteAnalysisOptionalParams
 export type DiagnosticsExecuteSiteAnalysisResponse = DiagnosticAnalysis;
 
 /** Optional parameters. */
-export interface DiagnosticsListSiteDetectorsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsListSiteDetectorsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectors operation. */
 export type DiagnosticsListSiteDetectorsResponse = DiagnosticDetectorCollection;
 
 /** Optional parameters. */
-export interface DiagnosticsGetSiteDetectorOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsGetSiteDetectorOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteDetector operation. */
 export type DiagnosticsGetSiteDetectorResponse = DetectorDefinitionResource;
 
 /** Optional parameters. */
-export interface DiagnosticsExecuteSiteDetectorOptionalParams
-  extends coreClient.OperationOptions {
+export interface DiagnosticsExecuteSiteDetectorOptionalParams extends coreClient.OperationOptions {
   /** Start Time */
   startTime?: Date;
   /** End Time */
@@ -12412,8 +12217,7 @@ export interface DiagnosticsListSiteDetectorResponsesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorResponsesSlot operation. */
-export type DiagnosticsListSiteDetectorResponsesSlotResponse =
-  DetectorResponseCollection;
+export type DiagnosticsListSiteDetectorResponsesSlotResponse = DetectorResponseCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsGetSiteDetectorResponseSlotOptionalParams
@@ -12434,28 +12238,24 @@ export interface DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDiagnosticCategoriesSlot operation. */
-export type DiagnosticsListSiteDiagnosticCategoriesSlotResponse =
-  DiagnosticCategoryCollection;
+export type DiagnosticsListSiteDiagnosticCategoriesSlotResponse = DiagnosticCategoryCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteDiagnosticCategorySlot operation. */
-export type DiagnosticsGetSiteDiagnosticCategorySlotResponse =
-  DiagnosticCategory;
+export type DiagnosticsGetSiteDiagnosticCategorySlotResponse = DiagnosticCategory;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteAnalysesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteAnalysesSlot operation. */
-export type DiagnosticsListSiteAnalysesSlotResponse =
-  DiagnosticAnalysisCollection;
+export type DiagnosticsListSiteAnalysesSlotResponse = DiagnosticAnalysisCollection;
 
 /** Optional parameters. */
-export interface DiagnosticsGetSiteAnalysisSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsGetSiteAnalysisSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteAnalysisSlot operation. */
 export type DiagnosticsGetSiteAnalysisSlotResponse = AnalysisDefinition;
@@ -12479,12 +12279,10 @@ export interface DiagnosticsListSiteDetectorsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorsSlot operation. */
-export type DiagnosticsListSiteDetectorsSlotResponse =
-  DiagnosticDetectorCollection;
+export type DiagnosticsListSiteDetectorsSlotResponse = DiagnosticDetectorCollection;
 
 /** Optional parameters. */
-export interface DiagnosticsGetSiteDetectorSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiagnosticsGetSiteDetectorSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteDetectorSlot operation. */
 export type DiagnosticsGetSiteDetectorSlotResponse = DetectorDefinitionResource;
@@ -12501,8 +12299,7 @@ export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams
 }
 
 /** Contains response data for the executeSiteDetectorSlot operation. */
-export type DiagnosticsExecuteSiteDetectorSlotResponse =
-  DiagnosticDetectorResponse;
+export type DiagnosticsExecuteSiteDetectorSlotResponse = DiagnosticDetectorResponse;
 
 /** Optional parameters. */
 export interface DiagnosticsListHostingEnvironmentDetectorResponsesNextOptionalParams
@@ -12517,68 +12314,59 @@ export interface DiagnosticsListSiteDetectorResponsesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorResponsesNext operation. */
-export type DiagnosticsListSiteDetectorResponsesNextResponse =
-  DetectorResponseCollection;
+export type DiagnosticsListSiteDetectorResponsesNextResponse = DetectorResponseCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDiagnosticCategoriesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDiagnosticCategoriesNext operation. */
-export type DiagnosticsListSiteDiagnosticCategoriesNextResponse =
-  DiagnosticCategoryCollection;
+export type DiagnosticsListSiteDiagnosticCategoriesNextResponse = DiagnosticCategoryCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteAnalysesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteAnalysesNext operation. */
-export type DiagnosticsListSiteAnalysesNextResponse =
-  DiagnosticAnalysisCollection;
+export type DiagnosticsListSiteAnalysesNextResponse = DiagnosticAnalysisCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDetectorsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorsNext operation. */
-export type DiagnosticsListSiteDetectorsNextResponse =
-  DiagnosticDetectorCollection;
+export type DiagnosticsListSiteDetectorsNextResponse = DiagnosticDetectorCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDetectorResponsesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorResponsesSlotNext operation. */
-export type DiagnosticsListSiteDetectorResponsesSlotNextResponse =
-  DetectorResponseCollection;
+export type DiagnosticsListSiteDetectorResponsesSlotNextResponse = DetectorResponseCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDiagnosticCategoriesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDiagnosticCategoriesSlotNext operation. */
-export type DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse =
-  DiagnosticCategoryCollection;
+export type DiagnosticsListSiteDiagnosticCategoriesSlotNextResponse = DiagnosticCategoryCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteAnalysesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteAnalysesSlotNext operation. */
-export type DiagnosticsListSiteAnalysesSlotNextResponse =
-  DiagnosticAnalysisCollection;
+export type DiagnosticsListSiteAnalysesSlotNextResponse = DiagnosticAnalysisCollection;
 
 /** Optional parameters. */
 export interface DiagnosticsListSiteDetectorsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteDetectorsSlotNext operation. */
-export type DiagnosticsListSiteDetectorsSlotNextResponse =
-  DiagnosticDetectorCollection;
+export type DiagnosticsListSiteDetectorsSlotNextResponse = DiagnosticDetectorCollection;
 
 /** Optional parameters. */
-export interface GlobalGetDeletedWebAppOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GlobalGetDeletedWebAppOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeletedWebApp operation. */
 export type GlobalGetDeletedWebAppResponse = DeletedSite;
@@ -12599,27 +12387,23 @@ export interface KubeEnvironmentsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type KubeEnvironmentsListBySubscriptionResponse =
-  KubeEnvironmentCollection;
+export type KubeEnvironmentsListBySubscriptionResponse = KubeEnvironmentCollection;
 
 /** Optional parameters. */
 export interface KubeEnvironmentsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type KubeEnvironmentsListByResourceGroupResponse =
-  KubeEnvironmentCollection;
+export type KubeEnvironmentsListByResourceGroupResponse = KubeEnvironmentCollection;
 
 /** Optional parameters. */
-export interface KubeEnvironmentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KubeEnvironmentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type KubeEnvironmentsGetResponse = KubeEnvironment;
 
 /** Optional parameters. */
-export interface KubeEnvironmentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface KubeEnvironmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -12630,8 +12414,7 @@ export interface KubeEnvironmentsCreateOrUpdateOptionalParams
 export type KubeEnvironmentsCreateOrUpdateResponse = KubeEnvironment;
 
 /** Optional parameters. */
-export interface KubeEnvironmentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface KubeEnvironmentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -12639,8 +12422,7 @@ export interface KubeEnvironmentsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface KubeEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface KubeEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type KubeEnvironmentsUpdateResponse = KubeEnvironment;
@@ -12650,20 +12432,17 @@ export interface KubeEnvironmentsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type KubeEnvironmentsListBySubscriptionNextResponse =
-  KubeEnvironmentCollection;
+export type KubeEnvironmentsListBySubscriptionNextResponse = KubeEnvironmentCollection;
 
 /** Optional parameters. */
 export interface KubeEnvironmentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type KubeEnvironmentsListByResourceGroupNextResponse =
-  KubeEnvironmentCollection;
+export type KubeEnvironmentsListByResourceGroupNextResponse = KubeEnvironmentCollection;
 
 /** Optional parameters. */
-export interface ProviderGetAvailableStacksOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProviderGetAvailableStacksOptionalParams extends coreClient.OperationOptions {
   osTypeSelected?: ProviderOsTypeSelected;
 }
 
@@ -12671,8 +12450,7 @@ export interface ProviderGetAvailableStacksOptionalParams
 export type ProviderGetAvailableStacksResponse = ApplicationStackCollection;
 
 /** Optional parameters. */
-export interface ProviderGetFunctionAppStacksOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProviderGetFunctionAppStacksOptionalParams extends coreClient.OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
@@ -12688,8 +12466,7 @@ export interface ProviderGetFunctionAppStacksForLocationOptionalParams
 }
 
 /** Contains response data for the getFunctionAppStacksForLocation operation. */
-export type ProviderGetFunctionAppStacksForLocationResponse =
-  FunctionAppStackCollection;
+export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetWebAppStacksForLocationOptionalParams
@@ -12702,15 +12479,13 @@ export interface ProviderGetWebAppStacksForLocationOptionalParams
 export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection;
 
 /** Optional parameters. */
-export interface ProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProviderListOperationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
 export type ProviderListOperationsResponse = CsmOperationCollection;
 
 /** Optional parameters. */
-export interface ProviderGetWebAppStacksOptionalParams
-  extends coreClient.OperationOptions {
+export interface ProviderGetWebAppStacksOptionalParams extends coreClient.OperationOptions {
   /** Stack OS Type */
   stackOsType?: ProviderStackOsType;
 }
@@ -12725,12 +12500,10 @@ export interface ProviderGetAvailableStacksOnPremOptionalParams
 }
 
 /** Contains response data for the getAvailableStacksOnPrem operation. */
-export type ProviderGetAvailableStacksOnPremResponse =
-  ApplicationStackCollection;
+export type ProviderGetAvailableStacksOnPremResponse = ApplicationStackCollection;
 
 /** Optional parameters. */
-export interface ProviderGetAvailableStacksNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProviderGetAvailableStacksNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksNext operation. */
 export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection;
@@ -12740,35 +12513,30 @@ export interface ProviderGetFunctionAppStacksNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunctionAppStacksNext operation. */
-export type ProviderGetFunctionAppStacksNextResponse =
-  FunctionAppStackCollection;
+export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunctionAppStacksForLocationNext operation. */
-export type ProviderGetFunctionAppStacksForLocationNextResponse =
-  FunctionAppStackCollection;
+export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppStackCollection;
 
 /** Optional parameters. */
 export interface ProviderGetWebAppStacksForLocationNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebAppStacksForLocationNext operation. */
-export type ProviderGetWebAppStacksForLocationNextResponse =
-  WebAppStackCollection;
+export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollection;
 
 /** Optional parameters. */
-export interface ProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProviderListOperationsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
 export type ProviderListOperationsNextResponse = CsmOperationCollection;
 
 /** Optional parameters. */
-export interface ProviderGetWebAppStacksNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ProviderGetWebAppStacksNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebAppStacksNext operation. */
 export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection;
@@ -12778,12 +12546,10 @@ export interface ProviderGetAvailableStacksOnPremNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableStacksOnPremNext operation. */
-export type ProviderGetAvailableStacksOnPremNextResponse =
-  ApplicationStackCollection;
+export type ProviderGetAvailableStacksOnPremNextResponse = ApplicationStackCollection;
 
 /** Optional parameters. */
-export interface RecommendationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
   /** Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D] */
   filter?: string;
   /** Specify <code>true</code> to return only the most critical recommendations. The default is <code>false</code>, which returns all recommendations. */
@@ -12794,8 +12560,7 @@ export interface RecommendationsListOptionalParams
 export type RecommendationsListResponse = RecommendationCollection;
 
 /** Optional parameters. */
-export interface RecommendationsResetAllFiltersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsResetAllFiltersOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RecommendationsDisableRecommendationForSubscriptionOptionalParams
@@ -12811,8 +12576,7 @@ export interface RecommendationsListHistoryForHostingEnvironmentOptionalParams
 }
 
 /** Contains response data for the listHistoryForHostingEnvironment operation. */
-export type RecommendationsListHistoryForHostingEnvironmentResponse =
-  RecommendationCollection;
+export type RecommendationsListHistoryForHostingEnvironmentResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
@@ -12845,8 +12609,7 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
 }
 
 /** Contains response data for the getRuleDetailsByHostingEnvironment operation. */
-export type RecommendationsGetRuleDetailsByHostingEnvironmentResponse =
-  RecommendationRule;
+export type RecommendationsGetRuleDetailsByHostingEnvironmentResponse = RecommendationRule;
 
 /** Optional parameters. */
 export interface RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams
@@ -12862,8 +12625,7 @@ export interface RecommendationsListHistoryForWebAppOptionalParams
 }
 
 /** Contains response data for the listHistoryForWebApp operation. */
-export type RecommendationsListHistoryForWebAppResponse =
-  RecommendationCollection;
+export type RecommendationsListHistoryForWebAppResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForWebAppOptionalParams
@@ -12875,8 +12637,7 @@ export interface RecommendationsListRecommendedRulesForWebAppOptionalParams
 }
 
 /** Contains response data for the listRecommendedRulesForWebApp operation. */
-export type RecommendationsListRecommendedRulesForWebAppResponse =
-  RecommendationCollection;
+export type RecommendationsListRecommendedRulesForWebAppResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsDisableAllForWebAppOptionalParams
@@ -12903,8 +12664,7 @@ export interface RecommendationsDisableRecommendationForSiteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = RecommendationCollection;
@@ -12914,8 +12674,7 @@ export interface RecommendationsListHistoryForHostingEnvironmentNextOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForHostingEnvironmentNext operation. */
-export type RecommendationsListHistoryForHostingEnvironmentNextResponse =
-  RecommendationCollection;
+export type RecommendationsListHistoryForHostingEnvironmentNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForHostingEnvironmentNextOptionalParams
@@ -12930,40 +12689,34 @@ export interface RecommendationsListHistoryForWebAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHistoryForWebAppNext operation. */
-export type RecommendationsListHistoryForWebAppNextResponse =
-  RecommendationCollection;
+export type RecommendationsListHistoryForWebAppNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
 export interface RecommendationsListRecommendedRulesForWebAppNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRecommendedRulesForWebAppNext operation. */
-export type RecommendationsListRecommendedRulesForWebAppNextResponse =
-  RecommendationCollection;
+export type RecommendationsListRecommendedRulesForWebAppNextResponse = RecommendationCollection;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceHealthMetadataListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ResourceHealthMetadataListResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ResourceHealthMetadataListByResourceGroupResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListByResourceGroupResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataListBySiteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySite operation. */
-export type ResourceHealthMetadataListBySiteResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataGetBySiteOptionalParams
@@ -12977,24 +12730,20 @@ export interface ResourceHealthMetadataListBySiteSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteSlot operation. */
-export type ResourceHealthMetadataListBySiteSlotResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteSlotResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataGetBySiteSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBySiteSlot operation. */
-export type ResourceHealthMetadataGetBySiteSlotResponse =
-  ResourceHealthMetadata;
+export type ResourceHealthMetadataGetBySiteSlotResponse = ResourceHealthMetadata;
 
 /** Optional parameters. */
-export interface ResourceHealthMetadataListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ResourceHealthMetadataListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ResourceHealthMetadataListNextResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataListByResourceGroupNextOptionalParams
@@ -13009,55 +12758,47 @@ export interface ResourceHealthMetadataListBySiteNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteNext operation. */
-export type ResourceHealthMetadataListBySiteNextResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
 export interface ResourceHealthMetadataListBySiteSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySiteSlotNext operation. */
-export type ResourceHealthMetadataListBySiteSlotNextResponse =
-  ResourceHealthMetadataCollection;
+export type ResourceHealthMetadataListBySiteSlotNextResponse = ResourceHealthMetadataCollection;
 
 /** Optional parameters. */
-export interface GetPublishingUserOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetPublishingUserOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPublishingUser operation. */
 export type GetPublishingUserResponse = User;
 
 /** Optional parameters. */
-export interface UpdatePublishingUserOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UpdatePublishingUserOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updatePublishingUser operation. */
 export type UpdatePublishingUserResponse = User;
 
 /** Optional parameters. */
-export interface ListSourceControlsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListSourceControlsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSourceControls operation. */
 export type ListSourceControlsResponse = SourceControlCollection;
 
 /** Optional parameters. */
-export interface GetSourceControlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetSourceControlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSourceControl operation. */
 export type GetSourceControlResponse = SourceControl;
 
 /** Optional parameters. */
-export interface UpdateSourceControlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UpdateSourceControlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSourceControl operation. */
 export type UpdateSourceControlResponse = SourceControl;
 
 /** Optional parameters. */
-export interface ListBillingMetersOptionalParams
-  extends coreClient.OperationOptions {
+export interface ListBillingMetersOptionalParams extends coreClient.OperationOptions {
   /** Azure Location of billable resource */
   billingLocation?: string;
   /** App Service OS type meters used for */
@@ -13068,8 +12809,7 @@ export interface ListBillingMetersOptionalParams
 export type ListBillingMetersResponse = BillingMeterCollection;
 
 /** Optional parameters. */
-export interface CheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {
+export interface CheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
   /** Is fully qualified domain name. */
   isFqdn?: boolean;
   /** Azure Resource Manager ID of the customer's selected Container Apps Environment on which to host the Function app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
@@ -13080,8 +12820,7 @@ export interface CheckNameAvailabilityOptionalParams
 export type CheckNameAvailabilityResponse = ResourceNameAvailability;
 
 /** Optional parameters. */
-export interface ListCustomHostNameSitesOptionalParams
-  extends coreClient.OperationOptions {
+export interface ListCustomHostNameSitesOptionalParams extends coreClient.OperationOptions {
   /** Specific hostname */
   hostname?: string;
 }
@@ -13097,15 +12836,13 @@ export interface GetSubscriptionDeploymentLocationsOptionalParams
 export type GetSubscriptionDeploymentLocationsResponse = DeploymentLocations;
 
 /** Optional parameters. */
-export interface ListAseRegionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListAseRegionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAseRegions operation. */
 export type ListAseRegionsResponse = AseRegionCollection;
 
 /** Optional parameters. */
-export interface ListGeoRegionsOptionalParams
-  extends coreClient.OperationOptions {
+export interface ListGeoRegionsOptionalParams extends coreClient.OperationOptions {
   /** Name of SKU used to filter the regions. */
   sku?: SkuName;
   /** Specify <code>true</code> if you want to filter to only regions that support Linux workers. */
@@ -13124,12 +12861,10 @@ export interface ListSiteIdentifiersAssignedToHostNameOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteIdentifiersAssignedToHostName operation. */
-export type ListSiteIdentifiersAssignedToHostNameResponse =
-  IdentifierCollection;
+export type ListSiteIdentifiersAssignedToHostNameResponse = IdentifierCollection;
 
 /** Optional parameters. */
-export interface ListPremierAddOnOffersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListPremierAddOnOffersOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOnOffers operation. */
 export type ListPremierAddOnOffersResponse = PremierAddOnOfferCollection;
@@ -13141,8 +12876,7 @@ export interface ListSkusOptionalParams extends coreClient.OperationOptions {}
 export type ListSkusResponse = SkuInfos;
 
 /** Optional parameters. */
-export interface VerifyHostingEnvironmentVnetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VerifyHostingEnvironmentVnetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the verifyHostingEnvironmentVnet operation. */
 export type VerifyHostingEnvironmentVnetResponse = VnetValidationFailureDetails;
@@ -13157,40 +12891,34 @@ export interface ValidateOptionalParams extends coreClient.OperationOptions {}
 export type ValidateOperationResponse = ValidateResponse;
 
 /** Optional parameters. */
-export interface ValidateMoveOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ValidateMoveOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ListSourceControlsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListSourceControlsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSourceControlsNext operation. */
 export type ListSourceControlsNextResponse = SourceControlCollection;
 
 /** Optional parameters. */
-export interface ListBillingMetersNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListBillingMetersNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBillingMetersNext operation. */
 export type ListBillingMetersNextResponse = BillingMeterCollection;
 
 /** Optional parameters. */
-export interface ListCustomHostNameSitesNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListCustomHostNameSitesNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCustomHostNameSitesNext operation. */
 export type ListCustomHostNameSitesNextResponse = CustomHostnameSitesCollection;
 
 /** Optional parameters. */
-export interface ListAseRegionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListAseRegionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAseRegionsNext operation. */
 export type ListAseRegionsNextResponse = AseRegionCollection;
 
 /** Optional parameters. */
-export interface ListGeoRegionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListGeoRegionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGeoRegionsNext operation. */
 export type ListGeoRegionsNextResponse = GeoRegionCollection;
@@ -13200,40 +12928,34 @@ export interface ListSiteIdentifiersAssignedToHostNameNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteIdentifiersAssignedToHostNameNext operation. */
-export type ListSiteIdentifiersAssignedToHostNameNextResponse =
-  IdentifierCollection;
+export type ListSiteIdentifiersAssignedToHostNameNextResponse = IdentifierCollection;
 
 /** Optional parameters. */
-export interface ListPremierAddOnOffersNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ListPremierAddOnOffersNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOnOffersNext operation. */
 export type ListPremierAddOnOffersNextResponse = PremierAddOnOfferCollection;
 
 /** Optional parameters. */
-export interface GetUsagesInLocationListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetUsagesInLocationListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type GetUsagesInLocationListResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface GetUsagesInLocationListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetUsagesInLocationListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type GetUsagesInLocationListNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface StaticSitesPreviewWorkflowOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesPreviewWorkflowOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the previewWorkflow operation. */
 export type StaticSitesPreviewWorkflowResponse = StaticSitesWorkflowPreview;
 
 /** Optional parameters. */
-export interface StaticSitesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type StaticSitesListResponse = StaticSiteCollection;
@@ -13243,12 +12965,10 @@ export interface StaticSitesGetStaticSitesByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSitesByResourceGroup operation. */
-export type StaticSitesGetStaticSitesByResourceGroupResponse =
-  StaticSiteCollection;
+export type StaticSitesGetStaticSitesByResourceGroupResponse = StaticSiteCollection;
 
 /** Optional parameters. */
-export interface StaticSitesGetStaticSiteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetStaticSiteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSite operation. */
 export type StaticSitesGetStaticSiteResponse = StaticSiteARMResource;
@@ -13266,8 +12986,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteOptionalParams
 export type StaticSitesCreateOrUpdateStaticSiteResponse = StaticSiteARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesDeleteStaticSiteOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesDeleteStaticSiteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13275,15 +12994,13 @@ export interface StaticSitesDeleteStaticSiteOptionalParams
 }
 
 /** Optional parameters. */
-export interface StaticSitesUpdateStaticSiteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesUpdateStaticSiteOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateStaticSite operation. */
 export type StaticSitesUpdateStaticSiteResponse = StaticSiteARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesListStaticSiteUsersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesListStaticSiteUsersOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteUsers operation. */
 export type StaticSitesListStaticSiteUsersResponse = StaticSiteUserCollection;
@@ -13300,15 +13017,13 @@ export interface StaticSitesUpdateStaticSiteUserOptionalParams
 export type StaticSitesUpdateStaticSiteUserResponse = StaticSiteUserARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesGetStaticSiteBuildsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetStaticSiteBuildsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSiteBuilds operation. */
 export type StaticSitesGetStaticSiteBuildsResponse = StaticSiteBuildCollection;
 
 /** Optional parameters. */
-export interface StaticSitesGetStaticSiteBuildOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetStaticSiteBuildOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSiteBuild operation. */
 export type StaticSitesGetStaticSiteBuildResponse = StaticSiteBuildARMResource;
@@ -13327,24 +13042,21 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateStaticSiteBuildAppSettings operation. */
-export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateStaticSiteBuildFunctionAppSettings operation. */
-export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesGetBuildDatabaseConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBuildDatabaseConnections operation. */
-export type StaticSitesGetBuildDatabaseConnectionsResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetBuildDatabaseConnectionsResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetBuildDatabaseConnectionOptionalParams
@@ -13358,8 +13070,7 @@ export interface StaticSitesCreateOrUpdateBuildDatabaseConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateBuildDatabaseConnection operation. */
-export type StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse =
-  DatabaseConnection;
+export type StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse = DatabaseConnection;
 
 /** Optional parameters. */
 export interface StaticSitesDeleteBuildDatabaseConnectionOptionalParams
@@ -13370,40 +13081,35 @@ export interface StaticSitesUpdateBuildDatabaseConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateBuildDatabaseConnection operation. */
-export type StaticSitesUpdateBuildDatabaseConnectionResponse =
-  DatabaseConnection;
+export type StaticSitesUpdateBuildDatabaseConnectionResponse = DatabaseConnection;
 
 /** Optional parameters. */
 export interface StaticSitesGetBuildDatabaseConnectionWithDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBuildDatabaseConnectionWithDetails operation. */
-export type StaticSitesGetBuildDatabaseConnectionWithDetailsResponse =
-  DatabaseConnection;
+export type StaticSitesGetBuildDatabaseConnectionWithDetailsResponse = DatabaseConnection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildFunctionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteBuildFunctions operation. */
-export type StaticSitesListStaticSiteBuildFunctionsResponse =
-  StaticSiteFunctionOverviewCollection;
+export type StaticSitesListStaticSiteBuildFunctionsResponse = StaticSiteFunctionOverviewCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteBuildAppSettings operation. */
-export type StaticSitesListStaticSiteBuildAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesListStaticSiteBuildAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildFunctionAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteBuildFunctionAppSettings operation. */
-export type StaticSitesListStaticSiteBuildFunctionAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesListStaticSiteBuildFunctionAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesGetBuildDatabaseConnectionsWithDetailsOptionalParams
@@ -13462,40 +13168,33 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateStaticSiteAppSettings operation. */
-export type StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface StaticSitesListBasicAuthOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesListBasicAuthOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBasicAuth operation. */
-export type StaticSitesListBasicAuthResponse =
-  StaticSiteBasicAuthPropertiesCollection;
+export type StaticSitesListBasicAuthResponse = StaticSiteBasicAuthPropertiesCollection;
 
 /** Optional parameters. */
-export interface StaticSitesGetBasicAuthOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetBasicAuthOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBasicAuth operation. */
-export type StaticSitesGetBasicAuthResponse =
-  StaticSiteBasicAuthPropertiesARMResource;
+export type StaticSitesGetBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
 
 /** Optional parameters. */
 export interface StaticSitesCreateOrUpdateBasicAuthOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateBasicAuth operation. */
-export type StaticSitesCreateOrUpdateBasicAuthResponse =
-  StaticSiteBasicAuthPropertiesARMResource;
+export type StaticSitesCreateOrUpdateBasicAuthResponse = StaticSiteBasicAuthPropertiesARMResource;
 
 /** Optional parameters. */
 export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateStaticSiteFunctionAppSettings operation. */
-export type StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesCreateUserRolesInvitationLinkOptionalParams
@@ -13557,8 +13256,7 @@ export interface StaticSitesGetDatabaseConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseConnections operation. */
-export type StaticSitesGetDatabaseConnectionsResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetDatabaseConnectionsResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetDatabaseConnectionOptionalParams
@@ -13572,8 +13270,7 @@ export interface StaticSitesCreateOrUpdateDatabaseConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateDatabaseConnection operation. */
-export type StaticSitesCreateOrUpdateDatabaseConnectionResponse =
-  DatabaseConnection;
+export type StaticSitesCreateOrUpdateDatabaseConnectionResponse = DatabaseConnection;
 
 /** Optional parameters. */
 export interface StaticSitesDeleteDatabaseConnectionOptionalParams
@@ -13591,12 +13288,10 @@ export interface StaticSitesGetDatabaseConnectionWithDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseConnectionWithDetails operation. */
-export type StaticSitesGetDatabaseConnectionWithDetailsResponse =
-  DatabaseConnection;
+export type StaticSitesGetDatabaseConnectionWithDetailsResponse = DatabaseConnection;
 
 /** Optional parameters. */
-export interface StaticSitesDetachStaticSiteOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesDetachStaticSiteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13608,8 +13303,7 @@ export interface StaticSitesListStaticSiteFunctionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteFunctions operation. */
-export type StaticSitesListStaticSiteFunctionsResponse =
-  StaticSiteFunctionOverviewCollection;
+export type StaticSitesListStaticSiteFunctionsResponse = StaticSiteFunctionOverviewCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteAppSettingsOptionalParams
@@ -13630,8 +13324,7 @@ export interface StaticSitesListStaticSiteFunctionAppSettingsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteFunctionAppSettings operation. */
-export type StaticSitesListStaticSiteFunctionAppSettingsResponse =
-  StringDictionary;
+export type StaticSitesListStaticSiteFunctionAppSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteSecretsOptionalParams
@@ -13679,18 +13372,14 @@ export interface StaticSitesDeletePrivateEndpointConnectionOptionalParams
 }
 
 /** Contains response data for the deletePrivateEndpointConnection operation. */
-export type StaticSitesDeletePrivateEndpointConnectionResponse = Record<
-  string,
-  unknown
->;
+export type StaticSitesDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface StaticSitesGetPrivateLinkResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResources operation. */
-export type StaticSitesGetPrivateLinkResourcesResponse =
-  PrivateLinkResourcesWrapper;
+export type StaticSitesGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
 export interface StaticSitesResetStaticSiteApiKeyOptionalParams
@@ -13701,8 +13390,7 @@ export interface StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseConnectionsWithDetails operation. */
-export type StaticSitesGetDatabaseConnectionsWithDetailsResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetDatabaseConnectionsWithDetailsResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteOptionalParams
@@ -13749,8 +13437,7 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteOptionalParams
 }
 
 /** Optional parameters. */
-export interface StaticSitesValidateBackendOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesValidateBackendOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13767,32 +13454,26 @@ export interface StaticSitesValidateBackendForBuildOptionalParams
 }
 
 /** Optional parameters. */
-export interface StaticSitesGetLinkedBackendsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetLinkedBackendsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackends operation. */
-export type StaticSitesGetLinkedBackendsResponse =
-  StaticSiteLinkedBackendsCollection;
+export type StaticSitesGetLinkedBackendsResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetLinkedBackendsForBuildOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackendsForBuild operation. */
-export type StaticSitesGetLinkedBackendsForBuildResponse =
-  StaticSiteLinkedBackendsCollection;
+export type StaticSitesGetLinkedBackendsForBuildResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
-export interface StaticSitesGetLinkedBackendOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesGetLinkedBackendOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackend operation. */
-export type StaticSitesGetLinkedBackendResponse =
-  StaticSiteLinkedBackendARMResource;
+export type StaticSitesGetLinkedBackendResponse = StaticSiteLinkedBackendARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesLinkBackendOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesLinkBackendOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13803,8 +13484,7 @@ export interface StaticSitesLinkBackendOptionalParams
 export type StaticSitesLinkBackendResponse = StaticSiteLinkedBackendARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesUnlinkBackendOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesUnlinkBackendOptionalParams extends coreClient.OperationOptions {
   /** Decides if Easy Auth configuration will be removed from backend configuration */
   isCleaningAuthConfig?: boolean;
 }
@@ -13814,12 +13494,10 @@ export interface StaticSitesGetLinkedBackendForBuildOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackendForBuild operation. */
-export type StaticSitesGetLinkedBackendForBuildResponse =
-  StaticSiteLinkedBackendARMResource;
+export type StaticSitesGetLinkedBackendForBuildResponse = StaticSiteLinkedBackendARMResource;
 
 /** Optional parameters. */
-export interface StaticSitesLinkBackendToBuildOptionalParams
-  extends coreClient.OperationOptions {
+export interface StaticSitesLinkBackendToBuildOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -13827,8 +13505,7 @@ export interface StaticSitesLinkBackendToBuildOptionalParams
 }
 
 /** Contains response data for the linkBackendToBuild operation. */
-export type StaticSitesLinkBackendToBuildResponse =
-  StaticSiteLinkedBackendARMResource;
+export type StaticSitesLinkBackendToBuildResponse = StaticSiteLinkedBackendARMResource;
 
 /** Optional parameters. */
 export interface StaticSitesUnlinkBackendFromBuildOptionalParams
@@ -13838,8 +13515,7 @@ export interface StaticSitesUnlinkBackendFromBuildOptionalParams
 }
 
 /** Optional parameters. */
-export interface StaticSitesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type StaticSitesListNextResponse = StaticSiteCollection;
@@ -13849,32 +13525,28 @@ export interface StaticSitesGetStaticSitesByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSitesByResourceGroupNext operation. */
-export type StaticSitesGetStaticSitesByResourceGroupNextResponse =
-  StaticSiteCollection;
+export type StaticSitesGetStaticSitesByResourceGroupNextResponse = StaticSiteCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteUsersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteUsersNext operation. */
-export type StaticSitesListStaticSiteUsersNextResponse =
-  StaticSiteUserCollection;
+export type StaticSitesListStaticSiteUsersNextResponse = StaticSiteUserCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetStaticSiteBuildsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getStaticSiteBuildsNext operation. */
-export type StaticSitesGetStaticSiteBuildsNextResponse =
-  StaticSiteBuildCollection;
+export type StaticSitesGetStaticSiteBuildsNextResponse = StaticSiteBuildCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetBuildDatabaseConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBuildDatabaseConnectionsNext operation. */
-export type StaticSitesGetBuildDatabaseConnectionsNextResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetBuildDatabaseConnectionsNextResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteBuildFunctionsNextOptionalParams
@@ -13901,12 +13573,10 @@ export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse
   StaticSiteUserProvidedFunctionAppsCollection;
 
 /** Optional parameters. */
-export interface StaticSitesListBasicAuthNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface StaticSitesListBasicAuthNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBasicAuthNext operation. */
-export type StaticSitesListBasicAuthNextResponse =
-  StaticSiteBasicAuthPropertiesCollection;
+export type StaticSitesListBasicAuthNextResponse = StaticSiteBasicAuthPropertiesCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteCustomDomainsNextOptionalParams
@@ -13921,16 +13591,14 @@ export interface StaticSitesGetDatabaseConnectionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseConnectionsNext operation. */
-export type StaticSitesGetDatabaseConnectionsNextResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetDatabaseConnectionsNextResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesListStaticSiteFunctionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listStaticSiteFunctionsNext operation. */
-export type StaticSitesListStaticSiteFunctionsNextResponse =
-  StaticSiteFunctionOverviewCollection;
+export type StaticSitesListStaticSiteFunctionsNextResponse = StaticSiteFunctionOverviewCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetPrivateEndpointConnectionListNextOptionalParams
@@ -13945,8 +13613,7 @@ export interface StaticSitesGetDatabaseConnectionsWithDetailsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDatabaseConnectionsWithDetailsNext operation. */
-export type StaticSitesGetDatabaseConnectionsWithDetailsNextResponse =
-  DatabaseConnectionCollection;
+export type StaticSitesGetDatabaseConnectionsWithDetailsNextResponse = DatabaseConnectionCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextOptionalParams
@@ -13961,27 +13628,23 @@ export interface StaticSitesGetLinkedBackendsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackendsNext operation. */
-export type StaticSitesGetLinkedBackendsNextResponse =
-  StaticSiteLinkedBackendsCollection;
+export type StaticSitesGetLinkedBackendsNextResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
 export interface StaticSitesGetLinkedBackendsForBuildNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getLinkedBackendsForBuildNext operation. */
-export type StaticSitesGetLinkedBackendsForBuildNextResponse =
-  StaticSiteLinkedBackendsCollection;
+export type StaticSitesGetLinkedBackendsForBuildNextResponse = StaticSiteLinkedBackendsCollection;
 
 /** Optional parameters. */
-export interface WebAppsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type WebAppsListResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface WebAppsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
   /** Specify <strong>true</strong> to include deployment slots in results. The default is false, which only gives you the production slot of all apps. */
   includeSlots?: boolean;
 }
@@ -13996,8 +13659,7 @@ export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {}
 export type WebAppsGetResponse = Site;
 
 /** Optional parameters. */
-export interface WebAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14008,8 +13670,7 @@ export interface WebAppsCreateOrUpdateOptionalParams
 export type WebAppsCreateOrUpdateResponse = Site;
 
 /** Optional parameters. */
-export interface WebAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsDeleteOptionalParams extends coreClient.OperationOptions {
   /** If true, web app metrics are also deleted. */
   deleteMetrics?: boolean;
   /** Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted. */
@@ -14017,15 +13678,13 @@ export interface WebAppsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type WebAppsUpdateResponse = Site;
 
 /** Optional parameters. */
-export interface WebAppsAnalyzeCustomHostnameOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsAnalyzeCustomHostnameOptionalParams extends coreClient.OperationOptions {
   /** Custom hostname. */
   hostName?: string;
 }
@@ -14038,40 +13697,34 @@ export interface WebAppsApplySlotConfigToProductionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsBackupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsBackupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the backup operation. */
 export type WebAppsBackupResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsListBackupsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListBackupsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBackups operation. */
 export type WebAppsListBackupsResponse = BackupItemCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetBackupStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetBackupStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupStatus operation. */
 export type WebAppsGetBackupStatusResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsDeleteBackupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteBackupOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListBackupStatusSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListBackupStatusSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBackupStatusSecrets operation. */
 export type WebAppsListBackupStatusSecretsResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsRestoreOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14087,40 +13740,31 @@ export type WebAppsListBasicPublishingCredentialsPoliciesResponse =
   PublishingCredentialsPoliciesCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetFtpAllowedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetFtpAllowedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFtpAllowed operation. */
-export type WebAppsGetFtpAllowedResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsGetFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsUpdateFtpAllowedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateFtpAllowedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateFtpAllowed operation. */
-export type WebAppsUpdateFtpAllowedResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsUpdateFtpAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsGetScmAllowedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetScmAllowedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getScmAllowed operation. */
-export type WebAppsGetScmAllowedResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsGetScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsUpdateScmAllowedOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateScmAllowedOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateScmAllowed operation. */
-export type WebAppsUpdateScmAllowedResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsUpdateScmAllowedResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsListConfigurationsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListConfigurationsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurations operation. */
 export type WebAppsListConfigurationsResponse = SiteConfigResourceCollection;
@@ -14133,22 +13777,19 @@ export interface WebAppsUpdateApplicationSettingsOptionalParams
 export type WebAppsUpdateApplicationSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsListApplicationSettingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListApplicationSettingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listApplicationSettings operation. */
 export type WebAppsListApplicationSettingsResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsUpdateAuthSettingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateAuthSettingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAuthSettings operation. */
 export type WebAppsUpdateAuthSettingsResponse = SiteAuthSettings;
 
 /** Optional parameters. */
-export interface WebAppsGetAuthSettingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetAuthSettingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthSettings operation. */
 export type WebAppsGetAuthSettingsResponse = SiteAuthSettings;
@@ -14161,15 +13802,13 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams
 export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 /** Optional parameters. */
-export interface WebAppsUpdateAuthSettingsV2OptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateAuthSettingsV2OptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAuthSettingsV2 operation. */
 export type WebAppsUpdateAuthSettingsV2Response = SiteAuthSettingsV2;
 
 /** Optional parameters. */
-export interface WebAppsGetAuthSettingsV2OptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetAuthSettingsV2OptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthSettingsV2 operation. */
 export type WebAppsGetAuthSettingsV2Response = SiteAuthSettingsV2;
@@ -14179,16 +13818,14 @@ export interface WebAppsUpdateAzureStorageAccountsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAzureStorageAccounts operation. */
-export type WebAppsUpdateAzureStorageAccountsResponse =
-  AzureStoragePropertyDictionaryResource;
+export type WebAppsUpdateAzureStorageAccountsResponse = AzureStoragePropertyDictionaryResource;
 
 /** Optional parameters. */
 export interface WebAppsListAzureStorageAccountsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAzureStorageAccounts operation. */
-export type WebAppsListAzureStorageAccountsResponse =
-  AzureStoragePropertyDictionaryResource;
+export type WebAppsListAzureStorageAccountsResponse = AzureStoragePropertyDictionaryResource;
 
 /** Optional parameters. */
 export interface WebAppsUpdateBackupConfigurationOptionalParams
@@ -14202,8 +13839,7 @@ export interface WebAppsDeleteBackupConfigurationOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetBackupConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupConfiguration operation. */
 export type WebAppsGetBackupConfigurationResponse = BackupRequest;
@@ -14213,8 +13849,7 @@ export interface WebAppsGetAppSettingsKeyVaultReferencesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAppSettingsKeyVaultReferences operation. */
-export type WebAppsGetAppSettingsKeyVaultReferencesResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetAppSettingsKeyVaultReferencesResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingKeyVaultReferenceOptionalParams
@@ -14228,27 +13863,23 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferencesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteConnectionStringKeyVaultReferences operation. */
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteConnectionStringKeyVaultReference operation. */
-export type WebAppsGetSiteConnectionStringKeyVaultReferenceResponse =
-  ApiKVReference;
+export type WebAppsGetSiteConnectionStringKeyVaultReferenceResponse = ApiKVReference;
 
 /** Optional parameters. */
-export interface WebAppsUpdateConnectionStringsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateConnectionStringsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateConnectionStrings operation. */
 export type WebAppsUpdateConnectionStringsResponse = ConnectionStringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsListConnectionStringsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListConnectionStringsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionStrings operation. */
 export type WebAppsListConnectionStringsResponse = ConnectionStringDictionary;
@@ -14268,15 +13899,13 @@ export interface WebAppsUpdateDiagnosticLogsConfigOptionalParams
 export type WebAppsUpdateDiagnosticLogsConfigResponse = SiteLogsConfig;
 
 /** Optional parameters. */
-export interface WebAppsUpdateMetadataOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateMetadataOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateMetadata operation. */
 export type WebAppsUpdateMetadataResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsListMetadataOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListMetadataOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetadata operation. */
 export type WebAppsListMetadataResponse = StringDictionary;
@@ -14294,15 +13923,13 @@ export interface WebAppsListPublishingCredentialsOptionalParams
 export type WebAppsListPublishingCredentialsResponse = User;
 
 /** Optional parameters. */
-export interface WebAppsUpdateSitePushSettingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateSitePushSettingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSitePushSettings operation. */
 export type WebAppsUpdateSitePushSettingsResponse = PushSettings;
 
 /** Optional parameters. */
-export interface WebAppsListSitePushSettingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSitePushSettingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSitePushSettings operation. */
 export type WebAppsListSitePushSettingsResponse = PushSettings;
@@ -14319,12 +13946,10 @@ export interface WebAppsUpdateSlotConfigurationNamesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSlotConfigurationNames operation. */
-export type WebAppsUpdateSlotConfigurationNamesResponse =
-  SlotConfigNamesResource;
+export type WebAppsUpdateSlotConfigurationNamesResponse = SlotConfigNamesResource;
 
 /** Optional parameters. */
-export interface WebAppsGetConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetConfigurationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConfiguration operation. */
 export type WebAppsGetConfigurationResponse = SiteConfigResource;
@@ -14337,8 +13962,7 @@ export interface WebAppsCreateOrUpdateConfigurationOptionalParams
 export type WebAppsCreateOrUpdateConfigurationResponse = SiteConfigResource;
 
 /** Optional parameters. */
-export interface WebAppsUpdateConfigurationOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateConfigurationOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateConfiguration operation. */
 export type WebAppsUpdateConfigurationResponse = SiteConfigResource;
@@ -14348,8 +13972,7 @@ export interface WebAppsListConfigurationSnapshotInfoOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurationSnapshotInfo operation. */
-export type WebAppsListConfigurationSnapshotInfoResponse =
-  SiteConfigurationSnapshotInfoCollection;
+export type WebAppsListConfigurationSnapshotInfoResponse = SiteConfigurationSnapshotInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetConfigurationSnapshotOptionalParams
@@ -14363,8 +13986,7 @@ export interface WebAppsRecoverSiteConfigurationSnapshotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetWebSiteContainerLogsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetWebSiteContainerLogsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebSiteContainerLogs operation. */
 export type WebAppsGetWebSiteContainerLogsResponse = {
@@ -14385,8 +14007,7 @@ export type WebAppsGetWebSiteContainerLogsResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsGetContainerLogsZipOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetContainerLogsZipOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContainerLogsZip operation. */
 export type WebAppsGetContainerLogsZipResponse = {
@@ -14407,38 +14028,32 @@ export type WebAppsGetContainerLogsZipResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsListContinuousWebJobsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListContinuousWebJobsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContinuousWebJobs operation. */
 export type WebAppsListContinuousWebJobsResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetContinuousWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetContinuousWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContinuousWebJob operation. */
 export type WebAppsGetContinuousWebJobResponse = ContinuousWebJob;
 
 /** Optional parameters. */
-export interface WebAppsDeleteContinuousWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteContinuousWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStartContinuousWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStartContinuousWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStopContinuousWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopContinuousWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsListProductionSiteDeploymentStatusesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProductionSiteDeploymentStatuses operation. */
-export type WebAppsListProductionSiteDeploymentStatusesResponse =
-  CsmDeploymentStatusCollection;
+export type WebAppsListProductionSiteDeploymentStatusesResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
@@ -14450,44 +14065,37 @@ export interface WebAppsGetProductionSiteDeploymentStatusOptionalParams
 }
 
 /** Contains response data for the getProductionSiteDeploymentStatus operation. */
-export type WebAppsGetProductionSiteDeploymentStatusResponse =
-  CsmDeploymentStatus;
+export type WebAppsGetProductionSiteDeploymentStatusResponse = CsmDeploymentStatus;
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeployments operation. */
 export type WebAppsListDeploymentsResponse = DeploymentCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetDeploymentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetDeploymentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeployment operation. */
 export type WebAppsGetDeploymentResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsCreateDeploymentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsCreateDeploymentOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createDeployment operation. */
 export type WebAppsCreateDeploymentResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsDeleteDeploymentOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteDeploymentOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentLogOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentLogOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentLog operation. */
 export type WebAppsListDeploymentLogResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsDiscoverBackupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDiscoverBackupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the discoverBackup operation. */
 export type WebAppsDiscoverBackupResponse = RestoreRequest;
@@ -14497,8 +14105,7 @@ export interface WebAppsListDomainOwnershipIdentifiersOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDomainOwnershipIdentifiers operation. */
-export type WebAppsListDomainOwnershipIdentifiersResponse =
-  IdentifierCollection;
+export type WebAppsListDomainOwnershipIdentifiersResponse = IdentifierCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetDomainOwnershipIdentifierOptionalParams
@@ -14526,15 +14133,13 @@ export interface WebAppsUpdateDomainOwnershipIdentifierOptionalParams
 export type WebAppsUpdateDomainOwnershipIdentifierResponse = Identifier;
 
 /** Optional parameters. */
-export interface WebAppsGetMSDeployStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetMSDeployStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMSDeployStatus operation. */
 export type WebAppsGetMSDeployStatusResponse = MSDeployStatus;
 
 /** Optional parameters. */
-export interface WebAppsCreateMSDeployOperationOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsCreateMSDeployOperationOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14545,15 +14150,13 @@ export interface WebAppsCreateMSDeployOperationOptionalParams
 export type WebAppsCreateMSDeployOperationResponse = MSDeployStatus;
 
 /** Optional parameters. */
-export interface WebAppsGetMSDeployLogOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetMSDeployLogOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMSDeployLog operation. */
 export type WebAppsGetMSDeployLogResponse = MSDeployLog;
 
 /** Optional parameters. */
-export interface WebAppsGetOneDeployStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOneDeployStatus operation. */
 export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
@@ -14566,15 +14169,13 @@ export interface WebAppsCreateOneDeployOperationOptionalParams
 export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 /** Optional parameters. */
-export interface WebAppsListFunctionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctions operation. */
 export type WebAppsListFunctionsResponse = FunctionEnvelopeCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetFunctionsAdminTokenOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetFunctionsAdminTokenOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunctionsAdminToken operation. */
 export type WebAppsGetFunctionsAdminTokenResponse = {
@@ -14583,15 +14184,13 @@ export type WebAppsGetFunctionsAdminTokenResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsGetFunctionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetFunctionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFunction operation. */
 export type WebAppsGetFunctionResponse = FunctionEnvelope;
 
 /** Optional parameters. */
-export interface WebAppsCreateFunctionOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsCreateFunctionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14602,8 +14201,7 @@ export interface WebAppsCreateFunctionOptionalParams
 export type WebAppsCreateFunctionResponse = FunctionEnvelope;
 
 /** Optional parameters. */
-export interface WebAppsDeleteFunctionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteFunctionOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateFunctionSecretOptionalParams
@@ -14613,37 +14211,33 @@ export interface WebAppsCreateOrUpdateFunctionSecretOptionalParams
 export type WebAppsCreateOrUpdateFunctionSecretResponse = KeyInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteFunctionSecretOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteFunctionSecretOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListFunctionKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctionKeys operation. */
-export type WebAppsListFunctionKeysResponse = StringDictionary;
+export type WebAppsListFunctionKeysResponse = {
+  [propertyName: string]: string;
+};
 
 /** Optional parameters. */
-export interface WebAppsListFunctionSecretsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionSecretsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctionSecrets operation. */
 export type WebAppsListFunctionSecretsResponse = FunctionSecrets;
 
 /** Optional parameters. */
-export interface WebAppsListHostKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListHostKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHostKeys operation. */
 export type WebAppsListHostKeysResponse = HostKeys;
 
 /** Optional parameters. */
-export interface WebAppsListSyncStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSyncStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSyncFunctionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsSyncFunctionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateHostSecretOptionalParams
@@ -14653,19 +14247,16 @@ export interface WebAppsCreateOrUpdateHostSecretOptionalParams
 export type WebAppsCreateOrUpdateHostSecretResponse = KeyInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteHostSecretOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteHostSecretOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListHostNameBindingsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListHostNameBindingsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHostNameBindings operation. */
 export type WebAppsListHostNameBindingsResponse = HostNameBindingCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetHostNameBindingOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetHostNameBindingOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHostNameBinding operation. */
 export type WebAppsGetHostNameBindingResponse = HostNameBinding;
@@ -14678,12 +14269,10 @@ export interface WebAppsCreateOrUpdateHostNameBindingOptionalParams
 export type WebAppsCreateOrUpdateHostNameBindingResponse = HostNameBinding;
 
 /** Optional parameters. */
-export interface WebAppsDeleteHostNameBindingOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteHostNameBindingOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetHybridConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetHybridConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHybridConnection operation. */
 export type WebAppsGetHybridConnectionResponse = HybridConnection;
@@ -14696,19 +14285,16 @@ export interface WebAppsCreateOrUpdateHybridConnectionOptionalParams
 export type WebAppsCreateOrUpdateHybridConnectionResponse = HybridConnection;
 
 /** Optional parameters. */
-export interface WebAppsDeleteHybridConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteHybridConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsUpdateHybridConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateHybridConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateHybridConnection operation. */
 export type WebAppsUpdateHybridConnectionResponse = HybridConnection;
 
 /** Optional parameters. */
-export interface WebAppsListHybridConnectionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListHybridConnectionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHybridConnections operation. */
 export type WebAppsListHybridConnectionsResponse = HybridConnection;
@@ -14718,24 +14304,21 @@ export interface WebAppsListRelayServiceConnectionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRelayServiceConnections operation. */
-export type WebAppsListRelayServiceConnectionsResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsListRelayServiceConnectionsResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsGetRelayServiceConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRelayServiceConnection operation. */
-export type WebAppsGetRelayServiceConnectionResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsGetRelayServiceConnectionResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateRelayServiceConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateRelayServiceConnection operation. */
-export type WebAppsCreateOrUpdateRelayServiceConnectionResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsCreateOrUpdateRelayServiceConnectionResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsDeleteRelayServiceConnectionOptionalParams
@@ -14746,20 +14329,16 @@ export interface WebAppsUpdateRelayServiceConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateRelayServiceConnection operation. */
-export type WebAppsUpdateRelayServiceConnectionResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsUpdateRelayServiceConnectionResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
-export interface WebAppsListInstanceIdentifiersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListInstanceIdentifiersOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceIdentifiers operation. */
-export type WebAppsListInstanceIdentifiersResponse =
-  WebAppInstanceStatusCollection;
+export type WebAppsListInstanceIdentifiersResponse = WebAppInstanceStatusCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceInfoOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceInfo operation. */
 export type WebAppsGetInstanceInfoResponse = WebSiteInstanceStatus;
@@ -14784,33 +14363,28 @@ export interface WebAppsCreateInstanceMSDeployOperationOptionalParams
 export type WebAppsCreateInstanceMSDeployOperationResponse = MSDeployStatus;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceMSDeployLogOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceMSDeployLogOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceMSDeployLog operation. */
 export type WebAppsGetInstanceMSDeployLogResponse = MSDeployLog;
 
 /** Optional parameters. */
-export interface WebAppsListInstanceProcessesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListInstanceProcessesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcesses operation. */
 export type WebAppsListInstanceProcessesResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceProcessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceProcessOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceProcess operation. */
 export type WebAppsGetInstanceProcessResponse = ProcessInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteInstanceProcessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteInstanceProcessOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceProcessDumpOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceProcessDumpOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceProcessDump operation. */
 export type WebAppsGetInstanceProcessDumpResponse = {
@@ -14835,8 +14409,7 @@ export interface WebAppsListInstanceProcessModulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessModules operation. */
-export type WebAppsListInstanceProcessModulesResponse =
-  ProcessModuleInfoCollection;
+export type WebAppsListInstanceProcessModulesResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetInstanceProcessModuleOptionalParams
@@ -14850,19 +14423,16 @@ export interface WebAppsListInstanceProcessThreadsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessThreads operation. */
-export type WebAppsListInstanceProcessThreadsResponse =
-  ProcessThreadInfoCollection;
+export type WebAppsListInstanceProcessThreadsResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsIsCloneableOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsIsCloneableOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the isCloneable operation. */
 export type WebAppsIsCloneableResponse = SiteCloneability;
 
 /** Optional parameters. */
-export interface WebAppsListSiteBackupsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteBackupsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteBackups operation. */
 export type WebAppsListSiteBackupsResponse = BackupItemCollection;
@@ -14875,15 +14445,13 @@ export interface WebAppsListSyncFunctionTriggersOptionalParams
 export type WebAppsListSyncFunctionTriggersResponse = FunctionSecrets;
 
 /** Optional parameters. */
-export interface WebAppsUpdateMachineKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateMachineKeyOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateMachineKey operation. */
 export type WebAppsUpdateMachineKeyResponse = Record<string, unknown>;
 
 /** Optional parameters. */
-export interface WebAppsMigrateStorageOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsMigrateStorageOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14894,8 +14462,7 @@ export interface WebAppsMigrateStorageOptionalParams
 export type WebAppsMigrateStorageResponse = StorageMigrationResponse;
 
 /** Optional parameters. */
-export interface WebAppsMigrateMySqlOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsMigrateMySqlOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -14906,8 +14473,7 @@ export interface WebAppsMigrateMySqlOptionalParams
 export type WebAppsMigrateMySqlResponse = Operation;
 
 /** Optional parameters. */
-export interface WebAppsGetMigrateMySqlStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetMigrateMySqlStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMigrateMySqlStatus operation. */
 export type WebAppsGetMigrateMySqlStatusResponse = MigrateMySqlStatus;
@@ -14917,8 +14483,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSwiftVirtualNetworkConnection operation. */
-export type WebAppsGetSwiftVirtualNetworkConnectionResponse =
-  SwiftVirtualNetwork;
+export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckOptionalParams
@@ -14937,12 +14502,10 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSwiftVirtualNetworkConnectionWithCheck operation. */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse =
-  SwiftVirtualNetwork;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckResponse = SwiftVirtualNetwork;
 
 /** Optional parameters. */
-export interface WebAppsListNetworkFeaturesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListNetworkFeaturesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNetworkFeatures operation. */
 export type WebAppsListNetworkFeaturesResponse = NetworkFeatures;
@@ -14955,8 +14518,7 @@ export interface WebAppsGetNetworkTraceOperationOptionalParams
 export type WebAppsGetNetworkTraceOperationResponse = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsStartWebSiteNetworkTraceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsStartWebSiteNetworkTraceOptionalParams extends coreClient.OperationOptions {
   /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
   /** The maximum frame length in bytes (Optional). */
@@ -14990,12 +14552,10 @@ export interface WebAppsStartWebSiteNetworkTraceOperationOptionalParams
 export type WebAppsStartWebSiteNetworkTraceOperationResponse = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsStopWebSiteNetworkTraceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopWebSiteNetworkTraceOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetNetworkTracesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetNetworkTracesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkTraces operation. */
 export type WebAppsGetNetworkTracesResponse = NetworkTrace[];
@@ -15008,8 +14568,7 @@ export interface WebAppsGetNetworkTraceOperationV2OptionalParams
 export type WebAppsGetNetworkTraceOperationV2Response = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsGetNetworkTracesV2OptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkTracesV2 operation. */
 export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
@@ -15019,8 +14578,7 @@ export interface WebAppsGenerateNewSitePublishingPasswordOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListPerfMonCountersOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsListPerfMonCountersOptionalParams extends coreClient.OperationOptions {
   /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
   filter?: string;
 }
@@ -15029,54 +14587,46 @@ export interface WebAppsListPerfMonCountersOptionalParams
 export type WebAppsListPerfMonCountersResponse = PerfMonCounterCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSitePhpErrorLogFlagOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSitePhpErrorLogFlagOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSitePhpErrorLogFlag operation. */
 export type WebAppsGetSitePhpErrorLogFlagResponse = SitePhpErrorLogFlag;
 
 /** Optional parameters. */
-export interface WebAppsListPremierAddOnsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListPremierAddOnsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOns operation. */
 export type WebAppsListPremierAddOnsResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsGetPremierAddOnOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPremierAddOnOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPremierAddOn operation. */
 export type WebAppsGetPremierAddOnResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsAddPremierAddOnOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsAddPremierAddOnOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the addPremierAddOn operation. */
 export type WebAppsAddPremierAddOnResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsDeletePremierAddOnOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeletePremierAddOnOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsUpdatePremierAddOnOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdatePremierAddOnOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updatePremierAddOn operation. */
 export type WebAppsUpdatePremierAddOnResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsGetPrivateAccessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPrivateAccessOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateAccess operation. */
 export type WebAppsGetPrivateAccessResponse = PrivateAccess;
 
 /** Optional parameters. */
-export interface WebAppsPutPrivateAccessVnetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsPutPrivateAccessVnetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the putPrivateAccessVnet operation. */
 export type WebAppsPutPrivateAccessVnetResponse = PrivateAccess;
@@ -15086,8 +14636,7 @@ export interface WebAppsGetPrivateEndpointConnectionListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateEndpointConnectionList operation. */
-export type WebAppsGetPrivateEndpointConnectionListResponse =
-  PrivateEndpointConnectionCollection;
+export type WebAppsGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetPrivateEndpointConnectionOptionalParams
@@ -15120,40 +14669,31 @@ export interface WebAppsDeletePrivateEndpointConnectionOptionalParams
 }
 
 /** Contains response data for the deletePrivateEndpointConnection operation. */
-export type WebAppsDeletePrivateEndpointConnectionResponse = Record<
-  string,
-  unknown
->;
+export type WebAppsDeletePrivateEndpointConnectionResponse = Record<string, unknown>;
 
 /** Optional parameters. */
-export interface WebAppsGetPrivateLinkResourcesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPrivateLinkResourcesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResources operation. */
-export type WebAppsGetPrivateLinkResourcesResponse =
-  PrivateLinkResourcesWrapper;
+export type WebAppsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
-export interface WebAppsListProcessesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcesses operation. */
 export type WebAppsListProcessesResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetProcessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcess operation. */
 export type WebAppsGetProcessResponse = ProcessInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteProcessOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteProcessOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetProcessDumpOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessDumpOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcessDump operation. */
 export type WebAppsGetProcessDumpResponse = {
@@ -15174,36 +14714,31 @@ export type WebAppsGetProcessDumpResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsListProcessModulesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessModulesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessModules operation. */
 export type WebAppsListProcessModulesResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetProcessModuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessModuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcessModule operation. */
 export type WebAppsGetProcessModuleResponse = ProcessModuleInfo;
 
 /** Optional parameters. */
-export interface WebAppsListProcessThreadsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessThreadsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessThreads operation. */
 export type WebAppsListProcessThreadsResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListPublicCertificatesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListPublicCertificatesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublicCertificates operation. */
 export type WebAppsListPublicCertificatesResponse = PublicCertificateCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetPublicCertificateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPublicCertificateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPublicCertificate operation. */
 export type WebAppsGetPublicCertificateResponse = PublicCertificate;
@@ -15216,8 +14751,7 @@ export interface WebAppsCreateOrUpdatePublicCertificateOptionalParams
 export type WebAppsCreateOrUpdatePublicCertificateResponse = PublicCertificate;
 
 /** Optional parameters. */
-export interface WebAppsDeletePublicCertificateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeletePublicCertificateOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsListPublishingProfileXmlWithSecretsOptionalParams
@@ -15246,8 +14780,7 @@ export interface WebAppsResetProductionSlotConfigOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsRestartOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestartOptionalParams extends coreClient.OperationOptions {
   /** Specify true to apply the configuration settings and restarts the app only if necessary. By default, the API always restarts and reprovisions the app. */
   softRestart?: boolean;
   /** Specify true to block until the app is restarted. By default, it is set to false, and the API responds immediately (asynchronous). */
@@ -15255,8 +14788,7 @@ export interface WebAppsRestartOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsRestoreFromBackupBlobOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreFromBackupBlobOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15264,8 +14796,7 @@ export interface WebAppsRestoreFromBackupBlobOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsRestoreFromDeletedAppOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreFromDeletedAppOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15273,8 +14804,7 @@ export interface WebAppsRestoreFromDeletedAppOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsRestoreSnapshotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreSnapshotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15282,15 +14812,13 @@ export interface WebAppsRestoreSnapshotOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsListSiteContainersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteContainersOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteContainers operation. */
 export type WebAppsListSiteContainersResponse = SiteContainerCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSiteContainerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSiteContainerOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteContainer operation. */
 export type WebAppsGetSiteContainerResponse = SiteContainer;
@@ -15303,26 +14831,22 @@ export interface WebAppsCreateOrUpdateSiteContainerOptionalParams
 export type WebAppsCreateOrUpdateSiteContainerResponse = SiteContainer;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSiteContainerOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteSiteContainerOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListSiteExtensionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteExtensionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteExtensions operation. */
 export type WebAppsListSiteExtensionsResponse = SiteExtensionInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSiteExtensionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSiteExtensionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteExtension operation. */
 export type WebAppsGetSiteExtensionResponse = SiteExtensionInfo;
 
 /** Optional parameters. */
-export interface WebAppsInstallSiteExtensionOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsInstallSiteExtensionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15333,26 +14857,22 @@ export interface WebAppsInstallSiteExtensionOptionalParams
 export type WebAppsInstallSiteExtensionResponse = SiteExtensionInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSiteExtensionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteSiteExtensionOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListSlotsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSlotsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlots operation. */
 export type WebAppsListSlotsResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSlot operation. */
 export type WebAppsGetSlotResponse = Site;
 
 /** Optional parameters. */
-export interface WebAppsCreateOrUpdateSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsCreateOrUpdateSlotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15363,8 +14883,7 @@ export interface WebAppsCreateOrUpdateSlotOptionalParams
 export type WebAppsCreateOrUpdateSlotResponse = Site;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsDeleteSlotOptionalParams extends coreClient.OperationOptions {
   /** If true, web app metrics are also deleted. */
   deleteMetrics?: boolean;
   /** Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted. */
@@ -15372,8 +14891,7 @@ export interface WebAppsDeleteSlotOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsUpdateSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSlot operation. */
 export type WebAppsUpdateSlotResponse = Site;
@@ -15386,37 +14904,32 @@ export interface WebAppsAnalyzeCustomHostnameSlotOptionalParams
 }
 
 /** Contains response data for the analyzeCustomHostnameSlot operation. */
-export type WebAppsAnalyzeCustomHostnameSlotResponse =
-  CustomHostnameAnalysisResult;
+export type WebAppsAnalyzeCustomHostnameSlotResponse = CustomHostnameAnalysisResult;
 
 /** Optional parameters. */
 export interface WebAppsApplySlotConfigurationSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsBackupSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsBackupSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the backupSlot operation. */
 export type WebAppsBackupSlotResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsListBackupsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListBackupsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBackupsSlot operation. */
 export type WebAppsListBackupsSlotResponse = BackupItemCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetBackupStatusSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetBackupStatusSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getBackupStatusSlot operation. */
 export type WebAppsGetBackupStatusSlotResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsDeleteBackupSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteBackupSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsListBackupStatusSecretsSlotOptionalParams
@@ -15426,8 +14939,7 @@ export interface WebAppsListBackupStatusSecretsSlotOptionalParams
 export type WebAppsListBackupStatusSecretsSlotResponse = BackupItem;
 
 /** Optional parameters. */
-export interface WebAppsRestoreSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreSlotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -15443,44 +14955,34 @@ export type WebAppsListBasicPublishingCredentialsPoliciesSlotResponse =
   PublishingCredentialsPoliciesCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetFtpAllowedSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetFtpAllowedSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getFtpAllowedSlot operation. */
-export type WebAppsGetFtpAllowedSlotResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsGetFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsUpdateFtpAllowedSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateFtpAllowedSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateFtpAllowedSlot operation. */
-export type WebAppsUpdateFtpAllowedSlotResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsUpdateFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsGetScmAllowedSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetScmAllowedSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getScmAllowedSlot operation. */
-export type WebAppsGetScmAllowedSlotResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsGetScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsUpdateScmAllowedSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateScmAllowedSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateScmAllowedSlot operation. */
-export type WebAppsUpdateScmAllowedSlotResponse =
-  CsmPublishingCredentialsPoliciesEntity;
+export type WebAppsUpdateScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity;
 
 /** Optional parameters. */
-export interface WebAppsListConfigurationsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListConfigurationsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurationsSlot operation. */
-export type WebAppsListConfigurationsSlotResponse =
-  SiteConfigResourceCollection;
+export type WebAppsListConfigurationsSlotResponse = SiteConfigResourceCollection;
 
 /** Optional parameters. */
 export interface WebAppsUpdateApplicationSettingsSlotOptionalParams
@@ -15497,15 +14999,13 @@ export interface WebAppsListApplicationSettingsSlotOptionalParams
 export type WebAppsListApplicationSettingsSlotResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsUpdateAuthSettingsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateAuthSettingsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAuthSettingsSlot operation. */
 export type WebAppsUpdateAuthSettingsSlotResponse = SiteAuthSettings;
 
 /** Optional parameters. */
-export interface WebAppsGetAuthSettingsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetAuthSettingsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthSettingsSlot operation. */
 export type WebAppsGetAuthSettingsSlotResponse = SiteAuthSettings;
@@ -15515,8 +15015,7 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthSettingsV2WithoutSecretsSlot operation. */
-export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse =
-  SiteAuthSettingsV2;
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
 
 /** Optional parameters. */
 export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams
@@ -15526,8 +15025,7 @@ export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams
 export type WebAppsUpdateAuthSettingsV2SlotResponse = SiteAuthSettingsV2;
 
 /** Optional parameters. */
-export interface WebAppsGetAuthSettingsV2SlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetAuthSettingsV2SlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthSettingsV2Slot operation. */
 export type WebAppsGetAuthSettingsV2SlotResponse = SiteAuthSettingsV2;
@@ -15537,16 +15035,14 @@ export interface WebAppsUpdateAzureStorageAccountsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateAzureStorageAccountsSlot operation. */
-export type WebAppsUpdateAzureStorageAccountsSlotResponse =
-  AzureStoragePropertyDictionaryResource;
+export type WebAppsUpdateAzureStorageAccountsSlotResponse = AzureStoragePropertyDictionaryResource;
 
 /** Optional parameters. */
 export interface WebAppsListAzureStorageAccountsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAzureStorageAccountsSlot operation. */
-export type WebAppsListAzureStorageAccountsSlotResponse =
-  AzureStoragePropertyDictionaryResource;
+export type WebAppsListAzureStorageAccountsSlotResponse = AzureStoragePropertyDictionaryResource;
 
 /** Optional parameters. */
 export interface WebAppsUpdateBackupConfigurationSlotOptionalParams
@@ -15571,8 +15067,7 @@ export interface WebAppsGetAppSettingsKeyVaultReferencesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAppSettingsKeyVaultReferencesSlot operation. */
-export type WebAppsGetAppSettingsKeyVaultReferencesSlotResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetAppSettingsKeyVaultReferencesSlotResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingKeyVaultReferenceSlotOptionalParams
@@ -15586,32 +15081,28 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteConnectionStringKeyVaultReferencesSlot operation. */
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteConnectionStringKeyVaultReferenceSlot operation. */
-export type WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse =
-  ApiKVReference;
+export type WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse = ApiKVReference;
 
 /** Optional parameters. */
 export interface WebAppsUpdateConnectionStringsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateConnectionStringsSlot operation. */
-export type WebAppsUpdateConnectionStringsSlotResponse =
-  ConnectionStringDictionary;
+export type WebAppsUpdateConnectionStringsSlotResponse = ConnectionStringDictionary;
 
 /** Optional parameters. */
 export interface WebAppsListConnectionStringsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConnectionStringsSlot operation. */
-export type WebAppsListConnectionStringsSlotResponse =
-  ConnectionStringDictionary;
+export type WebAppsListConnectionStringsSlotResponse = ConnectionStringDictionary;
 
 /** Optional parameters. */
 export interface WebAppsGetDiagnosticLogsConfigurationSlotOptionalParams
@@ -15628,15 +15119,13 @@ export interface WebAppsUpdateDiagnosticLogsConfigSlotOptionalParams
 export type WebAppsUpdateDiagnosticLogsConfigSlotResponse = SiteLogsConfig;
 
 /** Optional parameters. */
-export interface WebAppsUpdateMetadataSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateMetadataSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateMetadataSlot operation. */
 export type WebAppsUpdateMetadataSlotResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsListMetadataSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListMetadataSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMetadataSlot operation. */
 export type WebAppsListMetadataSlotResponse = StringDictionary;
@@ -15668,8 +15157,7 @@ export interface WebAppsListSitePushSettingsSlotOptionalParams
 export type WebAppsListSitePushSettingsSlotResponse = PushSettings;
 
 /** Optional parameters. */
-export interface WebAppsGetConfigurationSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetConfigurationSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getConfigurationSlot operation. */
 export type WebAppsGetConfigurationSlotResponse = SiteConfigResource;
@@ -15682,8 +15170,7 @@ export interface WebAppsCreateOrUpdateConfigurationSlotOptionalParams
 export type WebAppsCreateOrUpdateConfigurationSlotResponse = SiteConfigResource;
 
 /** Optional parameters. */
-export interface WebAppsUpdateConfigurationSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateConfigurationSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateConfigurationSlot operation. */
 export type WebAppsUpdateConfigurationSlotResponse = SiteConfigResource;
@@ -15730,8 +15217,7 @@ export type WebAppsGetWebSiteContainerLogsSlotResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsGetContainerLogsZipSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetContainerLogsZipSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContainerLogsZipSlot operation. */
 export type WebAppsGetContainerLogsZipSlotResponse = {
@@ -15756,12 +15242,10 @@ export interface WebAppsListContinuousWebJobsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContinuousWebJobsSlot operation. */
-export type WebAppsListContinuousWebJobsSlotResponse =
-  ContinuousWebJobCollection;
+export type WebAppsListContinuousWebJobsSlotResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetContinuousWebJobSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetContinuousWebJobSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getContinuousWebJobSlot operation. */
 export type WebAppsGetContinuousWebJobSlotResponse = ContinuousWebJob;
@@ -15783,8 +15267,7 @@ export interface WebAppsListSlotSiteDeploymentStatusesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotSiteDeploymentStatusesSlot operation. */
-export type WebAppsListSlotSiteDeploymentStatusesSlotResponse =
-  CsmDeploymentStatusCollection;
+export type WebAppsListSlotSiteDeploymentStatusesSlotResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
@@ -15796,44 +15279,37 @@ export interface WebAppsGetSlotSiteDeploymentStatusSlotOptionalParams
 }
 
 /** Contains response data for the getSlotSiteDeploymentStatusSlot operation. */
-export type WebAppsGetSlotSiteDeploymentStatusSlotResponse =
-  CsmDeploymentStatus;
+export type WebAppsGetSlotSiteDeploymentStatusSlotResponse = CsmDeploymentStatus;
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsSlot operation. */
 export type WebAppsListDeploymentsSlotResponse = DeploymentCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetDeploymentSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetDeploymentSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getDeploymentSlot operation. */
 export type WebAppsGetDeploymentSlotResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsCreateDeploymentSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsCreateDeploymentSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createDeploymentSlot operation. */
 export type WebAppsCreateDeploymentSlotResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsDeleteDeploymentSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteDeploymentSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentLogSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentLogSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentLogSlot operation. */
 export type WebAppsListDeploymentLogSlotResponse = Deployment;
 
 /** Optional parameters. */
-export interface WebAppsDiscoverBackupSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDiscoverBackupSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the discoverBackupSlot operation. */
 export type WebAppsDiscoverBackupSlotResponse = RestoreRequest;
@@ -15843,8 +15319,7 @@ export interface WebAppsListDomainOwnershipIdentifiersSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDomainOwnershipIdentifiersSlot operation. */
-export type WebAppsListDomainOwnershipIdentifiersSlotResponse =
-  IdentifierCollection;
+export type WebAppsListDomainOwnershipIdentifiersSlotResponse = IdentifierCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetDomainOwnershipIdentifierSlotOptionalParams
@@ -15858,8 +15333,7 @@ export interface WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotOptionalParam
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateDomainOwnershipIdentifierSlot operation. */
-export type WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse =
-  Identifier;
+export type WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse = Identifier;
 
 /** Optional parameters. */
 export interface WebAppsDeleteDomainOwnershipIdentifierSlotOptionalParams
@@ -15873,8 +15347,7 @@ export interface WebAppsUpdateDomainOwnershipIdentifierSlotOptionalParams
 export type WebAppsUpdateDomainOwnershipIdentifierSlotResponse = Identifier;
 
 /** Optional parameters. */
-export interface WebAppsGetMSDeployStatusSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetMSDeployStatusSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMSDeployStatusSlot operation. */
 export type WebAppsGetMSDeployStatusSlotResponse = MSDeployStatus;
@@ -15892,8 +15365,7 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams
 export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
 
 /** Optional parameters. */
-export interface WebAppsGetMSDeployLogSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetMSDeployLogSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getMSDeployLogSlot operation. */
 export type WebAppsGetMSDeployLogSlotResponse = MSDeployLog;
@@ -15903,8 +15375,7 @@ export interface WebAppsListInstanceFunctionsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceFunctionsSlot operation. */
-export type WebAppsListInstanceFunctionsSlotResponse =
-  FunctionEnvelopeCollection;
+export type WebAppsListInstanceFunctionsSlotResponse = FunctionEnvelopeCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetFunctionsAdminTokenSlotOptionalParams
@@ -15917,8 +15388,7 @@ export type WebAppsGetFunctionsAdminTokenSlotResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceFunctionSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceFunctionSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceFunctionSlot operation. */
 export type WebAppsGetInstanceFunctionSlotResponse = FunctionEnvelope;
@@ -15951,33 +15421,28 @@ export interface WebAppsDeleteFunctionSecretSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListFunctionKeysSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionKeysSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctionKeysSlot operation. */
 export type WebAppsListFunctionKeysSlotResponse = StringDictionary;
 
 /** Optional parameters. */
-export interface WebAppsListFunctionSecretsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionSecretsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctionSecretsSlot operation. */
 export type WebAppsListFunctionSecretsSlotResponse = FunctionSecrets;
 
 /** Optional parameters. */
-export interface WebAppsListHostKeysSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListHostKeysSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHostKeysSlot operation. */
 export type WebAppsListHostKeysSlotResponse = HostKeys;
 
 /** Optional parameters. */
-export interface WebAppsListSyncStatusSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSyncStatusSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSyncFunctionsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsSyncFunctionsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateHostSecretSlotOptionalParams
@@ -15987,8 +15452,7 @@ export interface WebAppsCreateOrUpdateHostSecretSlotOptionalParams
 export type WebAppsCreateOrUpdateHostSecretSlotResponse = KeyInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteHostSecretSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteHostSecretSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsListHostNameBindingsSlotOptionalParams
@@ -15998,8 +15462,7 @@ export interface WebAppsListHostNameBindingsSlotOptionalParams
 export type WebAppsListHostNameBindingsSlotResponse = HostNameBindingCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetHostNameBindingSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetHostNameBindingSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHostNameBindingSlot operation. */
 export type WebAppsGetHostNameBindingSlotResponse = HostNameBinding;
@@ -16016,8 +15479,7 @@ export interface WebAppsDeleteHostNameBindingSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetHybridConnectionSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetHybridConnectionSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getHybridConnectionSlot operation. */
 export type WebAppsGetHybridConnectionSlotResponse = HybridConnection;
@@ -16027,8 +15489,7 @@ export interface WebAppsCreateOrUpdateHybridConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateHybridConnectionSlot operation. */
-export type WebAppsCreateOrUpdateHybridConnectionSlotResponse =
-  HybridConnection;
+export type WebAppsCreateOrUpdateHybridConnectionSlotResponse = HybridConnection;
 
 /** Optional parameters. */
 export interface WebAppsDeleteHybridConnectionSlotOptionalParams
@@ -16053,24 +15514,21 @@ export interface WebAppsListRelayServiceConnectionsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listRelayServiceConnectionsSlot operation. */
-export type WebAppsListRelayServiceConnectionsSlotResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsListRelayServiceConnectionsSlotResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsGetRelayServiceConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRelayServiceConnectionSlot operation. */
-export type WebAppsGetRelayServiceConnectionSlotResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsGetRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateRelayServiceConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateRelayServiceConnectionSlot operation. */
-export type WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsDeleteRelayServiceConnectionSlotOptionalParams
@@ -16081,20 +15539,17 @@ export interface WebAppsUpdateRelayServiceConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateRelayServiceConnectionSlot operation. */
-export type WebAppsUpdateRelayServiceConnectionSlotResponse =
-  RelayServiceConnectionEntity;
+export type WebAppsUpdateRelayServiceConnectionSlotResponse = RelayServiceConnectionEntity;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceIdentifiersSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceIdentifiersSlot operation. */
-export type WebAppsListInstanceIdentifiersSlotResponse =
-  WebAppInstanceStatusCollection;
+export type WebAppsListInstanceIdentifiersSlotResponse = WebAppInstanceStatusCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceInfoSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceInfoSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceInfoSlot operation. */
 export type WebAppsGetInstanceInfoSlotResponse = WebSiteInstanceStatus;
@@ -16133,8 +15588,7 @@ export interface WebAppsListInstanceProcessesSlotOptionalParams
 export type WebAppsListInstanceProcessesSlotResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceProcessSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceProcessSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceProcessSlot operation. */
 export type WebAppsGetInstanceProcessSlotResponse = ProcessInfo;
@@ -16170,8 +15624,7 @@ export interface WebAppsListInstanceProcessModulesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessModulesSlot operation. */
-export type WebAppsListInstanceProcessModulesSlotResponse =
-  ProcessModuleInfoCollection;
+export type WebAppsListInstanceProcessModulesSlotResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetInstanceProcessModuleSlotOptionalParams
@@ -16185,19 +15638,16 @@ export interface WebAppsListInstanceProcessThreadsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessThreadsSlot operation. */
-export type WebAppsListInstanceProcessThreadsSlotResponse =
-  ProcessThreadInfoCollection;
+export type WebAppsListInstanceProcessThreadsSlotResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsIsCloneableSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsIsCloneableSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the isCloneableSlot operation. */
 export type WebAppsIsCloneableSlotResponse = SiteCloneability;
 
 /** Optional parameters. */
-export interface WebAppsListSiteBackupsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteBackupsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteBackupsSlot operation. */
 export type WebAppsListSiteBackupsSlotResponse = BackupItemCollection;
@@ -16221,8 +15671,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSwiftVirtualNetworkConnectionSlot operation. */
-export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse =
-  SwiftVirtualNetwork;
+export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork;
 
 /** Optional parameters. */
 export interface WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptionalParams
@@ -16241,12 +15690,10 @@ export interface WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotOptional
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSwiftVirtualNetworkConnectionWithCheckSlot operation. */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse =
-  SwiftVirtualNetwork;
+export type WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse = SwiftVirtualNetwork;
 
 /** Optional parameters. */
-export interface WebAppsListNetworkFeaturesSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListNetworkFeaturesSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNetworkFeaturesSlot operation. */
 export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures;
@@ -16291,16 +15738,14 @@ export interface WebAppsStartWebSiteNetworkTraceOperationSlotOptionalParams
 }
 
 /** Contains response data for the startWebSiteNetworkTraceOperationSlot operation. */
-export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse =
-  NetworkTrace[];
+export type WebAppsStartWebSiteNetworkTraceOperationSlotResponse = NetworkTrace[];
 
 /** Optional parameters. */
 export interface WebAppsStopWebSiteNetworkTraceSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetNetworkTracesSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetNetworkTracesSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkTracesSlot operation. */
 export type WebAppsGetNetworkTracesSlotResponse = NetworkTrace[];
@@ -16313,8 +15758,7 @@ export interface WebAppsGetNetworkTraceOperationSlotV2OptionalParams
 export type WebAppsGetNetworkTraceOperationSlotV2Response = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsGetNetworkTracesSlotV2OptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetNetworkTracesSlotV2OptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkTracesSlotV2 operation. */
 export type WebAppsGetNetworkTracesSlotV2Response = NetworkTrace[];
@@ -16324,8 +15768,7 @@ export interface WebAppsGenerateNewSitePublishingPasswordSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListPerfMonCountersSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsListPerfMonCountersSlotOptionalParams extends coreClient.OperationOptions {
   /** Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
   filter?: string;
 }
@@ -16341,40 +15784,34 @@ export interface WebAppsGetSitePhpErrorLogFlagSlotOptionalParams
 export type WebAppsGetSitePhpErrorLogFlagSlotResponse = SitePhpErrorLogFlag;
 
 /** Optional parameters. */
-export interface WebAppsListPremierAddOnsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListPremierAddOnsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPremierAddOnsSlot operation. */
 export type WebAppsListPremierAddOnsSlotResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsGetPremierAddOnSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPremierAddOnSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPremierAddOnSlot operation. */
 export type WebAppsGetPremierAddOnSlotResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsAddPremierAddOnSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsAddPremierAddOnSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the addPremierAddOnSlot operation. */
 export type WebAppsAddPremierAddOnSlotResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsDeletePremierAddOnSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeletePremierAddOnSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsUpdatePremierAddOnSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdatePremierAddOnSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updatePremierAddOnSlot operation. */
 export type WebAppsUpdatePremierAddOnSlotResponse = PremierAddOn;
 
 /** Optional parameters. */
-export interface WebAppsGetPrivateAccessSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetPrivateAccessSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateAccessSlot operation. */
 export type WebAppsGetPrivateAccessSlotResponse = PrivateAccess;
@@ -16425,40 +15862,32 @@ export interface WebAppsDeletePrivateEndpointConnectionSlotOptionalParams
 }
 
 /** Contains response data for the deletePrivateEndpointConnectionSlot operation. */
-export type WebAppsDeletePrivateEndpointConnectionSlotResponse = Record<
-  string,
-  unknown
->;
+export type WebAppsDeletePrivateEndpointConnectionSlotResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsGetPrivateLinkResourcesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getPrivateLinkResourcesSlot operation. */
-export type WebAppsGetPrivateLinkResourcesSlotResponse =
-  PrivateLinkResourcesWrapper;
+export type WebAppsGetPrivateLinkResourcesSlotResponse = PrivateLinkResourcesWrapper;
 
 /** Optional parameters. */
-export interface WebAppsListProcessesSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessesSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessesSlot operation. */
 export type WebAppsListProcessesSlotResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetProcessSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcessSlot operation. */
 export type WebAppsGetProcessSlotResponse = ProcessInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteProcessSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteProcessSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsGetProcessDumpSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessDumpSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcessDumpSlot operation. */
 export type WebAppsGetProcessDumpSlotResponse = {
@@ -16479,22 +15908,19 @@ export type WebAppsGetProcessDumpSlotResponse = {
 };
 
 /** Optional parameters. */
-export interface WebAppsListProcessModulesSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessModulesSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessModulesSlot operation. */
 export type WebAppsListProcessModulesSlotResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetProcessModuleSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetProcessModuleSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getProcessModuleSlot operation. */
 export type WebAppsGetProcessModuleSlotResponse = ProcessModuleInfo;
 
 /** Optional parameters. */
-export interface WebAppsListProcessThreadsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessThreadsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessThreadsSlot operation. */
 export type WebAppsListProcessThreadsSlotResponse = ProcessThreadInfoCollection;
@@ -16504,8 +15930,7 @@ export interface WebAppsListPublicCertificatesSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublicCertificatesSlot operation. */
-export type WebAppsListPublicCertificatesSlotResponse =
-  PublicCertificateCollection;
+export type WebAppsListPublicCertificatesSlotResponse = PublicCertificateCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetPublicCertificateSlotOptionalParams
@@ -16519,8 +15944,7 @@ export interface WebAppsCreateOrUpdatePublicCertificateSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdatePublicCertificateSlot operation. */
-export type WebAppsCreateOrUpdatePublicCertificateSlotResponse =
-  PublicCertificate;
+export type WebAppsCreateOrUpdatePublicCertificateSlotResponse = PublicCertificate;
 
 /** Optional parameters. */
 export interface WebAppsDeletePublicCertificateSlotOptionalParams
@@ -16553,8 +15977,7 @@ export interface WebAppsResetSlotConfigurationSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsRestartSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestartSlotOptionalParams extends coreClient.OperationOptions {
   /** Specify true to apply the configuration settings and restarts the app only if necessary. By default, the API always restarts and reprovisions the app. */
   softRestart?: boolean;
   /** Specify true to block until the app is restarted. By default, it is set to false, and the API responds immediately (asynchronous). */
@@ -16580,8 +16003,7 @@ export interface WebAppsRestoreFromDeletedAppSlotOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsRestoreSnapshotSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsRestoreSnapshotSlotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16589,15 +16011,13 @@ export interface WebAppsRestoreSnapshotSlotOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsListSiteContainersSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteContainersSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteContainersSlot operation. */
 export type WebAppsListSiteContainersSlotResponse = SiteContainerCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSiteContainerSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSiteContainerSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteContainerSlot operation. */
 export type WebAppsGetSiteContainerSlotResponse = SiteContainer;
@@ -16610,26 +16030,22 @@ export interface WebAppsCreateOrUpdateSiteContainerSlotOptionalParams
 export type WebAppsCreateOrUpdateSiteContainerSlotResponse = SiteContainer;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSiteContainerSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteSiteContainerSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListSiteExtensionsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteExtensionsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteExtensionsSlot operation. */
 export type WebAppsListSiteExtensionsSlotResponse = SiteExtensionInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSiteExtensionSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteExtensionSlot operation. */
 export type WebAppsGetSiteExtensionSlotResponse = SiteExtensionInfo;
 
 /** Optional parameters. */
-export interface WebAppsInstallSiteExtensionSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsInstallSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16640,19 +16056,16 @@ export interface WebAppsInstallSiteExtensionSlotOptionalParams
 export type WebAppsInstallSiteExtensionSlotResponse = SiteExtensionInfo;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSiteExtensionSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteSiteExtensionSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListSlotDifferencesSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSlotDifferencesSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotDifferencesSlot operation. */
 export type WebAppsListSlotDifferencesSlotResponse = SlotDifferenceCollection;
 
 /** Optional parameters. */
-export interface WebAppsSwapSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsSwapSlotOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16660,8 +16073,7 @@ export interface WebAppsSwapSlotOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsListSnapshotsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSnapshotsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsSlot operation. */
 export type WebAppsListSnapshotsSlotResponse = SnapshotCollection;
@@ -16671,12 +16083,10 @@ export interface WebAppsListSnapshotsFromDRSecondarySlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsFromDRSecondarySlot operation. */
-export type WebAppsListSnapshotsFromDRSecondarySlotResponse =
-  SnapshotCollection;
+export type WebAppsListSnapshotsFromDRSecondarySlotResponse = SnapshotCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSourceControlSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSourceControlSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSourceControlSlot operation. */
 export type WebAppsGetSourceControlSlotResponse = SiteSourceControl;
@@ -16694,25 +16104,21 @@ export interface WebAppsCreateOrUpdateSourceControlSlotOptionalParams
 export type WebAppsCreateOrUpdateSourceControlSlotResponse = SiteSourceControl;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSourceControlSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsDeleteSourceControlSlotOptionalParams extends coreClient.OperationOptions {
   additionalFlags?: string;
 }
 
 /** Optional parameters. */
-export interface WebAppsUpdateSourceControlSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateSourceControlSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSourceControlSlot operation. */
 export type WebAppsUpdateSourceControlSlotResponse = SiteSourceControl;
 
 /** Optional parameters. */
-export interface WebAppsStartSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStartSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStartNetworkTraceSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsStartNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {
   /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
   /** The maximum frame length in bytes (Optional). */
@@ -16729,16 +16135,13 @@ export interface WebAppsStartNetworkTraceSlotOptionalParams
 export type WebAppsStartNetworkTraceSlotResponse = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsStopSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStopNetworkTraceSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopNetworkTraceSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSyncRepositorySlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsSyncRepositorySlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsSyncFunctionTriggersSlotOptionalParams
@@ -16752,8 +16155,7 @@ export interface WebAppsListTriggeredWebJobsSlotOptionalParams
 export type WebAppsListTriggeredWebJobsSlotResponse = TriggeredWebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetTriggeredWebJobSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetTriggeredWebJobSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTriggeredWebJobSlot operation. */
 export type WebAppsGetTriggeredWebJobSlotResponse = TriggeredWebJob;
@@ -16767,8 +16169,7 @@ export interface WebAppsListTriggeredWebJobHistorySlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobHistorySlot operation. */
-export type WebAppsListTriggeredWebJobHistorySlotResponse =
-  TriggeredJobHistoryCollection;
+export type WebAppsListTriggeredWebJobHistorySlotResponse = TriggeredJobHistoryCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetTriggeredWebJobHistorySlotOptionalParams
@@ -16778,12 +16179,10 @@ export interface WebAppsGetTriggeredWebJobHistorySlotOptionalParams
 export type WebAppsGetTriggeredWebJobHistorySlotResponse = TriggeredJobHistory;
 
 /** Optional parameters. */
-export interface WebAppsRunTriggeredWebJobSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsRunTriggeredWebJobSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListUsagesSlotOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsListUsagesSlotOptionalParams extends coreClient.OperationOptions {
   /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
   filter?: string;
 }
@@ -16792,15 +16191,13 @@ export interface WebAppsListUsagesSlotOptionalParams
 export type WebAppsListUsagesSlotResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface WebAppsListVnetConnectionsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListVnetConnectionsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnetConnectionsSlot operation. */
 export type WebAppsListVnetConnectionsSlotResponse = VnetInfoResource[];
 
 /** Optional parameters. */
-export interface WebAppsGetVnetConnectionSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetVnetConnectionSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetConnectionSlot operation. */
 export type WebAppsGetVnetConnectionSlotResponse = VnetInfoResource;
@@ -16835,8 +16232,7 @@ export interface WebAppsCreateOrUpdateVnetConnectionGatewaySlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateVnetConnectionGatewaySlot operation. */
-export type WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse =
-  VnetGateway;
+export type WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse = VnetGateway;
 
 /** Optional parameters. */
 export interface WebAppsUpdateVnetConnectionGatewaySlotOptionalParams
@@ -16846,15 +16242,13 @@ export interface WebAppsUpdateVnetConnectionGatewaySlotOptionalParams
 export type WebAppsUpdateVnetConnectionGatewaySlotResponse = VnetGateway;
 
 /** Optional parameters. */
-export interface WebAppsListWebJobsSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWebJobsSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebJobsSlot operation. */
 export type WebAppsListWebJobsSlotResponse = WebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetWebJobSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetWebJobSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebJobSlot operation. */
 export type WebAppsGetWebJobSlotResponse = WebJob;
@@ -16864,12 +16258,10 @@ export interface WebAppsListSlotDifferencesFromProductionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotDifferencesFromProduction operation. */
-export type WebAppsListSlotDifferencesFromProductionResponse =
-  SlotDifferenceCollection;
+export type WebAppsListSlotDifferencesFromProductionResponse = SlotDifferenceCollection;
 
 /** Optional parameters. */
-export interface WebAppsSwapSlotWithProductionOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsSwapSlotWithProductionOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -16877,8 +16269,7 @@ export interface WebAppsSwapSlotWithProductionOptionalParams
 }
 
 /** Optional parameters. */
-export interface WebAppsListSnapshotsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSnapshotsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshots operation. */
 export type WebAppsListSnapshotsResponse = SnapshotCollection;
@@ -16891,8 +16282,7 @@ export interface WebAppsListSnapshotsFromDRSecondaryOptionalParams
 export type WebAppsListSnapshotsFromDRSecondaryResponse = SnapshotCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetSourceControlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetSourceControlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSourceControl operation. */
 export type WebAppsGetSourceControlResponse = SiteSourceControl;
@@ -16910,25 +16300,21 @@ export interface WebAppsCreateOrUpdateSourceControlOptionalParams
 export type WebAppsCreateOrUpdateSourceControlResponse = SiteSourceControl;
 
 /** Optional parameters. */
-export interface WebAppsDeleteSourceControlOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsDeleteSourceControlOptionalParams extends coreClient.OperationOptions {
   additionalFlags?: string;
 }
 
 /** Optional parameters. */
-export interface WebAppsUpdateSourceControlOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateSourceControlOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateSourceControl operation. */
 export type WebAppsUpdateSourceControlResponse = SiteSourceControl;
 
 /** Optional parameters. */
-export interface WebAppsStartOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStartOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStartNetworkTraceOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsStartNetworkTraceOptionalParams extends coreClient.OperationOptions {
   /** The duration to keep capturing in seconds. */
   durationInSeconds?: number;
   /** The maximum frame length in bytes (Optional). */
@@ -16945,46 +16331,38 @@ export interface WebAppsStartNetworkTraceOptionalParams
 export type WebAppsStartNetworkTraceResponse = NetworkTrace[];
 
 /** Optional parameters. */
-export interface WebAppsStopOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsStopNetworkTraceOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsStopNetworkTraceOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSyncRepositoryOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsSyncRepositoryOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsSyncFunctionTriggersOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsSyncFunctionTriggersOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListTriggeredWebJobsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListTriggeredWebJobsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobs operation. */
 export type WebAppsListTriggeredWebJobsResponse = TriggeredWebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetTriggeredWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetTriggeredWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTriggeredWebJob operation. */
 export type WebAppsGetTriggeredWebJobResponse = TriggeredWebJob;
 
 /** Optional parameters. */
-export interface WebAppsDeleteTriggeredWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteTriggeredWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface WebAppsListTriggeredWebJobHistoryOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobHistory operation. */
-export type WebAppsListTriggeredWebJobHistoryResponse =
-  TriggeredJobHistoryCollection;
+export type WebAppsListTriggeredWebJobHistoryResponse = TriggeredJobHistoryCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetTriggeredWebJobHistoryOptionalParams
@@ -16994,12 +16372,10 @@ export interface WebAppsGetTriggeredWebJobHistoryOptionalParams
 export type WebAppsGetTriggeredWebJobHistoryResponse = TriggeredJobHistory;
 
 /** Optional parameters. */
-export interface WebAppsRunTriggeredWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsRunTriggeredWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsListUsagesOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsListUsagesOptionalParams extends coreClient.OperationOptions {
   /** Return only information specified in the filter (using OData syntax). For example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'. */
   filter?: string;
 }
@@ -17008,15 +16384,13 @@ export interface WebAppsListUsagesOptionalParams
 export type WebAppsListUsagesResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface WebAppsListVnetConnectionsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListVnetConnectionsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVnetConnections operation. */
 export type WebAppsListVnetConnectionsResponse = VnetInfoResource[];
 
 /** Optional parameters. */
-export interface WebAppsGetVnetConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetVnetConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getVnetConnection operation. */
 export type WebAppsGetVnetConnectionResponse = VnetInfoResource;
@@ -17029,12 +16403,10 @@ export interface WebAppsCreateOrUpdateVnetConnectionOptionalParams
 export type WebAppsCreateOrUpdateVnetConnectionResponse = VnetInfoResource;
 
 /** Optional parameters. */
-export interface WebAppsDeleteVnetConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsDeleteVnetConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WebAppsUpdateVnetConnectionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsUpdateVnetConnectionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the updateVnetConnection operation. */
 export type WebAppsUpdateVnetConnectionResponse = VnetInfoResource;
@@ -17061,22 +16433,19 @@ export interface WebAppsUpdateVnetConnectionGatewayOptionalParams
 export type WebAppsUpdateVnetConnectionGatewayResponse = VnetGateway;
 
 /** Optional parameters. */
-export interface WebAppsListWebJobsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWebJobsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebJobs operation. */
 export type WebAppsListWebJobsResponse = WebJobCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetWebJobOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetWebJobOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWebJob operation. */
 export type WebAppsGetWebJobResponse = WebJob;
 
 /** Optional parameters. */
-export interface WebAppsDeployWorkflowArtifactsOptionalParams
-  extends coreClient.OperationOptions {
+export interface WebAppsDeployWorkflowArtifactsOptionalParams extends coreClient.OperationOptions {
   /** Application settings and files of the workflow. */
   workflowArtifacts?: WorkflowArtifacts;
 }
@@ -17093,12 +16462,10 @@ export interface WebAppsListInstanceWorkflowsSlotOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceWorkflowsSlot operation. */
-export type WebAppsListInstanceWorkflowsSlotResponse =
-  WorkflowEnvelopeCollection;
+export type WebAppsListInstanceWorkflowsSlotResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetInstanceWorkflowSlotOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetInstanceWorkflowSlotOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInstanceWorkflowSlot operation. */
 export type WebAppsGetInstanceWorkflowSlotResponse = WorkflowEnvelope;
@@ -17111,15 +16478,13 @@ export interface WebAppsListWorkflowsConnectionsSlotOptionalParams
 export type WebAppsListWorkflowsConnectionsSlotResponse = WorkflowEnvelope;
 
 /** Optional parameters. */
-export interface WebAppsListWorkflowsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWorkflowsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkflows operation. */
 export type WebAppsListWorkflowsResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface WebAppsGetWorkflowOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsGetWorkflowOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getWorkflow operation. */
 export type WebAppsGetWorkflowResponse = WorkflowEnvelope;
@@ -17132,22 +16497,19 @@ export interface WebAppsListWorkflowsConnectionsOptionalParams
 export type WebAppsListWorkflowsConnectionsResponse = WorkflowEnvelope;
 
 /** Optional parameters. */
-export interface WebAppsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WebAppsListNextResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface WebAppsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type WebAppsListByResourceGroupNextResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface WebAppsListBackupsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListBackupsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBackupsNext operation. */
 export type WebAppsListBackupsNextResponse = BackupItemCollection;
@@ -17161,28 +16523,24 @@ export type WebAppsListBasicPublishingCredentialsPoliciesNextResponse =
   PublishingCredentialsPoliciesCollection;
 
 /** Optional parameters. */
-export interface WebAppsListConfigurationsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListConfigurationsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurationsNext operation. */
-export type WebAppsListConfigurationsNextResponse =
-  SiteConfigResourceCollection;
+export type WebAppsListConfigurationsNextResponse = SiteConfigResourceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingsKeyVaultReferencesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAppSettingsKeyVaultReferencesNext operation. */
-export type WebAppsGetAppSettingsKeyVaultReferencesNextResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetAppSettingsKeyVaultReferencesNextResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferencesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSiteConnectionStringKeyVaultReferencesNext operation. */
-export type WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsListConfigurationSnapshotInfoNextOptionalParams
@@ -17197,20 +16555,17 @@ export interface WebAppsListContinuousWebJobsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContinuousWebJobsNext operation. */
-export type WebAppsListContinuousWebJobsNextResponse =
-  ContinuousWebJobCollection;
+export type WebAppsListContinuousWebJobsNextResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
 export interface WebAppsListProductionSiteDeploymentStatusesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProductionSiteDeploymentStatusesNext operation. */
-export type WebAppsListProductionSiteDeploymentStatusesNextResponse =
-  CsmDeploymentStatusCollection;
+export type WebAppsListProductionSiteDeploymentStatusesNextResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsNext operation. */
 export type WebAppsListDeploymentsNextResponse = DeploymentCollection;
@@ -17220,12 +16575,10 @@ export interface WebAppsListDomainOwnershipIdentifiersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDomainOwnershipIdentifiersNext operation. */
-export type WebAppsListDomainOwnershipIdentifiersNextResponse =
-  IdentifierCollection;
+export type WebAppsListDomainOwnershipIdentifiersNextResponse = IdentifierCollection;
 
 /** Optional parameters. */
-export interface WebAppsListFunctionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListFunctionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listFunctionsNext operation. */
 export type WebAppsListFunctionsNextResponse = FunctionEnvelopeCollection;
@@ -17242,8 +16595,7 @@ export interface WebAppsListInstanceIdentifiersNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceIdentifiersNext operation. */
-export type WebAppsListInstanceIdentifiersNextResponse =
-  WebAppInstanceStatusCollection;
+export type WebAppsListInstanceIdentifiersNextResponse = WebAppInstanceStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceProcessesNextOptionalParams
@@ -17257,27 +16609,23 @@ export interface WebAppsListInstanceProcessModulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessModulesNext operation. */
-export type WebAppsListInstanceProcessModulesNextResponse =
-  ProcessModuleInfoCollection;
+export type WebAppsListInstanceProcessModulesNextResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceProcessThreadsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessThreadsNext operation. */
-export type WebAppsListInstanceProcessThreadsNextResponse =
-  ProcessThreadInfoCollection;
+export type WebAppsListInstanceProcessThreadsNextResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSiteBackupsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteBackupsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteBackupsNext operation. */
 export type WebAppsListSiteBackupsNextResponse = BackupItemCollection;
 
 /** Optional parameters. */
-export interface WebAppsListPerfMonCountersNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListPerfMonCountersNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersNext operation. */
 export type WebAppsListPerfMonCountersNextResponse = PerfMonCounterCollection;
@@ -17291,22 +16639,19 @@ export type WebAppsGetPrivateEndpointConnectionListNextResponse =
   PrivateEndpointConnectionCollection;
 
 /** Optional parameters. */
-export interface WebAppsListProcessesNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessesNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessesNext operation. */
 export type WebAppsListProcessesNextResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListProcessModulesNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessModulesNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessModulesNext operation. */
 export type WebAppsListProcessModulesNextResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListProcessThreadsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessThreadsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessThreadsNext operation. */
 export type WebAppsListProcessThreadsNextResponse = ProcessThreadInfoCollection;
@@ -17316,33 +16661,28 @@ export interface WebAppsListPublicCertificatesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublicCertificatesNext operation. */
-export type WebAppsListPublicCertificatesNextResponse =
-  PublicCertificateCollection;
+export type WebAppsListPublicCertificatesNextResponse = PublicCertificateCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSiteContainersNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteContainersNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteContainersNext operation. */
 export type WebAppsListSiteContainersNextResponse = SiteContainerCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSiteExtensionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteExtensionsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteExtensionsNext operation. */
 export type WebAppsListSiteExtensionsNextResponse = SiteExtensionInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSlotsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSlotsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotsNext operation. */
 export type WebAppsListSlotsNextResponse = WebAppCollection;
 
 /** Optional parameters. */
-export interface WebAppsListBackupsSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListBackupsSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBackupsSlotNext operation. */
 export type WebAppsListBackupsSlotNextResponse = BackupItemCollection;
@@ -17360,16 +16700,14 @@ export interface WebAppsListConfigurationsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listConfigurationsSlotNext operation. */
-export type WebAppsListConfigurationsSlotNextResponse =
-  SiteConfigResourceCollection;
+export type WebAppsListConfigurationsSlotNextResponse = SiteConfigResourceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetAppSettingsKeyVaultReferencesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAppSettingsKeyVaultReferencesSlotNext operation. */
-export type WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse =
-  ApiKVReferenceCollection;
+export type WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse = ApiKVReferenceCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextOptionalParams
@@ -17392,20 +16730,17 @@ export interface WebAppsListContinuousWebJobsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listContinuousWebJobsSlotNext operation. */
-export type WebAppsListContinuousWebJobsSlotNextResponse =
-  ContinuousWebJobCollection;
+export type WebAppsListContinuousWebJobsSlotNextResponse = ContinuousWebJobCollection;
 
 /** Optional parameters. */
 export interface WebAppsListSlotSiteDeploymentStatusesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotSiteDeploymentStatusesSlotNext operation. */
-export type WebAppsListSlotSiteDeploymentStatusesSlotNextResponse =
-  CsmDeploymentStatusCollection;
+export type WebAppsListSlotSiteDeploymentStatusesSlotNextResponse = CsmDeploymentStatusCollection;
 
 /** Optional parameters. */
-export interface WebAppsListDeploymentsSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListDeploymentsSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsSlotNext operation. */
 export type WebAppsListDeploymentsSlotNextResponse = DeploymentCollection;
@@ -17415,60 +16750,52 @@ export interface WebAppsListDomainOwnershipIdentifiersSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDomainOwnershipIdentifiersSlotNext operation. */
-export type WebAppsListDomainOwnershipIdentifiersSlotNextResponse =
-  IdentifierCollection;
+export type WebAppsListDomainOwnershipIdentifiersSlotNextResponse = IdentifierCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceFunctionsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceFunctionsSlotNext operation. */
-export type WebAppsListInstanceFunctionsSlotNextResponse =
-  FunctionEnvelopeCollection;
+export type WebAppsListInstanceFunctionsSlotNextResponse = FunctionEnvelopeCollection;
 
 /** Optional parameters. */
 export interface WebAppsListHostNameBindingsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listHostNameBindingsSlotNext operation. */
-export type WebAppsListHostNameBindingsSlotNextResponse =
-  HostNameBindingCollection;
+export type WebAppsListHostNameBindingsSlotNextResponse = HostNameBindingCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceIdentifiersSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceIdentifiersSlotNext operation. */
-export type WebAppsListInstanceIdentifiersSlotNextResponse =
-  WebAppInstanceStatusCollection;
+export type WebAppsListInstanceIdentifiersSlotNextResponse = WebAppInstanceStatusCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceProcessesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessesSlotNext operation. */
-export type WebAppsListInstanceProcessesSlotNextResponse =
-  ProcessInfoCollection;
+export type WebAppsListInstanceProcessesSlotNextResponse = ProcessInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceProcessModulesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessModulesSlotNext operation. */
-export type WebAppsListInstanceProcessModulesSlotNextResponse =
-  ProcessModuleInfoCollection;
+export type WebAppsListInstanceProcessModulesSlotNextResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListInstanceProcessThreadsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceProcessThreadsSlotNext operation. */
-export type WebAppsListInstanceProcessThreadsSlotNextResponse =
-  ProcessThreadInfoCollection;
+export type WebAppsListInstanceProcessThreadsSlotNextResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSiteBackupsSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSiteBackupsSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteBackupsSlotNext operation. */
 export type WebAppsListSiteBackupsSlotNextResponse = BackupItemCollection;
@@ -17478,8 +16805,7 @@ export interface WebAppsListPerfMonCountersSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPerfMonCountersSlotNext operation. */
-export type WebAppsListPerfMonCountersSlotNextResponse =
-  PerfMonCounterCollection;
+export type WebAppsListPerfMonCountersSlotNextResponse = PerfMonCounterCollection;
 
 /** Optional parameters. */
 export interface WebAppsGetPrivateEndpointConnectionListSlotNextOptionalParams
@@ -17490,8 +16816,7 @@ export type WebAppsGetPrivateEndpointConnectionListSlotNextResponse =
   PrivateEndpointConnectionCollection;
 
 /** Optional parameters. */
-export interface WebAppsListProcessesSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListProcessesSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessesSlotNext operation. */
 export type WebAppsListProcessesSlotNextResponse = ProcessInfoCollection;
@@ -17501,24 +16826,21 @@ export interface WebAppsListProcessModulesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessModulesSlotNext operation. */
-export type WebAppsListProcessModulesSlotNextResponse =
-  ProcessModuleInfoCollection;
+export type WebAppsListProcessModulesSlotNextResponse = ProcessModuleInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListProcessThreadsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listProcessThreadsSlotNext operation. */
-export type WebAppsListProcessThreadsSlotNextResponse =
-  ProcessThreadInfoCollection;
+export type WebAppsListProcessThreadsSlotNextResponse = ProcessThreadInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListPublicCertificatesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listPublicCertificatesSlotNext operation. */
-export type WebAppsListPublicCertificatesSlotNextResponse =
-  PublicCertificateCollection;
+export type WebAppsListPublicCertificatesSlotNextResponse = PublicCertificateCollection;
 
 /** Optional parameters. */
 export interface WebAppsListSiteContainersSlotNextOptionalParams
@@ -17532,20 +16854,17 @@ export interface WebAppsListSiteExtensionsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSiteExtensionsSlotNext operation. */
-export type WebAppsListSiteExtensionsSlotNextResponse =
-  SiteExtensionInfoCollection;
+export type WebAppsListSiteExtensionsSlotNextResponse = SiteExtensionInfoCollection;
 
 /** Optional parameters. */
 export interface WebAppsListSlotDifferencesSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotDifferencesSlotNext operation. */
-export type WebAppsListSlotDifferencesSlotNextResponse =
-  SlotDifferenceCollection;
+export type WebAppsListSlotDifferencesSlotNextResponse = SlotDifferenceCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSnapshotsSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSnapshotsSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsSlotNext operation. */
 export type WebAppsListSnapshotsSlotNextResponse = SnapshotCollection;
@@ -17555,35 +16874,30 @@ export interface WebAppsListSnapshotsFromDRSecondarySlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsFromDRSecondarySlotNext operation. */
-export type WebAppsListSnapshotsFromDRSecondarySlotNextResponse =
-  SnapshotCollection;
+export type WebAppsListSnapshotsFromDRSecondarySlotNextResponse = SnapshotCollection;
 
 /** Optional parameters. */
 export interface WebAppsListTriggeredWebJobsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobsSlotNext operation. */
-export type WebAppsListTriggeredWebJobsSlotNextResponse =
-  TriggeredWebJobCollection;
+export type WebAppsListTriggeredWebJobsSlotNextResponse = TriggeredWebJobCollection;
 
 /** Optional parameters. */
 export interface WebAppsListTriggeredWebJobHistorySlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobHistorySlotNext operation. */
-export type WebAppsListTriggeredWebJobHistorySlotNextResponse =
-  TriggeredJobHistoryCollection;
+export type WebAppsListTriggeredWebJobHistorySlotNextResponse = TriggeredJobHistoryCollection;
 
 /** Optional parameters. */
-export interface WebAppsListUsagesSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListUsagesSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesSlotNext operation. */
 export type WebAppsListUsagesSlotNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface WebAppsListWebJobsSlotNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWebJobsSlotNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebJobsSlotNext operation. */
 export type WebAppsListWebJobsSlotNextResponse = WebJobCollection;
@@ -17593,12 +16907,10 @@ export interface WebAppsListSlotDifferencesFromProductionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSlotDifferencesFromProductionNext operation. */
-export type WebAppsListSlotDifferencesFromProductionNextResponse =
-  SlotDifferenceCollection;
+export type WebAppsListSlotDifferencesFromProductionNextResponse = SlotDifferenceCollection;
 
 /** Optional parameters. */
-export interface WebAppsListSnapshotsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListSnapshotsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsNext operation. */
 export type WebAppsListSnapshotsNextResponse = SnapshotCollection;
@@ -17608,8 +16920,7 @@ export interface WebAppsListSnapshotsFromDRSecondaryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSnapshotsFromDRSecondaryNext operation. */
-export type WebAppsListSnapshotsFromDRSecondaryNextResponse =
-  SnapshotCollection;
+export type WebAppsListSnapshotsFromDRSecondaryNextResponse = SnapshotCollection;
 
 /** Optional parameters. */
 export interface WebAppsListTriggeredWebJobsNextOptionalParams
@@ -17623,19 +16934,16 @@ export interface WebAppsListTriggeredWebJobHistoryNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listTriggeredWebJobHistoryNext operation. */
-export type WebAppsListTriggeredWebJobHistoryNextResponse =
-  TriggeredJobHistoryCollection;
+export type WebAppsListTriggeredWebJobHistoryNextResponse = TriggeredJobHistoryCollection;
 
 /** Optional parameters. */
-export interface WebAppsListUsagesNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListUsagesNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listUsagesNext operation. */
 export type WebAppsListUsagesNextResponse = CsmUsageQuotaCollection;
 
 /** Optional parameters. */
-export interface WebAppsListWebJobsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWebJobsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWebJobsNext operation. */
 export type WebAppsListWebJobsNextResponse = WebJobCollection;
@@ -17645,27 +16953,22 @@ export interface WebAppsListInstanceWorkflowsSlotNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInstanceWorkflowsSlotNext operation. */
-export type WebAppsListInstanceWorkflowsSlotNextResponse =
-  WorkflowEnvelopeCollection;
+export type WebAppsListInstanceWorkflowsSlotNextResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface WebAppsListWorkflowsNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WebAppsListWorkflowsNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listWorkflowsNext operation. */
 export type WebAppsListWorkflowsNextResponse = WorkflowEnvelopeCollection;
 
 /** Optional parameters. */
-export interface WorkflowsRegenerateAccessKeyOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowsRegenerateAccessKeyOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowsValidateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowsValidateOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowRunsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowRunsListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
   /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
@@ -17676,26 +16979,22 @@ export interface WorkflowRunsListOptionalParams
 export type WorkflowRunsListResponse = WorkflowRunListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowRunsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkflowRunsGetResponse = WorkflowRun;
 
 /** Optional parameters. */
-export interface WorkflowRunsCancelOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowRunsCancelOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkflowRunsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowRunsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunsListNextResponse = WorkflowRunListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowRunActionsListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
   /** The filter to apply on the operation. Options for filters include: Status. */
@@ -17706,8 +17005,7 @@ export interface WorkflowRunActionsListOptionalParams
 export type WorkflowRunActionsListResponse = WorkflowRunActionListResult;
 
 /** Optional parameters. */
-export interface WorkflowRunActionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowRunActionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkflowRunActionsGetResponse = WorkflowRunAction;
@@ -17720,8 +17018,7 @@ export interface WorkflowRunActionsListExpressionTracesOptionalParams
 export type WorkflowRunActionsListExpressionTracesResponse = ExpressionTraces;
 
 /** Optional parameters. */
-export interface WorkflowRunActionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowRunActionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowRunActionsListNextResponse = WorkflowRunActionListResult;
@@ -17731,8 +17028,7 @@ export interface WorkflowRunActionsListExpressionTracesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExpressionTracesNext operation. */
-export type WorkflowRunActionsListExpressionTracesNextResponse =
-  ExpressionTraces;
+export type WorkflowRunActionsListExpressionTracesNextResponse = ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsListOptionalParams
@@ -17747,16 +17043,14 @@ export interface WorkflowRunActionRepetitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsGetResponse =
-  WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsListExpressionTracesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExpressionTraces operation. */
-export type WorkflowRunActionRepetitionsListExpressionTracesResponse =
-  ExpressionTraces;
+export type WorkflowRunActionRepetitionsListExpressionTracesResponse = ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsListNextOptionalParams
@@ -17771,32 +17065,28 @@ export interface WorkflowRunActionRepetitionsListExpressionTracesNextOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listExpressionTracesNext operation. */
-export type WorkflowRunActionRepetitionsListExpressionTracesNextResponse =
-  ExpressionTraces;
+export type WorkflowRunActionRepetitionsListExpressionTracesNextResponse = ExpressionTraces;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListResponse =
-  RequestHistoryListResult;
+export type WorkflowRunActionRepetitionsRequestHistoriesListResponse = RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse =
-  RequestHistory;
+export type WorkflowRunActionRepetitionsRequestHistoriesGetResponse = RequestHistory;
 
 /** Optional parameters. */
 export interface WorkflowRunActionRepetitionsRequestHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse =
-  RequestHistoryListResult;
+export type WorkflowRunActionRepetitionsRequestHistoriesListNextResponse = RequestHistoryListResult;
 
 /** Optional parameters. */
 export interface WorkflowRunActionScopeRepetitionsListOptionalParams
@@ -17811,8 +17101,7 @@ export interface WorkflowRunActionScopeRepetitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type WorkflowRunActionScopeRepetitionsGetResponse =
-  WorkflowRunActionRepetitionDefinition;
+export type WorkflowRunActionScopeRepetitionsGetResponse = WorkflowRunActionRepetitionDefinition;
 
 /** Optional parameters. */
 export interface WorkflowRunActionScopeRepetitionsListNextOptionalParams
@@ -17823,8 +17112,7 @@ export type WorkflowRunActionScopeRepetitionsListNextResponse =
   WorkflowRunActionRepetitionDefinitionCollection;
 
 /** Optional parameters. */
-export interface WorkflowTriggersListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowTriggersListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
   /** The filter to apply on the operation. */
@@ -17835,8 +17123,7 @@ export interface WorkflowTriggersListOptionalParams
 export type WorkflowTriggersListResponse = WorkflowTriggerListResult;
 
 /** Optional parameters. */
-export interface WorkflowTriggersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowTriggersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkflowTriggersGetResponse = WorkflowTrigger;
@@ -17846,12 +17133,10 @@ export interface WorkflowTriggersListCallbackUrlOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listCallbackUrl operation. */
-export type WorkflowTriggersListCallbackUrlResponse =
-  WorkflowTriggerCallbackUrl;
+export type WorkflowTriggersListCallbackUrlResponse = WorkflowTriggerCallbackUrl;
 
 /** Optional parameters. */
-export interface WorkflowTriggersRunOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowTriggersRunOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -17859,22 +17144,19 @@ export interface WorkflowTriggersRunOptionalParams
 }
 
 /** Optional parameters. */
-export interface WorkflowTriggersGetSchemaJsonOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowTriggersGetSchemaJsonOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getSchemaJson operation. */
 export type WorkflowTriggersGetSchemaJsonResponse = JsonSchema;
 
 /** Optional parameters. */
-export interface WorkflowTriggersListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowTriggersListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowTriggersListNextResponse = WorkflowTriggerListResult;
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowTriggerHistoriesListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
   /** The filter to apply on the operation. Options for filters include: Status, StartTime, and ClientTrackingId. */
@@ -17882,12 +17164,10 @@ export interface WorkflowTriggerHistoriesListOptionalParams
 }
 
 /** Contains response data for the list operation. */
-export type WorkflowTriggerHistoriesListResponse =
-  WorkflowTriggerHistoryListResult;
+export type WorkflowTriggerHistoriesListResponse = WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
-export interface WorkflowTriggerHistoriesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowTriggerHistoriesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkflowTriggerHistoriesGetResponse = WorkflowTriggerHistory;
@@ -17906,12 +17186,10 @@ export interface WorkflowTriggerHistoriesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkflowTriggerHistoriesListNextResponse =
-  WorkflowTriggerHistoryListResult;
+export type WorkflowTriggerHistoriesListNextResponse = WorkflowTriggerHistoryListResult;
 
 /** Optional parameters. */
-export interface WorkflowVersionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface WorkflowVersionsListOptionalParams extends coreClient.OperationOptions {
   /** The number of items to be included in the result. */
   top?: number;
 }
@@ -17920,22 +17198,19 @@ export interface WorkflowVersionsListOptionalParams
 export type WorkflowVersionsListResponse = WorkflowVersionListResult;
 
 /** Optional parameters. */
-export interface WorkflowVersionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowVersionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type WorkflowVersionsGetResponse = WorkflowVersion;
 
 /** Optional parameters. */
-export interface WorkflowVersionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WorkflowVersionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type WorkflowVersionsListNextResponse = WorkflowVersionListResult;
 
 /** Optional parameters. */
-export interface WebSiteManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface WebSiteManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

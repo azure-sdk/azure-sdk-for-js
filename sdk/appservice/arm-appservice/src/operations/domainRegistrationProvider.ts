@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DomainRegistrationProvider operations. */
-export class DomainRegistrationProviderImpl
-  implements DomainRegistrationProvider
-{
+export class DomainRegistrationProviderImpl implements DomainRegistrationProvider {
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -99,10 +97,7 @@ export class DomainRegistrationProviderImpl
   private _listOperations(
     options?: DomainRegistrationProviderListOperationsOptionalParams,
   ): Promise<DomainRegistrationProviderListOperationsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listOperationsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
 
   /**
@@ -114,10 +109,7 @@ export class DomainRegistrationProviderImpl
     nextLink: string,
     options?: DomainRegistrationProviderListOperationsNextOptionalParams,
   ): Promise<DomainRegistrationProviderListOperationsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listOperationsNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listOperationsNextOperationSpec);
   }
 }
 // Operation Specifications
