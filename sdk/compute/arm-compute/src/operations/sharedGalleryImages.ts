@@ -59,12 +59,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          location,
-          galleryUniqueName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(location, galleryUniqueName, options, settings);
       },
     };
   }
@@ -85,12 +80,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        location,
-        galleryUniqueName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(location, galleryUniqueName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -103,11 +93,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
     galleryUniqueName: string,
     options?: SharedGalleryImagesListOptionalParams,
   ): AsyncIterableIterator<SharedGalleryImage> {
-    for await (const page of this.listPagingPage(
-      location,
-      galleryUniqueName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(location, galleryUniqueName, options)) {
       yield* page;
     }
   }

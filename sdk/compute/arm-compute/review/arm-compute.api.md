@@ -4522,6 +4522,18 @@ export interface LatestGalleryImageVersion {
 }
 
 // @public
+export interface LifecycleHook {
+    defaultAction?: "Approve";
+    type?: string;
+    waitDuration?: string;
+}
+
+// @public
+export interface LifecycleHooksProfile {
+    lifecycleHooks?: LifecycleHook[];
+}
+
+// @public
 export interface LinuxConfiguration {
     disablePasswordAuthentication?: boolean;
     enableVMAgentPlatformUpdates?: boolean;
@@ -7347,6 +7359,7 @@ export interface VirtualMachineScaleSet extends Resource {
     extendedLocation?: ExtendedLocation;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;
+    lifecycleHooksProfile?: LifecycleHooksProfile;
     orchestrationMode?: OrchestrationMode;
     overprovision?: boolean;
     plan?: Plan;
