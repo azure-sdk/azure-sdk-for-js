@@ -68,12 +68,7 @@ export class KeysImpl implements Keys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -94,12 +89,7 @@ export class KeysImpl implements Keys {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vaultName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vaultName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +102,7 @@ export class KeysImpl implements Keys {
     vaultName: string,
     options?: KeysListOptionalParams,
   ): AsyncIterableIterator<Key> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }
@@ -134,12 +120,7 @@ export class KeysImpl implements Keys {
     keyName: string,
     options?: KeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<Key> {
-    const iter = this.listVersionsPagingAll(
-      resourceGroupName,
-      vaultName,
-      keyName,
-      options,
-    );
+    const iter = this.listVersionsPagingAll(resourceGroupName, vaultName, keyName, options);
     return {
       next() {
         return iter.next();
@@ -172,12 +153,7 @@ export class KeysImpl implements Keys {
     let result: KeysListVersionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listVersions(
-        resourceGroupName,
-        vaultName,
-        keyName,
-        options,
-      );
+      result = await this._listVersions(resourceGroupName, vaultName, keyName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

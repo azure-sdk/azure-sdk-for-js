@@ -120,7 +120,7 @@ export const keyName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-11-01",
+    defaultValue: "2025-04-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -293,6 +293,22 @@ export const privateEndpointConnectionName: OperationURLParameter = {
 export const properties: OperationParameter = {
   parameterPath: "properties",
   mapper: PrivateEndpointConnectionMapper,
+};
+
+export const associationProxyName: OperationURLParameter = {
+  parameterPath: "associationProxyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\\.[a-z][a-z0-9]*$",
+      ),
+    },
+    serializedName: "associationProxyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters5: OperationParameter = {

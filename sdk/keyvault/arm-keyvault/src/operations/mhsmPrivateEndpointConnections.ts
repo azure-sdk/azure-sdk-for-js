@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { KeyVaultManagementClient } from "../keyVaultManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   MhsmPrivateEndpointConnection,
@@ -35,9 +31,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MhsmPrivateEndpointConnections operations. */
-export class MhsmPrivateEndpointConnectionsImpl
-  implements MhsmPrivateEndpointConnections
-{
+export class MhsmPrivateEndpointConnectionsImpl implements MhsmPrivateEndpointConnections {
   private readonly client: KeyVaultManagementClient;
 
   /**
@@ -72,12 +66,7 @@ export class MhsmPrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourcePagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listByResourcePagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -98,12 +87,7 @@ export class MhsmPrivateEndpointConnectionsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -116,11 +100,7 @@ export class MhsmPrivateEndpointConnectionsImpl
     name: string,
     options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
   ): AsyncIterableIterator<MhsmPrivateEndpointConnection> {
-    for await (const page of this.listByResourcePagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listByResourcePagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -220,8 +200,7 @@ export class MhsmPrivateEndpointConnectionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

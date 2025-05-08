@@ -89,12 +89,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +102,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     name: string,
     options?: ManagedHsmKeysListOptionalParams,
   ): AsyncIterableIterator<ManagedHsmKey> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -131,12 +122,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     keyName: string,
     options?: ManagedHsmKeysListVersionsOptionalParams,
   ): PagedAsyncIterableIterator<ManagedHsmKey> {
-    const iter = this.listVersionsPagingAll(
-      resourceGroupName,
-      name,
-      keyName,
-      options,
-    );
+    const iter = this.listVersionsPagingAll(resourceGroupName, name, keyName, options);
     return {
       next() {
         return iter.next();
@@ -148,13 +134,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listVersionsPagingPage(
-          resourceGroupName,
-          name,
-          keyName,
-          options,
-          settings,
-        );
+        return this.listVersionsPagingPage(resourceGroupName, name, keyName, options, settings);
       },
     };
   }
@@ -169,12 +149,7 @@ export class ManagedHsmKeysImpl implements ManagedHsmKeys {
     let result: ManagedHsmKeysListVersionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listVersions(
-        resourceGroupName,
-        name,
-        keyName,
-        options,
-      );
+      result = await this._listVersions(resourceGroupName, name, keyName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
