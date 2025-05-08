@@ -384,12 +384,7 @@ export const Identity: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None",
-          ],
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"],
         },
       },
       userAssignedIdentities: {
@@ -776,28 +771,27 @@ export const PrivateLinkResource: coreClient.CompositeMapper = {
   },
 };
 
-export const NetworkSecurityPerimeterConfigurationList: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfigurationList",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "NetworkSecurityPerimeterConfiguration",
-              },
+export const NetworkSecurityPerimeterConfigurationList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfigurationList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkSecurityPerimeterConfiguration",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ProvisioningIssue: coreClient.CompositeMapper = {
   type: {
@@ -873,8 +867,7 @@ export const NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation:
   {
     type: {
       name: "Composite",
-      className:
-        "NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation",
+      className: "NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation",
       modelProperties: {
         name: {
           serializedName: "name",
@@ -892,39 +885,38 @@ export const NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation:
     },
   };
 
-export const NetworkSecurityPerimeterConfigurationPropertiesProfile: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfigurationPropertiesProfile",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          type: {
-            name: "String",
-          },
+export const NetworkSecurityPerimeterConfigurationPropertiesProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfigurationPropertiesProfile",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
         },
-        accessRulesVersion: {
-          serializedName: "accessRulesVersion",
-          type: {
-            name: "String",
-          },
+      },
+      accessRulesVersion: {
+        serializedName: "accessRulesVersion",
+        type: {
+          name: "String",
         },
-        accessRules: {
-          serializedName: "accessRules",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "NspAccessRule",
-              },
+      },
+      accessRules: {
+        serializedName: "accessRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NspAccessRule",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const NspAccessRule: coreClient.CompositeMapper = {
   type: {
@@ -1023,21 +1015,20 @@ export const NspAccessRuleProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const NspAccessRulePropertiesSubscriptionsItem: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NspAccessRulePropertiesSubscriptionsItem",
-      modelProperties: {
-        id: {
-          serializedName: "id",
-          type: {
-            name: "String",
-          },
+export const NspAccessRulePropertiesSubscriptionsItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NspAccessRulePropertiesSubscriptionsItem",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ClusterQuotaConfigurationProperties: coreClient.CompositeMapper = {
   type: {
@@ -1807,89 +1798,87 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   },
 };
 
-export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NetworkSecurityPerimeterConfiguration",
-      modelProperties: {
-        ...ProxyResource.type.modelProperties,
-        provisioningState: {
-          serializedName: "properties.provisioningState",
-          type: {
-            name: "String",
-          },
+export const NetworkSecurityPerimeterConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NetworkSecurityPerimeterConfiguration",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String",
         },
-        provisioningIssues: {
-          serializedName: "properties.provisioningIssues",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ProvisioningIssue",
-              },
+      },
+      provisioningIssues: {
+        serializedName: "properties.provisioningIssues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProvisioningIssue",
             },
-          },
-        },
-        networkSecurityPerimeter: {
-          serializedName: "properties.networkSecurityPerimeter",
-          type: {
-            name: "Composite",
-            className: "NetworkSecurityPerimeter",
-          },
-        },
-        resourceAssociation: {
-          serializedName: "properties.resourceAssociation",
-          type: {
-            name: "Composite",
-            className:
-              "NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation",
-          },
-        },
-        profile: {
-          serializedName: "properties.profile",
-          type: {
-            name: "Composite",
-            className: "NetworkSecurityPerimeterConfigurationPropertiesProfile",
-          },
-        },
-        isBackingResource: {
-          serializedName: "properties.isBackingResource",
-          readOnly: true,
-          type: {
-            name: "Boolean",
-          },
-        },
-        applicableFeatures: {
-          serializedName: "properties.applicableFeatures",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
-            },
-          },
-        },
-        parentAssociationName: {
-          serializedName: "properties.parentAssociationName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        sourceResourceId: {
-          serializedName: "properties.sourceResourceId",
-          readOnly: true,
-          type: {
-            name: "String",
           },
         },
       },
+      networkSecurityPerimeter: {
+        serializedName: "properties.networkSecurityPerimeter",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeter",
+        },
+      },
+      resourceAssociation: {
+        serializedName: "properties.resourceAssociation",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation",
+        },
+      },
+      profile: {
+        serializedName: "properties.profile",
+        type: {
+          name: "Composite",
+          className: "NetworkSecurityPerimeterConfigurationPropertiesProfile",
+        },
+      },
+      isBackingResource: {
+        serializedName: "properties.isBackingResource",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      applicableFeatures: {
+        serializedName: "properties.applicableFeatures",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      parentAssociationName: {
+        serializedName: "properties.parentAssociationName",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      sourceResourceId: {
+        serializedName: "properties.sourceResourceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
     },
-  };
+  },
+};
 
 export const NetworkRuleSet: coreClient.CompositeMapper = {
   type: {
@@ -2284,8 +2273,7 @@ export const ThrottlingPolicy: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ThrottlingPolicy",
     uberParent: "ApplicationGroupPolicy",
-    polymorphicDiscriminator:
-      ApplicationGroupPolicy.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ApplicationGroupPolicy.type.polymorphicDiscriminator,
     modelProperties: {
       ...ApplicationGroupPolicy.type.modelProperties,
       rateLimitThreshold: {
