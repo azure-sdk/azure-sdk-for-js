@@ -53,9 +53,7 @@ export class TasksImpl implements Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param options The options parameters.
    */
-  public list(
-    options?: TasksListOptionalParams,
-  ): PagedAsyncIterableIterator<SecurityTask> {
+  public list(options?: TasksListOptionalParams): PagedAsyncIterableIterator<SecurityTask> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -145,11 +143,7 @@ export class TasksImpl implements Tasks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(
-        ascLocation,
-        continuationToken,
-        options,
-      );
+      result = await this._listByHomeRegionNext(ascLocation, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -161,10 +155,7 @@ export class TasksImpl implements Tasks {
     ascLocation: string,
     options?: TasksListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<SecurityTask> {
-    for await (const page of this.listByHomeRegionPagingPage(
-      ascLocation,
-      options,
-    )) {
+    for await (const page of this.listByHomeRegionPagingPage(ascLocation, options)) {
       yield* page;
     }
   }
@@ -182,11 +173,7 @@ export class TasksImpl implements Tasks {
     ascLocation: string,
     options?: TasksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityTask> {
-    const iter = this.listByResourceGroupPagingAll(
-      resourceGroupName,
-      ascLocation,
-      options,
-    );
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -217,11 +204,7 @@ export class TasksImpl implements Tasks {
     let result: TasksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
-        resourceGroupName,
-        ascLocation,
-        options,
-      );
+      result = await this._listByResourceGroup(resourceGroupName, ascLocation, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -395,10 +378,7 @@ export class TasksImpl implements Tasks {
     nextLink: string,
     options?: TasksListNextOptionalParams,
   ): Promise<TasksListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -471,11 +451,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -500,27 +476,26 @@ const getSubscriptionLevelTaskOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateSubscriptionLevelTaskStateOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
-    httpMethod: "POST",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const updateSubscriptionLevelTaskStateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.ascLocation,
-      Parameters.taskName,
-      Parameters.taskUpdateActionType,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.taskName,
+    Parameters.taskUpdateActionType,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks",
   httpMethod: "GET",
@@ -564,28 +539,27 @@ const getResourceGroupLevelTaskOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateResourceGroupLevelTaskStateOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
-    httpMethod: "POST",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const updateResourceGroupLevelTaskStateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/tasks/{taskName}/{taskUpdateActionType}",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.ascLocation,
-      Parameters.taskName,
-      Parameters.taskUpdateActionType,
-      Parameters.resourceGroupName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.taskName,
+    Parameters.taskUpdateActionType,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -597,11 +571,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

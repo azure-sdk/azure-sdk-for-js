@@ -16,7 +16,5 @@ export interface Operations {
    * Exposes all available operations for discovery purposes.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }

@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing InformationProtectionPolicies operations. */
-export class InformationProtectionPoliciesImpl
-  implements InformationProtectionPolicies
-{
+export class InformationProtectionPoliciesImpl implements InformationProtectionPolicies {
   private readonly client: SecurityCenter;
 
   /**
@@ -157,10 +155,7 @@ export class InformationProtectionPoliciesImpl
     scope: string,
     options?: InformationProtectionPoliciesListOptionalParams,
   ): Promise<InformationProtectionPoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -176,10 +171,7 @@ export class InformationProtectionPoliciesImpl
     nextLink: string,
     options?: InformationProtectionPoliciesListNextOptionalParams,
   ): Promise<InformationProtectionPoliciesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -197,11 +189,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.informationProtectionPolicyName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.informationProtectionPolicyName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -221,11 +209,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.informationProtectionPolicy,
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.informationProtectionPolicyName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.informationProtectionPolicyName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

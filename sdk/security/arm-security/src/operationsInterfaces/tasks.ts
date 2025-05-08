@@ -28,9 +28,7 @@ export interface Tasks {
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param options The options parameters.
    */
-  list(
-    options?: TasksListOptionalParams,
-  ): PagedAsyncIterableIterator<SecurityTask>;
+  list(options?: TasksListOptionalParams): PagedAsyncIterableIterator<SecurityTask>;
   /**
    * Recommended tasks that will help improve the security of the subscription proactively
    * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from

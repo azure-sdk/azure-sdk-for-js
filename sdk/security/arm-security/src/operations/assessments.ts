@@ -111,10 +111,7 @@ export class AssessmentsImpl implements Assessments {
     scope: string,
     options?: AssessmentsListOptionalParams,
   ): Promise<AssessmentsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -185,10 +182,7 @@ export class AssessmentsImpl implements Assessments {
     nextLink: string,
     options?: AssessmentsListNextOptionalParams,
   ): Promise<AssessmentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -205,7 +199,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer,
@@ -221,12 +215,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  queryParameters: [Parameters.apiVersion20, Parameters.expand1],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -245,12 +235,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.assessment,
-  queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  queryParameters: [Parameters.apiVersion20],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -265,12 +251,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  queryParameters: [Parameters.apiVersion20],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };

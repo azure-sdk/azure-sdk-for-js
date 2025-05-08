@@ -42,8 +42,5 @@ export interface ApplicationOperations {
    * @param applicationId The security Application key - unique key for the standard application
    * @param options The options parameters.
    */
-  delete(
-    applicationId: string,
-    options?: ApplicationDeleteOptionalParams,
-  ): Promise<void>;
+  delete(applicationId: string, options?: ApplicationDeleteOptionalParams): Promise<void>;
 }

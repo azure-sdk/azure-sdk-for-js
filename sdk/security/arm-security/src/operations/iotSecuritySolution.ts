@@ -122,11 +122,7 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -146,11 +142,7 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -162,10 +154,7 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
     resourceGroupName: string,
     options?: IotSecuritySolutionListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IoTSecuritySolutionModel> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -177,10 +166,7 @@ export class IotSecuritySolutionImpl implements IotSecuritySolution {
   private _listBySubscription(
     options?: IotSecuritySolutionListBySubscriptionOptionalParams,
   ): Promise<IotSecuritySolutionListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -328,7 +314,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion19],
+  queryParameters: [Parameters.filter, Parameters.apiVersion18],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -344,12 +330,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion19],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.filter, Parameters.apiVersion18],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -364,7 +346,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -389,7 +371,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.iotSecuritySolutionData,
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -412,7 +394,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.updateIotSecuritySolutionData,
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -433,7 +415,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -454,11 +436,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
