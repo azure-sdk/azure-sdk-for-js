@@ -246,6 +246,57 @@ export const DataPlaneProxyProperties: coreClient.CompositeMapper = {
   },
 };
 
+export const TelemetryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryProperties",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ManagedOnBehalfOfConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedOnBehalfOfConfiguration",
+    modelProperties: {
+      moboBrokerResources: {
+        serializedName: "moboBrokerResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MoboBrokerResource",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const MoboBrokerResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoboBrokerResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const Sku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -469,6 +520,19 @@ export const ConfigurationStoreUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DataPlaneProxyProperties",
+        },
+      },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
         },
       },
     },
@@ -1535,6 +1599,90 @@ export const ErrorDetail: coreClient.CompositeMapper = {
   },
 };
 
+export const ExperimentationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Experimentation",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Experimentation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Experimentation",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      managedResourceGroupName: {
+        serializedName: "properties.managedResourceGroupName",
+        type: {
+          name: "String",
+        },
+      },
+      onlineExperimentationWorkspaceResourceId: {
+        serializedName: "properties.onlineExperimentationWorkspaceResourceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAccountResourceId: {
+        serializedName: "properties.storageAccountResourceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const KeyValueListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1674,6 +1822,12 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      defaultKeyValueRevisionRetentionPeriodInSeconds: {
+        serializedName: "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+        type: {
+          name: "Number",
+        },
+      },
       enablePurgeProtection: {
         defaultValue: false,
         serializedName: "properties.enablePurgeProtection",
@@ -1695,6 +1849,47 @@ export const ConfigurationStore: coreClient.CompositeMapper = {
           allowedValues: ["Recover", "Default"],
         },
       },
+      telemetry: {
+        serializedName: "properties.telemetry",
+        type: {
+          name: "Composite",
+          className: "TelemetryProperties",
+        },
+      },
+      managedOnBehalfOfConfiguration: {
+        serializedName: "properties.managedOnBehalfOfConfiguration",
+        type: {
+          name: "Composite",
+          className: "ManagedOnBehalfOfConfiguration",
+        },
+      },
+    },
+  },
+};
+
+export const ConfigurationStoresDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationStoresDeleteHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
     },
   },
 };
@@ -1704,6 +1899,27 @@ export const ReplicasDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ReplicasDeleteHeaders",
     modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ExperimentationDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExperimentationDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {

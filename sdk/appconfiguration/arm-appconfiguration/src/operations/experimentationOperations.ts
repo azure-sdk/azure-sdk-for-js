@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { Replicas } from "../operationsInterfaces/index.js";
+import { ExperimentationOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -16,25 +16,26 @@ import { AppConfigurationManagementClient } from "../appConfigurationManagementC
 import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  Replica,
-  ReplicasListByConfigurationStoreNextOptionalParams,
-  ReplicasListByConfigurationStoreOptionalParams,
-  ReplicasListByConfigurationStoreResponse,
-  ReplicasGetOptionalParams,
-  ReplicasGetResponse,
-  ReplicasCreateOptionalParams,
-  ReplicasCreateResponse,
-  ReplicasDeleteOptionalParams,
-  ReplicasListByConfigurationStoreNextResponse,
+  Experimentation,
+  ExperimentationListNextOptionalParams,
+  ExperimentationListOptionalParams,
+  ExperimentationListResponse,
+  ExperimentationGetOptionalParams,
+  ExperimentationGetResponse,
+  ExperimentationCreateOptionalParams,
+  ExperimentationCreateResponse,
+  ExperimentationDeleteOptionalParams,
+  ExperimentationDeleteResponse,
+  ExperimentationListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Replicas operations. */
-export class ReplicasImpl implements Replicas {
+/** Class containing ExperimentationOperations operations. */
+export class ExperimentationOperationsImpl implements ExperimentationOperations {
   private readonly client: AppConfigurationManagementClient;
 
   /**
-   * Initialize a new instance of the class Replicas class.
+   * Initialize a new instance of the class ExperimentationOperations class.
    * @param client Reference to the service client
    */
   constructor(client: AppConfigurationManagementClient) {
@@ -42,21 +43,17 @@ export class ReplicasImpl implements Replicas {
   }
 
   /**
-   * Lists the replicas for a given configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists experimentation for a given configuration store.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
-  public listByConfigurationStore(
+  public list(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams,
-  ): PagedAsyncIterableIterator<Replica> {
-    const iter = this.listByConfigurationStorePagingAll(
-      resourceGroupName,
-      configStoreName,
-      options,
-    );
+    options?: ExperimentationListOptionalParams,
+  ): PagedAsyncIterableIterator<Experimentation> {
+    const iter = this.listPagingAll(resourceGroupName, configStoreName, options);
     return {
       next() {
         return iter.next();
@@ -68,38 +65,28 @@ export class ReplicasImpl implements Replicas {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByConfigurationStorePagingPage(
-          resourceGroupName,
-          configStoreName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, configStoreName, options, settings);
       },
     };
   }
 
-  private async *listByConfigurationStorePagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams,
+    options?: ExperimentationListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<Replica[]> {
-    let result: ReplicasListByConfigurationStoreResponse;
+  ): AsyncIterableIterator<Experimentation[]> {
+    let result: ExperimentationListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByConfigurationStore(resourceGroupName, configStoreName, options);
+      result = await this._list(resourceGroupName, configStoreName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByConfigurationStoreNext(
-        resourceGroupName,
-        configStoreName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, configStoreName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,75 +94,71 @@ export class ReplicasImpl implements Replicas {
     }
   }
 
-  private async *listByConfigurationStorePagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams,
-  ): AsyncIterableIterator<Replica> {
-    for await (const page of this.listByConfigurationStorePagingPage(
-      resourceGroupName,
-      configStoreName,
-      options,
-    )) {
+    options?: ExperimentationListOptionalParams,
+  ): AsyncIterableIterator<Experimentation> {
+    for await (const page of this.listPagingPage(resourceGroupName, configStoreName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the replicas for a given configuration store.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Lists experimentation for a given configuration store.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
    * @param options The options parameters.
    */
-  private _listByConfigurationStore(
+  private _list(
     resourceGroupName: string,
     configStoreName: string,
-    options?: ReplicasListByConfigurationStoreOptionalParams,
-  ): Promise<ReplicasListByConfigurationStoreResponse> {
+    options?: ExperimentationListOptionalParams,
+  ): Promise<ExperimentationListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, options },
-      listByConfigurationStoreOperationSpec,
+      listOperationSpec,
     );
   }
 
   /**
-   * Gets the properties of the specified replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Gets the properties of the experimentation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param replicaName The name of the replica.
+   * @param experimentationName The name of the experimentation.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     configStoreName: string,
-    replicaName: string,
-    options?: ReplicasGetOptionalParams,
-  ): Promise<ReplicasGetResponse> {
+    experimentationName: string,
+    options?: ExperimentationGetOptionalParams,
+  ): Promise<ExperimentationGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, configStoreName, replicaName, options },
+      { resourceGroupName, configStoreName, experimentationName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Creates a replica with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates the experimentation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param replicaName The name of the replica.
-   * @param replicaCreationParameters The parameters for creating a replica.
+   * @param experimentationName The name of the experimentation.
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     configStoreName: string,
-    replicaName: string,
-    replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<ReplicasCreateResponse>, ReplicasCreateResponse>> {
+    experimentationName: string,
+    options?: ExperimentationCreateOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ExperimentationCreateResponse>, ExperimentationCreateResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReplicasCreateResponse> => {
+    ): Promise<ExperimentationCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -214,15 +197,14 @@ export class ReplicasImpl implements Replicas {
       args: {
         resourceGroupName,
         configStoreName,
-        replicaName,
-        replicaCreationParameters,
+        experimentationName,
         options,
       },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReplicasCreateResponse,
-      OperationState<ReplicasCreateResponse>
+      ExperimentationCreateResponse,
+      OperationState<ExperimentationCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -233,47 +215,46 @@ export class ReplicasImpl implements Replicas {
   }
 
   /**
-   * Creates a replica with the specified parameters.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Creates the experimentation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param replicaName The name of the replica.
-   * @param replicaCreationParameters The parameters for creating a replica.
+   * @param experimentationName The name of the experimentation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    replicaName: string,
-    replicaCreationParameters: Replica,
-    options?: ReplicasCreateOptionalParams,
-  ): Promise<ReplicasCreateResponse> {
+    experimentationName: string,
+    options?: ExperimentationCreateOptionalParams,
+  ): Promise<ExperimentationCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       configStoreName,
-      replicaName,
-      replicaCreationParameters,
+      experimentationName,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Deletes a replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes the experimentation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param replicaName The name of the replica.
+   * @param experimentationName The name of the experimentation.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     configStoreName: string,
-    replicaName: string,
-    options?: ReplicasDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    experimentationName: string,
+    options?: ExperimentationDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ExperimentationDeleteResponse>, ExperimentationDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<ExperimentationDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -309,10 +290,18 @@ export class ReplicasImpl implements Replicas {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, configStoreName, replicaName, options },
+      args: {
+        resourceGroupName,
+        configStoreName,
+        experimentationName,
+        options,
+      },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      ExperimentationDeleteResponse,
+      OperationState<ExperimentationDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "azure-async-operation",
@@ -322,161 +311,173 @@ export class ReplicasImpl implements Replicas {
   }
 
   /**
-   * Deletes a replica.
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * Deletes the experimentation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param replicaName The name of the replica.
+   * @param experimentationName The name of the experimentation.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     configStoreName: string,
-    replicaName: string,
-    options?: ReplicasDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(resourceGroupName, configStoreName, replicaName, options);
+    experimentationName: string,
+    options?: ExperimentationDeleteOptionalParams,
+  ): Promise<ExperimentationDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      configStoreName,
+      experimentationName,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
   /**
-   * ListByConfigurationStoreNext
-   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param configStoreName The name of the configuration store.
-   * @param nextLink The nextLink from the previous successful call to the ListByConfigurationStore
-   *                 method.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByConfigurationStoreNext(
+  private _listNext(
     resourceGroupName: string,
     configStoreName: string,
     nextLink: string,
-    options?: ReplicasListByConfigurationStoreNextOptionalParams,
-  ): Promise<ReplicasListByConfigurationStoreNextResponse> {
+    options?: ExperimentationListNextOptionalParams,
+  ): Promise<ExperimentationListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
-      listByConfigurationStoreNextOperationSpec,
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaListResult,
+      bodyMapper: Mappers.ExperimentationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skipToken],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.configStoreName,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica,
+      bodyMapper: Mappers.Experimentation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName,
+    Parameters.resourceGroupName1,
+    Parameters.experimentationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Replica,
+      bodyMapper: Mappers.Experimentation,
     },
     201: {
-      bodyMapper: Mappers.Replica,
+      bodyMapper: Mappers.Experimentation,
     },
     202: {
-      bodyMapper: Mappers.Replica,
+      bodyMapper: Mappers.Experimentation,
     },
     204: {
-      bodyMapper: Mappers.Replica,
+      bodyMapper: Mappers.Experimentation,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
-  requestBody: Parameters.replicaCreationParameters,
+  requestBody: Parameters.experimentationCreationParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName1,
+    Parameters.resourceGroupName1,
+    Parameters.experimentationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/experimentation/{experimentationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.ExperimentationDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ExperimentationDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ExperimentationDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ExperimentationDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.replicaName1,
+    Parameters.resourceGroupName1,
+    Parameters.experimentationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicaListResult,
+      bodyMapper: Mappers.ExperimentationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse,
+      bodyMapper: Mappers.ErrorResponseAutoGenerated,
     },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.configStoreName,
     Parameters.nextLink,
+    Parameters.resourceGroupName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

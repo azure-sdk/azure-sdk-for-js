@@ -59,12 +59,7 @@ export interface Replicas {
     replicaName: string,
     replicaCreationParameters: Replica,
     options?: ReplicasCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicasCreateResponse>,
-      ReplicasCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ReplicasCreateResponse>, ReplicasCreateResponse>>;
   /**
    * Creates a replica with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
