@@ -28,11 +28,11 @@ export type AllowType = string;
 // @public
 export interface AuthInfoBase {
     authMode?: AuthMode;
-    authType: "accessKey" | "secret" | "userAssignedIdentity" | "systemAssignedIdentity" | "servicePrincipalSecret" | "servicePrincipalCertificate" | "userAccount" | "easyAuthMicrosoftEntraID";
+    authType: "accessKey" | "easyAuthMicrosoftEntraID" | "secret" | "servicePrincipalCertificate" | "servicePrincipalSecret" | "systemAssignedIdentity" | "userAccount" | "userAssignedIdentity";
 }
 
 // @public (undocumented)
-export type AuthInfoBaseUnion = AuthInfoBase | AccessKeyInfoBase | SecretAuthInfo | UserAssignedIdentityAuthInfo | SystemAssignedIdentityAuthInfo | ServicePrincipalSecretAuthInfo | ServicePrincipalCertificateAuthInfo | UserAccountAuthInfo | EasyAuthMicrosoftEntraIDAuthInfo;
+export type AuthInfoBaseUnion = AuthInfoBase | AccessKeyInfoBase | EasyAuthMicrosoftEntraIDAuthInfo | SecretAuthInfo | ServicePrincipalCertificateAuthInfo | ServicePrincipalSecretAuthInfo | SystemAssignedIdentityAuthInfo | UserAccountAuthInfo | UserAssignedIdentityAuthInfo;
 
 // @public
 export type AuthMode = string;
@@ -60,12 +60,22 @@ export interface AzureResource extends TargetServiceBase {
 }
 
 // @public
+export interface AzureResourceManagerArmResponseDryrunResource {
+    body: DryrunResource;
+}
+
+// @public
+export interface AzureResourceManagerArmResponseValidateOperationResult {
+    body: ValidateOperationResult;
+}
+
+// @public
 export interface AzureResourcePropertiesBase {
-    type: "KeyVault" | "AppConfig";
+    type: "AppConfig" | "KeyVault";
 }
 
 // @public (undocumented)
-export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureKeyVaultProperties | AzureAppConfigProperties;
+export type AzureResourcePropertiesBaseUnion = AzureResourcePropertiesBase | AzureAppConfigProperties | AzureKeyVaultProperties;
 
 // @public
 export type AzureResourceType = string;
@@ -117,8 +127,8 @@ export interface ConfigurationNameItem {
 
 // @public
 export interface ConfigurationNameResult {
-    readonly nextLink?: string;
-    value?: ConfigurationNameItem[];
+    nextLink?: string;
+    value: ConfigurationNameItem[];
 }
 
 // @public
@@ -166,24 +176,30 @@ export interface ConfluentSchemaRegistry extends TargetServiceBase {
 
 // @public
 export interface Connector {
-    beginCreateDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateDryrunResponse>, ConnectorCreateDryrunResponse>>;
-    beginCreateDryrunAndWait(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<ConnectorCreateDryrunResponse>;
-    beginCreateOrUpdate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateOrUpdateResponse>, ConnectorCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<ConnectorCreateOrUpdateResponse>;
-    beginDelete(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<void>;
-    beginUpdate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateResponse>, ConnectorUpdateResponse>>;
-    beginUpdateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<ConnectorUpdateResponse>;
-    beginUpdateDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateDryrunResponse>, ConnectorUpdateDryrunResponse>>;
-    beginUpdateDryrunAndWait(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<ConnectorUpdateDryrunResponse>;
-    beginValidate(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorValidateResponse>, ConnectorValidateResponse>>;
-    beginValidateAndWait(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<ConnectorValidateResponse>;
-    deleteDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorDeleteDryrunOptionalParams): Promise<void>;
-    generateConfigurations(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGenerateConfigurationsOptionalParams): Promise<ConnectorGenerateConfigurationsResponse>;
-    get(subscriptionId: string, resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGetOptionalParams): Promise<ConnectorGetResponse>;
-    getDryrun(subscriptionId: string, resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorGetDryrunOptionalParams): Promise<ConnectorGetDryrunResponse>;
-    list(subscriptionId: string, resourceGroupName: string, location: string, options?: ConnectorListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
-    listDryrun(subscriptionId: string, resourceGroupName: string, location: string, options?: ConnectorListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+    beginCreateDryrun(resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateDryrunResponse>, ConnectorCreateDryrunResponse>>;
+    beginCreateDryrunAndWait(resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunResource, options?: ConnectorCreateDryrunOptionalParams): Promise<ConnectorCreateDryrunResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorCreateOrUpdateResponse>, ConnectorCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, location: string, connectorName: string, parameters: LinkerResource, options?: ConnectorCreateOrUpdateOptionalParams): Promise<ConnectorCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateResponse>, ConnectorUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, location: string, connectorName: string, parameters: LinkerPatch, options?: ConnectorUpdateOptionalParams): Promise<ConnectorUpdateResponse>;
+    beginUpdateDryrun(resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorUpdateDryrunResponse>, ConnectorUpdateDryrunResponse>>;
+    beginUpdateDryrunAndWait(resourceGroupName: string, location: string, dryrunName: string, parameters: DryrunPatch, options?: ConnectorUpdateDryrunOptionalParams): Promise<ConnectorUpdateDryrunResponse>;
+    beginValidate(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<SimplePollerLike<OperationState<ConnectorValidateResponse>, ConnectorValidateResponse>>;
+    beginValidateAndWait(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorValidateOptionalParams): Promise<ConnectorValidateResponse>;
+    deleteDryrun(resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorDeleteDryrunOptionalParams): Promise<void>;
+    generateConfigurations(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGenerateConfigurationsOptionalParams): Promise<ConnectorGenerateConfigurationsResponse>;
+    get(resourceGroupName: string, location: string, connectorName: string, options?: ConnectorGetOptionalParams): Promise<ConnectorGetResponse>;
+    getDryrun(resourceGroupName: string, location: string, dryrunName: string, options?: ConnectorGetDryrunOptionalParams): Promise<ConnectorGetDryrunResponse>;
+    list(resourceGroupName: string, location: string, options?: ConnectorListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
+    listDryrun(resourceGroupName: string, location: string, options?: ConnectorListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+}
+
+// @public
+export interface ConnectorCreateDryrunHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -196,6 +212,12 @@ export interface ConnectorCreateDryrunOptionalParams extends coreClient.Operatio
 export type ConnectorCreateDryrunResponse = DryrunResource;
 
 // @public
+export interface ConnectorCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ConnectorCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -206,6 +228,12 @@ export type ConnectorCreateOrUpdateResponse = LinkerResource;
 
 // @public
 export interface ConnectorDeleteDryrunOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ConnectorDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -265,6 +293,12 @@ export interface ConnectorListOptionalParams extends coreClient.OperationOptions
 export type ConnectorListResponse = ResourceList;
 
 // @public
+export interface ConnectorUpdateDryrunHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface ConnectorUpdateDryrunOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -274,6 +308,11 @@ export interface ConnectorUpdateDryrunOptionalParams extends coreClient.Operatio
 export type ConnectorUpdateDryrunResponse = DryrunResource;
 
 // @public
+export interface ConnectorUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface ConnectorUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -281,6 +320,12 @@ export interface ConnectorUpdateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type ConnectorUpdateResponse = LinkerResource;
+
+// @public
+export interface ConnectorValidateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface ConnectorValidateOptionalParams extends coreClient.OperationOptions {
@@ -295,8 +340,17 @@ export type ConnectorValidateResponse = ValidateOperationResult;
 export type CreatedByType = string;
 
 // @public
-export interface CreateOrUpdateDryrunParameters extends DryrunParameters, LinkerProperties {
+export interface CreateOrUpdateDryrunParameters extends DryrunParameters {
     actionName: "createOrUpdate";
+    authInfo?: AuthInfoBaseUnion;
+    clientType?: ClientType;
+    configurationInfo?: ConfigurationInfo;
+    readonly provisioningState?: string;
+    publicNetworkSolution?: PublicNetworkSolution;
+    scope?: string;
+    secretStore?: SecretStore;
+    targetService?: TargetServiceBaseUnion;
+    vNetSolution?: VNetSolution;
 }
 
 // @public
@@ -304,8 +358,8 @@ export type DaprBindingComponentDirection = string;
 
 // @public
 export interface DaprConfigurationList {
-    readonly nextLink?: string;
-    value?: DaprConfigurationResource[];
+    nextLink?: string;
+    value: DaprConfigurationResource[];
 }
 
 // @public
@@ -339,11 +393,6 @@ export interface DaprProperties {
 }
 
 // @public
-export interface DatabaseAadAuthInfo {
-    userName?: string;
-}
-
-// @public
 export type DeleteOrUpdateBehavior = string;
 
 // @public
@@ -352,7 +401,7 @@ export type DryrunActionName = string;
 // @public
 export interface DryrunList {
     nextLink?: string;
-    value?: DryrunResource[];
+    value: DryrunResource[];
 }
 
 // @public
@@ -470,9 +519,7 @@ export enum KnownAccessKeyPermissions {
 
 // @public
 export enum KnownActionType {
-    Enable = "enable",
-    Internal = "Internal",
-    OptOut = "optOut"
+    Internal = "Internal"
 }
 
 // @public
@@ -616,21 +663,26 @@ export enum KnownVNetSolutionType {
 
 // @public
 export interface Linker {
-    beginCreateOrUpdate(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<LinkerCreateOrUpdateResponse>;
-    beginDelete(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>>;
-    beginUpdateAndWait(resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<LinkerUpdateResponse>;
-    beginValidate(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
-    beginValidateAndWait(resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<LinkerValidateResponse>;
-    get(resourceUri: string, linkerName: string, options?: LinkerGetOptionalParams): Promise<LinkerGetResponse>;
-    list(resourceUri: string, options?: LinkerListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
-    listConfigurations(resourceUri: string, linkerName: string, options?: LinkerListConfigurationsOptionalParams): Promise<LinkerListConfigurationsResponse>;
+    beginCreateOrUpdate(providers: string, linkers: string, resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(providers: string, linkers: string, resourceUri: string, linkerName: string, parameters: LinkerResource, options?: LinkerCreateOrUpdateOptionalParams): Promise<LinkerCreateOrUpdateResponse>;
+    beginDelete(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerDeleteOptionalParams): Promise<void>;
+    beginValidate(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
+    beginValidateAndWait(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerValidateOptionalParams): Promise<LinkerValidateResponse>;
+    get(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerGetOptionalParams): Promise<LinkerGetResponse>;
+    list(providers: string, resourceUri: string, options?: LinkerListOptionalParams): PagedAsyncIterableIterator<LinkerResource>;
+    listConfigurations(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkerListConfigurationsOptionalParams): Promise<LinkerListConfigurationsResponse>;
+    update(providers: string, linkers: string, resourceUri: string, linkerName: string, parameters: LinkerPatch, options?: LinkerUpdateOptionalParams): Promise<LinkerUpdateResponse>;
 }
 
 // @public
 export type LinkerConfigurationType = string;
+
+// @public
+export interface LinkerCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface LinkerCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -640,6 +692,12 @@ export interface LinkerCreateOrUpdateOptionalParams extends coreClient.Operation
 
 // @public
 export type LinkerCreateOrUpdateResponse = LinkerResource;
+
+// @public
+export interface LinkerDeleteHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface LinkerDeleteOptionalParams extends coreClient.OperationOptions {
@@ -689,19 +747,6 @@ export interface LinkerPatch {
 }
 
 // @public
-export interface LinkerProperties {
-    authInfo?: AuthInfoBaseUnion;
-    clientType?: ClientType;
-    configurationInfo?: ConfigurationInfo;
-    readonly provisioningState?: string;
-    publicNetworkSolution?: PublicNetworkSolution;
-    scope?: string;
-    secretStore?: SecretStore;
-    targetService?: TargetServiceBaseUnion;
-    vNetSolution?: VNetSolution;
-}
-
-// @public
 export interface LinkerResource extends ProxyResource {
     authInfo?: AuthInfoBaseUnion;
     clientType?: ClientType;
@@ -716,15 +761,21 @@ export interface LinkerResource extends ProxyResource {
 
 // @public
 export interface Linkers {
-    beginCreateDryrun(resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersCreateDryrunResponse>, LinkersCreateDryrunResponse>>;
-    beginCreateDryrunAndWait(resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<LinkersCreateDryrunResponse>;
-    beginUpdateDryrun(resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersUpdateDryrunResponse>, LinkersUpdateDryrunResponse>>;
-    beginUpdateDryrunAndWait(resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<LinkersUpdateDryrunResponse>;
-    deleteDryrun(resourceUri: string, dryrunName: string, options?: LinkersDeleteDryrunOptionalParams): Promise<void>;
-    generateConfigurations(resourceUri: string, linkerName: string, options?: LinkersGenerateConfigurationsOptionalParams): Promise<LinkersGenerateConfigurationsResponse>;
-    getDryrun(resourceUri: string, dryrunName: string, options?: LinkersGetDryrunOptionalParams): Promise<LinkersGetDryrunResponse>;
+    beginCreateDryrun(providers: string, dryruns: string, resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersCreateDryrunResponse>, LinkersCreateDryrunResponse>>;
+    beginCreateDryrunAndWait(providers: string, dryruns: string, resourceUri: string, dryrunName: string, parameters: DryrunResource, options?: LinkersCreateDryrunOptionalParams): Promise<LinkersCreateDryrunResponse>;
+    beginUpdateDryrun(providers: string, dryruns: string, resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<SimplePollerLike<OperationState<LinkersUpdateDryrunResponse>, LinkersUpdateDryrunResponse>>;
+    beginUpdateDryrunAndWait(providers: string, dryruns: string, resourceUri: string, dryrunName: string, parameters: DryrunPatch, options?: LinkersUpdateDryrunOptionalParams): Promise<LinkersUpdateDryrunResponse>;
+    deleteDryrun(providers: string, dryruns: string, resourceUri: string, dryrunName: string, options?: LinkersDeleteDryrunOptionalParams): Promise<void>;
+    generateConfigurations(providers: string, linkers: string, resourceUri: string, linkerName: string, options?: LinkersGenerateConfigurationsOptionalParams): Promise<LinkersGenerateConfigurationsResponse>;
+    getDryrun(providers: string, dryruns: string, resourceUri: string, dryrunName: string, options?: LinkersGetDryrunOptionalParams): Promise<LinkersGetDryrunResponse>;
     listDaprConfigurations(resourceUri: string, options?: LinkersListDaprConfigurationsOptionalParams): PagedAsyncIterableIterator<DaprConfigurationResource>;
-    listDryrun(resourceUri: string, options?: LinkersListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+    listDryrun(providers: string, resourceUri: string, options?: LinkersListDryrunOptionalParams): PagedAsyncIterableIterator<DryrunResource>;
+}
+
+// @public
+export interface LinkersCreateDryrunHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -784,6 +835,12 @@ export interface LinkersListDryrunOptionalParams extends coreClient.OperationOpt
 export type LinkersListDryrunResponse = DryrunList;
 
 // @public
+export interface LinkersUpdateDryrunHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface LinkersUpdateDryrunOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -793,13 +850,22 @@ export interface LinkersUpdateDryrunOptionalParams extends coreClient.OperationO
 export type LinkersUpdateDryrunResponse = DryrunResource;
 
 // @public
+export interface LinkerUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface LinkerUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
 export type LinkerUpdateResponse = LinkerResource;
+
+// @public
+export interface LinkerValidateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface LinkerValidateOptionalParams extends coreClient.OperationOptions {
@@ -885,7 +951,7 @@ export interface Resource {
 // @public
 export interface ResourceList {
     nextLink?: string;
-    value?: LinkerResource[];
+    value: LinkerResource[];
 }
 
 // @public
@@ -897,11 +963,11 @@ export interface SecretAuthInfo extends AuthInfoBase {
 
 // @public
 export interface SecretInfoBase {
-    secretType: "rawValue" | "keyVaultSecretReference" | "keyVaultSecretUri";
+    secretType: "keyVaultSecretReference" | "keyVaultSecretUri" | "rawValue";
 }
 
 // @public (undocumented)
-export type SecretInfoBaseUnion = SecretInfoBase | ValueSecretInfo | KeyVaultSecretReferenceSecretInfo | KeyVaultSecretUriSecretInfo;
+export type SecretInfoBaseUnion = SecretInfoBase | KeyVaultSecretReferenceSecretInfo | KeyVaultSecretUriSecretInfo | ValueSecretInfo;
 
 // @public
 export type SecretSourceType = string;
@@ -925,6 +991,7 @@ export interface SelfHostedServer extends TargetServiceBase {
 export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceLinkerManagementClientOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: ServiceLinkerManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
@@ -938,6 +1005,8 @@ export class ServiceLinkerManagementClient extends coreClient.ServiceClient {
     linkers: Linkers;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    subscriptionId?: string;
 }
 
 // @public
@@ -958,13 +1027,14 @@ export interface ServicePrincipalCertificateAuthInfo extends AuthInfoBase {
 }
 
 // @public
-export interface ServicePrincipalSecretAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+export interface ServicePrincipalSecretAuthInfo extends AuthInfoBase {
     authType: "servicePrincipalSecret";
     clientId: string;
     deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     principalId: string;
     roles?: string[];
     secret: string;
+    userName?: string;
 }
 
 // @public
@@ -977,10 +1047,11 @@ export interface SourceConfiguration {
 }
 
 // @public
-export interface SystemAssignedIdentityAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+export interface SystemAssignedIdentityAuthInfo extends AuthInfoBase {
     authType: "systemAssignedIdentity";
     deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     roles?: string[];
+    userName?: string;
 }
 
 // @public
@@ -995,30 +1066,32 @@ export interface SystemData {
 
 // @public
 export interface TargetServiceBase {
-    type: "AzureResource" | "ConfluentBootstrapServer" | "FabricPlatform" | "SelfHostedServer" | "ConfluentSchemaRegistry";
+    type: "AzureResource" | "ConfluentBootstrapServer" | "ConfluentSchemaRegistry" | "FabricPlatform" | "SelfHostedServer";
 }
 
 // @public (undocumented)
-export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | FabricPlatform | SelfHostedServer | ConfluentSchemaRegistry;
+export type TargetServiceBaseUnion = TargetServiceBase | AzureResource | ConfluentBootstrapServer | ConfluentSchemaRegistry | FabricPlatform | SelfHostedServer;
 
 // @public
 export type TargetServiceType = string;
 
 // @public
-export interface UserAccountAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+export interface UserAccountAuthInfo extends AuthInfoBase {
     authType: "userAccount";
     deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     principalId?: string;
     roles?: string[];
+    userName?: string;
 }
 
 // @public
-export interface UserAssignedIdentityAuthInfo extends AuthInfoBase, DatabaseAadAuthInfo {
+export interface UserAssignedIdentityAuthInfo extends AuthInfoBase {
     authType: "userAssignedIdentity";
     clientId?: string;
     deleteOrUpdateBehavior?: DeleteOrUpdateBehavior;
     roles?: string[];
     subscriptionId?: string;
+    userName?: string;
 }
 
 // @public

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DryrunResource,
@@ -57,15 +53,17 @@ export class LinkersImpl implements Linkers {
 
   /**
    * list dryrun jobs
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   public listDryrun(
+    providers: string,
     resourceUri: string,
     options?: LinkersListDryrunOptionalParams,
   ): PagedAsyncIterableIterator<DryrunResource> {
-    const iter = this.listDryrunPagingAll(resourceUri, options);
+    const iter = this.listDryrunPagingAll(providers, resourceUri, options);
     return {
       next() {
         return iter.next();
@@ -77,12 +75,13 @@ export class LinkersImpl implements Linkers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDryrunPagingPage(resourceUri, options, settings);
+        return this.listDryrunPagingPage(providers, resourceUri, options, settings);
       },
     };
   }
 
   private async *listDryrunPagingPage(
+    providers: string,
     resourceUri: string,
     options?: LinkersListDryrunOptionalParams,
     settings?: PageSettings,
@@ -90,18 +89,14 @@ export class LinkersImpl implements Linkers {
     let result: LinkersListDryrunResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDryrun(resourceUri, options);
+      result = await this._listDryrun(providers, resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listDryrunNext(
-        resourceUri,
-        continuationToken,
-        options,
-      );
+      result = await this._listDryrunNext(providers, resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,10 +105,11 @@ export class LinkersImpl implements Linkers {
   }
 
   private async *listDryrunPagingAll(
+    providers: string,
     resourceUri: string,
     options?: LinkersListDryrunOptionalParams,
   ): AsyncIterableIterator<DryrunResource> {
-    for await (const page of this.listDryrunPagingPage(resourceUri, options)) {
+    for await (const page of this.listDryrunPagingPage(providers, resourceUri, options)) {
       yield* page;
     }
   }
@@ -140,11 +136,7 @@ export class LinkersImpl implements Linkers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDaprConfigurationsPagingPage(
-          resourceUri,
-          options,
-          settings,
-        );
+        return this.listDaprConfigurationsPagingPage(resourceUri, options, settings);
       },
     };
   }
@@ -164,11 +156,7 @@ export class LinkersImpl implements Linkers {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listDaprConfigurationsNext(
-        resourceUri,
-        continuationToken,
-        options,
-      );
+      result = await this._listDaprConfigurationsNext(resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -180,50 +168,55 @@ export class LinkersImpl implements Linkers {
     resourceUri: string,
     options?: LinkersListDaprConfigurationsOptionalParams,
   ): AsyncIterableIterator<DaprConfigurationResource> {
-    for await (const page of this.listDaprConfigurationsPagingPage(
-      resourceUri,
-      options,
-    )) {
+    for await (const page of this.listDaprConfigurationsPagingPage(resourceUri, options)) {
       yield* page;
     }
   }
 
   /**
    * list dryrun jobs
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   private _listDryrun(
+    providers: string,
     resourceUri: string,
     options?: LinkersListDryrunOptionalParams,
   ): Promise<LinkersListDryrunResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, options },
+      { providers, resourceUri, options },
       listDryrunOperationSpec,
     );
   }
 
   /**
    * get a dryrun job
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
    * @param options The options parameters.
    */
   getDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     options?: LinkersGetDryrunOptionalParams,
   ): Promise<LinkersGetDryrunResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, dryrunName, options },
+      { providers, dryruns, resourceUri, dryrunName, options },
       getDryrunOperationSpec,
     );
   }
 
   /**
    * create a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -231,15 +224,14 @@ export class LinkersImpl implements Linkers {
    * @param options The options parameters.
    */
   async beginCreateDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunResource,
     options?: LinkersCreateDryrunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkersCreateDryrunResponse>,
-      LinkersCreateDryrunResponse
-    >
+    SimplePollerLike<OperationState<LinkersCreateDryrunResponse>, LinkersCreateDryrunResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -251,8 +243,7 @@ export class LinkersImpl implements Linkers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -281,7 +272,14 @@ export class LinkersImpl implements Linkers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, dryrunName, parameters, options },
+      args: {
+        providers,
+        dryruns,
+        resourceUri,
+        dryrunName,
+        parameters,
+        options,
+      },
       spec: createDryrunOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -298,6 +296,8 @@ export class LinkersImpl implements Linkers {
 
   /**
    * create a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -305,12 +305,16 @@ export class LinkersImpl implements Linkers {
    * @param options The options parameters.
    */
   async beginCreateDryrunAndWait(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunResource,
     options?: LinkersCreateDryrunOptionalParams,
   ): Promise<LinkersCreateDryrunResponse> {
     const poller = await this.beginCreateDryrun(
+      providers,
+      dryruns,
       resourceUri,
       dryrunName,
       parameters,
@@ -321,6 +325,8 @@ export class LinkersImpl implements Linkers {
 
   /**
    * add a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -328,15 +334,14 @@ export class LinkersImpl implements Linkers {
    * @param options The options parameters.
    */
   async beginUpdateDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunPatch,
     options?: LinkersUpdateDryrunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkersUpdateDryrunResponse>,
-      LinkersUpdateDryrunResponse
-    >
+    SimplePollerLike<OperationState<LinkersUpdateDryrunResponse>, LinkersUpdateDryrunResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -348,8 +353,7 @@ export class LinkersImpl implements Linkers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -378,7 +382,14 @@ export class LinkersImpl implements Linkers {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, dryrunName, parameters, options },
+      args: {
+        providers,
+        dryruns,
+        resourceUri,
+        dryrunName,
+        parameters,
+        options,
+      },
       spec: updateDryrunOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -387,7 +398,7 @@ export class LinkersImpl implements Linkers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
+      resourceLocationConfig: "original-uri",
     });
     await poller.poll();
     return poller;
@@ -395,6 +406,8 @@ export class LinkersImpl implements Linkers {
 
   /**
    * add a dryrun job to do necessary check before actual creation
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
@@ -402,12 +415,16 @@ export class LinkersImpl implements Linkers {
    * @param options The options parameters.
    */
   async beginUpdateDryrunAndWait(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     parameters: DryrunPatch,
     options?: LinkersUpdateDryrunOptionalParams,
   ): Promise<LinkersUpdateDryrunResponse> {
     const poller = await this.beginUpdateDryrun(
+      providers,
+      dryruns,
       resourceUri,
       dryrunName,
       parameters,
@@ -418,36 +435,44 @@ export class LinkersImpl implements Linkers {
 
   /**
    * delete a dryrun job
+   * @param providers {resourceUri}
+   * @param dryruns The name of the DryrunResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param dryrunName The name of dryrun.
    * @param options The options parameters.
    */
   deleteDryrun(
+    providers: string,
+    dryruns: string,
     resourceUri: string,
     dryrunName: string,
     options?: LinkersDeleteDryrunOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceUri, dryrunName, options },
+      { providers, dryruns, resourceUri, dryrunName, options },
       deleteDryrunOperationSpec,
     );
   }
 
   /**
    * Generate configurations for a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   generateConfigurations(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkersGenerateConfigurationsOptionalParams,
   ): Promise<LinkersGenerateConfigurationsResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, linkerName, options },
+      { providers, linkers, resourceUri, linkerName, options },
       generateConfigurationsOperationSpec,
     );
   }
@@ -470,18 +495,20 @@ export class LinkersImpl implements Linkers {
 
   /**
    * ListDryrunNext
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param nextLink The nextLink from the previous successful call to the ListDryrun method.
    * @param options The options parameters.
    */
   private _listDryrunNext(
+    providers: string,
     resourceUri: string,
     nextLink: string,
     options?: LinkersListDryrunNextOptionalParams,
   ): Promise<LinkersListDryrunNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, nextLink, options },
+      { providers, resourceUri, nextLink, options },
       listDryrunNextOperationSpec,
     );
   }
@@ -508,7 +535,7 @@ export class LinkersImpl implements Linkers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns",
+  path: "/{resourceUri}/{providers}/{resourceUri}/dryruns",
   httpMethod: "GET",
   responses: {
     200: {
@@ -519,12 +546,12 @@ const listDryrunOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  urlParameters: [Parameters.$host, Parameters.providers, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{dryruns}/{resourceUri}/{dryrunName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -537,14 +564,16 @@ const getDryrunOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.dryrunName,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.dryruns,
+    Parameters.dryrunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{dryruns}/{resourceUri}/{dryrunName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -563,19 +592,21 @@ const createDryrunOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.dryrunName,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.dryruns,
+    Parameters.dryrunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const updateDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{dryruns}/{resourceUri}/{dryrunName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -594,19 +625,21 @@ const updateDryrunOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.dryrunName,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.dryruns,
+    Parameters.dryrunName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
 const deleteDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/dryruns/{dryrunName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{dryruns}/{resourceUri}/{dryrunName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -618,14 +651,16 @@ const deleteDryrunOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.dryrunName,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.dryruns,
+    Parameters.dryrunName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const generateConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/generateConfigurations",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}/generateConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
@@ -639,7 +674,9 @@ const generateConfigurationsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.linkers,
     Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -675,8 +712,9 @@ const listDryrunNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -692,11 +730,7 @@ const listDaprConfigurationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.resourceUri,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

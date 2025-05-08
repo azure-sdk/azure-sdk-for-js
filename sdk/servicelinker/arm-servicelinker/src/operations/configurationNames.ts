@@ -109,10 +109,7 @@ export class ConfigurationNamesImpl implements ConfigurationNames {
     nextLink: string,
     options?: ConfigurationNamesListNextOptionalParams,
   ): Promise<ConfigurationNamesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -129,11 +126,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skipToken],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
