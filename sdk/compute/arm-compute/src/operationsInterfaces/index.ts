@@ -32,6 +32,7 @@ export * from "./capacityReservations.js";
 export * from "./logAnalytics.js";
 export * from "./virtualMachineRunCommands.js";
 export * from "./virtualMachineScaleSetVMRunCommands.js";
+export * from "./spotPlacementScores.js";
 export * from "./disks.js";
 export * from "./diskAccesses.js";
 export * from "./diskEncryptionSets.js";

@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CommunityGalleryImageVersions operations. */
-export class CommunityGalleryImageVersionsImpl
-  implements CommunityGalleryImageVersions
-{
+export class CommunityGalleryImageVersionsImpl implements CommunityGalleryImageVersions {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -51,12 +49,7 @@ export class CommunityGalleryImageVersionsImpl
     galleryImageName: string,
     options?: CommunityGalleryImageVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<CommunityGalleryImageVersion> {
-    const iter = this.listPagingAll(
-      location,
-      publicGalleryName,
-      galleryImageName,
-      options,
-    );
+    const iter = this.listPagingAll(location, publicGalleryName, galleryImageName, options);
     return {
       next() {
         return iter.next();
@@ -89,12 +82,7 @@ export class CommunityGalleryImageVersionsImpl
     let result: CommunityGalleryImageVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        location,
-        publicGalleryName,
-        galleryImageName,
-        options,
-      );
+      result = await this._list(location, publicGalleryName, galleryImageName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -214,7 +202,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -237,7 +225,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

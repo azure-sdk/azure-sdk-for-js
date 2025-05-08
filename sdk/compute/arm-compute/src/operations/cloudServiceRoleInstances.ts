@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RoleInstance,
@@ -39,9 +35,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServiceRoleInstances operations. */
-export class CloudServiceRoleInstancesImpl
-  implements CloudServiceRoleInstances
-{
+export class CloudServiceRoleInstancesImpl implements CloudServiceRoleInstances {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -64,11 +58,7 @@ export class CloudServiceRoleInstancesImpl
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesListOptionalParams,
   ): PagedAsyncIterableIterator<RoleInstance> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, cloudServiceName, options);
     return {
       next() {
         return iter.next();
@@ -80,12 +70,7 @@ export class CloudServiceRoleInstancesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          cloudServiceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, cloudServiceName, options, settings);
       },
     };
   }
@@ -124,11 +109,7 @@ export class CloudServiceRoleInstancesImpl
     cloudServiceName: string,
     options?: CloudServiceRoleInstancesListOptionalParams,
   ): AsyncIterableIterator<RoleInstance> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      cloudServiceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, cloudServiceName, options)) {
       yield* page;
     }
   }
@@ -156,8 +137,7 @@ export class CloudServiceRoleInstancesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -299,8 +279,7 @@ export class CloudServiceRoleInstancesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -387,8 +366,7 @@ export class CloudServiceRoleInstancesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -476,8 +454,7 @@ export class CloudServiceRoleInstancesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -594,7 +571,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -616,7 +593,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -638,7 +615,7 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -660,7 +637,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand2, Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -682,7 +659,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -705,7 +682,7 @@ const reimageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -728,7 +705,7 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -751,7 +728,7 @@ const getRemoteDesktopFileOperationSpec: coreClient.OperationSpec = {
     },
     default: {},
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
