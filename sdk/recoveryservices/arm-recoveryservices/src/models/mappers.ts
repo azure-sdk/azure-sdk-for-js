@@ -893,50 +893,49 @@ export const UpgradeDetails: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateEndpointConnectionVaultProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionVaultProperties",
-      modelProperties: {
-        id: {
-          serializedName: "id",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
-        properties: {
-          serializedName: "properties",
-          type: {
-            name: "Composite",
-            className: "PrivateEndpointConnection",
-          },
-        },
-        name: {
-          serializedName: "name",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
-        },
+export const PrivateEndpointConnectionVaultProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionVaultProperties",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
         type: {
-          serializedName: "type",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+          name: "String",
         },
-        location: {
-          serializedName: "location",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpointConnection",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const PrivateEndpointConnection: coreClient.CompositeMapper = {
   type: {
@@ -1283,6 +1282,13 @@ export const SecuritySettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      sourceScanConfiguration: {
+        serializedName: "sourceScanConfiguration",
+        type: {
+          name: "Composite",
+          className: "SourceScanConfiguration",
+        },
+      },
     },
   },
 };
@@ -1321,6 +1327,49 @@ export const SoftDeleteSettings: coreClient.CompositeMapper = {
       },
       enhancedSecurityState: {
         serializedName: "enhancedSecurityState",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SourceScanConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SourceScanConfiguration",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
+        },
+      },
+      sourceScanIdentity: {
+        serializedName: "sourceScanIdentity",
+        type: {
+          name: "Composite",
+          className: "AssociatedIdentity",
+        },
+      },
+    },
+  },
+};
+
+export const AssociatedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssociatedIdentity",
+    modelProperties: {
+      operationIdentityType: {
+        serializedName: "operationIdentityType",
+        type: {
+          name: "String",
+        },
+      },
+      userAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
         type: {
           name: "String",
         },
@@ -1561,27 +1610,26 @@ export const ClientDiscoveryForProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const ClientDiscoveryForServiceSpecification: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ClientDiscoveryForServiceSpecification",
-      modelProperties: {
-        logSpecifications: {
-          serializedName: "logSpecifications",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ClientDiscoveryForLogSpecification",
-              },
+export const ClientDiscoveryForServiceSpecification: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClientDiscoveryForServiceSpecification",
+    modelProperties: {
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClientDiscoveryForLogSpecification",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ClientDiscoveryForLogSpecification: coreClient.CompositeMapper = {
   type: {
@@ -1822,8 +1870,7 @@ export const ResourceCertificateAndAadDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ResourceCertificateAndAadDetails",
     uberParent: "ResourceCertificateDetails",
-    polymorphicDiscriminator:
-      ResourceCertificateDetails.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ResourceCertificateDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceCertificateDetails.type.modelProperties,
       aadAuthority: {
@@ -1883,8 +1930,7 @@ export const ResourceCertificateAndAcsDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ResourceCertificateAndAcsDetails",
     uberParent: "ResourceCertificateDetails",
-    polymorphicDiscriminator:
-      ResourceCertificateDetails.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: ResourceCertificateDetails.type.polymorphicDiscriminator,
     modelProperties: {
       ...ResourceCertificateDetails.type.modelProperties,
       globalAcsNamespace: {
@@ -2134,8 +2180,6 @@ export const VaultsDeleteHeaders: coreClient.CompositeMapper = {
 
 export let discriminators = {
   ResourceCertificateDetails: ResourceCertificateDetails,
-  "ResourceCertificateDetails.AzureActiveDirectory":
-    ResourceCertificateAndAadDetails,
-  "ResourceCertificateDetails.AccessControlService":
-    ResourceCertificateAndAcsDetails,
+  "ResourceCertificateDetails.AzureActiveDirectory": ResourceCertificateAndAadDetails,
+  "ResourceCertificateDetails.AccessControlService": ResourceCertificateAndAcsDetails,
 };
