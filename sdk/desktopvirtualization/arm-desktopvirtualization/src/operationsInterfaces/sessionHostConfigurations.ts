@@ -7,35 +7,23 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  UserSession,
-  UserSessionsListOptionalParams,
-  UserSessionsListByHostPoolOptionalParams,
-  UserSessionsGetOptionalParams,
-  UserSessionsGetResponse,
-  UserSessionsDeleteOptionalParams,
-  UserSessionsDisconnectOptionalParams,
-  UserSessionsSendMessageOptionalParams,
+  SessionHostConfiguration,
+  SessionHostConfigurationsListByHostPoolOptionalParams,
+  SessionHostConfigurationsGetOptionalParams,
+  SessionHostConfigurationsGetResponse,
+  SessionHostConfigurationsCreateOrUpdateOptionalParams,
+  SessionHostConfigurationsCreateOrUpdateResponse,
+  SessionHostConfigurationsUpdateOptionalParams,
+  SessionHostConfigurationsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a UserSessions. */
-export interface UserSessions {
+/** Interface representing a SessionHostConfigurations. */
+export interface SessionHostConfigurations {
   /**
-   * List userSessions.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    hostPoolName: string,
-    sessionHostName: string,
-    options?: UserSessionsListOptionalParams,
-  ): PagedAsyncIterableIterator<UserSession>;
-  /**
-   * A synchronous resource action.
+   * List SessionHostConfigurations.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
@@ -43,66 +31,75 @@ export interface UserSessions {
   listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: UserSessionsListByHostPoolOptionalParams,
-  ): PagedAsyncIterableIterator<UserSession>;
+    options?: SessionHostConfigurationsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<SessionHostConfiguration>;
   /**
-   * Get a userSession.
+   * Get a SessionHostConfiguration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param userSessionId The name of the user session within the specified session host
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    userSessionId: string,
-    options?: UserSessionsGetOptionalParams,
-  ): Promise<UserSessionsGetResponse>;
+    options?: SessionHostConfigurationsGetOptionalParams,
+  ): Promise<SessionHostConfigurationsGetResponse>;
   /**
-   * Remove a userSession.
+   * Create or update a SessionHostConfiguration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param userSessionId The name of the user session within the specified session host
+   * @param sessionHostConfiguration Resource create parameters.
    * @param options The options parameters.
    */
-  delete(
+  beginCreateOrUpdate(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    userSessionId: string,
-    options?: UserSessionsDeleteOptionalParams,
-  ): Promise<void>;
+    sessionHostConfiguration: SessionHostConfiguration,
+    options?: SessionHostConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SessionHostConfigurationsCreateOrUpdateResponse>,
+      SessionHostConfigurationsCreateOrUpdateResponse
+    >
+  >;
   /**
-   * Disconnect a userSession.
+   * Create or update a SessionHostConfiguration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param userSessionId The name of the user session within the specified session host
+   * @param sessionHostConfiguration Resource create parameters.
    * @param options The options parameters.
    */
-  disconnect(
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    userSessionId: string,
-    options?: UserSessionsDisconnectOptionalParams,
-  ): Promise<void>;
+    sessionHostConfiguration: SessionHostConfiguration,
+    options?: SessionHostConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<SessionHostConfigurationsCreateOrUpdateResponse>;
   /**
-   * Send a message to a user.
+   * Update a SessionHostConfiguration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param sessionHostName The name of the session host within the specified host pool
-   * @param userSessionId The name of the user session within the specified session host
    * @param options The options parameters.
    */
-  sendMessage(
+  beginUpdate(
     resourceGroupName: string,
     hostPoolName: string,
-    sessionHostName: string,
-    userSessionId: string,
-    options?: UserSessionsSendMessageOptionalParams,
-  ): Promise<void>;
+    options?: SessionHostConfigurationsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SessionHostConfigurationsUpdateResponse>,
+      SessionHostConfigurationsUpdateResponse
+    >
+  >;
+  /**
+   * Update a SessionHostConfiguration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: SessionHostConfigurationsUpdateOptionalParams,
+  ): Promise<SessionHostConfigurationsUpdateResponse>;
 }

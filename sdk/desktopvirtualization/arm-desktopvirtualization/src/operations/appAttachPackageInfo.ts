@@ -39,7 +39,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param importPackageInfoRequest Information to import app attach package
    * @param options The options parameters.
    */
   public listImport(
@@ -132,7 +132,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * Gets information from a package given the path to the package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param importPackageInfoRequest Information to import app attach package
    * @param options The options parameters.
    */
   private _import(
@@ -151,7 +151,7 @@ export class AppAttachPackageInfoImpl implements AppAttachPackageInfo {
    * ImportNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
-   * @param importPackageInfoRequest Object containing URI to package image and other optional properties
+   * @param importPackageInfoRequest Information to import app attach package
    * @param nextLink The nextLink from the previous successful call to the Import method.
    * @param options The options parameters.
    */

@@ -8,16 +8,17 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  PrivateLinkResource,
-  PrivateLinkResourcesListByHostPoolOptionalParams,
-  PrivateLinkResourcesListByWorkspaceOptionalParams,
+  ActiveSessionHostConfiguration,
+  ActiveSessionHostConfigurationsListByHostPoolOptionalParams,
+  ActiveSessionHostConfigurationsGetOptionalParams,
+  ActiveSessionHostConfigurationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a PrivateLinkResources. */
-export interface PrivateLinkResources {
+/** Interface representing a ActiveSessionHostConfigurations. */
+export interface ActiveSessionHostConfigurations {
   /**
-   * List the private link resources available for this hostpool.
+   * Operation to list the ActiveSessionHostConfigurations associated with the HostPool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
@@ -25,17 +26,17 @@ export interface PrivateLinkResources {
   listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateLinkResourcesListByHostPoolOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    options?: ActiveSessionHostConfigurationsListByHostPoolOptionalParams,
+  ): PagedAsyncIterableIterator<ActiveSessionHostConfiguration>;
   /**
-   * List the private link resources available for this workspace.
+   * Get a ActiveSessionHostConfiguration.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
    */
-  listByWorkspace(
+  get(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-  ): PagedAsyncIterableIterator<PrivateLinkResource>;
+    hostPoolName: string,
+    options?: ActiveSessionHostConfigurationsGetOptionalParams,
+  ): Promise<ActiveSessionHostConfigurationsGetResponse>;
 }

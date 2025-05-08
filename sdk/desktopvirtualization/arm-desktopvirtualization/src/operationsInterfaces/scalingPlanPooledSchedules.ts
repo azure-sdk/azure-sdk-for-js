@@ -14,9 +14,9 @@ import {
   ScalingPlanPooledSchedulesGetResponse,
   ScalingPlanPooledSchedulesCreateOptionalParams,
   ScalingPlanPooledSchedulesCreateResponse,
-  ScalingPlanPooledSchedulesDeleteOptionalParams,
   ScalingPlanPooledSchedulesUpdateOptionalParams,
   ScalingPlanPooledSchedulesUpdateResponse,
+  ScalingPlanPooledSchedulesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,19 +62,6 @@ export interface ScalingPlanPooledSchedules {
     options?: ScalingPlanPooledSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesCreateResponse>;
   /**
-   * Remove a ScalingPlanPooledSchedule.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param scalingPlanName The name of the scaling plan.
-   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    scalingPlanName: string,
-    scalingPlanScheduleName: string,
-    options?: ScalingPlanPooledSchedulesDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Update a ScalingPlanPooledSchedule.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param scalingPlanName The name of the scaling plan.
@@ -87,4 +74,17 @@ export interface ScalingPlanPooledSchedules {
     scalingPlanScheduleName: string,
     options?: ScalingPlanPooledSchedulesUpdateOptionalParams,
   ): Promise<ScalingPlanPooledSchedulesUpdateResponse>;
+  /**
+   * Remove a ScalingPlanPooledSchedule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param scalingPlanName The name of the scaling plan.
+   * @param scalingPlanScheduleName The name of the ScalingPlanSchedule
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    scalingPlanName: string,
+    scalingPlanScheduleName: string,
+    options?: ScalingPlanPooledSchedulesDeleteOptionalParams,
+  ): Promise<void>;
 }

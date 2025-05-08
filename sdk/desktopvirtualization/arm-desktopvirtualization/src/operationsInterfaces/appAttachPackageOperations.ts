@@ -9,20 +9,27 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AppAttachPackage,
-  AppAttachPackageListByResourceGroupOptionalParams,
   AppAttachPackageListBySubscriptionOptionalParams,
+  AppAttachPackageListByResourceGroupOptionalParams,
   AppAttachPackageGetOptionalParams,
   AppAttachPackageGetResponse,
   AppAttachPackageCreateOrUpdateOptionalParams,
   AppAttachPackageCreateOrUpdateResponse,
-  AppAttachPackageDeleteOptionalParams,
   AppAttachPackageUpdateOptionalParams,
   AppAttachPackageUpdateResponse,
+  AppAttachPackageDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AppAttachPackageOperations. */
 export interface AppAttachPackageOperations {
+  /**
+   * List App Attach packages in subscription.
+   * @param options The options parameters.
+   */
+  listBySubscription(
+    options?: AppAttachPackageListBySubscriptionOptionalParams,
+  ): PagedAsyncIterableIterator<AppAttachPackage>;
   /**
    * List App Attach packages in resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -31,13 +38,6 @@ export interface AppAttachPackageOperations {
   listByResourceGroup(
     resourceGroupName: string,
     options?: AppAttachPackageListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<AppAttachPackage>;
-  /**
-   * List App Attach packages in subscription.
-   * @param options The options parameters.
-   */
-  listBySubscription(
-    options?: AppAttachPackageListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AppAttachPackage>;
   /**
    * Get an app attach package.
@@ -64,17 +64,6 @@ export interface AppAttachPackageOperations {
     options?: AppAttachPackageCreateOrUpdateOptionalParams,
   ): Promise<AppAttachPackageCreateOrUpdateResponse>;
   /**
-   * Remove an App Attach Package.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    appAttachPackageName: string,
-    options?: AppAttachPackageDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Update an App Attach Package
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param appAttachPackageName The name of the App Attach package
@@ -85,4 +74,15 @@ export interface AppAttachPackageOperations {
     appAttachPackageName: string,
     options?: AppAttachPackageUpdateOptionalParams,
   ): Promise<AppAttachPackageUpdateResponse>;
+  /**
+   * Remove an App Attach Package.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param appAttachPackageName The name of the App Attach package
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    appAttachPackageName: string,
+    options?: AppAttachPackageDeleteOptionalParams,
+  ): Promise<void>;
 }

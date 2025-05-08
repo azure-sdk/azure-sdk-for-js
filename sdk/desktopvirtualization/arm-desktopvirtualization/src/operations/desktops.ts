@@ -49,11 +49,7 @@ export class DesktopsImpl implements Desktops {
     applicationGroupName: string,
     options?: DesktopsListOptionalParams,
   ): PagedAsyncIterableIterator<Desktop> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      applicationGroupName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, applicationGroupName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +61,7 @@ export class DesktopsImpl implements Desktops {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, applicationGroupName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class DesktopsImpl implements Desktops {
     let result: DesktopsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        applicationGroupName,
-        options,
-      );
+      result = await this._list(resourceGroupName, applicationGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -120,6 +107,23 @@ export class DesktopsImpl implements Desktops {
     )) {
       yield* page;
     }
+  }
+
+  /**
+   * List desktops.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param applicationGroupName The name of the application group
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    applicationGroupName: string,
+    options?: DesktopsListOptionalParams,
+  ): Promise<DesktopsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, applicationGroupName, options },
+      listOperationSpec,
+    );
   }
 
   /**
@@ -161,23 +165,6 @@ export class DesktopsImpl implements Desktops {
   }
 
   /**
-   * List desktops.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param applicationGroupName The name of the application group
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    applicationGroupName: string,
-    options?: DesktopsListOptionalParams,
-  ): Promise<DesktopsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, applicationGroupName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param applicationGroupName The name of the application group
@@ -199,6 +186,32 @@ export class DesktopsImpl implements Desktops {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DesktopList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.pageSize,
+    Parameters.isDescending,
+    Parameters.initialSkip,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.applicationGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}",
   httpMethod: "GET",
@@ -207,7 +220,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Desktop,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -229,7 +242,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Desktop,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.desktop,
@@ -245,32 +258,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DesktopList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.pageSize,
-    Parameters.isDescending,
-    Parameters.initialSkip,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.applicationGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -279,7 +266,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DesktopList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
