@@ -37,7 +37,7 @@ export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetwork(
@@ -108,7 +108,7 @@ export class ManagedNetworkProvisionsImpl implements ManagedNetworkProvisions {
   /**
    * Provisions the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginProvisionManagedNetworkAndWait(
@@ -147,7 +147,7 @@ const provisionManagedNetworkOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body59,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

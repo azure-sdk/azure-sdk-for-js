@@ -2954,7 +2954,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-machinelearning@file:projects/arm-machinelearning.tgz':
-    resolution: {integrity: sha512-OvAqq7wd/cjKurKIpuH81HkCT2GQgQxWEhehk6nXWzARaWgi2yrvKM0LXvcKligPWDw2BPEcWMRDtlxrvKdMFQ==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-CqAwsV66cOSn3By5M65sv8PB2ATXp1juS+DT9t0vm0rdzs/p2gdgUoM3SwU8kKrNfvysaV/7gbXxtkraLzYKMQ==, tarball: file:projects/arm-machinelearning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-machinelearningcompute@file:projects/arm-machinelearningcompute.tgz':

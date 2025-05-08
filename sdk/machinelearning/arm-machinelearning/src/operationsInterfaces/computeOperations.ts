@@ -22,11 +22,22 @@ import {
   ComputeUpdateResponse,
   UnderlyingResourceAction,
   ComputeDeleteOptionalParams,
+  CustomService,
+  ComputeUpdateCustomServicesOptionalParams,
   ComputeListKeysOptionalParams,
   ComputeListKeysResponse,
+  ComputeInstanceDataMount,
+  ComputeUpdateDataMountsOptionalParams,
   ComputeStartOptionalParams,
   ComputeStopOptionalParams,
   ComputeRestartOptionalParams,
+  IdleShutdownSetting,
+  ComputeUpdateIdleShutdownSettingOptionalParams,
+  ComputeGetAllowedResizeSizesOptionalParams,
+  ComputeGetAllowedResizeSizesResponse,
+  ResizeSchema,
+  ComputeResizeOptionalParams,
+  ComputeResizeResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -179,6 +190,21 @@ export interface ComputeOperations {
     options?: ComputeDeleteOptionalParams,
   ): Promise<void>;
   /**
+   * Updates the custom services list. The list of custom services provided shall be overwritten
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param customServices New list of Custom Services.
+   * @param options The options parameters.
+   */
+  updateCustomServices(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    customServices: CustomService[],
+    options?: ComputeUpdateCustomServicesOptionalParams,
+  ): Promise<void>;
+  /**
    * Gets secrets related to Machine Learning compute (storage keys, service credentials, etc).
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
@@ -191,6 +217,21 @@ export interface ComputeOperations {
     computeName: string,
     options?: ComputeListKeysOptionalParams,
   ): Promise<ComputeListKeysResponse>;
+  /**
+   * Update Data Mounts of a Machine Learning compute.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param dataMounts The parameters for creating or updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  updateDataMounts(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    dataMounts: ComputeInstanceDataMount[],
+    options?: ComputeUpdateDataMountsOptionalParams,
+  ): Promise<void>;
   /**
    * Posts a start action to a compute instance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -269,4 +310,67 @@ export interface ComputeOperations {
     computeName: string,
     options?: ComputeRestartOptionalParams,
   ): Promise<void>;
+  /**
+   * Updates the idle shutdown setting of a compute instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating idle shutdown setting of specified ComputeInstance.
+   * @param options The options parameters.
+   */
+  updateIdleShutdownSetting(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: IdleShutdownSetting,
+    options?: ComputeUpdateIdleShutdownSettingOptionalParams,
+  ): Promise<void>;
+  /**
+   * Returns supported virtual machine sizes for resize
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param options The options parameters.
+   */
+  getAllowedResizeSizes(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    options?: ComputeGetAllowedResizeSizesOptionalParams,
+  ): Promise<ComputeGetAllowedResizeSizesResponse>;
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  beginResize(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ComputeResizeResponse>,
+      ComputeResizeResponse
+    >
+  >;
+  /**
+   * Updates the size of a Compute Instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param computeName Name of the Azure Machine Learning compute.
+   * @param parameters The object for updating VM size setting of specified Compute Instance.
+   * @param options The options parameters.
+   */
+  beginResizeAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    computeName: string,
+    parameters: ResizeSchema,
+    options?: ComputeResizeOptionalParams,
+  ): Promise<ComputeResizeResponse>;
 }

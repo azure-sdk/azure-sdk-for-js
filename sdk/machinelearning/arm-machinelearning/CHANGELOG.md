@@ -1,5 +1,536 @@
 # Release History
     
+## 4.0.0-beta.1 (2025-04-11)
+Compared with version 3.0.0
+    
+### Features Added
+
+  - Added operation group CapabilityHosts
+  - Added operation group Connection
+  - Added operation group ConnectionRaiBlocklist
+  - Added operation group ConnectionRaiBlocklistItem
+  - Added operation group ConnectionRaiBlocklistItems
+  - Added operation group ConnectionRaiBlocklists
+  - Added operation group ConnectionRaiPolicies
+  - Added operation group ConnectionRaiPolicy
+  - Added operation group EndpointDeployment
+  - Added operation group EndpointOperations
+  - Added operation group InferenceEndpoints
+  - Added operation group InferenceGroups
+  - Added operation group InferencePools
+  - Added operation group PTUQuota
+  - Added operation group RaiPolicies
+  - Added operation group RaiPolicy
+  - Added operation ComputeOperations.beginResize
+  - Added operation ComputeOperations.beginResizeAndWait
+  - Added operation ComputeOperations.getAllowedResizeSizes
+  - Added operation ComputeOperations.updateCustomServices
+  - Added operation ComputeOperations.updateDataMounts
+  - Added operation ComputeOperations.updateIdleShutdownSetting
+  - Added operation WorkspaceConnections.beginTestConnection
+  - Added operation WorkspaceConnections.beginTestConnectionAndWait
+  - Added operation WorkspaceConnections.update
+  - Added Interface AccountApiKeys
+  - Added Interface ActualCapacityInfo
+  - Added Interface AvailableQuota
+  - Added Interface AvailableQuotaArmPaginatedResult
+  - Added Interface AvailableQuotaProperties
+  - Added Interface AzureOpenAiFineTuning
+  - Added Interface AzureOpenAiHyperParameters
+  - Added Interface CapabilityHost
+  - Added Interface CapabilityHostProperties
+  - Added Interface CapabilityHostsCreateOrUpdateHeaders
+  - Added Interface CapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface CapabilityHostsDeleteHeaders
+  - Added Interface CapabilityHostsDeleteOptionalParams
+  - Added Interface CapabilityHostsGetOptionalParams
+  - Added Interface CapacityConfig
+  - Added Interface CognitiveServiceEndpointDeploymentResourceProperties
+  - Added Interface CognitiveServicesSku
+  - Added Interface ComputeGetAllowedResizeSizesOptionalParams
+  - Added Interface ComputeInstanceAutologgerSettings
+  - Added Interface ComputeResizeHeaders
+  - Added Interface ComputeResizeOptionalParams
+  - Added Interface ComputeUpdateCustomServicesOptionalParams
+  - Added Interface ComputeUpdateDataMountsOptionalParams
+  - Added Interface ComputeUpdateIdleShutdownSettingOptionalParams
+  - Added Interface ConnectionCreateOrUpdateDeploymentOptionalParams
+  - Added Interface ConnectionDeleteDeploymentHeaders
+  - Added Interface ConnectionDeleteDeploymentOptionalParams
+  - Added Interface ConnectionGetAllModelsOptionalParams
+  - Added Interface ConnectionGetDeploymentOptionalParams
+  - Added Interface ConnectionGetModelsNextOptionalParams
+  - Added Interface ConnectionGetModelsOptionalParams
+  - Added Interface ConnectionListDeploymentsNextOptionalParams
+  - Added Interface ConnectionListDeploymentsOptionalParams
+  - Added Interface ConnectionRaiBlocklistCreateOptionalParams
+  - Added Interface ConnectionRaiBlocklistDeleteHeaders
+  - Added Interface ConnectionRaiBlocklistDeleteOptionalParams
+  - Added Interface ConnectionRaiBlocklistGetOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemAddBulkHeaders
+  - Added Interface ConnectionRaiBlocklistItemAddBulkOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemCreateOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemDeleteBulkHeaders
+  - Added Interface ConnectionRaiBlocklistItemDeleteBulkOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemDeleteHeaders
+  - Added Interface ConnectionRaiBlocklistItemDeleteOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemGetOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemsListNextOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemsListOptionalParams
+  - Added Interface ConnectionRaiBlocklistsListNextOptionalParams
+  - Added Interface ConnectionRaiBlocklistsListOptionalParams
+  - Added Interface ConnectionRaiPoliciesListNextOptionalParams
+  - Added Interface ConnectionRaiPoliciesListOptionalParams
+  - Added Interface ConnectionRaiPolicyCreateOptionalParams
+  - Added Interface ConnectionRaiPolicyDeleteHeaders
+  - Added Interface ConnectionRaiPolicyDeleteOptionalParams
+  - Added Interface ConnectionRaiPolicyGetOptionalParams
+  - Added Interface ContentSafetyEndpointDeploymentResourceProperties
+  - Added Interface ContentSafetyEndpointResourceProperties
+  - Added Interface CustomModelFineTuning
+  - Added Interface DataGenerationVertical
+  - Added Interface DatasetReference
+  - Added Interface DeltaModelCurrentState
+  - Added Interface DeltaModelListRequest
+  - Added Interface DeltaModelModifyRequest
+  - Added Interface DeltaModelStatusRequest
+  - Added Interface DeltaModelStatusResponse
+  - Added Interface DistillationJob
+  - Added Interface EndpointCreateOrUpdateHeaders
+  - Added Interface EndpointCreateOrUpdateOptionalParams
+  - Added Interface EndpointDeploymentCreateOrUpdateHeaders
+  - Added Interface EndpointDeploymentCreateOrUpdateOptionalParams
+  - Added Interface EndpointDeploymentDeleteHeaders
+  - Added Interface EndpointDeploymentDeleteOptionalParams
+  - Added Interface EndpointDeploymentGetInWorkspaceNextOptionalParams
+  - Added Interface EndpointDeploymentGetInWorkspaceOptionalParams
+  - Added Interface EndpointDeploymentGetOptionalParams
+  - Added Interface EndpointDeploymentListNextOptionalParams
+  - Added Interface EndpointDeploymentListOptionalParams
+  - Added Interface EndpointDeploymentModel
+  - Added Interface EndpointDeploymentResourceProperties
+  - Added Interface EndpointDeploymentResourcePropertiesBasicResource
+  - Added Interface EndpointDeploymentResourcePropertiesBasicResourceArmPaginatedResult
+  - Added Interface EndpointGetModelsNextOptionalParams
+  - Added Interface EndpointGetModelsOptionalParams
+  - Added Interface EndpointGetOptionalParams
+  - Added Interface EndpointKeys
+  - Added Interface EndpointListKeysOptionalParams
+  - Added Interface EndpointListNextOptionalParams
+  - Added Interface EndpointListOptionalParams
+  - Added Interface EndpointModelDeprecationProperties
+  - Added Interface EndpointModelProperties
+  - Added Interface EndpointModels
+  - Added Interface EndpointModelSkuCapacityProperties
+  - Added Interface EndpointModelSkuProperties
+  - Added Interface EndpointModelSkuRateLimitProperties
+  - Added Interface EndpointModelSkuRateLimitRulePatternProperties
+  - Added Interface EndpointModelSkuRateLimitRuleProperties
+  - Added Interface EndpointRegenerateKeysOptionalParams
+  - Added Interface EndpointResourceProperties
+  - Added Interface EndpointResourcePropertiesBasicResource
+  - Added Interface EndpointResourcePropertiesBasicResourceArmPaginatedResult
+  - Added Interface FinetuningDetails
+  - Added Interface FineTuningJob
+  - Added Interface FineTuningVertical
+  - Added Interface FqdnEndpointsPropertyBag
+  - Added Interface GroupEnvironmentConfiguration
+  - Added Interface GroupModelConfiguration
+  - Added Interface GroupStatus
+  - Added Interface ImageDetails
+  - Added Interface ImageInfo
+  - Added Interface InferenceEndpoint
+  - Added Interface InferenceEndpointProperties
+  - Added Interface InferenceEndpointsCreateOrUpdateHeaders
+  - Added Interface InferenceEndpointsCreateOrUpdateOptionalParams
+  - Added Interface InferenceEndpointsDeleteHeaders
+  - Added Interface InferenceEndpointsDeleteOptionalParams
+  - Added Interface InferenceEndpointsGetOptionalParams
+  - Added Interface InferenceEndpointsListNextOptionalParams
+  - Added Interface InferenceEndpointsListOptionalParams
+  - Added Interface InferenceEndpointsUpdateHeaders
+  - Added Interface InferenceEndpointsUpdateOptionalParams
+  - Added Interface InferenceEndpointTrackedResourceArmPaginatedResult
+  - Added Interface InferenceGroup
+  - Added Interface InferenceGroupProperties
+  - Added Interface InferenceGroupsCreateOrUpdateHeaders
+  - Added Interface InferenceGroupsCreateOrUpdateOptionalParams
+  - Added Interface InferenceGroupsDeleteHeaders
+  - Added Interface InferenceGroupsDeleteOptionalParams
+  - Added Interface InferenceGroupsGetDeltaModelsStatusAsyncOptionalParams
+  - Added Interface InferenceGroupsGetOptionalParams
+  - Added Interface InferenceGroupsGetStatusOptionalParams
+  - Added Interface InferenceGroupsListDeltaModelsAsyncNextOptionalParams
+  - Added Interface InferenceGroupsListDeltaModelsAsyncOptionalParams
+  - Added Interface InferenceGroupsListNextOptionalParams
+  - Added Interface InferenceGroupsListOptionalParams
+  - Added Interface InferenceGroupsListSkusNextOptionalParams
+  - Added Interface InferenceGroupsListSkusOptionalParams
+  - Added Interface InferenceGroupsModifyDeltaModelsAsyncHeaders
+  - Added Interface InferenceGroupsModifyDeltaModelsAsyncOptionalParams
+  - Added Interface InferenceGroupsUpdateHeaders
+  - Added Interface InferenceGroupsUpdateOptionalParams
+  - Added Interface InferenceGroupTrackedResourceArmPaginatedResult
+  - Added Interface InferencePool
+  - Added Interface InferencePoolProperties
+  - Added Interface InferencePoolsCreateOrUpdateHeaders
+  - Added Interface InferencePoolsCreateOrUpdateOptionalParams
+  - Added Interface InferencePoolsDeleteHeaders
+  - Added Interface InferencePoolsDeleteOptionalParams
+  - Added Interface InferencePoolsGetOptionalParams
+  - Added Interface InferencePoolsListNextOptionalParams
+  - Added Interface InferencePoolsListOptionalParams
+  - Added Interface InferencePoolsUpdateHeaders
+  - Added Interface InferencePoolsUpdateOptionalParams
+  - Added Interface InferencePoolTrackedResourceArmPaginatedResult
+  - Added Interface IPRule
+  - Added Interface JobResources
+  - Added Interface JupyterKernelConfig
+  - Added Interface KeyVaultProperties
+  - Added Interface LabelGeneration
+  - Added Interface ManagedOnlineEndpointDeploymentResourceProperties
+  - Added Interface ManagedOnlineEndpointResourceProperties
+  - Added Interface ManagedResourceGroupAssignedIdentities
+  - Added Interface ManagedResourceGroupSettings
+  - Added Interface NetworkAcls
+  - Added Interface OpenAIEndpointDeploymentResourceProperties
+  - Added Interface OpenAIEndpointResourceProperties
+  - Added Interface OsPatchingStatus
+  - Added Interface PackageDetails
+  - Added Interface PromptSettings
+  - Added Interface PropertiesBase
+  - Added Interface PTUDeploymentUsage
+  - Added Interface PTUQuotaGetAvailableOptionalParams
+  - Added Interface PTUQuotaListAvailableNextOptionalParams
+  - Added Interface PTUQuotaListAvailableOptionalParams
+  - Added Interface PTUQuotaListNextOptionalParams
+  - Added Interface PTUQuotaListOptionalParams
+  - Added Interface RaiBlocklistConfig
+  - Added Interface RaiBlocklistItemBulkRequest
+  - Added Interface RaiBlocklistItemProperties
+  - Added Interface RaiBlocklistItemPropertiesBasicResource
+  - Added Interface RaiBlocklistItemPropertiesBasicResourceArmPaginatedResult
+  - Added Interface RaiBlocklistProperties
+  - Added Interface RaiBlocklistPropertiesBasicResource
+  - Added Interface RaiBlocklistPropertiesBasicResourceArmPaginatedResult
+  - Added Interface RaiPoliciesListNextOptionalParams
+  - Added Interface RaiPoliciesListOptionalParams
+  - Added Interface RaiPolicyContentFilter
+  - Added Interface RaiPolicyCreateOptionalParams
+  - Added Interface RaiPolicyDeleteHeaders
+  - Added Interface RaiPolicyDeleteOptionalParams
+  - Added Interface RaiPolicyGetOptionalParams
+  - Added Interface RaiPolicyProperties
+  - Added Interface RaiPolicyPropertiesBasicResource
+  - Added Interface RaiPolicyPropertiesBasicResourceArmPaginatedResult
+  - Added Interface RegenerateServiceAccountKeyContent
+  - Added Interface RequestConfiguration
+  - Added Interface ResizeSchema
+  - Added Interface ScaleUnitConfiguration
+  - Added Interface SecretExpiry
+  - Added Interface ServerlessEndpointCapacityReservation
+  - Added Interface ServerlessEndpointContentSafety
+  - Added Interface ServerlessEndpointInferenceEndpoint
+  - Added Interface ServerlessEndpointModelSettings
+  - Added Interface ServerlessEndpointResourceProperties
+  - Added Interface ServerlessOffer
+  - Added Interface SpeechEndpointDeploymentResourceProperties
+  - Added Interface SpeechEndpointResourceProperties
+  - Added Interface StringArmPaginatedResult
+  - Added Interface StringKeyValuePair
+  - Added Interface TeacherModelEndpoint
+  - Added Interface TeacherModelEndpointRequestSettings
+  - Added Interface TeacherModelSettings
+  - Added Interface UsageAndQuotaDetails
+  - Added Interface UsageAndQuotaDetailsArmPaginatedResult
+  - Added Interface VulnerabilityDetails
+  - Added Interface VulnerabilityFindings
+  - Added Interface WorkspaceConnectionsTestConnectionHeaders
+  - Added Interface WorkspaceConnectionsTestConnectionOptionalParams
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacePrivateEndpointResource
+  - Added Interface WorkspacesDeleteHeaders
+  - Added Type Alias AllowedContentLevel
+  - Added Type Alias AuthMode
+  - Added Type Alias CapabilityHostKind
+  - Added Type Alias CapabilityHostProvisioningState
+  - Added Type Alias CapabilityHostsCreateOrUpdateResponse
+  - Added Type Alias CapabilityHostsDeleteResponse
+  - Added Type Alias CapabilityHostsGetResponse
+  - Added Type Alias ComputeGetAllowedResizeSizesResponse
+  - Added Type Alias ComputeResizeResponse
+  - Added Type Alias ConnectionCreateOrUpdateDeploymentResponse
+  - Added Type Alias ConnectionDeleteDeploymentResponse
+  - Added Type Alias ConnectionGetAllModelsResponse
+  - Added Type Alias ConnectionGetDeploymentResponse
+  - Added Type Alias ConnectionGetModelsNextResponse
+  - Added Type Alias ConnectionGetModelsResponse
+  - Added Type Alias ConnectionListDeploymentsNextResponse
+  - Added Type Alias ConnectionListDeploymentsResponse
+  - Added Type Alias ConnectionRaiBlocklistCreateResponse
+  - Added Type Alias ConnectionRaiBlocklistDeleteResponse
+  - Added Type Alias ConnectionRaiBlocklistGetResponse
+  - Added Type Alias ConnectionRaiBlocklistItemAddBulkResponse
+  - Added Type Alias ConnectionRaiBlocklistItemCreateResponse
+  - Added Type Alias ConnectionRaiBlocklistItemDeleteBulkResponse
+  - Added Type Alias ConnectionRaiBlocklistItemDeleteResponse
+  - Added Type Alias ConnectionRaiBlocklistItemGetResponse
+  - Added Type Alias ConnectionRaiBlocklistItemsListNextResponse
+  - Added Type Alias ConnectionRaiBlocklistItemsListResponse
+  - Added Type Alias ConnectionRaiBlocklistsListNextResponse
+  - Added Type Alias ConnectionRaiBlocklistsListResponse
+  - Added Type Alias ConnectionRaiPoliciesListNextResponse
+  - Added Type Alias ConnectionRaiPoliciesListResponse
+  - Added Type Alias ConnectionRaiPolicyCreateResponse
+  - Added Type Alias ConnectionRaiPolicyDeleteResponse
+  - Added Type Alias ConnectionRaiPolicyGetResponse
+  - Added Type Alias ContentSafetyLevel
+  - Added Type Alias DataGenerationTaskType
+  - Added Type Alias DataGenerationType
+  - Added Type Alias DataGenerationVerticalUnion
+  - Added Type Alias DefaultActionType
+  - Added Type Alias DefaultResourceProvisioningState
+  - Added Type Alias DeploymentModelVersionUpgradeOption
+  - Added Type Alias EndpointCreateOrUpdateResponse
+  - Added Type Alias EndpointDeploymentCreateOrUpdateResponse
+  - Added Type Alias EndpointDeploymentDeleteResponse
+  - Added Type Alias EndpointDeploymentGetInWorkspaceNextResponse
+  - Added Type Alias EndpointDeploymentGetInWorkspaceResponse
+  - Added Type Alias EndpointDeploymentGetResponse
+  - Added Type Alias EndpointDeploymentListNextResponse
+  - Added Type Alias EndpointDeploymentListResponse
+  - Added Type Alias EndpointDeploymentResourcePropertiesUnion
+  - Added Type Alias EndpointGetModelsNextResponse
+  - Added Type Alias EndpointGetModelsResponse
+  - Added Type Alias EndpointGetResponse
+  - Added Type Alias EndpointListKeysResponse
+  - Added Type Alias EndpointListNextResponse
+  - Added Type Alias EndpointListResponse
+  - Added Type Alias EndpointRegenerateKeysResponse
+  - Added Type Alias EndpointResourcePropertiesUnion
+  - Added Type Alias EndpointType
+  - Added Type Alias FineTuningTaskType
+  - Added Type Alias FineTuningVerticalUnion
+  - Added Type Alias FirewallSku
+  - Added Type Alias InferenceEndpointsCreateOrUpdateResponse
+  - Added Type Alias InferenceEndpointsGetResponse
+  - Added Type Alias InferenceEndpointsListNextResponse
+  - Added Type Alias InferenceEndpointsListResponse
+  - Added Type Alias InferenceEndpointsUpdateResponse
+  - Added Type Alias InferenceGroupsCreateOrUpdateResponse
+  - Added Type Alias InferenceGroupsGetDeltaModelsStatusAsyncResponse
+  - Added Type Alias InferenceGroupsGetResponse
+  - Added Type Alias InferenceGroupsGetStatusResponse
+  - Added Type Alias InferenceGroupsListDeltaModelsAsyncNextResponse
+  - Added Type Alias InferenceGroupsListDeltaModelsAsyncResponse
+  - Added Type Alias InferenceGroupsListNextResponse
+  - Added Type Alias InferenceGroupsListResponse
+  - Added Type Alias InferenceGroupsListSkusNextResponse
+  - Added Type Alias InferenceGroupsListSkusResponse
+  - Added Type Alias InferenceGroupsModifyDeltaModelsAsyncResponse
+  - Added Type Alias InferenceGroupsUpdateResponse
+  - Added Type Alias InferencePoolsCreateOrUpdateResponse
+  - Added Type Alias InferencePoolsGetResponse
+  - Added Type Alias InferencePoolsListNextResponse
+  - Added Type Alias InferencePoolsListResponse
+  - Added Type Alias InferencePoolsUpdateResponse
+  - Added Type Alias ManagedPERequirement
+  - Added Type Alias ManagedPEStatus
+  - Added Type Alias MlflowAutologger
+  - Added Type Alias ModelLifecycleStatus
+  - Added Type Alias ModelProvider
+  - Added Type Alias MountMode
+  - Added Type Alias PatchStatus
+  - Added Type Alias PoolProvisioningState
+  - Added Type Alias PTUQuotaGetAvailableResponse
+  - Added Type Alias PTUQuotaListAvailableNextResponse
+  - Added Type Alias PTUQuotaListAvailableResponse
+  - Added Type Alias PTUQuotaListNextResponse
+  - Added Type Alias PTUQuotaListResponse
+  - Added Type Alias RaiPoliciesListNextResponse
+  - Added Type Alias RaiPoliciesListResponse
+  - Added Type Alias RaiPolicyContentSource
+  - Added Type Alias RaiPolicyCreateResponse
+  - Added Type Alias RaiPolicyDeleteResponse
+  - Added Type Alias RaiPolicyGetResponse
+  - Added Type Alias RaiPolicyMode
+  - Added Type Alias RaiPolicyType
+  - Added Type Alias ServiceAccountKeyName
+  - Added Type Alias SystemDatastoresAuthMode
+  - Added Type Alias VulnerabilityRisk
+  - Added Type Alias WorkspaceConnectionsTestConnectionResponse
+  - Added Type Alias WorkspaceConnectionsUpdateResponse
+  - Interface AssetJobOutput has a new optional parameter assetName
+  - Interface ComputeInstanceDataMount has a new optional parameter mountMode
+  - Interface ComputeInstanceProperties has a new optional parameter autologgerSettings
+  - Interface ComputeInstanceProperties has a new optional parameter enableOSPatching
+  - Interface ComputeInstanceProperties has a new optional parameter enableRootAccess
+  - Interface ComputeInstanceProperties has a new optional parameter enableSSO
+  - Interface ComputeInstanceProperties has a new optional parameter idleTimeBeforeShutdown
+  - Interface ComputeInstanceProperties has a new optional parameter releaseQuotaOnStop
+  - Interface CustomService has a new optional parameter kernel
+  - Interface DatastoresListSecretsOptionalParams has a new optional parameter body
+  - Interface DiagnoseRequestProperties has a new optional parameter requiredResourceProviders
+  - Interface EncryptionProperty has a new optional parameter cosmosDbResourceId
+  - Interface EncryptionProperty has a new optional parameter searchAccountResourceId
+  - Interface EncryptionProperty has a new optional parameter storageAccountResourceId
+  - Interface EnvironmentVersionProperties has a new optional parameter imageDetails
+  - Interface FqdnEndpoints has a new optional parameter category
+  - Interface FqdnEndpoints has a new optional parameter endpoints
+  - Interface Image_2 has a new optional parameter version
+  - Interface ImageMetadata has a new optional parameter osPatchingStatus
+  - Interface JobBaseProperties has a new optional parameter parentJobName
+  - Interface JobResourceConfiguration has a new optional parameter dockerArgsList
+  - Interface ListWorkspaceKeysResult has a new optional parameter userStorageArmId
+  - Interface ManagedNetworkSettings has a new optional parameter changeableIsolationModes
+  - Interface ManagedNetworkSettings has a new optional parameter enableNetworkMonitor
+  - Interface ManagedNetworkSettings has a new optional parameter firewallPublicIpAddress
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface ManagedNetworkSettingsRuleDeleteHeaders has a new optional parameter retryAfter
+  - Interface ModelVersionProperties has a new optional parameter datasets
+  - Interface NotebookResourceInfo has a new optional parameter isPrivateLinkEnabled
+  - Interface OutboundRule has a new optional parameter parentRuleNames
+  - Interface PrivateEndpointOutboundRule has a new optional parameter fqdns
+  - Interface Registry has a new optional parameter managedResourceGroupSettings
+  - Interface Workspace has a new optional parameter agentsEndpointUri
+  - Interface Workspace has a new optional parameter allowRoleAssignmentOnRG
+  - Interface Workspace has a new optional parameter containerRegistries
+  - Interface Workspace has a new optional parameter enableServiceSideCMKEncryption
+  - Interface Workspace has a new optional parameter enableSimplifiedCmk
+  - Interface Workspace has a new optional parameter enableSoftwareBillOfMaterials
+  - Interface Workspace has a new optional parameter existingWorkspaces
+  - Interface Workspace has a new optional parameter ipAllowlist
+  - Interface Workspace has a new optional parameter keyVaults
+  - Interface Workspace has a new optional parameter networkAcls
+  - Interface Workspace has a new optional parameter provisionNetworkNow
+  - Interface Workspace has a new optional parameter softDeleteRetentionInDays
+  - Interface Workspace has a new optional parameter storageAccounts
+  - Interface Workspace has a new optional parameter systemDatastoresAuthMode
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter error
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter peRequirement
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter peStatus
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter useWorkspaceManagedIdentity
+  - Interface WorkspaceConnectionsCreateOptionalParams has a new optional parameter body
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Interface WorkspacesDiagnoseOptionalParams has a new optional parameter body
+  - Interface WorkspacesListByResourceGroupOptionalParams has a new optional parameter aiCapabilities
+  - Interface WorkspacesListByResourceGroupOptionalParams has a new optional parameter kind
+  - Interface WorkspacesListBySubscriptionOptionalParams has a new optional parameter aiCapabilities
+  - Interface WorkspacesListBySubscriptionOptionalParams has a new optional parameter kind
+  - Interface WorkspaceUpdateParameters has a new optional parameter allowRoleAssignmentOnRG
+  - Interface WorkspaceUpdateParameters has a new optional parameter enableSoftwareBillOfMaterials
+  - Interface WorkspaceUpdateParameters has a new optional parameter ipAllowlist
+  - Interface WorkspaceUpdateParameters has a new optional parameter networkAcls
+  - Interface WorkspaceUpdateParameters has a new optional parameter softDeleteRetentionInDays
+  - Interface WorkspaceUpdateParameters has a new optional parameter systemDatastoresAuthMode
+  - Type of parameter type of interface OutboundRule is changed from "PrivateEndpoint" | "ServiceTag" | "FQDN" to "FQDN" | "PrivateEndpoint" | "ServiceTag"
+  - Type of parameter authType of interface WorkspaceConnectionPropertiesV2 is changed from "PAT" | "SAS" | "UsernamePassword" | "None" | "ManagedIdentity" | "AAD" | "AccessKey" | "AccountKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "ServicePrincipal" to "AAD" | "AccessKey" | "AccountKey" | "ApiKey" | "CustomKeys" | "ManagedIdentity" | "None" | "OAuth2" | "PAT" | "SAS" | "ServicePrincipal" | "UsernamePassword"
+  - Added Enum KnownAllowedContentLevel
+  - Added Enum KnownAuthMode
+  - Added Enum KnownCapabilityHostKind
+  - Added Enum KnownCapabilityHostProvisioningState
+  - Added Enum KnownContentSafetyLevel
+  - Added Enum KnownDataGenerationTaskType
+  - Added Enum KnownDataGenerationType
+  - Added Enum KnownDefaultActionType
+  - Added Enum KnownDefaultResourceProvisioningState
+  - Added Enum KnownDeploymentModelVersionUpgradeOption
+  - Added Enum KnownEndpointType
+  - Added Enum KnownFineTuningTaskType
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownManagedPERequirement
+  - Added Enum KnownManagedPEStatus
+  - Added Enum KnownMlflowAutologger
+  - Added Enum KnownModelLifecycleStatus
+  - Added Enum KnownModelProvider
+  - Added Enum KnownMountMode
+  - Added Enum KnownPatchStatus
+  - Added Enum KnownPoolProvisioningState
+  - Added Enum KnownRaiPolicyContentSource
+  - Added Enum KnownRaiPolicyMode
+  - Added Enum KnownRaiPolicyType
+  - Added Enum KnownServiceAccountKeyName
+  - Added Enum KnownSystemDatastoresAuthMode
+  - Added Enum KnownVulnerabilityRisk
+  - Enum KnownComputeInstanceState has a new value Resizing
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value Pinecone
+  - Enum KnownEndpointServiceConnectionStatus has a new value Timeout
+  - Enum KnownJobType has a new value Distillation
+  - Enum KnownJobType has a new value FineTuning
+  - Enum KnownOperationName has a new value Resize
+  - Enum KnownOperationStatus has a new value ResizeFailed
+  - Enum KnownServerlessInferenceEndpointAuthMode has a new value AAD
+  - Enum KnownServerlessInferenceEndpointAuthMode has a new value KeyAndAAD
+
+### Breaking Changes
+
+  - Operation WorkspaceConnections.create has a new signature
+  - Interface FqdnEndpoints no longer has parameter properties
+  - Interface ListWorkspaceKeysResult no longer has parameter userStorageResourceId
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter value
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter valueFormat
+  - Interface WorkspacesDiagnoseOptionalParams no longer has parameter parameters
+  - Interface ContentSafety has a new required parameter contentSafetyLevel
+  - Type of parameter applicationInsights of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter containerRegistry of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter dnsResolution of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter keyVault of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter nsg of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter others of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter resourceLock of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter storageAccount of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter udr of interface DiagnoseRequestProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: any;
+    }
+  - Type of parameter keyVaultProperties of interface EncryptionProperty is changed from EncryptionKeyVaultProperties to KeyVaultProperties
+  - Type of parameter value of interface ExternalFqdnResponse is changed from FqdnEndpoints[] to FqdnEndpointsPropertyBag[]
+  - Type of parameter privateEndpoint of interface PrivateEndpointConnection is changed from PrivateEndpoint to WorkspacePrivateEndpointResource
+  - Type of parameter status of interface PrivateLinkServiceConnectionState is changed from PrivateEndpointServiceConnectionStatus to EndpointServiceConnectionStatus
+  - Type of parameter status of interface SharedPrivateLinkResource is changed from PrivateEndpointServiceConnectionStatus to EndpointServiceConnectionStatus
+  - Type of parameter publicNetworkAccess of interface Workspace is changed from PublicNetworkAccess to PublicNetworkAccessType
+  - Type of parameter publicNetworkAccess of interface WorkspaceUpdateParameters is changed from PublicNetworkAccess to PublicNetworkAccessType
+  - Removed Enum KnownPrivateEndpointServiceConnectionStatus
+  - Removed Enum KnownPublicNetworkAccess
+  - Removed Enum KnownValueFormat
+    
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
