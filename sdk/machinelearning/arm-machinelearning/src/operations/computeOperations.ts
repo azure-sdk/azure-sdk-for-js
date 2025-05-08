@@ -982,7 +982,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1015,7 +1015,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1178,9 +1178,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1199,9 +1199,9 @@ const listNodesNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.computeName,
   ],
   headerParameters: [Parameters.accept],

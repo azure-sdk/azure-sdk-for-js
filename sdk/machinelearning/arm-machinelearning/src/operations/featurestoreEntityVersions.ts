@@ -501,7 +501,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body24,
+  requestBody: Parameters.body22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -529,9 +529,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.name,
   ],
   headerParameters: [Parameters.accept],
