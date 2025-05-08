@@ -75,10 +75,7 @@ export interface Clusters {
     parameters: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates an instance of an Event Hubs Cluster.
@@ -105,12 +102,7 @@ export interface Clusters {
     clusterName: string,
     parameters: Cluster,
     options?: ClustersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
   /**
    * Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
    * @param resourceGroupName Name of the resource group within the azure subscription.
