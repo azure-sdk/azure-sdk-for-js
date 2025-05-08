@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  createCarbonOptimizationManagement,
-  CarbonOptimizationManagementContext,
-  CarbonOptimizationManagementClientOptionalParams,
-} from "./api/index.js";
+import { createCarbon, CarbonContext, CarbonClientOptionalParams } from "./api/index.js";
 import {
   CarbonServiceOperations,
   _getCarbonServiceOperations,
@@ -14,23 +10,20 @@ import { OperationsOperations, _getOperationsOperations } from "./classic/operat
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
-export { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
+export { CarbonClientOptionalParams } from "./api/carbonContext.js";
 
-export class CarbonOptimizationManagementClient {
-  private _client: CarbonOptimizationManagementContext;
+export class CarbonClient {
+  private _client: CarbonContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
   /** Carbon Report Resource Provider query API. */
-  constructor(
-    credential: TokenCredential,
-    options: CarbonOptimizationManagementClientOptionalParams = {},
-  ) {
+  constructor(credential: TokenCredential, options: CarbonClientOptionalParams = {}) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createCarbonOptimizationManagement(credential, {
+    this._client = createCarbon(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
