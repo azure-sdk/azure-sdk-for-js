@@ -1,5 +1,14 @@
 # Release History
     
+## 22.5.0 (2025-05-08)
+    
+### Features Added
+
+  - Added Interface LifecycleHook
+  - Added Interface LifecycleHooksProfile
+  - Interface VirtualMachineScaleSet has a new optional parameter lifecycleHooksProfile
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added

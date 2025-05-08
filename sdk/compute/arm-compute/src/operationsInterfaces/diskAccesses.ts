@@ -47,9 +47,7 @@ export interface DiskAccesses {
    * Lists all the disk access resources under a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: DiskAccessesListOptionalParams,
-  ): PagedAsyncIterableIterator<DiskAccess>;
+  list(options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess>;
   /**
    * List information about private endpoint connections under a disk access resource
    * @param resourceGroupName The name of the resource group.
@@ -113,10 +111,7 @@ export interface DiskAccesses {
     diskAccess: DiskAccessUpdate,
     options?: DiskAccessesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DiskAccessesUpdateResponse>,
-      DiskAccessesUpdateResponse
-    >
+    SimplePollerLike<OperationState<DiskAccessesUpdateResponse>, DiskAccessesUpdateResponse>
   >;
   /**
    * Updates (patches) a disk access resource.

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachineScaleSetExtension,
@@ -37,9 +33,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineScaleSetExtensions operations. */
-export class VirtualMachineScaleSetExtensionsImpl
-  implements VirtualMachineScaleSetExtensions
-{
+export class VirtualMachineScaleSetExtensionsImpl implements VirtualMachineScaleSetExtensions {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -73,12 +67,7 @@ export class VirtualMachineScaleSetExtensionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vmScaleSetName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vmScaleSetName, options, settings);
       },
     };
   }
@@ -99,12 +88,7 @@ export class VirtualMachineScaleSetExtensionsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vmScaleSetName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vmScaleSetName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -117,11 +101,7 @@ export class VirtualMachineScaleSetExtensionsImpl
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetExtensionsListOptionalParams,
   ): AsyncIterableIterator<VirtualMachineScaleSetExtension> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vmScaleSetName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vmScaleSetName, options)) {
       yield* page;
     }
   }
@@ -156,8 +136,7 @@ export class VirtualMachineScaleSetExtensionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -261,8 +240,7 @@ export class VirtualMachineScaleSetExtensionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -359,8 +337,7 @@ export class VirtualMachineScaleSetExtensionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
