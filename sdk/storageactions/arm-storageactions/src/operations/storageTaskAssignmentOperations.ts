@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageTaskAssignmentOperations operations. */
-export class StorageTaskAssignmentOperationsImpl
-  implements StorageTaskAssignmentOperations
-{
+export class StorageTaskAssignmentOperationsImpl implements StorageTaskAssignmentOperations {
   private readonly client: StorageActionsManagementClient;
 
   /**
@@ -49,11 +47,7 @@ export class StorageTaskAssignmentOperationsImpl
     storageTaskName: string,
     options?: StorageTaskAssignmentListOptionalParams,
   ): PagedAsyncIterableIterator<StorageTaskAssignment> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      storageTaskName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, storageTaskName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +59,7 @@ export class StorageTaskAssignmentOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          storageTaskName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, storageTaskName, options, settings);
       },
     };
   }
@@ -91,12 +80,7 @@ export class StorageTaskAssignmentOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        storageTaskName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, storageTaskName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,11 +93,7 @@ export class StorageTaskAssignmentOperationsImpl
     storageTaskName: string,
     options?: StorageTaskAssignmentListOptionalParams,
   ): AsyncIterableIterator<StorageTaskAssignment> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      storageTaskName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, storageTaskName, options)) {
       yield* page;
     }
   }
@@ -175,9 +155,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -196,9 +176,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

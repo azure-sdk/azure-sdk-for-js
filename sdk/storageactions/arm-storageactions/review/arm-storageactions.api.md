@@ -284,7 +284,7 @@ export interface StorageTaskAssignmentOperations {
 // @public
 export interface StorageTaskAssignmentsListResult {
     readonly nextLink?: string;
-    readonly value?: StorageTaskAssignment[];
+    readonly value: StorageTaskAssignment[];
 }
 
 // @public
@@ -380,7 +380,7 @@ export interface StorageTaskReportProperties {
 // @public
 export interface StorageTaskReportSummary {
     readonly nextLink?: string;
-    readonly value?: StorageTaskReportInstance[];
+    readonly value: StorageTaskReportInstance[];
 }
 
 // @public
@@ -399,8 +399,8 @@ export interface StorageTasks {
 
 // @public
 export interface StorageTasksCreateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -414,8 +414,8 @@ export type StorageTasksCreateResponse = StorageTask;
 
 // @public
 export interface StorageTasksDeleteHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -465,7 +465,7 @@ export type StorageTasksListBySubscriptionResponse = StorageTasksListResult;
 // @public
 export interface StorageTasksListResult {
     readonly nextLink?: string;
-    readonly value?: StorageTask[];
+    readonly value: StorageTask[];
 }
 
 // @public
@@ -498,8 +498,8 @@ export type StorageTasksReportListResponse = StorageTaskReportSummary;
 
 // @public
 export interface StorageTasksUpdateHeaders {
-    // (undocumented)
     location?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -514,10 +514,20 @@ export type StorageTasksUpdateResponse = StorageTask;
 // @public
 export interface StorageTaskUpdateParameters {
     identity?: ManagedServiceIdentity;
-    properties?: StorageTaskProperties;
+    properties?: StorageTaskUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface StorageTaskUpdateProperties {
+    action?: StorageTaskAction;
+    readonly creationTimeInUtc?: Date;
+    description?: string;
+    enabled?: boolean;
+    readonly provisioningState?: ProvisioningState;
+    readonly taskVersion?: number;
 }
 
 // @public
