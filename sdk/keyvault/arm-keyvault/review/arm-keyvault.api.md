@@ -21,6 +21,31 @@ export interface AccessPolicyEntry {
 // @public
 export type AccessPolicyUpdateKind = "add" | "replace" | "remove";
 
+// @public
+export interface AccessRule {
+    name?: string;
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface AccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
 // @public (undocumented)
 export interface Action {
     type?: KeyRotationPolicyActionType;
@@ -73,6 +98,9 @@ export interface CloudErrorBody {
     code?: string;
     message?: string;
 }
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export type CreateMode = "recover" | "default";
@@ -159,6 +187,9 @@ export type IdentityType = string;
 export interface IPRule {
     value: string;
 }
+
+// @public
+export type IssueType = string;
 
 // @public
 export type JsonWebKeyCurveName = string;
@@ -319,6 +350,8 @@ export class KeyVaultManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     mhsmRegions: MhsmRegions;
     // (undocumented)
+    networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
@@ -337,6 +370,12 @@ export interface KeyVaultManagementClientOptionalParams extends coreClient.Servi
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
 }
 
 // @public
@@ -374,6 +413,14 @@ export enum KnownCertificatePermissions {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDeletionRecoveryLevel {
     Purgeable = "Purgeable",
     Recoverable = "Recoverable",
@@ -397,6 +444,14 @@ export enum KnownIdentityType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -481,6 +536,17 @@ export enum KnownNetworkRuleBypassOptions {
 }
 
 // @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
     Creating = "Creating",
     Deleting = "Deleting",
@@ -517,6 +583,13 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
 export enum KnownSecretPermissions {
     All = "all",
     Backup = "backup",
@@ -527,6 +600,12 @@ export enum KnownSecretPermissions {
     Recover = "recover",
     Restore = "restore",
     Set = "set"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -1132,6 +1211,65 @@ export interface NetworkRuleSet {
 }
 
 // @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListResult {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterGetConfigurationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterGetConfigurationResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterListConfigurationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterListConfigurationResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterOperations {
+    getConfiguration(resourceGroupName: string, vaultName: string, associationProxyName: string, options?: NetworkSecurityPerimeterGetConfigurationOptionalParams): Promise<NetworkSecurityPerimeterGetConfigurationResponse>;
+    listConfiguration(resourceGroupName: string, vaultName: string, options?: NetworkSecurityPerimeterListConfigurationOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
+
+// @public
 export interface Operation {
     display?: OperationDisplay;
     isDataAction?: boolean;
@@ -1306,7 +1444,26 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface ProvisioningIssue {
+    readonly name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends ResourceAutoGenerated {
+}
 
 // @public
 export interface ProxyResourceWithoutSystemData {
@@ -1332,6 +1489,23 @@ export interface Resource {
     readonly tags?: {
         [propertyName: string]: string;
     };
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
+
+// @public
+export interface ResourceAutoGenerated {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemDataAutoGenerated;
     readonly type?: string;
 }
 
@@ -1448,6 +1622,9 @@ export interface ServiceSpecification {
 }
 
 // @public
+export type Severity = string;
+
+// @public
 export interface Sku {
     family: SkuFamily;
     name: SkuName;
@@ -1470,6 +1647,16 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: IdentityType;
+}
+
+// @public
+export interface SystemDataAutoGenerated {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // @public (undocumented)
