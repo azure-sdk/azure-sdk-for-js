@@ -15,6 +15,19 @@ export type AccessDecisionEnum = string;
 // @public
 export type ActionType = string;
 
+// @public (undocumented)
+export class CarbonClient {
+    constructor(credential: TokenCredential, options?: CarbonClientOptionalParams);
+    readonly carbonService: CarbonServiceOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface CarbonClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+}
+
 // @public
 export interface CarbonEmissionData {
     dataType: ResponseDataTypeEnum;
@@ -72,19 +85,6 @@ export interface CarbonEmissionTopItemsSummaryData extends CarbonEmissionData {
     categoryType: CategoryTypeEnum;
     dataType: "TopItemsSummaryData";
     itemName: string;
-}
-
-// @public (undocumented)
-export class CarbonOptimizationManagementClient {
-    constructor(credential: TokenCredential, options?: CarbonOptimizationManagementClientOptionalParams);
-    readonly carbonService: CarbonServiceOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface CarbonOptimizationManagementClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
 }
 
 // @public
