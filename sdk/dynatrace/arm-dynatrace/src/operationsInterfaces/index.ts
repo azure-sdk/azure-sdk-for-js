@@ -7,6 +7,8 @@
  */
 
 export * from "./monitors.js";
+export * from "./monitoredSubscriptions.js";
+export * from "./creationSupported.js";
 export * from "./operations.js";
 export * from "./tagRules.js";
 export * from "./singleSignOn.js";

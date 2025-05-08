@@ -11,20 +11,24 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   MonitorsImpl,
+  MonitoredSubscriptionsImpl,
+  CreationSupportedImpl,
   OperationsImpl,
   TagRulesImpl,
-  SingleSignOnImpl
+  SingleSignOnImpl,
 } from "./operations/index.js";
 import {
   Monitors,
+  MonitoredSubscriptions,
+  CreationSupported,
   Operations,
   TagRules,
-  SingleSignOn
+  SingleSignOn,
 } from "./operationsInterfaces/index.js";
 import { DynatraceObservabilityOptionalParams } from "./models/index.js";
 
@@ -36,13 +40,13 @@ export class DynatraceObservability extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DynatraceObservability class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: DynatraceObservabilityOptionalParams
+    options?: DynatraceObservabilityOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -57,10 +61,10 @@ export class DynatraceObservability extends coreClient.ServiceClient {
     }
     const defaults: DynatraceObservabilityOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-dynatrace/2.0.0`;
+    const packageDetails = `azsdk-js-arm-dynatrace/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -70,20 +74,21 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -93,7 +98,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -103,9 +108,9 @@ export class DynatraceObservability extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -113,8 +118,10 @@ export class DynatraceObservability extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-27";
+    this.apiVersion = options.apiVersion || "2024-04-24";
     this.monitors = new MonitorsImpl(this);
+    this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
+    this.creationSupported = new CreationSupportedImpl(this);
     this.operations = new OperationsImpl(this);
     this.tagRules = new TagRulesImpl(this);
     this.singleSignOn = new SingleSignOnImpl(this);
@@ -130,7 +137,7 @@ export class DynatraceObservability extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -144,12 +151,14 @@ export class DynatraceObservability extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
   monitors: Monitors;
+  monitoredSubscriptions: MonitoredSubscriptions;
+  creationSupported: CreationSupported;
   operations: Operations;
   tagRules: TagRules;
   singleSignOn: SingleSignOn;

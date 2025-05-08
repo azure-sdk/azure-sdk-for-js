@@ -23,6 +23,8 @@ import {
   MonitorsListLinkableEnvironmentsOptionalParams,
   MonitorsGetVMHostPayloadOptionalParams,
   MonitorsGetVMHostPayloadResponse,
+  AgentStatusRequest,
+  MonitorsUpdateAgentStatusOptionalParams,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -31,13 +33,20 @@ import {
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
   MonitorsDeleteOptionalParams,
+  MonitorsDeleteResponse,
+  MarketplaceSubscriptionIdRequest,
+  MonitorsGetAllConnectedResourcesCountOptionalParams,
+  MonitorsGetAllConnectedResourcesCountResponse,
   MarketplaceSaaSResourceDetailsRequest,
   MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   MonitorsGetMarketplaceSaaSResourceDetailsResponse,
   MonitorsGetMetricStatusOptionalParams,
   MonitorsGetMetricStatusResponse,
+  UpgradePlanRequest,
+  MonitorsUpgradePlanOptionalParams,
+  MonitorsUpgradePlanResponse,
   MonitorsGetSSODetailsOptionalParams,
-  MonitorsGetSSODetailsResponse
+  MonitorsGetSSODetailsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,14 +61,14 @@ export interface Monitors {
   listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource>;
   /**
    * List all MonitorResource by subscriptionId
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: MonitorsListBySubscriptionIdOptionalParams
+    options?: MonitorsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource>;
   /**
    * List MonitorResource resources by resource group
@@ -68,7 +77,7 @@ export interface Monitors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource>;
   /**
    * List the VM/VMSS resources currently being monitored by the Dynatrace resource.
@@ -79,7 +88,7 @@ export interface Monitors {
   listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): PagedAsyncIterableIterator<VMInfo>;
   /**
    * Gets list of App Services with Dynatrace PaaS OneAgent enabled
@@ -90,7 +99,7 @@ export interface Monitors {
   listAppServices(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListAppServicesOptionalParams
+    options?: MonitorsListAppServicesOptionalParams,
   ): PagedAsyncIterableIterator<AppServiceInfo>;
   /**
    * Gets all the Dynatrace environments that a user can link a azure resource to
@@ -103,7 +112,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: LinkableEnvironmentRequest,
-    options?: MonitorsListLinkableEnvironmentsOptionalParams
+    options?: MonitorsListLinkableEnvironmentsOptionalParams,
   ): PagedAsyncIterableIterator<LinkableEnvironmentResponse>;
   /**
    * Returns the payload that needs to be passed in the request body for installing Dynatrace agent on a
@@ -115,8 +124,22 @@ export interface Monitors {
   getVMHostPayload(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetVMHostPayloadOptionalParams
+    options?: MonitorsGetVMHostPayloadOptionalParams,
   ): Promise<MonitorsGetVMHostPayloadResponse>;
+  /**
+   * Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+   * Dynatrace resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request List of resources and action
+   * @param options The options parameters.
+   */
+  updateAgentStatus(
+    resourceGroupName: string,
+    monitorName: string,
+    request: AgentStatusRequest,
+    options?: MonitorsUpdateAgentStatusOptionalParams,
+  ): Promise<void>;
   /**
    * Get a MonitorResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -126,7 +149,7 @@ export interface Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse>;
   /**
    * Create a MonitorResource
@@ -139,7 +162,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateOrUpdateResponse>,
@@ -157,7 +180,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<MonitorsCreateOrUpdateResponse>;
   /**
    * Update a MonitorResource
@@ -170,7 +193,7 @@ export interface Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResourceUpdate,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse>;
   /**
    * Delete a MonitorResource
@@ -181,8 +204,13 @@ export interface Monitors {
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: MonitorsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsDeleteResponse>,
+      MonitorsDeleteResponse
+    >
+  >;
   /**
    * Delete a MonitorResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -192,28 +220,68 @@ export interface Monitors {
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
-  ): Promise<void>;
+    options?: MonitorsDeleteOptionalParams,
+  ): Promise<MonitorsDeleteResponse>;
   /**
-   * Get Marketplace SaaS resource details of a tenant under a specific subscription
+   * Get the total number of connected resources for the given marketplace subscription Id
+   * @param request Marketplace Subscription Id
+   * @param options The options parameters.
+   */
+  getAllConnectedResourcesCount(
+    request: MarketplaceSubscriptionIdRequest,
+    options?: MonitorsGetAllConnectedResourcesCountOptionalParams,
+  ): Promise<MonitorsGetAllConnectedResourcesCountResponse>;
+  /**
+   * Get Marketplace SaaS resource details
    * @param request Tenant Id
    * @param options The options parameters.
    */
   getMarketplaceSaaSResourceDetails(
     request: MarketplaceSaaSResourceDetailsRequest,
-    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
+    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   ): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse>;
   /**
    * Get metric status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitor resource
+   * @param monitorName Name of the Monitors resource
    * @param options The options parameters.
    */
   getMetricStatus(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetMetricStatusOptionalParams
+    options?: MonitorsGetMetricStatusOptionalParams,
   ): Promise<MonitorsGetMetricStatusResponse>;
+  /**
+   * Upgrades the billing Plan for Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request The details of the upgrade plan request.
+   * @param options The options parameters.
+   */
+  beginUpgradePlan(
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsUpgradePlanResponse>,
+      MonitorsUpgradePlanResponse
+    >
+  >;
+  /**
+   * Upgrades the billing Plan for Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request The details of the upgrade plan request.
+   * @param options The options parameters.
+   */
+  beginUpgradePlanAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ): Promise<MonitorsUpgradePlanResponse>;
   /**
    * Gets the SSO configuration details from the partner.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -223,6 +291,6 @@ export interface Monitors {
   getSSODetails(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetSSODetailsOptionalParams
+    options?: MonitorsGetSSODetailsOptionalParams,
   ): Promise<MonitorsGetSSODetailsResponse>;
 }

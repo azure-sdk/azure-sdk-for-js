@@ -2766,7 +2766,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
-    resolution: {integrity: sha512-YTfFYvwh1TlaXb2SG0jWOOc8BZxBn8cJBwNJUV30WzaXX6O5Oe4sRLd9fkqcCnujfxRVG84UKz+zvDhrSSXjEg==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-eYToU9XoOsRjASnbvmODekcbVUTuFXrsr4CKt5Rey4NF64PyTkEnd2SdlN/e/Qb616SQktQkEoICHtryc/5DZQ==, tarball: file:projects/arm-dynatrace.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':

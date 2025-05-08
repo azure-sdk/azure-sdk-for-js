@@ -8,7 +8,7 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { TagRules } from "../operationsInterfaces/index.js";
+import { MonitoredSubscriptions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -20,26 +20,28 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  TagRule,
-  TagRulesListNextOptionalParams,
-  TagRulesListOptionalParams,
-  TagRulesListResponse,
-  TagRulesGetOptionalParams,
-  TagRulesGetResponse,
-  TagRulesCreateOrUpdateOptionalParams,
-  TagRulesCreateOrUpdateResponse,
-  TagRulesDeleteOptionalParams,
-  TagRulesDeleteResponse,
-  TagRulesListNextResponse,
+  MonitoredSubscriptionProperties,
+  MonitoredSubscriptionsListNextOptionalParams,
+  MonitoredSubscriptionsListOptionalParams,
+  MonitoredSubscriptionsListResponse,
+  MonitoredSubscriptionsGetOptionalParams,
+  MonitoredSubscriptionsGetResponse,
+  MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  MonitoredSubscriptionsCreateOrUpdateResponse,
+  MonitoredSubscriptionsUpdateOptionalParams,
+  MonitoredSubscriptionsUpdateResponse,
+  MonitoredSubscriptionsDeleteOptionalParams,
+  MonitoredSubscriptionsDeleteResponse,
+  MonitoredSubscriptionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing TagRules operations. */
-export class TagRulesImpl implements TagRules {
+/** Class containing MonitoredSubscriptions operations. */
+export class MonitoredSubscriptionsImpl implements MonitoredSubscriptions {
   private readonly client: DynatraceObservability;
 
   /**
-   * Initialize a new instance of the class TagRules class.
+   * Initialize a new instance of the class MonitoredSubscriptions class.
    * @param client Reference to the service client
    */
   constructor(client: DynatraceObservability) {
@@ -47,7 +49,7 @@ export class TagRulesImpl implements TagRules {
   }
 
   /**
-   * List all TagRule by monitorName
+   * List the subscriptions currently being monitored by the Dynatrace monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
@@ -55,8 +57,8 @@ export class TagRulesImpl implements TagRules {
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams,
-  ): PagedAsyncIterableIterator<TagRule> {
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
       next() {
@@ -82,10 +84,10 @@ export class TagRulesImpl implements TagRules {
   private async *listPagingPage(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams,
+    options?: MonitoredSubscriptionsListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<TagRule[]> {
-    let result: TagRulesListResponse;
+  ): AsyncIterableIterator<MonitoredSubscriptionProperties[]> {
+    let result: MonitoredSubscriptionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, monitorName, options);
@@ -106,8 +108,8 @@ export class TagRulesImpl implements TagRules {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams,
-  ): AsyncIterableIterator<TagRule> {
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): AsyncIterableIterator<MonitoredSubscriptionProperties> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
@@ -118,221 +120,7 @@ export class TagRulesImpl implements TagRules {
   }
 
   /**
-   * Get a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesGetOptionalParams,
-  ): Promise<TagRulesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, ruleSetName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Create a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TagRulesCreateOrUpdateResponse>,
-      TagRulesCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<TagRulesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, monitorName, ruleSetName, resource, options },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      TagRulesCreateOrUpdateResponse,
-      OperationState<TagRulesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Create a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param resource Resource create parameters.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    resource: TagRule,
-    options?: TagRulesCreateOrUpdateOptionalParams,
-  ): Promise<TagRulesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      monitorName,
-      ruleSetName,
-      resource,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TagRulesDeleteResponse>,
-      TagRulesDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<TagRulesDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, monitorName, ruleSetName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      TagRulesDeleteResponse,
-      OperationState<TagRulesDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a TagRule
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Monitor resource name
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams,
-  ): Promise<TagRulesDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      monitorName,
-      ruleSetName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List all TagRule by monitorName
+   * List the subscriptions currently being monitored by the Dynatrace monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
@@ -340,12 +128,296 @@ export class TagRulesImpl implements TagRules {
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams,
-  ): Promise<TagRulesListResponse> {
+    options?: MonitoredSubscriptionsListOptionalParams,
+  ): Promise<MonitoredSubscriptionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
       listOperationSpec,
     );
+  }
+
+  /**
+   * List the subscriptions currently being monitored by the Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsGetOptionalParams,
+  ): Promise<MonitoredSubscriptionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Add the subscriptions that should be monitored by the Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>,
+      MonitoredSubscriptionsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitoredSubscriptionsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitoredSubscriptionsCreateOrUpdateResponse,
+      OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Add the subscriptions that should be monitored by the Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      monitorName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the subscriptions that are being monitored by the Dynatrace monitor resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsUpdateResponse>,
+      MonitoredSubscriptionsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitoredSubscriptionsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitoredSubscriptionsUpdateResponse,
+      OperationState<MonitoredSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the subscriptions that are being monitored by the Dynatrace monitor resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
+  ): Promise<MonitoredSubscriptionsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      monitorName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Updates the subscriptions that are being monitored by the Dynatrace monitor resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitoredSubscriptionsDeleteResponse>,
+      MonitoredSubscriptionsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitoredSubscriptionsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitoredSubscriptionsDeleteResponse,
+      OperationState<MonitoredSubscriptionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the subscriptions that are being monitored by the Dynatrace monitor resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
+  ): Promise<MonitoredSubscriptionsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      monitorName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -357,8 +429,8 @@ export class TagRulesImpl implements TagRules {
   private _listNext(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListNextOptionalParams,
-  ): Promise<TagRulesListNextResponse> {
+    options?: MonitoredSubscriptionsListNextOptionalParams,
+  ): Promise<MonitoredSubscriptionsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
       listNextOperationSpec,
@@ -368,12 +440,12 @@ export class TagRulesImpl implements TagRules {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/monitoredSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRule,
+      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -385,81 +457,110 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/monitoredSubscriptions/default",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/monitoredSubscriptions/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRule,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     201: {
-      bodyMapper: Mappers.TagRule,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     202: {
-      bodyMapper: Mappers.TagRule,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     204: {
-      bodyMapper: Mappers.TagRule,
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.resource2,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/monitoredSubscriptions/default",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    201: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    202: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    204: {
+      bodyMapper: Mappers.MonitoredSubscriptionProperties,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/monitoredSubscriptions/default",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.TagRulesDeleteHeaders,
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.TagRulesDeleteHeaders,
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.TagRulesDeleteHeaders,
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.TagRulesDeleteHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName,
-    Parameters.ruleSetName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/tagRules",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TagRuleListResult,
+      headersMapper: Mappers.MonitoredSubscriptionsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -480,7 +581,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagRuleListResult,
+      bodyMapper: Mappers.MonitoredSubscriptionPropertiesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

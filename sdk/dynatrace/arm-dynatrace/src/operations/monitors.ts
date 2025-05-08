@@ -16,7 +16,7 @@ import { DynatraceObservability } from "../dynatraceObservability.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -46,6 +46,8 @@ import {
   MonitorsListLinkableEnvironmentsResponse,
   MonitorsGetVMHostPayloadOptionalParams,
   MonitorsGetVMHostPayloadResponse,
+  AgentStatusRequest,
+  MonitorsUpdateAgentStatusOptionalParams,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOrUpdateOptionalParams,
@@ -54,11 +56,18 @@ import {
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
   MonitorsDeleteOptionalParams,
+  MonitorsDeleteResponse,
+  MarketplaceSubscriptionIdRequest,
+  MonitorsGetAllConnectedResourcesCountOptionalParams,
+  MonitorsGetAllConnectedResourcesCountResponse,
   MarketplaceSaaSResourceDetailsRequest,
   MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   MonitorsGetMarketplaceSaaSResourceDetailsResponse,
   MonitorsGetMetricStatusOptionalParams,
   MonitorsGetMetricStatusResponse,
+  UpgradePlanRequest,
+  MonitorsUpgradePlanOptionalParams,
+  MonitorsUpgradePlanResponse,
   MonitorsGetSSODetailsOptionalParams,
   MonitorsGetSSODetailsResponse,
   MonitorsListMonitoredResourcesNextResponse,
@@ -66,7 +75,7 @@ import {
   MonitorsListByResourceGroupNextResponse,
   MonitorsListHostsNextResponse,
   MonitorsListAppServicesNextResponse,
-  MonitorsListLinkableEnvironmentsNextResponse
+  MonitorsListLinkableEnvironmentsNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -91,12 +100,12 @@ export class MonitorsImpl implements Monitors {
   public listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredResource> {
     const iter = this.listMonitoredResourcesPagingAll(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return {
       next() {
@@ -113,9 +122,9 @@ export class MonitorsImpl implements Monitors {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -123,7 +132,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsListMonitoredResourcesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MonitoredResource[]> {
     let result: MonitorsListMonitoredResourcesResponse;
     let continuationToken = settings?.continuationToken;
@@ -131,7 +140,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listMonitoredResources(
         resourceGroupName,
         monitorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -143,7 +152,7 @@ export class MonitorsImpl implements Monitors {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -155,12 +164,12 @@ export class MonitorsImpl implements Monitors {
   private async *listMonitoredResourcesPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): AsyncIterableIterator<MonitoredResource> {
     for await (const page of this.listMonitoredResourcesPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -171,7 +180,7 @@ export class MonitorsImpl implements Monitors {
    * @param options The options parameters.
    */
   public listBySubscriptionId(
-    options?: MonitorsListBySubscriptionIdOptionalParams
+    options?: MonitorsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource> {
     const iter = this.listBySubscriptionIdPagingAll(options);
     return {
@@ -186,13 +195,13 @@ export class MonitorsImpl implements Monitors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionIdPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
     options?: MonitorsListBySubscriptionIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MonitorResource[]> {
     let result: MonitorsListBySubscriptionIdResponse;
     let continuationToken = settings?.continuationToken;
@@ -204,7 +213,7 @@ export class MonitorsImpl implements Monitors {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySubscriptionIdNext(continuationToken, options);
+      result = await this._listBySubscriptionIdNext(options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -213,7 +222,7 @@ export class MonitorsImpl implements Monitors {
   }
 
   private async *listBySubscriptionIdPagingAll(
-    options?: MonitorsListBySubscriptionIdOptionalParams
+    options?: MonitorsListBySubscriptionIdOptionalParams,
   ): AsyncIterableIterator<MonitorResource> {
     for await (const page of this.listBySubscriptionIdPagingPage(options)) {
       yield* page;
@@ -227,7 +236,7 @@ export class MonitorsImpl implements Monitors {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<MonitorResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -244,16 +253,16 @@ export class MonitorsImpl implements Monitors {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MonitorsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MonitorResource[]> {
     let result: MonitorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -265,11 +274,7 @@ export class MonitorsImpl implements Monitors {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -279,11 +284,11 @@ export class MonitorsImpl implements Monitors {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<MonitorResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -298,12 +303,12 @@ export class MonitorsImpl implements Monitors {
   public listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): PagedAsyncIterableIterator<VMInfo> {
     const iter = this.listHostsPagingAll(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return {
       next() {
@@ -320,9 +325,9 @@ export class MonitorsImpl implements Monitors {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -330,7 +335,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsListHostsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VMInfo[]> {
     let result: MonitorsListHostsResponse;
     let continuationToken = settings?.continuationToken;
@@ -345,8 +350,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listHostsNext(
         resourceGroupName,
         monitorName,
-        continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -358,12 +362,12 @@ export class MonitorsImpl implements Monitors {
   private async *listHostsPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): AsyncIterableIterator<VMInfo> {
     for await (const page of this.listHostsPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -378,12 +382,12 @@ export class MonitorsImpl implements Monitors {
   public listAppServices(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListAppServicesOptionalParams
+    options?: MonitorsListAppServicesOptionalParams,
   ): PagedAsyncIterableIterator<AppServiceInfo> {
     const iter = this.listAppServicesPagingAll(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return {
       next() {
@@ -400,9 +404,9 @@ export class MonitorsImpl implements Monitors {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -410,7 +414,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     options?: MonitorsListAppServicesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AppServiceInfo[]> {
     let result: MonitorsListAppServicesResponse;
     let continuationToken = settings?.continuationToken;
@@ -418,7 +422,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listAppServices(
         resourceGroupName,
         monitorName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -429,8 +433,7 @@ export class MonitorsImpl implements Monitors {
       result = await this._listAppServicesNext(
         resourceGroupName,
         monitorName,
-        continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -442,12 +445,12 @@ export class MonitorsImpl implements Monitors {
   private async *listAppServicesPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListAppServicesOptionalParams
+    options?: MonitorsListAppServicesOptionalParams,
   ): AsyncIterableIterator<AppServiceInfo> {
     for await (const page of this.listAppServicesPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -464,13 +467,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: LinkableEnvironmentRequest,
-    options?: MonitorsListLinkableEnvironmentsOptionalParams
+    options?: MonitorsListLinkableEnvironmentsOptionalParams,
   ): PagedAsyncIterableIterator<LinkableEnvironmentResponse> {
     const iter = this.listLinkableEnvironmentsPagingAll(
       resourceGroupName,
       monitorName,
       request,
-      options
+      options,
     );
     return {
       next() {
@@ -488,9 +491,9 @@ export class MonitorsImpl implements Monitors {
           monitorName,
           request,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -499,7 +502,7 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: LinkableEnvironmentRequest,
     options?: MonitorsListLinkableEnvironmentsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<LinkableEnvironmentResponse[]> {
     let result: MonitorsListLinkableEnvironmentsResponse;
     let continuationToken = settings?.continuationToken;
@@ -508,7 +511,7 @@ export class MonitorsImpl implements Monitors {
         resourceGroupName,
         monitorName,
         request,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -521,7 +524,7 @@ export class MonitorsImpl implements Monitors {
         monitorName,
         request,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -534,13 +537,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: LinkableEnvironmentRequest,
-    options?: MonitorsListLinkableEnvironmentsOptionalParams
+    options?: MonitorsListLinkableEnvironmentsOptionalParams,
   ): AsyncIterableIterator<LinkableEnvironmentResponse> {
     for await (const page of this.listLinkableEnvironmentsPagingPage(
       resourceGroupName,
       monitorName,
       request,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -555,11 +558,11 @@ export class MonitorsImpl implements Monitors {
   private _listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
+    options?: MonitorsListMonitoredResourcesOptionalParams,
   ): Promise<MonitorsListMonitoredResourcesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listMonitoredResourcesOperationSpec
+      listMonitoredResourcesOperationSpec,
     );
   }
 
@@ -573,11 +576,31 @@ export class MonitorsImpl implements Monitors {
   getVMHostPayload(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetVMHostPayloadOptionalParams
+    options?: MonitorsGetVMHostPayloadOptionalParams,
   ): Promise<MonitorsGetVMHostPayloadResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getVMHostPayloadOperationSpec
+      getVMHostPayloadOperationSpec,
+    );
+  }
+
+  /**
+   * Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+   * Dynatrace resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request List of resources and action
+   * @param options The options parameters.
+   */
+  updateAgentStatus(
+    resourceGroupName: string,
+    monitorName: string,
+    request: AgentStatusRequest,
+    options?: MonitorsUpdateAgentStatusOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, request, options },
+      updateAgentStatusOperationSpec,
     );
   }
 
@@ -590,11 +613,11 @@ export class MonitorsImpl implements Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -609,7 +632,7 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitorsCreateOrUpdateResponse>,
@@ -618,21 +641,20 @@ export class MonitorsImpl implements Monitors {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -641,8 +663,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -650,15 +672,15 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, resource, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitorsCreateOrUpdateResponse,
@@ -666,7 +688,7 @@ export class MonitorsImpl implements Monitors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -683,13 +705,13 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResource,
-    options?: MonitorsCreateOrUpdateOptionalParams
+    options?: MonitorsCreateOrUpdateOptionalParams,
   ): Promise<MonitorsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       monitorName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -705,11 +727,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     resource: MonitorResourceUpdate,
-    options?: MonitorsUpdateOptionalParams
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, resource, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -722,25 +744,29 @@ export class MonitorsImpl implements Monitors {
   async beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: MonitorsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsDeleteResponse>,
+      MonitorsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitorsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -749,8 +775,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -758,20 +784,23 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MonitorsDeleteResponse,
+      OperationState<MonitorsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -786,12 +815,12 @@ export class MonitorsImpl implements Monitors {
   async beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
-  ): Promise<void> {
+    options?: MonitorsDeleteOptionalParams,
+  ): Promise<MonitorsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -801,11 +830,11 @@ export class MonitorsImpl implements Monitors {
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
-    options?: MonitorsListBySubscriptionIdOptionalParams
+    options?: MonitorsListBySubscriptionIdOptionalParams,
   ): Promise<MonitorsListBySubscriptionIdResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionIdOperationSpec
+      listBySubscriptionIdOperationSpec,
     );
   }
 
@@ -816,26 +845,41 @@ export class MonitorsImpl implements Monitors {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): Promise<MonitorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
-   * Get Marketplace SaaS resource details of a tenant under a specific subscription
+   * Get the total number of connected resources for the given marketplace subscription Id
+   * @param request Marketplace Subscription Id
+   * @param options The options parameters.
+   */
+  getAllConnectedResourcesCount(
+    request: MarketplaceSubscriptionIdRequest,
+    options?: MonitorsGetAllConnectedResourcesCountOptionalParams,
+  ): Promise<MonitorsGetAllConnectedResourcesCountResponse> {
+    return this.client.sendOperationRequest(
+      { request, options },
+      getAllConnectedResourcesCountOperationSpec,
+    );
+  }
+
+  /**
+   * Get Marketplace SaaS resource details
    * @param request Tenant Id
    * @param options The options parameters.
    */
   getMarketplaceSaaSResourceDetails(
     request: MarketplaceSaaSResourceDetailsRequest,
-    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams
+    options?: MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   ): Promise<MonitorsGetMarketplaceSaaSResourceDetailsResponse> {
     return this.client.sendOperationRequest(
       { request, options },
-      getMarketplaceSaaSResourceDetailsOperationSpec
+      getMarketplaceSaaSResourceDetailsOperationSpec,
     );
   }
 
@@ -848,28 +892,28 @@ export class MonitorsImpl implements Monitors {
   private _listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
+    options?: MonitorsListHostsOptionalParams,
   ): Promise<MonitorsListHostsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listHostsOperationSpec
+      listHostsOperationSpec,
     );
   }
 
   /**
    * Get metric status
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Name of the Monitor resource
+   * @param monitorName Name of the Monitors resource
    * @param options The options parameters.
    */
   getMetricStatus(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetMetricStatusOptionalParams
+    options?: MonitorsGetMetricStatusOptionalParams,
   ): Promise<MonitorsGetMetricStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getMetricStatusOperationSpec
+      getMetricStatusOperationSpec,
     );
   }
 
@@ -882,12 +926,106 @@ export class MonitorsImpl implements Monitors {
   private _listAppServices(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListAppServicesOptionalParams
+    options?: MonitorsListAppServicesOptionalParams,
   ): Promise<MonitorsListAppServicesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listAppServicesOperationSpec
+      listAppServicesOperationSpec,
     );
+  }
+
+  /**
+   * Upgrades the billing Plan for Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request The details of the upgrade plan request.
+   * @param options The options parameters.
+   */
+  async beginUpgradePlan(
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MonitorsUpgradePlanResponse>,
+      MonitorsUpgradePlanResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<MonitorsUpgradePlanResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, monitorName, request, options },
+      spec: upgradePlanOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      MonitorsUpgradePlanResponse,
+      OperationState<MonitorsUpgradePlanResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upgrades the billing Plan for Dynatrace monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param request The details of the upgrade plan request.
+   * @param options The options parameters.
+   */
+  async beginUpgradePlanAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    request: UpgradePlanRequest,
+    options?: MonitorsUpgradePlanOptionalParams,
+  ): Promise<MonitorsUpgradePlanResponse> {
+    const poller = await this.beginUpgradePlan(
+      resourceGroupName,
+      monitorName,
+      request,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -899,11 +1037,11 @@ export class MonitorsImpl implements Monitors {
   getSSODetails(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetSSODetailsOptionalParams
+    options?: MonitorsGetSSODetailsOptionalParams,
   ): Promise<MonitorsGetSSODetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getSSODetailsOperationSpec
+      getSSODetailsOperationSpec,
     );
   }
 
@@ -918,11 +1056,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     request: LinkableEnvironmentRequest,
-    options?: MonitorsListLinkableEnvironmentsOptionalParams
+    options?: MonitorsListLinkableEnvironmentsOptionalParams,
   ): Promise<MonitorsListLinkableEnvironmentsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, options },
-      listLinkableEnvironmentsOperationSpec
+      listLinkableEnvironmentsOperationSpec,
     );
   }
 
@@ -937,43 +1075,39 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListMonitoredResourcesNextOptionalParams
+    options?: MonitorsListMonitoredResourcesNextOptionalParams,
   ): Promise<MonitorsListMonitoredResourcesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listMonitoredResourcesNextOperationSpec
+      listMonitoredResourcesNextOperationSpec,
     );
   }
 
   /**
    * ListBySubscriptionIdNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscriptionId method.
    * @param options The options parameters.
    */
   private _listBySubscriptionIdNext(
-    nextLink: string,
-    options?: MonitorsListBySubscriptionIdNextOptionalParams
+    options?: MonitorsListBySubscriptionIdNextOptionalParams,
   ): Promise<MonitorsListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionIdNextOperationSpec
+      { options },
+      listBySubscriptionIdNextOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
-    nextLink: string,
-    options?: MonitorsListByResourceGroupNextOptionalParams
+    options?: MonitorsListByResourceGroupNextOptionalParams,
   ): Promise<MonitorsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      { resourceGroupName, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -981,18 +1115,16 @@ export class MonitorsImpl implements Monitors {
    * ListHostsNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
-   * @param nextLink The nextLink from the previous successful call to the ListHosts method.
    * @param options The options parameters.
    */
   private _listHostsNext(
     resourceGroupName: string,
     monitorName: string,
-    nextLink: string,
-    options?: MonitorsListHostsNextOptionalParams
+    options?: MonitorsListHostsNextOptionalParams,
   ): Promise<MonitorsListHostsNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, nextLink, options },
-      listHostsNextOperationSpec
+      { resourceGroupName, monitorName, options },
+      listHostsNextOperationSpec,
     );
   }
 
@@ -1000,18 +1132,16 @@ export class MonitorsImpl implements Monitors {
    * ListAppServicesNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
-   * @param nextLink The nextLink from the previous successful call to the ListAppServices method.
    * @param options The options parameters.
    */
   private _listAppServicesNext(
     resourceGroupName: string,
     monitorName: string,
-    nextLink: string,
-    options?: MonitorsListAppServicesNextOptionalParams
+    options?: MonitorsListAppServicesNextOptionalParams,
   ): Promise<MonitorsListAppServicesNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, nextLink, options },
-      listAppServicesNextOperationSpec
+      { resourceGroupName, monitorName, options },
+      listAppServicesNextOperationSpec,
     );
   }
 
@@ -1029,11 +1159,11 @@ export class MonitorsImpl implements Monitors {
     monitorName: string,
     request: LinkableEnvironmentRequest,
     nextLink: string,
-    options?: MonitorsListLinkableEnvironmentsNextOptionalParams
+    options?: MonitorsListLinkableEnvironmentsNextOptionalParams,
   ): Promise<MonitorsListLinkableEnvironmentsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, request, nextLink, options },
-      listLinkableEnvironmentsNextOperationSpec
+      listLinkableEnvironmentsNextOperationSpec,
     );
   }
 }
@@ -1041,291 +1171,57 @@ export class MonitorsImpl implements Monitors {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listMonitoredResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listMonitoredResources",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
+      bodyMapper: Mappers.MonitoredResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getVMHostPayloadOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getVMHostPayload",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VMExtensionPayload
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    201: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    202: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    204: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.resource,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.resource1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/monitors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitorResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitorResourceListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getMarketplaceSaaSResourceDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/getMarketplaceSaaSResourceDetails",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MarketplaceSaaSResourceDetailsResponse
-    },
-    404: {
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.request,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listHostsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listHosts",
+const getVMHostPayloadOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getVMHostPayload",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostsListResponse
+      bodyMapper: Mappers.VMExtensionPayload,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getMetricStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getMetricStatus",
+const updateAgentStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/updateAgentStatus",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.MetricsStatusResponse
-    },
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAppServicesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listAppServices",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AppServiceListResponse
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getSSODetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getSSODetails",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SSODetailsResponse
-    },
-    401: {
-      isError: true
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   requestBody: Parameters.request1,
   queryParameters: [Parameters.apiVersion],
@@ -1333,157 +1229,456 @@ const getSSODetailsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listLinkableEnvironmentsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listLinkableEnvironments",
-  httpMethod: "POST",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkableEnvironmentListResponse
+      bodyMapper: Mappers.MonitorResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitorResource,
+    },
+    201: {
+      bodyMapper: Mappers.MonitorResource,
+    },
+    202: {
+      bodyMapper: Mappers.MonitorResource,
+    },
+    204: {
+      bodyMapper: Mappers.MonitorResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitorResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.resource1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.MonitorsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MonitorsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MonitorsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MonitorsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/monitors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitorResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitorResourceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getAllConnectedResourcesCountOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/getAllConnectedResourcesCount",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConnectedResourcesCountResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.request2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getMarketplaceSaaSResourceDetailsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/getMarketplaceSaaSResourceDetails",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MarketplaceSaaSResourceDetailsResponse,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    requestBody: Parameters.request3,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.contentType, Parameters.accept],
+    mediaType: "json",
+    serializer,
+  };
+const listHostsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listHosts",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VMHostsListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getMetricStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getMetricStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MetricsStatusResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.request4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listAppServicesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listAppServices",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppServiceListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const upgradePlanOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/upgradePlan",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.MonitorsUpgradePlanHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MonitorsUpgradePlanHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MonitorsUpgradePlanHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MonitorsUpgradePlanHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.request5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getSSODetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getSSODetails",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SSODetailsResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.request6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listLinkableEnvironmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listLinkableEnvironments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkableEnvironmentListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.request7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listMonitoredResourcesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
+      bodyMapper: Mappers.MonitoredResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept],
-  serializer
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
 };
 const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitorResourceListResult
+      bodyMapper: Mappers.MonitorResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitorResourceListResult
+      bodyMapper: Mappers.MonitorResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listHostsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostsListResponse
+      bodyMapper: Mappers.VMHostsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAppServicesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AppServiceListResponse
+      bodyMapper: Mappers.AppServiceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listLinkableEnvironmentsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkableEnvironmentListResponse
+      bodyMapper: Mappers.LinkableEnvironmentListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
