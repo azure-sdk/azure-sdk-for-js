@@ -42,11 +42,7 @@ export class UsagesImpl implements Usages {
     vaultName: string,
     options?: UsagesListByVaultsOptionalParams,
   ): PagedAsyncIterableIterator<VaultUsage> {
-    const iter = this.listByVaultsPagingAll(
-      resourceGroupName,
-      vaultName,
-      options,
-    );
+    const iter = this.listByVaultsPagingAll(resourceGroupName, vaultName, options);
     return {
       next() {
         return iter.next();
@@ -58,12 +54,7 @@ export class UsagesImpl implements Usages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByVaultsPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listByVaultsPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class UsagesImpl implements Usages {
     vaultName: string,
     options?: UsagesListByVaultsOptionalParams,
   ): AsyncIterableIterator<VaultUsage> {
-    for await (const page of this.listByVaultsPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listByVaultsPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }
