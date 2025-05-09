@@ -87,10 +87,7 @@ export interface ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ComputeCreateOrUpdateResponse>,
-      ComputeCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates compute. This call will overwrite a compute if it exists. This is a
@@ -124,12 +121,7 @@ export interface ComputeOperations {
     computeName: string,
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ComputeUpdateResponse>,
-      ComputeUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ComputeUpdateResponse>, ComputeUpdateResponse>>;
   /**
    * Updates properties of a compute. This call will overwrite a compute if it exists. This is a
    * nonrecoverable operation.

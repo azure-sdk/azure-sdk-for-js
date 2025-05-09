@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ComputeResource,
@@ -82,12 +78,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -108,12 +99,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -126,11 +112,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     workspaceName: string,
     options?: ComputeListOptionalParams,
   ): AsyncIterableIterator<ComputeResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -148,12 +130,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     options?: ComputeListNodesOptionalParams,
   ): PagedAsyncIterableIterator<AmlComputeNodeInformation> {
-    const iter = this.listNodesPagingAll(
-      resourceGroupName,
-      workspaceName,
-      computeName,
-      options,
-    );
+    const iter = this.listNodesPagingAll(resourceGroupName, workspaceName, computeName, options);
     return {
       next() {
         return iter.next();
@@ -186,12 +163,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     let result: ComputeListNodesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listNodes(
-        resourceGroupName,
-        workspaceName,
-        computeName,
-        options,
-      );
+      result = await this._listNodes(resourceGroupName, workspaceName, computeName, options);
       let page = result.nodes || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -282,10 +254,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     parameters: ComputeResource,
     options?: ComputeCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ComputeCreateOrUpdateResponse>,
-      ComputeCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ComputeCreateOrUpdateResponse>, ComputeCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -297,8 +266,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -389,12 +357,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     parameters: ClusterUpdateParameters,
     options?: ComputeUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ComputeUpdateResponse>,
-      ComputeUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ComputeUpdateResponse>, ComputeUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -405,8 +368,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -507,8 +469,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -641,8 +602,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -695,12 +655,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     options?: ComputeStartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      workspaceName,
-      computeName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, workspaceName, computeName, options);
     return poller.pollUntilDone();
   }
 
@@ -727,8 +682,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -781,12 +735,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     options?: ComputeStopOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStop(
-      resourceGroupName,
-      workspaceName,
-      computeName,
-      options,
-    );
+    const poller = await this.beginStop(resourceGroupName, workspaceName, computeName, options);
     return poller.pollUntilDone();
   }
 
@@ -813,8 +762,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -867,12 +815,7 @@ export class ComputeOperationsImpl implements ComputeOperations {
     computeName: string,
     options?: ComputeRestartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      workspaceName,
-      computeName,
-      options,
-    );
+    const poller = await this.beginRestart(resourceGroupName, workspaceName, computeName, options);
     return poller.pollUntilDone();
   }
 
@@ -982,7 +925,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1015,7 +958,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1178,9 +1121,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1199,9 +1142,9 @@ const listNodesNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.computeName,
   ],
   headerParameters: [Parameters.accept],
