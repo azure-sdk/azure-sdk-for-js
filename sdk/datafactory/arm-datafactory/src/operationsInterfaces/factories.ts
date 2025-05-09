@@ -37,9 +37,7 @@ export interface Factories {
    * Lists factories under the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: FactoriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Factory>;
+  list(options?: FactoriesListOptionalParams): PagedAsyncIterableIterator<Factory>;
   /**
    * Lists factories.
    * @param resourceGroupName The resource group name.

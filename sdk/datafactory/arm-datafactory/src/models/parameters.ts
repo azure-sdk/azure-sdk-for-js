@@ -497,9 +497,7 @@ export const managedVirtualNetworkName: OperationURLParameter = {
   parameterPath: "managedVirtualNetworkName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$",
-      ),
+      Pattern: new RegExp("^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$"),
       MaxLength: 127,
       MinLength: 1,
     },
@@ -520,9 +518,7 @@ export const managedPrivateEndpointName: OperationURLParameter = {
   parameterPath: "managedPrivateEndpointName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$",
-      ),
+      Pattern: new RegExp("^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$"),
       MaxLength: 127,
       MinLength: 1,
     },
@@ -543,9 +539,7 @@ export const credentialName: OperationURLParameter = {
   parameterPath: "credentialName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$",
-      ),
+      Pattern: new RegExp("^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$"),
       MaxLength: 127,
       MinLength: 1,
     },
