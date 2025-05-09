@@ -8,36 +8,34 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  MarketplaceAgreementsImpl,
-  CreationSupportedImpl,
-  MonitorsImpl,
   OperationsImpl,
-  TagRulesImpl,
+  MarketplaceAgreementsImpl,
+  MonitorsImpl,
+  CreationSupportedImpl,
+  BillingInfoImpl,
+  MonitoredSubscriptionsImpl,
   SingleSignOnConfigurationsImpl,
-  MonitoredSubscriptionsImpl
+  TagRulesImpl,
 } from "./operations/index.js";
 import {
-  MarketplaceAgreements,
-  CreationSupported,
-  Monitors,
   Operations,
-  TagRules,
+  MarketplaceAgreements,
+  Monitors,
+  CreationSupported,
+  BillingInfo,
+  MonitoredSubscriptions,
   SingleSignOnConfigurations,
-  MonitoredSubscriptions
+  TagRules,
 } from "./operationsInterfaces/index.js";
 import { MicrosoftDatadogClientOptionalParams } from "./models/index.js";
 
 export class MicrosoftDatadogClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
   apiVersion: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the MicrosoftDatadogClient class.
@@ -48,7 +46,7 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MicrosoftDatadogClientOptionalParams
+    options?: MicrosoftDatadogClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -63,10 +61,10 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
     }
     const defaults: MicrosoftDatadogClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-datadog/3.1.0`;
+    const packageDetails = `azsdk-js-arm-datadog/4.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -76,20 +74,19 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -99,19 +96,17 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -119,14 +114,15 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-01-01";
-    this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
-    this.creationSupported = new CreationSupportedImpl(this);
-    this.monitors = new MonitorsImpl(this);
+    this.apiVersion = options.apiVersion || "2023-10-20";
     this.operations = new OperationsImpl(this);
-    this.tagRules = new TagRulesImpl(this);
-    this.singleSignOnConfigurations = new SingleSignOnConfigurationsImpl(this);
+    this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
+    this.monitors = new MonitorsImpl(this);
+    this.creationSupported = new CreationSupportedImpl(this);
+    this.billingInfo = new BillingInfoImpl(this);
     this.monitoredSubscriptions = new MonitoredSubscriptionsImpl(this);
+    this.singleSignOnConfigurations = new SingleSignOnConfigurationsImpl(this);
+    this.tagRules = new TagRulesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -137,10 +133,7 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -153,16 +146,17 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  marketplaceAgreements: MarketplaceAgreements;
-  creationSupported: CreationSupported;
-  monitors: Monitors;
   operations: Operations;
-  tagRules: TagRules;
-  singleSignOnConfigurations: SingleSignOnConfigurations;
+  marketplaceAgreements: MarketplaceAgreements;
+  monitors: Monitors;
+  creationSupported: CreationSupported;
+  billingInfo: BillingInfo;
   monitoredSubscriptions: MonitoredSubscriptions;
+  singleSignOnConfigurations: SingleSignOnConfigurations;
+  tagRules: TagRules;
 }

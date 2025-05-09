@@ -18,11 +18,11 @@ import {
   TagRulesListNextOptionalParams,
   TagRulesListOptionalParams,
   TagRulesListResponse,
-  TagRulesCreateOrUpdateOptionalParams,
-  TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
   TagRulesGetResponse,
-  TagRulesListNextResponse
+  TagRulesCreateOrUpdateOptionalParams,
+  TagRulesCreateOrUpdateResponse,
+  TagRulesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,7 +47,7 @@ export class TagRulesImpl implements TagRules {
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringTagRules> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -61,13 +61,8 @@ export class TagRulesImpl implements TagRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, monitorName, options, settings);
+      },
     };
   }
 
@@ -75,7 +70,7 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     options?: TagRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MonitoringTagRules[]> {
     let result: TagRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,12 +82,7 @@ export class TagRulesImpl implements TagRules {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, monitorName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -103,13 +93,9 @@ export class TagRulesImpl implements TagRules {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): AsyncIterableIterator<MonitoringTagRules> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, monitorName, options)) {
       yield* page;
     }
   }
@@ -123,30 +109,11 @@ export class TagRulesImpl implements TagRules {
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): Promise<TagRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Create or update a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Rule set name
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams
-  ): Promise<TagRulesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, ruleSetName, options },
-      createOrUpdateOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,11 +128,32 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, ruleSetName, options },
-      getOperationSpec
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update a tag rule set for a given monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param ruleSetName Rule set name
+   * @param body Capture logs and metrics of Azure resources based on ARM tags.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    body: MonitoringTagRules,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ): Promise<TagRulesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, ruleSetName, body, options },
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -180,11 +168,11 @@ export class TagRulesImpl implements TagRules {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: TagRulesListNextOptionalParams
+    options?: TagRulesListNextOptionalParams,
   ): Promise<TagRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -192,93 +180,90 @@ export class TagRulesImpl implements TagRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringTagRulesListResponse
+      bodyMapper: Mappers.MonitoringTagRulesListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules/{ruleSetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoringTagRules,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.ruleSetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules/{ruleSetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules/{ruleSetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringTagRules
+      bodyMapper: Mappers.MonitoringTagRules,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.ruleSetName
+    Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/tagRules/{ruleSetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoringTagRules
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName,
-    Parameters.ruleSetName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoringTagRulesListResponse
+      bodyMapper: Mappers.MonitoringTagRulesListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

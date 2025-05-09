@@ -17,7 +17,7 @@ import {
   MonitoredSubscriptionsCreateorUpdateResponse,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsUpdateResponse,
-  MonitoredSubscriptionsDeleteOptionalParams
+  MonitoredSubscriptionsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface MonitoredSubscriptions {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitoredSubscriptionsListOptionalParams
+    options?: MonitoredSubscriptionsListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
   /**
    * List the subscriptions currently being monitored by the Datadog monitor resource.
@@ -45,20 +45,23 @@ export interface MonitoredSubscriptions {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsGetOptionalParams
+    options?: MonitoredSubscriptionsGetOptionalParams,
   ): Promise<MonitoredSubscriptionsGetResponse>;
   /**
    * Add the subscriptions that should be monitored by the Datadog monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param body The request to update subscriptions needed to be monitored by the Datadog monitor
+   *             resource.
    * @param options The options parameters.
    */
   beginCreateorUpdate(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    body: MonitoredSubscriptionProperties,
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsCreateorUpdateResponse>,
@@ -70,26 +73,32 @@ export interface MonitoredSubscriptions {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param body The request to update subscriptions needed to be monitored by the Datadog monitor
+   *             resource.
    * @param options The options parameters.
    */
   beginCreateorUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams
+    body: MonitoredSubscriptionProperties,
+    options?: MonitoredSubscriptionsCreateorUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param body The request to update subscriptions needed to be monitored by the Datadog monitor
+   *             resource.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    body: MonitoredSubscriptionProperties,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<MonitoredSubscriptionsUpdateResponse>,
@@ -101,38 +110,41 @@ export interface MonitoredSubscriptions {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName The configuration name. Only 'default' value is supported.
+   * @param body The request to update subscriptions needed to be monitored by the Datadog monitor
+   *             resource.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsUpdateOptionalParams
+    body: MonitoredSubscriptionProperties,
+    options?: MonitoredSubscriptionsUpdateOptionalParams,
   ): Promise<MonitoredSubscriptionsUpdateResponse>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Updates the subscriptions that are being monitored by the Datadog monitor resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
+   * @param configurationName The configuration name. Only 'default' value is supported.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: MonitoredSubscriptionsDeleteOptionalParams
+    options?: MonitoredSubscriptionsDeleteOptionalParams,
   ): Promise<void>;
 }

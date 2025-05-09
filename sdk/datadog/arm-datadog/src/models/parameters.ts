@@ -9,16 +9,16 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   DatadogAgreementResource as DatadogAgreementResourceMapper,
-  DatadogApiKey as DatadogApiKeyMapper,
   DatadogMonitorResource as DatadogMonitorResourceMapper,
   DatadogMonitorResourceUpdateParameters as DatadogMonitorResourceUpdateParametersMapper,
-  MonitoringTagRules as MonitoringTagRulesMapper,
+  DatadogApiKey as DatadogApiKeyMapper,
+  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper,
   DatadogSingleSignOnResource as DatadogSingleSignOnResourceMapper,
-  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper
+  MonitoringTagRules as MonitoringTagRulesMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -28,9 +28,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -39,36 +39,48 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-10-20",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2023-01-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -78,37 +90,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: DatadogAgreementResourceMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const datadogOrganizationId: OperationQueryParameter = {
-  parameterPath: "datadogOrganizationId",
-  mapper: {
-    serializedName: "datadogOrganizationId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  parameterPath: "body",
+  mapper: DatadogAgreementResourceMapper,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -116,14 +105,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const monitorName: OperationURLParameter = {
@@ -132,45 +121,35 @@ export const monitorName: OperationURLParameter = {
     serializedName: "monitorName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body1: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: DatadogApiKeyMapper
+  parameterPath: "body",
+  mapper: DatadogMonitorResourceMapper,
 };
 
 export const body2: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: DatadogMonitorResourceMapper
+  parameterPath: "body",
+  mapper: DatadogMonitorResourceUpdateParametersMapper,
 };
 
 export const body3: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: DatadogMonitorResourceUpdateParametersMapper
+  mapper: DatadogApiKeyMapper,
 };
 
-export const body4: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: MonitoringTagRulesMapper
-};
-
-export const ruleSetName: OperationURLParameter = {
-  parameterPath: "ruleSetName",
+export const datadogOrganizationId: OperationQueryParameter = {
+  parameterPath: "datadogOrganizationId",
   mapper: {
-    serializedName: "ruleSetName",
+    serializedName: "datadogOrganizationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const body5: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: DatadogSingleSignOnResourceMapper
+      name: "String",
+    },
+  },
 };
 
 export const configurationName: OperationURLParameter = {
@@ -179,12 +158,33 @@ export const configurationName: OperationURLParameter = {
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: MonitoredSubscriptionPropertiesMapper,
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: DatadogSingleSignOnResourceMapper,
+};
+
+export const ruleSetName: OperationURLParameter = {
+  parameterPath: "ruleSetName",
+  mapper: {
+    serializedName: "ruleSetName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const body6: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: MonitoredSubscriptionPropertiesMapper
+  parameterPath: "body",
+  mapper: MonitoringTagRulesMapper,
 };

@@ -13,10 +13,8 @@ import { OperationResult, OperationsListOptionalParams } from "../models/index.j
 /** Interface representing a Operations. */
 export interface Operations {
   /**
-   * List all operations provided by Microsoft.Datadog for the 2023-01-01 api version.
+   * List the operations for the provider
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<OperationResult>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationResult>;
 }
