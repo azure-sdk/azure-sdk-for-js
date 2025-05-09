@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   TriggerResource,
@@ -67,11 +63,7 @@ export class TriggersImpl implements Triggers {
     factoryName: string,
     options?: TriggersListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<TriggerResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -83,12 +75,7 @@ export class TriggersImpl implements Triggers {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -102,11 +89,7 @@ export class TriggersImpl implements Triggers {
     let result: TriggersListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -263,8 +246,7 @@ export class TriggersImpl implements Triggers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -376,8 +358,7 @@ export class TriggersImpl implements Triggers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -465,8 +446,7 @@ export class TriggersImpl implements Triggers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -519,12 +499,7 @@ export class TriggersImpl implements Triggers {
     triggerName: string,
     options?: TriggersStartOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStart(
-      resourceGroupName,
-      factoryName,
-      triggerName,
-      options,
-    );
+    const poller = await this.beginStart(resourceGroupName, factoryName, triggerName, options);
     return poller.pollUntilDone();
   }
 
@@ -551,8 +526,7 @@ export class TriggersImpl implements Triggers {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -605,12 +579,7 @@ export class TriggersImpl implements Triggers {
     triggerName: string,
     options?: TriggersStopOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginStop(
-      resourceGroupName,
-      factoryName,
-      triggerName,
-      options,
-    );
+    const poller = await this.beginStop(resourceGroupName, factoryName, triggerName, options);
     return poller.pollUntilDone();
   }
 
@@ -700,11 +669,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.triggerName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

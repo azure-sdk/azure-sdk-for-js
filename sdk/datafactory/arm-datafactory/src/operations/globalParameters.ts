@@ -50,11 +50,7 @@ export class GlobalParametersImpl implements GlobalParameters {
     factoryName: string,
     options?: GlobalParametersListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<GlobalParameterResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class GlobalParametersImpl implements GlobalParameters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -85,11 +76,7 @@ export class GlobalParametersImpl implements GlobalParameters {
     let result: GlobalParametersListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

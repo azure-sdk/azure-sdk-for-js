@@ -49,11 +49,7 @@ export class ManagedVirtualNetworksImpl implements ManagedVirtualNetworks {
     factoryName: string,
     options?: ManagedVirtualNetworksListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ManagedVirtualNetworkResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +61,7 @@ export class ManagedVirtualNetworksImpl implements ManagedVirtualNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class ManagedVirtualNetworksImpl implements ManagedVirtualNetworks {
     let result: ManagedVirtualNetworksListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -248,11 +235,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.managedVirtualNetworkName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

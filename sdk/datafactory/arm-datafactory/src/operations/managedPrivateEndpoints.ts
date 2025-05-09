@@ -308,11 +308,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.managedVirtualNetworkName,
     Parameters.managedPrivateEndpointName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
