@@ -1,0 +1,48 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ElasticSanClient } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to update an VolumeGroup.
+ *
+ * @summary update an VolumeGroup.
+ * x-ms-original-file: 2024-07-01-preview/VolumeGroups_Update_MaximumSet_Gen.json
+ */
+async function volumeGroupsUpdateMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  const result = await client.volumeGroups.update(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to update an VolumeGroup.
+ *
+ * @summary update an VolumeGroup.
+ * x-ms-original-file: 2024-07-01-preview/VolumeGroups_Update_MinimumSet_Gen.json
+ */
+async function volumeGroupsUpdateMinimumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  const result = await client.volumeGroups.update(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await volumeGroupsUpdateMaximumSetGen();
+  await volumeGroupsUpdateMinimumSetGen();
+}
+
+main().catch(console.error);
