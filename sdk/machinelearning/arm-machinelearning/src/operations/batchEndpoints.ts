@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BatchEndpoint,
@@ -73,12 +69,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -99,12 +90,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -117,11 +103,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     workspaceName: string,
     options?: BatchEndpointsListOptionalParams,
   ): AsyncIterableIterator<BatchEndpoint> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -166,8 +148,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -221,12 +202,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     endpointName: string,
     options?: BatchEndpointsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      endpointName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, endpointName, options);
     return poller.pollUntilDone();
   }
 
@@ -264,10 +240,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: BatchEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BatchEndpointsUpdateResponse>,
-      BatchEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -279,8 +252,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -378,8 +350,7 @@ export class BatchEndpointsImpl implements BatchEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -575,7 +546,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body14,
+  requestBody: Parameters.body12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -608,7 +579,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body15,
+  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -657,9 +628,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
