@@ -8,68 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface OperationListResult {
-  /**
-   * List of operations supported by the resource provider
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results (if there are any).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
 }
 
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /**
-   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /**
-   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly origin?: Origin;
-  /**
-   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionType?: ActionType;
-}
-
-/** Localized display information for this particular operation. */
-export interface OperationDisplay {
-  /**
-   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
+/** Response for whether the requested resource name is available or not. */
+export interface CheckNameAvailabilityResponse {
+  /** Returns true or false depending on the availability of the name */
+  nameAvailable?: boolean;
+  /** Reason for why value is not available. This field is returned if nameAvailable is false. */
+  reason?: string;
+  /** Gets an error message explaining the 'reason' value with more details. This field is returned iif nameAvailable is false. */
+  message?: string;
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
@@ -119,24 +73,6 @@ export interface ErrorAdditionalInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly info?: Record<string, unknown>;
-}
-
-/** The check availability request body. */
-export interface CheckNameAvailabilityRequest {
-  /** The name of the resource for which availability needs to be checked. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-}
-
-/** Response for whether the requested resource name is available or not. */
-export interface CheckNameAvailabilityResponse {
-  /** Returns true or false depending on the availability of the name */
-  nameAvailable?: boolean;
-  /** Reason for why value is not available. This field is returned if nameAvailable is false. */
-  reason?: string;
-  /** Gets an error message explaining the 'reason' value with more details. This field is returned iif nameAvailable is false. */
-  message?: string;
 }
 
 /** Solution Invocation with additional params needed for invocation. */
@@ -230,35 +166,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** Discovery response. */
-export interface DiscoveryResponse {
-  /** The list of metadata. */
-  value?: SolutionMetadataResource[];
-  /** The link used to get the next page of solution metadata. */
-  nextLink?: string;
-}
-
-/** Metadata Properties */
-export interface SolutionMetadataProperties {
-  /** Solution Id. */
-  solutionId?: string;
-  /**
-   * Solution Type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly solutionType?: SolutionType;
-  /**
-   * A detailed description of solution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * Required parameters for invoking this particular solution.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredInputs?: string[];
 }
 
 /** Solution request trigger criterion. SolutionId/ProblemClassificationId is the only supported trigger type for Solution PUT request. ReplacementKey is the only supported trigger type for Solution PATCH request. */
@@ -552,26 +459,6 @@ export interface RestartTroubleshooterResponse {
   readonly troubleshooterResourceName?: string;
 }
 
-/** Solution replacement maps. */
-export interface ReplacementMapsSelfHelp {
-  /** Solution AzureKB results */
-  webResults?: WebResult[];
-  /** Video solutions, which have the power to engage the customer by stimulating their senses */
-  videos?: Video[];
-  /** Group of Videos */
-  videoGroups?: VideoGroup[];
-}
-
-/** Part of the solution and are dividers in the solution rendering. */
-export interface SectionSelfHelp {
-  /** Solution sections title. */
-  title?: string;
-  /** Solution sections content. */
-  content?: string;
-  /** Solution replacement maps. */
-  replacementMaps?: ReplacementMapsSelfHelp;
-}
-
 /** Discover NLP request. */
 export interface DiscoveryNlpRequest {
   /** Natural language description of the issue. */
@@ -590,6 +477,27 @@ export interface DiscoveryNlpResponse {
   value?: SolutionNlpMetadataResource[];
 }
 
+/** Metadata Properties */
+export interface SolutionMetadataProperties {
+  /** Solution Id. */
+  solutionId?: string;
+  /**
+   * Solution Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionType?: SolutionType;
+  /**
+   * A detailed description of solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Required parameters for invoking this particular solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredInputs?: string[];
+}
+
 /** Service Classification result object. */
 export interface ClassificationService {
   /**
@@ -604,6 +512,98 @@ export interface ClassificationService {
   readonly displayName?: string;
   /** List of applicable ARM resource types for this service. */
   resourceTypes?: string[];
+}
+
+/** Discovery response. */
+export interface DiscoveryResponse {
+  /** The SolutionMetadataResource items on this page */
+  value: SolutionMetadataResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+/** Solution replacement maps. */
+export interface ReplacementMapsSelfHelp {
+  /** Solution AzureKB results */
+  webResults?: WebResult[];
+  /** Video solutions, which have the power to engage the customer by stimulating their senses */
+  videos?: Video[];
+  /** Group of Videos */
+  videoGroups?: VideoGroup[];
+}
+
+/** Part of the solution and are dividers in the solution rendering. */
+export interface SectionSelfHelp {
+  /** Solution sections title. */
+  title?: string;
+  /** Solution sections content. */
+  content?: string;
+  /** Solution replacement maps. */
+  replacementMaps?: ReplacementMapsSelfHelp;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -638,10 +638,32 @@ export interface DiagnosticResource extends ProxyResource {
   readonly diagnostics?: Diagnostic[];
 }
 
-/** Metadata resource */
-export interface SolutionMetadataResource extends ProxyResource {
-  /** List of metadata. */
-  solutions?: SolutionMetadataProperties[];
+/** Simplified Solutions response. */
+export interface SimplifiedSolutionsResource extends ProxyResource {
+  /** Solution Id to identify single Simplified Solution. */
+  solutionId?: string;
+  /** Client input parameters to run Simplified Solutions */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * The title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * Additional parameter response for Simplified Solutions
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appendix?: { [propertyName: string]: string };
+  /**
+   * The HTML content that needs to be rendered and shown to customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * Status of Simplified Solution provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SolutionProvisioningState;
 }
 
 /** Solution response. */
@@ -682,34 +704,6 @@ export interface SolutionResource extends ProxyResource {
   readonly sections?: Section[];
 }
 
-/** Simplified Solutions response. */
-export interface SimplifiedSolutionsResource extends ProxyResource {
-  /** Solution Id to identify single Simplified Solution. */
-  solutionId?: string;
-  /** Client input parameters to run Simplified Solutions */
-  parameters?: { [propertyName: string]: string };
-  /**
-   * The title.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly title?: string;
-  /**
-   * Additional parameter response for Simplified Solutions
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appendix?: { [propertyName: string]: string };
-  /**
-   * The HTML content that needs to be rendered and shown to customer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly content?: string;
-  /**
-   * Status of Simplified Solution provisioning.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: SolutionProvisioningState;
-}
-
 /** Troubleshooter response. */
 export interface TroubleshooterResource extends ProxyResource {
   /** Solution Id to identify single troubleshooter. */
@@ -726,6 +720,28 @@ export interface TroubleshooterResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly steps?: Step[];
+}
+
+/** Nlp Metadata resource */
+export interface SolutionNlpMetadataResource extends ProxyResource {
+  /** Title of the problem classification. */
+  problemTitle?: string;
+  /** Description of the problem classification. */
+  problemDescription?: string;
+  /** Id of the service (https://learn.microsoft.com/en-us/rest/api/support/services?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  serviceId?: string;
+  /** Id of the ProblemClassification (https://learn.microsoft.com/en-us/rest/api/support/problem-classifications?view=rest-support-2020-04-01) that may be used to create a support ticket. */
+  problemClassificationId?: string;
+  /** The list of solution metadata. */
+  solutions?: SolutionMetadataProperties[];
+  /** The set of services that are most likely related to the request. If relatedServices is included in the response then solutions may not be discovered until the client calls a second time specifying one of the service Ids in the relatedServices object. */
+  relatedServices?: ClassificationService[];
+}
+
+/** Metadata resource */
+export interface SolutionMetadataResource extends ProxyResource {
+  /** List of metadata. */
+  solutions?: SolutionMetadataProperties[];
 }
 
 /** Self Help Solution response. */
@@ -757,77 +773,35 @@ export interface SolutionResourceSelfHelp extends ProxyResource {
   readonly sections?: SectionSelfHelp[];
 }
 
-/** Nlp Metadata resource */
-export interface SolutionNlpMetadataResource extends ProxyResource {
-  /** Title of the problem classification. */
-  problemTitle?: string;
-  /** Description of the problem classification. */
-  problemDescription?: string;
-  /** Id of the service (https://learn.microsoft.com/en-us/rest/api/support/services?view=rest-support-2020-04-01) that may be used to create a support ticket. */
-  serviceId?: string;
-  /** Id of the ProblemClassification (https://learn.microsoft.com/en-us/rest/api/support/problem-classifications?view=rest-support-2020-04-01) that may be used to create a support ticket. */
-  problemClassificationId?: string;
-  /** The list of solution metadata. */
-  solutions?: SolutionMetadataProperties[];
-  /** The set of services that are most likely related to the request. If relatedServices is included in the response then solutions may not be discovered until the client calls a second time specifying one of the service Ids in the relatedServices object. */
-  relatedServices?: ClassificationService[];
+/** Defines headers for Diagnostics_create operation. */
+export interface DiagnosticsCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for SimplifiedSolutions_create operation. */
+export interface SimplifiedSolutionsCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Solution_create operation. */
+export interface SolutionCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for Solution_update operation. */
 export interface SolutionUpdateHeaders {
-  location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
 }
-
-/** Defines headers for Troubleshooters_continue operation. */
-export interface TroubleshootersContinueHeaders {
-  location?: string;
-}
-
-/** Defines headers for Troubleshooters_end operation. */
-export interface TroubleshootersEndHeaders {
-  location?: string;
-}
-
-/** Defines headers for Troubleshooters_restart operation. */
-export interface TroubleshootersRestartHeaders {
-  location?: string;
-}
-
-/** Known values of {@link Origin} that the service accepts. */
-export enum KnownOrigin {
-  /** User */
-  User = "user",
-  /** System */
-  System = "system",
-  /** UserSystem */
-  UserSystem = "user,system",
-}
-
-/**
- * Defines values for Origin. \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
- */
-export type Origin = string;
-
-/** Known values of {@link ActionType} that the service accepts. */
-export enum KnownActionType {
-  /** Internal */
-  Internal = "Internal",
-}
-
-/**
- * Defines values for ActionType. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**
- */
-export type ActionType = string;
 
 /** Known values of {@link DiagnosticProvisioningState} that the service accepts. */
 export enum KnownDiagnosticProvisioningState {
@@ -928,51 +902,6 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link SolutionType} that the service accepts. */
-export enum KnownSolutionType {
-  /** Diagnostics resource type. */
-  Diagnostics = "Diagnostics",
-  /** Solutions resource type. */
-  Solutions = "Solutions",
-  /** Troubleshooters resource type. */
-  Troubleshooters = "Troubleshooters",
-  /** SelfHelp resource type. */
-  SelfHelp = "SelfHelp",
-}
-
-/**
- * Defines values for SolutionType. \
- * {@link KnownSolutionType} can be used interchangeably with SolutionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Diagnostics**: Diagnostics resource type. \
- * **Solutions**: Solutions resource type. \
- * **Troubleshooters**: Troubleshooters resource type. \
- * **SelfHelp**: SelfHelp resource type.
- */
-export type SolutionType = string;
-
-/** Known values of {@link Name} that the service accepts. */
-export enum KnownName {
-  /** SolutionId */
-  SolutionId = "SolutionId",
-  /** ProblemClassificationId */
-  ProblemClassificationId = "ProblemClassificationId",
-  /** ReplacementKey */
-  ReplacementKey = "ReplacementKey",
-}
-
-/**
- * Defines values for Name. \
- * {@link KnownName} can be used interchangeably with Name,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SolutionId** \
- * **ProblemClassificationId** \
- * **ReplacementKey**
- */
-export type Name = string;
-
 /** Known values of {@link SolutionProvisioningState} that the service accepts. */
 export enum KnownSolutionProvisioningState {
   /** All Solutions in the Batch succeeded. */
@@ -999,6 +928,27 @@ export enum KnownSolutionProvisioningState {
  * **Canceled**: When Solutions request gets canceled.
  */
 export type SolutionProvisioningState = string;
+
+/** Known values of {@link Name} that the service accepts. */
+export enum KnownName {
+  /** SolutionId */
+  SolutionId = "SolutionId",
+  /** ProblemClassificationId */
+  ProblemClassificationId = "ProblemClassificationId",
+  /** ReplacementKey */
+  ReplacementKey = "ReplacementKey",
+}
+
+/**
+ * Defines values for Name. \
+ * {@link KnownName} can be used interchangeably with Name,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SolutionId** \
+ * **ProblemClassificationId** \
+ * **ReplacementKey**
+ */
+export type Name = string;
 
 /** Known values of {@link Confidence} that the service accepts. */
 export enum KnownConfidence {
@@ -1246,19 +1196,65 @@ export enum KnownAutomatedCheckResultType {
  */
 export type AutomatedCheckResultType = string;
 
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link SolutionType} that the service accepts. */
+export enum KnownSolutionType {
+  /** Diagnostics resource type. */
+  Diagnostics = "Diagnostics",
+  /** Solutions resource type. */
+  Solutions = "Solutions",
+  /** Troubleshooters resource type. */
+  Troubleshooters = "Troubleshooters",
+  /** SelfHelp resource type. */
+  SelfHelp = "SelfHelp",
+}
 
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
+/**
+ * Defines values for SolutionType. \
+ * {@link KnownSolutionType} can be used interchangeably with SolutionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Diagnostics**: Diagnostics resource type. \
+ * **Solutions**: Solutions resource type. \
+ * **Troubleshooters**: Troubleshooters resource type. \
+ * **SelfHelp**: SelfHelp resource type.
+ */
+export type SolutionType = string;
 
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
 
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
 
 /** Optional parameters. */
 export interface CheckNameAvailabilityCheckAvailabilityOptionalParams
@@ -1268,14 +1264,16 @@ export interface CheckNameAvailabilityCheckAvailabilityOptionalParams
 }
 
 /** Contains response data for the checkAvailability operation. */
-export type CheckNameAvailabilityCheckAvailabilityResponse =
-  CheckNameAvailabilityResponse;
+export type CheckNameAvailabilityCheckAvailabilityResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
-export interface DiagnosticsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for this insightResource invocation. */
-  diagnosticResourceRequest?: DiagnosticResource;
+export interface DiagnosticsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DiagnosticsGetResponse = DiagnosticResource;
+
+/** Optional parameters. */
+export interface DiagnosticsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1286,78 +1284,13 @@ export interface DiagnosticsCreateOptionalParams
 export type DiagnosticsCreateResponse = DiagnosticResource;
 
 /** Optional parameters. */
-export interface DiagnosticsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SimplifiedSolutionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DiagnosticsGetResponse = DiagnosticResource;
+export type SimplifiedSolutionsGetResponse = SimplifiedSolutionsResource;
 
 /** Optional parameters. */
-export interface DiscoverySolutionListOptionalParams
-  extends coreClient.OperationOptions {
-  /** 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The [$filter](https://learn.microsoft.com/en-us/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
-  filter?: string;
-  /** Skiptoken is only used if a previous operation returned a partial result. */
-  skiptoken?: string;
-}
-
-/** Contains response data for the list operation. */
-export type DiscoverySolutionListResponse = DiscoveryResponse;
-
-/** Optional parameters. */
-export interface DiscoverySolutionListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DiscoverySolutionListNextResponse = DiscoveryResponse;
-
-/** Optional parameters. */
-export interface SolutionCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for this solution resource creation. */
-  solutionRequestBody?: SolutionResource;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the create operation. */
-export type SolutionCreateResponse = SolutionResource;
-
-/** Optional parameters. */
-export interface SolutionGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SolutionGetResponse = SolutionResource;
-
-/** Optional parameters. */
-export interface SolutionUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for updating a solution resource. */
-  solutionPatchRequestBody?: SolutionPatchRequestBody;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
-
-/** Optional parameters. */
-export interface SolutionWarmUpOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for warming up a solution resource. */
-  solutionWarmUpRequestBody?: SolutionWarmUpRequestBody;
-}
-
-/** Optional parameters. */
-export interface SimplifiedSolutionsCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for simplified Solutions resource creation. */
-  simplifiedSolutionsRequestBody?: SimplifiedSolutionsResource;
+export interface SimplifiedSolutionsCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1368,82 +1301,114 @@ export interface SimplifiedSolutionsCreateOptionalParams
 export type SimplifiedSolutionsCreateResponse = SimplifiedSolutionsResource;
 
 /** Optional parameters. */
-export interface SimplifiedSolutionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SolutionGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type SimplifiedSolutionsGetResponse = SimplifiedSolutionsResource;
+export type SolutionGetResponse = SolutionResource;
 
 /** Optional parameters. */
-export interface TroubleshootersCreateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The required request body for this Troubleshooter resource creation. */
-  createTroubleshooterRequestBody?: TroubleshooterResource;
+export interface SolutionCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the create operation. */
-export type TroubleshootersCreateResponse = TroubleshooterResource;
+export type SolutionCreateResponse = SolutionResource;
 
 /** Optional parameters. */
-export interface TroubleshootersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SolutionUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SolutionUpdateResponse = SolutionResource;
+
+/** Optional parameters. */
+export interface SolutionWarmUpOptionalParams extends coreClient.OperationOptions {
+  /** The required request body for warming up a solution resource. */
+  solutionWarmUpRequestBody?: SolutionWarmUpRequestBody;
+}
+
+/** Optional parameters. */
+export interface TroubleshootersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type TroubleshootersGetResponse = TroubleshooterResource;
 
 /** Optional parameters. */
-export interface TroubleshootersContinueOptionalParams
-  extends coreClient.OperationOptions {
+export interface TroubleshootersCreateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type TroubleshootersCreateResponse = TroubleshooterResource;
+
+/** Optional parameters. */
+export interface TroubleshootersContinueOptionalParams extends coreClient.OperationOptions {
   /** The required request body for going to next step in Troubleshooter resource. */
   continueRequestBody?: ContinueRequestBody;
 }
 
-/** Contains response data for the continue operation. */
-export type TroubleshootersContinueResponse = TroubleshootersContinueHeaders;
+/** Optional parameters. */
+export interface TroubleshootersEndOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface TroubleshootersEndOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the end operation. */
-export type TroubleshootersEndResponse = TroubleshootersEndHeaders;
-
-/** Optional parameters. */
-export interface TroubleshootersRestartOptionalParams
-  extends coreClient.OperationOptions {}
+export interface TroubleshootersRestartOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the restart operation. */
-export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders &
-  RestartTroubleshooterResponse;
-
-/** Optional parameters. */
-export interface SolutionSelfHelpGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type SolutionSelfHelpGetResponse = SolutionResourceSelfHelp;
+export type TroubleshootersRestartResponse = RestartTroubleshooterResponse;
 
 /** Optional parameters. */
 export interface DiscoverySolutionNLPDiscoverSolutionsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Request body for discovering solutions using NLP. */
-  discoverSolutionRequest?: DiscoveryNlpRequest;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the discoverSolutions operation. */
-export type DiscoverySolutionNLPDiscoverSolutionsResponse =
-  DiscoveryNlpResponse;
+export type DiscoverySolutionNLPDiscoverSolutionsResponse = DiscoveryNlpResponse;
 
 /** Optional parameters. */
 export interface DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Request body for discovering solutions using NLP. */
-  discoverSolutionRequest?: DiscoveryNlpRequest;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the discoverSolutionsBySubscription operation. */
-export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse =
-  DiscoveryNlpResponse;
+export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse = DiscoveryNlpResponse;
+
+/** Optional parameters. */
+export interface DiscoverySolutionListOptionalParams extends coreClient.OperationOptions {
+  /** 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The [$filter](https://learn.microsoft.com/en-us/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
+  filter?: string;
+  /** Skiptoken is only used if a previous operation returned a partial result. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DiscoverySolutionListResponse = DiscoveryResponse;
+
+/** Optional parameters. */
+export interface DiscoverySolutionListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DiscoverySolutionListNextResponse = DiscoveryResponse;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface SolutionSelfHelpGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionSelfHelpGetResponse = SolutionResourceSelfHelp;
 
 /** Optional parameters. */
 export interface HelpRPOptionalParams extends coreClient.ServiceClientOptions {

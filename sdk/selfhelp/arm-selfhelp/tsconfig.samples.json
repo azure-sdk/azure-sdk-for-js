@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-selfhelp": [
-        "./dist/esm"
-      ]
+      "@azure/arm-selfhelp": ["./dist/esm"]
     }
   }
 }

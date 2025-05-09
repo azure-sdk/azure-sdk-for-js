@@ -12,14 +12,13 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HelpRP } from "../helpRP.js";
 import {
-  TroubleshootersCreateOptionalParams,
-  TroubleshootersCreateResponse,
   TroubleshootersGetOptionalParams,
   TroubleshootersGetResponse,
+  TroubleshooterResource,
+  TroubleshootersCreateOptionalParams,
+  TroubleshootersCreateResponse,
   TroubleshootersContinueOptionalParams,
-  TroubleshootersContinueResponse,
   TroubleshootersEndOptionalParams,
-  TroubleshootersEndResponse,
   TroubleshootersRestartOptionalParams,
   TroubleshootersRestartResponse,
 } from "../models/index.js";
@@ -37,39 +36,11 @@ export class TroubleshootersImpl implements Troubleshooters {
   }
 
   /**
-   * Creates the specific troubleshooter action under a resource or subscription using the ‘solutionId’
-   * and  ‘properties.parameters’ as the trigger. <br/> Azure Troubleshooters help with hard to classify
-   * issues, reducing the gap between customer observed problems and solutions by guiding the user
-   * effortlessly through the troubleshooting process. Each Troubleshooter flow represents a problem area
-   * within Azure and has a complex tree-like structure that addresses many root causes. These flows are
-   * prepared with the help of Subject Matter experts and customer support engineers by carefully
-   * considering previous support requests raised by customers. Troubleshooters terminate at a well
-   * curated solution based off of resource backend signals and customer manual selections.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param troubleshooterName Troubleshooter resource Name.
-   * @param options The options parameters.
-   */
-  create(
-    scope: string,
-    troubleshooterName: string,
-    options?: TroubleshootersCreateOptionalParams,
-  ): Promise<TroubleshootersCreateResponse> {
-    return this.client.sendOperationRequest(
-      { scope, troubleshooterName, options },
-      createOperationSpec,
-    );
-  }
-
-  /**
    * Gets troubleshooter instance result which includes the step status/result of the troubleshooter
    * resource name that is being executed.<br/> Get API is used to retrieve the result of a
    * Troubleshooter instance, which includes the status and result of each step in the Troubleshooter
    * workflow. This API requires the Troubleshooter resource name that was created using the Create API.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param troubleshooterName Troubleshooter resource Name.
    * @param options The options parameters.
    */
@@ -85,13 +56,38 @@ export class TroubleshootersImpl implements Troubleshooters {
   }
 
   /**
+   * Creates the specific troubleshooter action under a resource or subscription using the ‘solutionId’
+   * and  ‘properties.parameters’ as the trigger. <br/> Azure Troubleshooters help with hard to classify
+   * issues, reducing the gap between customer observed problems and solutions by guiding the user
+   * effortlessly through the troubleshooting process. Each Troubleshooter flow represents a problem area
+   * within Azure and has a complex tree-like structure that addresses many root causes. These flows are
+   * prepared with the help of Subject Matter experts and customer support engineers by carefully
+   * considering previous support requests raised by customers. Troubleshooters terminate at a well
+   * curated solution based off of resource backend signals and customer manual selections.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param troubleshooterName Troubleshooter resource Name.
+   * @param createTroubleshooterRequestBody The required request body for this Troubleshooter resource
+   *                                        creation.
+   * @param options The options parameters.
+   */
+  create(
+    scope: string,
+    troubleshooterName: string,
+    createTroubleshooterRequestBody: TroubleshooterResource,
+    options?: TroubleshootersCreateOptionalParams,
+  ): Promise<TroubleshootersCreateResponse> {
+    return this.client.sendOperationRequest(
+      { scope, troubleshooterName, createTroubleshooterRequestBody, options },
+      createOperationSpec,
+    );
+  }
+
+  /**
    * Uses ‘stepId’ and ‘responses’ as the trigger to continue the troubleshooting steps for the
    * respective troubleshooter resource name. <br/>Continue API is used to provide inputs that are
    * required for the specific troubleshooter to progress into the next step in the process. This API is
    * used after the Troubleshooter has been created using the Create API.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param troubleshooterName Troubleshooter resource Name.
    * @param options The options parameters.
    */
@@ -99,7 +95,7 @@ export class TroubleshootersImpl implements Troubleshooters {
     scope: string,
     troubleshooterName: string,
     options?: TroubleshootersContinueOptionalParams,
-  ): Promise<TroubleshootersContinueResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
       continueOperationSpec,
@@ -108,9 +104,7 @@ export class TroubleshootersImpl implements Troubleshooters {
 
   /**
    * Ends the troubleshooter action
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param troubleshooterName Troubleshooter resource Name.
    * @param options The options parameters.
    */
@@ -118,7 +112,7 @@ export class TroubleshootersImpl implements Troubleshooters {
     scope: string,
     troubleshooterName: string,
     options?: TroubleshootersEndOptionalParams,
-  ): Promise<TroubleshootersEndResponse> {
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { scope, troubleshooterName, options },
       endOperationSpec,
@@ -129,9 +123,7 @@ export class TroubleshootersImpl implements Troubleshooters {
    * Restarts the troubleshooter API using applicable troubleshooter resource name as the input.<br/> It
    * returns new resource name which should be used in subsequent request. The old resource name is
    * obsolete after this API is invoked.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param troubleshooterName Troubleshooter resource Name.
    * @param options The options parameters.
    */
@@ -149,6 +141,22 @@ export class TroubleshootersImpl implements Troubleshooters {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TroubleshooterResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.troubleshooterName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
   httpMethod: "PUT",
@@ -165,54 +173,24 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.createTroubleshooterRequestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.troubleshooterName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.troubleshooterName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TroubleshooterResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.troubleshooterName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const continueOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/continue",
   httpMethod: "POST",
   responses: {
-    204: {
-      headersMapper: Mappers.TroubleshootersContinueHeaders,
-    },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.continueRequestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.troubleshooterName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.troubleshooterName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -220,19 +198,13 @@ const endOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/troubleshooters/{troubleshooterName}/end",
   httpMethod: "POST",
   responses: {
-    204: {
-      headersMapper: Mappers.TroubleshootersEndHeaders,
-    },
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.troubleshooterName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.troubleshooterName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -242,18 +214,13 @@ const restartOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.RestartTroubleshooterResponse,
-      headersMapper: Mappers.TroubleshootersRestartHeaders,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.troubleshooterName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.troubleshooterName],
   headerParameters: [Parameters.accept],
   serializer,
 };

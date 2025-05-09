@@ -8,14 +8,27 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  SimplifiedSolutionsCreateOptionalParams,
-  SimplifiedSolutionsCreateResponse,
   SimplifiedSolutionsGetOptionalParams,
   SimplifiedSolutionsGetResponse,
+  SimplifiedSolutionsResource,
+  SimplifiedSolutionsCreateOptionalParams,
+  SimplifiedSolutionsCreateResponse,
 } from "../models/index.js";
 
 /** Interface representing a SimplifiedSolutions. */
 export interface SimplifiedSolutions {
+  /**
+   * Get the simplified Solutions using the applicable solutionResourceName while creating the simplified
+   * Solutions.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param options The options parameters.
+   */
+  get(
+    scope: string,
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsGetOptionalParams,
+  ): Promise<SimplifiedSolutionsGetResponse>;
   /**
    * Creates Simplified Solutions for an Azure subscription using 'solutionId' from Discovery Solutions
    * as the input. <br/><br/> Simplified Solutions API makes the consumption of solutions APIs easier
@@ -23,15 +36,16 @@ export interface SimplifiedSolutions {
    * Simplified Solutions, users don't have to worry about stitching together the article using
    * replacement maps and can use the content in the API response to directly render as HTML
    * content.<br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param simplifiedSolutionsRequestBody The required request body for simplified Solutions resource
+   *                                       creation.
    * @param options The options parameters.
    */
   beginCreate(
     scope: string,
     simplifiedSolutionsResourceName: string,
+    simplifiedSolutionsRequestBody: SimplifiedSolutionsResource,
     options?: SimplifiedSolutionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -46,29 +60,16 @@ export interface SimplifiedSolutions {
    * Simplified Solutions, users don't have to worry about stitching together the article using
    * replacement maps and can use the content in the API response to directly render as HTML
    * content.<br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param simplifiedSolutionsRequestBody The required request body for simplified Solutions resource
+   *                                       creation.
    * @param options The options parameters.
    */
   beginCreateAndWait(
     scope: string,
     simplifiedSolutionsResourceName: string,
+    simplifiedSolutionsRequestBody: SimplifiedSolutionsResource,
     options?: SimplifiedSolutionsCreateOptionalParams,
   ): Promise<SimplifiedSolutionsCreateResponse>;
-  /**
-   * Get the simplified Solutions using the applicable solutionResourceName while creating the simplified
-   * Solutions.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
-   * @param options The options parameters.
-   */
-  get(
-    scope: string,
-    simplifiedSolutionsResourceName: string,
-    options?: SimplifiedSolutionsGetOptionalParams,
-  ): Promise<SimplifiedSolutionsGetResponse>;
 }

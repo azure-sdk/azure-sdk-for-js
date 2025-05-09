@@ -11,10 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HelpRP } from "../helpRP.js";
-import {
-  SolutionSelfHelpGetOptionalParams,
-  SolutionSelfHelpGetResponse,
-} from "../models/index.js";
+import { SolutionSelfHelpGetOptionalParams, SolutionSelfHelpGetResponse } from "../models/index.js";
 
 /** Class containing SolutionSelfHelp operations. */
 export class SolutionSelfHelpImpl implements SolutionSelfHelp {
@@ -41,10 +38,7 @@ export class SolutionSelfHelpImpl implements SolutionSelfHelp {
     solutionId: string,
     options?: SolutionSelfHelpGetOptionalParams,
   ): Promise<SolutionSelfHelpGetResponse> {
-    return this.client.sendOperationRequest(
-      { solutionId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ solutionId, options }, getOperationSpec);
   }
 }
 // Operation Specifications

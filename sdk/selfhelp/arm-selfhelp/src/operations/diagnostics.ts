@@ -11,17 +11,14 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HelpRP } from "../helpRP.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  DiagnosticsCreateOptionalParams,
-  DiagnosticsCreateResponse,
   DiagnosticsGetOptionalParams,
   DiagnosticsGetResponse,
+  DiagnosticResource,
+  DiagnosticsCreateOptionalParams,
+  DiagnosticsCreateResponse,
 } from "../models/index.js";
 
 /** Class containing Diagnostics operations. */
@@ -37,24 +34,38 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
+   * Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param options The options parameters.
+   */
+  get(
+    scope: string,
+    diagnosticsResourceName: string,
+    options?: DiagnosticsGetOptionalParams,
+  ): Promise<DiagnosticsGetResponse> {
+    return this.client.sendOperationRequest(
+      { scope, diagnosticsResourceName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates a diagnostic for the specific resource using solutionId from discovery solutions.
    * <br/>Diagnostics are powerful solutions that access product resources or other relevant data and
    * provide the root cause of the issue and the steps to address the issue.<br/><br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param diagnosticResourceRequest The required request body for this insightResource invocation.
    * @param options The options parameters.
    */
   async beginCreate(
     scope: string,
     diagnosticsResourceName: string,
+    diagnosticResourceRequest: DiagnosticResource,
     options?: DiagnosticsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DiagnosticsCreateResponse>,
-      DiagnosticsCreateResponse
-    >
+    SimplePollerLike<OperationState<DiagnosticsCreateResponse>, DiagnosticsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -66,8 +77,7 @@ export class DiagnosticsImpl implements Diagnostics {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -96,7 +106,12 @@ export class DiagnosticsImpl implements Diagnostics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { scope, diagnosticsResourceName, options },
+      args: {
+        scope,
+        diagnosticsResourceName,
+        diagnosticResourceRequest,
+        options,
+      },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -115,47 +130,45 @@ export class DiagnosticsImpl implements Diagnostics {
    * Creates a diagnostic for the specific resource using solutionId from discovery solutions.
    * <br/>Diagnostics are powerful solutions that access product resources or other relevant data and
    * provide the root cause of the issue and the steps to address the issue.<br/><br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param diagnosticsResourceName Unique resource name for insight resources
+   * @param diagnosticResourceRequest The required request body for this insightResource invocation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     scope: string,
     diagnosticsResourceName: string,
+    diagnosticResourceRequest: DiagnosticResource,
     options?: DiagnosticsCreateOptionalParams,
   ): Promise<DiagnosticsCreateResponse> {
     const poller = await this.beginCreate(
       scope,
       diagnosticsResourceName,
+      diagnosticResourceRequest,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get the diagnostics using the 'diagnosticsResourceName' you chose while creating the diagnostic.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param diagnosticsResourceName Unique resource name for insight resources
-   * @param options The options parameters.
-   */
-  get(
-    scope: string,
-    diagnosticsResourceName: string,
-    options?: DiagnosticsGetOptionalParams,
-  ): Promise<DiagnosticsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, diagnosticsResourceName, options },
-      getOperationSpec,
-    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.diagnosticsResourceName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
   httpMethod: "PUT",
@@ -178,32 +191,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.diagnosticResourceRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.diagnosticsResourceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.diagnosticsResourceName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DiagnosticResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.diagnosticsResourceName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };

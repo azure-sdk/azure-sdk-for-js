@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  SolutionSelfHelpGetOptionalParams,
-  SolutionSelfHelpGetResponse,
-} from "../models/index.js";
+import { SolutionSelfHelpGetOptionalParams, SolutionSelfHelpGetResponse } from "../models/index.js";
 
 /** Interface representing a SolutionSelfHelp. */
 export interface SolutionSelfHelp {

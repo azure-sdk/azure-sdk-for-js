@@ -11,17 +11,14 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HelpRP } from "../helpRP.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  SimplifiedSolutionsCreateOptionalParams,
-  SimplifiedSolutionsCreateResponse,
   SimplifiedSolutionsGetOptionalParams,
   SimplifiedSolutionsGetResponse,
+  SimplifiedSolutionsResource,
+  SimplifiedSolutionsCreateOptionalParams,
+  SimplifiedSolutionsCreateResponse,
 } from "../models/index.js";
 
 /** Class containing SimplifiedSolutions operations. */
@@ -37,21 +34,40 @@ export class SimplifiedSolutionsImpl implements SimplifiedSolutions {
   }
 
   /**
+   * Get the simplified Solutions using the applicable solutionResourceName while creating the simplified
+   * Solutions.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param options The options parameters.
+   */
+  get(
+    scope: string,
+    simplifiedSolutionsResourceName: string,
+    options?: SimplifiedSolutionsGetOptionalParams,
+  ): Promise<SimplifiedSolutionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { scope, simplifiedSolutionsResourceName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Creates Simplified Solutions for an Azure subscription using 'solutionId' from Discovery Solutions
    * as the input. <br/><br/> Simplified Solutions API makes the consumption of solutions APIs easier
    * while still providing access to the same powerful solutions rendered in Solutions API. With
    * Simplified Solutions, users don't have to worry about stitching together the article using
    * replacement maps and can use the content in the API response to directly render as HTML
    * content.<br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param simplifiedSolutionsRequestBody The required request body for simplified Solutions resource
+   *                                       creation.
    * @param options The options parameters.
    */
   async beginCreate(
     scope: string,
     simplifiedSolutionsResourceName: string,
+    simplifiedSolutionsRequestBody: SimplifiedSolutionsResource,
     options?: SimplifiedSolutionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -69,8 +85,7 @@ export class SimplifiedSolutionsImpl implements SimplifiedSolutions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -99,7 +114,12 @@ export class SimplifiedSolutionsImpl implements SimplifiedSolutions {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { scope, simplifiedSolutionsResourceName, options },
+      args: {
+        scope,
+        simplifiedSolutionsResourceName,
+        simplifiedSolutionsRequestBody,
+        options,
+      },
       spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -121,48 +141,46 @@ export class SimplifiedSolutionsImpl implements SimplifiedSolutions {
    * Simplified Solutions, users don't have to worry about stitching together the article using
    * replacement maps and can use the content in the API response to directly render as HTML
    * content.<br/>
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
+   * @param simplifiedSolutionsRequestBody The required request body for simplified Solutions resource
+   *                                       creation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     scope: string,
     simplifiedSolutionsResourceName: string,
+    simplifiedSolutionsRequestBody: SimplifiedSolutionsResource,
     options?: SimplifiedSolutionsCreateOptionalParams,
   ): Promise<SimplifiedSolutionsCreateResponse> {
     const poller = await this.beginCreate(
       scope,
       simplifiedSolutionsResourceName,
+      simplifiedSolutionsRequestBody,
       options,
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get the simplified Solutions using the applicable solutionResourceName while creating the simplified
-   * Solutions.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param simplifiedSolutionsResourceName Simplified Solutions Resource Name.
-   * @param options The options parameters.
-   */
-  get(
-    scope: string,
-    simplifiedSolutionsResourceName: string,
-    options?: SimplifiedSolutionsGetOptionalParams,
-  ): Promise<SimplifiedSolutionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, simplifiedSolutionsResourceName, options },
-      getOperationSpec,
-    );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Help/simplifiedSolutions/{simplifiedSolutionsResourceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SimplifiedSolutionsResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.simplifiedSolutionsResourceName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Help/simplifiedSolutions/{simplifiedSolutionsResourceName}",
   httpMethod: "PUT",
@@ -185,32 +203,8 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.simplifiedSolutionsRequestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.simplifiedSolutionsResourceName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.simplifiedSolutionsResourceName],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/simplifiedSolutions/{simplifiedSolutionsResourceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SimplifiedSolutionsResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.simplifiedSolutionsResourceName,
-  ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
