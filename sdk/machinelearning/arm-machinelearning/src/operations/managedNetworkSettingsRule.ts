@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   OutboundRuleBasicResource,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedNetworkSettingsRule operations. */
-export class ManagedNetworkSettingsRuleImpl
-  implements ManagedNetworkSettingsRule
-{
+export class ManagedNetworkSettingsRuleImpl implements ManagedNetworkSettingsRule {
   private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
@@ -50,7 +44,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Lists the managed network outbound rules for a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   public list(
@@ -70,12 +64,7 @@ export class ManagedNetworkSettingsRuleImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -96,12 +85,7 @@ export class ManagedNetworkSettingsRuleImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        workspaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, workspaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,11 +98,7 @@ export class ManagedNetworkSettingsRuleImpl
     workspaceName: string,
     options?: ManagedNetworkSettingsRuleListOptionalParams,
   ): AsyncIterableIterator<OutboundRuleBasicResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -126,7 +106,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Lists the managed network outbound rules for a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   private _list(
@@ -143,7 +123,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Deletes an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -163,8 +143,7 @@ export class ManagedNetworkSettingsRuleImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -199,6 +178,7 @@ export class ManagedNetworkSettingsRuleImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -207,7 +187,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Deletes an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -217,19 +197,14 @@ export class ManagedNetworkSettingsRuleImpl
     ruleName: string,
     options?: ManagedNetworkSettingsRuleDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      ruleName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, ruleName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Gets an outbound rule from the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param options The options parameters.
    */
@@ -248,7 +223,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Creates or updates an outbound rule in the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param body Outbound Rule to be created or updated in the managed network of a machine learning
    *             workspace.
@@ -276,8 +251,7 @@ export class ManagedNetworkSettingsRuleImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -324,7 +298,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * Creates or updates an outbound rule in the managed network of a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param ruleName Name of the workspace managed network outbound rule
    * @param body Outbound Rule to be created or updated in the managed network of a machine learning
    *             workspace.
@@ -350,7 +324,7 @@ export class ManagedNetworkSettingsRuleImpl
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -455,7 +429,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.body57,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -482,9 +456,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
