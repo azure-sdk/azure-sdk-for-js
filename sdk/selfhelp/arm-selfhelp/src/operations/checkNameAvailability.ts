@@ -31,19 +31,14 @@ export class CheckNameAvailabilityImpl implements CheckNameAvailability {
   /**
    * This API is used to check the uniqueness of a resource name used for a diagnostic, troubleshooter or
    * solutions
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param options The options parameters.
    */
   checkAvailability(
     scope: string,
     options?: CheckNameAvailabilityCheckAvailabilityOptionalParams,
   ): Promise<CheckNameAvailabilityCheckAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      checkAvailabilityOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, checkAvailabilityOperationSpec);
   }
 }
 // Operation Specifications
@@ -63,7 +58,7 @@ const checkAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.checkNameAvailabilityRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

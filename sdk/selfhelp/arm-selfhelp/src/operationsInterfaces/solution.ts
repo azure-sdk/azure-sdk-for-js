@@ -8,10 +8,12 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  SolutionCreateOptionalParams,
-  SolutionCreateResponse,
   SolutionGetOptionalParams,
   SolutionGetResponse,
+  SolutionResource,
+  SolutionCreateOptionalParams,
+  SolutionCreateResponse,
+  SolutionPatchRequestBody,
   SolutionUpdateOptionalParams,
   SolutionUpdateResponse,
   SolutionWarmUpOptionalParams,
@@ -20,55 +22,8 @@ import {
 /** Interface representing a Solution. */
 export interface Solution {
   /**
-   * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
-   * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
-   * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
-   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
-   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
-   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
-   * into unified solutions tailored to address a specific support problem area.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param solutionResourceName Solution resource Name.
-   * @param options The options parameters.
-   */
-  beginCreate(
-    scope: string,
-    solutionResourceName: string,
-    options?: SolutionCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SolutionCreateResponse>,
-      SolutionCreateResponse
-    >
-  >;
-  /**
-   * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
-   * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
-   * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
-   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
-   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
-   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
-   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
-   * into unified solutions tailored to address a specific support problem area.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
-   * @param solutionResourceName Solution resource Name.
-   * @param options The options parameters.
-   */
-  beginCreateAndWait(
-    scope: string,
-    solutionResourceName: string,
-    options?: SolutionCreateOptionalParams,
-  ): Promise<SolutionCreateResponse>;
-  /**
    * Get the solution using the applicable solutionResourceName while creating the solution.
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param solutionResourceName Solution resource Name.
    * @param options The options parameters.
    */
@@ -78,41 +33,74 @@ export interface Solution {
     options?: SolutionGetOptionalParams,
   ): Promise<SolutionGetResponse>;
   /**
-   * Update the requiredInputs or additional information needed to execute the solution
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
+   * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
+   * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param solutionResourceName Solution resource Name.
+   * @param solutionRequestBody The required request body for this solution resource creation.
+   * @param options The options parameters.
+   */
+  beginCreate(
+    scope: string,
+    solutionResourceName: string,
+    solutionRequestBody: SolutionResource,
+    options?: SolutionCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<SolutionCreateResponse>, SolutionCreateResponse>>;
+  /**
+   * Creates a solution for the specific Azure resource or subscription using the inputs ‘solutionId and
+   * requiredInputs’ from discovery solutions. <br/> Azure solutions comprise a comprehensive library of
+   * self-help resources that have been thoughtfully curated by Azure engineers to aid customers in
+   * resolving typical troubleshooting issues. These solutions encompass: <br/> (1.) Dynamic and
+   * context-aware diagnostics, guided troubleshooting wizards, and data visualizations. <br/> (2.) Rich
+   * instructional video tutorials and illustrative diagrams and images. <br/> (3.) Thoughtfully
+   * assembled textual troubleshooting instructions. <br/> All these components are seamlessly converged
+   * into unified solutions tailored to address a specific support problem area.
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param solutionResourceName Solution resource Name.
+   * @param solutionRequestBody The required request body for this solution resource creation.
+   * @param options The options parameters.
+   */
+  beginCreateAndWait(
+    scope: string,
+    solutionResourceName: string,
+    solutionRequestBody: SolutionResource,
+    options?: SolutionCreateOptionalParams,
+  ): Promise<SolutionCreateResponse>;
+  /**
+   * Update the requiredInputs or additional information needed to execute the solution
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
+   * @param solutionResourceName Solution resource Name.
+   * @param solutionPatchRequestBody The required request body for updating a solution resource.
    * @param options The options parameters.
    */
   beginUpdate(
     scope: string,
     solutionResourceName: string,
+    solutionPatchRequestBody: SolutionPatchRequestBody,
     options?: SolutionUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SolutionUpdateResponse>,
-      SolutionUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<SolutionUpdateResponse>, SolutionUpdateResponse>>;
   /**
    * Update the requiredInputs or additional information needed to execute the solution
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param solutionResourceName Solution resource Name.
+   * @param solutionPatchRequestBody The required request body for updating a solution resource.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     scope: string,
     solutionResourceName: string,
+    solutionPatchRequestBody: SolutionPatchRequestBody,
     options?: SolutionUpdateOptionalParams,
   ): Promise<SolutionUpdateResponse>;
   /**
    * Warm up the solution resource by preloading asynchronous diagnostics results into cache
-   * @param scope scope = resourceUri of affected resource.<br/> For example:
-   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
-   *
+   * @param scope The fully qualified Azure Resource manager identifier of the resource.
    * @param solutionResourceName Solution resource Name.
    * @param options The options parameters.
    */

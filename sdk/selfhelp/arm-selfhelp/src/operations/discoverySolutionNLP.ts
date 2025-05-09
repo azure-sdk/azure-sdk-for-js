@@ -12,6 +12,7 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HelpRP } from "../helpRP.js";
 import {
+  DiscoveryNlpRequest,
   DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   DiscoverySolutionNLPDiscoverSolutionsResponse,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
@@ -33,13 +34,15 @@ export class DiscoverySolutionNLPImpl implements DiscoverySolutionNLP {
   /**
    * Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue
    * summary.
+   * @param discoverSolutionRequest The request body
    * @param options The options parameters.
    */
   discoverSolutions(
+    discoverSolutionRequest: DiscoveryNlpRequest,
     options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   ): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { discoverSolutionRequest, options },
       discoverSolutionsOperationSpec,
     );
   }
@@ -47,15 +50,15 @@ export class DiscoverySolutionNLPImpl implements DiscoverySolutionNLP {
   /**
    * Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue
    * summary and subscription.
-   * @param subscriptionId The Azure subscription ID.
+   * @param discoverSolutionRequest The request body
    * @param options The options parameters.
    */
   discoverSolutionsBySubscription(
-    subscriptionId: string,
+    discoverSolutionRequest: DiscoveryNlpRequest,
     options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
   ): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, options },
+      { discoverSolutionRequest, options },
       discoverSolutionsBySubscriptionOperationSpec,
     );
   }
@@ -77,7 +80,7 @@ const discoverSolutionsOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.discoverSolutionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -95,7 +98,7 @@ const discoverSolutionsBySubscriptionOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.discoverSolutionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

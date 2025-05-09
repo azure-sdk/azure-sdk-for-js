@@ -7,6 +7,7 @@
  */
 
 import {
+  DiscoveryNlpRequest,
   DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   DiscoverySolutionNLPDiscoverSolutionsResponse,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
@@ -18,19 +19,21 @@ export interface DiscoverySolutionNLP {
   /**
    * Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue
    * summary.
+   * @param discoverSolutionRequest The request body
    * @param options The options parameters.
    */
   discoverSolutions(
+    discoverSolutionRequest: DiscoveryNlpRequest,
     options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   ): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse>;
   /**
    * Search for relevant Azure Diagnostics, Solutions and Troubleshooters using a natural language issue
    * summary and subscription.
-   * @param subscriptionId The Azure subscription ID.
+   * @param discoverSolutionRequest The request body
    * @param options The options parameters.
    */
   discoverSolutionsBySubscription(
-    subscriptionId: string,
+    discoverSolutionRequest: DiscoveryNlpRequest,
     options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
   ): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse>;
 }
