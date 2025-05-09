@@ -64,8 +64,9 @@ export interface ErrorResponse {
 
 // @public
 export interface ExportDependenciesRequest {
+    applianceName?: string;
     filters?: DependencyMapVisualizationFilter;
-    focusedMachineId: string;
+    focusedMachineId?: string;
 }
 
 // @public
@@ -132,7 +133,8 @@ export enum KnownSourceType {
 
 // @public
 export enum KnownVersions {
-    V20250131Preview = "2025-01-31-preview"
+    V20250131Preview = "2025-01-31-preview",
+    V20250501Preview = "2025-05-01-preview"
 }
 
 // @public
