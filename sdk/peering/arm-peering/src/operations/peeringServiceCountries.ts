@@ -18,7 +18,7 @@ import {
   PeeringServiceCountriesListNextOptionalParams,
   PeeringServiceCountriesListOptionalParams,
   PeeringServiceCountriesListResponse,
-  PeeringServiceCountriesListNextResponse
+  PeeringServiceCountriesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class PeeringServiceCountriesImpl implements PeeringServiceCountries {
    * @param options The options parameters.
    */
   public list(
-    options?: PeeringServiceCountriesListOptionalParams
+    options?: PeeringServiceCountriesListOptionalParams,
   ): PagedAsyncIterableIterator<PeeringServiceCountry> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class PeeringServiceCountriesImpl implements PeeringServiceCountries {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PeeringServiceCountriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringServiceCountry[]> {
     let result: PeeringServiceCountriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class PeeringServiceCountriesImpl implements PeeringServiceCountries {
   }
 
   private async *listPagingAll(
-    options?: PeeringServiceCountriesListOptionalParams
+    options?: PeeringServiceCountriesListOptionalParams,
   ): AsyncIterableIterator<PeeringServiceCountry> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class PeeringServiceCountriesImpl implements PeeringServiceCountries {
    * @param options The options parameters.
    */
   private _list(
-    options?: PeeringServiceCountriesListOptionalParams
+    options?: PeeringServiceCountriesListOptionalParams,
   ): Promise<PeeringServiceCountriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,51 +105,42 @@ export class PeeringServiceCountriesImpl implements PeeringServiceCountries {
    */
   private _listNext(
     nextLink: string,
-    options?: PeeringServiceCountriesListNextOptionalParams
+    options?: PeeringServiceCountriesListNextOptionalParams,
   ): Promise<PeeringServiceCountriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceCountries",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceCountries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceCountryListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceCountryListResult
+      bodyMapper: Mappers.PeeringServiceCountryListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

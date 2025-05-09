@@ -18,7 +18,7 @@ import {
   CdnPeeringPrefixesListNextOptionalParams,
   CdnPeeringPrefixesListOptionalParams,
   CdnPeeringPrefixesListResponse,
-  CdnPeeringPrefixesListNextResponse
+  CdnPeeringPrefixesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
    */
   public list(
     peeringLocation: string,
-    options?: CdnPeeringPrefixesListOptionalParams
+    options?: CdnPeeringPrefixesListOptionalParams,
   ): PagedAsyncIterableIterator<CdnPeeringPrefix> {
     const iter = this.listPagingAll(peeringLocation, options);
     return {
@@ -56,14 +56,14 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(peeringLocation, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     peeringLocation: string,
     options?: CdnPeeringPrefixesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CdnPeeringPrefix[]> {
     let result: CdnPeeringPrefixesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -75,11 +75,7 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        peeringLocation,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -89,7 +85,7 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
 
   private async *listPagingAll(
     peeringLocation: string,
-    options?: CdnPeeringPrefixesListOptionalParams
+    options?: CdnPeeringPrefixesListOptionalParams,
   ): AsyncIterableIterator<CdnPeeringPrefix> {
     for await (const page of this.listPagingPage(peeringLocation, options)) {
       yield* page;
@@ -103,68 +99,54 @@ export class CdnPeeringPrefixesImpl implements CdnPeeringPrefixes {
    */
   private _list(
     peeringLocation: string,
-    options?: CdnPeeringPrefixesListOptionalParams
+    options?: CdnPeeringPrefixesListOptionalParams,
   ): Promise<CdnPeeringPrefixesListResponse> {
-    return this.client.sendOperationRequest(
-      { peeringLocation, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ peeringLocation, options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param peeringLocation The peering location.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    peeringLocation: string,
     nextLink: string,
-    options?: CdnPeeringPrefixesListNextOptionalParams
+    options?: CdnPeeringPrefixesListNextOptionalParams,
   ): Promise<CdnPeeringPrefixesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { peeringLocation, nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/cdnPeeringPrefixes",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/cdnPeeringPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnPeeringPrefixListResult
+      bodyMapper: Mappers.CdnPeeringPrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.peeringLocation, Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CdnPeeringPrefixListResult
+      bodyMapper: Mappers.CdnPeeringPrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.peeringLocation, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

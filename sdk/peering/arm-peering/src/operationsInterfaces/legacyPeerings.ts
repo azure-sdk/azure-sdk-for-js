@@ -7,11 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Peering,
-  LegacyPeeringsKind,
-  LegacyPeeringsListOptionalParams
-} from "../models/index.js";
+import { Peering, LegacyPeeringsKind, LegacyPeeringsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LegacyPeerings. */
@@ -26,6 +22,6 @@ export interface LegacyPeerings {
   list(
     peeringLocation: string,
     kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
+    options?: LegacyPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<Peering>;
 }

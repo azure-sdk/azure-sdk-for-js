@@ -15,7 +15,7 @@ import {
   LookingGlassCommand,
   LookingGlassSourceType,
   LookingGlassInvokeOptionalParams,
-  LookingGlassInvokeResponse
+  LookingGlassInvokeResponse,
 } from "../models/index.js";
 
 /** Class containing LookingGlass operations. */
@@ -43,11 +43,11 @@ export class LookingGlassImpl implements LookingGlass {
     sourceType: LookingGlassSourceType,
     sourceLocation: string,
     destinationIP: string,
-    options?: LookingGlassInvokeOptionalParams
+    options?: LookingGlassInvokeOptionalParams,
   ): Promise<LookingGlassInvokeResponse> {
     return this.client.sendOperationRequest(
       { command, sourceType, sourceLocation, destinationIP, options },
-      invokeOperationSpec
+      invokeOperationSpec,
     );
   }
 }
@@ -55,25 +55,24 @@ export class LookingGlassImpl implements LookingGlass {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const invokeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/lookingGlass",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/lookingGlass",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LookingGlassOutput
+      bodyMapper: Mappers.LookingGlassOutput,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.command,
     Parameters.sourceType,
     Parameters.sourceLocation,
-    Parameters.destinationIP
+    Parameters.destinationIP,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

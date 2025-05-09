@@ -15,11 +15,11 @@ import * as Parameters from "../models/parameters.js";
 import { PeeringManagementClient } from "../peeringManagementClient.js";
 import {
   Peering,
-  LegacyPeeringsKind,
   LegacyPeeringsListNextOptionalParams,
+  LegacyPeeringsKind,
   LegacyPeeringsListOptionalParams,
   LegacyPeeringsListResponse,
-  LegacyPeeringsListNextResponse
+  LegacyPeeringsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,7 +45,7 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   public list(
     peeringLocation: string,
     kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
+    options?: LegacyPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<Peering> {
     const iter = this.listPagingAll(peeringLocation, kind, options);
     return {
@@ -60,7 +60,7 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(peeringLocation, kind, options, settings);
-      }
+      },
     };
   }
 
@@ -68,7 +68,7 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
     peeringLocation: string,
     kind: LegacyPeeringsKind,
     options?: LegacyPeeringsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Peering[]> {
     let result: LegacyPeeringsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -80,12 +80,7 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        peeringLocation,
-        kind,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -96,13 +91,9 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   private async *listPagingAll(
     peeringLocation: string,
     kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
+    options?: LegacyPeeringsListOptionalParams,
   ): AsyncIterableIterator<Peering> {
-    for await (const page of this.listPagingPage(
-      peeringLocation,
-      kind,
-      options
-    )) {
+    for await (const page of this.listPagingPage(peeringLocation, kind, options)) {
       yield* page;
     }
   }
@@ -117,80 +108,60 @@ export class LegacyPeeringsImpl implements LegacyPeerings {
   private _list(
     peeringLocation: string,
     kind: LegacyPeeringsKind,
-    options?: LegacyPeeringsListOptionalParams
+    options?: LegacyPeeringsListOptionalParams,
   ): Promise<LegacyPeeringsListResponse> {
-    return this.client.sendOperationRequest(
-      { peeringLocation, kind, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ peeringLocation, kind, options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param peeringLocation The location of the peering.
-   * @param kind The kind of the peering.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    peeringLocation: string,
-    kind: LegacyPeeringsKind,
     nextLink: string,
-    options?: LegacyPeeringsListNextOptionalParams
+    options?: LegacyPeeringsListNextOptionalParams,
   ): Promise<LegacyPeeringsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { peeringLocation, kind, nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/legacyPeerings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringListResult
+      bodyMapper: Mappers.PeeringListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.peeringLocation,
     Parameters.apiVersion,
     Parameters.kind,
-    Parameters.asn
+    Parameters.asn,
+    Parameters.directPeeringType,
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringListResult
+      bodyMapper: Mappers.PeeringListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.peeringLocation,
-    Parameters.apiVersion,
-    Parameters.kind,
-    Parameters.asn
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

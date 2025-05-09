@@ -10,7 +10,7 @@ import {
   LookingGlassCommand,
   LookingGlassSourceType,
   LookingGlassInvokeOptionalParams,
-  LookingGlassInvokeResponse
+  LookingGlassInvokeResponse,
 } from "../models/index.js";
 
 /** Interface representing a LookingGlass. */
@@ -28,6 +28,6 @@ export interface LookingGlass {
     sourceType: LookingGlassSourceType,
     sourceLocation: string,
     destinationIP: string,
-    options?: LookingGlassInvokeOptionalParams
+    options?: LookingGlassInvokeOptionalParams,
   ): Promise<LookingGlassInvokeResponse>;
 }
