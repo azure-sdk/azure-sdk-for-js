@@ -44,9 +44,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    * Description for Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DeletedWebAppsListOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedSite> {
+  public list(options?: DeletedWebAppsListOptionalParams): PagedAsyncIterableIterator<DeletedSite> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -135,11 +133,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -160,9 +154,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
    * Description for Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: DeletedWebAppsListOptionalParams,
-  ): Promise<DeletedWebAppsListResponse> {
+  private _list(options?: DeletedWebAppsListOptionalParams): Promise<DeletedWebAppsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -175,10 +167,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
     location: string,
     options?: DeletedWebAppsListByLocationOptionalParams,
   ): Promise<DeletedWebAppsListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -207,10 +196,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
     nextLink: string,
     options?: DeletedWebAppsListNextOptionalParams,
   ): Promise<DeletedWebAppsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -261,11 +247,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -301,11 +283,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
