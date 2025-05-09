@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsGetResponse
+  PrivateEndpointConnectionsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,18 +23,18 @@ import {
 export interface PrivateEndpointConnections {
   /**
    * Gets the available PrivateEndpointConnections within a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     namespaceName: string,
-    options?: PrivateEndpointConnectionsListOptionalParams
+    options?: PrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Creates or updates PrivateEndpointConnections of service namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param parameters Parameters supplied to update Status of PrivateEndPoint Connection to namespace
@@ -46,11 +46,11 @@ export interface PrivateEndpointConnections {
     namespaceName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes an existing Private Endpoint Connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
@@ -59,11 +59,11 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Private Endpoint Connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
@@ -72,11 +72,11 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a description for the specified Private Endpoint Connection.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param privateEndpointConnectionName The PrivateEndpointConnection name
    * @param options The options parameters.
@@ -85,6 +85,6 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     namespaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
 }
