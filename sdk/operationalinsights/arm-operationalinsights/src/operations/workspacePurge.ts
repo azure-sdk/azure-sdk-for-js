@@ -16,7 +16,7 @@ import {
   WorkspacePurgePurgeOptionalParams,
   WorkspacePurgePurgeResponse,
   WorkspacePurgeGetPurgeStatusOptionalParams,
-  WorkspacePurgeGetPurgeStatusResponse
+  WorkspacePurgeGetPurgeStatusResponse,
 } from "../models/index.js";
 
 /** Class containing WorkspacePurge operations. */
@@ -51,11 +51,11 @@ export class WorkspacePurgeImpl implements WorkspacePurge {
     resourceGroupName: string,
     workspaceName: string,
     body: WorkspacePurgeBody,
-    options?: WorkspacePurgePurgeOptionalParams
+    options?: WorkspacePurgePurgeOptionalParams,
   ): Promise<WorkspacePurgePurgeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, body, options },
-      purgeOperationSpec
+      purgeOperationSpec,
     );
   }
 
@@ -71,11 +71,11 @@ export class WorkspacePurgeImpl implements WorkspacePurge {
     resourceGroupName: string,
     workspaceName: string,
     purgeId: string,
-    options?: WorkspacePurgeGetPurgeStatusOptionalParams
+    options?: WorkspacePurgeGetPurgeStatusOptionalParams,
   ): Promise<WorkspacePurgeGetPurgeStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, purgeId, options },
-      getPurgeStatusOperationSpec
+      getPurgeStatusOperationSpec,
     );
   }
 }
@@ -83,44 +83,42 @@ export class WorkspacePurgeImpl implements WorkspacePurge {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purge",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/purge",
   httpMethod: "POST",
   responses: {
     202: {
       bodyMapper: Mappers.WorkspacePurgeResponse,
-      headersMapper: Mappers.WorkspacePurgePurgeHeaders
-    }
+      headersMapper: Mappers.WorkspacePurgePurgeHeaders,
+    },
   },
   requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/operations/{purgeId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspacePurgeStatusResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.purgeId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getPurgeStatusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/operations/{purgeId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspacePurgeStatusResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.purgeId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

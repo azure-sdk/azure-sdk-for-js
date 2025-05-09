@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
@@ -16,7 +16,7 @@ import {
   LinkedServicesDeleteOptionalParams,
   LinkedServicesDeleteResponse,
   LinkedServicesGetOptionalParams,
-  LinkedServicesGetResponse
+  LinkedServicesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface LinkedServices {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedServicesListByWorkspaceOptionalParams
+    options?: LinkedServicesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedService>;
   /**
    * Create or update a linked service.
@@ -46,10 +46,10 @@ export interface LinkedServices {
     workspaceName: string,
     linkedServiceName: string,
     parameters: LinkedService,
-    options?: LinkedServicesCreateOrUpdateOptionalParams
+    options?: LinkedServicesCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<LinkedServicesCreateOrUpdateResponse>,
       LinkedServicesCreateOrUpdateResponse
     >
   >;
@@ -66,7 +66,7 @@ export interface LinkedServices {
     workspaceName: string,
     linkedServiceName: string,
     parameters: LinkedService,
-    options?: LinkedServicesCreateOrUpdateOptionalParams
+    options?: LinkedServicesCreateOrUpdateOptionalParams,
   ): Promise<LinkedServicesCreateOrUpdateResponse>;
   /**
    * Deletes a linked service instance.
@@ -79,12 +79,9 @@ export interface LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesDeleteOptionalParams
+    options?: LinkedServicesDeleteOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<LinkedServicesDeleteResponse>,
-      LinkedServicesDeleteResponse
-    >
+    SimplePollerLike<OperationState<LinkedServicesDeleteResponse>, LinkedServicesDeleteResponse>
   >;
   /**
    * Deletes a linked service instance.
@@ -97,7 +94,7 @@ export interface LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesDeleteOptionalParams
+    options?: LinkedServicesDeleteOptionalParams,
   ): Promise<LinkedServicesDeleteResponse>;
   /**
    * Gets a linked service instance.
@@ -110,6 +107,6 @@ export interface LinkedServices {
     resourceGroupName: string,
     workspaceName: string,
     linkedServiceName: string,
-    options?: LinkedServicesGetOptionalParams
+    options?: LinkedServicesGetOptionalParams,
   ): Promise<LinkedServicesGetResponse>;
 }

@@ -8,7 +8,7 @@
 
 import {
   AvailableServiceTiersListByWorkspaceOptionalParams,
-  AvailableServiceTiersListByWorkspaceResponse
+  AvailableServiceTiersListByWorkspaceResponse,
 } from "../models/index.js";
 
 /** Interface representing a AvailableServiceTiers. */
@@ -22,6 +22,6 @@ export interface AvailableServiceTiers {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AvailableServiceTiersListByWorkspaceOptionalParams
+    options?: AvailableServiceTiersListByWorkspaceOptionalParams,
   ): Promise<AvailableServiceTiersListByWorkspaceResponse>;
 }

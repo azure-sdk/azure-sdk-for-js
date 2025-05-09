@@ -20,7 +20,7 @@ import {
   QueryPacksCreateOrUpdateResponse,
   TagsResource,
   QueryPacksUpdateTagsOptionalParams,
-  QueryPacksUpdateTagsResponse
+  QueryPacksUpdateTagsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,9 +30,7 @@ export interface QueryPacks {
    * Gets a list of all Log Analytics QueryPacks within a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: QueryPacksListOptionalParams
-  ): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
+  list(options?: QueryPacksListOptionalParams): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
   /**
    * Gets a list of Log Analytics QueryPacks within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -40,7 +38,7 @@ export interface QueryPacks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: QueryPacksListByResourceGroupOptionalParams
+    options?: QueryPacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<LogAnalyticsQueryPack>;
   /**
    * Creates a Log Analytics QueryPack. Note: You cannot specify a different value for InstrumentationKey
@@ -53,7 +51,7 @@ export interface QueryPacks {
   createOrUpdateWithoutName(
     resourceGroupName: string,
     logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
-    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams
+    options?: QueryPacksCreateOrUpdateWithoutNameOptionalParams,
   ): Promise<QueryPacksCreateOrUpdateWithoutNameResponse>;
   /**
    * Deletes a Log Analytics QueryPack.
@@ -64,7 +62,7 @@ export interface QueryPacks {
   delete(
     resourceGroupName: string,
     queryPackName: string,
-    options?: QueryPacksDeleteOptionalParams
+    options?: QueryPacksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a Log Analytics QueryPack.
@@ -75,7 +73,7 @@ export interface QueryPacks {
   get(
     resourceGroupName: string,
     queryPackName: string,
-    options?: QueryPacksGetOptionalParams
+    options?: QueryPacksGetOptionalParams,
   ): Promise<QueryPacksGetResponse>;
   /**
    * Creates (or updates) a Log Analytics QueryPack. Note: You cannot specify a different value for
@@ -90,7 +88,7 @@ export interface QueryPacks {
     resourceGroupName: string,
     queryPackName: string,
     logAnalyticsQueryPackPayload: LogAnalyticsQueryPack,
-    options?: QueryPacksCreateOrUpdateOptionalParams
+    options?: QueryPacksCreateOrUpdateOptionalParams,
   ): Promise<QueryPacksCreateOrUpdateResponse>;
   /**
    * Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
@@ -103,6 +101,6 @@ export interface QueryPacks {
     resourceGroupName: string,
     queryPackName: string,
     queryPackTags: TagsResource,
-    options?: QueryPacksUpdateTagsOptionalParams
+    options?: QueryPacksUpdateTagsOptionalParams,
   ): Promise<QueryPacksUpdateTagsResponse>;
 }

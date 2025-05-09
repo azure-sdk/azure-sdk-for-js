@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
-import {
-  UsageMetric,
-  UsagesListOptionalParams,
-  UsagesListResponse
-} from "../models/index.js";
+import { UsageMetric, UsagesListOptionalParams, UsagesListResponse } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */
@@ -40,7 +36,7 @@ export class UsagesImpl implements Usages {
   public list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): PagedAsyncIterableIterator<UsageMetric> {
     const iter = this.listPagingAll(resourceGroupName, workspaceName, options);
     return {
@@ -54,13 +50,8 @@ export class UsagesImpl implements Usages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, workspaceName, options, settings);
+      },
     };
   }
 
@@ -68,7 +59,7 @@ export class UsagesImpl implements Usages {
     resourceGroupName: string,
     workspaceName: string,
     options?: UsagesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<UsageMetric[]> {
     let result: UsagesListResponse;
     result = await this._list(resourceGroupName, workspaceName, options);
@@ -78,13 +69,9 @@ export class UsagesImpl implements Usages {
   private async *listPagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): AsyncIterableIterator<UsageMetric> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, options)) {
       yield* page;
     }
   }
@@ -98,11 +85,11 @@ export class UsagesImpl implements Usages {
   private _list(
     resourceGroupName: string,
     workspaceName: string,
-    options?: UsagesListOptionalParams
+    options?: UsagesListOptionalParams,
   ): Promise<UsagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -110,21 +97,20 @@ export class UsagesImpl implements Usages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/usages",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListUsagesResult
-    }
+      bodyMapper: Mappers.WorkspaceListUsagesResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
