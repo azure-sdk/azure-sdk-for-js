@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NginxManagementClient } from "../nginxManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NginxDeployment,
@@ -34,6 +30,7 @@ import {
   DeploymentsUpdateOptionalParams,
   DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
+  DeploymentsDeleteResponse,
   DeploymentsListNextResponse,
   DeploymentsListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -126,11 +123,7 @@ export class DeploymentsImpl implements Deployments {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -150,11 +143,7 @@ export class DeploymentsImpl implements Deployments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,10 +155,7 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     options?: DeploymentsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<NginxDeployment> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -217,8 +203,7 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -273,11 +258,7 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, deploymentName, options);
     return poller.pollUntilDone();
   }
 
@@ -292,10 +273,7 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DeploymentsUpdateResponse>,
-      DeploymentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -307,8 +285,7 @@ export class DeploymentsImpl implements Deployments {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -346,6 +323,7 @@ export class DeploymentsImpl implements Deployments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -362,11 +340,7 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsUpdateOptionalParams,
   ): Promise<DeploymentsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, deploymentName, options);
     return poller.pollUntilDone();
   }
 
@@ -380,19 +354,20 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<OperationState<DeploymentsDeleteResponse>, DeploymentsDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<DeploymentsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -424,7 +399,10 @@ export class DeploymentsImpl implements Deployments {
       args: { resourceGroupName, deploymentName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DeploymentsDeleteResponse,
+      OperationState<DeploymentsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
     });
@@ -442,12 +420,8 @@ export class DeploymentsImpl implements Deployments {
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      deploymentName,
-      options,
-    );
+  ): Promise<DeploymentsDeleteResponse> {
+    const poller = await this.beginDelete(resourceGroupName, deploymentName, options);
     return poller.pollUntilDone();
   }
 
@@ -455,9 +429,7 @@ export class DeploymentsImpl implements Deployments {
    * List the NGINX deployments resources
    * @param options The options parameters.
    */
-  private _list(
-    options?: DeploymentsListOptionalParams,
-  ): Promise<DeploymentsListResponse> {
+  private _list(options?: DeploymentsListOptionalParams): Promise<DeploymentsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -485,10 +457,7 @@ export class DeploymentsImpl implements Deployments {
     nextLink: string,
     options?: DeploymentsListNextOptionalParams,
   ): Promise<DeploymentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -600,10 +569,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DeploymentsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DeploymentsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DeploymentsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DeploymentsDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -646,11 +623,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -665,11 +638,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
