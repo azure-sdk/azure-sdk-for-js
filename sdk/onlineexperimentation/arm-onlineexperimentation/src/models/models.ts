@@ -630,6 +630,59 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Partial update of an online experiment workspace resource. */
+export interface OnlineExperimentWorkspacePatch {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The SKU (Stock Keeping Unit) assigned to this resource. */
+  sku?: OnlineExperimentationWorkspaceSku;
+  /** Updatable properties of the online experiment workspace resource. */
+  properties?: {
+    logAnalyticsWorkspaceResourceId?: string;
+    logsExporterStorageAccountResourceId?: string;
+    encryption?: ResourceEncryptionConfiguration;
+  };
+}
+
+export function onlineExperimentWorkspacePatchSerializer(
+  item: OnlineExperimentWorkspacePatch,
+): any {
+  return {
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    tags: item["tags"],
+    sku: !item["sku"] ? item["sku"] : onlineExperimentationWorkspaceSkuSerializer(item["sku"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : _onlineExperimentWorkspacePatchPropertiesSerializer(item["properties"]),
+  };
+}
+
+/** model interface _OnlineExperimentWorkspacePatchProperties */
+export interface _OnlineExperimentWorkspacePatchProperties {
+  /** The resource identifier of the Log Analytics workspace which online experiment workspace uses for generating experiment analysis results. */
+  logAnalyticsWorkspaceResourceId?: string;
+  /** The resource identifier of storage account where logs are exported from Log Analytics workspace. Online Experiment workspace uses it generating experiment analysis results. */
+  logsExporterStorageAccountResourceId?: string;
+  /** The encryption configuration for the online experiment workspace resource. */
+  encryption?: ResourceEncryptionConfiguration;
+}
+
+export function _onlineExperimentWorkspacePatchPropertiesSerializer(
+  item: _OnlineExperimentWorkspacePatchProperties,
+): any {
+  return {
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    logsExporterStorageAccountResourceId: item["logsExporterStorageAccountResourceId"],
+    encryption: !item["encryption"]
+      ? item["encryption"]
+      : resourceEncryptionConfigurationSerializer(item["encryption"]),
+  };
+}
+
 /** The response of a OnlineExperimentWorkspace list operation. */
 export interface _OnlineExperimentWorkspaceListResult {
   /** The OnlineExperimentWorkspace items on this page */

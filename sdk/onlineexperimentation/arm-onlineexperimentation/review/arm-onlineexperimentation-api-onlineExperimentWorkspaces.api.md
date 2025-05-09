@@ -52,7 +52,7 @@ export interface OnlineExperimentWorkspacesUpdateOptionalParams extends Operatio
 }
 
 // @public
-export function update(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, properties: OnlineExperimentWorkspace, options?: OnlineExperimentWorkspacesUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
+export function update(context: OnlineExperimentationContext, resourceGroupName: string, workspaceName: string, properties: OnlineExperimentWorkspacePatch, options?: OnlineExperimentWorkspacesUpdateOptionalParams): PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
 
 // (No @packageDocumentation comment for this package)
 

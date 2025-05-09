@@ -7,6 +7,8 @@ import {
   OnlineExperimentWorkspace,
   onlineExperimentWorkspaceSerializer,
   onlineExperimentWorkspaceDeserializer,
+  OnlineExperimentWorkspacePatch,
+  onlineExperimentWorkspacePatchSerializer,
   _OnlineExperimentWorkspaceListResult,
   _onlineExperimentWorkspaceListResultDeserializer,
 } from "../../models/models.js";
@@ -18,11 +20,11 @@ import {
   OnlineExperimentWorkspacesCreateOrUpdateOptionalParams,
   OnlineExperimentWorkspacesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
@@ -209,7 +211,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  properties: OnlineExperimentWorkspace,
+  properties: OnlineExperimentWorkspacePatch,
   options: OnlineExperimentWorkspacesUpdateOptionalParams = {
     requestOptions: {},
   },
@@ -233,7 +235,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: onlineExperimentWorkspaceSerializer(properties),
+    body: onlineExperimentWorkspacePatchSerializer(properties),
   });
 }
 
@@ -255,7 +257,7 @@ export function update(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
-  properties: OnlineExperimentWorkspace,
+  properties: OnlineExperimentWorkspacePatch,
   options: OnlineExperimentWorkspacesUpdateOptionalParams = {
     requestOptions: {},
   },
