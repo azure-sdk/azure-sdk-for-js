@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGroupOperations operations. */
-export class ApplicationGroupOperationsImpl
-  implements ApplicationGroupOperations
-{
+export class ApplicationGroupOperationsImpl implements ApplicationGroupOperations {
   private readonly client: EventHubManagementClient;
 
   /**
@@ -52,11 +50,7 @@ export class ApplicationGroupOperationsImpl
     namespaceName: string,
     options?: ApplicationGroupListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGroup> {
-    const iter = this.listByNamespacePagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listByNamespacePagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -68,12 +62,7 @@ export class ApplicationGroupOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByNamespacePagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listByNamespacePagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -87,11 +76,7 @@ export class ApplicationGroupOperationsImpl
     let result: ApplicationGroupListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByNamespace(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
+      result = await this._listByNamespace(resourceGroupName, namespaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
