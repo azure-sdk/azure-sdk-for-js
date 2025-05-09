@@ -104,12 +104,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     let result: DisasterRecoveryConfigsListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAuthorizationRules(
-        resourceGroupName,
-        namespaceName,
-        alias,
-        options,
-      );
+      result = await this._listAuthorizationRules(resourceGroupName, namespaceName, alias, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -169,12 +164,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          namespaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, namespaceName, options, settings);
       },
     };
   }
@@ -195,12 +185,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        namespaceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, namespaceName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -213,11 +198,7 @@ export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
     namespaceName: string,
     options?: DisasterRecoveryConfigsListOptionalParams,
   ): AsyncIterableIterator<ArmDisasterRecovery> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      namespaceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, namespaceName, options)) {
       yield* page;
     }
   }

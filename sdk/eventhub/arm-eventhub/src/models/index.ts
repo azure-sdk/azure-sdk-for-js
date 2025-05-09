@@ -8,9 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type ApplicationGroupPolicyUnion =
-  | ApplicationGroupPolicy
-  | ThrottlingPolicy;
+export type ApplicationGroupPolicyUnion = ApplicationGroupPolicy | ThrottlingPolicy;
 
 /** The response of the List Available Clusters operation. */
 export interface AvailableClustersList {
@@ -1597,10 +1595,7 @@ export type UnavailableReason =
 /** Defines values for ProvisioningStateDR. */
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 /** Defines values for RoleDisasterRecovery. */
-export type RoleDisasterRecovery =
-  | "Primary"
-  | "PrimaryNotReplicating"
-  | "Secondary";
+export type RoleDisasterRecovery = "Primary" | "PrimaryNotReplicating" | "Secondary";
 /** Defines values for EntityStatus. */
 export type EntityStatus =
   | "Active"
@@ -1625,29 +1620,25 @@ export interface ClustersListAvailableClusterRegionOptionalParams
 export type ClustersListAvailableClusterRegionResponse = AvailableClustersList;
 
 /** Optional parameters. */
-export interface ClustersListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ClustersListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type ClustersListBySubscriptionResponse = ClusterListResult;
 
 /** Optional parameters. */
-export interface ClustersListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type ClustersListByResourceGroupResponse = ClusterListResult;
 
 /** Optional parameters. */
-export interface ClustersGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ClustersGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ClustersGetResponse = Cluster;
 
 /** Optional parameters. */
-export interface ClustersCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1658,8 +1649,7 @@ export interface ClustersCreateOrUpdateOptionalParams
 export type ClustersCreateOrUpdateResponse = Cluster;
 
 /** Optional parameters. */
-export interface ClustersUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ClustersUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1670,8 +1660,7 @@ export interface ClustersUpdateOptionalParams
 export type ClustersUpdateResponse = Cluster;
 
 /** Optional parameters. */
-export interface ClustersDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ClustersDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1679,15 +1668,13 @@ export interface ClustersDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface ClustersListNamespacesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ClustersListNamespacesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNamespaces operation. */
 export type ClustersListNamespacesResponse = EHNamespaceIdListResult;
 
 /** Optional parameters. */
-export interface ClustersListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ClustersListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type ClustersListBySubscriptionNextResponse = ClusterListResult;
@@ -1700,22 +1687,19 @@ export interface ClustersListByResourceGroupNextOptionalParams
 export type ClustersListByResourceGroupNextResponse = ClusterListResult;
 
 /** Optional parameters. */
-export interface NamespacesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type NamespacesListResponse = EHNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type NamespacesListByResourceGroupResponse = EHNamespaceListResult;
 
 /** Optional parameters. */
-export interface NamespacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1726,8 +1710,7 @@ export interface NamespacesCreateOrUpdateOptionalParams
 export type NamespacesCreateOrUpdateResponse = EHNamespace;
 
 /** Optional parameters. */
-export interface NamespacesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1735,22 +1718,19 @@ export interface NamespacesDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface NamespacesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type NamespacesGetResponse = EHNamespace;
 
 /** Optional parameters. */
-export interface NamespacesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type NamespacesUpdateResponse = EHNamespace;
 
 /** Optional parameters. */
-export interface NamespacesFailoverOptionalParams
-  extends coreClient.OperationOptions {
+export interface NamespacesFailoverOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1768,15 +1748,13 @@ export interface NamespacesCreateOrUpdateNetworkRuleSetOptionalParams
 export type NamespacesCreateOrUpdateNetworkRuleSetResponse = NetworkRuleSet;
 
 /** Optional parameters. */
-export interface NamespacesGetNetworkRuleSetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetNetworkRuleSetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getNetworkRuleSet operation. */
 export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet;
 
 /** Optional parameters. */
-export interface NamespacesListNetworkRuleSetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListNetworkRuleSetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNetworkRuleSet operation. */
 export type NamespacesListNetworkRuleSetResponse = NetworkRuleSetListResult;
@@ -1786,38 +1764,33 @@ export interface NamespacesListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse =
-  AuthorizationRule;
+export type NamespacesCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
 export interface NamespacesDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface NamespacesGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type NamespacesGetAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
-export interface NamespacesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type NamespacesListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface NamespacesRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type NamespacesRegenerateKeysResponse = AccessKeys;
@@ -1827,12 +1800,10 @@ export interface NamespacesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type NamespacesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResult;
+export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface NamespacesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type NamespacesListNextResponse = EHNamespaceListResult;
@@ -1849,24 +1820,20 @@ export interface NamespacesListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type NamespacesListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse =
-  PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1878,8 +1845,7 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -1889,12 +1855,10 @@ export interface PrivateEndpointConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateEndpointConnectionsListNextResponse =
-  PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesListResult;
@@ -1917,15 +1881,13 @@ export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalPar
 }
 
 /** Optional parameters. */
-export interface ConfigurationPatchOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationPatchOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the patch operation. */
 export type ConfigurationPatchResponse = ClusterQuotaConfigurationProperties;
 
 /** Optional parameters. */
-export interface ConfigurationGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationGetResponse = ClusterQuotaConfigurationProperties;
@@ -1935,16 +1897,14 @@ export interface DisasterRecoveryConfigsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type DisasterRecoveryConfigsGetAuthorizationRuleResponse =
-  AuthorizationRule;
+export type DisasterRecoveryConfigsGetAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListKeysOptionalParams
@@ -1958,12 +1918,10 @@ export interface DisasterRecoveryConfigsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type DisasterRecoveryConfigsCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResult;
+export type DisasterRecoveryConfigsCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DisasterRecoveryConfigsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DisasterRecoveryConfigsListResponse = ArmDisasterRecoveryListResult;
@@ -1976,12 +1934,10 @@ export interface DisasterRecoveryConfigsCreateOrUpdateOptionalParams
 export type DisasterRecoveryConfigsCreateOrUpdateResponse = ArmDisasterRecovery;
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DisasterRecoveryConfigsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface DisasterRecoveryConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DisasterRecoveryConfigsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DisasterRecoveryConfigsGetResponse = ArmDisasterRecovery;
@@ -1999,36 +1955,31 @@ export interface DisasterRecoveryConfigsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type DisasterRecoveryConfigsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface DisasterRecoveryConfigsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DisasterRecoveryConfigsListNextResponse =
-  ArmDisasterRecoveryListResult;
+export type DisasterRecoveryConfigsListNextResponse = ArmDisasterRecoveryListResult;
 
 /** Optional parameters. */
 export interface EventHubsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type EventHubsListAuthorizationRulesResponse =
-  AuthorizationRuleListResult;
+export type EventHubsListAuthorizationRulesResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface EventHubsCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type EventHubsCreateOrUpdateAuthorizationRuleResponse =
-  AuthorizationRule;
+export type EventHubsCreateOrUpdateAuthorizationRuleResponse = AuthorizationRule;
 
 /** Optional parameters. */
-export interface EventHubsGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsGetAuthorizationRuleOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
 export type EventHubsGetAuthorizationRuleResponse = AuthorizationRule;
@@ -2038,22 +1989,19 @@ export interface EventHubsDeleteAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface EventHubsListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsListKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKeys operation. */
 export type EventHubsListKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface EventHubsRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsRegenerateKeysOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the regenerateKeys operation. */
 export type EventHubsRegenerateKeysResponse = AccessKeys;
 
 /** Optional parameters. */
-export interface EventHubsListByNamespaceOptionalParams
-  extends coreClient.OperationOptions {
+export interface EventHubsListByNamespaceOptionalParams extends coreClient.OperationOptions {
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
   skip?: number;
   /** May be used to limit the number of results to the most recent N usageDetails. */
@@ -2064,19 +2012,16 @@ export interface EventHubsListByNamespaceOptionalParams
 export type EventHubsListByNamespaceResponse = EventHubListResult;
 
 /** Optional parameters. */
-export interface EventHubsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type EventHubsCreateOrUpdateResponse = Eventhub;
 
 /** Optional parameters. */
-export interface EventHubsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface EventHubsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type EventHubsGetResponse = Eventhub;
@@ -2086,37 +2031,31 @@ export interface EventHubsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type EventHubsListAuthorizationRulesNextResponse =
-  AuthorizationRuleListResult;
+export type EventHubsListAuthorizationRulesNextResponse = AuthorizationRuleListResult;
 
 /** Optional parameters. */
-export interface EventHubsListByNamespaceNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface EventHubsListByNamespaceNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
 export type EventHubsListByNamespaceNextResponse = EventHubListResult;
 
 /** Optional parameters. */
-export interface ConsumerGroupsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConsumerGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ConsumerGroupsCreateOrUpdateResponse = ConsumerGroup;
 
 /** Optional parameters. */
-export interface ConsumerGroupsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConsumerGroupsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ConsumerGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConsumerGroupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConsumerGroupsGetResponse = ConsumerGroup;
 
 /** Optional parameters. */
-export interface ConsumerGroupsListByEventHubOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConsumerGroupsListByEventHubOptionalParams extends coreClient.OperationOptions {
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
   skip?: number;
   /** May be used to limit the number of results to the most recent N usageDetails. */
@@ -2134,22 +2073,19 @@ export interface ConsumerGroupsListByEventHubNextOptionalParams
 export type ConsumerGroupsListByEventHubNextResponse = ConsumerGroupListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SchemaRegistryListByNamespaceOptionalParams
-  extends coreClient.OperationOptions {
+export interface SchemaRegistryListByNamespaceOptionalParams extends coreClient.OperationOptions {
   /** Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls. */
   skip?: number;
   /** May be used to limit the number of results to the most recent N usageDetails. */
@@ -2160,19 +2096,16 @@ export interface SchemaRegistryListByNamespaceOptionalParams
 export type SchemaRegistryListByNamespaceResponse = SchemaGroupListResult;
 
 /** Optional parameters. */
-export interface SchemaRegistryCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SchemaRegistryCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type SchemaRegistryCreateOrUpdateResponse = SchemaGroup;
 
 /** Optional parameters. */
-export interface SchemaRegistryDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SchemaRegistryDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SchemaRegistryGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SchemaRegistryGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SchemaRegistryGetResponse = SchemaGroup;
@@ -2189,24 +2122,20 @@ export interface ApplicationGroupListByNamespaceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespace operation. */
-export type ApplicationGroupListByNamespaceResponse =
-  ApplicationGroupListResult;
+export type ApplicationGroupListByNamespaceResponse = ApplicationGroupListResult;
 
 /** Optional parameters. */
 export interface ApplicationGroupCreateOrUpdateApplicationGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateApplicationGroup operation. */
-export type ApplicationGroupCreateOrUpdateApplicationGroupResponse =
-  ApplicationGroup;
+export type ApplicationGroupCreateOrUpdateApplicationGroupResponse = ApplicationGroup;
 
 /** Optional parameters. */
-export interface ApplicationGroupDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationGroupDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ApplicationGroupGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApplicationGroupGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ApplicationGroupGetResponse = ApplicationGroup;
@@ -2216,12 +2145,10 @@ export interface ApplicationGroupListByNamespaceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByNamespaceNext operation. */
-export type ApplicationGroupListByNamespaceNextResponse =
-  ApplicationGroupListResult;
+export type ApplicationGroupListByNamespaceNextResponse = ApplicationGroupListResult;
 
 /** Optional parameters. */
-export interface EventHubManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface EventHubManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

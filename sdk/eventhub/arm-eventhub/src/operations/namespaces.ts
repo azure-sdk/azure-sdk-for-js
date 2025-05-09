@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { EventHubManagementClient } from "../eventHubManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   EHNamespace,
@@ -83,9 +79,7 @@ export class NamespacesImpl implements Namespaces {
    * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
    * @param options The options parameters.
    */
-  public list(
-    options?: NamespacesListOptionalParams,
-  ): PagedAsyncIterableIterator<EHNamespace> {
+  public list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<EHNamespace> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -154,11 +148,7 @@ export class NamespacesImpl implements Namespaces {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -178,11 +168,7 @@ export class NamespacesImpl implements Namespaces {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -194,10 +180,7 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     options?: NamespacesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<EHNamespace> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -213,11 +196,7 @@ export class NamespacesImpl implements Namespaces {
     namespaceName: string,
     options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule> {
-    const iter = this.listAuthorizationRulesPagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listAuthorizationRulesPagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -248,11 +227,7 @@ export class NamespacesImpl implements Namespaces {
     let result: NamespacesListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAuthorizationRules(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
+      result = await this._listAuthorizationRules(resourceGroupName, namespaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -290,9 +265,7 @@ export class NamespacesImpl implements Namespaces {
    * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
    * @param options The options parameters.
    */
-  private _list(
-    options?: NamespacesListOptionalParams,
-  ): Promise<NamespacesListResponse> {
+  private _list(options?: NamespacesListOptionalParams): Promise<NamespacesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -340,8 +313,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -430,8 +402,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -484,11 +455,7 @@ export class NamespacesImpl implements Namespaces {
     namespaceName: string,
     options?: NamespacesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, namespaceName, options);
     return poller.pollUntilDone();
   }
 
@@ -542,10 +509,7 @@ export class NamespacesImpl implements Namespaces {
     parameters: FailOver,
     options?: NamespacesFailoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesFailoverResponse>,
-      NamespacesFailoverResponse
-    >
+    SimplePollerLike<OperationState<NamespacesFailoverResponse>, NamespacesFailoverResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -557,8 +521,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -615,12 +578,7 @@ export class NamespacesImpl implements Namespaces {
     parameters: FailOver,
     options?: NamespacesFailoverOptionalParams,
   ): Promise<NamespacesFailoverResponse> {
-    const poller = await this.beginFailover(
-      resourceGroupName,
-      namespaceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginFailover(resourceGroupName, namespaceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -829,10 +787,7 @@ export class NamespacesImpl implements Namespaces {
     nextLink: string,
     options?: NamespacesListNextOptionalParams,
   ): Promise<NamespacesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -902,11 +857,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1272,11 +1223,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

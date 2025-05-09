@@ -53,9 +53,7 @@ export interface Namespaces {
    * Lists all the available Namespaces within a subscription, irrespective of the resource groups.
    * @param options The options parameters.
    */
-  list(
-    options?: NamespacesListOptionalParams,
-  ): PagedAsyncIterableIterator<EHNamespace>;
+  list(options?: NamespacesListOptionalParams): PagedAsyncIterableIterator<EHNamespace>;
   /**
    * Lists the available Namespaces within a resource group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -171,10 +169,7 @@ export interface Namespaces {
     parameters: FailOver,
     options?: NamespacesFailoverOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<NamespacesFailoverResponse>,
-      NamespacesFailoverResponse
-    >
+    SimplePollerLike<OperationState<NamespacesFailoverResponse>, NamespacesFailoverResponse>
   >;
   /**
    * GeoDR Failover

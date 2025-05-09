@@ -91,12 +91,7 @@ export class ConsumerGroupsImpl implements ConsumerGroups {
     let result: ConsumerGroupsListByEventHubResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByEventHub(
-        resourceGroupName,
-        namespaceName,
-        eventHubName,
-        options,
-      );
+      result = await this._listByEventHub(resourceGroupName, namespaceName, eventHubName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
