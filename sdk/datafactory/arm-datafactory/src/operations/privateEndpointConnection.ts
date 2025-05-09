@@ -21,9 +21,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing PrivateEndpointConnection operations. */
-export class PrivateEndpointConnectionImpl
-  implements PrivateEndpointConnection
-{
+export class PrivateEndpointConnectionImpl implements PrivateEndpointConnection {
   private readonly client: DataFactoryManagementClient;
 
   /**
@@ -132,11 +130,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.privateEndpointConnectionName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };

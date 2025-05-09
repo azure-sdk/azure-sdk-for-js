@@ -59,9 +59,7 @@ export class FactoriesImpl implements Factories {
    * Lists factories under the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: FactoriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Factory> {
+  public list(options?: FactoriesListOptionalParams): PagedAsyncIterableIterator<Factory> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -130,11 +128,7 @@ export class FactoriesImpl implements Factories {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -154,11 +148,7 @@ export class FactoriesImpl implements Factories {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -170,10 +160,7 @@ export class FactoriesImpl implements Factories {
     resourceGroupName: string,
     options?: FactoriesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Factory> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -182,9 +169,7 @@ export class FactoriesImpl implements Factories {
    * Lists factories under the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: FactoriesListOptionalParams,
-  ): Promise<FactoriesListResponse> {
+  private _list(options?: FactoriesListOptionalParams): Promise<FactoriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -339,10 +324,7 @@ export class FactoriesImpl implements Factories {
     nextLink: string,
     options?: FactoriesListNextOptionalParams,
   ): Promise<FactoriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -394,11 +376,7 @@ const configureFactoryRepoOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.factoryRepoUpdate,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -415,11 +393,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -442,11 +416,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.factoryName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -572,11 +542,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

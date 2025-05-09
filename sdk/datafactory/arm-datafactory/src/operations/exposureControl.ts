@@ -105,11 +105,7 @@ const getFeatureValueOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.exposureControlRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

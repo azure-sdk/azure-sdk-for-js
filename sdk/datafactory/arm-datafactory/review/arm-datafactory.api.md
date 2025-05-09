@@ -25,7 +25,7 @@ export interface Activity {
     name: string;
     onInactiveMarkAs?: ActivityOnInactiveMarkAs;
     state?: ActivityState;
-    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
+    type: "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob";
     userProperties?: UserProperty[];
 }
 
@@ -130,11 +130,28 @@ export interface AmazonMWSSource extends TabularSource {
 }
 
 // @public
+export type AmazonRdsForOracleAuthenticationType = string;
+
+// @public
 export interface AmazonRdsForOracleLinkedService extends LinkedService {
-    connectionString: any;
+    authenticationType?: AmazonRdsForOracleAuthenticationType;
+    connectionString?: any;
+    cryptoChecksumClient?: any;
+    cryptoChecksumTypesClient?: any;
+    enableBulkLoad?: any;
     encryptedCredential?: string;
+    encryptionClient?: any;
+    encryptionTypesClient?: any;
+    fetchSize?: any;
+    fetchTswtzAsTimestamp?: any;
+    initializationString?: any;
+    initialLobFetchSize?: any;
     password?: SecretBaseUnion;
+    server?: any;
+    statementCacheSize?: any;
+    supportV1DataTypes?: any;
     type: "AmazonRdsForOracle";
+    username?: any;
 }
 
 // @public
@@ -592,6 +609,7 @@ export interface AzureDatabricksLinkedService extends LinkedService {
     accessToken?: SecretBaseUnion;
     authentication?: any;
     credential?: CredentialReference;
+    dataSecurityMode?: any;
     domain: any;
     encryptedCredential?: string;
     existingClusterId?: any;
@@ -1953,6 +1971,15 @@ export interface CustomSetupBase {
 export type CustomSetupBaseUnion = CustomSetupBase | CmdkeySetup | EnvironmentVariableSetup | ComponentSetup | AzPowerShellSetup;
 
 // @public
+export interface DatabricksJobActivity extends ExecutionActivity {
+    jobId: any;
+    jobParameters?: {
+        [propertyName: string]: any;
+    };
+    type: "DatabricksJob";
+}
+
+// @public
 export interface DatabricksNotebookActivity extends ExecutionActivity {
     baseParameters?: {
         [propertyName: string]: any;
@@ -2922,11 +2949,11 @@ export interface ExecuteWranglingDataflowActivity extends Activity {
 export interface ExecutionActivity extends Activity {
     linkedServiceName?: LinkedServiceReference;
     policy?: ActivityPolicy;
-    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
+    type: "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob";
 }
 
 // @public (undocumented)
-export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
+export type ExecutionActivityUnion = ExecutionActivity | CopyActivity | HDInsightHiveActivity | HDInsightPigActivity | HDInsightMapReduceActivity | HDInsightStreamingActivity | HDInsightSparkActivity | ExecuteSsisPackageActivity | CustomActivity | SqlServerStoredProcedureActivity | DeleteActivity | AzureDataExplorerCommandActivity | LookupActivity | WebActivity | GetMetadataActivity | AzureMLBatchExecutionActivity | AzureMLUpdateResourceActivity | AzureMLExecutePipelineActivity | DataLakeAnalyticsUsqlActivity | DatabricksNotebookActivity | DatabricksSparkJarActivity | DatabricksSparkPythonActivity | DatabricksJobActivity | AzureFunctionActivity | ExecuteDataFlowActivity | ScriptActivity | SynapseNotebookActivity | SynapseSparkJobDefinitionActivity;
 
 // @public
 export interface ExportSettings {
@@ -3952,11 +3979,13 @@ export interface ImpalaLinkedService extends LinkedService {
     allowHostNameCNMismatch?: any;
     allowSelfSignedServerCert?: any;
     authenticationType: ImpalaAuthenticationType;
+    enableServerCertificateValidation?: any;
     enableSsl?: any;
     encryptedCredential?: string;
     host: any;
     password?: SecretBaseUnion;
     port?: any;
+    thriftTransportProtocol?: ImpalaThriftTransportProtocol;
     trustedCertPath?: any;
     type: "Impala";
     username?: any;
@@ -3976,6 +4005,9 @@ export interface ImpalaSource extends TabularSource {
     query?: any;
     type: "ImpalaSource";
 }
+
+// @public
+export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
 
 // @public
 export interface ImportSettings {
@@ -4534,6 +4566,11 @@ export enum KnownActivityOnInactiveMarkAs {
 export enum KnownActivityState {
     Active = "Active",
     Inactive = "Inactive"
+}
+
+// @public
+export enum KnownAmazonRdsForOracleAuthenticationType {
+    Basic = "Basic"
 }
 
 // @public

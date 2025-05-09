@@ -1,5 +1,34 @@
 # Release History
     
+## 19.1.0 (2025-05-09)
+    
+### Features Added
+
+  - Added Interface DatabricksJobActivity
+  - Added Type Alias AmazonRdsForOracleAuthenticationType
+  - Added Type Alias ImpalaThriftTransportProtocol
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter authenticationType
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter cryptoChecksumTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter enableBulkLoad
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter encryptionTypesClient
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter fetchTswtzAsTimestamp
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initializationString
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter initialLobFetchSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter server
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter statementCacheSize
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter supportV1DataTypes
+  - Interface AmazonRdsForOracleLinkedService has a new optional parameter username
+  - Interface AzureDatabricksLinkedService has a new optional parameter dataSecurityMode
+  - Interface ImpalaLinkedService has a new optional parameter enableServerCertificateValidation
+  - Interface ImpalaLinkedService has a new optional parameter thriftTransportProtocol
+  - Type of parameter type of interface Activity is changed from "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob" to "Container" | "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "ExecutePipeline" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "IfCondition" | "Switch" | "ForEach" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "Wait" | "Fail" | "Until" | "Validation" | "Filter" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "SetVariable" | "AppendVariable" | "AzureFunctionActivity" | "WebHook" | "ExecuteDataFlow" | "ExecuteWranglingDataflow" | "Script" | "SynapseNotebook" | "SparkJob"
+  - Type of parameter type of interface ExecutionActivity is changed from "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob" to "Execution" | "Copy" | "HDInsightHive" | "HDInsightPig" | "HDInsightMapReduce" | "HDInsightStreaming" | "HDInsightSpark" | "ExecuteSSISPackage" | "Custom" | "SqlServerStoredProcedure" | "Delete" | "AzureDataExplorerCommand" | "Lookup" | "WebActivity" | "GetMetadata" | "AzureMLBatchExecution" | "AzureMLUpdateResource" | "AzureMLExecutePipeline" | "DataLakeAnalyticsU-SQL" | "DatabricksNotebook" | "DatabricksSparkJar" | "DatabricksSparkPython" | "DatabricksJob" | "AzureFunctionActivity" | "ExecuteDataFlow" | "Script" | "SynapseNotebook" | "SparkJob"
+  - Added Enum KnownAmazonRdsForOracleAuthenticationType
+    
+    
 ## 19.0.0 (2025-04-11)
     
 ### Features Added
