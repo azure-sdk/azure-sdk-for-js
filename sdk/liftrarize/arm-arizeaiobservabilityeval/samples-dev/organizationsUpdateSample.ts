@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a OrganizationResource
  *
  * @summary update a OrganizationResource
- * x-ms-original-file: 2024-10-01-preview/Organizations_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-10-01/Organizations_Update_MaximumSet_Gen.json
  */
 async function organizationsUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
