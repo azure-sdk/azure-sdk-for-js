@@ -14,7 +14,9 @@ import {
   RegisteredPrefixesGetResponse,
   RegisteredPrefixesCreateOrUpdateOptionalParams,
   RegisteredPrefixesCreateOrUpdateResponse,
-  RegisteredPrefixesDeleteOptionalParams
+  RegisteredPrefixesDeleteOptionalParams,
+  RegisteredPrefixesValidateOptionalParams,
+  RegisteredPrefixesValidateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +31,7 @@ export interface RegisteredPrefixes {
   listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredPrefixesListByPeeringOptionalParams
+    options?: RegisteredPrefixesListByPeeringOptionalParams,
   ): PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
   /**
    * Gets an existing registered prefix with the specified name under the given subscription, resource
@@ -43,7 +45,7 @@ export interface RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     registeredPrefixName: string,
-    options?: RegisteredPrefixesGetOptionalParams
+    options?: RegisteredPrefixesGetOptionalParams,
   ): Promise<RegisteredPrefixesGetResponse>;
   /**
    * Creates a new registered prefix with the specified name under the given subscription, resource group
@@ -59,7 +61,7 @@ export interface RegisteredPrefixes {
     peeringName: string,
     registeredPrefixName: string,
     registeredPrefix: PeeringRegisteredPrefix,
-    options?: RegisteredPrefixesCreateOrUpdateOptionalParams
+    options?: RegisteredPrefixesCreateOrUpdateOptionalParams,
   ): Promise<RegisteredPrefixesCreateOrUpdateResponse>;
   /**
    * Deletes an existing registered prefix with the specified name under the given subscription, resource
@@ -73,6 +75,20 @@ export interface RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     registeredPrefixName: string,
-    options?: RegisteredPrefixesDeleteOptionalParams
+    options?: RegisteredPrefixesDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Validates an existing registered prefix with the specified name under the given subscription,
+   * resource group and peering.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringName The name of the peering.
+   * @param registeredPrefixName The name of the registered prefix.
+   * @param options The options parameters.
+   */
+  validate(
+    resourceGroupName: string,
+    peeringName: string,
+    registeredPrefixName: string,
+    options?: RegisteredPrefixesValidateOptionalParams,
+  ): Promise<RegisteredPrefixesValidateResponse>;
 }

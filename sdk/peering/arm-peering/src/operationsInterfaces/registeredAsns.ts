@@ -14,7 +14,7 @@ import {
   RegisteredAsnsGetResponse,
   RegisteredAsnsCreateOrUpdateOptionalParams,
   RegisteredAsnsCreateOrUpdateResponse,
-  RegisteredAsnsDeleteOptionalParams
+  RegisteredAsnsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface RegisteredAsns {
   listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredAsnsListByPeeringOptionalParams
+    options?: RegisteredAsnsListByPeeringOptionalParams,
   ): PagedAsyncIterableIterator<PeeringRegisteredAsn>;
   /**
    * Gets an existing registered ASN with the specified name under the given subscription, resource group
@@ -43,7 +43,7 @@ export interface RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     registeredAsnName: string,
-    options?: RegisteredAsnsGetOptionalParams
+    options?: RegisteredAsnsGetOptionalParams,
   ): Promise<RegisteredAsnsGetResponse>;
   /**
    * Creates a new registered ASN with the specified name under the given subscription, resource group
@@ -59,7 +59,7 @@ export interface RegisteredAsns {
     peeringName: string,
     registeredAsnName: string,
     registeredAsn: PeeringRegisteredAsn,
-    options?: RegisteredAsnsCreateOrUpdateOptionalParams
+    options?: RegisteredAsnsCreateOrUpdateOptionalParams,
   ): Promise<RegisteredAsnsCreateOrUpdateResponse>;
   /**
    * Deletes an existing registered ASN with the specified name under the given subscription, resource
@@ -73,6 +73,6 @@ export interface RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     registeredAsnName: string,
-    options?: RegisteredAsnsDeleteOptionalParams
+    options?: RegisteredAsnsDeleteOptionalParams,
   ): Promise<void>;
 }

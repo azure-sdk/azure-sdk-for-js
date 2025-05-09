@@ -23,7 +23,7 @@ import {
   PrefixesCreateOrUpdateOptionalParams,
   PrefixesCreateOrUpdateResponse,
   PrefixesDeleteOptionalParams,
-  PrefixesListByPeeringServiceNextResponse
+  PrefixesListByPeeringServiceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,9 @@ export class PrefixesImpl implements Prefixes {
   public listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PrefixesListByPeeringServiceOptionalParams
+    options?: PrefixesListByPeeringServiceOptionalParams,
   ): PagedAsyncIterableIterator<PeeringServicePrefix> {
-    const iter = this.listByPeeringServicePagingAll(
-      resourceGroupName,
-      peeringServiceName,
-      options
-    );
+    const iter = this.listByPeeringServicePagingAll(resourceGroupName, peeringServiceName, options);
     return {
       next() {
         return iter.next();
@@ -70,9 +66,9 @@ export class PrefixesImpl implements Prefixes {
           resourceGroupName,
           peeringServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,16 +76,12 @@ export class PrefixesImpl implements Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     options?: PrefixesListByPeeringServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringServicePrefix[]> {
     let result: PrefixesListByPeeringServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPeeringService(
-        resourceGroupName,
-        peeringServiceName,
-        options
-      );
+      result = await this._listByPeeringService(resourceGroupName, peeringServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,7 +92,7 @@ export class PrefixesImpl implements Prefixes {
         resourceGroupName,
         peeringServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +104,12 @@ export class PrefixesImpl implements Prefixes {
   private async *listByPeeringServicePagingAll(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PrefixesListByPeeringServiceOptionalParams
+    options?: PrefixesListByPeeringServiceOptionalParams,
   ): AsyncIterableIterator<PeeringServicePrefix> {
     for await (const page of this.listByPeeringServicePagingPage(
       resourceGroupName,
       peeringServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +127,11 @@ export class PrefixesImpl implements Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     prefixName: string,
-    options?: PrefixesGetOptionalParams
+    options?: PrefixesGetOptionalParams,
   ): Promise<PrefixesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, prefixName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -157,7 +149,7 @@ export class PrefixesImpl implements Prefixes {
     peeringServiceName: string,
     prefixName: string,
     peeringServicePrefix: PeeringServicePrefix,
-    options?: PrefixesCreateOrUpdateOptionalParams
+    options?: PrefixesCreateOrUpdateOptionalParams,
   ): Promise<PrefixesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -165,9 +157,9 @@ export class PrefixesImpl implements Prefixes {
         peeringServiceName,
         prefixName,
         peeringServicePrefix,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +175,11 @@ export class PrefixesImpl implements Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     prefixName: string,
-    options?: PrefixesDeleteOptionalParams
+    options?: PrefixesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, prefixName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -200,11 +192,11 @@ export class PrefixesImpl implements Prefixes {
   private _listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PrefixesListByPeeringServiceOptionalParams
+    options?: PrefixesListByPeeringServiceOptionalParams,
   ): Promise<PrefixesListByPeeringServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, options },
-      listByPeeringServiceOperationSpec
+      listByPeeringServiceOperationSpec,
     );
   }
 
@@ -219,11 +211,11 @@ export class PrefixesImpl implements Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     nextLink: string,
-    options?: PrefixesListByPeeringServiceNextOptionalParams
+    options?: PrefixesListByPeeringServiceNextOptionalParams,
   ): Promise<PrefixesListByPeeringServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, nextLink, options },
-      listByPeeringServiceNextOperationSpec
+      listByPeeringServiceNextOperationSpec,
     );
   }
 }
@@ -231,16 +223,15 @@ export class PrefixesImpl implements Prefixes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServicePrefix
+      bodyMapper: Mappers.PeeringServicePrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
@@ -248,25 +239,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.prefixName
+    Parameters.prefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServicePrefix
+      bodyMapper: Mappers.PeeringServicePrefix,
     },
     201: {
-      bodyMapper: Mappers.PeeringServicePrefix
+      bodyMapper: Mappers.PeeringServicePrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.peeringServicePrefix,
   queryParameters: [Parameters.apiVersion],
@@ -275,22 +265,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.prefixName
+    Parameters.prefixName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes/{prefixName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -298,52 +287,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.prefixName
+    Parameters.prefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/prefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServicePrefixListResult
+      bodyMapper: Mappers.PeeringServicePrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.peeringServiceName
+    Parameters.peeringServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServicePrefixListResult
+      bodyMapper: Mappers.PeeringServicePrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.peeringServiceName
+    Parameters.peeringServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

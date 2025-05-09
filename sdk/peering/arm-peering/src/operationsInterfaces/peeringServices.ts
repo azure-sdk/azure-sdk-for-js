@@ -19,7 +19,7 @@ import {
   ResourceTags,
   PeeringServicesUpdateOptionalParams,
   PeeringServicesUpdateResponse,
-  PeeringServicesInitializeConnectionMonitorOptionalParams
+  PeeringServicesInitializeConnectionMonitorOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface PeeringServices {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PeeringServicesListByResourceGroupOptionalParams
+    options?: PeeringServicesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PeeringService>;
   /**
    * Lists all of the peerings under the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PeeringServicesListBySubscriptionOptionalParams
+    options?: PeeringServicesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PeeringService>;
   /**
    * Gets an existing peering service with the specified name under the given subscription and resource
@@ -51,7 +51,7 @@ export interface PeeringServices {
   get(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PeeringServicesGetOptionalParams
+    options?: PeeringServicesGetOptionalParams,
   ): Promise<PeeringServicesGetResponse>;
   /**
    * Creates a new peering service or updates an existing peering with the specified name under the given
@@ -65,7 +65,7 @@ export interface PeeringServices {
     resourceGroupName: string,
     peeringServiceName: string,
     peeringService: PeeringService,
-    options?: PeeringServicesCreateOrUpdateOptionalParams
+    options?: PeeringServicesCreateOrUpdateOptionalParams,
   ): Promise<PeeringServicesCreateOrUpdateResponse>;
   /**
    * Deletes an existing peering service with the specified name under the given subscription and
@@ -77,7 +77,7 @@ export interface PeeringServices {
   delete(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PeeringServicesDeleteOptionalParams
+    options?: PeeringServicesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates tags for a peering service with the specified name under the given subscription and resource
@@ -91,13 +91,13 @@ export interface PeeringServices {
     resourceGroupName: string,
     peeringServiceName: string,
     tags: ResourceTags,
-    options?: PeeringServicesUpdateOptionalParams
+    options?: PeeringServicesUpdateOptionalParams,
   ): Promise<PeeringServicesUpdateResponse>;
   /**
    * Initialize Peering Service for Connection Monitor functionality
    * @param options The options parameters.
    */
   initializeConnectionMonitor(
-    options?: PeeringServicesInitializeConnectionMonitorOptionalParams
+    options?: PeeringServicesInitializeConnectionMonitorOptionalParams,
   ): Promise<void>;
 }

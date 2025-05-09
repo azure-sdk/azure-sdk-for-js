@@ -23,7 +23,7 @@ import {
   PeerAsnsCreateOrUpdateOptionalParams,
   PeerAsnsCreateOrUpdateResponse,
   PeerAsnsDeleteOptionalParams,
-  PeerAsnsListBySubscriptionNextResponse
+  PeerAsnsListBySubscriptionNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class PeerAsnsImpl implements PeerAsns {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: PeerAsnsListBySubscriptionOptionalParams
+    options?: PeerAsnsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PeerAsn> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class PeerAsnsImpl implements PeerAsns {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: PeerAsnsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeerAsn[]> {
     let result: PeerAsnsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class PeerAsnsImpl implements PeerAsns {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: PeerAsnsListBySubscriptionOptionalParams
+    options?: PeerAsnsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<PeerAsn> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -98,14 +98,8 @@ export class PeerAsnsImpl implements PeerAsns {
    * @param peerAsnName The peer ASN name.
    * @param options The options parameters.
    */
-  get(
-    peerAsnName: string,
-    options?: PeerAsnsGetOptionalParams
-  ): Promise<PeerAsnsGetResponse> {
-    return this.client.sendOperationRequest(
-      { peerAsnName, options },
-      getOperationSpec
-    );
+  get(peerAsnName: string, options?: PeerAsnsGetOptionalParams): Promise<PeerAsnsGetResponse> {
+    return this.client.sendOperationRequest({ peerAsnName, options }, getOperationSpec);
   }
 
   /**
@@ -118,11 +112,11 @@ export class PeerAsnsImpl implements PeerAsns {
   createOrUpdate(
     peerAsnName: string,
     peerAsn: PeerAsn,
-    options?: PeerAsnsCreateOrUpdateOptionalParams
+    options?: PeerAsnsCreateOrUpdateOptionalParams,
   ): Promise<PeerAsnsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { peerAsnName, peerAsn, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -131,14 +125,8 @@ export class PeerAsnsImpl implements PeerAsns {
    * @param peerAsnName The peer ASN name.
    * @param options The options parameters.
    */
-  delete(
-    peerAsnName: string,
-    options?: PeerAsnsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { peerAsnName, options },
-      deleteOperationSpec
-    );
+  delete(peerAsnName: string, options?: PeerAsnsDeleteOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ peerAsnName, options }, deleteOperationSpec);
   }
 
   /**
@@ -146,12 +134,9 @@ export class PeerAsnsImpl implements PeerAsns {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: PeerAsnsListBySubscriptionOptionalParams
+    options?: PeerAsnsListBySubscriptionOptionalParams,
   ): Promise<PeerAsnsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -161,11 +146,11 @@ export class PeerAsnsImpl implements PeerAsns {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: PeerAsnsListBySubscriptionNextOptionalParams
+    options?: PeerAsnsListBySubscriptionNextOptionalParams,
   ): Promise<PeerAsnsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -173,105 +158,85 @@ export class PeerAsnsImpl implements PeerAsns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerAsn
+      bodyMapper: Mappers.PeerAsn,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.peerAsnName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.peerAsnName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerAsn
+      bodyMapper: Mappers.PeerAsn,
     },
     201: {
-      bodyMapper: Mappers.PeerAsn
+      bodyMapper: Mappers.PeerAsn,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.peerAsn,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.peerAsnName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.peerAsnName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns/{peerAsnName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.peerAsnName
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.peerAsnName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peerAsns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerAsnListResult
+      bodyMapper: Mappers.PeerAsnListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeerAsnListResult
+      bodyMapper: Mappers.PeerAsnListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
