@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogClient } from "../src/index.js";
+import { DatadogClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -9,7 +9,7 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new MicrosoftDatadogClient(new DefaultAzureCredential(), subscriptionId);
+    const client = new DatadogClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
@@ -18,7 +18,7 @@ describe("snippets", () => {
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new MicrosoftDatadogClient(credential, subscriptionId);
+    const client = new DatadogClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {
