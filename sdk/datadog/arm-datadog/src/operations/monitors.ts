@@ -13,13 +13,16 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { MicrosoftDatadogClient } from "../microsoftDatadogClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
+  DatadogMonitorResource,
+  MonitorsListNextOptionalParams,
+  MonitorsListOptionalParams,
+  MonitorsListResponse,
+  MonitorsListByResourceGroupNextOptionalParams,
+  MonitorsListByResourceGroupOptionalParams,
+  MonitorsListByResourceGroupResponse,
   DatadogApiKey,
   MonitorsListApiKeysNextOptionalParams,
   MonitorsListApiKeysOptionalParams,
@@ -36,31 +39,25 @@ import {
   MonitorsListMonitoredResourcesNextOptionalParams,
   MonitorsListMonitoredResourcesOptionalParams,
   MonitorsListMonitoredResourcesResponse,
-  DatadogMonitorResource,
-  MonitorsListNextOptionalParams,
-  MonitorsListOptionalParams,
-  MonitorsListResponse,
-  MonitorsListByResourceGroupNextOptionalParams,
-  MonitorsListByResourceGroupOptionalParams,
-  MonitorsListByResourceGroupResponse,
-  MonitorsGetDefaultKeyOptionalParams,
-  MonitorsGetDefaultKeyResponse,
-  MonitorsSetDefaultKeyOptionalParams,
   MonitorsGetOptionalParams,
   MonitorsGetResponse,
   MonitorsCreateOptionalParams,
   MonitorsCreateResponse,
+  DatadogMonitorResourceUpdateParameters,
   MonitorsUpdateOptionalParams,
   MonitorsUpdateResponse,
   MonitorsDeleteOptionalParams,
+  MonitorsGetDefaultKeyOptionalParams,
+  MonitorsGetDefaultKeyResponse,
   MonitorsRefreshSetPasswordLinkOptionalParams,
   MonitorsRefreshSetPasswordLinkResponse,
+  MonitorsSetDefaultKeyOptionalParams,
+  MonitorsListNextResponse,
+  MonitorsListByResourceGroupNextResponse,
   MonitorsListApiKeysNextResponse,
   MonitorsListHostsNextResponse,
   MonitorsListLinkedResourcesNextResponse,
   MonitorsListMonitoredResourcesNextResponse,
-  MonitorsListNextResponse,
-  MonitorsListByResourceGroupNextResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -77,339 +74,11 @@ export class MonitorsImpl implements Monitors {
   }
 
   /**
-   * List the api keys for a given monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  public listApiKeys(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListApiKeysOptionalParams
-  ): PagedAsyncIterableIterator<DatadogApiKey> {
-    const iter = this.listApiKeysPagingAll(
-      resourceGroupName,
-      monitorName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listApiKeysPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listApiKeysPagingPage(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListApiKeysOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<DatadogApiKey[]> {
-    let result: MonitorsListApiKeysResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listApiKeys(resourceGroupName, monitorName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listApiKeysNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listApiKeysPagingAll(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListApiKeysOptionalParams
-  ): AsyncIterableIterator<DatadogApiKey> {
-    for await (const page of this.listApiKeysPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List the hosts for a given monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  public listHosts(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListHostsOptionalParams
-  ): PagedAsyncIterableIterator<DatadogHost> {
-    const iter = this.listHostsPagingAll(
-      resourceGroupName,
-      monitorName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listHostsPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listHostsPagingPage(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListHostsOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<DatadogHost[]> {
-    let result: MonitorsListHostsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listHosts(resourceGroupName, monitorName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listHostsNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listHostsPagingAll(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListHostsOptionalParams
-  ): AsyncIterableIterator<DatadogHost> {
-    for await (const page of this.listHostsPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List all Azure resources associated to the same Datadog organization as the target resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  public listLinkedResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams
-  ): PagedAsyncIterableIterator<LinkedResource> {
-    const iter = this.listLinkedResourcesPagingAll(
-      resourceGroupName,
-      monitorName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listLinkedResourcesPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listLinkedResourcesPagingPage(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<LinkedResource[]> {
-    let result: MonitorsListLinkedResourcesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listLinkedResources(
-        resourceGroupName,
-        monitorName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listLinkedResourcesNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listLinkedResourcesPagingAll(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams
-  ): AsyncIterableIterator<LinkedResource> {
-    for await (const page of this.listLinkedResourcesPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * List the resources currently being monitored by the Datadog monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  public listMonitoredResources(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
-  ): PagedAsyncIterableIterator<MonitoredResource> {
-    const iter = this.listMonitoredResourcesPagingAll(
-      resourceGroupName,
-      monitorName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listMonitoredResourcesPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listMonitoredResourcesPagingPage(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<MonitoredResource[]> {
-    let result: MonitorsListMonitoredResourcesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listMonitoredResources(
-        resourceGroupName,
-        monitorName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listMonitoredResourcesNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listMonitoredResourcesPagingAll(
-    resourceGroupName: string,
-    monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
-  ): AsyncIterableIterator<MonitoredResource> {
-    for await (const page of this.listMonitoredResourcesPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * List all monitors under the specified subscription.
    * @param options The options parameters.
    */
   public list(
-    options?: MonitorsListOptionalParams
+    options?: MonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogMonitorResource> {
     const iter = this.listPagingAll(options);
     return {
@@ -424,13 +93,13 @@ export class MonitorsImpl implements Monitors {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MonitorsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatadogMonitorResource[]> {
     let result: MonitorsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -451,7 +120,7 @@ export class MonitorsImpl implements Monitors {
   }
 
   private async *listPagingAll(
-    options?: MonitorsListOptionalParams
+    options?: MonitorsListOptionalParams,
   ): AsyncIterableIterator<DatadogMonitorResource> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -465,7 +134,7 @@ export class MonitorsImpl implements Monitors {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DatadogMonitorResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -479,19 +148,15 @@ export class MonitorsImpl implements Monitors {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: MonitorsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatadogMonitorResource[]> {
     let result: MonitorsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -503,11 +168,7 @@ export class MonitorsImpl implements Monitors {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -517,12 +178,9 @@ export class MonitorsImpl implements Monitors {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DatadogMonitorResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -533,49 +191,65 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  private _listApiKeys(
+  public listApiKeys(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListApiKeysOptionalParams
-  ): Promise<MonitorsListApiKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      listApiKeysOperationSpec
-    );
+    options?: MonitorsListApiKeysOptionalParams,
+  ): PagedAsyncIterableIterator<DatadogApiKey> {
+    const iter = this.listApiKeysPagingAll(resourceGroupName, monitorName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listApiKeysPagingPage(resourceGroupName, monitorName, options, settings);
+      },
+    };
   }
 
-  /**
-   * Get the default api key.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  getDefaultKey(
+  private async *listApiKeysPagingPage(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetDefaultKeyOptionalParams
-  ): Promise<MonitorsGetDefaultKeyResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      getDefaultKeyOperationSpec
-    );
+    options?: MonitorsListApiKeysOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DatadogApiKey[]> {
+    let result: MonitorsListApiKeysResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listApiKeys(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listApiKeysNext(
+        resourceGroupName,
+        monitorName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
-  /**
-   * Set the default api key.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param options The options parameters.
-   */
-  setDefaultKey(
+  private async *listApiKeysPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsSetDefaultKeyOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      setDefaultKeyOperationSpec
-    );
+    options?: MonitorsListApiKeysOptionalParams,
+  ): AsyncIterableIterator<DatadogApiKey> {
+    for await (const page of this.listApiKeysPagingPage(resourceGroupName, monitorName, options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -584,15 +258,65 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  private _listHosts(
+  public listHosts(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListHostsOptionalParams
-  ): Promise<MonitorsListHostsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      listHostsOperationSpec
-    );
+    options?: MonitorsListHostsOptionalParams,
+  ): PagedAsyncIterableIterator<DatadogHost> {
+    const iter = this.listHostsPagingAll(resourceGroupName, monitorName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listHostsPagingPage(resourceGroupName, monitorName, options, settings);
+      },
+    };
+  }
+
+  private async *listHostsPagingPage(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListHostsOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DatadogHost[]> {
+    let result: MonitorsListHostsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listHosts(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listHostsNext(
+        resourceGroupName,
+        monitorName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listHostsPagingAll(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListHostsOptionalParams,
+  ): AsyncIterableIterator<DatadogHost> {
+    for await (const page of this.listHostsPagingPage(resourceGroupName, monitorName, options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -601,15 +325,74 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  private _listLinkedResources(
+  public listLinkedResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListLinkedResourcesOptionalParams
-  ): Promise<MonitorsListLinkedResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      listLinkedResourcesOperationSpec
-    );
+    options?: MonitorsListLinkedResourcesOptionalParams,
+  ): PagedAsyncIterableIterator<LinkedResource> {
+    const iter = this.listLinkedResourcesPagingAll(resourceGroupName, monitorName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listLinkedResourcesPagingPage(
+          resourceGroupName,
+          monitorName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listLinkedResourcesPagingPage(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<LinkedResource[]> {
+    let result: MonitorsListLinkedResourcesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listLinkedResources(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listLinkedResourcesNext(
+        resourceGroupName,
+        monitorName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listLinkedResourcesPagingAll(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams,
+  ): AsyncIterableIterator<LinkedResource> {
+    for await (const page of this.listLinkedResourcesPagingPage(
+      resourceGroupName,
+      monitorName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -618,24 +401,81 @@ export class MonitorsImpl implements Monitors {
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
-  private _listMonitoredResources(
+  public listMonitoredResources(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsListMonitoredResourcesOptionalParams
-  ): Promise<MonitorsListMonitoredResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, monitorName, options },
-      listMonitoredResourcesOperationSpec
-    );
+    options?: MonitorsListMonitoredResourcesOptionalParams,
+  ): PagedAsyncIterableIterator<MonitoredResource> {
+    const iter = this.listMonitoredResourcesPagingAll(resourceGroupName, monitorName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listMonitoredResourcesPagingPage(
+          resourceGroupName,
+          monitorName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listMonitoredResourcesPagingPage(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListMonitoredResourcesOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<MonitoredResource[]> {
+    let result: MonitorsListMonitoredResourcesResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listMonitoredResources(resourceGroupName, monitorName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listMonitoredResourcesNext(
+        resourceGroupName,
+        monitorName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listMonitoredResourcesPagingAll(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListMonitoredResourcesOptionalParams,
+  ): AsyncIterableIterator<MonitoredResource> {
+    for await (const page of this.listMonitoredResourcesPagingPage(
+      resourceGroupName,
+      monitorName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
    * List all monitors under the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: MonitorsListOptionalParams
-  ): Promise<MonitorsListResponse> {
+  private _list(options?: MonitorsListOptionalParams): Promise<MonitorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -646,11 +486,11 @@ export class MonitorsImpl implements Monitors {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: MonitorsListByResourceGroupOptionalParams
+    options?: MonitorsListByResourceGroupOptionalParams,
   ): Promise<MonitorsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -663,11 +503,11 @@ export class MonitorsImpl implements Monitors {
   get(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsGetOptionalParams
+    options?: MonitorsGetOptionalParams,
   ): Promise<MonitorsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -675,35 +515,30 @@ export class MonitorsImpl implements Monitors {
    * Create a monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param body
    * @param options The options parameters.
    */
   async beginCreate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MonitorsCreateResponse>,
-      MonitorsCreateResponse
-    >
-  > {
+    body: DatadogMonitorResource,
+    options?: MonitorsCreateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitorsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -712,8 +547,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -721,15 +556,15 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
-      spec: createOperationSpec
+      args: { resourceGroupName, monitorName, body, options },
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitorsCreateResponse,
@@ -737,7 +572,7 @@ export class MonitorsImpl implements Monitors {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -747,18 +582,16 @@ export class MonitorsImpl implements Monitors {
    * Create a monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param body
    * @param options The options parameters.
    */
   async beginCreateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsCreateOptionalParams
+    body: DatadogMonitorResource,
+    options?: MonitorsCreateOptionalParams,
   ): Promise<MonitorsCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      monitorName,
-      options
-    );
+    const poller = await this.beginCreate(resourceGroupName, monitorName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -766,35 +599,30 @@ export class MonitorsImpl implements Monitors {
    * Update a monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param body The parameters for a PATCH request to a monitor resource.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<MonitorsUpdateResponse>,
-      MonitorsUpdateResponse
-    >
-  > {
+    body: DatadogMonitorResourceUpdateParameters,
+    options?: MonitorsUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<MonitorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -803,8 +631,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -812,22 +640,23 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, monitorName, options },
-      spec: updateOperationSpec
+      args: { resourceGroupName, monitorName, body, options },
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       MonitorsUpdateResponse,
       OperationState<MonitorsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -837,18 +666,16 @@ export class MonitorsImpl implements Monitors {
    * Update a monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
+   * @param body The parameters for a PATCH request to a monitor resource.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsUpdateOptionalParams
+    body: DatadogMonitorResourceUpdateParameters,
+    options?: MonitorsUpdateOptionalParams,
   ): Promise<MonitorsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      monitorName,
-      options
-    );
+    const poller = await this.beginUpdate(resourceGroupName, monitorName, body, options);
     return poller.pollUntilDone();
   }
 
@@ -861,25 +688,23 @@ export class MonitorsImpl implements Monitors {
   async beginDelete(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -888,8 +713,8 @@ export class MonitorsImpl implements Monitors {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -897,19 +722,20 @@ export class MonitorsImpl implements Monitors {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -924,14 +750,95 @@ export class MonitorsImpl implements Monitors {
   async beginDeleteAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsDeleteOptionalParams
+    options?: MonitorsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      monitorName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, monitorName, options);
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Get the default api key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  getDefaultKey(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsGetDefaultKeyOptionalParams,
+  ): Promise<MonitorsGetDefaultKeyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      getDefaultKeyOperationSpec,
+    );
+  }
+
+  /**
+   * List the api keys for a given monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  private _listApiKeys(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListApiKeysOptionalParams,
+  ): Promise<MonitorsListApiKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      listApiKeysOperationSpec,
+    );
+  }
+
+  /**
+   * List the hosts for a given monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  private _listHosts(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListHostsOptionalParams,
+  ): Promise<MonitorsListHostsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      listHostsOperationSpec,
+    );
+  }
+
+  /**
+   * List all Azure resources associated to the same Datadog organization as the target resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  private _listLinkedResources(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListLinkedResourcesOptionalParams,
+  ): Promise<MonitorsListLinkedResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      listLinkedResourcesOperationSpec,
+    );
+  }
+
+  /**
+   * List the resources currently being monitored by the Datadog monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  private _listMonitoredResources(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsListMonitoredResourcesOptionalParams,
+  ): Promise<MonitorsListMonitoredResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      listMonitoredResourcesOperationSpec,
+    );
   }
 
   /**
@@ -943,11 +850,57 @@ export class MonitorsImpl implements Monitors {
   refreshSetPasswordLink(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorsRefreshSetPasswordLinkOptionalParams
+    options?: MonitorsRefreshSetPasswordLinkOptionalParams,
   ): Promise<MonitorsRefreshSetPasswordLinkResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      refreshSetPasswordLinkOperationSpec
+      refreshSetPasswordLinkOperationSpec,
+    );
+  }
+
+  /**
+   * Set the default api key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param options The options parameters.
+   */
+  setDefaultKey(
+    resourceGroupName: string,
+    monitorName: string,
+    options?: MonitorsSetDefaultKeyOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, monitorName, options },
+      setDefaultKeyOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: MonitorsListNextOptionalParams,
+  ): Promise<MonitorsListNextResponse> {
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
+  }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: MonitorsListByResourceGroupNextOptionalParams,
+  ): Promise<MonitorsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -962,11 +915,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListApiKeysNextOptionalParams
+    options?: MonitorsListApiKeysNextOptionalParams,
   ): Promise<MonitorsListApiKeysNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listApiKeysNextOperationSpec
+      listApiKeysNextOperationSpec,
     );
   }
 
@@ -981,11 +934,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListHostsNextOptionalParams
+    options?: MonitorsListHostsNextOptionalParams,
   ): Promise<MonitorsListHostsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listHostsNextOperationSpec
+      listHostsNextOperationSpec,
     );
   }
 
@@ -1000,11 +953,11 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListLinkedResourcesNextOptionalParams
+    options?: MonitorsListLinkedResourcesNextOptionalParams,
   ): Promise<MonitorsListLinkedResourcesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listLinkedResourcesNextOperationSpec
+      listLinkedResourcesNextOperationSpec,
     );
   }
 
@@ -1019,102 +972,89 @@ export class MonitorsImpl implements Monitors {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: MonitorsListMonitoredResourcesNextOptionalParams
+    options?: MonitorsListMonitoredResourcesNextOptionalParams,
   ): Promise<MonitorsListMonitoredResourcesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listMonitoredResourcesNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: MonitorsListNextOptionalParams
-  ): Promise<MonitorsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: MonitorsListByResourceGroupNextOptionalParams
-  ): Promise<MonitorsListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listMonitoredResourcesNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listApiKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listApiKeys",
-  httpMethod: "POST",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/monitors",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogApiKeyListResponse
+      bodyMapper: Mappers.DatadogMonitorResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogMonitorResourceListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogMonitorResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getDefaultKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/getDefaultKey",
-  httpMethod: "POST",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogApiKey
+      bodyMapper: Mappers.DatadogMonitorResource,
+    },
+    201: {
+      bodyMapper: Mappers.DatadogMonitorResource,
+    },
+    202: {
+      bodyMapper: Mappers.DatadogMonitorResource,
+    },
+    204: {
+      bodyMapper: Mappers.DatadogMonitorResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const setDefaultKeyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/setDefaultKey",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -1122,157 +1062,31 @@ const setDefaultKeyOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listHostsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listHosts",
-  httpMethod: "POST",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogHostListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listLinkedResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listLinkedResources",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkedResourceListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Datadog/monitors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResourceListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResourceListResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResource
+      bodyMapper: Mappers.DatadogMonitorResource,
     },
     201: {
-      bodyMapper: Mappers.DatadogMonitorResource
+      bodyMapper: Mappers.DatadogMonitorResource,
     },
     202: {
-      bodyMapper: Mappers.DatadogMonitorResource
+      bodyMapper: Mappers.DatadogMonitorResource,
     },
     204: {
-      bodyMapper: Mappers.DatadogMonitorResource
+      bodyMapper: Mappers.DatadogMonitorResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -1280,48 +1094,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    201: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    202: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    204: {
-      bodyMapper: Mappers.DatadogMonitorResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.body3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1329,161 +1109,282 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const refreshSetPasswordLinkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/refreshSetPasswordLink",
+const getDefaultKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/getDefaultKey",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSetPasswordLink
+      bodyMapper: Mappers.DatadogApiKey,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listApiKeysNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const listApiKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listApiKeys",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogApiKeyListResponse
+      bodyMapper: Mappers.DatadogApiKeyListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listHostsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const listHostsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listHosts",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogHostListResponse
+      bodyMapper: Mappers.DatadogHostListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listLinkedResourcesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const listLinkedResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listLinkedResources",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LinkedResourceListResponse
+      bodyMapper: Mappers.LinkedResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listMonitoredResourcesNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const listMonitoredResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MonitoredResourceListResponse
+      bodyMapper: Mappers.MonitoredResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const refreshSetPasswordLinkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/refreshSetPasswordLink",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogSetPasswordLink,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const setDefaultKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/setDefaultKey",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogMonitorResourceListResponse
+      bodyMapper: Mappers.DatadogMonitorResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogMonitorResourceListResponse
+      bodyMapper: Mappers.DatadogMonitorResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listApiKeysNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogApiKeyListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listHostsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogHostListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listLinkedResourcesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkedResourceListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listMonitoredResourcesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MonitoredResourceListResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

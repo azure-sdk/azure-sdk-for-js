@@ -10,10 +10,10 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   MonitoringTagRules,
   TagRulesListOptionalParams,
+  TagRulesGetOptionalParams,
+  TagRulesGetResponse,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesCreateOrUpdateResponse,
-  TagRulesGetOptionalParams,
-  TagRulesGetResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,21 +28,8 @@ export interface TagRules {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringTagRules>;
-  /**
-   * Create or update a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param ruleSetName Rule set name
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams
-  ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Get a tag rule set for a given monitor resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -54,6 +41,21 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
+  /**
+   * Create or update a tag rule set for a given monitor resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param ruleSetName Rule set name
+   * @param body Capture logs and metrics of Azure resources based on ARM tags.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    ruleSetName: string,
+    body: MonitoringTagRules,
+    options?: TagRulesCreateOrUpdateOptionalParams,
+  ): Promise<TagRulesCreateOrUpdateResponse>;
 }

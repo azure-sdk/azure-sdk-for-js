@@ -11,10 +11,10 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DatadogSingleSignOnResource,
   SingleSignOnConfigurationsListOptionalParams,
+  SingleSignOnConfigurationsGetOptionalParams,
+  SingleSignOnConfigurationsGetResponse,
   SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   SingleSignOnConfigurationsCreateOrUpdateResponse,
-  SingleSignOnConfigurationsGetOptionalParams,
-  SingleSignOnConfigurationsGetResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,39 +29,8 @@ export interface SingleSignOnConfigurations {
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogSingleSignOnResource>;
-  /**
-   * Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
-      SingleSignOnConfigurationsCreateOrUpdateResponse
-    >
-  >;
-  /**
-   * Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
-   * @param options The options parameters.
-   */
-  beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    monitorName: string,
-    configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
   /**
    * Gets the datadog single sign-on resource for the given Monitor.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -73,6 +42,43 @@ export interface SingleSignOnConfigurations {
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsGetOptionalParams
+    options?: SingleSignOnConfigurationsGetOptionalParams,
   ): Promise<SingleSignOnConfigurationsGetResponse>;
+  /**
+   * Configures single-sign-on for this resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param configurationName Configuration name
+   * @param body Concrete proxy resource types can be created by aliasing this type using a specific
+   *             property type.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    configurationName: string,
+    body: DatadogSingleSignOnResource,
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
+      SingleSignOnConfigurationsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Configures single-sign-on for this resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param configurationName Configuration name
+   * @param body Concrete proxy resource types can be created by aliasing this type using a specific
+   *             property type.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    configurationName: string,
+    body: DatadogSingleSignOnResource,
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
 }
