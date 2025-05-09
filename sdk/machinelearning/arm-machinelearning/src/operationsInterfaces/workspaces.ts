@@ -132,12 +132,7 @@ export interface Workspaces {
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesUpdateResponse>,
-      WorkspacesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>>;
   /**
    * Updates a machine learning workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -162,10 +157,7 @@ export interface Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesDiagnoseResponse>,
-      WorkspacesDiagnoseResponse
-    >
+    SimplePollerLike<OperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>
   >;
   /**
    * Diagnose workspace setup issue.
