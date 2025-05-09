@@ -62,9 +62,7 @@ export interface Tokens {
     tokenName: string,
     tokenCreateParameters: Token,
     options?: TokensCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TokensCreateResponse>, TokensCreateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<TokensCreateResponse>, TokensCreateResponse>>;
   /**
    * Creates a token for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -120,9 +118,7 @@ export interface Tokens {
     tokenName: string,
     tokenUpdateParameters: TokenUpdateParameters,
     options?: TokensUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<TokensUpdateResponse>, TokensUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<TokensUpdateResponse>, TokensUpdateResponse>>;
   /**
    * Updates a token with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

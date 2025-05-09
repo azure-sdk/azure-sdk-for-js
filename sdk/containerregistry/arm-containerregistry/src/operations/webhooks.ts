@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Webhook,
@@ -81,12 +77,7 @@ export class WebhooksImpl implements Webhooks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -107,12 +98,7 @@ export class WebhooksImpl implements Webhooks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -125,11 +111,7 @@ export class WebhooksImpl implements Webhooks {
     registryName: string,
     options?: WebhooksListOptionalParams,
   ): AsyncIterableIterator<Webhook> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -147,12 +129,7 @@ export class WebhooksImpl implements Webhooks {
     webhookName: string,
     options?: WebhooksListEventsOptionalParams,
   ): PagedAsyncIterableIterator<Event> {
-    const iter = this.listEventsPagingAll(
-      resourceGroupName,
-      registryName,
-      webhookName,
-      options,
-    );
+    const iter = this.listEventsPagingAll(resourceGroupName, registryName, webhookName, options);
     return {
       next() {
         return iter.next();
@@ -185,12 +162,7 @@ export class WebhooksImpl implements Webhooks {
     let result: WebhooksListEventsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listEvents(
-        resourceGroupName,
-        registryName,
-        webhookName,
-        options,
-      );
+      result = await this._listEvents(resourceGroupName, registryName, webhookName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -277,12 +249,7 @@ export class WebhooksImpl implements Webhooks {
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksCreateResponse>,
-      WebhooksCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<WebhooksCreateResponse>, WebhooksCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -293,8 +260,7 @@ export class WebhooksImpl implements Webhooks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -392,8 +358,7 @@ export class WebhooksImpl implements Webhooks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -447,12 +412,7 @@ export class WebhooksImpl implements Webhooks {
     webhookName: string,
     options?: WebhooksDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      webhookName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, registryName, webhookName, options);
     return poller.pollUntilDone();
   }
 
@@ -470,12 +430,7 @@ export class WebhooksImpl implements Webhooks {
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksUpdateResponse>,
-      WebhooksUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<WebhooksUpdateResponse>, WebhooksUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -486,8 +441,7 @@ export class WebhooksImpl implements Webhooks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

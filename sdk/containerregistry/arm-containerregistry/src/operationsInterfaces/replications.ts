@@ -63,10 +63,7 @@ export interface Replications {
     replication: Replication,
     options?: ReplicationsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsCreateResponse>,
-      ReplicationsCreateResponse
-    >
+    SimplePollerLike<OperationState<ReplicationsCreateResponse>, ReplicationsCreateResponse>
   >;
   /**
    * Creates a replication for a container registry with the specified parameters.
@@ -124,10 +121,7 @@ export interface Replications {
     replicationUpdateParameters: ReplicationUpdateParameters,
     options?: ReplicationsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ReplicationsUpdateResponse>,
-      ReplicationsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ReplicationsUpdateResponse>, ReplicationsUpdateResponse>
   >;
   /**
    * Updates a replication for a container registry with the specified parameters.

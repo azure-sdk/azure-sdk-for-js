@@ -82,12 +82,7 @@ export interface Webhooks {
     webhookName: string,
     webhookCreateParameters: WebhookCreateParameters,
     options?: WebhooksCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksCreateResponse>,
-      WebhooksCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<WebhooksCreateResponse>, WebhooksCreateResponse>>;
   /**
    * Creates a webhook for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -143,12 +138,7 @@ export interface Webhooks {
     webhookName: string,
     webhookUpdateParameters: WebhookUpdateParameters,
     options?: WebhooksUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WebhooksUpdateResponse>,
-      WebhooksUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<WebhooksUpdateResponse>, WebhooksUpdateResponse>>;
   /**
    * Updates a webhook with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

@@ -60,10 +60,7 @@ export interface ExportPipelines {
     exportPipelineCreateParameters: ExportPipeline,
     options?: ExportPipelinesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportPipelinesCreateResponse>,
-      ExportPipelinesCreateResponse
-    >
+    SimplePollerLike<OperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>
   >;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.
@@ -87,20 +84,7 @@ export interface ExportPipelines {
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    exportPipelineName: string,
-    options?: ExportPipelinesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param exportPipelineName The name of the export pipeline.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     registryName: string,
     exportPipelineName: string,

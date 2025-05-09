@@ -760,12 +760,7 @@ export const IdentityProperties: coreClient.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None",
-          ],
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"],
         },
       },
       userAssignedIdentities: {
@@ -926,6 +921,7 @@ export const ExportPipelineTargetProperties: coreClient.CompositeMapper = {
     className: "ExportPipelineTargetProperties",
     modelProperties: {
       type: {
+        defaultValue: "AzureStorageBlobContainer",
         serializedName: "type",
         type: {
           name: "String",
@@ -939,7 +935,12 @@ export const ExportPipelineTargetProperties: coreClient.CompositeMapper = {
       },
       keyVaultUri: {
         serializedName: "keyVaultUri",
-        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAccessMode: {
+        serializedName: "storageAccessMode",
         type: {
           name: "String",
         },
@@ -1097,7 +1098,12 @@ export const ImportPipelineSourceProperties: coreClient.CompositeMapper = {
       },
       keyVaultUri: {
         serializedName: "keyVaultUri",
-        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      storageAccessMode: {
+        serializedName: "storageAccessMode",
         type: {
           name: "String",
         },
@@ -1239,85 +1245,83 @@ export const OperationDisplayDefinition: coreClient.CompositeMapper = {
   },
 };
 
-export const OperationServiceSpecificationDefinition: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "OperationServiceSpecificationDefinition",
-      modelProperties: {
-        metricSpecifications: {
-          serializedName: "metricSpecifications",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "OperationMetricSpecificationDefinition",
-              },
+export const OperationServiceSpecificationDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationServiceSpecificationDefinition",
+    modelProperties: {
+      metricSpecifications: {
+        serializedName: "metricSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationMetricSpecificationDefinition",
             },
           },
         },
-        logSpecifications: {
-          serializedName: "logSpecifications",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "OperationLogSpecificationDefinition",
-              },
+      },
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OperationLogSpecificationDefinition",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
-export const OperationMetricSpecificationDefinition: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "OperationMetricSpecificationDefinition",
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          type: {
-            name: "String",
-          },
+export const OperationMetricSpecificationDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationMetricSpecificationDefinition",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
         },
-        displayName: {
-          serializedName: "displayName",
-          type: {
-            name: "String",
-          },
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String",
         },
-        displayDescription: {
-          serializedName: "displayDescription",
-          type: {
-            name: "String",
-          },
+      },
+      displayDescription: {
+        serializedName: "displayDescription",
+        type: {
+          name: "String",
         },
-        unit: {
-          serializedName: "unit",
-          type: {
-            name: "String",
-          },
+      },
+      unit: {
+        serializedName: "unit",
+        type: {
+          name: "String",
         },
-        aggregationType: {
-          serializedName: "aggregationType",
-          type: {
-            name: "String",
-          },
+      },
+      aggregationType: {
+        serializedName: "aggregationType",
+        type: {
+          name: "String",
         },
-        internalMetricName: {
-          serializedName: "internalMetricName",
-          type: {
-            name: "String",
-          },
+      },
+      internalMetricName: {
+        serializedName: "internalMetricName",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const OperationLogSpecificationDefinition: coreClient.CompositeMapper = {
   type: {
@@ -4735,22 +4739,21 @@ export const DebianArchiveProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const DebianArchivePackageSourceProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DebianArchivePackageSourceProperties",
-      modelProperties: {
-        ...ArchivePackageSourceProperties.type.modelProperties,
-        distributionName: {
-          serializedName: "distributionName",
-          type: {
-            name: "String",
-          },
+export const DebianArchivePackageSourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DebianArchivePackageSourceProperties",
+    modelProperties: {
+      ...ArchivePackageSourceProperties.type.modelProperties,
+      distributionName: {
+        serializedName: "distributionName",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const Archive: coreClient.CompositeMapper = {
   type: {
@@ -6319,8 +6322,7 @@ export const DockerBuildStepUpdateParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DockerBuildStepUpdateParameters",
     uberParent: "TaskStepUpdateParameters",
-    polymorphicDiscriminator:
-      TaskStepUpdateParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: TaskStepUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepUpdateParameters.type.modelProperties,
       imageNames: {
@@ -6380,8 +6382,7 @@ export const FileTaskStepUpdateParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "FileTaskStepUpdateParameters",
     uberParent: "TaskStepUpdateParameters",
-    polymorphicDiscriminator:
-      TaskStepUpdateParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: TaskStepUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepUpdateParameters.type.modelProperties,
       taskFilePath: {
@@ -6418,8 +6419,7 @@ export const EncodedTaskStepUpdateParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "EncodedTaskStepUpdateParameters",
     uberParent: "TaskStepUpdateParameters",
-    polymorphicDiscriminator:
-      TaskStepUpdateParameters.type.polymorphicDiscriminator,
+    polymorphicDiscriminator: TaskStepUpdateParameters.type.polymorphicDiscriminator,
     modelProperties: {
       ...TaskStepUpdateParameters.type.modelProperties,
       encodedTaskContent: {
@@ -6600,21 +6600,20 @@ export const ConnectedRegistriesUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const ConnectedRegistriesDeactivateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ConnectedRegistriesDeactivateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const ConnectedRegistriesDeactivateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectedRegistriesDeactivateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const CredentialSetsCreateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -6668,21 +6667,6 @@ export const ExportPipelinesCreateHeaders: coreClient.CompositeMapper = {
     modelProperties: {
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const ExportPipelinesDeleteHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ExportPipelinesDeleteHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
         type: {
           name: "String",
         },
@@ -6751,29 +6735,13 @@ export const RegistriesUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const RegistriesGenerateCredentialsHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RegistriesGenerateCredentialsHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const ImportPipelinesCreateHeaders: coreClient.CompositeMapper = {
+export const RegistriesGenerateCredentialsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ImportPipelinesCreateHeaders",
+    className: "RegistriesGenerateCredentialsHeaders",
     modelProperties: {
-      azureAsyncOperation: {
-        serializedName: "azure-asyncoperation",
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },
@@ -6782,13 +6750,13 @@ export const ImportPipelinesCreateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const ImportPipelinesDeleteHeaders: coreClient.CompositeMapper = {
+export const ImportPipelinesCreateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ImportPipelinesDeleteHeaders",
+    className: "ImportPipelinesCreateHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
         type: {
           name: "String",
         },
@@ -6812,10 +6780,25 @@ export const PipelineRunsCreateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const PipelineRunsDeleteHeaders: coreClient.CompositeMapper = {
+export const PrivateEndpointConnectionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PipelineRunsDeleteHeaders",
+    className: "PrivateEndpointConnectionsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -6826,38 +6809,6 @@ export const PipelineRunsDeleteHeaders: coreClient.CompositeMapper = {
     },
   },
 };
-
-export const PrivateEndpointConnectionsCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionsCreateOrUpdateHeaders",
-      modelProperties: {
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionsDeleteHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
 
 export const ReplicationsCreateHeaders: coreClient.CompositeMapper = {
   type: {
