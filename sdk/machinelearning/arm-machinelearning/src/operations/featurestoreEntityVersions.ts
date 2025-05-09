@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FeaturestoreEntityVersion,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FeaturestoreEntityVersions operations. */
-export class FeaturestoreEntityVersionsImpl
-  implements FeaturestoreEntityVersions
-{
+export class FeaturestoreEntityVersionsImpl implements FeaturestoreEntityVersions {
   private readonly client: AzureMachineLearningServicesManagementClient;
 
   /**
@@ -60,12 +54,7 @@ export class FeaturestoreEntityVersionsImpl
     name: string,
     options?: FeaturestoreEntityVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<FeaturestoreEntityVersion> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      workspaceName,
-      name,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, workspaceName, name, options);
     return {
       next() {
         return iter.next();
@@ -77,13 +66,7 @@ export class FeaturestoreEntityVersionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          workspaceName,
-          name,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, workspaceName, name, options, settings);
       },
     };
   }
@@ -98,12 +81,7 @@ export class FeaturestoreEntityVersionsImpl
     let result: FeaturestoreEntityVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        workspaceName,
-        name,
-        options,
-      );
+      result = await this._list(resourceGroupName, workspaceName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -130,12 +108,7 @@ export class FeaturestoreEntityVersionsImpl
     name: string,
     options?: FeaturestoreEntityVersionsListOptionalParams,
   ): AsyncIterableIterator<FeaturestoreEntityVersion> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      workspaceName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, workspaceName, name, options)) {
       yield* page;
     }
   }
@@ -184,8 +157,7 @@ export class FeaturestoreEntityVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -241,13 +213,7 @@ export class FeaturestoreEntityVersionsImpl
     version: string,
     options?: FeaturestoreEntityVersionsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      name,
-      version,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, name, version, options);
     return poller.pollUntilDone();
   }
 
@@ -304,8 +270,7 @@ export class FeaturestoreEntityVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -529,9 +494,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.nextLink,
     Parameters.name,
   ],
   headerParameters: [Parameters.accept],
