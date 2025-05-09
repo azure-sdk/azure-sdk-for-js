@@ -6,27 +6,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
-  Namespace,
-  NamespacesListByManagedClusterOptionalParams,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  NamespacesCreateOrUpdateOptionalParams,
-  NamespacesCreateOrUpdateResponse,
-  NamespacesDeleteOptionalParams,
-  NamespacesDeleteResponse,
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
+  ManagedNamespace,
+  ManagedNamespacesListByManagedClusterOptionalParams,
+  ManagedNamespacesGetOptionalParams,
+  ManagedNamespacesGetResponse,
+  ManagedNamespacesCreateOrUpdateOptionalParams,
+  ManagedNamespacesCreateOrUpdateResponse,
+  ManagedNamespacesDeleteOptionalParams,
+  ManagedNamespacesDeleteResponse,
   TagsObject,
-  NamespacesUpdateOptionalParams,
-  NamespacesUpdateResponse,
-  NamespacesListCredentialOptionalParams,
-  NamespacesListCredentialResponse,
+  ManagedNamespacesUpdateOptionalParams,
+  ManagedNamespacesUpdateResponse,
+  ManagedNamespacesListCredentialOptionalParams,
+  ManagedNamespacesListCredentialResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Namespaces. */
-export interface Namespaces {
+/** Interface representing a ManagedNamespaces. */
+export interface ManagedNamespaces {
   /**
    * Gets a list of managed namespaces in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -36,92 +36,92 @@ export interface Namespaces {
   listByManagedCluster(
     resourceGroupName: string,
     resourceName: string,
-    options?: NamespacesListByManagedClusterOptionalParams,
-  ): PagedAsyncIterableIterator<Namespace>;
+    options?: ManagedNamespacesListByManagedClusterOptionalParams,
+  ): PagedAsyncIterableIterator<ManagedNamespace>;
   /**
    * Gets the specified namespace of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesGetOptionalParams,
-  ): Promise<NamespacesGetResponse>;
+    managedNamespaceName: string,
+    options?: ManagedNamespacesGetOptionalParams,
+  ): Promise<ManagedNamespacesGetResponse>;
   /**
-   * Creates or updates a namespace in the specified managed cluster.
+   * Creates or updates a managed namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    parameters: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
+    managedNamespaceName: string,
+    parameters: ManagedNamespace,
+    options?: ManagedNamespacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NamespacesCreateOrUpdateResponse>,
-      NamespacesCreateOrUpdateResponse
+      OperationState<ManagedNamespacesCreateOrUpdateResponse>,
+      ManagedNamespacesCreateOrUpdateResponse
     >
   >;
   /**
-   * Creates or updates a namespace in the specified managed cluster.
+   * Creates or updates a managed namespace in the specified managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters The namespace to create or update.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    parameters: Namespace,
-    options?: NamespacesCreateOrUpdateOptionalParams,
-  ): Promise<NamespacesCreateOrUpdateResponse>;
+    managedNamespaceName: string,
+    parameters: ManagedNamespace,
+    options?: ManagedNamespacesCreateOrUpdateOptionalParams,
+  ): Promise<ManagedNamespacesCreateOrUpdateResponse>;
   /**
    * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
+    managedNamespaceName: string,
+    options?: ManagedNamespacesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<NamespacesDeleteResponse>,
-      NamespacesDeleteResponse
+      OperationState<ManagedNamespacesDeleteResponse>,
+      ManagedNamespacesDeleteResponse
     >
   >;
   /**
    * Deletes a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams,
-  ): Promise<NamespacesDeleteResponse>;
+    managedNamespaceName: string,
+    options?: ManagedNamespacesDeleteOptionalParams,
+  ): Promise<ManagedNamespacesDeleteResponse>;
   /**
-   * Updates tags on a namespace.
+   * Updates tags on a managed namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param parameters Parameters supplied to the patch namespace operation, we only support patch tags
    *                   for now.
    * @param options The options parameters.
@@ -129,21 +129,21 @@ export interface Namespaces {
   update(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
+    managedNamespaceName: string,
     parameters: TagsObject,
-    options?: NamespacesUpdateOptionalParams,
-  ): Promise<NamespacesUpdateResponse>;
+    options?: ManagedNamespacesUpdateOptionalParams,
+  ): Promise<ManagedNamespacesUpdateResponse>;
   /**
    * Lists the credentials of a namespace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
-   * @param namespaceName The name of the namespace.
+   * @param managedNamespaceName The name of the managed namespace.
    * @param options The options parameters.
    */
   listCredential(
     resourceGroupName: string,
     resourceName: string,
-    namespaceName: string,
-    options?: NamespacesListCredentialOptionalParams,
-  ): Promise<NamespacesListCredentialResponse>;
+    managedNamespaceName: string,
+    options?: ManagedNamespacesListCredentialOptionalParams,
+  ): Promise<ManagedNamespacesListCredentialResponse>;
 }

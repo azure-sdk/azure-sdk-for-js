@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { OperationStatusResultOperations } from "../operationsInterfaces/index.js";
+import { OperationStatusResultOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ContainerServiceClient } from "../containerServiceClient.js";
-import type {
+import { ContainerServiceClient } from "../containerServiceClient.js";
+import {
   OperationStatusResult,
   OperationStatusResultListNextOptionalParams,
   OperationStatusResultListOptionalParams,
@@ -27,9 +27,7 @@ import type {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OperationStatusResultOperations operations. */
-export class OperationStatusResultOperationsImpl
-  implements OperationStatusResultOperations
-{
+export class OperationStatusResultOperationsImpl implements OperationStatusResultOperations {
   private readonly client: ContainerServiceClient;
 
   /**
@@ -63,12 +61,7 @@ export class OperationStatusResultOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          resourceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, resourceName, options, settings);
       },
     };
   }
@@ -83,20 +76,15 @@ export class OperationStatusResultOperationsImpl
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, resourceName, options);
-      const page = result.value || [];
+      let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        resourceName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, resourceName, continuationToken, options);
       continuationToken = result.nextLink;
-      const page = result.value || [];
+      let page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -107,11 +95,7 @@ export class OperationStatusResultOperationsImpl
     resourceName: string,
     options?: OperationStatusResultListOptionalParams,
   ): AsyncIterableIterator<OperationStatusResult> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      resourceName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, resourceName, options)) {
       yield* page;
     }
   }
