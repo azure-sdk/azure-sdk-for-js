@@ -14,7 +14,7 @@ import {
   DataSourcesCreateOrUpdateResponse,
   DataSourcesDeleteOptionalParams,
   DataSourcesGetOptionalParams,
-  DataSourcesGetResponse
+  DataSourcesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface DataSources {
     resourceGroupName: string,
     workspaceName: string,
     filter: string,
-    options?: DataSourcesListByWorkspaceOptionalParams
+    options?: DataSourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<DataSource>;
   /**
    * Create or update a data source.
@@ -46,7 +46,7 @@ export interface DataSources {
     workspaceName: string,
     dataSourceName: string,
     parameters: DataSource,
-    options?: DataSourcesCreateOrUpdateOptionalParams
+    options?: DataSourcesCreateOrUpdateOptionalParams,
   ): Promise<DataSourcesCreateOrUpdateResponse>;
   /**
    * Deletes a data source instance.
@@ -59,7 +59,7 @@ export interface DataSources {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceName: string,
-    options?: DataSourcesDeleteOptionalParams
+    options?: DataSourcesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a datasource instance.
@@ -72,6 +72,6 @@ export interface DataSources {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceName: string,
-    options?: DataSourcesGetOptionalParams
+    options?: DataSourcesGetOptionalParams,
   ): Promise<DataSourcesGetResponse>;
 }

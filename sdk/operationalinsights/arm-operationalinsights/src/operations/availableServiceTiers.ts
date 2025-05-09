@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   AvailableServiceTiersListByWorkspaceOptionalParams,
-  AvailableServiceTiersListByWorkspaceResponse
+  AvailableServiceTiersListByWorkspaceResponse,
 } from "../models/index.js";
 
 /** Class containing AvailableServiceTiers operations. */
@@ -37,11 +37,11 @@ export class AvailableServiceTiersImpl implements AvailableServiceTiers {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: AvailableServiceTiersListByWorkspaceOptionalParams
+    options?: AvailableServiceTiersListByWorkspaceOptionalParams,
   ): Promise<AvailableServiceTiersListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 }
@@ -49,8 +49,7 @@ export class AvailableServiceTiersImpl implements AvailableServiceTiers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/availableServiceTiers",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/availableServiceTiers",
   httpMethod: "GET",
   responses: {
     200: {
@@ -58,19 +57,19 @@ const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "AvailableServiceTier" }
-          }
-        }
-      }
-    }
+            type: { name: "Composite", className: "AvailableServiceTier" },
+          },
+        },
+      },
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

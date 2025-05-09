@@ -15,7 +15,7 @@ import {
   LinkedStorageAccountsCreateOrUpdateResponse,
   LinkedStorageAccountsDeleteOptionalParams,
   LinkedStorageAccountsGetOptionalParams,
-  LinkedStorageAccountsGetResponse
+  LinkedStorageAccountsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface LinkedStorageAccounts {
   listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: LinkedStorageAccountsListByWorkspaceOptionalParams
+    options?: LinkedStorageAccountsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<LinkedStorageAccountsResource>;
   /**
    * Create or Update a link relation between current workspace and a group of storage accounts of a
@@ -47,7 +47,7 @@ export interface LinkedStorageAccounts {
     workspaceName: string,
     dataSourceType: DataSourceType,
     parameters: LinkedStorageAccountsResource,
-    options?: LinkedStorageAccountsCreateOrUpdateOptionalParams
+    options?: LinkedStorageAccountsCreateOrUpdateOptionalParams,
   ): Promise<LinkedStorageAccountsCreateOrUpdateResponse>;
   /**
    * Deletes all linked storage accounts of a specific data source type associated with the specified
@@ -61,7 +61,7 @@ export interface LinkedStorageAccounts {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceType: DataSourceType,
-    options?: LinkedStorageAccountsDeleteOptionalParams
+    options?: LinkedStorageAccountsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets all linked storage account of a specific data source type associated with the specified
@@ -75,6 +75,6 @@ export interface LinkedStorageAccounts {
     resourceGroupName: string,
     workspaceName: string,
     dataSourceType: DataSourceType,
-    options?: LinkedStorageAccountsGetOptionalParams
+    options?: LinkedStorageAccountsGetOptionalParams,
   ): Promise<LinkedStorageAccountsGetResponse>;
 }
