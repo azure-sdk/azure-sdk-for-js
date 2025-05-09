@@ -95,10 +95,7 @@ export interface GalleryImages {
     galleryImage: GalleryImageUpdate,
     options?: GalleryImagesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GalleryImagesUpdateResponse>,
-      GalleryImagesUpdateResponse
-    >
+    SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>
   >;
   /**
    * Update a gallery image definition.

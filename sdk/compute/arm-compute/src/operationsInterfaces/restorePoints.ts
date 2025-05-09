@@ -34,10 +34,7 @@ export interface RestorePoints {
     parameters: RestorePoint,
     options?: RestorePointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RestorePointsCreateResponse>,
-      RestorePointsCreateResponse
-    >
+    SimplePollerLike<OperationState<RestorePointsCreateResponse>, RestorePointsCreateResponse>
   >;
   /**
    * The operation to create the restore point. Updating properties of an existing restore point is not

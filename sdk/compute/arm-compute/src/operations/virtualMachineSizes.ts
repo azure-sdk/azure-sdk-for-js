@@ -87,10 +87,7 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
     location: string,
     options?: VirtualMachineSizesListOptionalParams,
   ): Promise<VirtualMachineSizesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 }
 // Operation Specifications
@@ -108,11 +105,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.location, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

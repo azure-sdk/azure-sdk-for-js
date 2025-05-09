@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   GalleryInVMAccessControlProfileVersion,
@@ -184,8 +180,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -307,8 +302,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -455,8 +449,7 @@ export class GalleryInVMAccessControlProfileVersionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -683,20 +676,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper:
-        Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
+      headersMapper: Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
     },
     201: {
-      headersMapper:
-        Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
+      headersMapper: Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
     },
     202: {
-      headersMapper:
-        Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
+      headersMapper: Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
     },
     204: {
-      headersMapper:
-        Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
+      headersMapper: Mappers.GalleryInVMAccessControlProfileVersionsDeleteHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -714,49 +703,47 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByGalleryInVMAccessControlProfileOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listByGalleryInVMAccessControlProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
     },
-    queryParameters: [Parameters.apiVersion3],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.galleryName1,
-      Parameters.inVMAccessControlProfileName2,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listByGalleryInVMAccessControlProfileNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.resourceGroupName,
-      Parameters.galleryName1,
-      Parameters.inVMAccessControlProfileName2,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName1,
+    Parameters.inVMAccessControlProfileName2,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByGalleryInVMAccessControlProfileNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryInVMAccessControlProfileVersionList,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.resourceGroupName,
+    Parameters.galleryName1,
+    Parameters.inVMAccessControlProfileName2,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

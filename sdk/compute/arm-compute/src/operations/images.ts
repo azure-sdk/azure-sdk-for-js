@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Image,
@@ -74,11 +70,7 @@ export class ImagesImpl implements Images {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -98,11 +90,7 @@ export class ImagesImpl implements Images {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,10 +102,7 @@ export class ImagesImpl implements Images {
     resourceGroupName: string,
     options?: ImagesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Image> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -127,9 +112,7 @@ export class ImagesImpl implements Images {
    * page of Images. Do this till nextLink is null to fetch all the Images.
    * @param options The options parameters.
    */
-  public list(
-    options?: ImagesListOptionalParams,
-  ): PagedAsyncIterableIterator<Image> {
+  public list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -169,9 +152,7 @@ export class ImagesImpl implements Images {
     }
   }
 
-  private async *listPagingAll(
-    options?: ImagesListOptionalParams,
-  ): AsyncIterableIterator<Image> {
+  private async *listPagingAll(options?: ImagesListOptionalParams): AsyncIterableIterator<Image> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -190,10 +171,7 @@ export class ImagesImpl implements Images {
     parameters: Image,
     options?: ImagesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ImagesCreateOrUpdateResponse>,
-      ImagesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ImagesCreateOrUpdateResponse>, ImagesCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -205,8 +183,7 @@ export class ImagesImpl implements Images {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -283,9 +260,7 @@ export class ImagesImpl implements Images {
     imageName: string,
     parameters: ImageUpdate,
     options?: ImagesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<ImagesUpdateResponse>, ImagesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -296,8 +271,7 @@ export class ImagesImpl implements Images {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -353,12 +327,7 @@ export class ImagesImpl implements Images {
     parameters: ImageUpdate,
     options?: ImagesUpdateOptionalParams,
   ): Promise<ImagesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      imageName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, imageName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -383,8 +352,7 @@ export class ImagesImpl implements Images {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -435,11 +403,7 @@ export class ImagesImpl implements Images {
     imageName: string,
     options?: ImagesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      imageName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, imageName, options);
     return poller.pollUntilDone();
   }
 
@@ -481,9 +445,7 @@ export class ImagesImpl implements Images {
    * page of Images. Do this till nextLink is null to fetch all the Images.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ImagesListOptionalParams,
-  ): Promise<ImagesListResponse> {
+  private _list(options?: ImagesListOptionalParams): Promise<ImagesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -513,10 +475,7 @@ export class ImagesImpl implements Images {
     nextLink: string,
     options?: ImagesListNextOptionalParams,
   ): Promise<ImagesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -641,11 +600,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -696,11 +651,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

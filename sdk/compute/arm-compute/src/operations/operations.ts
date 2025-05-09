@@ -76,9 +76,7 @@ export class OperationsImpl implements Operations {
    * Gets a list of compute operations.
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }
