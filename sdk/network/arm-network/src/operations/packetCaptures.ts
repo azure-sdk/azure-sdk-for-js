@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PacketCaptureResult,
@@ -57,11 +53,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     options?: PacketCapturesListOptionalParams,
   ): PagedAsyncIterableIterator<PacketCaptureResult> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkWatcherName, options);
     return {
       next() {
         return iter.next();
@@ -73,12 +65,7 @@ export class PacketCapturesImpl implements PacketCaptures {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkWatcherName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkWatcherName, options, settings);
       },
     };
   }
@@ -99,11 +86,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     networkWatcherName: string,
     options?: PacketCapturesListOptionalParams,
   ): AsyncIterableIterator<PacketCaptureResult> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkWatcherName, options)) {
       yield* page;
     }
   }
@@ -123,10 +106,7 @@ export class PacketCapturesImpl implements PacketCaptures {
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PacketCapturesCreateResponse>,
-      PacketCapturesCreateResponse
-    >
+    SimplePollerLike<OperationState<PacketCapturesCreateResponse>, PacketCapturesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -138,8 +118,7 @@ export class PacketCapturesImpl implements PacketCaptures {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -256,8 +235,7 @@ export class PacketCapturesImpl implements PacketCaptures {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -348,8 +326,7 @@ export class PacketCapturesImpl implements PacketCaptures {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -445,8 +422,7 @@ export class PacketCapturesImpl implements PacketCaptures {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -557,7 +533,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters60,
+  requestBody: Parameters.parameters68,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

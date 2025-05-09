@@ -29,8 +29,5 @@ export interface WebCategories {
    * @param name The name of the azureWebCategory.
    * @param options The options parameters.
    */
-  get(
-    name: string,
-    options?: WebCategoriesGetOptionalParams,
-  ): Promise<WebCategoriesGetResponse>;
+  get(name: string, options?: WebCategoriesGetOptionalParams): Promise<WebCategoriesGetResponse>;
 }

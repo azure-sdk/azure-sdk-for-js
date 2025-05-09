@@ -51,10 +51,7 @@ export interface PacketCaptures {
     parameters: PacketCapture,
     options?: PacketCapturesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PacketCapturesCreateResponse>,
-      PacketCapturesCreateResponse
-    >
+    SimplePollerLike<OperationState<PacketCapturesCreateResponse>, PacketCapturesCreateResponse>
   >;
   /**
    * Create and start a packet capture on the specified VM.

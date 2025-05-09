@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VipSwapGetOptionalParams,
@@ -50,10 +46,7 @@ export class VipSwapImpl implements VipSwap {
     resourceName: string,
     options?: VipSwapGetOptionalParams,
   ): Promise<VipSwapGetResponse> {
-    return this.client.sendOperationRequest(
-      { groupName, resourceName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ groupName, resourceName, options }, getOperationSpec);
   }
 
   /**
@@ -80,8 +73,7 @@ export class VipSwapImpl implements VipSwap {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -135,12 +127,7 @@ export class VipSwapImpl implements VipSwap {
     parameters: SwapResource,
     options?: VipSwapCreateOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginCreate(
-      groupName,
-      resourceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(groupName, resourceName, parameters, options);
     return poller.pollUntilDone();
   }
 

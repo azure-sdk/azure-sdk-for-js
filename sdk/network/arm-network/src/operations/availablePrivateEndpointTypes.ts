@@ -27,9 +27,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailablePrivateEndpointTypes operations. */
-export class AvailablePrivateEndpointTypesImpl
-  implements AvailablePrivateEndpointTypes
-{
+export class AvailablePrivateEndpointTypesImpl implements AvailablePrivateEndpointTypes {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -111,11 +109,7 @@ export class AvailablePrivateEndpointTypesImpl
     resourceGroupName: string,
     options?: AvailablePrivateEndpointTypesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailablePrivateEndpointType> {
-    const iter = this.listByResourceGroupPagingAll(
-      location,
-      resourceGroupName,
-      options,
-    );
+    const iter = this.listByResourceGroupPagingAll(location, resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -127,12 +121,7 @@ export class AvailablePrivateEndpointTypesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          location,
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(location, resourceGroupName, options, settings);
       },
     };
   }
@@ -146,11 +135,7 @@ export class AvailablePrivateEndpointTypesImpl
     let result: AvailablePrivateEndpointTypesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroup(
-        location,
-        resourceGroupName,
-        options,
-      );
+      result = await this._listByResourceGroup(location, resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -194,10 +179,7 @@ export class AvailablePrivateEndpointTypesImpl
     location: string,
     options?: AvailablePrivateEndpointTypesListOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -229,10 +211,7 @@ export class AvailablePrivateEndpointTypesImpl
     nextLink: string,
     options?: AvailablePrivateEndpointTypesListNextOptionalParams,
   ): Promise<AvailablePrivateEndpointTypesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -269,11 +248,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

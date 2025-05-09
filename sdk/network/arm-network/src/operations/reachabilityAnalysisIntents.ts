@@ -28,9 +28,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReachabilityAnalysisIntents operations. */
-export class ReachabilityAnalysisIntentsImpl
-  implements ReachabilityAnalysisIntents
-{
+export class ReachabilityAnalysisIntentsImpl implements ReachabilityAnalysisIntents {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -54,12 +52,7 @@ export class ReachabilityAnalysisIntentsImpl
     workspaceName: string,
     options?: ReachabilityAnalysisIntentsListOptionalParams,
   ): PagedAsyncIterableIterator<ReachabilityAnalysisIntent> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      workspaceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, workspaceName, options);
     return {
       next() {
         return iter.next();
@@ -92,12 +85,7 @@ export class ReachabilityAnalysisIntentsImpl
     let result: ReachabilityAnalysisIntentsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkManagerName,
-        workspaceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkManagerName, workspaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FlowLog,
@@ -59,11 +55,7 @@ export class FlowLogsImpl implements FlowLogs {
     networkWatcherName: string,
     options?: FlowLogsListOptionalParams,
   ): PagedAsyncIterableIterator<FlowLog> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkWatcherName, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +67,7 @@ export class FlowLogsImpl implements FlowLogs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkWatcherName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkWatcherName, options, settings);
       },
     };
   }
@@ -119,11 +106,7 @@ export class FlowLogsImpl implements FlowLogs {
     networkWatcherName: string,
     options?: FlowLogsListOptionalParams,
   ): AsyncIterableIterator<FlowLog> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkWatcherName, options)) {
       yield* page;
     }
   }
@@ -143,10 +126,7 @@ export class FlowLogsImpl implements FlowLogs {
     parameters: FlowLog,
     options?: FlowLogsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FlowLogsCreateOrUpdateResponse>,
-      FlowLogsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<FlowLogsCreateOrUpdateResponse>, FlowLogsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -158,8 +138,7 @@ export class FlowLogsImpl implements FlowLogs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -303,8 +282,7 @@ export class FlowLogsImpl implements FlowLogs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -426,7 +404,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters62,
+  requestBody: Parameters.parameters70,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

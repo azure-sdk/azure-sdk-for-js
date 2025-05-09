@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RouteFilter,
@@ -73,11 +69,7 @@ export class RouteFiltersImpl implements RouteFilters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -97,11 +89,7 @@ export class RouteFiltersImpl implements RouteFilters {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -113,10 +101,7 @@ export class RouteFiltersImpl implements RouteFilters {
     resourceGroupName: string,
     options?: RouteFiltersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<RouteFilter> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -125,9 +110,7 @@ export class RouteFiltersImpl implements RouteFilters {
    * Gets all route filters in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: RouteFiltersListOptionalParams,
-  ): PagedAsyncIterableIterator<RouteFilter> {
+  public list(options?: RouteFiltersListOptionalParams): PagedAsyncIterableIterator<RouteFilter> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -196,8 +179,7 @@ export class RouteFiltersImpl implements RouteFilters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -249,11 +231,7 @@ export class RouteFiltersImpl implements RouteFilters {
     routeFilterName: string,
     options?: RouteFiltersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      routeFilterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, routeFilterName, options);
     return poller.pollUntilDone();
   }
 
@@ -302,8 +280,7 @@ export class RouteFiltersImpl implements RouteFilters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -412,9 +389,7 @@ export class RouteFiltersImpl implements RouteFilters {
    * Gets all route filters in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RouteFiltersListOptionalParams,
-  ): Promise<RouteFiltersListResponse> {
+  private _list(options?: RouteFiltersListOptionalParams): Promise<RouteFiltersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -444,10 +419,7 @@ export class RouteFiltersImpl implements RouteFilters {
     nextLink: string,
     options?: RouteFiltersListNextOptionalParams,
   ): Promise<RouteFiltersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -563,11 +535,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -618,11 +586,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

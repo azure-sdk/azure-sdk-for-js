@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   NetworkManagerRoutingConfiguration,
@@ -58,11 +54,7 @@ export class NetworkManagerRoutingConfigurationsImpl
     networkManagerName: string,
     options?: NetworkManagerRoutingConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManagerRoutingConfiguration> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +66,7 @@ export class NetworkManagerRoutingConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkManagerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkManagerName, options, settings);
       },
     };
   }
@@ -118,11 +105,7 @@ export class NetworkManagerRoutingConfigurationsImpl
     networkManagerName: string,
     options?: NetworkManagerRoutingConfigurationsListOptionalParams,
   ): AsyncIterableIterator<NetworkManagerRoutingConfiguration> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkManagerName, options)) {
       yield* page;
     }
   }
@@ -213,8 +196,7 @@ export class NetworkManagerRoutingConfigurationsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -315,11 +297,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
