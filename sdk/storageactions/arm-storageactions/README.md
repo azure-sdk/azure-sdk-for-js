@@ -4,10 +4,11 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 The Azure Storage Actions Management API.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-storageactions) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storageactions)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview)
 
 ## Getting started
 
@@ -30,7 +31,7 @@ Install the Azure StorageActionsManagement client library for JavaScript with `n
 npm install @azure/arm-storageactions
 ```
 
-### Create and authenticate a `StorageActionsManagementClient`
+### Create and authenticate a `StorageActionsClient`
 
 To create a client object to access the Azure StorageActionsManagement API, you will need the `endpoint` of your Azure StorageActionsManagement resource and a `credential`. The Azure StorageActionsManagement client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure StorageActionsManagement resource in the [Azure Portal][azure_portal].
@@ -50,35 +51,35 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { StorageActionsManagementClient } from "@azure/arm-storageactions";
+import { StorageActionsClient } from "@azure/arm-storageactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new StorageActionsManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new StorageActionsClient(new DefaultAzureCredential(), subscriptionId);
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
 
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { StorageActionsManagementClient } from "@azure/arm-storageactions";
+import { StorageActionsClient } from "@azure/arm-storageactions";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
-const client = new StorageActionsManagementClient(credential, subscriptionId);
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new StorageActionsClient(credential, subscriptionId);
 ```
+
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### StorageActionsManagementClient
+### StorageActionsClient
 
-`StorageActionsManagementClient` is the primary interface for developers using the Azure StorageActionsManagement client library. Explore the methods on this client object to understand the different features of the Azure StorageActionsManagement service that you can access.
+`StorageActionsClient` is the primary interface for developers using the Azure StorageActionsManagement client library. Explore the methods on this client object to understand the different features of the Azure StorageActionsManagement service that you can access.
 
 ## Troubleshooting
 
@@ -94,9 +95,6 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-## Next steps
-
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,9 +104,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
