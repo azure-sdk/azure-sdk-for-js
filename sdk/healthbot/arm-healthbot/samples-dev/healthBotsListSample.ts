@@ -5,17 +5,17 @@ import { HealthBotClient } from "@azure/arm-healthbot";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists all the available Azure Health Bot operations.
+ * This sample demonstrates how to returns all the resources of a particular type belonging to a subscription.
  *
- * @summary lists all the available Azure Health Bot operations.
- * x-ms-original-file: 2024-02-01/GetOperations.json
+ * @summary returns all the resources of a particular type belonging to a subscription.
+ * x-ms-original-file: 2024-02-01/ListBotsBySubscription.json
  */
-async function getOperations(): Promise<void> {
+async function listBotsBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const subscriptionId = "subscription-id";
   const client = new HealthBotClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.operations.list()) {
+  for await (const item of client.healthBots.list()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function getOperations(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getOperations();
+  await listBotsBySubscription();
 }
 
 main().catch(console.error);
