@@ -537,9 +537,11 @@ export function getConnectionsForProcessOnFocusedMachineRequestSerializer(
 /** ExportDependencies request model */
 export interface ExportDependenciesRequest {
   /** Machine arm id */
-  focusedMachineId: string;
+  focusedMachineId?: string;
   /** Filters for ExportDependencies */
   filters?: DependencyMapVisualizationFilter;
+  /** Appliance Name */
+  applianceName?: string;
 }
 
 export function exportDependenciesRequestSerializer(item: ExportDependenciesRequest): any {
@@ -548,6 +550,7 @@ export function exportDependenciesRequestSerializer(item: ExportDependenciesRequ
     filters: !item["filters"]
       ? item["filters"]
       : dependencyMapVisualizationFilterSerializer(item["filters"]),
+    applianceName: item["applianceName"],
   };
 }
 
@@ -730,4 +733,6 @@ export function discoverySourceResourceArrayDeserializer(
 export enum KnownVersions {
   /** 2025-01-31-preview version */
   V20250131Preview = "2025-01-31-preview",
+  /** 2025-05-01-preview version */
+  V20250501Preview = "2025-05-01-preview",
 }

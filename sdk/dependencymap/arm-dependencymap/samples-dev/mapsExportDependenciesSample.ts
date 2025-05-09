@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to export dependencies
  *
  * @summary export dependencies
- * x-ms-original-file: 2025-01-31-preview/Maps_ExportDependencies.json
+ * x-ms-original-file: 2025-05-01-preview/Maps_ExportDependencies.json
  */
 async function mapsExportDependenciesGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,6 +26,7 @@ async function mapsExportDependenciesGeneratedByMaximumSetRule(): Promise<void> 
         processNames: ["mnqtvduwzemjcvvmnnoqvcuemwhnz"],
       },
     },
+    applianceName: "srmlcvqlkrtpkbkeonq",
   });
 }
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DiscoverySourceResource
  *
  * @summary create a DiscoverySourceResource
- * x-ms-original-file: 2025-01-31-preview/DiscoverySources_CreateOrUpdate.json
+ * x-ms-original-file: 2025-05-01-preview/DiscoverySources_CreateOrUpdate.json
  */
 async function discoverySourcesCreateOrUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
