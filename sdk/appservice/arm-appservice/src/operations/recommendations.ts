@@ -295,11 +295,7 @@ export class RecommendationsImpl implements Recommendations {
     siteName: string,
     options?: RecommendationsListHistoryForWebAppOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation> {
-    const iter = this.listHistoryForWebAppPagingAll(
-      resourceGroupName,
-      siteName,
-      options,
-    );
+    const iter = this.listHistoryForWebAppPagingAll(resourceGroupName, siteName, options);
     return {
       next() {
         return iter.next();
@@ -311,12 +307,7 @@ export class RecommendationsImpl implements Recommendations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listHistoryForWebAppPagingPage(
-          resourceGroupName,
-          siteName,
-          options,
-          settings,
-        );
+        return this.listHistoryForWebAppPagingPage(resourceGroupName, siteName, options, settings);
       },
     };
   }
@@ -330,11 +321,7 @@ export class RecommendationsImpl implements Recommendations {
     let result: RecommendationsListHistoryForWebAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listHistoryForWebApp(
-        resourceGroupName,
-        siteName,
-        options,
-      );
+      result = await this._listHistoryForWebApp(resourceGroupName, siteName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -379,11 +366,7 @@ export class RecommendationsImpl implements Recommendations {
     siteName: string,
     options?: RecommendationsListRecommendedRulesForWebAppOptionalParams,
   ): PagedAsyncIterableIterator<Recommendation> {
-    const iter = this.listRecommendedRulesForWebAppPagingAll(
-      resourceGroupName,
-      siteName,
-      options,
-    );
+    const iter = this.listRecommendedRulesForWebAppPagingAll(resourceGroupName, siteName, options);
     return {
       next() {
         return iter.next();
@@ -414,11 +397,7 @@ export class RecommendationsImpl implements Recommendations {
     let result: RecommendationsListRecommendedRulesForWebAppResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listRecommendedRulesForWebApp(
-        resourceGroupName,
-        siteName,
-        options,
-      );
+      result = await this._listRecommendedRulesForWebApp(resourceGroupName, siteName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -456,9 +435,7 @@ export class RecommendationsImpl implements Recommendations {
    * Description for List all recommendations for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RecommendationsListOptionalParams,
-  ): Promise<RecommendationsListResponse> {
+  private _list(options?: RecommendationsListOptionalParams): Promise<RecommendationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -466,13 +443,8 @@ export class RecommendationsImpl implements Recommendations {
    * Description for Reset all recommendation opt-out settings for a subscription.
    * @param options The options parameters.
    */
-  resetAllFilters(
-    options?: RecommendationsResetAllFiltersOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { options },
-      resetAllFiltersOperationSpec,
-    );
+  resetAllFilters(options?: RecommendationsResetAllFiltersOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ options }, resetAllFiltersOperationSpec);
   }
 
   /**
@@ -723,10 +695,7 @@ export class RecommendationsImpl implements Recommendations {
     nextLink: string,
     options?: RecommendationsListNextOptionalParams,
   ): Promise<RecommendationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -822,11 +791,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.featured],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -845,77 +810,62 @@ const resetAllFiltersOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const disableRecommendationForSubscriptionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/{name}/disable",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const disableRecommendationForSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/{name}/disable",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listHistoryForHostingEnvironmentOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendationHistory",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.name],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listHistoryForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendationHistory",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationCollection,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.filter,
-      Parameters.expiredOnly,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listRecommendedRulesForHostingEnvironmentOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.filter,
-      Parameters.featured,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expiredOnly],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listRecommendedRulesForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.featured],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const disableAllForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/disable",
   httpMethod: "POST",
@@ -935,74 +885,67 @@ const disableAllForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const resetAllFiltersForHostingEnvironmentOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/reset",
-    httpMethod: "POST",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const resetAllFiltersForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/reset",
+  httpMethod: "POST",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.environmentName],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getRuleDetailsByHostingEnvironmentOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationRule,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.environmentName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getRuleDetailsByHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationRule,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.updateSeen,
-      Parameters.recommendationId,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const disableRecommendationForHostingEnvironmentOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}/disable",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion, Parameters.environmentName],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.updateSeen, Parameters.recommendationId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const disableRecommendationForHostingEnvironmentOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/{name}/disable",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.environmentName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listHistoryForWebAppOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendationHistory",
   httpMethod: "GET",
@@ -1014,11 +957,7 @@ const listHistoryForWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expiredOnly,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expiredOnly],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1039,11 +978,7 @@ const listRecommendedRulesForWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.featured,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.featured],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1102,11 +1037,7 @@ const getRuleDetailsByWebAppOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.updateSeen,
-    Parameters.recommendationId,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.updateSeen, Parameters.recommendationId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1148,58 +1079,52 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listHistoryForHostingEnvironmentNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.hostingEnvironmentName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listHistoryForHostingEnvironmentNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listRecommendedRulesForHostingEnvironmentNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listRecommendedRulesForHostingEnvironmentNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.hostingEnvironmentName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.hostingEnvironmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listHistoryForWebAppNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1221,25 +1146,24 @@ const listHistoryForWebAppNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listRecommendedRulesForWebAppNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RecommendationCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listRecommendedRulesForWebAppNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RecommendationCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.siteName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.siteName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

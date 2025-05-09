@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   StaticSiteARMResource,
@@ -284,10 +280,7 @@ export class StaticSitesImpl implements StaticSites {
     resourceGroupName: string,
     options?: StaticSitesGetStaticSitesByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteARMResource> {
-    const iter = this.getStaticSitesByResourceGroupPagingAll(
-      resourceGroupName,
-      options,
-    );
+    const iter = this.getStaticSitesByResourceGroupPagingAll(resourceGroupName, options);
     return {
       next() {
         return iter.next();
@@ -299,11 +292,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getStaticSitesByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.getStaticSitesByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -316,10 +305,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesGetStaticSitesByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getStaticSitesByResourceGroup(
-        resourceGroupName,
-        options,
-      );
+      result = await this._getStaticSitesByResourceGroup(resourceGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -363,12 +349,7 @@ export class StaticSitesImpl implements StaticSites {
     authprovider: string,
     options?: StaticSitesListStaticSiteUsersOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteUserARMResource> {
-    const iter = this.listStaticSiteUsersPagingAll(
-      resourceGroupName,
-      name,
-      authprovider,
-      options,
-    );
+    const iter = this.listStaticSiteUsersPagingAll(resourceGroupName, name, authprovider, options);
     return {
       next() {
         return iter.next();
@@ -401,12 +382,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesListStaticSiteUsersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listStaticSiteUsers(
-        resourceGroupName,
-        name,
-        authprovider,
-        options,
-      );
+      result = await this._listStaticSiteUsers(resourceGroupName, name, authprovider, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -454,11 +430,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetStaticSiteBuildsOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteBuildARMResource> {
-    const iter = this.getStaticSiteBuildsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getStaticSiteBuildsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -470,12 +442,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getStaticSiteBuildsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.getStaticSiteBuildsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -489,11 +456,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesGetStaticSiteBuildsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getStaticSiteBuilds(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getStaticSiteBuilds(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -518,11 +481,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetStaticSiteBuildsOptionalParams,
   ): AsyncIterableIterator<StaticSiteBuildARMResource> {
-    for await (const page of this.getStaticSiteBuildsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.getStaticSiteBuildsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -923,12 +882,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBasicAuthPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listBasicAuthPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -949,12 +903,7 @@ export class StaticSitesImpl implements StaticSites {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBasicAuthNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listBasicAuthNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -967,11 +916,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesListBasicAuthOptionalParams,
   ): AsyncIterableIterator<StaticSiteBasicAuthPropertiesARMResource> {
-    for await (const page of this.listBasicAuthPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listBasicAuthPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -987,11 +932,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesListStaticSiteCustomDomainsOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteCustomDomainOverviewARMResource> {
-    const iter = this.listStaticSiteCustomDomainsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listStaticSiteCustomDomainsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1022,11 +963,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesListStaticSiteCustomDomainsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listStaticSiteCustomDomains(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listStaticSiteCustomDomains(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1071,11 +1008,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetDatabaseConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseConnection> {
-    const iter = this.getDatabaseConnectionsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getDatabaseConnectionsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1087,12 +1020,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getDatabaseConnectionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.getDatabaseConnectionsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1106,11 +1034,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesGetDatabaseConnectionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getDatabaseConnections(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getDatabaseConnections(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1155,11 +1079,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesListStaticSiteFunctionsOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteFunctionOverviewARMResource> {
-    const iter = this.listStaticSiteFunctionsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listStaticSiteFunctionsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1171,12 +1091,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listStaticSiteFunctionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listStaticSiteFunctionsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1190,11 +1105,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesListStaticSiteFunctionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listStaticSiteFunctions(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listStaticSiteFunctions(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1239,11 +1150,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetPrivateEndpointConnectionListOptionalParams,
   ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource> {
-    const iter = this.getPrivateEndpointConnectionListPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getPrivateEndpointConnectionListPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1274,11 +1181,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesGetPrivateEndpointConnectionListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getPrivateEndpointConnectionList(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getPrivateEndpointConnectionList(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1323,11 +1226,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetDatabaseConnectionsWithDetailsOptionalParams,
   ): PagedAsyncIterableIterator<DatabaseConnection> {
-    const iter = this.getDatabaseConnectionsWithDetailsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getDatabaseConnectionsWithDetailsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1358,11 +1257,7 @@ export class StaticSitesImpl implements StaticSites {
     let result: StaticSitesGetDatabaseConnectionsWithDetailsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._getDatabaseConnectionsWithDetails(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._getDatabaseConnectionsWithDetails(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1491,11 +1386,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetLinkedBackendsOptionalParams,
   ): PagedAsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
-    const iter = this.getLinkedBackendsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.getLinkedBackendsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -1507,12 +1398,7 @@ export class StaticSitesImpl implements StaticSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.getLinkedBackendsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.getLinkedBackendsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -1551,11 +1437,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesGetLinkedBackendsOptionalParams,
   ): AsyncIterableIterator<StaticSiteLinkedBackendARMResource> {
-    for await (const page of this.getLinkedBackendsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.getLinkedBackendsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -1675,9 +1557,7 @@ export class StaticSitesImpl implements StaticSites {
    * Description for Get all Static Sites for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: StaticSitesListOptionalParams,
-  ): Promise<StaticSitesListResponse> {
+  private _list(options?: StaticSitesListOptionalParams): Promise<StaticSitesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -1742,8 +1622,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1830,8 +1709,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1882,11 +1760,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesDeleteStaticSiteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeleteStaticSite(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const poller = await this.beginDeleteStaticSite(resourceGroupName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -2039,8 +1913,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2457,8 +2330,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2526,15 +2398,14 @@ export class StaticSitesImpl implements StaticSites {
     staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
     options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams,
   ): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse> {
-    const poller =
-      await this.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(
-        resourceGroupName,
-        name,
-        environmentName,
-        functionAppName,
-        staticSiteUserProvidedFunctionEnvelope,
-        options,
-      );
+    const poller = await this.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(
+      resourceGroupName,
+      name,
+      environmentName,
+      functionAppName,
+      staticSiteUserProvidedFunctionEnvelope,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -2585,8 +2456,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2845,8 +2715,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2945,8 +2814,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3034,8 +2902,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3258,8 +3125,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3310,11 +3176,7 @@ export class StaticSitesImpl implements StaticSites {
     name: string,
     options?: StaticSitesDetachStaticSiteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDetachStaticSite(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const poller = await this.beginDetachStaticSite(resourceGroupName, name, options);
     return poller.pollUntilDone();
   }
 
@@ -3469,8 +3331,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3572,8 +3433,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3758,8 +3618,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3824,14 +3683,13 @@ export class StaticSitesImpl implements StaticSites {
     staticSiteUserProvidedFunctionEnvelope: StaticSiteUserProvidedFunctionAppARMResource,
     options?: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams,
   ): Promise<StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse> {
-    const poller =
-      await this.beginRegisterUserProvidedFunctionAppWithStaticSite(
-        resourceGroupName,
-        name,
-        functionAppName,
-        staticSiteUserProvidedFunctionEnvelope,
-        options,
-      );
+    const poller = await this.beginRegisterUserProvidedFunctionAppWithStaticSite(
+      resourceGroupName,
+      name,
+      functionAppName,
+      staticSiteUserProvidedFunctionEnvelope,
+      options,
+    );
     return poller.pollUntilDone();
   }
 
@@ -3878,8 +3736,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3973,8 +3830,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -4074,8 +3930,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -4222,10 +4077,7 @@ export class StaticSitesImpl implements StaticSites {
     staticSiteLinkedBackendEnvelope: StaticSiteLinkedBackendARMResource,
     options?: StaticSitesLinkBackendOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StaticSitesLinkBackendResponse>,
-      StaticSitesLinkBackendResponse
-    >
+    SimplePollerLike<OperationState<StaticSitesLinkBackendResponse>, StaticSitesLinkBackendResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -4237,8 +4089,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -4386,8 +4237,7 @@ export class StaticSitesImpl implements StaticSites {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -4496,10 +4346,7 @@ export class StaticSitesImpl implements StaticSites {
     nextLink: string,
     options?: StaticSitesListNextOptionalParams,
   ): Promise<StaticSitesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -4843,11 +4690,7 @@ const previewWorkflowOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.staticSitesWorkflowPreviewRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -4880,11 +4723,7 @@ const getStaticSitesByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -5123,56 +4962,54 @@ const deleteStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
     },
-    requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  requestBody: Parameters.appSettings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.appSettings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getBuildDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections",
   httpMethod: "GET",
@@ -5218,32 +5055,31 @@ const getBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection,
     },
-    requestBody: Parameters.databaseConnectionRequestEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName2,
-      Parameters.databaseConnectionName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}",
   httpMethod: "DELETE",
@@ -5291,30 +5127,29 @@ const updateBuildDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getBuildDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}/show",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getBuildDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/databaseConnections/{databaseConnectionName}/show",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName2,
-      Parameters.databaseConnectionName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+    Parameters.databaseConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listStaticSiteBuildFunctionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
   httpMethod: "GET",
@@ -5359,207 +5194,199 @@ const listStaticSiteBuildAppSettingsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listStaticSiteBuildFunctionAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getBuildDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/showDatabaseConnections",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName2,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getBuildDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/showDatabaseConnections",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName2,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
     },
-    requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
-    queryParameters: [Parameters.apiVersion, Parameters.isForced],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const createZipDeploymentForStaticSiteBuildOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      201: {},
-      202: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
     },
-    requestBody: Parameters.staticSiteZipDeploymentEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const createOrUpdateStaticSiteAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const registerUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    201: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
+  queryParameters: [Parameters.apiVersion, Parameters.isForced],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createZipDeploymentForStaticSiteBuildOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteZipDeploymentEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const createOrUpdateStaticSiteAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.appSettings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const listBasicAuthOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/basicAuth",
   httpMethod: "GET",
@@ -5627,30 +5454,29 @@ const createOrUpdateBasicAuthOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
     },
-    requestBody: Parameters.appSettings,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.appSettings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const createUserRolesInvitationLinkOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
   httpMethod: "POST",
@@ -5717,40 +5543,39 @@ const getStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
     },
-    requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.domainName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
   httpMethod: "DELETE",
@@ -5774,32 +5599,31 @@ const deleteStaticSiteCustomDomainOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const validateCustomDomainCanBeAddedToStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      201: {},
-      202: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const validateCustomDomainCanBeAddedToStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.domainName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  requestBody: Parameters.staticSiteCustomDomainRequestPropertiesEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getDatabaseConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections",
   httpMethod: "GET",
@@ -5843,31 +5667,30 @@ const getDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateDatabaseConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection,
     },
-    requestBody: Parameters.databaseConnectionRequestEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.databaseConnectionName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.databaseConnectionRequestEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}",
   httpMethod: "DELETE",
@@ -5913,29 +5736,28 @@ const updateDatabaseConnectionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}/show",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getDatabaseConnectionWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/databaseConnections/{databaseConnectionName}/show",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.databaseConnectionName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.databaseConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const detachStaticSiteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
   httpMethod: "POST",
@@ -6021,28 +5843,27 @@ const listStaticSiteConfiguredRolesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listStaticSiteFunctionAppSettingsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StringDictionary,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listStaticSiteFunctionAppSettingsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listStaticSiteSecretsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
   httpMethod: "POST",
@@ -6064,28 +5885,27 @@ const listStaticSiteSecretsOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getPrivateEndpointConnectionListOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
@@ -6108,40 +5928,39 @@ const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const approveOrRejectPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
     },
-    requestBody: Parameters.privateEndpointWrapper,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.privateEndpointConnectionName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.privateEndpointWrapper,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
@@ -6223,154 +6042,148 @@ const resetStaticSiteApiKeyOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/showDatabaseConnections",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getDatabaseConnectionsWithDetailsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/showDatabaseConnections",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppsForStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppForStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppsForStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const registerUserProvidedFunctionAppWithStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      201: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      202: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      204: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
-    queryParameters: [Parameters.apiVersion, Parameters.isForced],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
-const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppForStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.functionAppName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const createZipDeploymentForStaticSiteOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
-    httpMethod: "POST",
-    responses: {
-      200: {},
-      201: {},
-      202: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    requestBody: Parameters.staticSiteZipDeploymentEnvelope,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const registerUserProvidedFunctionAppWithStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    201: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    204: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteUserProvidedFunctionEnvelope,
+  queryParameters: [Parameters.apiVersion, Parameters.isForced],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createZipDeploymentForStaticSiteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.staticSiteZipDeploymentEnvelope,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const validateBackendOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}/validate",
   httpMethod: "POST",
@@ -6631,35 +6444,30 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getStaticSitesByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getStaticSitesByResourceGroupNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
 const listStaticSiteUsersNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -6725,75 +6533,72 @@ const getBuildDatabaseConnectionsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listStaticSiteBuildFunctionsNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteFunctionOverviewCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listStaticSiteBuildFunctionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteFunctionOverviewCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getBuildDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.environmentName2,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getBuildDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.environmentName1,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName2,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.environmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBasicAuthNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -6878,72 +6683,69 @@ const listStaticSiteFunctionsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const getPrivateEndpointConnectionListNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DatabaseConnectionCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDatabaseConnectionsWithDetailsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatabaseConnectionCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getLinkedBackendsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

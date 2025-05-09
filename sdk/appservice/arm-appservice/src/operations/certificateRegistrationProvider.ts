@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CertificateRegistrationProvider operations. */
-export class CertificateRegistrationProviderImpl
-  implements CertificateRegistrationProvider
-{
+export class CertificateRegistrationProviderImpl implements CertificateRegistrationProvider {
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -99,10 +97,7 @@ export class CertificateRegistrationProviderImpl
   private _listOperations(
     options?: CertificateRegistrationProviderListOperationsOptionalParams,
   ): Promise<CertificateRegistrationProviderListOperationsResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listOperationsOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listOperationsOperationSpec);
   }
 
   /**
@@ -114,10 +109,7 @@ export class CertificateRegistrationProviderImpl
     nextLink: string,
     options?: CertificateRegistrationProviderListOperationsNextOptionalParams,
   ): Promise<CertificateRegistrationProviderListOperationsNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listOperationsNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listOperationsNextOperationSpec);
   }
 }
 // Operation Specifications

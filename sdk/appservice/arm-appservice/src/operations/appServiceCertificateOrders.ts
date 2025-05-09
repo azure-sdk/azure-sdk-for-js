@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AppServiceCertificateOrder,
@@ -70,9 +66,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AppServiceCertificateOrders operations. */
-export class AppServiceCertificateOrdersImpl
-  implements AppServiceCertificateOrders
-{
+export class AppServiceCertificateOrdersImpl implements AppServiceCertificateOrders {
   private readonly client: WebSiteManagementClient;
 
   /**
@@ -158,11 +152,7 @@ export class AppServiceCertificateOrdersImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -182,11 +172,7 @@ export class AppServiceCertificateOrdersImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -198,10 +184,7 @@ export class AppServiceCertificateOrdersImpl
     resourceGroupName: string,
     options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AppServiceCertificateOrder> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -217,11 +200,7 @@ export class AppServiceCertificateOrdersImpl
     certificateOrderName: string,
     options?: AppServiceCertificateOrdersListCertificatesOptionalParams,
   ): PagedAsyncIterableIterator<AppServiceCertificateResource> {
-    const iter = this.listCertificatesPagingAll(
-      resourceGroupName,
-      certificateOrderName,
-      options,
-    );
+    const iter = this.listCertificatesPagingAll(resourceGroupName, certificateOrderName, options);
     return {
       next() {
         return iter.next();
@@ -252,11 +231,7 @@ export class AppServiceCertificateOrdersImpl
     let result: AppServiceCertificateOrdersListCertificatesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listCertificates(
-        resourceGroupName,
-        certificateOrderName,
-        options,
-      );
+      result = await this._listCertificates(resourceGroupName, certificateOrderName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -375,8 +350,7 @@ export class AppServiceCertificateOrdersImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -553,8 +527,7 @@ export class AppServiceCertificateOrdersImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -844,10 +817,7 @@ export class AppServiceCertificateOrdersImpl
     nextLink: string,
     options?: AppServiceCertificateOrdersListNextOptionalParams,
   ): Promise<AppServiceCertificateOrdersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -933,11 +903,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1349,11 +1315,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

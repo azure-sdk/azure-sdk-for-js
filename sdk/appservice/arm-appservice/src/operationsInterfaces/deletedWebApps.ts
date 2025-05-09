@@ -22,9 +22,7 @@ export interface DeletedWebApps {
    * Description for Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: DeletedWebAppsListOptionalParams,
-  ): PagedAsyncIterableIterator<DeletedSite>;
+  list(options?: DeletedWebAppsListOptionalParams): PagedAsyncIterableIterator<DeletedSite>;
   /**
    * Description for Get all deleted apps for a subscription at location
    * @param location

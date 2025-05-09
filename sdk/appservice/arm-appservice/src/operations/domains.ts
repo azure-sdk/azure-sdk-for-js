@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Domain,
@@ -81,9 +77,7 @@ export class DomainsImpl implements Domains {
    * Description for Get all domains in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DomainsListOptionalParams,
-  ): PagedAsyncIterableIterator<Domain> {
+  public list(options?: DomainsListOptionalParams): PagedAsyncIterableIterator<Domain> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -123,9 +117,7 @@ export class DomainsImpl implements Domains {
     }
   }
 
-  private async *listPagingAll(
-    options?: DomainsListOptionalParams,
-  ): AsyncIterableIterator<Domain> {
+  private async *listPagingAll(options?: DomainsListOptionalParams): AsyncIterableIterator<Domain> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -152,11 +144,7 @@ export class DomainsImpl implements Domains {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listRecommendationsPagingPage(
-          parameters,
-          options,
-          settings,
-        );
+        return this.listRecommendationsPagingPage(parameters, options, settings);
       },
     };
   }
@@ -176,11 +164,7 @@ export class DomainsImpl implements Domains {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listRecommendationsNext(
-        parameters,
-        continuationToken,
-        options,
-      );
+      result = await this._listRecommendationsNext(parameters, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -192,10 +176,7 @@ export class DomainsImpl implements Domains {
     parameters: DomainRecommendationSearchParameters,
     options?: DomainsListRecommendationsOptionalParams,
   ): AsyncIterableIterator<NameIdentifier> {
-    for await (const page of this.listRecommendationsPagingPage(
-      parameters,
-      options,
-    )) {
+    for await (const page of this.listRecommendationsPagingPage(parameters, options)) {
       yield* page;
     }
   }
@@ -221,11 +202,7 @@ export class DomainsImpl implements Domains {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -245,11 +222,7 @@ export class DomainsImpl implements Domains {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -261,10 +234,7 @@ export class DomainsImpl implements Domains {
     resourceGroupName: string,
     options?: DomainsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Domain> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -280,11 +250,7 @@ export class DomainsImpl implements Domains {
     domainName: string,
     options?: DomainsListOwnershipIdentifiersOptionalParams,
   ): PagedAsyncIterableIterator<DomainOwnershipIdentifier> {
-    const iter = this.listOwnershipIdentifiersPagingAll(
-      resourceGroupName,
-      domainName,
-      options,
-    );
+    const iter = this.listOwnershipIdentifiersPagingAll(resourceGroupName, domainName, options);
     return {
       next() {
         return iter.next();
@@ -315,11 +281,7 @@ export class DomainsImpl implements Domains {
     let result: DomainsListOwnershipIdentifiersResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listOwnershipIdentifiers(
-        resourceGroupName,
-        domainName,
-        options,
-      );
+      result = await this._listOwnershipIdentifiers(resourceGroupName, domainName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -372,9 +334,7 @@ export class DomainsImpl implements Domains {
    * Description for Get all domains in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: DomainsListOptionalParams,
-  ): Promise<DomainsListResponse> {
+  private _list(options?: DomainsListOptionalParams): Promise<DomainsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -385,10 +345,7 @@ export class DomainsImpl implements Domains {
   getControlCenterSsoRequest(
     options?: DomainsGetControlCenterSsoRequestOptionalParams,
   ): Promise<DomainsGetControlCenterSsoRequestResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getControlCenterSsoRequestOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, getControlCenterSsoRequestOperationSpec);
   }
 
   /**
@@ -451,10 +408,7 @@ export class DomainsImpl implements Domains {
     domain: Domain,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -466,8 +420,7 @@ export class DomainsImpl implements Domains {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -523,12 +476,7 @@ export class DomainsImpl implements Domains {
     domain: Domain,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<DomainsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      domainName,
-      domain,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, domainName, domain, options);
     return poller.pollUntilDone();
   }
 
@@ -722,10 +670,7 @@ export class DomainsImpl implements Domains {
     nextLink: string,
     options?: DomainsListNextOptionalParams,
   ): Promise<DomainsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -865,11 +810,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1015,31 +956,30 @@ const getOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOwnershipIdentifierOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DomainOwnershipIdentifier,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const createOrUpdateOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DomainOwnershipIdentifier,
     },
-    requestBody: Parameters.domainOwnershipIdentifier,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.domainName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.domainOwnershipIdentifier,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const deleteOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
   httpMethod: "DELETE",
@@ -1141,11 +1081,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1160,11 +1096,7 @@ const listRecommendationsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

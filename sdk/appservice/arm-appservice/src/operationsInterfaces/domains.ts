@@ -118,10 +118,7 @@ export interface Domains {
     domain: Domain,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>
   >;
   /**
    * Description for Creates or updates a domain.
