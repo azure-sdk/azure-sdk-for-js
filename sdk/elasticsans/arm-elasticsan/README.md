@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ElasticSanManagement client.
 
-
+// FIXME: (missing-service-description) Add service description
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-elasticsan) |
@@ -63,11 +63,10 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new ElasticSanManagement(credential, subscriptionId);
 ```
 

@@ -12,14 +12,14 @@ import {
   ElasticSan,
   ElasticSansListBySubscriptionOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
+  ElasticSansGetOptionalParams,
+  ElasticSansGetResponse,
   ElasticSansCreateOptionalParams,
   ElasticSansCreateResponse,
   ElasticSanUpdate,
   ElasticSansUpdateOptionalParams,
   ElasticSansUpdateResponse,
   ElasticSansDeleteOptionalParams,
-  ElasticSansGetOptionalParams,
-  ElasticSansGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,6 +42,17 @@ export interface ElasticSans {
     options?: ElasticSansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ElasticSan>;
   /**
+   * Get a ElasticSan.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    options?: ElasticSansGetOptionalParams,
+  ): Promise<ElasticSansGetResponse>;
+  /**
    * Create ElasticSan.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -54,10 +65,7 @@ export interface ElasticSans {
     parameters: ElasticSan,
     options?: ElasticSansCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ElasticSansCreateResponse>,
-      ElasticSansCreateResponse
-    >
+    SimplePollerLike<OperationState<ElasticSansCreateResponse>, ElasticSansCreateResponse>
   >;
   /**
    * Create ElasticSan.
@@ -85,10 +93,7 @@ export interface ElasticSans {
     parameters: ElasticSanUpdate,
     options?: ElasticSansUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ElasticSansUpdateResponse>,
-      ElasticSansUpdateResponse
-    >
+    SimplePollerLike<OperationState<ElasticSansUpdateResponse>, ElasticSansUpdateResponse>
   >;
   /**
    * Update a Elastic San.
@@ -125,15 +130,4 @@ export interface ElasticSans {
     elasticSanName: string,
     options?: ElasticSansDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Get a ElasticSan.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    options?: ElasticSansGetOptionalParams,
-  ): Promise<ElasticSansGetResponse>;
 }

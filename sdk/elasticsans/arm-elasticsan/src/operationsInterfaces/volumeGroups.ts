@@ -11,14 +11,14 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VolumeGroup,
   VolumeGroupsListByElasticSanOptionalParams,
+  VolumeGroupsGetOptionalParams,
+  VolumeGroupsGetResponse,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsCreateResponse,
   VolumeGroupUpdate,
   VolumeGroupsUpdateOptionalParams,
   VolumeGroupsUpdateResponse,
   VolumeGroupsDeleteOptionalParams,
-  VolumeGroupsGetOptionalParams,
-  VolumeGroupsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,6 +36,19 @@ export interface VolumeGroups {
     options?: VolumeGroupsListByElasticSanOptionalParams,
   ): PagedAsyncIterableIterator<VolumeGroup>;
   /**
+   * Get an VolumeGroups.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param elasticSanName The name of the ElasticSan.
+   * @param volumeGroupName The name of the VolumeGroup.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    elasticSanName: string,
+    volumeGroupName: string,
+    options?: VolumeGroupsGetOptionalParams,
+  ): Promise<VolumeGroupsGetResponse>;
+  /**
    * Create a Volume Group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param elasticSanName The name of the ElasticSan.
@@ -50,10 +63,7 @@ export interface VolumeGroups {
     parameters: VolumeGroup,
     options?: VolumeGroupsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeGroupsCreateResponse>,
-      VolumeGroupsCreateResponse
-    >
+    SimplePollerLike<OperationState<VolumeGroupsCreateResponse>, VolumeGroupsCreateResponse>
   >;
   /**
    * Create a Volume Group.
@@ -85,10 +95,7 @@ export interface VolumeGroups {
     parameters: VolumeGroupUpdate,
     options?: VolumeGroupsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VolumeGroupsUpdateResponse>,
-      VolumeGroupsUpdateResponse
-    >
+    SimplePollerLike<OperationState<VolumeGroupsUpdateResponse>, VolumeGroupsUpdateResponse>
   >;
   /**
    * Update an VolumeGroup.
@@ -131,17 +138,4 @@ export interface VolumeGroups {
     volumeGroupName: string,
     options?: VolumeGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Get an VolumeGroups.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param elasticSanName The name of the ElasticSan.
-   * @param volumeGroupName The name of the VolumeGroup.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    elasticSanName: string,
-    volumeGroupName: string,
-    options?: VolumeGroupsGetOptionalParams,
-  ): Promise<VolumeGroupsGetResponse>;
 }

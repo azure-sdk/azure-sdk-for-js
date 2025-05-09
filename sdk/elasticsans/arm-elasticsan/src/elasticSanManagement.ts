@@ -8,36 +8,28 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "./lroImpl.js";
 import {
   OperationsImpl,
-  SkusImpl,
   ElasticSansImpl,
-  VolumeGroupsImpl,
-  VolumesImpl,
+  SkusImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
+  VolumeGroupsImpl,
+  VolumesImpl,
   VolumeSnapshotsImpl,
 } from "./operations/index.js";
 import {
   Operations,
-  Skus,
   ElasticSans,
-  VolumeGroups,
-  Volumes,
+  Skus,
   PrivateEndpointConnections,
   PrivateLinkResources,
+  VolumeGroups,
+  Volumes,
   VolumeSnapshots,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
@@ -80,7 +72,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-elasticsan/1.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-elasticsan/2.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -92,8 +84,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -103,8 +94,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -120,11 +110,9 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -136,12 +124,12 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-07-01-preview";
     this.operations = new OperationsImpl(this);
-    this.skus = new SkusImpl(this);
     this.elasticSans = new ElasticSansImpl(this);
-    this.volumeGroups = new VolumeGroupsImpl(this);
-    this.volumes = new VolumesImpl(this);
+    this.skus = new SkusImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
+    this.volumeGroups = new VolumeGroupsImpl(this);
+    this.volumes = new VolumesImpl(this);
     this.volumeSnapshots = new VolumeSnapshotsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -153,10 +141,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -189,12 +174,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
     volumeGroupName: string,
     volumeName: string,
     options?: RestoreVolumeOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RestoreVolumeResponse>,
-      RestoreVolumeResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<RestoreVolumeResponse>, RestoreVolumeResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -205,8 +185,7 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -283,12 +262,12 @@ export class ElasticSanManagement extends coreClient.ServiceClient {
   }
 
   operations: Operations;
-  skus: Skus;
   elasticSans: ElasticSans;
-  volumeGroups: VolumeGroups;
-  volumes: Volumes;
+  skus: Skus;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
+  volumeGroups: VolumeGroups;
+  volumes: Volumes;
   volumeSnapshots: VolumeSnapshots;
 }
 // Operation Specifications
