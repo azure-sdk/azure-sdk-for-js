@@ -2,15 +2,15 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-weightsandbiases in some common scenarios.
 
-| **File Name**                                                               | **Description**                                                                                                                            |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [instancesCreateOrUpdateSample.ts][instancescreateorupdatesample]           | create a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [instancesDeleteSample.ts][instancesdeletesample]                           | delete a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Delete_MaximumSet_Gen.json                                      |
-| [instancesGetSample.ts][instancesgetsample]                                 | get a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Get_MaximumSet_Gen.json                                            |
-| [instancesListByResourceGroupSample.ts][instanceslistbyresourcegroupsample] | list InstanceResource resources by resource group x-ms-original-file: 2024-09-18-preview/Instances_ListByResourceGroup_MaximumSet_Gen.json |
-| [instancesListBySubscriptionSample.ts][instanceslistbysubscriptionsample]   | list InstanceResource resources by subscription ID x-ms-original-file: 2024-09-18-preview/Instances_ListBySubscription_MaximumSet_Gen.json |
-| [instancesUpdateSample.ts][instancesupdatesample]                           | update a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Update_MaximumSet_Gen.json                                      |
-| [operationsListSample.ts][operationslistsample]                             | list the operations for the provider x-ms-original-file: 2024-09-18-preview/Operations_List_MaximumSet_Gen.json                            |
+| **File Name**                                                               | **Description**                                                                                                                    |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [instancesCreateOrUpdateSample.ts][instancescreateorupdatesample]           | create a InstanceResource x-ms-original-file: 2024-09-18/Instances_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [instancesDeleteSample.ts][instancesdeletesample]                           | delete a InstanceResource x-ms-original-file: 2024-09-18/Instances_Delete_MaximumSet_Gen.json                                      |
+| [instancesGetSample.ts][instancesgetsample]                                 | get a InstanceResource x-ms-original-file: 2024-09-18/Instances_Get_MaximumSet_Gen.json                                            |
+| [instancesListByResourceGroupSample.ts][instanceslistbyresourcegroupsample] | list InstanceResource resources by resource group x-ms-original-file: 2024-09-18/Instances_ListByResourceGroup_MaximumSet_Gen.json |
+| [instancesListBySubscriptionSample.ts][instanceslistbysubscriptionsample]   | list InstanceResource resources by subscription ID x-ms-original-file: 2024-09-18/Instances_ListBySubscription_MaximumSet_Gen.json |
+| [instancesUpdateSample.ts][instancesupdatesample]                           | update a InstanceResource x-ms-original-file: 2024-09-18/Instances_Update_MaximumSet_Gen.json                                      |
+| [operationsListSample.ts][operationslistsample]                             | list the operations for the provider x-ms-original-file: 2024-09-18/Operations_List_MaximumSet_Gen.json                            |
 
 ## Prerequisites
 
