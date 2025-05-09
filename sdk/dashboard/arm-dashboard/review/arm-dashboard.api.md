@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -28,34 +31,28 @@ export interface AzureMonitorWorkspaceIntegration {
 }
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public (undocumented)
-export class DashboardManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DashboardManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    grafana: Grafana;
-    // (undocumented)
-    managedPrivateEndpoints: ManagedPrivateEndpoints;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResources: PrivateLinkResources;
-    // (undocumented)
-    subscriptionId: string;
+export class DashboardClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DashboardClientOptionalParams);
+    readonly integrationFabrics: IntegrationFabricsOperations;
+    readonly managedGrafanas: ManagedGrafanasOperations;
+    readonly managedPrivateEndpointModels: ManagedPrivateEndpointModelsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResources: PrivateLinkResourcesOperations;
 }
 
 // @public
-export interface DashboardManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DashboardClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
 }
 
 // @public
@@ -75,7 +72,7 @@ export interface EnterpriseDetails {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -94,30 +91,12 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface Grafana {
-    beginCreate(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<SimplePollerLike<OperationState<GrafanaCreateResponse>, GrafanaCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: GrafanaCreateOptionalParams): Promise<GrafanaCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, options?: GrafanaDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, options?: GrafanaDeleteOptionalParams): Promise<void>;
-    checkEnterpriseDetails(resourceGroupName: string, workspaceName: string, options?: GrafanaCheckEnterpriseDetailsOptionalParams): Promise<GrafanaCheckEnterpriseDetailsResponse>;
-    // (undocumented)
-    fetchAvailablePlugins(resourceGroupName: string, workspaceName: string, options?: GrafanaFetchAvailablePluginsOptionalParams): Promise<GrafanaFetchAvailablePluginsResponse>;
-    get(resourceGroupName: string, workspaceName: string, options?: GrafanaGetOptionalParams): Promise<GrafanaGetResponse>;
-    list(options?: GrafanaListOptionalParams): PagedAsyncIterableIterator<ManagedGrafana>;
-    listByResourceGroup(resourceGroupName: string, options?: GrafanaListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedGrafana>;
-    update(resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafanaUpdateParameters, options?: GrafanaUpdateOptionalParams): Promise<GrafanaUpdateResponse>;
-}
-
-// @public
 export interface GrafanaAvailablePlugin {
     readonly name?: string;
     readonly pluginId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GrafanaAvailablePluginListResponse {
     // (undocumented)
     nextLink?: string;
@@ -126,55 +105,12 @@ export interface GrafanaAvailablePluginListResponse {
 }
 
 // @public
-export interface GrafanaCheckEnterpriseDetailsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaCheckEnterpriseDetailsResponse = EnterpriseDetails;
-
-// @public
 export interface GrafanaConfigurations {
+    security?: Security;
     smtp?: Smtp;
+    snapshots?: Snapshots;
+    users?: Users;
 }
-
-// @public
-export interface GrafanaCreateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface GrafanaCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type GrafanaCreateResponse = ManagedGrafana;
-
-// @public
-export interface GrafanaDeleteHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface GrafanaDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface GrafanaFetchAvailablePluginsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaFetchAvailablePluginsResponse = GrafanaAvailablePluginListResponse;
-
-// @public
-export interface GrafanaGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaGetResponse = ManagedGrafana;
 
 // @public
 export interface GrafanaIntegrations {
@@ -183,49 +119,66 @@ export interface GrafanaIntegrations {
 }
 
 // @public
-export interface GrafanaListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaListByResourceGroupNextResponse = ManagedGrafanaListResponse;
-
-// @public
-export interface GrafanaListByResourceGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaListByResourceGroupResponse = ManagedGrafanaListResponse;
-
-// @public
-export interface GrafanaListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaListNextResponse = ManagedGrafanaListResponse;
-
-// @public
-export interface GrafanaListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type GrafanaListResponse = ManagedGrafanaListResponse;
-
-// @public
 export interface GrafanaPlugin {
     readonly pluginId?: string;
 }
 
 // @public
-export interface GrafanaUpdateHeaders {
-    azureAsyncOperation?: string;
+export interface IntegrationFabric extends TrackedResource {
+    // (undocumented)
+    properties?: IntegrationFabricProperties;
 }
 
 // @public
-export interface GrafanaUpdateOptionalParams extends coreClient.OperationOptions {
+export interface IntegrationFabricProperties {
+    dataSourceResourceId?: string;
+    readonly provisioningState?: ProvisioningState;
+    scenarios?: string[];
+    targetResourceId?: string;
 }
 
 // @public
-export type GrafanaUpdateResponse = ManagedGrafana;
+export interface IntegrationFabricPropertiesUpdateParameters {
+    scenarios?: string[];
+}
+
+// @public
+export interface IntegrationFabricsCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IntegrationFabricsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IntegrationFabricsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IntegrationFabricsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface IntegrationFabricsOperations {
+    create: (resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabric, options?: IntegrationFabricsCreateOptionalParams) => PollerLike<OperationState<IntegrationFabric>, IntegrationFabric>;
+    delete: (resourceGroupName: string, workspaceName: string, integrationFabricName: string, options?: IntegrationFabricsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, integrationFabricName: string, options?: IntegrationFabricsGetOptionalParams) => Promise<IntegrationFabric>;
+    list: (resourceGroupName: string, workspaceName: string, options?: IntegrationFabricsListOptionalParams) => PagedAsyncIterableIterator<IntegrationFabric>;
+    update: (resourceGroupName: string, workspaceName: string, integrationFabricName: string, requestBodyParameters: IntegrationFabricUpdateParameters, options?: IntegrationFabricsUpdateOptionalParams) => PollerLike<OperationState<IntegrationFabric>, IntegrationFabric>;
+}
+
+// @public
+export interface IntegrationFabricsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface IntegrationFabricUpdateParameters {
+    properties?: IntegrationFabricPropertiesUpdateParameters;
+    tags?: Record<string, string>;
+}
 
 // @public
 export enum KnownActionType {
@@ -234,18 +187,23 @@ export enum KnownActionType {
 
 // @public
 export enum KnownApiKey {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownAutoGeneratedDomainNameLabelScope {
+    // (undocumented)
     TenantReuse = "TenantReuse"
 }
 
 // @public
 export enum KnownAvailablePromotion {
+    // (undocumented)
     FreeTrial = "FreeTrial",
+    // (undocumented)
     None = "None"
 }
 
@@ -259,15 +217,21 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownDeterministicOutboundIP {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownManagedPrivateEndpointConnectionStatus {
+    // (undocumented)
     Approved = "Approved",
+    // (undocumented)
     Disconnected = "Disconnected",
+    // (undocumented)
     Pending = "Pending",
+    // (undocumented)
     Rejected = "Rejected"
 }
 
@@ -281,7 +245,9 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMarketplaceAutoRenew {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
@@ -309,57 +275,62 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 
 // @public
 export enum KnownProvisioningState {
+    // (undocumented)
     Accepted = "Accepted",
+    // (undocumented)
     Canceled = "Canceled",
+    // (undocumented)
     Creating = "Creating",
+    // (undocumented)
     Deleted = "Deleted",
+    // (undocumented)
     Deleting = "Deleting",
+    // (undocumented)
     Failed = "Failed",
+    // (undocumented)
     NotSpecified = "NotSpecified",
+    // (undocumented)
     Succeeded = "Succeeded",
+    // (undocumented)
     Updating = "Updating"
 }
 
 // @public
 export enum KnownPublicNetworkAccess {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
 export enum KnownStartTLSPolicy {
+    // (undocumented)
     MandatoryStartTLS = "MandatoryStartTLS",
+    // (undocumented)
     NoStartTLS = "NoStartTLS",
+    // (undocumented)
     OpportunisticStartTLS = "OpportunisticStartTLS"
 }
 
 // @public
+export enum KnownVersions {
+    V20241001 = "2024-10-01"
+}
+
+// @public
 export enum KnownZoneRedundancy {
+    // (undocumented)
     Disabled = "Disabled",
+    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export interface ManagedGrafana {
-    readonly id?: string;
+export interface ManagedGrafana extends TrackedResource {
     identity?: ManagedServiceIdentity;
-    location?: string;
-    readonly name?: string;
     properties?: ManagedGrafanaProperties;
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
-}
-
-// @public (undocumented)
-export interface ManagedGrafanaListResponse {
-    // (undocumented)
-    nextLink?: string;
-    // (undocumented)
-    value?: ManagedGrafana[];
 }
 
 // @public
@@ -372,9 +343,7 @@ export interface ManagedGrafanaProperties {
     grafanaConfigurations?: GrafanaConfigurations;
     grafanaIntegrations?: GrafanaIntegrations;
     grafanaMajorVersion?: string;
-    grafanaPlugins?: {
-        [propertyName: string]: GrafanaPlugin;
-    };
+    grafanaPlugins?: Record<string, GrafanaPlugin>;
     readonly grafanaVersion?: string;
     readonly outboundIPs?: string[];
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -391,11 +360,61 @@ export interface ManagedGrafanaPropertiesUpdateParameters {
     grafanaConfigurations?: GrafanaConfigurations;
     grafanaIntegrations?: GrafanaIntegrations;
     grafanaMajorVersion?: string;
-    grafanaPlugins?: {
-        [propertyName: string]: GrafanaPlugin;
-    };
+    grafanaPlugins?: Record<string, GrafanaPlugin>;
     publicNetworkAccess?: PublicNetworkAccess;
     zoneRedundancy?: ZoneRedundancy;
+}
+
+// @public
+export interface ManagedGrafanasCheckEnterpriseDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedGrafanasCreateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedGrafanasDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedGrafanasFetchAvailablePluginsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedGrafanasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedGrafanasListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedGrafanasListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ManagedGrafanasOperations {
+    checkEnterpriseDetails: (resourceGroupName: string, workspaceName: string, options?: ManagedGrafanasCheckEnterpriseDetailsOptionalParams) => Promise<EnterpriseDetails>;
+    create: (resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafana, options?: ManagedGrafanasCreateOptionalParams) => PollerLike<OperationState<ManagedGrafana>, ManagedGrafana>;
+    delete: (resourceGroupName: string, workspaceName: string, options?: ManagedGrafanasDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    fetchAvailablePlugins: (resourceGroupName: string, workspaceName: string, options?: ManagedGrafanasFetchAvailablePluginsOptionalParams) => Promise<GrafanaAvailablePluginListResponse>;
+    get: (resourceGroupName: string, workspaceName: string, options?: ManagedGrafanasGetOptionalParams) => Promise<ManagedGrafana>;
+    list: (options?: ManagedGrafanasListOptionalParams) => PagedAsyncIterableIterator<ManagedGrafana>;
+    listByResourceGroup: (resourceGroupName: string, options?: ManagedGrafanasListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedGrafana>;
+    refresh: (resourceGroupName: string, workspaceName: string, options?: ManagedGrafanasRefreshOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, workspaceName: string, requestBodyParameters: ManagedGrafanaUpdateParameters, options?: ManagedGrafanasUpdateOptionalParams) => Promise<ManagedGrafana>;
+}
+
+// @public
+export interface ManagedGrafanasRefreshOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedGrafanasUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -404,9 +423,7 @@ export interface ManagedGrafanaUpdateParameters {
     properties?: ManagedGrafanaPropertiesUpdateParameters;
     // (undocumented)
     sku?: ResourceSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -420,6 +437,11 @@ export type ManagedPrivateEndpointConnectionStatus = string;
 
 // @public
 export interface ManagedPrivateEndpointModel extends TrackedResource {
+    properties?: ManagedPrivateEndpointModelProperties;
+}
+
+// @public
+export interface ManagedPrivateEndpointModelProperties {
     readonly connectionState?: ManagedPrivateEndpointConnectionState;
     groupIds?: string[];
     privateLinkResourceId?: string;
@@ -431,103 +453,40 @@ export interface ManagedPrivateEndpointModel extends TrackedResource {
 }
 
 // @public
-export interface ManagedPrivateEndpointModelListResponse {
-    // (undocumented)
-    nextLink?: string;
-    // (undocumented)
-    value?: ManagedPrivateEndpointModel[];
-}
-
-// @public
-export interface ManagedPrivateEndpoints {
-    beginCreate(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointModel, options?: ManagedPrivateEndpointsCreateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsCreateResponse>, ManagedPrivateEndpointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointModel, options?: ManagedPrivateEndpointsCreateOptionalParams): Promise<ManagedPrivateEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsDeleteOptionalParams): Promise<void>;
-    beginRefresh(resourceGroupName: string, workspaceName: string, options?: ManagedPrivateEndpointsRefreshOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginRefreshAndWait(resourceGroupName: string, workspaceName: string, options?: ManagedPrivateEndpointsRefreshOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointUpdateParameters, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ManagedPrivateEndpointsUpdateResponse>, ManagedPrivateEndpointsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointUpdateParameters, options?: ManagedPrivateEndpointsUpdateOptionalParams): Promise<ManagedPrivateEndpointsUpdateResponse>;
-    get(resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointsGetOptionalParams): Promise<ManagedPrivateEndpointsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: ManagedPrivateEndpointsListOptionalParams): PagedAsyncIterableIterator<ManagedPrivateEndpointModel>;
-}
-
-// @public
-export interface ManagedPrivateEndpointsCreateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ManagedPrivateEndpointsCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedPrivateEndpointModelsCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ManagedPrivateEndpointsCreateResponse = ManagedPrivateEndpointModel;
-
-// @public
-export interface ManagedPrivateEndpointsDeleteHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedPrivateEndpointModelsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointModelsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpointModel;
-
-// @public
-export interface ManagedPrivateEndpointsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointModelsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ManagedPrivateEndpointsListNextResponse = ManagedPrivateEndpointModelListResponse;
-
-// @public
-export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.OperationOptions {
+export interface ManagedPrivateEndpointModelsOperations {
+    create: (resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointModel, options?: ManagedPrivateEndpointModelsCreateOptionalParams) => PollerLike<OperationState<ManagedPrivateEndpointModel>, ManagedPrivateEndpointModel>;
+    delete: (resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointModelsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, options?: ManagedPrivateEndpointModelsGetOptionalParams) => Promise<ManagedPrivateEndpointModel>;
+    list: (resourceGroupName: string, workspaceName: string, options?: ManagedPrivateEndpointModelsListOptionalParams) => PagedAsyncIterableIterator<ManagedPrivateEndpointModel>;
+    update: (resourceGroupName: string, workspaceName: string, managedPrivateEndpointName: string, requestBodyParameters: ManagedPrivateEndpointUpdateParameters, options?: ManagedPrivateEndpointModelsUpdateOptionalParams) => PollerLike<OperationState<ManagedPrivateEndpointModel>, ManagedPrivateEndpointModel>;
 }
 
 // @public
-export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointModelListResponse;
-
-// @public
-export interface ManagedPrivateEndpointsRefreshHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ManagedPrivateEndpointsRefreshOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ManagedPrivateEndpointModelsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export interface ManagedPrivateEndpointsUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface ManagedPrivateEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ManagedPrivateEndpointsUpdateResponse = ManagedPrivateEndpointModel;
 
 // @public
 export interface ManagedPrivateEndpointUpdateParameters {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -535,9 +494,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -572,32 +529,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PrivateEndpoint {
@@ -605,87 +558,57 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends Resource {
-    groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+export interface PrivateEndpointConnection extends ProxyResource {
+    properties?: PrivateEndpointConnectionProperties;
 }
 
 // @public
-export interface PrivateEndpointConnectionListResult {
-    readonly nextLink?: string;
-    value?: PrivateEndpointConnection[];
+export interface PrivateEndpointConnectionProperties {
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
 export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
-export interface PrivateEndpointConnections {
-    beginApprove(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsApproveOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsApproveResponse>, PrivateEndpointConnectionsApproveResponse>>;
-    beginApproveAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsApproveOptionalParams): Promise<PrivateEndpointConnectionsApproveResponse>;
-    beginDelete(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
-    get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsApproveHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsApproveOptionalParams extends coreClient.OperationOptions {
-    body?: PrivateEndpointConnection;
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsApproveOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsApproveResponse = PrivateEndpointConnectionsApproveHeaders & PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionListResult;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsOperations {
+    approve: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, body: PrivateEndpointConnection, options?: PrivateEndpointConnectionsApproveOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, workspaceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }
-
-// @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends ProxyResource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
     readonly provisioningState?: ProvisioningState;
     readonly requiredMembers?: string[];
@@ -693,37 +616,18 @@ export interface PrivateLinkResource extends Resource {
 }
 
 // @public
-export interface PrivateLinkResourceListResult {
-    readonly nextLink?: string;
-    value?: PrivateLinkResource[];
+export interface PrivateLinkResourcesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResources {
-    get(resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+export interface PrivateLinkResourcesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperations {
+    get: (resourceGroupName: string, workspaceName: string, privateLinkResourceName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    list: (resourceGroupName: string, workspaceName: string, options?: PrivateLinkResourcesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
-
-// @public
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
-
-// @public
-export interface PrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult;
-
-// @public
-export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
 
 // @public
 export interface PrivateLinkServiceConnectionState {
@@ -736,6 +640,10 @@ export interface PrivateLinkServiceConnectionState {
 export type ProvisioningState = string;
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export type PublicNetworkAccess = string;
 
 // @public
@@ -746,10 +654,19 @@ export interface Resource {
     readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceSku {
-    // (undocumented)
     name: string;
+}
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DashboardClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -758,6 +675,11 @@ export interface SaasSubscriptionDetails {
     planId?: string;
     publisherId?: string;
     term?: SubscriptionTerm;
+}
+
+// @public
+export interface Security {
+    csrfAlwaysCheck?: boolean;
 }
 
 // @public
@@ -770,6 +692,11 @@ export interface Smtp {
     skipVerify?: boolean;
     startTLSPolicy?: StartTLSPolicy;
     user?: string;
+}
+
+// @public
+export interface Snapshots {
+    externalEnabled?: boolean;
 }
 
 // @public
@@ -795,15 +722,18 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
+}
+
+// @public
+export interface Users {
+    viewersCanEdit?: boolean;
 }
 
 // @public
