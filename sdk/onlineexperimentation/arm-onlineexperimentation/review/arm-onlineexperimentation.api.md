@@ -166,6 +166,18 @@ export interface OnlineExperimentWorkspace extends TrackedResource {
 }
 
 // @public
+export interface OnlineExperimentWorkspacePatch {
+    identity?: ManagedServiceIdentity;
+    properties?: {
+        logAnalyticsWorkspaceResourceId?: string;
+        logsExporterStorageAccountResourceId?: string;
+        encryption?: ResourceEncryptionConfiguration;
+    };
+    sku?: OnlineExperimentationWorkspaceSku;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface OnlineExperimentWorkspaceProperties {
     appConfigurationResourceId: string;
     encryption?: ResourceEncryptionConfiguration;
@@ -205,7 +217,7 @@ export interface OnlineExperimentWorkspacesOperations {
     get: (resourceGroupName: string, workspaceName: string, options?: OnlineExperimentWorkspacesGetOptionalParams) => Promise<OnlineExperimentWorkspace>;
     listByResourceGroup: (resourceGroupName: string, options?: OnlineExperimentWorkspacesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentWorkspace>;
     listBySubscription: (options?: OnlineExperimentWorkspacesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<OnlineExperimentWorkspace>;
-    update: (resourceGroupName: string, workspaceName: string, properties: OnlineExperimentWorkspace, options?: OnlineExperimentWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
+    update: (resourceGroupName: string, workspaceName: string, properties: OnlineExperimentWorkspacePatch, options?: OnlineExperimentWorkspacesUpdateOptionalParams) => PollerLike<OperationState<OnlineExperimentWorkspace>, OnlineExperimentWorkspace>;
 }
 
 // @public

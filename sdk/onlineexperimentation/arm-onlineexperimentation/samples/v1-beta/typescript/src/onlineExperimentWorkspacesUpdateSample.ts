@@ -16,7 +16,6 @@ async function updateAnOnlineExperimentWorkspace(): Promise<void> {
   const client = new OnlineExperimentationClient(credential, subscriptionId);
   const result = await client.onlineExperimentWorkspaces.update("res9871", "expworkspace3", {
     tags: { newKey: "newVal" },
-    location: "",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -51,20 +50,21 @@ async function updateAnOnlineExperimentWorkspaceWithCustomerManagedEncryptionKey
           {},
       },
     },
-    location: "",
     properties: {
-      logAnalyticsWorkspaceResourceId: "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
-      logsExporterStorageAccountResourceId: "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
+      logAnalyticsWorkspaceResourceId:
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.OperationalInsights/workspaces/log9871",
+      logsExporterStorageAccountResourceId:
+        "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/res9871/providers/Microsoft.Storage/storageAccounts/sto9871",
       encryption: {
         customerManagedKeyEncryption: {
           keyEncryptionKeyIdentity: {
             identityType: "UserAssignedIdentity",
-            userAssignedIdentityResourceId: "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+            userAssignedIdentityResourceId:
+              "/subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/eu2cgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
           },
           keyEncryptionKeyUrl: "https://contosovault.vault.azure.net/keys/contosokek",
         },
       },
-      appConfigurationResourceId: "",
     },
   });
   console.log(result);

@@ -139,6 +139,18 @@ export interface OnlineExperimentWorkspace extends TrackedResource {
 }
 
 // @public
+export interface OnlineExperimentWorkspacePatch {
+    identity?: ManagedServiceIdentity;
+    properties?: {
+        logAnalyticsWorkspaceResourceId?: string;
+        logsExporterStorageAccountResourceId?: string;
+        encryption?: ResourceEncryptionConfiguration;
+    };
+    sku?: OnlineExperimentationWorkspaceSku;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface OnlineExperimentWorkspaceProperties {
     appConfigurationResourceId: string;
     encryption?: ResourceEncryptionConfiguration;
