@@ -12,11 +12,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ConnectionMonitorResult,
@@ -61,11 +57,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     networkWatcherName: string,
     options?: ConnectionMonitorsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionMonitorResult> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkWatcherName, options);
     return {
       next() {
         return iter.next();
@@ -77,12 +69,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkWatcherName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkWatcherName, options, settings);
       },
     };
   }
@@ -103,11 +90,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
     networkWatcherName: string,
     options?: ConnectionMonitorsListOptionalParams,
   ): AsyncIterableIterator<ConnectionMonitorResult> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkWatcherName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkWatcherName, options)) {
       yield* page;
     }
   }
@@ -142,8 +125,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -260,8 +242,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -379,8 +360,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -471,8 +451,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -568,8 +547,7 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

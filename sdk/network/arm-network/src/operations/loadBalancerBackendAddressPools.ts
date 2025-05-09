@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BackendAddressPool,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerBackendAddressPools operations. */
-export class LoadBalancerBackendAddressPoolsImpl
-  implements LoadBalancerBackendAddressPools
-{
+export class LoadBalancerBackendAddressPoolsImpl implements LoadBalancerBackendAddressPools {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -58,11 +52,7 @@ export class LoadBalancerBackendAddressPoolsImpl
     loadBalancerName: string,
     options?: LoadBalancerBackendAddressPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<BackendAddressPool> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +64,7 @@ export class LoadBalancerBackendAddressPoolsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -118,11 +103,7 @@ export class LoadBalancerBackendAddressPoolsImpl
     loadBalancerName: string,
     options?: LoadBalancerBackendAddressPoolsListOptionalParams,
   ): AsyncIterableIterator<BackendAddressPool> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }
@@ -194,8 +175,7 @@ export class LoadBalancerBackendAddressPoolsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -294,8 +274,7 @@ export class LoadBalancerBackendAddressPoolsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
