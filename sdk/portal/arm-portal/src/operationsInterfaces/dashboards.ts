@@ -9,83 +9,83 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Dashboard,
-  DashboardsListByResourceGroupOptionalParams,
   DashboardsListBySubscriptionOptionalParams,
-  DashboardsCreateOrUpdateOptionalParams,
-  DashboardsCreateOrUpdateResponse,
-  DashboardsDeleteOptionalParams,
+  DashboardsListByResourceGroupOptionalParams,
   DashboardsGetOptionalParams,
   DashboardsGetResponse,
+  DashboardsCreateOrUpdateOptionalParams,
+  DashboardsCreateOrUpdateResponse,
   PatchableDashboard,
   DashboardsUpdateOptionalParams,
-  DashboardsUpdateResponse
+  DashboardsUpdateResponse,
+  DashboardsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Dashboards. */
 export interface Dashboards {
   /**
-   * Gets all the Dashboards within a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: DashboardsListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<Dashboard>;
-  /**
    * Gets all the dashboards within a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DashboardsListBySubscriptionOptionalParams
+    options?: DashboardsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Dashboard>;
   /**
-   * Creates or updates a Dashboard.
-   * @param resourceGroupName The name of the resource group.
-   * @param dashboardName The name of the dashboard.
-   * @param dashboard The parameters required to create or update a dashboard.
+   * Gets all the Dashboards within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
-  createOrUpdate(
+  listByResourceGroup(
     resourceGroupName: string,
-    dashboardName: string,
-    dashboard: Dashboard,
-    options?: DashboardsCreateOrUpdateOptionalParams
-  ): Promise<DashboardsCreateOrUpdateResponse>;
-  /**
-   * Deletes the Dashboard.
-   * @param resourceGroupName The name of the resource group.
-   * @param dashboardName The name of the dashboard.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    dashboardName: string,
-    options?: DashboardsDeleteOptionalParams
-  ): Promise<void>;
+    options?: DashboardsListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Dashboard>;
   /**
    * Gets the Dashboard.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dashboardName The name of the dashboard.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     dashboardName: string,
-    options?: DashboardsGetOptionalParams
+    options?: DashboardsGetOptionalParams,
   ): Promise<DashboardsGetResponse>;
   /**
-   * Updates an existing Dashboard.
-   * @param resourceGroupName The name of the resource group.
+   * Creates or updates a Dashboard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param dashboardName The name of the dashboard.
-   * @param dashboard The updatable fields of a Dashboard.
+   * @param resource The parameters required to create or update a dashboard.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    dashboardName: string,
+    resource: Dashboard,
+    options?: DashboardsCreateOrUpdateOptionalParams,
+  ): Promise<DashboardsCreateOrUpdateResponse>;
+  /**
+   * Updates an existing Dashboard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dashboardName The name of the dashboard.
+   * @param properties The updatable fields of a Dashboard.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     dashboardName: string,
-    dashboard: PatchableDashboard,
-    options?: DashboardsUpdateOptionalParams
+    properties: PatchableDashboard,
+    options?: DashboardsUpdateOptionalParams,
   ): Promise<DashboardsUpdateResponse>;
+  /**
+   * Deletes the Dashboard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param dashboardName The name of the dashboard.
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    dashboardName: string,
+    options?: DashboardsDeleteOptionalParams,
+  ): Promise<void>;
 }
