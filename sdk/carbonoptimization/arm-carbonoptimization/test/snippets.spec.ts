@@ -8,15 +8,20 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const client = new CarbonOptimizationManagementClient(new DefaultAzureCredential());
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new CarbonOptimizationManagementClient(
+      new DefaultAzureCredential(),
+      subscriptionId,
+    );
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new CarbonOptimizationManagementClient(credential);
+    const client = new CarbonOptimizationManagementClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {
