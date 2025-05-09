@@ -32,12 +32,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
-  public list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Operation> {
+  public list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -73,12 +71,10 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Lists all of the available Azure Machine Learning Workspaces REST API operations.
+   * Lists all of the available Azure Machine Learning Workspaces REST API operations
    * @param options The options parameters.
    */
-  private _list(
-    options?: OperationsListOptionalParams,
-  ): Promise<OperationsListResponse> {
+  private _list(options?: OperationsListOptionalParams): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 }

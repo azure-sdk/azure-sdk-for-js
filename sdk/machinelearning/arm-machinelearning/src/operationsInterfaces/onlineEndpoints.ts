@@ -95,10 +95,7 @@ export interface OnlineEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: OnlineEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<OnlineEndpointsUpdateResponse>,
-      OnlineEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<OnlineEndpointsUpdateResponse>, OnlineEndpointsUpdateResponse>
   >;
   /**
    * Update Online Endpoint (asynchronous).
