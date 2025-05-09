@@ -60,10 +60,7 @@ export interface ImportPipelines {
     importPipelineCreateParameters: ImportPipeline,
     options?: ImportPipelinesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ImportPipelinesCreateResponse>,
-      ImportPipelinesCreateResponse
-    >
+    SimplePollerLike<OperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>
   >;
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
@@ -87,20 +84,7 @@ export interface ImportPipelines {
    * @param importPipelineName The name of the import pipeline.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes an import pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param importPipelineName The name of the import pipeline.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,

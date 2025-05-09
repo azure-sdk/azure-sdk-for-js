@@ -1021,8 +1021,7 @@ export interface ExportPipelineListResult {
 export interface ExportPipelines {
     beginCreate(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, exportPipelineCreateParameters: ExportPipeline, options?: ExportPipelinesCreateOptionalParams): Promise<ExportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, exportPipelineName: string, options?: ExportPipelinesGetOptionalParams): Promise<ExportPipelinesGetResponse>;
     list(resourceGroupName: string, registryName: string, options?: ExportPipelinesListOptionalParams): PagedAsyncIterableIterator<ExportPipeline>;
 }
@@ -1043,15 +1042,7 @@ export interface ExportPipelinesCreateOptionalParams extends coreClient.Operatio
 export type ExportPipelinesCreateResponse = ExportPipeline;
 
 // @public
-export interface ExportPipelinesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface ExportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1077,8 +1068,9 @@ export type ExportPipelinesListResponse = ExportPipelineListResult;
 
 // @public
 export interface ExportPipelineTargetProperties {
-    keyVaultUri: string;
-    type?: string;
+    keyVaultUri?: string;
+    storageAccessMode?: StorageAccessMode;
+    type?: PipelineTargetType;
     uri?: string;
 }
 
@@ -1197,8 +1189,7 @@ export interface ImportPipelineListResult {
 export interface ImportPipelines {
     beginCreate(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<SimplePollerLike<OperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, importPipelineCreateParameters: ImportPipeline, options?: ImportPipelinesCreateOptionalParams): Promise<ImportPipelinesCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, importPipelineName: string, options?: ImportPipelinesGetOptionalParams): Promise<ImportPipelinesGetResponse>;
     list(resourceGroupName: string, registryName: string, options?: ImportPipelinesListOptionalParams): PagedAsyncIterableIterator<ImportPipeline>;
 }
@@ -1219,15 +1210,7 @@ export interface ImportPipelinesCreateOptionalParams extends coreClient.Operatio
 export type ImportPipelinesCreateResponse = ImportPipeline;
 
 // @public
-export interface ImportPipelinesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface ImportPipelinesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1253,7 +1236,8 @@ export type ImportPipelinesListResponse = ImportPipelineListResult;
 
 // @public
 export interface ImportPipelineSourceProperties {
-    keyVaultUri: string;
+    keyVaultUri?: string;
+    storageAccessMode?: StorageAccessMode;
     type?: PipelineSourceType;
     uri?: string;
 }
@@ -1482,6 +1466,11 @@ export enum KnownPipelineSourceType {
 }
 
 // @public
+export enum KnownPipelineTargetType {
+    AzureStorageBlobContainer = "AzureStorageBlobContainer"
+}
+
+// @public
 export enum KnownPolicyStatus {
     Disabled = "disabled",
     Enabled = "enabled"
@@ -1580,6 +1569,12 @@ export enum KnownStepType {
     Docker = "Docker",
     EncodedTask = "EncodedTask",
     FileTask = "FileTask"
+}
+
+// @public
+export enum KnownStorageAccessMode {
+    ManagedIdentity = "ManagedIdentity",
+    SasToken = "SasToken"
 }
 
 // @public
@@ -1833,8 +1828,7 @@ export interface PipelineRunResponse {
 export interface PipelineRuns {
     beginCreate(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<SimplePollerLike<OperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, pipelineRunCreateParameters: PipelineRun, options?: PipelineRunsCreateOptionalParams): Promise<PipelineRunsCreateResponse>;
-    beginDelete(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<void>;
+    delete(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, registryName: string, pipelineRunName: string, options?: PipelineRunsGetOptionalParams): Promise<PipelineRunsGetResponse>;
     list(resourceGroupName: string, registryName: string, options?: PipelineRunsListOptionalParams): PagedAsyncIterableIterator<PipelineRun>;
 }
@@ -1855,15 +1849,7 @@ export interface PipelineRunsCreateOptionalParams extends coreClient.OperationOp
 export type PipelineRunsCreateResponse = PipelineRun;
 
 // @public
-export interface PipelineRunsDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface PipelineRunsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1887,7 +1873,7 @@ export interface PipelineRunsListOptionalParams extends coreClient.OperationOpti
 // @public
 export type PipelineRunsListResponse = PipelineRunListResult;
 
-// @public (undocumented)
+// @public
 export interface PipelineRunSourceProperties {
     name?: string;
     type?: PipelineRunSourceType;
@@ -1896,7 +1882,7 @@ export interface PipelineRunSourceProperties {
 // @public
 export type PipelineRunSourceType = string;
 
-// @public (undocumented)
+// @public
 export interface PipelineRunTargetProperties {
     name?: string;
     type?: PipelineRunTargetType;
@@ -1905,12 +1891,12 @@ export interface PipelineRunTargetProperties {
 // @public
 export type PipelineRunTargetType = string;
 
-// @public (undocumented)
+// @public
 export interface PipelineSourceTriggerDescriptor {
     timestamp?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface PipelineSourceTriggerProperties {
     status: TriggerStatus;
 }
@@ -1918,12 +1904,15 @@ export interface PipelineSourceTriggerProperties {
 // @public
 export type PipelineSourceType = string;
 
-// @public (undocumented)
+// @public
+export type PipelineTargetType = string;
+
+// @public
 export interface PipelineTriggerDescriptor {
     sourceTrigger?: PipelineSourceTriggerDescriptor;
 }
 
-// @public (undocumented)
+// @public
 export interface PipelineTriggerProperties {
     sourceTrigger?: PipelineSourceTriggerProperties;
 }
@@ -2054,7 +2043,7 @@ export interface PrivateLinkServiceConnectionState {
     status?: ConnectionStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface ProgressProperties {
     percentage?: string;
 }
@@ -2842,6 +2831,9 @@ export interface StatusDetailProperties {
 
 // @public
 export type StepType = string;
+
+// @public
+export type StorageAccessMode = string;
 
 // @public
 export interface StorageAccountProperties {

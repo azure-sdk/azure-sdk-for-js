@@ -67,12 +67,7 @@ export class TasksImpl implements Tasks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -93,12 +88,7 @@ export class TasksImpl implements Tasks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,11 +101,7 @@ export class TasksImpl implements Tasks {
     registryName: string,
     options?: TasksListOptionalParams,
   ): AsyncIterableIterator<Task> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }

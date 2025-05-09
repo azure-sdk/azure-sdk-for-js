@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ExportPipeline,
@@ -68,12 +64,7 @@ export class ExportPipelinesImpl implements ExportPipelines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -94,12 +85,7 @@ export class ExportPipelinesImpl implements ExportPipelines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +98,7 @@ export class ExportPipelinesImpl implements ExportPipelines {
     registryName: string,
     options?: ExportPipelinesListOptionalParams,
   ): AsyncIterableIterator<ExportPipeline> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -172,10 +154,7 @@ export class ExportPipelinesImpl implements ExportPipelines {
     exportPipelineCreateParameters: ExportPipeline,
     options?: ExportPipelinesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportPipelinesCreateResponse>,
-      ExportPipelinesCreateResponse
-    >
+    SimplePollerLike<OperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -187,8 +166,7 @@ export class ExportPipelinesImpl implements ExportPipelines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -270,84 +248,16 @@ export class ExportPipelinesImpl implements ExportPipelines {
    * @param exportPipelineName The name of the export pipeline.
    * @param options The options parameters.
    */
-  async beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    exportPipelineName: string,
-    options?: ExportPipelinesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, registryName, exportPipelineName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Deletes an export pipeline from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param exportPipelineName The name of the export pipeline.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     registryName: string,
     exportPipelineName: string,
     options?: ExportPipelinesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      exportPipelineName,
-      options,
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, exportPipelineName, options },
+      deleteOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -453,8 +363,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
-    201: {},
-    202: {},
     204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,

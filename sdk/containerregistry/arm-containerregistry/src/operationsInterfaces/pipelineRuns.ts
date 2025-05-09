@@ -60,10 +60,7 @@ export interface PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PipelineRunsCreateResponse>,
-      PipelineRunsCreateResponse
-    >
+    SimplePollerLike<OperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>
   >;
   /**
    * Creates a pipeline run for a container registry with the specified parameters
@@ -87,20 +84,7 @@ export interface PipelineRuns {
    * @param pipelineRunName The name of the pipeline run.
    * @param options The options parameters.
    */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    pipelineRunName: string,
-    options?: PipelineRunsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a pipeline run from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param pipelineRunName The name of the pipeline run.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
+  delete(
     resourceGroupName: string,
     registryName: string,
     pipelineRunName: string,
