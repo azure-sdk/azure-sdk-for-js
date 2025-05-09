@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   P2SVpnGateway,
@@ -85,11 +81,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -109,11 +101,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -125,10 +113,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
     resourceGroupName: string,
     options?: P2SVpnGatewaysListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<P2SVpnGateway> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -233,8 +218,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -334,8 +318,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -427,8 +410,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -480,11 +462,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
     gatewayName: string,
     options?: P2SVpnGatewaysDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -507,9 +485,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
    * Lists all the P2SVpnGateways in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: P2SVpnGatewaysListOptionalParams,
-  ): Promise<P2SVpnGatewaysListResponse> {
+  private _list(options?: P2SVpnGatewaysListOptionalParams): Promise<P2SVpnGatewaysListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -524,10 +500,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
     gatewayName: string,
     options?: P2SVpnGatewaysResetOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<P2SVpnGatewaysResetResponse>,
-      P2SVpnGatewaysResetResponse
-    >
+    SimplePollerLike<OperationState<P2SVpnGatewaysResetResponse>, P2SVpnGatewaysResetResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -539,8 +512,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -595,11 +567,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
     gatewayName: string,
     options?: P2SVpnGatewaysResetOptionalParams,
   ): Promise<P2SVpnGatewaysResetResponse> {
-    const poller = await this.beginReset(
-      resourceGroupName,
-      gatewayName,
-      options,
-    );
+    const poller = await this.beginReset(resourceGroupName, gatewayName, options);
     return poller.pollUntilDone();
   }
 
@@ -631,8 +599,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -725,8 +692,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -819,8 +785,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -910,8 +875,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1000,10 +964,7 @@ export class P2SVpnGatewaysImpl implements P2SVpnGateways {
     nextLink: string,
     options?: P2SVpnGatewaysListNextOptionalParams,
   ): Promise<P2SVpnGatewaysListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -1128,11 +1089,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1202,7 +1159,7 @@ const generateVpnProfileOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters89,
+  requestBody: Parameters.parameters97,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1244,39 +1201,38 @@ const getP2SVpnConnectionHealthOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getP2SVpnConnectionHealthDetailedOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.P2SVpnConnectionHealth,
-      },
-      201: {
-        bodyMapper: Mappers.P2SVpnConnectionHealth,
-      },
-      202: {
-        bodyMapper: Mappers.P2SVpnConnectionHealth,
-      },
-      204: {
-        bodyMapper: Mappers.P2SVpnConnectionHealth,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const getP2SVpnConnectionHealthDetailedOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.P2SVpnConnectionHealth,
     },
-    requestBody: Parameters.request3,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.resourceGroupName,
-      Parameters.subscriptionId,
-      Parameters.gatewayName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.P2SVpnConnectionHealth,
+    },
+    202: {
+      bodyMapper: Mappers.P2SVpnConnectionHealth,
+    },
+    204: {
+      bodyMapper: Mappers.P2SVpnConnectionHealth,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.request4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.gatewayName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const disconnectP2SVpnConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections",
   httpMethod: "POST",
@@ -1289,7 +1245,7 @@ const disconnectP2SVpnConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.request1,
+  requestBody: Parameters.request2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1332,11 +1288,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
