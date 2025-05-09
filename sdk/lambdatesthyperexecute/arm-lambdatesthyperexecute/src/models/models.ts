@@ -715,6 +715,5 @@ export function organizationResourceArrayDeserializer(result: Array<Organization
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** 2024-02-01-preview version */
-  V20240201Preview = "2024-02-01-preview",
+  V20240201 = "2024-02-01",
 }
