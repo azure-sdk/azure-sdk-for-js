@@ -59,12 +59,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          location,
-          publicGalleryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(location, publicGalleryName, options, settings);
       },
     };
   }
@@ -85,12 +80,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        location,
-        publicGalleryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(location, publicGalleryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -103,11 +93,7 @@ export class CommunityGalleryImagesImpl implements CommunityGalleryImages {
     publicGalleryName: string,
     options?: CommunityGalleryImagesListOptionalParams,
   ): AsyncIterableIterator<CommunityGalleryImage> {
-    for await (const page of this.listPagingPage(
-      location,
-      publicGalleryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(location, publicGalleryName, options)) {
       yield* page;
     }
   }

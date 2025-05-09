@@ -6833,6 +6833,16 @@ export interface VirtualMachineIdentity {
 
 // @public
 export interface VirtualMachineImage extends VirtualMachineImageResource {
+}
+
+// @public
+export interface VirtualMachineImageFeature {
+    name?: string;
+    value?: string;
+}
+
+// @public
+export interface VirtualMachineImageProperties {
     architecture?: ArchitectureTypes;
     automaticOSUpgradeProperties?: AutomaticOSUpgradeProperties;
     // (undocumented)
@@ -6847,16 +6857,11 @@ export interface VirtualMachineImage extends VirtualMachineImageResource {
 }
 
 // @public
-export interface VirtualMachineImageFeature {
-    name?: string;
-    value?: string;
-}
-
-// @public
 export interface VirtualMachineImageResource extends SubResource {
     extendedLocation?: ExtendedLocation;
     location: string;
     name: string;
+    properties?: VirtualMachineImageProperties;
     tags?: {
         [propertyName: string]: string;
     };

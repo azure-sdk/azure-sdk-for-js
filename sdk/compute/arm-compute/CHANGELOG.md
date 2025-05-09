@@ -1,5 +1,25 @@
 # Release History
     
+## 23.0.0 (2025-05-09)
+    
+### Features Added
+
+  - Added Interface VirtualMachineImageProperties
+  - Interface VirtualMachineImageResource has a new optional parameter properties
+
+### Breaking Changes
+
+  - Interface VirtualMachineImage no longer has parameter architecture
+  - Interface VirtualMachineImage no longer has parameter automaticOSUpgradeProperties
+  - Interface VirtualMachineImage no longer has parameter dataDiskImages
+  - Interface VirtualMachineImage no longer has parameter disallowed
+  - Interface VirtualMachineImage no longer has parameter features
+  - Interface VirtualMachineImage no longer has parameter hyperVGeneration
+  - Interface VirtualMachineImage no longer has parameter imageDeprecationStatus
+  - Interface VirtualMachineImage no longer has parameter osDiskImage
+  - Interface VirtualMachineImage no longer has parameter plan
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added
