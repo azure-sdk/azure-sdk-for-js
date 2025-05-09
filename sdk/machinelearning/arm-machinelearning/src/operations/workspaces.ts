@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Workspace,
@@ -88,11 +84,7 @@ export class WorkspacesImpl implements Workspaces {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -112,11 +104,7 @@ export class WorkspacesImpl implements Workspaces {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -128,10 +116,7 @@ export class WorkspacesImpl implements Workspaces {
     resourceGroupName: string,
     options?: WorkspacesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Workspace> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -235,8 +220,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -322,8 +306,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -358,6 +341,7 @@ export class WorkspacesImpl implements Workspaces {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -374,11 +358,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
@@ -394,12 +374,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesUpdateResponse>,
-      WorkspacesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -410,8 +385,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -467,12 +441,7 @@ export class WorkspacesImpl implements Workspaces {
     parameters: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, workspaceName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -502,10 +471,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesDiagnoseResponse>,
-      WorkspacesDiagnoseResponse
-    >
+    SimplePollerLike<OperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -517,8 +483,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -573,11 +538,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<WorkspacesDiagnoseResponse> {
-    const poller = await this.beginDiagnose(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginDiagnose(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
@@ -621,8 +582,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -674,11 +634,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesResyncKeysOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginResyncKeys(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginResyncKeys(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
@@ -689,10 +645,7 @@ export class WorkspacesImpl implements Workspaces {
   private _listBySubscription(
     options?: WorkspacesListBySubscriptionOptionalParams,
   ): Promise<WorkspacesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -738,8 +691,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -794,11 +746,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesPrepareNotebookOptionalParams,
   ): Promise<WorkspacesPrepareNotebookResponse> {
-    const poller = await this.beginPrepareNotebook(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginPrepareNotebook(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
@@ -930,7 +878,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -984,7 +932,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1008,11 +956,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1036,7 +980,7 @@ const diagnoseOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1200,28 +1144,27 @@ const listNotebookKeysOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ExternalFqdnResponse,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExternalFqdnResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.workspaceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -1236,8 +1179,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1253,11 +1196,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
