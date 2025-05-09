@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ElasticSanClient } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+ *
+ * @summary validate whether a list of backed up disk snapshots can be restored into ElasticSan volumes.
+ * x-ms-original-file: 2024-07-01-preview/Volumes_PreRestore_MaximumSet_Gen.json
+ */
+async function volumeGroupsPreRestoreMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  const result = await client.volumeGroups.preRestore(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  );
+  console.log(result);
+}
+
+async function main(): Promise<void> {
+  await volumeGroupsPreRestoreMaximumSetGen();
+}
+
+main().catch(console.error);
