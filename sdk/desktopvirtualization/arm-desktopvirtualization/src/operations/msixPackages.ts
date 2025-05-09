@@ -64,12 +64,7 @@ export class MsixPackagesImpl implements MsixPackages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
@@ -90,12 +85,7 @@ export class MsixPackagesImpl implements MsixPackages {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        hostPoolName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, hostPoolName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -108,11 +98,7 @@ export class MsixPackagesImpl implements MsixPackages {
     hostPoolName: string,
     options?: MsixPackagesListOptionalParams,
   ): AsyncIterableIterator<MsixPackage> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, hostPoolName, options)) {
       yield* page;
     }
   }

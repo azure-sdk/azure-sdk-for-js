@@ -49,11 +49,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     workspaceName: string,
     options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByWorkspacePagingAll(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const iter = this.listByWorkspacePagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +61,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByWorkspacePagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listByWorkspacePagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     let result: PrivateLinkResourcesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByWorkspace(
-        resourceGroupName,
-        workspaceName,
-        options,
-      );
+      result = await this._listByWorkspace(resourceGroupName, workspaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -133,11 +120,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     hostPoolName: string,
     options?: PrivateLinkResourcesListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listByHostPoolPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    );
+    const iter = this.listByHostPoolPagingAll(resourceGroupName, hostPoolName, options);
     return {
       next() {
         return iter.next();
@@ -149,12 +132,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByHostPoolPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
+        return this.listByHostPoolPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
@@ -168,11 +146,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     let result: PrivateLinkResourcesListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options,
-      );
+      result = await this._listByHostPool(resourceGroupName, hostPoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
