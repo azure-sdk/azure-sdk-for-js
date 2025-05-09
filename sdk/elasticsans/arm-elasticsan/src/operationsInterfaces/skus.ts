@@ -16,7 +16,5 @@ export interface Skus {
    * List all the available Skus in the region and information related to them
    * @param options The options parameters.
    */
-  list(
-    options?: SkusListOptionalParams,
-  ): PagedAsyncIterableIterator<SkuInformation>;
+  list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuInformation>;
 }

@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { Skus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,8 +15,10 @@ import * as Parameters from "../models/parameters.js";
 import { ElasticSanManagement } from "../elasticSanManagement.js";
 import {
   SkuInformation,
+  SkusListNextOptionalParams,
   SkusListOptionalParams,
   SkusListResponse,
+  SkusListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,9 +38,7 @@ export class SkusImpl implements Skus {
    * List all the available Skus in the region and information related to them
    * @param options The options parameters.
    */
-  public list(
-    options?: SkusListOptionalParams,
-  ): PagedAsyncIterableIterator<SkuInformation> {
+  public list(options?: SkusListOptionalParams): PagedAsyncIterableIterator<SkuInformation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -57,11 +58,24 @@ export class SkusImpl implements Skus {
 
   private async *listPagingPage(
     options?: SkusListOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<SkuInformation[]> {
     let result: SkusListResponse;
-    result = await this._list(options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -78,6 +92,18 @@ export class SkusImpl implements Skus {
    */
   private _list(options?: SkusListOptionalParams): Promise<SkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: SkusListNextOptionalParams,
+  ): Promise<SkusListNextResponse> {
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -96,6 +122,21 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuInformationList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
