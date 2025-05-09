@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Violation,
-  ListTenantConfigurationViolationsListOptionalParams
-} from "../models/index.js";
+import { Violation, ListTenantConfigurationViolationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ListTenantConfigurationViolations. */
@@ -20,6 +17,6 @@ export interface ListTenantConfigurationViolations {
    * @param options The options parameters.
    */
   list(
-    options?: ListTenantConfigurationViolationsListOptionalParams
+    options?: ListTenantConfigurationViolationsListOptionalParams,
   ): PagedAsyncIterableIterator<Violation>;
 }

@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   Dashboard as DashboardMapper,
   PatchableDashboard as PatchableDashboardMapper,
-  Configuration as ConfigurationMapper
+  Configuration as ConfigurationMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -24,9 +24,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -35,22 +35,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-09-01-preview",
+    defaultValue: "2025-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -59,10 +59,52 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const dashboardName: OperationURLParameter = {
+  parameterPath: "dashboardName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,24}$"),
+      MaxLength: 64,
+      MinLength: 3,
+    },
+    serializedName: "dashboardName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -72,70 +114,38 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const dashboard: OperationParameter = {
-  parameterPath: "dashboard",
-  mapper: DashboardMapper
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const dashboardName: OperationURLParameter = {
-  parameterPath: "dashboardName",
-  mapper: {
-    constraints: {
-      MaxLength: 64,
-      MinLength: 3
+      name: "String",
     },
-    serializedName: "dashboardName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+  },
 };
 
-export const dashboard1: OperationParameter = {
-  parameterPath: "dashboard",
-  mapper: PatchableDashboardMapper
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: DashboardMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: PatchableDashboardMapper,
 };
 
 export const configurationName: OperationURLParameter = {
   parameterPath: "configurationName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^(?!con$|prn$|aux$|nul$|com[1-9]$)(?!.*[._-]{2,})[a-zA-Z0-9]([a-zA-Z0-9-._]*[a-zA-Z0-9])?$",
+      ),
+    },
     serializedName: "configurationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const tenantConfiguration: OperationParameter = {
-  parameterPath: "tenantConfiguration",
-  mapper: ConfigurationMapper
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: ConfigurationMapper,
 };
