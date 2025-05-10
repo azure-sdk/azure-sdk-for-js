@@ -664,8 +664,6 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
     // (undocumented)
     agentPools: AgentPools;
     // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     archives: Archives;
     // (undocumented)
     archiveVersions: ArchiveVersions;
@@ -708,7 +706,6 @@ export class ContainerRegistryManagementClient extends coreClient.ServiceClient 
 // @public
 export interface ContainerRegistryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -2287,6 +2284,7 @@ export interface Registry extends Resource {
     identity?: IdentityProperties;
     readonly loginServer?: string;
     metadataSearch?: MetadataSearch;
+    networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;
@@ -2341,6 +2339,7 @@ export interface RegistryUpdateParameters {
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
     metadataSearch?: MetadataSearch;
+    networkRuleBypassAllowedForTasks?: boolean;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;

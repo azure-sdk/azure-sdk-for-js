@@ -64,12 +64,7 @@ export interface TaskRuns {
     taskRunName: string,
     taskRun: TaskRun,
     options?: TaskRunsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsCreateResponse>,
-      TaskRunsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<TaskRunsCreateResponse>, TaskRunsCreateResponse>>;
   /**
    * Creates a task run for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -112,12 +107,7 @@ export interface TaskRuns {
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
     options?: TaskRunsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsUpdateResponse>,
-      TaskRunsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<TaskRunsUpdateResponse>, TaskRunsUpdateResponse>>;
   /**
    * Updates a task run with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

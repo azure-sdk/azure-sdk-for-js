@@ -69,12 +69,7 @@ export interface Archives {
     archiveName: string,
     archiveCreateParameters: Archive,
     options?: ArchivesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ArchivesCreateResponse>,
-      ArchivesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ArchivesCreateResponse>, ArchivesCreateResponse>>;
   /**
    * Creates a archive for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -106,12 +101,7 @@ export interface Archives {
     packageType: string,
     archiveName: string,
     options?: ArchivesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ArchivesDeleteResponse>,
-      ArchivesDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ArchivesDeleteResponse>, ArchivesDeleteResponse>>;
   /**
    * Deletes a archive from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
