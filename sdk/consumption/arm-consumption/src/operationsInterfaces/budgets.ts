@@ -14,7 +14,7 @@ import {
   BudgetsGetResponse,
   BudgetsCreateOrUpdateOptionalParams,
   BudgetsCreateOrUpdateResponse,
-  BudgetsDeleteOptionalParams
+  BudgetsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,14 +33,11 @@ export interface Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param options The options parameters.
    */
-  list(
-    scope: string,
-    options?: BudgetsListOptionalParams
-  ): PagedAsyncIterableIterator<Budget>;
+  list(scope: string, options?: BudgetsListOptionalParams): PagedAsyncIterableIterator<Budget>;
   /**
    * Gets the budget for the scope by budget name.
    * @param scope The scope associated with budget operations. This includes
@@ -54,7 +51,7 @@ export interface Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
@@ -62,7 +59,7 @@ export interface Budgets {
   get(
     scope: string,
     budgetName: string,
-    options?: BudgetsGetOptionalParams
+    options?: BudgetsGetOptionalParams,
   ): Promise<BudgetsGetResponse>;
   /**
    * The operation to create or update a budget. You can optionally provide an eTag if desired as a form
@@ -79,7 +76,7 @@ export interface Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param parameters Parameters supplied to the Create Budget operation.
@@ -89,7 +86,7 @@ export interface Budgets {
     scope: string,
     budgetName: string,
     parameters: Budget,
-    options?: BudgetsCreateOrUpdateOptionalParams
+    options?: BudgetsCreateOrUpdateOptionalParams,
   ): Promise<BudgetsCreateOrUpdateResponse>;
   /**
    * The operation to delete a budget.
@@ -104,14 +101,10 @@ export interface Budgets {
    *              for Management Group scope,
    *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}'
    *              for billingProfile scope,
-   *              'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
+   *              '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}'
    *              for invoiceSection scope.
    * @param budgetName Budget Name.
    * @param options The options parameters.
    */
-  delete(
-    scope: string,
-    budgetName: string,
-    options?: BudgetsDeleteOptionalParams
-  ): Promise<void>;
+  delete(scope: string, budgetName: string, options?: BudgetsDeleteOptionalParams): Promise<void>;
 }
