@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkInterfaceIPConfigurations operations. */
-export class NetworkInterfaceIPConfigurationsImpl
-  implements NetworkInterfaceIPConfigurations
-{
+export class NetworkInterfaceIPConfigurationsImpl implements NetworkInterfaceIPConfigurations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -49,11 +47,7 @@ export class NetworkInterfaceIPConfigurationsImpl
     networkInterfaceName: string,
     options?: NetworkInterfaceIPConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkInterfaceName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkInterfaceName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +59,7 @@ export class NetworkInterfaceIPConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkInterfaceName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkInterfaceName, options, settings);
       },
     };
   }
@@ -84,11 +73,7 @@ export class NetworkInterfaceIPConfigurationsImpl
     let result: NetworkInterfaceIPConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkInterfaceName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkInterfaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

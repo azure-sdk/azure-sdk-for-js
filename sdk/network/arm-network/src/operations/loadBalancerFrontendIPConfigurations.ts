@@ -49,11 +49,7 @@ export class LoadBalancerFrontendIPConfigurationsImpl
     loadBalancerName: string,
     options?: LoadBalancerFrontendIPConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<FrontendIPConfiguration> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +61,7 @@ export class LoadBalancerFrontendIPConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -109,11 +100,7 @@ export class LoadBalancerFrontendIPConfigurationsImpl
     loadBalancerName: string,
     options?: LoadBalancerFrontendIPConfigurationsListOptionalParams,
   ): AsyncIterableIterator<FrontendIPConfiguration> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }

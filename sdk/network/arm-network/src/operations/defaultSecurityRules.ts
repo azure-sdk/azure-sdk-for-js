@@ -47,11 +47,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
     networkSecurityGroupName: string,
     options?: DefaultSecurityRulesListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityRule> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkSecurityGroupName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkSecurityGroupName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkSecurityGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkSecurityGroupName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
     let result: DefaultSecurityRulesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkSecurityGroupName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkSecurityGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

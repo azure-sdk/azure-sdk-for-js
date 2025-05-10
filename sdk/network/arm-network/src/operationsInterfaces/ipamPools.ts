@@ -66,12 +66,7 @@ export interface IpamPools {
     poolName: string,
     body: IpamPool,
     options?: IpamPoolsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpamPoolsCreateResponse>,
-      IpamPoolsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<IpamPoolsCreateResponse>, IpamPoolsCreateResponse>>;
   /**
    * Creates/Updates the Pool resource.
    * @param resourceGroupName The name of the resource group.
@@ -125,12 +120,7 @@ export interface IpamPools {
     networkManagerName: string,
     poolName: string,
     options?: IpamPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<IpamPoolsDeleteResponse>,
-      IpamPoolsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<IpamPoolsDeleteResponse>, IpamPoolsDeleteResponse>>;
   /**
    * Delete the Pool resource.
    * @param resourceGroupName The name of the resource group.

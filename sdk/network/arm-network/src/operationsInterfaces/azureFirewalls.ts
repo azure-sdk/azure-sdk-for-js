@@ -43,9 +43,7 @@ export interface AzureFirewalls {
    * Gets all the Azure Firewalls in a subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: AzureFirewallsListAllOptionalParams,
-  ): PagedAsyncIterableIterator<AzureFirewall>;
+  listAll(options?: AzureFirewallsListAllOptionalParams): PagedAsyncIterableIterator<AzureFirewall>;
   /**
    * Deletes the specified Azure Firewall.
    * @param resourceGroupName The name of the resource group.

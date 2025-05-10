@@ -11,11 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   GetVpnSitesConfigurationRequest,
@@ -57,8 +53,7 @@ export class VpnSitesConfigurationImpl implements VpnSitesConfiguration {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -112,12 +107,7 @@ export class VpnSitesConfigurationImpl implements VpnSitesConfiguration {
     request: GetVpnSitesConfigurationRequest,
     options?: VpnSitesConfigurationDownloadOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDownload(
-      resourceGroupName,
-      virtualWANName,
-      request,
-      options,
-    );
+    const poller = await this.beginDownload(resourceGroupName, virtualWANName, request, options);
     return poller.pollUntilDone();
   }
 }
@@ -136,7 +126,7 @@ const downloadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.request2,
+  requestBody: Parameters.request3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

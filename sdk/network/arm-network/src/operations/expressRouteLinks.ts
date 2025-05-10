@@ -47,11 +47,7 @@ export class ExpressRouteLinksImpl implements ExpressRouteLinks {
     expressRoutePortName: string,
     options?: ExpressRouteLinksListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteLink> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      expressRoutePortName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, expressRoutePortName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class ExpressRouteLinksImpl implements ExpressRouteLinks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          expressRoutePortName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, expressRoutePortName, options, settings);
       },
     };
   }
@@ -82,11 +73,7 @@ export class ExpressRouteLinksImpl implements ExpressRouteLinks {
     let result: ExpressRouteLinksListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        expressRoutePortName,
-        options,
-      );
+      result = await this._list(resourceGroupName, expressRoutePortName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

@@ -50,11 +50,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     networkManagerName: string,
     options?: ScopeConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ScopeConnection> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          networkManagerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, networkManagerName, options, settings);
       },
     };
   }
@@ -110,11 +101,7 @@ export class ScopeConnectionsImpl implements ScopeConnections {
     networkManagerName: string,
     options?: ScopeConnectionsListOptionalParams,
   ): AsyncIterableIterator<ScopeConnection> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      networkManagerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, networkManagerName, options)) {
       yield* page;
     }
   }
@@ -304,11 +291,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken1],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

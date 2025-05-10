@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Subnet,
@@ -60,11 +56,7 @@ export class SubnetsImpl implements Subnets {
     virtualNetworkName: string,
     options?: SubnetsListOptionalParams,
   ): PagedAsyncIterableIterator<Subnet> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, virtualNetworkName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class SubnetsImpl implements Subnets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          virtualNetworkName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, virtualNetworkName, options, settings);
       },
     };
   }
@@ -120,11 +107,7 @@ export class SubnetsImpl implements Subnets {
     virtualNetworkName: string,
     options?: SubnetsListOptionalParams,
   ): AsyncIterableIterator<Subnet> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, virtualNetworkName, options)) {
       yield* page;
     }
   }
@@ -152,8 +135,7 @@ export class SubnetsImpl implements Subnets {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -250,10 +232,7 @@ export class SubnetsImpl implements Subnets {
     subnetParameters: Subnet,
     options?: SubnetsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SubnetsCreateOrUpdateResponse>,
-      SubnetsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<SubnetsCreateOrUpdateResponse>, SubnetsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -265,8 +244,7 @@ export class SubnetsImpl implements Subnets {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -367,8 +345,7 @@ export class SubnetsImpl implements Subnets {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -467,8 +444,7 @@ export class SubnetsImpl implements Subnets {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
