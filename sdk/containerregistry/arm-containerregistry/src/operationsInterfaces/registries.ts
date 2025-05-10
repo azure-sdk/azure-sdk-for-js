@@ -53,9 +53,7 @@ export interface Registries {
    * Lists all the container registries under the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: RegistriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Registry>;
+  list(options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry>;
   /**
    * Lists all the container registries under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -135,12 +133,7 @@ export interface Registries {
     registryName: string,
     registry: Registry,
     options?: RegistriesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesCreateResponse>,
-      RegistriesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<RegistriesCreateResponse>, RegistriesCreateResponse>>;
   /**
    * Creates a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -188,12 +181,7 @@ export interface Registries {
     registryName: string,
     registryUpdateParameters: RegistryUpdateParameters,
     options?: RegistriesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesUpdateResponse>,
-      RegistriesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<RegistriesUpdateResponse>, RegistriesUpdateResponse>>;
   /**
    * Updates a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

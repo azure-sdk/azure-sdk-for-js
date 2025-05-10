@@ -16,7 +16,5 @@ export interface Operations {
    * Lists all of the available Azure Container Registry REST API operations.
    * @param options The options parameters.
    */
-  list(
-    options?: OperationsListOptionalParams,
-  ): PagedAsyncIterableIterator<OperationDefinition>;
+  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationDefinition>;
 }

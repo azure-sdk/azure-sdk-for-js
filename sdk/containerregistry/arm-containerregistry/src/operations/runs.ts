@@ -65,12 +65,7 @@ export class RunsImpl implements Runs {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -91,12 +86,7 @@ export class RunsImpl implements Runs {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -109,11 +99,7 @@ export class RunsImpl implements Runs {
     registryName: string,
     options?: RunsListOptionalParams,
   ): AsyncIterableIterator<Run> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -246,7 +232,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  queryParameters: [Parameters.filter, Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -267,7 +253,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -290,7 +276,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.runUpdateParameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -313,7 +299,7 @@ const getLogSasUrlOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -333,7 +319,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AgentPool,
@@ -74,12 +70,7 @@ export class AgentPoolsImpl implements AgentPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -100,12 +91,7 @@ export class AgentPoolsImpl implements AgentPools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -118,11 +104,7 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     options?: AgentPoolsListOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -160,12 +142,7 @@ export class AgentPoolsImpl implements AgentPools {
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsCreateResponse>,
-      AgentPoolsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsCreateResponse>, AgentPoolsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -176,8 +153,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -264,12 +240,7 @@ export class AgentPoolsImpl implements AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -280,8 +251,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -338,12 +308,7 @@ export class AgentPoolsImpl implements AgentPools {
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
   ): Promise<AgentPoolsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      agentPoolName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, registryName, agentPoolName, options);
     return poller.pollUntilDone();
   }
 
@@ -361,12 +326,7 @@ export class AgentPoolsImpl implements AgentPools {
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
     options?: AgentPoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsUpdateResponse>,
-      AgentPoolsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -377,8 +337,7 @@ export class AgentPoolsImpl implements AgentPools {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -522,7 +481,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -554,7 +513,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.agentPool,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -586,7 +545,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -618,7 +577,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.updateParameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -641,7 +600,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -662,7 +621,7 @@ const getQueueStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
