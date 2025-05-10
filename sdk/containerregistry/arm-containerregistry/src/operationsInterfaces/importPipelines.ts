@@ -60,10 +60,7 @@ export interface ImportPipelines {
     importPipelineCreateParameters: ImportPipeline,
     options?: ImportPipelinesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ImportPipelinesCreateResponse>,
-      ImportPipelinesCreateResponse
-    >
+    SimplePollerLike<OperationState<ImportPipelinesCreateResponse>, ImportPipelinesCreateResponse>
   >;
   /**
    * Creates an import pipeline for a container registry with the specified parameters.

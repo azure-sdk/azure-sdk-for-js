@@ -60,10 +60,7 @@ export interface ExportPipelines {
     exportPipelineCreateParameters: ExportPipeline,
     options?: ExportPipelinesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExportPipelinesCreateResponse>,
-      ExportPipelinesCreateResponse
-    >
+    SimplePollerLike<OperationState<ExportPipelinesCreateResponse>, ExportPipelinesCreateResponse>
   >;
   /**
    * Creates an export pipeline for a container registry with the specified parameters.

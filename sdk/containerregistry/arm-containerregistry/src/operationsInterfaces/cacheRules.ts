@@ -63,12 +63,7 @@ export interface CacheRules {
     cacheRuleName: string,
     cacheRuleCreateParameters: CacheRule,
     options?: CacheRulesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesCreateResponse>,
-      CacheRulesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<CacheRulesCreateResponse>, CacheRulesCreateResponse>>;
   /**
    * Creates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -96,12 +91,7 @@ export interface CacheRules {
     registryName: string,
     cacheRuleName: string,
     options?: CacheRulesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesDeleteResponse>,
-      CacheRulesDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<CacheRulesDeleteResponse>, CacheRulesDeleteResponse>>;
   /**
    * Deletes a cache rule resource from a container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -129,12 +119,7 @@ export interface CacheRules {
     cacheRuleName: string,
     cacheRuleUpdateParameters: CacheRuleUpdateParameters,
     options?: CacheRulesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<CacheRulesUpdateResponse>,
-      CacheRulesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<CacheRulesUpdateResponse>, CacheRulesUpdateResponse>>;
   /**
    * Updates a cache rule for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
