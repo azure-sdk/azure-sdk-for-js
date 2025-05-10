@@ -8,13 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  PriceSheetImpl,
   UsageDetailsImpl,
   MarketplacesImpl,
   BudgetsImpl,
@@ -26,14 +23,14 @@ import {
   ReservationRecommendationsImpl,
   ReservationRecommendationDetailsImpl,
   ReservationTransactionsImpl,
-  PriceSheetImpl,
   OperationsImpl,
   AggregatedCostImpl,
   EventsOperationsImpl,
   LotsOperationsImpl,
-  CreditsImpl
+  CreditsImpl,
 } from "./operations/index.js";
 import {
+  PriceSheet,
   UsageDetails,
   Marketplaces,
   Budgets,
@@ -45,19 +42,18 @@ import {
   ReservationRecommendations,
   ReservationRecommendationDetails,
   ReservationTransactions,
-  PriceSheet,
   Operations,
   AggregatedCost,
   EventsOperations,
   LotsOperations,
-  Credits
+  Credits,
 } from "./operationsInterfaces/index.js";
 import { ConsumptionManagementClientOptionalParams } from "./models/index.js";
 
 export class ConsumptionManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ConsumptionManagementClient class.
@@ -68,13 +64,27 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ConsumptionManagementClientOptionalParams
+    options?: ConsumptionManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ConsumptionManagementClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ConsumptionManagementClientOptionalParams | string,
+    options?: ConsumptionManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -83,10 +93,10 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     }
     const defaults: ConsumptionManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-consumption/9.2.1`;
+    const packageDetails = `azsdk-js-arm-consumption/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -96,20 +106,19 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -119,19 +128,17 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -139,7 +146,8 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2025-04-01";
+    this.priceSheet = new PriceSheetImpl(this);
     this.usageDetails = new UsageDetailsImpl(this);
     this.marketplaces = new MarketplacesImpl(this);
     this.budgets = new BudgetsImpl(this);
@@ -149,11 +157,8 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     this.reservationsSummaries = new ReservationsSummariesImpl(this);
     this.reservationsDetails = new ReservationsDetailsImpl(this);
     this.reservationRecommendations = new ReservationRecommendationsImpl(this);
-    this.reservationRecommendationDetails = new ReservationRecommendationDetailsImpl(
-      this
-    );
+    this.reservationRecommendationDetails = new ReservationRecommendationDetailsImpl(this);
     this.reservationTransactions = new ReservationTransactionsImpl(this);
-    this.priceSheet = new PriceSheetImpl(this);
     this.operations = new OperationsImpl(this);
     this.aggregatedCost = new AggregatedCostImpl(this);
     this.eventsOperations = new EventsOperationsImpl(this);
@@ -169,10 +174,7 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -185,11 +187,12 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  priceSheet: PriceSheet;
   usageDetails: UsageDetails;
   marketplaces: Marketplaces;
   budgets: Budgets;
@@ -201,7 +204,6 @@ export class ConsumptionManagementClient extends coreClient.ServiceClient {
   reservationRecommendations: ReservationRecommendations;
   reservationRecommendationDetails: ReservationRecommendationDetails;
   reservationTransactions: ReservationTransactions;
-  priceSheet: PriceSheet;
   operations: Operations;
   aggregatedCost: AggregatedCost;
   eventsOperations: EventsOperations;

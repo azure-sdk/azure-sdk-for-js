@@ -38,14 +38,8 @@ export class TagsImpl implements Tags {
    *              '/providers/Microsoft.Management/managementGroups/{managementGroupId}' for Management Group scope..
    * @param options The options parameters.
    */
-  get(
-    scope: string,
-    options?: TagsGetOptionalParams
-  ): Promise<TagsGetResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      getOperationSpec
-    );
+  get(scope: string, options?: TagsGetOptionalParams): Promise<TagsGetResponse> {
+    return this.client.sendOperationRequest({ scope, options }, getOperationSpec);
   }
 }
 // Operation Specifications
@@ -56,15 +50,15 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagsResult
+      bodyMapper: Mappers.TagsResult,
     },
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
