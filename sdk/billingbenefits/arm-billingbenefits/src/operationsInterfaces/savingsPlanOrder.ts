@@ -13,7 +13,7 @@ import {
   SavingsPlanOrderGetOptionalParams,
   SavingsPlanOrderGetResponse,
   SavingsPlanOrderElevateOptionalParams,
-  SavingsPlanOrderElevateResponse
+  SavingsPlanOrderElevateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface SavingsPlanOrder {
    * @param options The options parameters.
    */
   list(
-    options?: SavingsPlanOrderListOptionalParams
+    options?: SavingsPlanOrderListOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanOrderModel>;
   /**
    * Get a savings plan order.
@@ -33,7 +33,7 @@ export interface SavingsPlanOrder {
    */
   get(
     savingsPlanOrderId: string,
-    options?: SavingsPlanOrderGetOptionalParams
+    options?: SavingsPlanOrderGetOptionalParams,
   ): Promise<SavingsPlanOrderGetResponse>;
   /**
    * Elevate as owner on savings plan order based on billing permissions.
@@ -42,6 +42,6 @@ export interface SavingsPlanOrder {
    */
   elevate(
     savingsPlanOrderId: string,
-    options?: SavingsPlanOrderElevateOptionalParams
+    options?: SavingsPlanOrderElevateOptionalParams,
   ): Promise<SavingsPlanOrderElevateResponse>;
 }

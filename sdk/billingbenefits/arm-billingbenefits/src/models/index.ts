@@ -8,6 +8,163 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type DiscountPropertiesUnion =
+  | DiscountProperties
+  | EntityTypeAffiliateDiscount
+  | EntityTypePrimaryDiscount;
+export type DiscountTypePropertiesUnion =
+  | DiscountTypeProperties
+  | DiscountTypeCustomPriceUnion
+  | DiscountTypeProduct
+  | DiscountTypeProductFamily
+  | DiscountTypeProductSku;
+export type DiscountTypeCustomPriceUnion =
+  | DiscountTypeCustomPrice
+  | DiscountTypeCustomPriceMultiCurrency;
+
+/** Discount list */
+export interface DiscountList {
+  /** The Discount items on this page */
+  value: Discount[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Properties belonging to discounts. */
+export interface DiscountProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  entityType: "Affiliate" | "Primary";
+  /** This is the catalog UPN for the product. */
+  productCode: string;
+  /** Start date of the discount. Value is the date the discount started or will start in the future. */
+  startAt: Date;
+  /** This is the globally unique identifier of the Discount which will not change for the lifetime of the Discount. */
+  systemId?: string;
+  /**
+   * The state of the resource. Supported values are Pending, Failed, Succeeded, Canceled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: DiscountProvisioningState;
+  /**
+   * Billing account resource id where the discount metadata is present.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingAccountResourceId?: string;
+  /**
+   * Billing profile resource id where the discount is scoped to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly billingProfileResourceId?: string;
+  /**
+   * Customer resource id where the discount is scoped to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerResourceId?: string;
+  /** This defines a user friendly display name for the discount. */
+  displayName?: string;
+  /**
+   * Represents the current status of the discount.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DiscountStatus;
+  /**
+   * Fully-qualified identifier of the benefit under applicable benefit list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitResourceId?: string;
+  /** List of applied scopes supported for discounts. */
+  appliedScopeType?: DiscountAppliedScopeType;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -72,58 +229,7 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** The SKU to be applied for this resource */
-export interface Sku {
-  /** Name of the SKU to be applied */
+export interface ResourceSku {
   name?: string;
 }
 
@@ -141,50 +247,30 @@ export interface AppliedScopeProperties {
   displayName?: string;
 }
 
+/** Properties specific to each reserved resource type. Not required if not applicable. */
+export interface ReservationOrderAliasResponsePropertiesReservedResourceProperties {
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
+  instanceFlexibility?: InstanceFlexibility;
+}
+
+/** Properties specific to each reserved resource type. Not required if not applicable. */
+export interface ReservationOrderAliasRequestPropertiesReservedResourceProperties {
+  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
+  instanceFlexibility?: InstanceFlexibility;
+}
+
 export interface Price {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
   currencyCode?: string;
   amount?: number;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** Paged collection of SavingsPlanOrderModel items */
+export interface SavingsPlanOrderModelList {
+  /** The SavingsPlanOrderModel items on this page */
+  value: SavingsPlanOrderModel[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Information describing the type of billing plan for this savings plan. */
@@ -237,15 +323,11 @@ export interface RoleAssignmentEntity {
   scope?: string;
 }
 
-export interface SavingsPlanOrderModelList {
-  value?: SavingsPlanOrderModel[];
-  /** Url to get the next page. */
-  nextLink?: string;
-}
-
+/** Paged collection of SavingsPlanModel items */
 export interface SavingsPlanModelList {
-  value?: SavingsPlanModel[];
-  /** Url to get the next page. */
+  /** The SavingsPlanModel items on this page */
+  value: SavingsPlanModel[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -290,7 +372,7 @@ export interface RenewProperties {
 
 export interface PurchaseRequest {
   /** The SKU to be applied for this resource */
-  sku?: Sku;
+  sku?: ResourceSku;
   /** Friendly name of the savings plan */
   displayName?: string;
   /** Subscription that will be charged for purchasing the benefit */
@@ -314,6 +396,46 @@ export interface PurchaseRequest {
   appliedScopeProperties?: AppliedScopeProperties;
 }
 
+/** Savings plan patch request */
+export interface SavingsPlanUpdateRequest {
+  /** Savings plan patch request */
+  properties?: SavingsPlanUpdateRequestProperties;
+}
+
+/** Savings plan patch request */
+export interface SavingsPlanUpdateRequestProperties {
+  /** Display name */
+  displayName?: string;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  renewProperties?: RenewProperties;
+}
+
+export interface SavingsPlanUpdateValidateRequest {
+  benefits?: SavingsPlanUpdateRequestProperties[];
+}
+
+export interface SavingsPlanValidateResponse {
+  benefits?: SavingsPlanValidResponseProperty[];
+  /** Url to get the next page. */
+  nextLink?: string;
+}
+
+/** Benefit scope response property */
+export interface SavingsPlanValidResponseProperty {
+  /** Indicates if the provided input was valid */
+  valid?: boolean;
+  /** Failure reason code if the provided input was invalid */
+  reasonCode?: string;
+  /** Failure reason if the provided input was invalid */
+  reason?: string;
+}
+
+/** Represents the result of listing savings plan models */
 export interface SavingsPlanModelListResult {
   /**
    * The list of savings plans.
@@ -392,74 +514,153 @@ export interface SavingsPlanSummaryCount {
   readonly warningCount?: number;
 }
 
-/** Savings plan patch request */
-export interface SavingsPlanUpdateRequest {
-  /** Savings plan patch request */
-  properties?: SavingsPlanUpdateRequestProperties;
-}
-
-/** Savings plan patch request */
-export interface SavingsPlanUpdateRequestProperties {
-  /** Display name */
-  displayName?: string;
-  /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
-  /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
-  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
-  renewProperties?: RenewProperties;
-}
-
-export interface SavingsPlanUpdateValidateRequest {
-  benefits?: SavingsPlanUpdateRequestProperties[];
-}
-
-export interface SavingsPlanValidateResponse {
-  benefits?: SavingsPlanValidResponseProperty[];
-  /** Url to get the next page. */
-  nextLink?: string;
-}
-
-/** Benefit scope response property */
-export interface SavingsPlanValidResponseProperty {
-  /** Indicates if the provided input was valid */
-  valid?: boolean;
-  /** Failure reason code if the provided input was invalid */
-  reasonCode?: string;
-  /** Failure reason if the provided input was invalid */
-  reason?: string;
-}
-
 export interface SavingsPlanPurchaseValidateRequest {
   benefits?: SavingsPlanOrderAliasModel[];
 }
 
-/** Properties specific to each reserved resource type. Not required if not applicable. */
-export interface ReservationOrderAliasRequestPropertiesReservedResourceProperties {
-  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
-  instanceFlexibility?: InstanceFlexibility;
+/** Discounts patch request */
+export interface DiscountPatchRequest {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** Display name */
+  displayName?: string;
 }
 
-/** Properties specific to each reserved resource type. Not required if not applicable. */
-export interface ReservationOrderAliasResponsePropertiesReservedResourceProperties {
-  /** Turning this on will apply the reservation discount to other VMs in the same VM size group. */
-  instanceFlexibility?: InstanceFlexibility;
+/** Catalog claim for a discount. */
+export interface CatalogClaimsItem {
+  catalogClaimsItemType?: string;
+  value?: string;
 }
 
-/** Required if status == failed or status == canceled. */
-export interface OperationResultError {
-  /** Required if status == failed or status == cancelled. If status == failed, provide an invariant error code used for error troubleshooting, aggregation, and analysis. */
-  code?: string;
-  /** Required if status == failed. Localized. If status == failed, provide an actionable error message indicating what error occurred, and what the user can do to address the issue. */
-  message?: string;
+/** Condition for a discount. */
+export interface ConditionsItem {
+  conditionName?: string;
+  /** These items are open-ended strings. */
+  value?: string[];
+  type?: string;
 }
 
-/** billing information */
-export interface BillingInformation {
-  billingCurrencyTotalPaidAmount?: Price;
-  billingCurrencyProratedAmount?: Price;
-  billingCurrencyRemainingCommitmentAmount?: Price;
+/** Custom price properties for a given discount. */
+export interface CustomPriceProperties {
+  /** The type of the priceable node pricing rule. Validation: Required. Supported values are fixedPriceLock, fixedListPrice, and priceCeiling. */
+  ruleType: DiscountRuleType;
+  /** The catalog instance where the priceable node lives. Validation: Required. No defined format, will vary per team. */
+  catalogId: string;
+  /** The set of BigCat claims. Validation: Required. Must contain AgreementType, NationalCloud, and PricingAudience claims. Additionally requires AccessPass claim when creating custom price with action == consume on the pricing instructions. */
+  catalogClaims: CatalogClaimsItem[];
+  /** The term units for the priceable node. Validation: Optional, Maximum length 128 characters. Must be present if and only if the availability derived by market, product, sku, and claims has terms. */
+  termUnits?: string;
+  /** The billing period of the priceable node. Validation: Optional, Maximum length 128 characters. Only allowed if the availability derived by market, product, sku, and claims has terms and at least one of those terms has a billing period. When specified, termUnits must be specified. */
+  billingPeriod?: string;
+  /** Must be present if the market, product, sku, and claims, and optional term information resolves to multiple availabilities that only differ by meter type. Validation: Maximum length 128 characters. */
+  meterType?: string;
+  /** The set of market set prices of the priceable node. Validation: Required. Must contain at least one element. */
+  marketSetPrices: MarketSetPricesItems[];
+}
+
+/** Items in the MarketSetPrices array. */
+export interface MarketSetPricesItems {
+  markets: string[];
+  /** The locked price for the priceable node. Validation: Required. Must be greater than or equal to 0. If the case of billing plans. This represents the price for each cycle charge. */
+  value: number;
+  /** The currency of the locked price value. Validation: Required. Must be a valid ISO 4217 3-letter currency code. */
+  currency: string;
+}
+
+/** This defines the conditions for a given discount type. */
+export interface DiscountTypeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType:
+    | "DiscountTypeCustomPrice"
+    | "CustomPriceMultiCurrency"
+    | "Product"
+    | "ProductFamily"
+    | "Sku";
+  /** The customer action on which the discount is applied. Supported values are Purchase, Consume, and Renew. Validation: Required, one of supported values. */
+  applyDiscountOn: ApplyDiscountOn;
+  /** Discount percentage provided for the customer. Validation: Required unless this is a price rule. */
+  discountPercentage?: number;
+  /** The discount combination rule when there are multiple applicable custom prices. Validation: Required. Supported values are Stackable and BestOf. */
+  discountCombinationRule?: DiscountCombinationRule;
+  /** Set only in price guarantee scenario. */
+  priceGuaranteeProperties?: PriceGuaranteeProperties;
+  /** Array of conditions for the discount. Validation: Optional. Maximum length is 1000. */
+  conditions?: ConditionsItem[];
+}
+
+/** Set only in price guarantee scenario. */
+export interface PriceGuaranteeProperties {
+  /** Supported values: Protected, Locked */
+  pricingPolicy?: PricingPolicy;
+  /** The date on which prices are to be used for guarantee calculation. Validation: expected to be 00 hours, Format: 2024-09-30T00:00:00Z. Must be in UTC. */
+  priceGuaranteeDate?: Date;
+}
+
+/** Entity type for affiliate discounts */
+export interface EntityTypeAffiliateDiscount extends DiscountProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  entityType: "Affiliate";
+  /**
+   * This will be present in the response if the primary has a resource ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryResourceId?: string;
+  /**
+   * End date of the discount. No duration will be supported. Allowed value is any date greater than or equal to startDate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endAt?: Date;
+}
+
+/** Entity type for primary discounts */
+export interface EntityTypePrimaryDiscount extends DiscountProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  entityType: "Primary";
+  /** This defines the conditions for a given discount type. */
+  discountTypeProperties?: DiscountTypePropertiesUnion;
+  /** End date of the discount. No duration will be supported. Allowed value is any date greater than or equal to startDate. */
+  endAt: Date;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Reservation order alias */
+export interface ReservationOrderAliasRequest extends Resource {
+  /** Reservation order SKU */
+  sku: ResourceSku;
+  /** The Azure Region where the reservation benefits are applied to. */
+  location?: string;
+  /** Display name */
+  displayName?: string;
+  /** Subscription that will be charged for purchasing the benefit */
+  billingScopeId?: string;
+  /** Represent benefit term in ISO 8601 format. */
+  term?: Term;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
+  billingPlan?: BillingPlan;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Total Quantity of the SKUs purchased in the Reservation. */
+  quantity?: number;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** The type of the resource that is being reserved. */
+  reservedResourceType?: ReservedResourceType;
+  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** Properties specific to each reserved resource type. Not required if not applicable. */
+  reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
 }
 
 /** Commitment towards the benefit. */
@@ -473,10 +674,100 @@ export interface PricingCurrencyTotal extends Price {
   duration?: PricingCurrencyDuration;
 }
 
+/** Discount type properties including product family name, product id, sku, and custom price properties. Allows a single entry in marketSetPrices. */
+export interface DiscountTypeCustomPrice extends DiscountTypeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType: "DiscountTypeCustomPrice" | "CustomPriceMultiCurrency";
+  /** Product family for which the discount is given. Validation: Optional */
+  productFamilyName?: string;
+  /** Product ID for which the discount is given. Validation: Optional. No specific format, example: DZH318Z09V6F */
+  productId?: string;
+  /** ResourceSku for the given discount. Validation: Optional. */
+  skuId?: string;
+  /** Custom price properties for a given discount. */
+  customPriceProperties?: CustomPriceProperties;
+}
+
+/** Discount type properties including product family name and product id. */
+export interface DiscountTypeProduct extends DiscountTypeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType: "Product";
+  /** Product family for which the discount is given. Validation: Optional */
+  productFamilyName?: string;
+  /** Product ID for which the discount is given. Validation: Optional. No specific format, example: DZH318Z09V6F */
+  productId?: string;
+}
+
+/** Discount type properties including product family name */
+export interface DiscountTypeProductFamily extends DiscountTypeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType: "ProductFamily";
+  /** Product family for which the discount is given. Validation: Optional */
+  productFamilyName?: string;
+}
+
+/** Discount type properties including product family name, product id, and sku id. */
+export interface DiscountTypeProductSku extends DiscountTypeProperties {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType: "Sku";
+  /** Product family for which the discount is given. Validation: Optional */
+  productFamilyName?: string;
+  /** Product ID for which the discount is given. Validation: Optional. No specific format, example: DZH318Z09V6F */
+  productId?: string;
+  /** ResourceSku for the given discount. Validation: Optional. */
+  skuId?: string;
+}
+
+/** Resource definition for Discounts. */
+export interface Discount extends TrackedResource {
+  /** Discount properties */
+  properties?: DiscountPropertiesUnion;
+}
+
+/** Reservation order alias */
+export interface ReservationOrderAliasResponse extends ProxyResource {
+  /** Reservation order SKU */
+  sku: ResourceSku;
+  /** The Azure Region where the reserved resource lives. */
+  location?: string;
+  /** Display name */
+  displayName?: string;
+  /**
+   * Identifier of the reservation order created
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reservationOrderId?: string;
+  /**
+   * Provisioning state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Subscription that will be charged for purchasing the benefit */
+  billingScopeId?: string;
+  /** Represent benefit term in ISO 8601 format. */
+  term?: Term;
+  /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
+  billingPlan?: BillingPlan;
+  /** Type of the Applied Scope. */
+  appliedScopeType?: AppliedScopeType;
+  /** Properties specific to applied scope type. Not required if not applicable. */
+  appliedScopeProperties?: AppliedScopeProperties;
+  /** Total Quantity of the SKUs purchased in the Reservation. */
+  quantity?: number;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
+  /** The type of the resource that is being reserved. */
+  reservedResourceType?: ReservedResourceType;
+  /** This is the date-time when the Reservation needs to be reviewed. */
+  reviewDateTime?: Date;
+  /** Properties specific to each reserved resource type. Not required if not applicable. */
+  reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
+}
+
 /** Savings plan order alias */
-export interface SavingsPlanOrderAliasModel extends Resource {
+export interface SavingsPlanOrderAliasModel extends ProxyResource {
   /** Savings plan SKU */
-  sku: Sku;
+  sku: ResourceSku;
   /** Resource provider kind */
   kind?: string;
   /** Display name */
@@ -503,12 +794,14 @@ export interface SavingsPlanOrderAliasModel extends Resource {
   appliedScopeProperties?: AppliedScopeProperties;
   /** Commitment towards the benefit. */
   commitment?: Commitment;
+  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
+  renew?: boolean;
 }
 
 /** Savings plan order */
-export interface SavingsPlanOrderModel extends Resource {
+export interface SavingsPlanOrderModel extends ProxyResource {
   /** Savings plan SKU */
-  sku: Sku;
+  sku: ResourceSku;
   /** Display name */
   displayName?: string;
   /**
@@ -552,9 +845,9 @@ export interface SavingsPlanOrderModel extends Resource {
 }
 
 /** Savings plan */
-export interface SavingsPlanModel extends Resource {
+export interface SavingsPlanModel extends ProxyResource {
   /** Savings plan SKU */
-  sku: Sku;
+  sku: ResourceSku;
   /** Display name */
   displayName?: string;
   /**
@@ -632,96 +925,184 @@ export interface SavingsPlanModel extends Resource {
   renewProperties?: RenewProperties;
 }
 
-/** Reservation order alias */
-export interface ReservationOrderAliasRequest extends Resource {
-  /** Reservation order SKU */
-  sku: Sku;
-  /** The Azure Region where the reservation benefits are applied to. */
-  location?: string;
-  /** Display name */
-  displayName?: string;
-  /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
-  /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
-  /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
-  /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
-  /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
-  /** Total Quantity of the SKUs purchased in the Reservation. */
-  quantity?: number;
-  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
-  /** The type of the resource that is being reserved. */
-  reservedResourceType?: ReservedResourceType;
-  /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: Date;
-  /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationOrderAliasRequestPropertiesReservedResourceProperties;
+/** Discount type properties including product family name, product id, sku, and custom price properties. Allows multiple entries in marketSetPrices. */
+export interface DiscountTypeCustomPriceMultiCurrency extends DiscountTypeCustomPrice {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  discountType: "CustomPriceMultiCurrency";
 }
 
-/** Reservation order alias */
-export interface ReservationOrderAliasResponse extends Resource {
-  /** Reservation order SKU */
-  sku: Sku;
-  /** The Azure Region where the reserved resource lives. */
-  location?: string;
-  /** Display name */
-  displayName?: string;
-  /**
-   * Identifier of the reservation order created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reservationOrderId?: string;
-  /**
-   * Provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Subscription that will be charged for purchasing the benefit */
-  billingScopeId?: string;
-  /** Represent benefit term in ISO 8601 format. */
-  term?: Term;
-  /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan;
-  /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType;
-  /** Properties specific to applied scope type. Not required if not applicable. */
-  appliedScopeProperties?: AppliedScopeProperties;
-  /** Total Quantity of the SKUs purchased in the Reservation. */
-  quantity?: number;
-  /** Setting this to true will automatically purchase a new benefit on the expiration date time. */
-  renew?: boolean;
-  /** The type of the resource that is being reserved. */
-  reservedResourceType?: ReservedResourceType;
-  /** This is the date-time when the Reservation needs to be reviewed. */
-  reviewDateTime?: Date;
-  /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: ReservationOrderAliasResponsePropertiesReservedResourceProperties;
+/** Defines headers for Discounts_create operation. */
+export interface DiscountsCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Discounts_delete operation. */
+export interface DiscountsDeleteHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Discounts_cancel operation. */
+export interface DiscountsCancelHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for ReservationOrderAlias_create operation. */
+export interface ReservationOrderAliasCreateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for SavingsPlanOrderAlias_create operation. */
 export interface SavingsPlanOrderAliasCreateHeaders {
-  /** URL for checking the ongoing status of the operation. */
+  /** A link to the status monitor */
   azureAsyncOperation?: string;
-  /** Clients should wait for the Retry-After interval before polling again */
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
 
 /** Defines headers for SavingsPlan_update operation. */
 export interface SavingsPlanUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
-}
-
-/** Defines headers for ReservationOrderAlias_create operation. */
-export interface ReservationOrderAliasCreateHeaders {
-  /** URL for checking the ongoing status of the operation. */
-  azureAsyncOperation?: string;
-  /** Clients should wait for the Retry-After interval before polling again */
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
 }
+
+/** Defines headers for Discount_update operation. */
+export interface DiscountUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link DiscountEntityType} that the service accepts. */
+export enum KnownDiscountEntityType {
+  /** Primary */
+  Primary = "Primary",
+  /** Affiliate */
+  Affiliate = "Affiliate",
+}
+
+/**
+ * Defines values for DiscountEntityType. \
+ * {@link KnownDiscountEntityType} can be used interchangeably with DiscountEntityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Primary** \
+ * **Affiliate**
+ */
+export type DiscountEntityType = string;
+
+/** Known values of {@link DiscountProvisioningState} that the service accepts. */
+export enum KnownDiscountProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Pending */
+  Pending = "Pending",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for DiscountProvisioningState. \
+ * {@link KnownDiscountProvisioningState} can be used interchangeably with DiscountProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Pending** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type DiscountProvisioningState = string;
+
+/** Known values of {@link DiscountStatus} that the service accepts. */
+export enum KnownDiscountStatus {
+  /** Active */
+  Active = "Active",
+  /** Pending */
+  Pending = "Pending",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Expired */
+  Expired = "Expired",
+}
+
+/**
+ * Defines values for DiscountStatus. \
+ * {@link KnownDiscountStatus} can be used interchangeably with DiscountStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Pending** \
+ * **Failed** \
+ * **Canceled** \
+ * **Expired**
+ */
+export type DiscountStatus = string;
+
+/** Known values of {@link DiscountAppliedScopeType} that the service accepts. */
+export enum KnownDiscountAppliedScopeType {
+  /** BillingAccount */
+  BillingAccount = "BillingAccount",
+  /** BillingProfile */
+  BillingProfile = "BillingProfile",
+  /** Customer */
+  Customer = "Customer",
+}
+
+/**
+ * Defines values for DiscountAppliedScopeType. \
+ * {@link KnownDiscountAppliedScopeType} can be used interchangeably with DiscountAppliedScopeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BillingAccount** \
+ * **BillingProfile** \
+ * **Customer**
+ */
+export type DiscountAppliedScopeType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
@@ -730,7 +1111,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -747,7 +1128,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -776,7 +1157,7 @@ export enum KnownProvisioningState {
   /** Expired */
   Expired = "Expired",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -802,7 +1183,7 @@ export enum KnownTerm {
   /** P3Y */
   P3Y = "P3Y",
   /** P5Y */
-  P5Y = "P5Y"
+  P5Y = "P5Y",
 }
 
 /**
@@ -819,7 +1200,7 @@ export type Term = string;
 /** Known values of {@link BillingPlan} that the service accepts. */
 export enum KnownBillingPlan {
   /** P1M */
-  P1M = "P1M"
+  P1M = "P1M",
 }
 
 /**
@@ -838,7 +1219,7 @@ export enum KnownAppliedScopeType {
   /** Shared */
   Shared = "Shared",
   /** ManagementGroup */
-  ManagementGroup = "ManagementGroup"
+  ManagementGroup = "ManagementGroup",
 }
 
 /**
@@ -851,69 +1232,6 @@ export enum KnownAppliedScopeType {
  * **ManagementGroup**
  */
 export type AppliedScopeType = string;
-
-/** Known values of {@link CommitmentGrain} that the service accepts. */
-export enum KnownCommitmentGrain {
-  /** Hourly */
-  Hourly = "Hourly"
-}
-
-/**
- * Defines values for CommitmentGrain. \
- * {@link KnownCommitmentGrain} can be used interchangeably with CommitmentGrain,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Hourly**
- */
-export type CommitmentGrain = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
-/** Known values of {@link PaymentStatus} that the service accepts. */
-export enum KnownPaymentStatus {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Scheduled */
-  Scheduled = "Scheduled",
-  /** Cancelled */
-  Cancelled = "Cancelled"
-}
-
-/**
- * Defines values for PaymentStatus. \
- * {@link KnownPaymentStatus} can be used interchangeably with PaymentStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Scheduled** \
- * **Cancelled**
- */
-export type PaymentStatus = string;
 
 /** Known values of {@link ReservedResourceType} that the service accepts. */
 export enum KnownReservedResourceType {
@@ -968,7 +1286,7 @@ export enum KnownReservedResourceType {
   /** SqlEdge */
   SqlEdge = "SqlEdge",
   /** VirtualMachineSoftware */
-  VirtualMachineSoftware = "VirtualMachineSoftware"
+  VirtualMachineSoftware = "VirtualMachineSoftware",
 }
 
 /**
@@ -1010,7 +1328,7 @@ export enum KnownInstanceFlexibility {
   /** On */
   On = "On",
   /** Off */
-  Off = "Off"
+  Off = "Off",
 }
 
 /**
@@ -1023,6 +1341,156 @@ export enum KnownInstanceFlexibility {
  */
 export type InstanceFlexibility = string;
 
+/** Known values of {@link CommitmentGrain} that the service accepts. */
+export enum KnownCommitmentGrain {
+  /** Hourly */
+  Hourly = "Hourly",
+  /** FullTerm */
+  FullTerm = "FullTerm",
+  /** Unknown */
+  Unknown = "Unknown",
+}
+
+/**
+ * Defines values for CommitmentGrain. \
+ * {@link KnownCommitmentGrain} can be used interchangeably with CommitmentGrain,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Hourly** \
+ * **FullTerm** \
+ * **Unknown**
+ */
+export type CommitmentGrain = string;
+
+/** Known values of {@link PaymentStatus} that the service accepts. */
+export enum KnownPaymentStatus {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Scheduled */
+  Scheduled = "Scheduled",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+}
+
+/**
+ * Defines values for PaymentStatus. \
+ * {@link KnownPaymentStatus} can be used interchangeably with PaymentStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Scheduled** \
+ * **Cancelled**
+ */
+export type PaymentStatus = string;
+
+/** Known values of {@link DiscountRuleType} that the service accepts. */
+export enum KnownDiscountRuleType {
+  /** FixedPriceLock */
+  FixedPriceLock = "FixedPriceLock",
+  /** FixedListPrice */
+  FixedListPrice = "FixedListPrice",
+  /** PriceCeiling */
+  PriceCeiling = "PriceCeiling",
+}
+
+/**
+ * Defines values for DiscountRuleType. \
+ * {@link KnownDiscountRuleType} can be used interchangeably with DiscountRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FixedPriceLock** \
+ * **FixedListPrice** \
+ * **PriceCeiling**
+ */
+export type DiscountRuleType = string;
+
+/** Known values of {@link DiscountType} that the service accepts. */
+export enum KnownDiscountType {
+  /** ProductFamily */
+  ProductFamily = "ProductFamily",
+  /** Product */
+  Product = "Product",
+  /** Sku */
+  Sku = "Sku",
+  /** CustomPrice */
+  CustomPrice = "CustomPrice",
+  /** CustomPriceMultiCurrency */
+  CustomPriceMultiCurrency = "CustomPriceMultiCurrency",
+}
+
+/**
+ * Defines values for DiscountType. \
+ * {@link KnownDiscountType} can be used interchangeably with DiscountType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ProductFamily** \
+ * **Product** \
+ * **Sku** \
+ * **CustomPrice** \
+ * **CustomPriceMultiCurrency**
+ */
+export type DiscountType = string;
+
+/** Known values of {@link ApplyDiscountOn} that the service accepts. */
+export enum KnownApplyDiscountOn {
+  /** Purchase */
+  Purchase = "Purchase",
+  /** Consume */
+  Consume = "Consume",
+  /** Renew */
+  Renew = "Renew",
+}
+
+/**
+ * Defines values for ApplyDiscountOn. \
+ * {@link KnownApplyDiscountOn} can be used interchangeably with ApplyDiscountOn,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Purchase** \
+ * **Consume** \
+ * **Renew**
+ */
+export type ApplyDiscountOn = string;
+
+/** Known values of {@link DiscountCombinationRule} that the service accepts. */
+export enum KnownDiscountCombinationRule {
+  /** BestOf */
+  BestOf = "BestOf",
+  /** Stackable */
+  Stackable = "Stackable",
+}
+
+/**
+ * Defines values for DiscountCombinationRule. \
+ * {@link KnownDiscountCombinationRule} can be used interchangeably with DiscountCombinationRule,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BestOf** \
+ * **Stackable**
+ */
+export type DiscountCombinationRule = string;
+
+/** Known values of {@link PricingPolicy} that the service accepts. */
+export enum KnownPricingPolicy {
+  /** Protected */
+  Protected = "Protected",
+  /** Locked */
+  Locked = "Locked",
+}
+
+/**
+ * Defines values for PricingPolicy. \
+ * {@link KnownPricingPolicy} can be used interchangeably with PricingPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Protected** \
+ * **Locked**
+ */
+export type PricingPolicy = string;
+
 /** Known values of {@link PricingCurrencyDuration} that the service accepts. */
 export enum KnownPricingCurrencyDuration {
   /** P1M */
@@ -1030,7 +1498,7 @@ export enum KnownPricingCurrencyDuration {
   /** P1Y */
   P1Y = "P1Y",
   /** P3Y */
-  P3Y = "P3Y"
+  P3Y = "P3Y",
 }
 
 /**
@@ -1045,22 +1513,111 @@ export enum KnownPricingCurrencyDuration {
 export type PricingCurrencyDuration = string;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DiscountsScopeListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the scopeList operation. */
+export type DiscountsScopeListResponse = DiscountList;
+
+/** Optional parameters. */
+export interface DiscountsSubscriptionListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the subscriptionList operation. */
+export type DiscountsSubscriptionListResponse = DiscountList;
+
+/** Optional parameters. */
+export interface DiscountsResourceGroupListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the resourceGroupList operation. */
+export type DiscountsResourceGroupListResponse = DiscountList;
+
+/** Optional parameters. */
+export interface DiscountsCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type DiscountsCreateResponse = Discount;
+
+/** Optional parameters. */
+export interface DiscountsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type DiscountsDeleteResponse = DiscountsDeleteHeaders;
+
+/** Optional parameters. */
+export interface DiscountsCancelOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the cancel operation. */
+export type DiscountsCancelResponse = Discount;
+
+/** Optional parameters. */
+export interface DiscountsScopeListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the scopeListNext operation. */
+export type DiscountsScopeListNextResponse = DiscountList;
+
+/** Optional parameters. */
+export interface DiscountsSubscriptionListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the subscriptionListNext operation. */
+export type DiscountsSubscriptionListNextResponse = DiscountList;
+
+/** Optional parameters. */
+export interface DiscountsResourceGroupListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the resourceGroupListNext operation. */
+export type DiscountsResourceGroupListNextResponse = DiscountList;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface SavingsPlanOrderAliasCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReservationOrderAliasGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReservationOrderAliasGetResponse = ReservationOrderAliasResponse;
+
+/** Optional parameters. */
+export interface ReservationOrderAliasCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ReservationOrderAliasCreateResponse = ReservationOrderAliasResponse;
+
+/** Optional parameters. */
+export interface SavingsPlanOrderAliasGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SavingsPlanOrderAliasGetResponse = SavingsPlanOrderAliasModel;
+
+/** Optional parameters. */
+export interface SavingsPlanOrderAliasCreateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1071,15 +1628,13 @@ export interface SavingsPlanOrderAliasCreateOptionalParams
 export type SavingsPlanOrderAliasCreateResponse = SavingsPlanOrderAliasModel;
 
 /** Optional parameters. */
-export interface SavingsPlanOrderAliasGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanOrderListOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the get operation. */
-export type SavingsPlanOrderAliasGetResponse = SavingsPlanOrderAliasModel;
+/** Contains response data for the list operation. */
+export type SavingsPlanOrderListResponse = SavingsPlanOrderModelList;
 
 /** Optional parameters. */
-export interface SavingsPlanOrderGetOptionalParams
-  extends coreClient.OperationOptions {
+export interface SavingsPlanOrderGetOptionalParams extends coreClient.OperationOptions {
   /** May be used to expand the detail information of some properties. */
   expand?: string;
 }
@@ -1088,36 +1643,51 @@ export interface SavingsPlanOrderGetOptionalParams
 export type SavingsPlanOrderGetResponse = SavingsPlanOrderModel;
 
 /** Optional parameters. */
-export interface SavingsPlanOrderElevateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanOrderElevateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the elevate operation. */
 export type SavingsPlanOrderElevateResponse = RoleAssignmentEntity;
 
 /** Optional parameters. */
-export interface SavingsPlanOrderListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SavingsPlanOrderListResponse = SavingsPlanOrderModelList;
-
-/** Optional parameters. */
-export interface SavingsPlanOrderListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanOrderListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SavingsPlanOrderListNextResponse = SavingsPlanOrderModelList;
 
 /** Optional parameters. */
-export interface SavingsPlanListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type SavingsPlanListResponse = SavingsPlanModelList;
 
 /** Optional parameters. */
-export interface SavingsPlanListAllOptionalParams
-  extends coreClient.OperationOptions {
+export interface SavingsPlanGetOptionalParams extends coreClient.OperationOptions {
+  /** May be used to expand the detail information of some properties. */
+  expand?: string;
+}
+
+/** Contains response data for the get operation. */
+export type SavingsPlanGetResponse = SavingsPlanModel;
+
+/** Optional parameters. */
+export interface SavingsPlanUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type SavingsPlanUpdateResponse = SavingsPlanModel;
+
+/** Optional parameters. */
+export interface SavingsPlanValidateUpdateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateUpdate operation. */
+export type SavingsPlanValidateUpdateResponse = SavingsPlanValidateResponse;
+
+/** Optional parameters. */
+export interface SavingsPlanListAllOptionalParams extends coreClient.OperationOptions {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
   filter?: string;
   /** May be used to sort order by reservation properties. */
@@ -1136,72 +1706,42 @@ export interface SavingsPlanListAllOptionalParams
 export type SavingsPlanListAllResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
-export interface SavingsPlanGetOptionalParams
-  extends coreClient.OperationOptions {
-  /** May be used to expand the detail information of some properties. */
-  expand?: string;
-}
-
-/** Contains response data for the get operation. */
-export type SavingsPlanGetResponse = SavingsPlanModel;
-
-/** Optional parameters. */
-export interface SavingsPlanUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type SavingsPlanUpdateResponse = SavingsPlanModel;
-
-/** Optional parameters. */
-export interface SavingsPlanValidateUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateUpdate operation. */
-export type SavingsPlanValidateUpdateResponse = SavingsPlanValidateResponse;
-
-/** Optional parameters. */
-export interface SavingsPlanListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SavingsPlanListNextResponse = SavingsPlanModelList;
 
 /** Optional parameters. */
-export interface SavingsPlanListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SavingsPlanListAllNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllNext operation. */
 export type SavingsPlanListAllNextResponse = SavingsPlanModelListResult;
 
 /** Optional parameters. */
-export interface ValidatePurchaseOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ValidatePurchaseOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the validatePurchase operation. */
 export type ValidatePurchaseResponse = SavingsPlanValidateResponse;
 
 /** Optional parameters. */
-export interface ReservationOrderAliasCreateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DiscountGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DiscountGetResponse = Discount;
+
+/** Optional parameters. */
+export interface DiscountUpdateOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
-/** Contains response data for the create operation. */
-export type ReservationOrderAliasCreateResponse = ReservationOrderAliasResponse;
+/** Contains response data for the update operation. */
+export type DiscountUpdateResponse = Discount;
 
 /** Optional parameters. */
-export interface ReservationOrderAliasGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ReservationOrderAliasGetResponse = ReservationOrderAliasResponse;
-
-/** Optional parameters. */
-export interface BillingBenefitsRPOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface BillingBenefitsRPOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
