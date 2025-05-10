@@ -1,0 +1,4 @@
+directory: specification/billingbenefits/BillingBenefits.Management
+commit: d3a900491a378d8771a2d3f3da6dfb88e45e543a
+repo: ../azure-rest-api-specs
+additionalDirectories: 
