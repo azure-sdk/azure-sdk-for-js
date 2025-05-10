@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRoutePortsLocations operations. */
-export class ExpressRoutePortsLocationsImpl
-  implements ExpressRoutePortsLocations
-{
+export class ExpressRoutePortsLocationsImpl implements ExpressRoutePortsLocations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -114,10 +112,7 @@ export class ExpressRoutePortsLocationsImpl
     locationName: string,
     options?: ExpressRoutePortsLocationsGetOptionalParams,
   ): Promise<ExpressRoutePortsLocationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ locationName, options }, getOperationSpec);
   }
 
   /**
@@ -129,10 +124,7 @@ export class ExpressRoutePortsLocationsImpl
     nextLink: string,
     options?: ExpressRoutePortsLocationsListNextOptionalParams,
   ): Promise<ExpressRoutePortsLocationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -166,11 +158,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.locationName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -185,11 +173,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

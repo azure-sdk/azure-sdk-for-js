@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualNetwork,
@@ -159,11 +155,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -191,11 +183,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     virtualNetworkName: string,
     options?: VirtualNetworksListUsageOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkUsage> {
-    const iter = this.listUsagePagingAll(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    );
+    const iter = this.listUsagePagingAll(resourceGroupName, virtualNetworkName, options);
     return {
       next() {
         return iter.next();
@@ -207,12 +195,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listUsagePagingPage(
-          resourceGroupName,
-          virtualNetworkName,
-          options,
-          settings,
-        );
+        return this.listUsagePagingPage(resourceGroupName, virtualNetworkName, options, settings);
       },
     };
   }
@@ -226,11 +209,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     let result: VirtualNetworksListUsageResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listUsage(
-        resourceGroupName,
-        virtualNetworkName,
-        options,
-      );
+      result = await this._listUsage(resourceGroupName, virtualNetworkName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -370,8 +349,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -423,11 +401,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, virtualNetworkName, options);
     return poller.pollUntilDone();
   }
 
@@ -476,8 +450,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -581,10 +554,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     resourceGroupName: string,
     options?: VirtualNetworksListOptionalParams,
   ): Promise<VirtualNetworksListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -649,8 +619,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -703,10 +672,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
     nextLink: string,
     options?: VirtualNetworksListAllNextOptionalParams,
   ): Promise<VirtualNetworksListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -831,7 +797,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters72,
+  requestBody: Parameters.parameters80,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -894,11 +860,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -964,11 +926,7 @@ const listDdosProtectionStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top2,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.top2],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
@@ -989,11 +947,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

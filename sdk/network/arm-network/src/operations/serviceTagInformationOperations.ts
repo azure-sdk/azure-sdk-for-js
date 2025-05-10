@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServiceTagInformationOperations operations. */
-export class ServiceTagInformationOperationsImpl
-  implements ServiceTagInformationOperations
-{
+export class ServiceTagInformationOperationsImpl implements ServiceTagInformationOperations {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -107,10 +105,7 @@ export class ServiceTagInformationOperationsImpl
     location: string,
     options?: ServiceTagInformationListOptionalParams,
   ): Promise<ServiceTagInformationListResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listOperationSpec);
   }
 
   /**
@@ -126,10 +121,7 @@ export class ServiceTagInformationOperationsImpl
     nextLink: string,
     options?: ServiceTagInformationListNextOptionalParams,
   ): Promise<ServiceTagInformationListNextResponse> {
-    return this.client.sendOperationRequest(
-      { location, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -146,16 +138,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.noAddressPrefixes,
-    Parameters.tagName,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.noAddressPrefixes, Parameters.tagName],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   IpAllocation,
@@ -56,9 +52,7 @@ export class IpAllocationsImpl implements IpAllocations {
    * Gets all IpAllocations in a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: IpAllocationsListOptionalParams,
-  ): PagedAsyncIterableIterator<IpAllocation> {
+  public list(options?: IpAllocationsListOptionalParams): PagedAsyncIterableIterator<IpAllocation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -127,11 +121,7 @@ export class IpAllocationsImpl implements IpAllocations {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -151,11 +141,7 @@ export class IpAllocationsImpl implements IpAllocations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -167,10 +153,7 @@ export class IpAllocationsImpl implements IpAllocations {
     resourceGroupName: string,
     options?: IpAllocationsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IpAllocation> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -196,8 +179,7 @@ export class IpAllocationsImpl implements IpAllocations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -249,11 +231,7 @@ export class IpAllocationsImpl implements IpAllocations {
     ipAllocationName: string,
     options?: IpAllocationsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      ipAllocationName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, ipAllocationName, options);
     return poller.pollUntilDone();
   }
 
@@ -302,8 +280,7 @@ export class IpAllocationsImpl implements IpAllocations {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -392,9 +369,7 @@ export class IpAllocationsImpl implements IpAllocations {
    * Gets all IpAllocations in a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: IpAllocationsListOptionalParams,
-  ): Promise<IpAllocationsListResponse> {
+  private _list(options?: IpAllocationsListOptionalParams): Promise<IpAllocationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -422,10 +397,7 @@ export class IpAllocationsImpl implements IpAllocations {
     nextLink: string,
     options?: IpAllocationsListNextOptionalParams,
   ): Promise<IpAllocationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -574,11 +546,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -593,11 +561,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

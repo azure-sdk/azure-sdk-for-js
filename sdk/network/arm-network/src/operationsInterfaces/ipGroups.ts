@@ -38,9 +38,7 @@ export interface IpGroups {
    * Gets all IpGroups in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: IpGroupsListOptionalParams,
-  ): PagedAsyncIterableIterator<IpGroup>;
+  list(options?: IpGroupsListOptionalParams): PagedAsyncIterableIterator<IpGroup>;
   /**
    * Gets the specified ipGroups.
    * @param resourceGroupName The name of the resource group.
@@ -65,10 +63,7 @@ export interface IpGroups {
     parameters: IpGroup,
     options?: IpGroupsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IpGroupsCreateOrUpdateResponse>,
-      IpGroupsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<IpGroupsCreateOrUpdateResponse>, IpGroupsCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates an ipGroups in a specified resource group.

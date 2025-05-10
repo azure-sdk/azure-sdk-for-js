@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerOutboundRules operations. */
-export class LoadBalancerOutboundRulesImpl
-  implements LoadBalancerOutboundRules
-{
+export class LoadBalancerOutboundRulesImpl implements LoadBalancerOutboundRules {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -49,11 +47,7 @@ export class LoadBalancerOutboundRulesImpl
     loadBalancerName: string,
     options?: LoadBalancerOutboundRulesListOptionalParams,
   ): PagedAsyncIterableIterator<OutboundRule> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +59,7 @@ export class LoadBalancerOutboundRulesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -109,11 +98,7 @@ export class LoadBalancerOutboundRulesImpl
     loadBalancerName: string,
     options?: LoadBalancerOutboundRulesListOptionalParams,
   ): AsyncIterableIterator<OutboundRule> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }

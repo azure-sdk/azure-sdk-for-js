@@ -44,9 +44,7 @@ export interface VpnGateways {
    * Lists all the VpnGateways in a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: VpnGatewaysListOptionalParams,
-  ): PagedAsyncIterableIterator<VpnGateway>;
+  list(options?: VpnGatewaysListOptionalParams): PagedAsyncIterableIterator<VpnGateway>;
   /**
    * Retrieves the details of a virtual wan vpn gateway.
    * @param resourceGroupName The resource group name of the VpnGateway.
@@ -102,10 +100,7 @@ export interface VpnGateways {
     vpnGatewayParameters: TagsObject,
     options?: VpnGatewaysUpdateTagsOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VpnGatewaysUpdateTagsResponse>,
-      VpnGatewaysUpdateTagsResponse
-    >
+    SimplePollerLike<OperationState<VpnGatewaysUpdateTagsResponse>, VpnGatewaysUpdateTagsResponse>
   >;
   /**
    * Updates virtual wan vpn gateway tags.
@@ -152,12 +147,7 @@ export interface VpnGateways {
     resourceGroupName: string,
     gatewayName: string,
     options?: VpnGatewaysResetOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VpnGatewaysResetResponse>,
-      VpnGatewaysResetResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<VpnGatewaysResetResponse>, VpnGatewaysResetResponse>>;
   /**
    * Resets the primary of the vpn gateway in the specified resource group.
    * @param resourceGroupName The resource group name of the VpnGateway.

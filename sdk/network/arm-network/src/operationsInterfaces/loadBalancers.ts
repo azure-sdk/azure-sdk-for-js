@@ -36,9 +36,7 @@ export interface LoadBalancers {
    * Gets all the load balancers in a subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: LoadBalancersListAllOptionalParams,
-  ): PagedAsyncIterableIterator<LoadBalancer>;
+  listAll(options?: LoadBalancersListAllOptionalParams): PagedAsyncIterableIterator<LoadBalancer>;
   /**
    * Gets all the load balancers in a resource group.
    * @param resourceGroupName The name of the resource group.

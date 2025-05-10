@@ -50,10 +50,7 @@ export interface FlowLogs {
     parameters: FlowLog,
     options?: FlowLogsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<FlowLogsCreateOrUpdateResponse>,
-      FlowLogsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<FlowLogsCreateOrUpdateResponse>, FlowLogsCreateOrUpdateResponse>
   >;
   /**
    * Create or update a flow log for the specified network security group.

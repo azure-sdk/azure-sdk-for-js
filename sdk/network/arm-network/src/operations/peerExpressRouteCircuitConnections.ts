@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PeerExpressRouteCircuitConnections operations. */
-export class PeerExpressRouteCircuitConnectionsImpl
-  implements PeerExpressRouteCircuitConnections
-{
+export class PeerExpressRouteCircuitConnectionsImpl implements PeerExpressRouteCircuitConnections {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -52,12 +50,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
     peeringName: string,
     options?: PeerExpressRouteCircuitConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PeerExpressRouteCircuitConnection> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      circuitName,
-      peeringName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, circuitName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -69,13 +62,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          circuitName,
-          peeringName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, circuitName, peeringName, options, settings);
       },
     };
   }
@@ -90,12 +77,7 @@ export class PeerExpressRouteCircuitConnectionsImpl
     let result: PeerExpressRouteCircuitConnectionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        circuitName,
-        peeringName,
-        options,
-      );
+      result = await this._list(resourceGroupName, circuitName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

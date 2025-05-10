@@ -41,9 +41,7 @@ export interface ExpressRoutePorts {
    * List all the ExpressRoutePort resources in the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ExpressRoutePortsListOptionalParams,
-  ): PagedAsyncIterableIterator<ExpressRoutePort>;
+  list(options?: ExpressRoutePortsListOptionalParams): PagedAsyncIterableIterator<ExpressRoutePort>;
   /**
    * Deletes the specified ExpressRoutePort resource.
    * @param resourceGroupName The name of the resource group.

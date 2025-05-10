@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BgpConnection,
@@ -67,12 +63,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          virtualHubName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, virtualHubName, options, settings);
       },
     };
   }
@@ -93,12 +84,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        virtualHubName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, virtualHubName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -111,11 +97,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
     virtualHubName: string,
     options?: VirtualHubBgpConnectionsListOptionalParams,
   ): AsyncIterableIterator<BgpConnection> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      virtualHubName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, virtualHubName, options)) {
       yield* page;
     }
   }
@@ -165,8 +147,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -260,8 +241,7 @@ export class VirtualHubBgpConnectionsImpl implements VirtualHubBgpConnections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
