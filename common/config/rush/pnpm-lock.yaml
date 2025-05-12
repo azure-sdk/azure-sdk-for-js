@@ -910,6 +910,9 @@ importers:
       '@rush-temp/container-registry':
         specifier: file:./projects/container-registry.tgz
         version: file:projects/container-registry.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/contoso-widgetmanager-rest':
+        specifier: file:./projects/contoso-widgetmanager-rest.tgz
+        version: file:projects/contoso-widgetmanager-rest.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/core-amqp':
         specifier: file:./projects/core-amqp.tgz
         version: file:projects/core-amqp.tgz(rollup@4.40.2)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
@@ -3519,6 +3522,10 @@ packages:
 
   '@rush-temp/container-registry@file:projects/container-registry.tgz':
     resolution: {integrity: sha512-spz+nt1C4/pUlRz3wzrnCN8GSsDaRlSZhHMXEby+SHNjF12uLWvhm29AV8hNx4+WScjtqzP4qynnEG3dNQm9+g==, tarball: file:projects/container-registry.tgz}
+    version: 0.0.0
+
+  '@rush-temp/contoso-widgetmanager-rest@file:projects/contoso-widgetmanager-rest.tgz':
+    resolution: {integrity: sha512-wQQSacS9kbLef27x9x8P2+TbXjiw7BrHupe/g2dHPndRwbnOvbrDBp5ZlecEpUZYIPm4gdD9GdTmJv30HG025g==, tarball: file:projects/contoso-widgetmanager-rest.tgz}
     version: 0.0.0
 
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz':
@@ -19052,6 +19059,41 @@ snapshots:
       - webdriverio
       - yaml
 
+  '@rush-temp/contoso-widgetmanager-rest@file:projects/contoso-widgetmanager-rest.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
+      '@types/node': 18.19.100
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
+      dotenv: 16.5.0
+      eslint: 9.26.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@18.19.100)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
   '@rush-temp/core-amqp@file:projects/core-amqp.tgz(rollup@4.40.2)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.40.2)
@@ -22953,11 +22995,11 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/bunyan@1.8.11':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/chai-as-promised@8.0.2':
     dependencies:
@@ -22969,7 +23011,7 @@ snapshots:
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/debug@4.1.12':
     dependencies:
@@ -22995,7 +23037,7 @@ snapshots:
 
   '@types/express-serve-static-core@5.0.6':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       '@types/qs': 6.9.18
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -23016,16 +23058,16 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/glob@7.2.0':
     dependencies:
       '@types/minimatch': 5.1.2
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/http-errors@2.0.4': {}
 
@@ -23036,13 +23078,13 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/jsonwebtoken@9.0.9':
     dependencies:
@@ -23070,11 +23112,11 @@ snapshots:
 
   '@types/mysql@2.15.26':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/node-fetch@2.6.12':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       form-data: 4.0.2
 
   '@types/node@18.19.100':
@@ -23099,7 +23141,7 @@ snapshots:
 
   '@types/pg@8.6.1':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       pg-protocol: 1.8.0
       pg-types: 2.2.0
 
@@ -23116,7 +23158,7 @@ snapshots:
 
   '@types/readdir-glob@1.1.5':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/resolve@1.20.2': {}
 
@@ -23127,12 +23169,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}
@@ -23151,7 +23193,7 @@ snapshots:
 
   '@types/ws@7.4.7':
     dependencies:
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
 
   '@types/ws@8.18.1':
     dependencies:
@@ -25336,7 +25378,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.100
+      '@types/node': 22.7.9
       long: 5.3.2
 
   proxy-addr@2.0.7:
