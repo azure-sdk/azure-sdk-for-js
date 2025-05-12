@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   CdnWebApplicationFirewallPolicy,
@@ -89,11 +85,7 @@ export class PoliciesImpl implements Policies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -119,10 +111,7 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     options?: PoliciesListOptionalParams,
   ): Promise<PoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -155,10 +144,7 @@ export class PoliciesImpl implements Policies {
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesCreateOrUpdateResponse>,
-      PoliciesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -170,8 +156,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -255,12 +240,7 @@ export class PoliciesImpl implements Policies {
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
     options?: PoliciesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesUpdateResponse>,
-      PoliciesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -271,8 +251,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -393,11 +372,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName2],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -416,7 +391,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -447,7 +422,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -479,7 +454,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -500,7 +475,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
     Parameters.policyName,
   ],
   headerParameters: [Parameters.accept],
@@ -521,7 +496,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
+    Parameters.resourceGroupName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,

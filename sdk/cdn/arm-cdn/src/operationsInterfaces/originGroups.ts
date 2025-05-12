@@ -69,10 +69,7 @@ export interface OriginGroups {
     originGroup: OriginGroup,
     options?: OriginGroupsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<OriginGroupsCreateResponse>,
-      OriginGroupsCreateResponse
-    >
+    SimplePollerLike<OperationState<OriginGroupsCreateResponse>, OriginGroupsCreateResponse>
   >;
   /**
    * Creates a new origin group within the specified endpoint.
@@ -108,10 +105,7 @@ export interface OriginGroups {
     originGroupUpdateProperties: OriginGroupUpdateParameters,
     options?: OriginGroupsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<OriginGroupsUpdateResponse>,
-      OriginGroupsUpdateResponse
-    >
+    SimplePollerLike<OperationState<OriginGroupsUpdateResponse>, OriginGroupsUpdateResponse>
   >;
   /**
    * Updates an existing origin group within an endpoint.

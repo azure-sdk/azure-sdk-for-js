@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   SecurityPolicy,
@@ -51,8 +47,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -60,11 +56,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
     profileName: string,
     options?: SecurityPoliciesListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPolicy> {
-    const iter = this.listByProfilePagingAll(
-      resourceGroupName,
-      profileName,
-      options,
-    );
+    const iter = this.listByProfilePagingAll(resourceGroupName, profileName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProfilePagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listByProfilePagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -95,11 +82,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
     let result: SecurityPoliciesListByProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProfile(
-        resourceGroupName,
-        profileName,
-        options,
-      );
+      result = await this._listByProfile(resourceGroupName, profileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -136,8 +119,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Lists security policies associated with the profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -154,8 +137,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Gets an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -174,8 +157,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -187,10 +170,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
     securityPolicy: SecurityPolicy,
     options?: SecurityPoliciesCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SecurityPoliciesCreateResponse>,
-      SecurityPoliciesCreateResponse
-    >
+    SimplePollerLike<OperationState<SecurityPoliciesCreateResponse>, SecurityPoliciesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -202,8 +182,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -256,8 +235,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Creates a new security policy within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicy The security policy properties.
    * @param options The options parameters.
@@ -282,8 +261,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
@@ -295,10 +274,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
     securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
     options?: SecurityPoliciesPatchOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SecurityPoliciesPatchResponse>,
-      SecurityPoliciesPatchResponse
-    >
+    SimplePollerLike<OperationState<SecurityPoliciesPatchResponse>, SecurityPoliciesPatchResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -310,8 +286,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -364,8 +339,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Updates an existing security policy within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param securityPolicyUpdateProperties Security policy update properties
    * @param options The options parameters.
@@ -390,8 +365,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -411,8 +386,7 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -456,8 +430,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param securityPolicyName Name of the security policy under the profile.
    * @param options The options parameters.
    */
@@ -479,8 +453,8 @@ export class SecurityPoliciesImpl implements SecurityPolicies {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -515,7 +489,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -536,7 +510,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept],
@@ -568,7 +542,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -601,7 +575,7 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -625,7 +599,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.securityPolicyName,
   ],
   headerParameters: [Parameters.accept],
@@ -646,7 +620,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

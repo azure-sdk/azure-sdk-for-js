@@ -57,10 +57,7 @@ export interface Policies {
     cdnWebApplicationFirewallPolicy: CdnWebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesCreateOrUpdateResponse>,
-      PoliciesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>
   >;
   /**
    * Create or update policy with specified rule set name within a resource group.
@@ -89,12 +86,7 @@ export interface Policies {
     policyName: string,
     cdnWebApplicationFirewallPolicyPatchParameters: CdnWebApplicationFirewallPolicyPatchParameters,
     options?: PoliciesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesUpdateResponse>,
-      PoliciesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>>;
   /**
    * Update an existing CdnWebApplicationFirewallPolicy with the specified policy name under the
    * specified subscription and resource group

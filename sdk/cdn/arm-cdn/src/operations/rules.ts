@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Rule,
@@ -51,8 +47,8 @@ export class RulesImpl implements Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -62,12 +58,7 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     options?: RulesListByRuleSetOptionalParams,
   ): PagedAsyncIterableIterator<Rule> {
-    const iter = this.listByRuleSetPagingAll(
-      resourceGroupName,
-      profileName,
-      ruleSetName,
-      options,
-    );
+    const iter = this.listByRuleSetPagingAll(resourceGroupName, profileName, ruleSetName, options);
     return {
       next() {
         return iter.next();
@@ -100,12 +91,7 @@ export class RulesImpl implements Rules {
     let result: RulesListByRuleSetResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByRuleSet(
-        resourceGroupName,
-        profileName,
-        ruleSetName,
-        options,
-      );
+      result = await this._listByRuleSet(resourceGroupName, profileName, ruleSetName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -145,8 +131,8 @@ export class RulesImpl implements Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -165,8 +151,8 @@ export class RulesImpl implements Rules {
   /**
    * Gets an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -187,8 +173,8 @@ export class RulesImpl implements Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -201,9 +187,7 @@ export class RulesImpl implements Rules {
     ruleName: string,
     rule: Rule,
     options?: RulesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -214,8 +198,7 @@ export class RulesImpl implements Rules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -254,14 +237,14 @@ export class RulesImpl implements Rules {
       },
       spec: createOperationSpec,
     });
-    const poller = await createHttpPoller<
-      RulesCreateResponse,
-      OperationState<RulesCreateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
+    const poller = await createHttpPoller<RulesCreateResponse, OperationState<RulesCreateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "azure-async-operation",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -269,8 +252,8 @@ export class RulesImpl implements Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -298,8 +281,8 @@ export class RulesImpl implements Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -312,9 +295,7 @@ export class RulesImpl implements Rules {
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
     options?: RulesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -325,8 +306,7 @@ export class RulesImpl implements Rules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -365,14 +345,14 @@ export class RulesImpl implements Rules {
       },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<
-      RulesUpdateResponse,
-      OperationState<RulesUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
+    const poller = await createHttpPoller<RulesUpdateResponse, OperationState<RulesUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "azure-async-operation",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -380,8 +360,8 @@ export class RulesImpl implements Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -409,8 +389,8 @@ export class RulesImpl implements Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -432,8 +412,7 @@ export class RulesImpl implements Rules {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -477,8 +456,8 @@ export class RulesImpl implements Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -503,8 +482,8 @@ export class RulesImpl implements Rules {
   /**
    * ListByRuleSetNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param nextLink The nextLink from the previous successful call to the ListByRuleSet method.
    * @param options The options parameters.
@@ -541,7 +520,7 @@ const listByRuleSetOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
@@ -563,7 +542,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
     Parameters.ruleName,
   ],
@@ -596,7 +575,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
     Parameters.ruleName,
   ],
@@ -630,7 +609,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
     Parameters.ruleName,
   ],
@@ -655,7 +634,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
     Parameters.ruleName,
   ],
@@ -677,7 +656,7 @@ const listByRuleSetNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
     Parameters.ruleSetName,
   ],

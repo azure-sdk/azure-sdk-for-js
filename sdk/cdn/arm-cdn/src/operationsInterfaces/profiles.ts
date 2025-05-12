@@ -33,6 +33,13 @@ import {
   ProfilesGenerateSsoUriResponse,
   ProfilesListSupportedOptimizationTypesOptionalParams,
   ProfilesListSupportedOptimizationTypesResponse,
+  ProfilesCdnCanMigrateToAfdOptionalParams,
+  ProfilesCdnCanMigrateToAfdResponse,
+  CdnMigrationToAfdParameters,
+  ProfilesCdnMigrateToAfdOptionalParams,
+  ProfilesCdnMigrateToAfdResponse,
+  ProfilesMigrationAbortOptionalParams,
+  ProfilesMigrationAbortResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,9 +50,7 @@ export interface Profiles {
    * Azure subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: ProfilesListOptionalParams,
-  ): PagedAsyncIterableIterator<Profile>;
+  list(options?: ProfilesListOptionalParams): PagedAsyncIterableIterator<Profile>;
   /**
    * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
    * resource group.
@@ -96,12 +101,7 @@ export interface Profiles {
     profileName: string,
     profile: Profile,
     options?: ProfilesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ProfilesCreateResponse>,
-      ProfilesCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ProfilesCreateResponse>, ProfilesCreateResponse>>;
   /**
    * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
    * name under the specified subscription and resource group.
@@ -131,12 +131,7 @@ export interface Profiles {
     profileName: string,
     profileUpdateParameters: ProfileUpdateParameters,
     options?: ProfilesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ProfilesUpdateResponse>,
-      ProfilesUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ProfilesUpdateResponse>, ProfilesUpdateResponse>>;
   /**
    * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
    * specified profile name under the specified subscription and resource group.
@@ -192,10 +187,7 @@ export interface Profiles {
     canMigrateParameters: CanMigrateParameters,
     options?: ProfilesCanMigrateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ProfilesCanMigrateResponse>,
-      ProfilesCanMigrateResponse
-    >
+    SimplePollerLike<OperationState<ProfilesCanMigrateResponse>, ProfilesCanMigrateResponse>
   >;
   /**
    * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
@@ -220,12 +212,7 @@ export interface Profiles {
     resourceGroupName: string,
     migrationParameters: MigrationParameters,
     options?: ProfilesMigrateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ProfilesMigrateResponse>,
-      ProfilesMigrateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ProfilesMigrateResponse>, ProfilesMigrateResponse>>;
   /**
    * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. The change need to be
    * committed after this.
@@ -287,4 +274,94 @@ export interface Profiles {
     profileName: string,
     options?: ProfilesListSupportedOptimizationTypesOptionalParams,
   ): Promise<ProfilesListSupportedOptimizationTypesResponse>;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginCdnCanMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnCanMigrateToAfdResponse>,
+      ProfilesCdnCanMigrateToAfdResponse
+    >
+  >;
+  /**
+   * Checks if CDN profile can be migrated to Azure Frontdoor(Standard/Premium) profile.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginCdnCanMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesCdnCanMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnCanMigrateToAfdResponse>;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginCdnMigrateToAfd(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ProfilesCdnMigrateToAfdResponse>,
+      ProfilesCdnMigrateToAfdResponse
+    >
+  >;
+  /**
+   * Migrate the CDN profile to Azure Frontdoor(Standard/Premium) profile. This step prepares the profile
+   * for migration and will be followed by Commit to finalize the migration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param migrationParameters Properties needed to migrate the profile.
+   * @param options The options parameters.
+   */
+  beginCdnMigrateToAfdAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    migrationParameters: CdnMigrationToAfdParameters,
+    options?: ProfilesCdnMigrateToAfdOptionalParams,
+  ): Promise<ProfilesCdnMigrateToAfdResponse>;
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationAbort(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ProfilesMigrationAbortResponse>, ProfilesMigrationAbortResponse>
+  >;
+  /**
+   * Abort the migration to Azure Frontdoor Premium/Standard.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
+   * @param options The options parameters.
+   */
+  beginMigrationAbortAndWait(
+    resourceGroupName: string,
+    profileName: string,
+    options?: ProfilesMigrationAbortOptionalParams,
+  ): Promise<ProfilesMigrationAbortResponse>;
 }
