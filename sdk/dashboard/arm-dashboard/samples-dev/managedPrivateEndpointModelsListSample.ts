@@ -1,0 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { DashboardClient } from "@azure/arm-dashboard";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to list all managed private endpoints of a grafana resource.
+ *
+ * @summary list all managed private endpoints of a grafana resource.
+ * x-ms-original-file: 2024-10-01/ManagedPrivateEndpoints_List.json
+ */
+async function managedPrivateEndpointList(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new DashboardClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.managedPrivateEndpointModels.list(
+    "myResourceGroup",
+    "myWorkspace",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await managedPrivateEndpointList();
+}
+
+main().catch(console.error);
