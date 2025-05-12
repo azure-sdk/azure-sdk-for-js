@@ -90,12 +90,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
     let result: SenderUsernamesListByDomainsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByDomains(
-        resourceGroupName,
-        emailServiceName,
-        domainName,
-        options,
-      );
+      result = await this._listByDomains(resourceGroupName, emailServiceName, domainName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

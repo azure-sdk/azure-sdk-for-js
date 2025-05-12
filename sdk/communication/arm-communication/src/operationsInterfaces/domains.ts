@@ -69,10 +69,7 @@ export interface Domains {
     parameters: DomainResource,
     options?: DomainsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsCreateOrUpdateResponse>,
-      DomainsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<DomainsCreateOrUpdateResponse>, DomainsCreateOrUpdateResponse>
   >;
   /**
    * Add a new Domains resource under the parent EmailService resource or update an existing Domains
@@ -130,12 +127,7 @@ export interface Domains {
     domainName: string,
     parameters: UpdateDomainRequestParameters,
     options?: DomainsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DomainsUpdateResponse>,
-      DomainsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<DomainsUpdateResponse>, DomainsUpdateResponse>>;
   /**
    * Operation to update an existing Domains resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
