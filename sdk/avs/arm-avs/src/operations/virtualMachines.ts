@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachine,
@@ -58,12 +54,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     clusterName: string,
     options?: VirtualMachinesListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachine> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      clusterName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -96,12 +87,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     let result: VirtualMachinesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        options,
-      );
+      result = await this._list(resourceGroupName, privateCloudName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -190,7 +176,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
+   * @param restrictMovement The content of the action request
    * @param options The options parameters.
    */
   async beginRestrictMovement(
@@ -216,8 +202,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -274,7 +259,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param virtualMachineId ID of the virtual machine.
-   * @param restrictMovement The body type of the operation request.
+   * @param restrictMovement The content of the action request
    * @param options The options parameters.
    */
   async beginRestrictMovementAndWait(

@@ -47,11 +47,7 @@ export class ScriptPackagesImpl implements ScriptPackages {
     privateCloudName: string,
     options?: ScriptPackagesListOptionalParams,
   ): PagedAsyncIterableIterator<ScriptPackage> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class ScriptPackagesImpl implements ScriptPackages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -107,11 +98,7 @@ export class ScriptPackagesImpl implements ScriptPackages {
     privateCloudName: string,
     options?: ScriptPackagesListOptionalParams,
   ): AsyncIterableIterator<ScriptPackage> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateCloudName, options)) {
       yield* page;
     }
   }

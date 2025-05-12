@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   PlacementPolicy,
@@ -61,12 +57,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     clusterName: string,
     options?: PlacementPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<PlacementPolicy> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      clusterName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, clusterName, options);
     return {
       next() {
         return iter.next();
@@ -99,12 +90,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
     let result: PlacementPoliciesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        privateCloudName,
-        clusterName,
-        options,
-      );
+      result = await this._list(resourceGroupName, privateCloudName, clusterName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -219,8 +205,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -305,7 +290,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param placementPolicyName Name of the placement policy.
-   * @param placementPolicyUpdate The placement policy properties to be updated.
+   * @param placementPolicyUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -331,8 +316,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -389,7 +373,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
    * @param placementPolicyName Name of the placement policy.
-   * @param placementPolicyUpdate The placement policy properties to be updated.
+   * @param placementPolicyUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -436,8 +420,7 @@ export class PlacementPoliciesImpl implements PlacementPolicies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
