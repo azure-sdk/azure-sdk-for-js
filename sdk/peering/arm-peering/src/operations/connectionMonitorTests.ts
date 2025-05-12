@@ -23,7 +23,7 @@ import {
   ConnectionMonitorTestsCreateOrUpdateOptionalParams,
   ConnectionMonitorTestsCreateOrUpdateResponse,
   ConnectionMonitorTestsDeleteOptionalParams,
-  ConnectionMonitorTestsListByPeeringServiceNextResponse
+  ConnectionMonitorTestsListByPeeringServiceNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,9 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
   public listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams
+    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionMonitorTest> {
-    const iter = this.listByPeeringServicePagingAll(
-      resourceGroupName,
-      peeringServiceName,
-      options
-    );
+    const iter = this.listByPeeringServicePagingAll(resourceGroupName, peeringServiceName, options);
     return {
       next() {
         return iter.next();
@@ -70,9 +66,9 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
           resourceGroupName,
           peeringServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,16 +76,12 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectionMonitorTest[]> {
     let result: ConnectionMonitorTestsListByPeeringServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPeeringService(
-        resourceGroupName,
-        peeringServiceName,
-        options
-      );
+      result = await this._listByPeeringService(resourceGroupName, peeringServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,7 +92,7 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
         resourceGroupName,
         peeringServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +104,12 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
   private async *listByPeeringServicePagingAll(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams
+    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams,
   ): AsyncIterableIterator<ConnectionMonitorTest> {
     for await (const page of this.listByPeeringServicePagingPage(
       resourceGroupName,
       peeringServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,16 +127,16 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     connectionMonitorTestName: string,
-    options?: ConnectionMonitorTestsGetOptionalParams
+    options?: ConnectionMonitorTestsGetOptionalParams,
   ): Promise<ConnectionMonitorTestsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         peeringServiceName,
         connectionMonitorTestName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -162,7 +154,7 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
     peeringServiceName: string,
     connectionMonitorTestName: string,
     connectionMonitorTest: ConnectionMonitorTest,
-    options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams
+    options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams,
   ): Promise<ConnectionMonitorTestsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -170,9 +162,9 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
         peeringServiceName,
         connectionMonitorTestName,
         connectionMonitorTest,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -188,16 +180,16 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     connectionMonitorTestName: string,
-    options?: ConnectionMonitorTestsDeleteOptionalParams
+    options?: ConnectionMonitorTestsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         peeringServiceName,
         connectionMonitorTestName,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -210,11 +202,11 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
   private _listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams
+    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams,
   ): Promise<ConnectionMonitorTestsListByPeeringServiceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, options },
-      listByPeeringServiceOperationSpec
+      listByPeeringServiceOperationSpec,
     );
   }
 
@@ -229,11 +221,11 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     nextLink: string,
-    options?: ConnectionMonitorTestsListByPeeringServiceNextOptionalParams
+    options?: ConnectionMonitorTestsListByPeeringServiceNextOptionalParams,
   ): Promise<ConnectionMonitorTestsListByPeeringServiceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringServiceName, nextLink, options },
-      listByPeeringServiceNextOperationSpec
+      listByPeeringServiceNextOperationSpec,
     );
   }
 }
@@ -241,16 +233,15 @@ export class ConnectionMonitorTestsImpl implements ConnectionMonitorTests {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorTest
+      bodyMapper: Mappers.ConnectionMonitorTest,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -258,25 +249,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.connectionMonitorTestName
+    Parameters.connectionMonitorTestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorTest
+      bodyMapper: Mappers.ConnectionMonitorTest,
     },
     201: {
-      bodyMapper: Mappers.ConnectionMonitorTest
+      bodyMapper: Mappers.ConnectionMonitorTest,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.connectionMonitorTest,
   queryParameters: [Parameters.apiVersion],
@@ -285,22 +275,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.connectionMonitorTestName
+    Parameters.connectionMonitorTestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests/{connectionMonitorTestName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -308,52 +297,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringServiceName,
-    Parameters.connectionMonitorTestName
+    Parameters.connectionMonitorTestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peeringServices/{peeringServiceName}/connectionMonitorTests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorTestListResult
+      bodyMapper: Mappers.ConnectionMonitorTestListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.peeringServiceName
+    Parameters.peeringServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringServiceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectionMonitorTestListResult
+      bodyMapper: Mappers.ConnectionMonitorTestListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.peeringServiceName
+    Parameters.peeringServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

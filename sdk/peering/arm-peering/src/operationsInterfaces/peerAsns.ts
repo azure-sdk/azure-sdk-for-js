@@ -14,7 +14,7 @@ import {
   PeerAsnsGetResponse,
   PeerAsnsCreateOrUpdateOptionalParams,
   PeerAsnsCreateOrUpdateResponse,
-  PeerAsnsDeleteOptionalParams
+  PeerAsnsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,17 +25,14 @@ export interface PeerAsns {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PeerAsnsListBySubscriptionOptionalParams
+    options?: PeerAsnsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PeerAsn>;
   /**
    * Gets the peer ASN with the specified name under the given subscription.
    * @param peerAsnName The peer ASN name.
    * @param options The options parameters.
    */
-  get(
-    peerAsnName: string,
-    options?: PeerAsnsGetOptionalParams
-  ): Promise<PeerAsnsGetResponse>;
+  get(peerAsnName: string, options?: PeerAsnsGetOptionalParams): Promise<PeerAsnsGetResponse>;
   /**
    * Creates a new peer ASN or updates an existing peer ASN with the specified name under the given
    * subscription.
@@ -46,15 +43,12 @@ export interface PeerAsns {
   createOrUpdate(
     peerAsnName: string,
     peerAsn: PeerAsn,
-    options?: PeerAsnsCreateOrUpdateOptionalParams
+    options?: PeerAsnsCreateOrUpdateOptionalParams,
   ): Promise<PeerAsnsCreateOrUpdateResponse>;
   /**
    * Deletes an existing peer ASN with the specified name under the given subscription.
    * @param peerAsnName The peer ASN name.
    * @param options The options parameters.
    */
-  delete(
-    peerAsnName: string,
-    options?: PeerAsnsDeleteOptionalParams
-  ): Promise<void>;
+  delete(peerAsnName: string, options?: PeerAsnsDeleteOptionalParams): Promise<void>;
 }

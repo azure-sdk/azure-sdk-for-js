@@ -23,7 +23,7 @@ import {
   RegisteredAsnsCreateOrUpdateOptionalParams,
   RegisteredAsnsCreateOrUpdateResponse,
   RegisteredAsnsDeleteOptionalParams,
-  RegisteredAsnsListByPeeringNextResponse
+  RegisteredAsnsListByPeeringNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +48,9 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
   public listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredAsnsListByPeeringOptionalParams
+    options?: RegisteredAsnsListByPeeringOptionalParams,
   ): PagedAsyncIterableIterator<PeeringRegisteredAsn> {
-    const iter = this.listByPeeringPagingAll(
-      resourceGroupName,
-      peeringName,
-      options
-    );
+    const iter = this.listByPeeringPagingAll(resourceGroupName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -66,13 +62,8 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPeeringPagingPage(
-          resourceGroupName,
-          peeringName,
-          options,
-          settings
-        );
-      }
+        return this.listByPeeringPagingPage(resourceGroupName, peeringName, options, settings);
+      },
     };
   }
 
@@ -80,16 +71,12 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     options?: RegisteredAsnsListByPeeringOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringRegisteredAsn[]> {
     let result: RegisteredAsnsListByPeeringResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPeering(
-        resourceGroupName,
-        peeringName,
-        options
-      );
+      result = await this._listByPeering(resourceGroupName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,7 +87,7 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
         resourceGroupName,
         peeringName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +99,12 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
   private async *listByPeeringPagingAll(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredAsnsListByPeeringOptionalParams
+    options?: RegisteredAsnsListByPeeringOptionalParams,
   ): AsyncIterableIterator<PeeringRegisteredAsn> {
     for await (const page of this.listByPeeringPagingPage(
       resourceGroupName,
       peeringName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +122,11 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     registeredAsnName: string,
-    options?: RegisteredAsnsGetOptionalParams
+    options?: RegisteredAsnsGetOptionalParams,
   ): Promise<RegisteredAsnsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, registeredAsnName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -157,7 +144,7 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
     peeringName: string,
     registeredAsnName: string,
     registeredAsn: PeeringRegisteredAsn,
-    options?: RegisteredAsnsCreateOrUpdateOptionalParams
+    options?: RegisteredAsnsCreateOrUpdateOptionalParams,
   ): Promise<RegisteredAsnsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -165,9 +152,9 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
         peeringName,
         registeredAsnName,
         registeredAsn,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +170,11 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     registeredAsnName: string,
-    options?: RegisteredAsnsDeleteOptionalParams
+    options?: RegisteredAsnsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, registeredAsnName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -200,11 +187,11 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
   private _listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredAsnsListByPeeringOptionalParams
+    options?: RegisteredAsnsListByPeeringOptionalParams,
   ): Promise<RegisteredAsnsListByPeeringResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, options },
-      listByPeeringOperationSpec
+      listByPeeringOperationSpec,
     );
   }
 
@@ -219,11 +206,11 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
     resourceGroupName: string,
     peeringName: string,
     nextLink: string,
-    options?: RegisteredAsnsListByPeeringNextOptionalParams
+    options?: RegisteredAsnsListByPeeringNextOptionalParams,
   ): Promise<RegisteredAsnsListByPeeringNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, nextLink, options },
-      listByPeeringNextOperationSpec
+      listByPeeringNextOperationSpec,
     );
   }
 }
@@ -231,16 +218,15 @@ export class RegisteredAsnsImpl implements RegisteredAsns {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredAsn
+      bodyMapper: Mappers.PeeringRegisteredAsn,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -248,25 +234,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredAsnName
+    Parameters.registeredAsnName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredAsn
+      bodyMapper: Mappers.PeeringRegisteredAsn,
     },
     201: {
-      bodyMapper: Mappers.PeeringRegisteredAsn
+      bodyMapper: Mappers.PeeringRegisteredAsn,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.registeredAsn,
   queryParameters: [Parameters.apiVersion],
@@ -275,22 +260,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredAsnName
+    Parameters.registeredAsnName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns/{registeredAsnName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -298,52 +282,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredAsnName
+    Parameters.registeredAsnName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredAsns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredAsnListResult
+      bodyMapper: Mappers.PeeringRegisteredAsnListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredAsnListResult
+      bodyMapper: Mappers.PeeringRegisteredAsnListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

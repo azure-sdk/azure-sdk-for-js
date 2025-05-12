@@ -14,7 +14,7 @@ import {
   PrefixesGetResponse,
   PrefixesCreateOrUpdateOptionalParams,
   PrefixesCreateOrUpdateResponse,
-  PrefixesDeleteOptionalParams
+  PrefixesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Prefixes {
   listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: PrefixesListByPeeringServiceOptionalParams
+    options?: PrefixesListByPeeringServiceOptionalParams,
   ): PagedAsyncIterableIterator<PeeringServicePrefix>;
   /**
    * Gets an existing prefix with the specified name under the given subscription, resource group and
@@ -43,7 +43,7 @@ export interface Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     prefixName: string,
-    options?: PrefixesGetOptionalParams
+    options?: PrefixesGetOptionalParams,
   ): Promise<PrefixesGetResponse>;
   /**
    * Creates a new prefix with the specified name under the given subscription, resource group and
@@ -59,7 +59,7 @@ export interface Prefixes {
     peeringServiceName: string,
     prefixName: string,
     peeringServicePrefix: PeeringServicePrefix,
-    options?: PrefixesCreateOrUpdateOptionalParams
+    options?: PrefixesCreateOrUpdateOptionalParams,
   ): Promise<PrefixesCreateOrUpdateResponse>;
   /**
    * Deletes an existing prefix with the specified name under the given subscription, resource group and
@@ -73,6 +73,6 @@ export interface Prefixes {
     resourceGroupName: string,
     peeringServiceName: string,
     prefixName: string,
-    options?: PrefixesDeleteOptionalParams
+    options?: PrefixesDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -18,7 +18,7 @@ import {
   PeeringServiceLocationsListNextOptionalParams,
   PeeringServiceLocationsListOptionalParams,
   PeeringServiceLocationsListResponse,
-  PeeringServiceLocationsListNextResponse
+  PeeringServiceLocationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export class PeeringServiceLocationsImpl implements PeeringServiceLocations {
    * @param options The options parameters.
    */
   public list(
-    options?: PeeringServiceLocationsListOptionalParams
+    options?: PeeringServiceLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<PeeringServiceLocation> {
     const iter = this.listPagingAll(options);
     return {
@@ -54,13 +54,13 @@ export class PeeringServiceLocationsImpl implements PeeringServiceLocations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: PeeringServiceLocationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringServiceLocation[]> {
     let result: PeeringServiceLocationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -81,7 +81,7 @@ export class PeeringServiceLocationsImpl implements PeeringServiceLocations {
   }
 
   private async *listPagingAll(
-    options?: PeeringServiceLocationsListOptionalParams
+    options?: PeeringServiceLocationsListOptionalParams,
   ): AsyncIterableIterator<PeeringServiceLocation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -93,7 +93,7 @@ export class PeeringServiceLocationsImpl implements PeeringServiceLocations {
    * @param options The options parameters.
    */
   private _list(
-    options?: PeeringServiceLocationsListOptionalParams
+    options?: PeeringServiceLocationsListOptionalParams,
   ): Promise<PeeringServiceLocationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -105,51 +105,42 @@ export class PeeringServiceLocationsImpl implements PeeringServiceLocations {
    */
   private _listNext(
     nextLink: string,
-    options?: PeeringServiceLocationsListNextOptionalParams
+    options?: PeeringServiceLocationsListNextOptionalParams,
   ): Promise<PeeringServiceLocationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceLocations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringServiceLocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.PeeringServiceLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.country],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringServiceLocationListResult
+      bodyMapper: Mappers.PeeringServiceLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.country],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

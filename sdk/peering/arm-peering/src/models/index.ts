@@ -134,6 +134,10 @@ export interface DirectConnection {
   readonly connectionState?: ConnectionState;
   /** The BGP session associated with the connection. */
   bgpSession?: BgpSession;
+  /** The old V4 BGP session associated with the connection during migration on the same device. Will be used for Work-Window validation */
+  migrationWorkWindowBgpSessionSameDevice?: { [propertyName: string]: Enum11 };
+  /** Gets or sets the time corresponding to when the connection was last set to ProvisioningFailed. */
+  lastFailureTimeUtc?: Date;
   /** The unique identifier (GUID) for the connection. */
   connectionIdentifier?: string;
   /**
@@ -141,6 +145,10 @@ export interface DirectConnection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
+  /** The previous connection provisioning state, used to resume provisioning after connection has been blocked. */
+  previousConnectionProvisioningState?: PreviousConnectionProvisioningState;
+  /** Gets or sets the migration work window tracker. Format = "DateTime String Format|WorkWindowInitiator Email ID" */
+  migrationWorkWindowTracker?: string;
 }
 
 /** The properties that define a BGP session. */
@@ -200,6 +208,10 @@ export interface ExchangeConnection {
   readonly connectionState?: ConnectionState;
   /** The BGP session associated with the connection. */
   bgpSession?: BgpSession;
+  /** The old V4 BGP session associated with the connection during migration on the same device. Will be used for Work-Window validation */
+  migrationWorkWindowBgpSessionSameDevice?: { [propertyName: string]: Enum13 };
+  /** Gets or sets the time corresponding to when the connection was last set to ProvisioningFailed. */
+  lastFailureTimeUtc?: Date;
   /** The unique identifier (GUID) for the connection. */
   connectionIdentifier?: string;
   /**
@@ -207,6 +219,42 @@ export interface ExchangeConnection {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
+  /** The previous connection provisioning state, used to resume provisioning after connection has been blocked. */
+  previousConnectionProvisioningState?: PreviousConnectionProvisioningState;
+  /** Gets or sets the migration work window tracker. Format = "DateTime String Format|WorkWindowInitiator Email ID" */
+  migrationWorkWindowTracker?: string;
+}
+
+/**
+ * Represents a connectivity probe, a configuration peers can add to direct and exchange peerings to create ping tests. These ping
+ * tests will allow us to generate availability, jitter, and latency data for traffic (using ICMP or TCP) from Azure to an endpoint
+ * IP address given by the customer. This data will be emitted such that the peer can view these metrics in the Azure portal in the
+ * Connectivity probe blade of their peering.
+ */
+export interface ConnectivityProbe {
+  /**
+   * The endpoint IP address where traffic will be sent to from Azure.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpoint?: string;
+  /**
+   * The Azure region where traffic will originate from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureRegion?: string;
+  /**
+   * The protocol of the traffic that will be sent.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protocol?: Protocol;
+  /**
+   * Set to contain the prefixes that agents in Azure will send traffic from. For peers to allow into their
+   * network the connectivity probe traffic can reach their endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prefixesToAccesslist?: string[];
+  /** Time when {Microsoft.Peering.PeeringContract.Public.Data.ConnectivityProbe} was created in UTC. */
+  createdTimeUtc?: Date;
 }
 
 /** Looking glass output model */
@@ -484,11 +532,11 @@ export interface PeeringReceivedRoute {
   readonly receivedTimestamp?: string;
 }
 
-/** The paginated list of [T]. */
+/** The paginated list of Connection Monitor Tests. */
 export interface ConnectionMonitorTestListResult {
-  /** The list of [T]. */
+  /** The list of Connection Monitor Tests. */
   value?: ConnectionMonitorTest[];
-  /** The link to fetch the next page of [T]. */
+  /** The link to fetch the next page of Connection Monitor Tests. */
   nextLink?: string;
 }
 
@@ -586,6 +634,33 @@ export interface PeeringServiceListResult {
   nextLink?: string;
 }
 
+/** The paginated list of RP unbilled prefixes. */
+export interface RpUnbilledPrefixListResult {
+  /** The list of RP unbilled prefixes. */
+  value?: RpUnbilledPrefix[];
+  /** The link to fetch the next page of RP unbilled prefixes. */
+  nextLink?: string;
+}
+
+/** The Routing Preference unbilled prefix */
+export interface RpUnbilledPrefix {
+  /**
+   * The prefix.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly prefix?: string;
+  /**
+   * The Azure region.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azureRegion?: string;
+  /**
+   * The peer ASN.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly peerAsn?: number;
+}
+
 /** The CDN peering prefix */
 export interface CdnPeeringPrefix extends Resource {
   /**
@@ -629,6 +704,8 @@ export interface Peering extends Resource {
   direct?: PeeringPropertiesDirect;
   /** The properties that define an exchange peering. */
   exchange?: PeeringPropertiesExchange;
+  /** The connectivity probes associated with the peering. */
+  connectivityProbes?: ConnectivityProbe[];
   /** The location of the peering. */
   peeringLocation?: string;
   /**
@@ -827,7 +904,7 @@ export enum KnownEnum0 {
   /** Available */
   Available = "Available",
   /** Unavailable */
-  Unavailable = "Unavailable"
+  Unavailable = "Unavailable",
 }
 
 /**
@@ -845,7 +922,7 @@ export enum KnownLegacyPeeringsKind {
   /** Direct */
   Direct = "Direct",
   /** Exchange */
-  Exchange = "Exchange"
+  Exchange = "Exchange",
 }
 
 /**
@@ -858,12 +935,51 @@ export enum KnownLegacyPeeringsKind {
  */
 export type LegacyPeeringsKind = string;
 
+/** Known values of {@link DirectPeeringType} that the service accepts. */
+export enum KnownDirectPeeringType {
+  /** Edge */
+  Edge = "Edge",
+  /** Transit */
+  Transit = "Transit",
+  /** Cdn */
+  Cdn = "Cdn",
+  /** Internal */
+  Internal = "Internal",
+  /** Ix */
+  Ix = "Ix",
+  /** IxRs */
+  IxRs = "IxRs",
+  /** Voice */
+  Voice = "Voice",
+  /** EdgeZoneForOperators */
+  EdgeZoneForOperators = "EdgeZoneForOperators",
+  /** PeerProp */
+  PeerProp = "PeerProp",
+}
+
+/**
+ * Defines values for DirectPeeringType. \
+ * {@link KnownDirectPeeringType} can be used interchangeably with DirectPeeringType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Edge** \
+ * **Transit** \
+ * **Cdn** \
+ * **Internal** \
+ * **Ix** \
+ * **IxRs** \
+ * **Voice** \
+ * **EdgeZoneForOperators** \
+ * **PeerProp**
+ */
+export type DirectPeeringType = string;
+
 /** Known values of {@link Tier} that the service accepts. */
 export enum KnownTier {
   /** Basic */
   Basic = "Basic",
   /** Premium */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -881,7 +997,7 @@ export enum KnownFamily {
   /** Direct */
   Direct = "Direct",
   /** Exchange */
-  Exchange = "Exchange"
+  Exchange = "Exchange",
 }
 
 /**
@@ -901,7 +1017,7 @@ export enum KnownSize {
   /** Metered */
   Metered = "Metered",
   /** Unlimited */
-  Unlimited = "Unlimited"
+  Unlimited = "Unlimited",
 }
 
 /**
@@ -920,7 +1036,7 @@ export enum KnownKind {
   /** Direct */
   Direct = "Direct",
   /** Exchange */
-  Exchange = "Exchange"
+  Exchange = "Exchange",
 }
 
 /**
@@ -938,7 +1054,7 @@ export enum KnownSessionAddressProvider {
   /** Microsoft */
   Microsoft = "Microsoft",
   /** Peer */
-  Peer = "Peer"
+  Peer = "Peer",
 }
 
 /**
@@ -968,7 +1084,13 @@ export enum KnownConnectionState {
   /** Validating */
   Validating = "Validating",
   /** Active */
-  Active = "Active"
+  Active = "Active",
+  /** TypeChangeRequested */
+  TypeChangeRequested = "TypeChangeRequested",
+  /** TypeChangeInProgress */
+  TypeChangeInProgress = "TypeChangeInProgress",
+  /** ExternalBlocker */
+  ExternalBlocker = "ExternalBlocker",
 }
 
 /**
@@ -983,7 +1105,10 @@ export enum KnownConnectionState {
  * **ProvisioningFailed** \
  * **ProvisioningCompleted** \
  * **Validating** \
- * **Active**
+ * **Active** \
+ * **TypeChangeRequested** \
+ * **TypeChangeInProgress** \
+ * **ExternalBlocker**
  */
 export type ConnectionState = string;
 
@@ -1010,7 +1135,7 @@ export enum KnownSessionStateV4 {
   /** PendingUpdate */
   PendingUpdate = "PendingUpdate",
   /** PendingRemove */
-  PendingRemove = "PendingRemove"
+  PendingRemove = "PendingRemove",
 }
 
 /**
@@ -1055,7 +1180,7 @@ export enum KnownSessionStateV6 {
   /** PendingUpdate */
   PendingUpdate = "PendingUpdate",
   /** PendingRemove */
-  PendingRemove = "PendingRemove"
+  PendingRemove = "PendingRemove",
 }
 
 /**
@@ -1077,38 +1202,434 @@ export enum KnownSessionStateV6 {
  */
 export type SessionStateV6 = string;
 
-/** Known values of {@link DirectPeeringType} that the service accepts. */
-export enum KnownDirectPeeringType {
-  /** Edge */
-  Edge = "Edge",
-  /** Transit */
-  Transit = "Transit",
-  /** Cdn */
-  Cdn = "Cdn",
-  /** Internal */
-  Internal = "Internal",
-  /** Ix */
-  Ix = "Ix",
-  /** IxRs */
-  IxRs = "IxRs",
-  /** Voice */
-  Voice = "Voice"
+/** Known values of {@link Enum11} that the service accepts. */
+export enum KnownEnum11 {
+  /** None */
+  None = "None",
+  /** Idle */
+  Idle = "Idle",
+  /** Connect */
+  Connect = "Connect",
+  /** Active */
+  Active = "Active",
+  /** OpenSent */
+  OpenSent = "OpenSent",
+  /** OpenConfirm */
+  OpenConfirm = "OpenConfirm",
+  /** OpenReceived */
+  OpenReceived = "OpenReceived",
+  /** Established */
+  Established = "Established",
+  /** PendingAdd */
+  PendingAdd = "PendingAdd",
+  /** PendingUpdate */
+  PendingUpdate = "PendingUpdate",
+  /** PendingRemove */
+  PendingRemove = "PendingRemove",
 }
 
 /**
- * Defines values for DirectPeeringType. \
- * {@link KnownDirectPeeringType} can be used interchangeably with DirectPeeringType,
+ * Defines values for Enum11. \
+ * {@link KnownEnum11} can be used interchangeably with Enum11,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Edge** \
- * **Transit** \
- * **Cdn** \
- * **Internal** \
- * **Ix** \
- * **IxRs** \
- * **Voice**
+ * **None** \
+ * **Idle** \
+ * **Connect** \
+ * **Active** \
+ * **OpenSent** \
+ * **OpenConfirm** \
+ * **OpenReceived** \
+ * **Established** \
+ * **PendingAdd** \
+ * **PendingUpdate** \
+ * **PendingRemove**
  */
-export type DirectPeeringType = string;
+export type Enum11 = string;
+
+/** Known values of {@link PreviousConnectionProvisioningState} that the service accepts. */
+export enum KnownPreviousConnectionProvisioningState {
+  /** None */
+  None = "None",
+  /** InterconnectionPendingApproval */
+  InterconnectionPendingApproval = "InterconnectionPendingApproval",
+  /** DeviceStateValidation */
+  DeviceStateValidation = "DeviceStateValidation",
+  /** RocPendingApproval */
+  RocPendingApproval = "RocPendingApproval",
+  /** AllocatePorts */
+  AllocatePorts = "AllocatePorts",
+  /** PortExhaustion */
+  PortExhaustion = "PortExhaustion",
+  /** CheckInterfaces */
+  CheckInterfaces = "CheckInterfaces",
+  /** EnableInterfaces */
+  EnableInterfaces = "EnableInterfaces",
+  /** PhysicalConnectionSetup */
+  PhysicalConnectionSetup = "PhysicalConnectionSetup",
+  /** AwaitPairUpgrade */
+  AwaitPairUpgrade = "AwaitPairUpgrade",
+  /** LightCheck */
+  LightCheck = "LightCheck",
+  /** TestPing */
+  TestPing = "TestPing",
+  /** PingTestDone */
+  PingTestDone = "PingTestDone",
+  /** AwaitPeerIps */
+  AwaitPeerIps = "AwaitPeerIps",
+  /** ValidateFltFirewall */
+  ValidateFltFirewall = "ValidateFltFirewall",
+  /** LagSetup */
+  LagSetup = "LagSetup",
+  /** AwaitLagCompletion */
+  AwaitLagCompletion = "AwaitLagCompletion",
+  /** UpdateAddressesOnDevice */
+  UpdateAddressesOnDevice = "UpdateAddressesOnDevice",
+  /** FetchPrefixLimitFromPeeringDb */
+  FetchPrefixLimitFromPeeringDb = "FetchPrefixLimitFromPeeringDb",
+  /** BgpSessionConfiguration */
+  BgpSessionConfiguration = "BgpSessionConfiguration",
+  /** NpmBgpSessionConfiguration */
+  NpmBgpSessionConfiguration = "NpmBgpSessionConfiguration",
+  /** Md5AuthKeyConfiguration */
+  Md5AuthKeyConfiguration = "Md5AuthKeyConfiguration",
+  /** FetchSessionState */
+  FetchSessionState = "FetchSessionState",
+  /** RemoveNomonit */
+  RemoveNomonit = "RemoveNomonit",
+  /** UpdateApipaPrefixInSitepro */
+  UpdateApipaPrefixInSitepro = "UpdateApipaPrefixInSitepro",
+  /** ProvisioningCompleted */
+  ProvisioningCompleted = "ProvisioningCompleted",
+  /** PendingMigration */
+  PendingMigration = "PendingMigration",
+  /** MigrationRequestPortAllocationRequested */
+  MigrationRequestPortAllocationRequested = "MigrationRequestPortAllocationRequested",
+  /** MigrationConfigValidation */
+  MigrationConfigValidation = "MigrationConfigValidation",
+  /** PendingGlobalPolicyUpdate */
+  PendingGlobalPolicyUpdate = "PendingGlobalPolicyUpdate",
+  /** MigrationSpecificConfigDrift */
+  MigrationSpecificConfigDrift = "MigrationSpecificConfigDrift",
+  /** MigrationNpmError */
+  MigrationNpmError = "MigrationNpmError",
+  /** PendingWorkWindow */
+  PendingWorkWindow = "PendingWorkWindow",
+  /** ExternalBlocker */
+  ExternalBlocker = "ExternalBlocker",
+  /** StaticMacConfiguration */
+  StaticMacConfiguration = "StaticMacConfiguration",
+  /** UndoMigrationGraphCleanup */
+  UndoMigrationGraphCleanup = "UndoMigrationGraphCleanup",
+  /** MigrationWorkWindow */
+  MigrationWorkWindow = "MigrationWorkWindow",
+  /** PendingMigrationCompletion */
+  PendingMigrationCompletion = "PendingMigrationCompletion",
+  /** MigrationCompletionRequested */
+  MigrationCompletionRequested = "MigrationCompletionRequested",
+  /** DirectPeeringTypeUpdateApproved */
+  DirectPeeringTypeUpdateApproved = "DirectPeeringTypeUpdateApproved",
+  /** DirectPeeringTypeUpdateRejected */
+  DirectPeeringTypeUpdateRejected = "DirectPeeringTypeUpdateRejected",
+  /** DirectPeeringTypeUpdateIfDescription */
+  DirectPeeringTypeUpdateIfDescription = "DirectPeeringTypeUpdateIfDescription",
+  /** DirectPeeringTypeUpdatePrefixPrecheck */
+  DirectPeeringTypeUpdatePrefixPrecheck = "DirectPeeringTypeUpdatePrefixPrecheck",
+  /** DirectPeeringTypeUpdateApplyDenyAll */
+  DirectPeeringTypeUpdateApplyDenyAll = "DirectPeeringTypeUpdateApplyDenyAll",
+  /** DirectPeeringTypeUpdateDeleteSession */
+  DirectPeeringTypeUpdateDeleteSession = "DirectPeeringTypeUpdateDeleteSession",
+  /** DirectPeeringTypeUpdateLagAcl */
+  DirectPeeringTypeUpdateLagAcl = "DirectPeeringTypeUpdateLagAcl",
+  /** DirectPeeringTypeUpdateBgpConfig */
+  DirectPeeringTypeUpdateBgpConfig = "DirectPeeringTypeUpdateBgpConfig",
+  /** DirectPeeringTypeUpdateFetchSessionState */
+  DirectPeeringTypeUpdateFetchSessionState = "DirectPeeringTypeUpdateFetchSessionState",
+  /** DirectPeeringTypeUpdateDeleteDenyAll */
+  DirectPeeringTypeUpdateDeleteDenyAll = "DirectPeeringTypeUpdateDeleteDenyAll",
+  /** DirectPeeringTypeUpdatePrefixPostCheck */
+  DirectPeeringTypeUpdatePrefixPostCheck = "DirectPeeringTypeUpdatePrefixPostCheck",
+  /** DecomRocPendingApproval */
+  DecomRocPendingApproval = "DecomRocPendingApproval",
+  /** DecomAddDenyAll */
+  DecomAddDenyAll = "DecomAddDenyAll",
+  /** DecomValidatePrefix */
+  DecomValidatePrefix = "DecomValidatePrefix",
+  /** DecomValidateTraffic */
+  DecomValidateTraffic = "DecomValidateTraffic",
+  /** DecomShutInterfaces */
+  DecomShutInterfaces = "DecomShutInterfaces",
+  /** DecomShutdownBgp */
+  DecomShutdownBgp = "DecomShutdownBgp",
+  /** DecomCabling */
+  DecomCabling = "DecomCabling",
+  /** DecomRemoveBgpConfig */
+  DecomRemoveBgpConfig = "DecomRemoveBgpConfig",
+  /** DecomRemoveInterfaceConfig */
+  DecomRemoveInterfaceConfig = "DecomRemoveInterfaceConfig",
+  /** DecomGraphCleanup */
+  DecomGraphCleanup = "DecomGraphCleanup",
+  /** DecomCompleted */
+  DecomCompleted = "DecomCompleted",
+  /** DirectPeeringTypeUpdateMd5AuthKeyConfiguration */
+  DirectPeeringTypeUpdateMd5AuthKeyConfiguration = "DirectPeeringTypeUpdateMd5AuthKeyConfiguration",
+  /** BfdConfiguration */
+  BfdConfiguration = "BfdConfiguration",
+  /** DirectPeeringTypeUpdateBfdConfig */
+  DirectPeeringTypeUpdateBfdConfig = "DirectPeeringTypeUpdateBfdConfig",
+  /** DirectPeeringTypeUpdateMd5AuthKeyRead */
+  DirectPeeringTypeUpdateMd5AuthKeyRead = "DirectPeeringTypeUpdateMd5AuthKeyRead",
+  /** PrefixListConfiguration */
+  PrefixListConfiguration = "PrefixListConfiguration",
+  /** WorkWindowCompleted */
+  WorkWindowCompleted = "WorkWindowCompleted",
+  /** FacilityMapValidation */
+  FacilityMapValidation = "FacilityMapValidation",
+  /** DirectPeeringTypeUpdateReadMaxPrefixLimit */
+  DirectPeeringTypeUpdateReadMaxPrefixLimit = "DirectPeeringTypeUpdateReadMaxPrefixLimit",
+  /** DirectPeeringTypeUpdateUpdatePortWithNewIP */
+  DirectPeeringTypeUpdateUpdatePortWithNewIP = "DirectPeeringTypeUpdateUpdatePortWithNewIP",
+  /** DirectPeeringTypeUpdateConfigureLagWithNewIP */
+  DirectPeeringTypeUpdateConfigureLagWithNewIP = "DirectPeeringTypeUpdateConfigureLagWithNewIP",
+  /** DirectPeeringTypeUpdateCleanupOldIPsfromLAG */
+  DirectPeeringTypeUpdateCleanupOldIPsfromLAG = "DirectPeeringTypeUpdateCleanupOldIPsfromLAG",
+  /** MapsToMapsVoiceUpdateIfDescription */
+  MapsToMapsVoiceUpdateIfDescription = "MapsToMapsVoiceUpdateIfDescription",
+  /** MapsToMapsVoicePrefixPrecheck */
+  MapsToMapsVoicePrefixPrecheck = "MapsToMapsVoicePrefixPrecheck",
+  /** MapsToMapsVoiceUpdateLAGAcl */
+  MapsToMapsVoiceUpdateLAGAcl = "MapsToMapsVoiceUpdateLAGAcl",
+  /** MapsToMapsVoiceConfigureBFD */
+  MapsToMapsVoiceConfigureBFD = "MapsToMapsVoiceConfigureBFD",
+  /** MapsToMapsVoiceFetchSessionState */
+  MapsToMapsVoiceFetchSessionState = "MapsToMapsVoiceFetchSessionState",
+  /** MapsToMapsVoicePrefixPostCheck */
+  MapsToMapsVoicePrefixPostCheck = "MapsToMapsVoicePrefixPostCheck",
+  /** BgpGroupChangeRocPendingApproval */
+  BgpGroupChangeRocPendingApproval = "BgpGroupChangeRocPendingApproval",
+  /** BgpGroupChangeWorkWindow */
+  BgpGroupChangeWorkWindow = "BgpGroupChangeWorkWindow",
+  /** IPChangeWorkWindow */
+  IPChangeWorkWindow = "IPChangeWorkWindow",
+  /** PendingASNChangeApplyDenyALL */
+  PendingASNChangeApplyDenyALL = "PendingASNChangeApplyDenyALL",
+  /** PendingASNChangeUpdateNeighborConfig */
+  PendingASNChangeUpdateNeighborConfig = "PendingASNChangeUpdateNeighborConfig",
+  /** PendingASNChangeRemoveDenyALL */
+  PendingASNChangeRemoveDenyALL = "PendingASNChangeRemoveDenyALL",
+  /** PendingASNChangeUpdateInterfaceDescription */
+  PendingASNChangeUpdateInterfaceDescription = "PendingASNChangeUpdateInterfaceDescription",
+  /** UpdateGraphForASNChange */
+  UpdateGraphForASNChange = "UpdateGraphForASNChange",
+  /** UpdatePeeringForASNChange */
+  UpdatePeeringForASNChange = "UpdatePeeringForASNChange",
+  /** AddDenyAllRocPendingApproval */
+  AddDenyAllRocPendingApproval = "AddDenyAllRocPendingApproval",
+  /** AwaitApplyDenyAll */
+  AwaitApplyDenyAll = "AwaitApplyDenyAll",
+  /** IPChangeValidation */
+  IPChangeValidation = "IPChangeValidation",
+  /** IPChangeCleanup */
+  IPChangeCleanup = "IPChangeCleanup",
+  /** ForcedIpChangeCleanup */
+  ForcedIpChangeCleanup = "ForcedIpChangeCleanup",
+  /** ForcedIpChangeCleanupWithActiveSessions */
+  ForcedIpChangeCleanupWithActiveSessions = "ForcedIpChangeCleanupWithActiveSessions",
+  /** IPChangeInitiate */
+  IPChangeInitiate = "IPChangeInitiate",
+  /** IPChangeLag */
+  IPChangeLag = "IPChangeLag",
+  /** IPChangeBgpUpdate */
+  IPChangeBgpUpdate = "IPChangeBgpUpdate",
+  /** IPChangeMd5Configuration */
+  IPChangeMd5Configuration = "IPChangeMd5Configuration",
+  /** IPChangeApplyDenyAll */
+  IPChangeApplyDenyAll = "IPChangeApplyDenyAll",
+  /** IPChangeRemoveDenyAll */
+  IPChangeRemoveDenyAll = "IPChangeRemoveDenyAll",
+  /** IPChangeValidateSessions */
+  IPChangeValidateSessions = "IPChangeValidateSessions",
+  /** ACLConfiguration */
+  ACLConfiguration = "ACLConfiguration",
+  /** PendingSpecialWorkItem */
+  PendingSpecialWorkItem = "PendingSpecialWorkItem",
+}
+
+/**
+ * Defines values for PreviousConnectionProvisioningState. \
+ * {@link KnownPreviousConnectionProvisioningState} can be used interchangeably with PreviousConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **InterconnectionPendingApproval** \
+ * **DeviceStateValidation** \
+ * **RocPendingApproval** \
+ * **AllocatePorts** \
+ * **PortExhaustion** \
+ * **CheckInterfaces** \
+ * **EnableInterfaces** \
+ * **PhysicalConnectionSetup** \
+ * **AwaitPairUpgrade** \
+ * **LightCheck** \
+ * **TestPing** \
+ * **PingTestDone** \
+ * **AwaitPeerIps** \
+ * **ValidateFltFirewall** \
+ * **LagSetup** \
+ * **AwaitLagCompletion** \
+ * **UpdateAddressesOnDevice** \
+ * **FetchPrefixLimitFromPeeringDb** \
+ * **BgpSessionConfiguration** \
+ * **NpmBgpSessionConfiguration** \
+ * **Md5AuthKeyConfiguration** \
+ * **FetchSessionState** \
+ * **RemoveNomonit** \
+ * **UpdateApipaPrefixInSitepro** \
+ * **ProvisioningCompleted** \
+ * **PendingMigration** \
+ * **MigrationRequestPortAllocationRequested** \
+ * **MigrationConfigValidation** \
+ * **PendingGlobalPolicyUpdate** \
+ * **MigrationSpecificConfigDrift** \
+ * **MigrationNpmError** \
+ * **PendingWorkWindow** \
+ * **ExternalBlocker** \
+ * **StaticMacConfiguration** \
+ * **UndoMigrationGraphCleanup** \
+ * **MigrationWorkWindow** \
+ * **PendingMigrationCompletion** \
+ * **MigrationCompletionRequested** \
+ * **DirectPeeringTypeUpdateApproved** \
+ * **DirectPeeringTypeUpdateRejected** \
+ * **DirectPeeringTypeUpdateIfDescription** \
+ * **DirectPeeringTypeUpdatePrefixPrecheck** \
+ * **DirectPeeringTypeUpdateApplyDenyAll** \
+ * **DirectPeeringTypeUpdateDeleteSession** \
+ * **DirectPeeringTypeUpdateLagAcl** \
+ * **DirectPeeringTypeUpdateBgpConfig** \
+ * **DirectPeeringTypeUpdateFetchSessionState** \
+ * **DirectPeeringTypeUpdateDeleteDenyAll** \
+ * **DirectPeeringTypeUpdatePrefixPostCheck** \
+ * **DecomRocPendingApproval** \
+ * **DecomAddDenyAll** \
+ * **DecomValidatePrefix** \
+ * **DecomValidateTraffic** \
+ * **DecomShutInterfaces** \
+ * **DecomShutdownBgp** \
+ * **DecomCabling** \
+ * **DecomRemoveBgpConfig** \
+ * **DecomRemoveInterfaceConfig** \
+ * **DecomGraphCleanup** \
+ * **DecomCompleted** \
+ * **DirectPeeringTypeUpdateMd5AuthKeyConfiguration** \
+ * **BfdConfiguration** \
+ * **DirectPeeringTypeUpdateBfdConfig** \
+ * **DirectPeeringTypeUpdateMd5AuthKeyRead** \
+ * **PrefixListConfiguration** \
+ * **WorkWindowCompleted** \
+ * **FacilityMapValidation** \
+ * **DirectPeeringTypeUpdateReadMaxPrefixLimit** \
+ * **DirectPeeringTypeUpdateUpdatePortWithNewIP** \
+ * **DirectPeeringTypeUpdateConfigureLagWithNewIP** \
+ * **DirectPeeringTypeUpdateCleanupOldIPsfromLAG** \
+ * **MapsToMapsVoiceUpdateIfDescription** \
+ * **MapsToMapsVoicePrefixPrecheck** \
+ * **MapsToMapsVoiceUpdateLAGAcl** \
+ * **MapsToMapsVoiceConfigureBFD** \
+ * **MapsToMapsVoiceFetchSessionState** \
+ * **MapsToMapsVoicePrefixPostCheck** \
+ * **BgpGroupChangeRocPendingApproval** \
+ * **BgpGroupChangeWorkWindow** \
+ * **IPChangeWorkWindow** \
+ * **PendingASNChangeApplyDenyALL** \
+ * **PendingASNChangeUpdateNeighborConfig** \
+ * **PendingASNChangeRemoveDenyALL** \
+ * **PendingASNChangeUpdateInterfaceDescription** \
+ * **UpdateGraphForASNChange** \
+ * **UpdatePeeringForASNChange** \
+ * **AddDenyAllRocPendingApproval** \
+ * **AwaitApplyDenyAll** \
+ * **IPChangeValidation** \
+ * **IPChangeCleanup** \
+ * **ForcedIpChangeCleanup** \
+ * **ForcedIpChangeCleanupWithActiveSessions** \
+ * **IPChangeInitiate** \
+ * **IPChangeLag** \
+ * **IPChangeBgpUpdate** \
+ * **IPChangeMd5Configuration** \
+ * **IPChangeApplyDenyAll** \
+ * **IPChangeRemoveDenyAll** \
+ * **IPChangeValidateSessions** \
+ * **ACLConfiguration** \
+ * **PendingSpecialWorkItem**
+ */
+export type PreviousConnectionProvisioningState = string;
+
+/** Known values of {@link Enum13} that the service accepts. */
+export enum KnownEnum13 {
+  /** None */
+  None = "None",
+  /** Idle */
+  Idle = "Idle",
+  /** Connect */
+  Connect = "Connect",
+  /** Active */
+  Active = "Active",
+  /** OpenSent */
+  OpenSent = "OpenSent",
+  /** OpenConfirm */
+  OpenConfirm = "OpenConfirm",
+  /** OpenReceived */
+  OpenReceived = "OpenReceived",
+  /** Established */
+  Established = "Established",
+  /** PendingAdd */
+  PendingAdd = "PendingAdd",
+  /** PendingUpdate */
+  PendingUpdate = "PendingUpdate",
+  /** PendingRemove */
+  PendingRemove = "PendingRemove",
+}
+
+/**
+ * Defines values for Enum13. \
+ * {@link KnownEnum13} can be used interchangeably with Enum13,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Idle** \
+ * **Connect** \
+ * **Active** \
+ * **OpenSent** \
+ * **OpenConfirm** \
+ * **OpenReceived** \
+ * **Established** \
+ * **PendingAdd** \
+ * **PendingUpdate** \
+ * **PendingRemove**
+ */
+export type Enum13 = string;
+
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** None */
+  None = "None",
+  /** Icmp */
+  Icmp = "ICMP",
+  /** TCP */
+  TCP = "TCP",
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ICMP** \
+ * **TCP**
+ */
+export type Protocol = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -1119,7 +1640,7 @@ export enum KnownProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1141,7 +1662,7 @@ export enum KnownLookingGlassCommand {
   /** Ping */
   Ping = "Ping",
   /** BgpRoute */
-  BgpRoute = "BgpRoute"
+  BgpRoute = "BgpRoute",
 }
 
 /**
@@ -1160,7 +1681,7 @@ export enum KnownLookingGlassSourceType {
   /** EdgeSite */
   EdgeSite = "EdgeSite",
   /** AzureRegion */
-  AzureRegion = "AzureRegion"
+  AzureRegion = "AzureRegion",
 }
 
 /**
@@ -1180,7 +1701,7 @@ export enum KnownCommand {
   /** Ping */
   Ping = "Ping",
   /** BgpRoute */
-  BgpRoute = "BgpRoute"
+  BgpRoute = "BgpRoute",
 }
 
 /**
@@ -1207,7 +1728,7 @@ export enum KnownRole {
   /** Escalation */
   Escalation = "Escalation",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -1233,7 +1754,7 @@ export enum KnownValidationState {
   /** Approved */
   Approved = "Approved",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1253,7 +1774,7 @@ export enum KnownPeeringLocationsKind {
   /** Direct */
   Direct = "Direct",
   /** Exchange */
-  Exchange = "Exchange"
+  Exchange = "Exchange",
 }
 
 /**
@@ -1281,7 +1802,11 @@ export enum KnownPeeringLocationsDirectPeeringType {
   /** IxRs */
   IxRs = "IxRs",
   /** Voice */
-  Voice = "Voice"
+  Voice = "Voice",
+  /** EdgeZoneForOperators */
+  EdgeZoneForOperators = "EdgeZoneForOperators",
+  /** PeerProp */
+  PeerProp = "PeerProp",
 }
 
 /**
@@ -1295,7 +1820,9 @@ export enum KnownPeeringLocationsDirectPeeringType {
  * **Internal** \
  * **Ix** \
  * **IxRs** \
- * **Voice**
+ * **Voice** \
+ * **EdgeZoneForOperators** \
+ * **PeerProp**
  */
 export type PeeringLocationsDirectPeeringType = string;
 
@@ -1314,7 +1841,7 @@ export enum KnownPrefixValidationState {
   /** Warning */
   Warning = "Warning",
   /** Unknown */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -1339,7 +1866,7 @@ export enum KnownLearnedType {
   /** ViaServiceProvider */
   ViaServiceProvider = "ViaServiceProvider",
   /** ViaSession */
-  ViaSession = "ViaSession"
+  ViaSession = "ViaSession",
 }
 
 /**
@@ -1354,15 +1881,13 @@ export enum KnownLearnedType {
 export type LearnedType = string;
 
 /** Optional parameters. */
-export interface CdnPeeringPrefixesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CdnPeeringPrefixesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CdnPeeringPrefixesListResponse = CdnPeeringPrefixListResult;
 
 /** Optional parameters. */
-export interface CdnPeeringPrefixesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CdnPeeringPrefixesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CdnPeeringPrefixesListNextResponse = CdnPeeringPrefixListResult;
@@ -1378,81 +1903,69 @@ export type CheckServiceProviderAvailabilityResponse = {
 };
 
 /** Optional parameters. */
-export interface LegacyPeeringsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface LegacyPeeringsListOptionalParams extends coreClient.OperationOptions {
   /** The ASN number associated with a legacy peering. */
   asn?: number;
+  /** The direct peering type. */
+  directPeeringType?: DirectPeeringType;
 }
 
 /** Contains response data for the list operation. */
 export type LegacyPeeringsListResponse = PeeringListResult;
 
 /** Optional parameters. */
-export interface LegacyPeeringsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The ASN number associated with a legacy peering. */
-  asn?: number;
-}
+export interface LegacyPeeringsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type LegacyPeeringsListNextResponse = PeeringListResult;
 
 /** Optional parameters. */
-export interface LookingGlassInvokeOptionalParams
-  extends coreClient.OperationOptions {}
+export interface LookingGlassInvokeOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the invoke operation. */
 export type LookingGlassInvokeResponse = LookingGlassOutput;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface PeerAsnsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeerAsnsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PeerAsnsGetResponse = PeerAsn;
 
 /** Optional parameters. */
-export interface PeerAsnsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeerAsnsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PeerAsnsCreateOrUpdateResponse = PeerAsn;
 
 /** Optional parameters. */
-export interface PeerAsnsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeerAsnsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PeerAsnsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeerAsnsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type PeerAsnsListBySubscriptionResponse = PeerAsnListResult;
 
 /** Optional parameters. */
-export interface PeerAsnsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeerAsnsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PeerAsnsListBySubscriptionNextResponse = PeerAsnListResult;
 
 /** Optional parameters. */
-export interface PeeringLocationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface PeeringLocationsListOptionalParams extends coreClient.OperationOptions {
   /** The type of direct peering. */
   directPeeringType?: PeeringLocationsDirectPeeringType;
 }
@@ -1461,36 +1974,28 @@ export interface PeeringLocationsListOptionalParams
 export type PeeringLocationsListResponse = PeeringLocationListResult;
 
 /** Optional parameters. */
-export interface PeeringLocationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The type of direct peering. */
-  directPeeringType?: PeeringLocationsDirectPeeringType;
-}
+export interface PeeringLocationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PeeringLocationsListNextResponse = PeeringLocationListResult;
 
 /** Optional parameters. */
-export interface RegisteredAsnsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredAsnsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RegisteredAsnsGetResponse = PeeringRegisteredAsn;
 
 /** Optional parameters. */
-export interface RegisteredAsnsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredAsnsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type RegisteredAsnsCreateOrUpdateResponse = PeeringRegisteredAsn;
 
 /** Optional parameters. */
-export interface RegisteredAsnsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredAsnsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RegisteredAsnsListByPeeringOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredAsnsListByPeeringOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPeering operation. */
 export type RegisteredAsnsListByPeeringResponse = PeeringRegisteredAsnListResult;
@@ -1503,8 +2008,7 @@ export interface RegisteredAsnsListByPeeringNextOptionalParams
 export type RegisteredAsnsListByPeeringNextResponse = PeeringRegisteredAsnListResult;
 
 /** Optional parameters. */
-export interface RegisteredPrefixesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredPrefixesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RegisteredPrefixesGetResponse = PeeringRegisteredPrefix;
@@ -1517,8 +2021,7 @@ export interface RegisteredPrefixesCreateOrUpdateOptionalParams
 export type RegisteredPrefixesCreateOrUpdateResponse = PeeringRegisteredPrefix;
 
 /** Optional parameters. */
-export interface RegisteredPrefixesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredPrefixesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface RegisteredPrefixesListByPeeringOptionalParams
@@ -1528,6 +2031,12 @@ export interface RegisteredPrefixesListByPeeringOptionalParams
 export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult;
 
 /** Optional parameters. */
+export interface RegisteredPrefixesValidateOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the validate operation. */
+export type RegisteredPrefixesValidateResponse = PeeringRegisteredPrefix;
+
+/** Optional parameters. */
 export interface RegisteredPrefixesListByPeeringNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1535,40 +2044,34 @@ export interface RegisteredPrefixesListByPeeringNextOptionalParams
 export type RegisteredPrefixesListByPeeringNextResponse = PeeringRegisteredPrefixListResult;
 
 /** Optional parameters. */
-export interface PeeringsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PeeringsGetResponse = Peering;
 
 /** Optional parameters. */
-export interface PeeringsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PeeringsCreateOrUpdateResponse = Peering;
 
 /** Optional parameters. */
-export interface PeeringsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PeeringsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type PeeringsUpdateResponse = Peering;
 
 /** Optional parameters. */
-export interface PeeringsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type PeeringsListByResourceGroupResponse = PeeringListResult;
 
 /** Optional parameters. */
-export interface PeeringsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsListBySubscriptionOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type PeeringsListBySubscriptionResponse = PeeringListResult;
@@ -1581,15 +2084,13 @@ export interface PeeringsListByResourceGroupNextOptionalParams
 export type PeeringsListByResourceGroupNextResponse = PeeringListResult;
 
 /** Optional parameters. */
-export interface PeeringsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type PeeringsListBySubscriptionNextResponse = PeeringListResult;
 
 /** Optional parameters. */
-export interface ReceivedRoutesListByPeeringOptionalParams
-  extends coreClient.OperationOptions {
+export interface ReceivedRoutesListByPeeringOptionalParams extends coreClient.OperationOptions {
   /** The optional prefix that can be used to filter the routes. */
   prefix?: string;
   /** The optional AS path that can be used to filter the routes. */
@@ -1607,25 +2108,13 @@ export type ReceivedRoutesListByPeeringResponse = PeeringReceivedRouteListResult
 
 /** Optional parameters. */
 export interface ReceivedRoutesListByPeeringNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The optional prefix that can be used to filter the routes. */
-  prefix?: string;
-  /** The optional AS path that can be used to filter the routes. */
-  asPath?: string;
-  /** The optional origin AS validation state that can be used to filter the routes. */
-  originAsValidationState?: string;
-  /** The optional RPKI validation state that can be used to filter the routes. */
-  rpkiValidationState?: string;
-  /** The optional page continuation token that is used in the event of paginated result. */
-  skipToken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPeeringNext operation. */
 export type ReceivedRoutesListByPeeringNextResponse = PeeringReceivedRouteListResult;
 
 /** Optional parameters. */
-export interface ConnectionMonitorTestsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionMonitorTestsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConnectionMonitorTestsGetResponse = ConnectionMonitorTest;
@@ -1638,8 +2127,7 @@ export interface ConnectionMonitorTestsCreateOrUpdateOptionalParams
 export type ConnectionMonitorTestsCreateOrUpdateResponse = ConnectionMonitorTest;
 
 /** Optional parameters. */
-export interface ConnectionMonitorTestsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConnectionMonitorTestsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ConnectionMonitorTestsListByPeeringServiceOptionalParams
@@ -1653,11 +2141,11 @@ export interface ConnectionMonitorTestsListByPeeringServiceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPeeringServiceNext operation. */
-export type ConnectionMonitorTestsListByPeeringServiceNextResponse = ConnectionMonitorTestListResult;
+export type ConnectionMonitorTestsListByPeeringServiceNextResponse =
+  ConnectionMonitorTestListResult;
 
 /** Optional parameters. */
-export interface PeeringServiceCountriesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServiceCountriesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PeeringServiceCountriesListResponse = PeeringServiceCountryListResult;
@@ -1670,8 +2158,7 @@ export interface PeeringServiceCountriesListNextOptionalParams
 export type PeeringServiceCountriesListNextResponse = PeeringServiceCountryListResult;
 
 /** Optional parameters. */
-export interface PeeringServiceLocationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface PeeringServiceLocationsListOptionalParams extends coreClient.OperationOptions {
   /** The country of interest, in which the locations are to be present. */
   country?: string;
 }
@@ -1681,10 +2168,7 @@ export type PeeringServiceLocationsListResponse = PeeringServiceLocationListResu
 
 /** Optional parameters. */
 export interface PeeringServiceLocationsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The country of interest, in which the locations are to be present. */
-  country?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PeeringServiceLocationsListNextResponse = PeeringServiceLocationListResult;
@@ -1699,19 +2183,16 @@ export interface PrefixesGetOptionalParams extends coreClient.OperationOptions {
 export type PrefixesGetResponse = PeeringServicePrefix;
 
 /** Optional parameters. */
-export interface PrefixesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrefixesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PrefixesCreateOrUpdateResponse = PeeringServicePrefix;
 
 /** Optional parameters. */
-export interface PrefixesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrefixesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PrefixesListByPeeringServiceOptionalParams
-  extends coreClient.OperationOptions {
+export interface PrefixesListByPeeringServiceOptionalParams extends coreClient.OperationOptions {
   /** The properties to be expanded. */
   expand?: string;
 }
@@ -1721,17 +2202,13 @@ export type PrefixesListByPeeringServiceResponse = PeeringServicePrefixListResul
 
 /** Optional parameters. */
 export interface PrefixesListByPeeringServiceNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The properties to be expanded. */
-  expand?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPeeringServiceNext operation. */
 export type PrefixesListByPeeringServiceNextResponse = PeeringServicePrefixListResult;
 
 /** Optional parameters. */
-export interface PeeringServiceProvidersListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServiceProvidersListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PeeringServiceProvidersListResponse = PeeringServiceProviderListResult;
@@ -1744,26 +2221,22 @@ export interface PeeringServiceProvidersListNextOptionalParams
 export type PeeringServiceProvidersListNextResponse = PeeringServiceProviderListResult;
 
 /** Optional parameters. */
-export interface PeeringServicesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServicesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PeeringServicesGetResponse = PeeringService;
 
 /** Optional parameters. */
-export interface PeeringServicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type PeeringServicesCreateOrUpdateResponse = PeeringService;
 
 /** Optional parameters. */
-export interface PeeringServicesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServicesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface PeeringServicesUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PeeringServicesUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type PeeringServicesUpdateResponse = PeeringService;
@@ -1801,8 +2274,22 @@ export interface PeeringServicesListBySubscriptionNextOptionalParams
 export type PeeringServicesListBySubscriptionNextResponse = PeeringServiceListResult;
 
 /** Optional parameters. */
-export interface PeeringManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface RpUnbilledPrefixesListOptionalParams extends coreClient.OperationOptions {
+  /** Flag to enable consolidation prefixes */
+  consolidate?: boolean;
+}
+
+/** Contains response data for the list operation. */
+export type RpUnbilledPrefixesListResponse = RpUnbilledPrefixListResult;
+
+/** Optional parameters. */
+export interface RpUnbilledPrefixesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RpUnbilledPrefixesListNextResponse = RpUnbilledPrefixListResult;
+
+/** Optional parameters. */
+export interface PeeringManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

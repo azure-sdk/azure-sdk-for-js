@@ -8,26 +8,26 @@
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import { ReceivedRoutes } from "../operationsInterfaces/index.js";
+import { RpUnbilledPrefixes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { PeeringManagementClient } from "../peeringManagementClient.js";
 import {
-  PeeringReceivedRoute,
-  ReceivedRoutesListByPeeringNextOptionalParams,
-  ReceivedRoutesListByPeeringOptionalParams,
-  ReceivedRoutesListByPeeringResponse,
-  ReceivedRoutesListByPeeringNextResponse,
+  RpUnbilledPrefix,
+  RpUnbilledPrefixesListNextOptionalParams,
+  RpUnbilledPrefixesListOptionalParams,
+  RpUnbilledPrefixesListResponse,
+  RpUnbilledPrefixesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing ReceivedRoutes operations. */
-export class ReceivedRoutesImpl implements ReceivedRoutes {
+/** Class containing RpUnbilledPrefixes operations. */
+export class RpUnbilledPrefixesImpl implements RpUnbilledPrefixes {
   private readonly client: PeeringManagementClient;
 
   /**
-   * Initialize a new instance of the class ReceivedRoutes class.
+   * Initialize a new instance of the class RpUnbilledPrefixes class.
    * @param client Reference to the service client
    */
   constructor(client: PeeringManagementClient) {
@@ -35,18 +35,17 @@ export class ReceivedRoutesImpl implements ReceivedRoutes {
   }
 
   /**
-   * Lists the prefixes received over the specified peering under the given subscription and resource
-   * group.
-   * @param resourceGroupName The name of the resource group.
-   * @param peeringName The name of the peering.
+   * Lists all of the RP unbilled prefixes for the specified peering
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
    * @param options The options parameters.
    */
-  public listByPeering(
+  public list(
     resourceGroupName: string,
     peeringName: string,
-    options?: ReceivedRoutesListByPeeringOptionalParams,
-  ): PagedAsyncIterableIterator<PeeringReceivedRoute> {
-    const iter = this.listByPeeringPagingAll(resourceGroupName, peeringName, options);
+    options?: RpUnbilledPrefixesListOptionalParams,
+  ): PagedAsyncIterableIterator<RpUnbilledPrefix> {
+    const iter = this.listPagingAll(resourceGroupName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -58,33 +57,28 @@ export class ReceivedRoutesImpl implements ReceivedRoutes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPeeringPagingPage(resourceGroupName, peeringName, options, settings);
+        return this.listPagingPage(resourceGroupName, peeringName, options, settings);
       },
     };
   }
 
-  private async *listByPeeringPagingPage(
+  private async *listPagingPage(
     resourceGroupName: string,
     peeringName: string,
-    options?: ReceivedRoutesListByPeeringOptionalParams,
+    options?: RpUnbilledPrefixesListOptionalParams,
     settings?: PageSettings,
-  ): AsyncIterableIterator<PeeringReceivedRoute[]> {
-    let result: ReceivedRoutesListByPeeringResponse;
+  ): AsyncIterableIterator<RpUnbilledPrefix[]> {
+    let result: RpUnbilledPrefixesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPeering(resourceGroupName, peeringName, options);
+      result = await this._list(resourceGroupName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByPeeringNext(
-        resourceGroupName,
-        peeringName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, peeringName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -92,79 +86,67 @@ export class ReceivedRoutesImpl implements ReceivedRoutes {
     }
   }
 
-  private async *listByPeeringPagingAll(
+  private async *listPagingAll(
     resourceGroupName: string,
     peeringName: string,
-    options?: ReceivedRoutesListByPeeringOptionalParams,
-  ): AsyncIterableIterator<PeeringReceivedRoute> {
-    for await (const page of this.listByPeeringPagingPage(
-      resourceGroupName,
-      peeringName,
-      options,
-    )) {
+    options?: RpUnbilledPrefixesListOptionalParams,
+  ): AsyncIterableIterator<RpUnbilledPrefix> {
+    for await (const page of this.listPagingPage(resourceGroupName, peeringName, options)) {
       yield* page;
     }
   }
 
   /**
-   * Lists the prefixes received over the specified peering under the given subscription and resource
-   * group.
-   * @param resourceGroupName The name of the resource group.
-   * @param peeringName The name of the peering.
+   * Lists all of the RP unbilled prefixes for the specified peering
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
    * @param options The options parameters.
    */
-  private _listByPeering(
+  private _list(
     resourceGroupName: string,
     peeringName: string,
-    options?: ReceivedRoutesListByPeeringOptionalParams,
-  ): Promise<ReceivedRoutesListByPeeringResponse> {
+    options?: RpUnbilledPrefixesListOptionalParams,
+  ): Promise<RpUnbilledPrefixesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, options },
-      listByPeeringOperationSpec,
+      listOperationSpec,
     );
   }
 
   /**
-   * ListByPeeringNext
-   * @param resourceGroupName The name of the resource group.
-   * @param peeringName The name of the peering.
-   * @param nextLink The nextLink from the previous successful call to the ListByPeering method.
+   * ListNext
+   * @param resourceGroupName The Azure resource group name.
+   * @param peeringName The peering name.
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listByPeeringNext(
+  private _listNext(
     resourceGroupName: string,
     peeringName: string,
     nextLink: string,
-    options?: ReceivedRoutesListByPeeringNextOptionalParams,
-  ): Promise<ReceivedRoutesListByPeeringNextResponse> {
+    options?: RpUnbilledPrefixesListNextOptionalParams,
+  ): Promise<RpUnbilledPrefixesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, nextLink, options },
-      listByPeeringNextOperationSpec,
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByPeeringOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/receivedRoutes",
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/rpUnbilledPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringReceivedRouteListResult,
+      bodyMapper: Mappers.RpUnbilledPrefixListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.prefix,
-    Parameters.asPath,
-    Parameters.originAsValidationState,
-    Parameters.rpkiValidationState,
-    Parameters.skipToken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.consolidate],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -174,12 +156,12 @@ const listByPeeringOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByPeeringNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringReceivedRouteListResult,
+      bodyMapper: Mappers.RpUnbilledPrefixListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

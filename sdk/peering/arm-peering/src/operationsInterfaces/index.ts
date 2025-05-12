@@ -22,3 +22,4 @@ export * from "./peeringServiceLocations.js";
 export * from "./prefixes.js";
 export * from "./peeringServiceProviders.js";
 export * from "./peeringServices.js";
+export * from "./rpUnbilledPrefixes.js";

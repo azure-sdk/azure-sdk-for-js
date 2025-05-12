@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PeeringReceivedRoute,
-  ReceivedRoutesListByPeeringOptionalParams
+  ReceivedRoutesListByPeeringOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface ReceivedRoutes {
   listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: ReceivedRoutesListByPeeringOptionalParams
+    options?: ReceivedRoutesListByPeeringOptionalParams,
   ): PagedAsyncIterableIterator<PeeringReceivedRoute>;
 }

@@ -18,7 +18,7 @@ import {
   PeeringsDeleteOptionalParams,
   ResourceTags,
   PeeringsUpdateOptionalParams,
-  PeeringsUpdateResponse
+  PeeringsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface Peerings {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PeeringsListByResourceGroupOptionalParams
+    options?: PeeringsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Peering>;
   /**
    * Lists all of the peerings under the given subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: PeeringsListBySubscriptionOptionalParams
+    options?: PeeringsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Peering>;
   /**
    * Gets an existing peering with the specified name under the given subscription and resource group.
@@ -49,7 +49,7 @@ export interface Peerings {
   get(
     resourceGroupName: string,
     peeringName: string,
-    options?: PeeringsGetOptionalParams
+    options?: PeeringsGetOptionalParams,
   ): Promise<PeeringsGetResponse>;
   /**
    * Creates a new peering or updates an existing peering with the specified name under the given
@@ -63,7 +63,7 @@ export interface Peerings {
     resourceGroupName: string,
     peeringName: string,
     peering: Peering,
-    options?: PeeringsCreateOrUpdateOptionalParams
+    options?: PeeringsCreateOrUpdateOptionalParams,
   ): Promise<PeeringsCreateOrUpdateResponse>;
   /**
    * Deletes an existing peering with the specified name under the given subscription and resource group.
@@ -74,7 +74,7 @@ export interface Peerings {
   delete(
     resourceGroupName: string,
     peeringName: string,
-    options?: PeeringsDeleteOptionalParams
+    options?: PeeringsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates tags for a peering with the specified name under the given subscription and resource group.
@@ -87,6 +87,6 @@ export interface Peerings {
     resourceGroupName: string,
     peeringName: string,
     tags: ResourceTags,
-    options?: PeeringsUpdateOptionalParams
+    options?: PeeringsUpdateOptionalParams,
   ): Promise<PeeringsUpdateResponse>;
 }

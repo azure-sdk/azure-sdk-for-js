@@ -15,11 +15,11 @@ import * as Parameters from "../models/parameters.js";
 import { PeeringManagementClient } from "../peeringManagementClient.js";
 import {
   PeeringLocation,
-  PeeringLocationsKind,
   PeeringLocationsListNextOptionalParams,
+  PeeringLocationsKind,
   PeeringLocationsListOptionalParams,
   PeeringLocationsListResponse,
-  PeeringLocationsListNextResponse
+  PeeringLocationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class PeeringLocationsImpl implements PeeringLocations {
    */
   public list(
     kind: PeeringLocationsKind,
-    options?: PeeringLocationsListOptionalParams
+    options?: PeeringLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<PeeringLocation> {
     const iter = this.listPagingAll(kind, options);
     return {
@@ -57,14 +57,14 @@ export class PeeringLocationsImpl implements PeeringLocations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(kind, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     kind: PeeringLocationsKind,
     options?: PeeringLocationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringLocation[]> {
     let result: PeeringLocationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -76,7 +76,7 @@ export class PeeringLocationsImpl implements PeeringLocations {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(kind, continuationToken, options);
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -86,7 +86,7 @@ export class PeeringLocationsImpl implements PeeringLocations {
 
   private async *listPagingAll(
     kind: PeeringLocationsKind,
-    options?: PeeringLocationsListOptionalParams
+    options?: PeeringLocationsListOptionalParams,
   ): AsyncIterableIterator<PeeringLocation> {
     for await (const page of this.listPagingPage(kind, options)) {
       yield* page;
@@ -100,76 +100,54 @@ export class PeeringLocationsImpl implements PeeringLocations {
    */
   private _list(
     kind: PeeringLocationsKind,
-    options?: PeeringLocationsListOptionalParams
+    options?: PeeringLocationsListOptionalParams,
   ): Promise<PeeringLocationsListResponse> {
-    return this.client.sendOperationRequest(
-      { kind, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ kind, options }, listOperationSpec);
   }
 
   /**
    * ListNext
-   * @param kind The kind of the peering.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    kind: PeeringLocationsKind,
     nextLink: string,
-    options?: PeeringLocationsListNextOptionalParams
+    options?: PeeringLocationsListNextOptionalParams,
   ): Promise<PeeringLocationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { kind, nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringLocations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/peeringLocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringLocationListResult
+      bodyMapper: Mappers.PeeringLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.kind1,
-    Parameters.directPeeringType
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.kind1, Parameters.directPeeringType1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringLocationListResult
+      bodyMapper: Mappers.PeeringLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.kind1,
-    Parameters.directPeeringType
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

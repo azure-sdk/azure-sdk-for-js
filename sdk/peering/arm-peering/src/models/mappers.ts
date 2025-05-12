@@ -20,19 +20,19 @@ export const CdnPeeringPrefixListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CdnPeeringPrefix"
-            }
-          }
-        }
+              className: "CdnPeeringPrefix",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Resource: coreClient.CompositeMapper = {
@@ -44,25 +44,25 @@ export const Resource: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -74,11 +74,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -90,18 +90,18 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CheckServiceProviderAvailabilityInput: coreClient.CompositeMapper = {
@@ -112,17 +112,17 @@ export const CheckServiceProviderAvailabilityInput: coreClient.CompositeMapper =
       peeringServiceLocation: {
         serializedName: "peeringServiceLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringServiceProvider: {
         serializedName: "peeringServiceProvider",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringListResult: coreClient.CompositeMapper = {
@@ -137,19 +137,19 @@ export const PeeringListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Peering"
-            }
-          }
-        }
+              className: "Peering",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringSku: coreClient.CompositeMapper = {
@@ -160,32 +160,32 @@ export const PeeringSku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tier: {
         serializedName: "tier",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       family: {
         serializedName: "family",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       size: {
         serializedName: "size",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringPropertiesDirect: coreClient.CompositeMapper = {
@@ -200,33 +200,33 @@ export const PeeringPropertiesDirect: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DirectConnection"
-            }
-          }
-        }
+              className: "DirectConnection",
+            },
+          },
+        },
       },
       useForPeeringService: {
         serializedName: "useForPeeringService",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       peerAsn: {
         serializedName: "peerAsn",
         type: {
           name: "Composite",
-          className: "SubResource"
-        }
+          className: "SubResource",
+        },
       },
       directPeeringType: {
         serializedName: "directPeeringType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DirectConnection: coreClient.CompositeMapper = {
@@ -237,70 +237,95 @@ export const DirectConnection: coreClient.CompositeMapper = {
       bandwidthInMbps: {
         serializedName: "bandwidthInMbps",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       provisionedBandwidthInMbps: {
         serializedName: "provisionedBandwidthInMbps",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sessionAddressProvider: {
         serializedName: "sessionAddressProvider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       useForPeeringService: {
         serializedName: "useForPeeringService",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       microsoftTrackingId: {
         serializedName: "microsoftTrackingId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringDBFacilityId: {
         serializedName: "peeringDBFacilityId",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       connectionState: {
         serializedName: "connectionState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       bgpSession: {
         serializedName: "bgpSession",
         type: {
           name: "Composite",
-          className: "BgpSession"
-        }
+          className: "BgpSession",
+        },
+      },
+      migrationWorkWindowBgpSessionSameDevice: {
+        serializedName: "migrationWorkWindowBgpSessionSameDevice",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      lastFailureTimeUtc: {
+        serializedName: "lastFailureTimeUtc",
+        type: {
+          name: "DateTime",
+        },
       },
       connectionIdentifier: {
         serializedName: "connectionIdentifier",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorMessage: {
         serializedName: "errorMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      previousConnectionProvisioningState: {
+        serializedName: "previousConnectionProvisioningState",
+        type: {
+          name: "String",
+        },
+      },
+      migrationWorkWindowTracker: {
+        serializedName: "migrationWorkWindowTracker",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BgpSession: coreClient.CompositeMapper = {
@@ -311,73 +336,73 @@ export const BgpSession: coreClient.CompositeMapper = {
       sessionPrefixV4: {
         serializedName: "sessionPrefixV4",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sessionPrefixV6: {
         serializedName: "sessionPrefixV6",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       microsoftSessionIPv4Address: {
         serializedName: "microsoftSessionIPv4Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       microsoftSessionIPv6Address: {
         serializedName: "microsoftSessionIPv6Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peerSessionIPv4Address: {
         serializedName: "peerSessionIPv4Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peerSessionIPv6Address: {
         serializedName: "peerSessionIPv6Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sessionStateV4: {
         serializedName: "sessionStateV4",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sessionStateV6: {
         serializedName: "sessionStateV6",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxPrefixesAdvertisedV4: {
         serializedName: "maxPrefixesAdvertisedV4",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       maxPrefixesAdvertisedV6: {
         serializedName: "maxPrefixesAdvertisedV6",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       md5AuthenticationKey: {
         serializedName: "md5AuthenticationKey",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SubResource: coreClient.CompositeMapper = {
@@ -388,11 +413,11 @@ export const SubResource: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringPropertiesExchange: coreClient.CompositeMapper = {
@@ -407,20 +432,20 @@ export const PeeringPropertiesExchange: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExchangeConnection"
-            }
-          }
-        }
+              className: "ExchangeConnection",
+            },
+          },
+        },
       },
       peerAsn: {
         serializedName: "peerAsn",
         type: {
           name: "Composite",
-          className: "SubResource"
-        }
-      }
-    }
-  }
+          className: "SubResource",
+        },
+      },
+    },
+  },
 };
 
 export const ExchangeConnection: coreClient.CompositeMapper = {
@@ -431,38 +456,111 @@ export const ExchangeConnection: coreClient.CompositeMapper = {
       peeringDBFacilityId: {
         serializedName: "peeringDBFacilityId",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       connectionState: {
         serializedName: "connectionState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       bgpSession: {
         serializedName: "bgpSession",
         type: {
           name: "Composite",
-          className: "BgpSession"
-        }
+          className: "BgpSession",
+        },
+      },
+      migrationWorkWindowBgpSessionSameDevice: {
+        serializedName: "migrationWorkWindowBgpSessionSameDevice",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      lastFailureTimeUtc: {
+        serializedName: "lastFailureTimeUtc",
+        type: {
+          name: "DateTime",
+        },
       },
       connectionIdentifier: {
         serializedName: "connectionIdentifier",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorMessage: {
         serializedName: "errorMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+      previousConnectionProvisioningState: {
+        serializedName: "previousConnectionProvisioningState",
+        type: {
+          name: "String",
+        },
+      },
+      migrationWorkWindowTracker: {
+        serializedName: "migrationWorkWindowTracker",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ConnectivityProbe: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConnectivityProbe",
+    modelProperties: {
+      endpoint: {
+        serializedName: "endpoint",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      azureRegion: {
+        serializedName: "azureRegion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      protocol: {
+        serializedName: "protocol",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      prefixesToAccesslist: {
+        serializedName: "prefixesToAccesslist",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      createdTimeUtc: {
+        serializedName: "createdTimeUtc",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const LookingGlassOutput: coreClient.CompositeMapper = {
@@ -473,17 +571,17 @@ export const LookingGlassOutput: coreClient.CompositeMapper = {
       command: {
         serializedName: "command",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       output: {
         serializedName: "output",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const OperationListResult: coreClient.CompositeMapper = {
@@ -498,19 +596,19 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Operation"
-            }
-          }
-        }
+              className: "Operation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Operation: coreClient.CompositeMapper = {
@@ -522,32 +620,32 @@ export const Operation: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       display: {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplayInfo"
-        }
+          className: "OperationDisplayInfo",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       serviceSpecification: {
         serializedName: "properties.serviceSpecification",
         type: {
           name: "Composite",
-          className: "ServiceSpecification"
-        }
-      }
-    }
-  }
+          className: "ServiceSpecification",
+        },
+      },
+    },
+  },
 };
 
 export const OperationDisplayInfo: coreClient.CompositeMapper = {
@@ -559,32 +657,32 @@ export const OperationDisplayInfo: coreClient.CompositeMapper = {
         serializedName: "provider",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resource: {
         serializedName: "resource",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       operation: {
         serializedName: "operation",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ServiceSpecification: coreClient.CompositeMapper = {
@@ -600,13 +698,13 @@ export const ServiceSpecification: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MetricSpecification"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MetricSpecification",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MetricSpecification: coreClient.CompositeMapper = {
@@ -618,36 +716,36 @@ export const MetricSpecification: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayDescription: {
         serializedName: "displayDescription",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       unit: {
         serializedName: "unit",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       aggregationType: {
         serializedName: "aggregationType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       supportedTimeGrainTypes: {
         serializedName: "supportedTimeGrainTypes",
@@ -656,10 +754,10 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       dimensions: {
         serializedName: "dimensions",
@@ -669,13 +767,13 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MetricDimension"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MetricDimension",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const MetricDimension: coreClient.CompositeMapper = {
@@ -687,18 +785,18 @@ export const MetricDimension: coreClient.CompositeMapper = {
         serializedName: "name",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       displayName: {
         serializedName: "displayName",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ContactDetail: coreClient.CompositeMapper = {
@@ -709,23 +807,23 @@ export const ContactDetail: coreClient.CompositeMapper = {
       role: {
         serializedName: "role",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       email: {
         serializedName: "email",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       phone: {
         serializedName: "phone",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeerAsnListResult: coreClient.CompositeMapper = {
@@ -740,19 +838,19 @@ export const PeerAsnListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeerAsn"
-            }
-          }
-        }
+              className: "PeerAsn",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringLocationListResult: coreClient.CompositeMapper = {
@@ -767,19 +865,19 @@ export const PeeringLocationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringLocation"
-            }
-          }
-        }
+              className: "PeeringLocation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringLocationPropertiesDirect: coreClient.CompositeMapper = {
@@ -794,10 +892,10 @@ export const PeeringLocationPropertiesDirect: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DirectPeeringFacility"
-            }
-          }
-        }
+              className: "DirectPeeringFacility",
+            },
+          },
+        },
       },
       bandwidthOffers: {
         serializedName: "bandwidthOffers",
@@ -806,13 +904,13 @@ export const PeeringLocationPropertiesDirect: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringBandwidthOffer"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "PeeringBandwidthOffer",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const DirectPeeringFacility: coreClient.CompositeMapper = {
@@ -823,29 +921,29 @@ export const DirectPeeringFacility: coreClient.CompositeMapper = {
       address: {
         serializedName: "address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       directPeeringType: {
         serializedName: "directPeeringType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringDBFacilityId: {
         serializedName: "peeringDBFacilityId",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       peeringDBFacilityLink: {
         serializedName: "peeringDBFacilityLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringBandwidthOffer: coreClient.CompositeMapper = {
@@ -856,17 +954,17 @@ export const PeeringBandwidthOffer: coreClient.CompositeMapper = {
       offerName: {
         serializedName: "offerName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       valueInMbps: {
         serializedName: "valueInMbps",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringLocationPropertiesExchange: coreClient.CompositeMapper = {
@@ -881,13 +979,13 @@ export const PeeringLocationPropertiesExchange: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExchangePeeringFacility"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ExchangePeeringFacility",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ExchangePeeringFacility: coreClient.CompositeMapper = {
@@ -898,53 +996,53 @@ export const ExchangePeeringFacility: coreClient.CompositeMapper = {
       exchangeName: {
         serializedName: "exchangeName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       bandwidthInMbps: {
         serializedName: "bandwidthInMbps",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       microsoftIPv4Address: {
         serializedName: "microsoftIPv4Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       microsoftIPv6Address: {
         serializedName: "microsoftIPv6Address",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       facilityIPv4Prefix: {
         serializedName: "facilityIPv4Prefix",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       facilityIPv6Prefix: {
         serializedName: "facilityIPv6Prefix",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringDBFacilityId: {
         serializedName: "peeringDBFacilityId",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       peeringDBFacilityLink: {
         serializedName: "peeringDBFacilityLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringRegisteredAsnListResult: coreClient.CompositeMapper = {
@@ -959,19 +1057,19 @@ export const PeeringRegisteredAsnListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringRegisteredAsn"
-            }
-          }
-        }
+              className: "PeeringRegisteredAsn",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringRegisteredPrefixListResult: coreClient.CompositeMapper = {
@@ -986,19 +1084,19 @@ export const PeeringRegisteredPrefixListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringRegisteredPrefix"
-            }
-          }
-        }
+              className: "PeeringRegisteredPrefix",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ResourceTags: coreClient.CompositeMapper = {
@@ -1010,11 +1108,11 @@ export const ResourceTags: coreClient.CompositeMapper = {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" } },
+        },
+      },
+    },
+  },
 };
 
 export const PeeringReceivedRouteListResult: coreClient.CompositeMapper = {
@@ -1029,19 +1127,19 @@ export const PeeringReceivedRouteListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringReceivedRoute"
-            }
-          }
-        }
+              className: "PeeringReceivedRoute",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringReceivedRoute: coreClient.CompositeMapper = {
@@ -1053,53 +1151,53 @@ export const PeeringReceivedRoute: coreClient.CompositeMapper = {
         serializedName: "prefix",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       nextHop: {
         serializedName: "nextHop",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       asPath: {
         serializedName: "asPath",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       originAsValidationState: {
         serializedName: "originAsValidationState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       rpkiValidationState: {
         serializedName: "rpkiValidationState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       trustAnchor: {
         serializedName: "trustAnchor",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       receivedTimestamp: {
         serializedName: "receivedTimestamp",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectionMonitorTestListResult: coreClient.CompositeMapper = {
@@ -1114,19 +1212,19 @@ export const ConnectionMonitorTestListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ConnectionMonitorTest"
-            }
-          }
-        }
+              className: "ConnectionMonitorTest",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceCountryListResult: coreClient.CompositeMapper = {
@@ -1141,19 +1239,19 @@ export const PeeringServiceCountryListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringServiceCountry"
-            }
-          }
-        }
+              className: "PeeringServiceCountry",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceLocationListResult: coreClient.CompositeMapper = {
@@ -1168,19 +1266,19 @@ export const PeeringServiceLocationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringServiceLocation"
-            }
-          }
-        }
+              className: "PeeringServiceLocation",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServicePrefixEvent: coreClient.CompositeMapper = {
@@ -1192,39 +1290,39 @@ export const PeeringServicePrefixEvent: coreClient.CompositeMapper = {
         serializedName: "eventTimestamp",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       eventType: {
         serializedName: "eventType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eventSummary: {
         serializedName: "eventSummary",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eventLevel: {
         serializedName: "eventLevel",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eventDescription: {
         serializedName: "eventDescription",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServicePrefixListResult: coreClient.CompositeMapper = {
@@ -1239,19 +1337,19 @@ export const PeeringServicePrefixListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringServicePrefix"
-            }
-          }
-        }
+              className: "PeeringServicePrefix",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceProviderListResult: coreClient.CompositeMapper = {
@@ -1266,19 +1364,19 @@ export const PeeringServiceProviderListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringServiceProvider"
-            }
-          }
-        }
+              className: "PeeringServiceProvider",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceSku: coreClient.CompositeMapper = {
@@ -1289,11 +1387,11 @@ export const PeeringServiceSku: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const LogAnalyticsWorkspaceProperties: coreClient.CompositeMapper = {
@@ -1305,15 +1403,15 @@ export const LogAnalyticsWorkspaceProperties: coreClient.CompositeMapper = {
         serializedName: "workspaceID",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       key: {
         serializedName: "key",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       connectedAgents: {
         serializedName: "connectedAgents",
@@ -1322,13 +1420,13 @@ export const LogAnalyticsWorkspaceProperties: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceListResult: coreClient.CompositeMapper = {
@@ -1343,19 +1441,76 @@ export const PeeringServiceListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringService"
-            }
-          }
-        }
+              className: "PeeringService",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RpUnbilledPrefixListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RpUnbilledPrefixListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RpUnbilledPrefix",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RpUnbilledPrefix: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RpUnbilledPrefix",
+    modelProperties: {
+      prefix: {
+        serializedName: "prefix",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      azureRegion: {
+        serializedName: "azureRegion",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      peerAsn: {
+        serializedName: "peerAsn",
+        readOnly: true,
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const CdnPeeringPrefix: coreClient.CompositeMapper = {
@@ -1368,39 +1523,39 @@ export const CdnPeeringPrefix: coreClient.CompositeMapper = {
         serializedName: "properties.prefix",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureRegion: {
         serializedName: "properties.azureRegion",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureService: {
         serializedName: "properties.azureService",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isPrimaryRegion: {
         serializedName: "properties.isPrimaryRegion",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       bgpCommunity: {
         serializedName: "properties.bgpCommunity",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Peering: coreClient.CompositeMapper = {
@@ -1413,59 +1568,71 @@ export const Peering: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "PeeringSku"
-        }
+          className: "PeeringSku",
+        },
       },
       kind: {
         serializedName: "kind",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       direct: {
         serializedName: "properties.direct",
         type: {
           name: "Composite",
-          className: "PeeringPropertiesDirect"
-        }
+          className: "PeeringPropertiesDirect",
+        },
       },
       exchange: {
         serializedName: "properties.exchange",
         type: {
           name: "Composite",
-          className: "PeeringPropertiesExchange"
-        }
+          className: "PeeringPropertiesExchange",
+        },
+      },
+      connectivityProbes: {
+        serializedName: "properties.connectivityProbes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ConnectivityProbe",
+            },
+          },
+        },
       },
       peeringLocation: {
         serializedName: "properties.peeringLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeerAsn: coreClient.CompositeMapper = {
@@ -1477,8 +1644,8 @@ export const PeerAsn: coreClient.CompositeMapper = {
       peerAsn: {
         serializedName: "properties.peerAsn",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       peerContactDetail: {
         serializedName: "properties.peerContactDetail",
@@ -1487,33 +1654,33 @@ export const PeerAsn: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ContactDetail"
-            }
-          }
-        }
+              className: "ContactDetail",
+            },
+          },
+        },
       },
       peerName: {
         serializedName: "properties.peerName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       validationState: {
         serializedName: "properties.validationState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorMessage: {
         serializedName: "properties.errorMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringLocation: coreClient.CompositeMapper = {
@@ -1525,43 +1692,43 @@ export const PeeringLocation: coreClient.CompositeMapper = {
       kind: {
         serializedName: "kind",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       direct: {
         serializedName: "properties.direct",
         type: {
           name: "Composite",
-          className: "PeeringLocationPropertiesDirect"
-        }
+          className: "PeeringLocationPropertiesDirect",
+        },
       },
       exchange: {
         serializedName: "properties.exchange",
         type: {
           name: "Composite",
-          className: "PeeringLocationPropertiesExchange"
-        }
+          className: "PeeringLocationPropertiesExchange",
+        },
       },
       peeringLocation: {
         serializedName: "properties.peeringLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       country: {
         serializedName: "properties.country",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureRegion: {
         serializedName: "properties.azureRegion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringRegisteredAsn: coreClient.CompositeMapper = {
@@ -1573,25 +1740,25 @@ export const PeeringRegisteredAsn: coreClient.CompositeMapper = {
       asn: {
         serializedName: "properties.asn",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       peeringServicePrefixKey: {
         serializedName: "properties.peeringServicePrefixKey",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringRegisteredPrefix: coreClient.CompositeMapper = {
@@ -1603,39 +1770,39 @@ export const PeeringRegisteredPrefix: coreClient.CompositeMapper = {
       prefix: {
         serializedName: "properties.prefix",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       prefixValidationState: {
         serializedName: "properties.prefixValidationState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringServicePrefixKey: {
         serializedName: "properties.peeringServicePrefixKey",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorMessage: {
         serializedName: "properties.errorMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ConnectionMonitorTest: coreClient.CompositeMapper = {
@@ -1647,33 +1814,33 @@ export const ConnectionMonitorTest: coreClient.CompositeMapper = {
       sourceAgent: {
         serializedName: "properties.sourceAgent",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       destination: {
         serializedName: "properties.destination",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       destinationPort: {
         serializedName: "properties.destinationPort",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       testFrequencyInSec: {
         serializedName: "properties.testFrequencyInSec",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       isTestSuccessful: {
         serializedName: "properties.isTestSuccessful",
         readOnly: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       path: {
         serializedName: "properties.path",
@@ -1682,20 +1849,20 @@ export const ConnectionMonitorTest: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceCountry: coreClient.CompositeMapper = {
@@ -1703,9 +1870,9 @@ export const PeeringServiceCountry: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PeeringServiceCountry",
     modelProperties: {
-      ...Resource.type.modelProperties
-    }
-  }
+      ...Resource.type.modelProperties,
+    },
+  },
 };
 
 export const PeeringServiceLocation: coreClient.CompositeMapper = {
@@ -1717,23 +1884,23 @@ export const PeeringServiceLocation: coreClient.CompositeMapper = {
       country: {
         serializedName: "properties.country",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "properties.state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       azureRegion: {
         serializedName: "properties.azureRegion",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServicePrefix: coreClient.CompositeMapper = {
@@ -1745,29 +1912,29 @@ export const PeeringServicePrefix: coreClient.CompositeMapper = {
       prefix: {
         serializedName: "properties.prefix",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       prefixValidationState: {
         serializedName: "properties.prefixValidationState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       learnedType: {
         serializedName: "properties.learnedType",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       errorMessage: {
         serializedName: "properties.errorMessage",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       events: {
         serializedName: "properties.events",
@@ -1777,26 +1944,26 @@ export const PeeringServicePrefix: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "PeeringServicePrefixEvent"
-            }
-          }
-        }
+              className: "PeeringServicePrefixEvent",
+            },
+          },
+        },
       },
       peeringServicePrefixKey: {
         serializedName: "properties.peeringServicePrefixKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PeeringServiceProvider: coreClient.CompositeMapper = {
@@ -1808,8 +1975,8 @@ export const PeeringServiceProvider: coreClient.CompositeMapper = {
       serviceProviderName: {
         serializedName: "properties.serviceProviderName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringLocations: {
         serializedName: "properties.peeringLocations",
@@ -1817,13 +1984,13 @@ export const PeeringServiceProvider: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const PeeringService: coreClient.CompositeMapper = {
@@ -1836,61 +2003,61 @@ export const PeeringService: coreClient.CompositeMapper = {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "PeeringServiceSku"
-        }
+          className: "PeeringServiceSku",
+        },
       },
       location: {
         serializedName: "location",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       peeringServiceLocation: {
         serializedName: "properties.peeringServiceLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       peeringServiceProvider: {
         serializedName: "properties.peeringServiceProvider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       providerPrimaryPeeringLocation: {
         serializedName: "properties.providerPrimaryPeeringLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       providerBackupPeeringLocation: {
         serializedName: "properties.providerBackupPeeringLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logAnalyticsWorkspaceProperties: {
         serializedName: "properties.logAnalyticsWorkspaceProperties",
         type: {
           name: "Composite",
-          className: "LogAnalyticsWorkspaceProperties"
-        }
-      }
-    }
-  }
+          className: "LogAnalyticsWorkspaceProperties",
+        },
+      },
+    },
+  },
 };

@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   CdnPeeringPrefixesImpl,
@@ -30,7 +26,8 @@ import {
   PeeringServiceLocationsImpl,
   PrefixesImpl,
   PeeringServiceProvidersImpl,
-  PeeringServicesImpl
+  PeeringServicesImpl,
+  RpUnbilledPrefixesImpl,
 } from "./operations/index.js";
 import {
   CdnPeeringPrefixes,
@@ -48,7 +45,8 @@ import {
   PeeringServiceLocations,
   Prefixes,
   PeeringServiceProviders,
-  PeeringServices
+  PeeringServices,
+  RpUnbilledPrefixes,
 } from "./operationsInterfaces/index.js";
 import * as Parameters from "./models/parameters.js";
 import * as Mappers from "./models/mappers.js";
@@ -56,7 +54,7 @@ import {
   PeeringManagementClientOptionalParams,
   CheckServiceProviderAvailabilityInput,
   CheckServiceProviderAvailabilityOptionalParams,
-  CheckServiceProviderAvailabilityResponse
+  CheckServiceProviderAvailabilityResponse,
 } from "./models/index.js";
 
 export class PeeringManagementClient extends coreClient.ServiceClient {
@@ -73,7 +71,7 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: PeeringManagementClientOptionalParams
+    options?: PeeringManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -88,10 +86,10 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
     }
     const defaults: PeeringManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-peering/2.1.1`;
+    const packageDetails = `azsdk-js-arm-peering/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -101,20 +99,19 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -124,19 +121,17 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -144,7 +139,7 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-01";
+    this.apiVersion = options.apiVersion || "2025-05-01";
     this.cdnPeeringPrefixes = new CdnPeeringPrefixesImpl(this);
     this.legacyPeerings = new LegacyPeeringsImpl(this);
     this.lookingGlass = new LookingGlassImpl(this);
@@ -161,6 +156,7 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
     this.prefixes = new PrefixesImpl(this);
     this.peeringServiceProviders = new PeeringServiceProvidersImpl(this);
     this.peeringServices = new PeeringServicesImpl(this);
+    this.rpUnbilledPrefixes = new RpUnbilledPrefixesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -171,10 +167,7 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -187,7 +180,7 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -200,11 +193,11 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
    */
   checkServiceProviderAvailability(
     checkServiceProviderAvailabilityInput: CheckServiceProviderAvailabilityInput,
-    options?: CheckServiceProviderAvailabilityOptionalParams
+    options?: CheckServiceProviderAvailabilityOptionalParams,
   ): Promise<CheckServiceProviderAvailabilityResponse> {
     return this.sendOperationRequest(
       { checkServiceProviderAvailabilityInput, options },
-      checkServiceProviderAvailabilityOperationSpec
+      checkServiceProviderAvailabilityOperationSpec,
     );
   }
 
@@ -224,26 +217,26 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
   prefixes: Prefixes;
   peeringServiceProviders: PeeringServiceProviders;
   peeringServices: PeeringServices;
+  rpUnbilledPrefixes: RpUnbilledPrefixes;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkServiceProviderAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/checkServiceProviderAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Peering/checkServiceProviderAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: { type: { name: "String" } },
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkServiceProviderAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
