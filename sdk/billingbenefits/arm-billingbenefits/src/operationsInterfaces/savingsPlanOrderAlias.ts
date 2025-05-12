@@ -6,17 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  SavingsPlanOrderAliasGetOptionalParams,
+  SavingsPlanOrderAliasGetResponse,
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
   SavingsPlanOrderAliasCreateResponse,
-  SavingsPlanOrderAliasGetOptionalParams,
-  SavingsPlanOrderAliasGetResponse
 } from "../models/index.js";
 
 /** Interface representing a SavingsPlanOrderAlias. */
 export interface SavingsPlanOrderAlias {
+  /**
+   * Get a savings plan.
+   * @param savingsPlanOrderAliasName Name of the savings plan order alias
+   * @param options The options parameters.
+   */
+  get(
+    savingsPlanOrderAliasName: string,
+    options?: SavingsPlanOrderAliasGetOptionalParams,
+  ): Promise<SavingsPlanOrderAliasGetResponse>;
   /**
    * Create a savings plan. Learn more about permissions needed at
    * https://go.microsoft.com/fwlink/?linkid=2215851
@@ -27,10 +36,10 @@ export interface SavingsPlanOrderAlias {
   beginCreate(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<SavingsPlanOrderAliasCreateResponse>,
+    SimplePollerLike<
+      OperationState<SavingsPlanOrderAliasCreateResponse>,
       SavingsPlanOrderAliasCreateResponse
     >
   >;
@@ -44,15 +53,6 @@ export interface SavingsPlanOrderAlias {
   beginCreateAndWait(
     savingsPlanOrderAliasName: string,
     body: SavingsPlanOrderAliasModel,
-    options?: SavingsPlanOrderAliasCreateOptionalParams
+    options?: SavingsPlanOrderAliasCreateOptionalParams,
   ): Promise<SavingsPlanOrderAliasCreateResponse>;
-  /**
-   * Get a savings plan.
-   * @param savingsPlanOrderAliasName Name of the savings plan order alias
-   * @param options The options parameters.
-   */
-  get(
-    savingsPlanOrderAliasName: string,
-    options?: SavingsPlanOrderAliasGetOptionalParams
-  ): Promise<SavingsPlanOrderAliasGetResponse>;
 }

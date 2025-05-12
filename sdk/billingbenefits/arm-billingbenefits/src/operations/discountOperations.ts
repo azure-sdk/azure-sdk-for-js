@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReservationOrderAlias } from "../operationsInterfaces/index.js";
+import { DiscountOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
@@ -14,19 +14,19 @@ import { BillingBenefitsRP } from "../billingBenefitsRP.js";
 import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  ReservationOrderAliasGetOptionalParams,
-  ReservationOrderAliasGetResponse,
-  ReservationOrderAliasRequest,
-  ReservationOrderAliasCreateOptionalParams,
-  ReservationOrderAliasCreateResponse,
+  DiscountGetOptionalParams,
+  DiscountGetResponse,
+  DiscountPatchRequest,
+  DiscountUpdateOptionalParams,
+  DiscountUpdateResponse,
 } from "../models/index.js";
 
-/** Class containing ReservationOrderAlias operations. */
-export class ReservationOrderAliasImpl implements ReservationOrderAlias {
+/** Class containing DiscountOperations operations. */
+export class DiscountOperationsImpl implements DiscountOperations {
   private readonly client: BillingBenefitsRP;
 
   /**
-   * Initialize a new instance of the class ReservationOrderAlias class.
+   * Initialize a new instance of the class DiscountOperations class.
    * @param client Reference to the service client
    */
   constructor(client: BillingBenefitsRP) {
@@ -34,40 +34,39 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
   }
 
   /**
-   * Get a reservation order alias.
-   * @param reservationOrderAliasName Name of the reservation order alias
+   * Get discount at resource group level
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param discountName Name of the discount
    * @param options The options parameters.
    */
   get(
-    reservationOrderAliasName: string,
-    options?: ReservationOrderAliasGetOptionalParams,
-  ): Promise<ReservationOrderAliasGetResponse> {
+    resourceGroupName: string,
+    discountName: string,
+    options?: DiscountGetOptionalParams,
+  ): Promise<DiscountGetResponse> {
     return this.client.sendOperationRequest(
-      { reservationOrderAliasName, options },
+      { resourceGroupName, discountName, options },
       getOperationSpec,
     );
   }
 
   /**
-   * Create a reservation order alias.
-   * @param reservationOrderAliasName Name of the reservation order alias
-   * @param body Request body for creating a reservation order alias
+   * Update discounts
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param discountName Name of the discount
+   * @param body Request body for updating discounts
    * @param options The options parameters.
    */
-  async beginCreate(
-    reservationOrderAliasName: string,
-    body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ReservationOrderAliasCreateResponse>,
-      ReservationOrderAliasCreateResponse
-    >
-  > {
+  async beginUpdate(
+    resourceGroupName: string,
+    discountName: string,
+    body: DiscountPatchRequest,
+    options?: DiscountUpdateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<DiscountUpdateResponse>, DiscountUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ReservationOrderAliasCreateResponse> => {
+    ): Promise<DiscountUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -103,12 +102,12 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { reservationOrderAliasName, body, options },
-      spec: createOperationSpec,
+      args: { resourceGroupName, discountName, body, options },
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
-      ReservationOrderAliasCreateResponse,
-      OperationState<ReservationOrderAliasCreateResponse>
+      DiscountUpdateResponse,
+      OperationState<DiscountUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -119,17 +118,19 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
   }
 
   /**
-   * Create a reservation order alias.
-   * @param reservationOrderAliasName Name of the reservation order alias
-   * @param body Request body for creating a reservation order alias
+   * Update discounts
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param discountName Name of the discount
+   * @param body Request body for updating discounts
    * @param options The options parameters.
    */
-  async beginCreateAndWait(
-    reservationOrderAliasName: string,
-    body: ReservationOrderAliasRequest,
-    options?: ReservationOrderAliasCreateOptionalParams,
-  ): Promise<ReservationOrderAliasCreateResponse> {
-    const poller = await this.beginCreate(reservationOrderAliasName, body, options);
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    discountName: string,
+    body: DiscountPatchRequest,
+    options?: DiscountUpdateOptionalParams,
+  ): Promise<DiscountUpdateResponse> {
+    const poller = await this.beginUpdate(resourceGroupName, discountName, body, options);
     return poller.pollUntilDone();
   }
 }
@@ -137,44 +138,54 @@ export class ReservationOrderAliasImpl implements ReservationOrderAlias {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/discounts/{discountName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse,
+      bodyMapper: Mappers.Discount,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reservationOrderAliasName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.discountName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/providers/Microsoft.BillingBenefits/reservationOrderAliases/{reservationOrderAliasName}",
-  httpMethod: "PUT",
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/discounts/{discountName}",
+  httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse,
+      bodyMapper: Mappers.Discount,
     },
     201: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse,
+      bodyMapper: Mappers.Discount,
     },
     202: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse,
+      bodyMapper: Mappers.Discount,
     },
     204: {
-      bodyMapper: Mappers.ReservationOrderAliasResponse,
+      bodyMapper: Mappers.Discount,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body1,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.reservationOrderAliasName],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.discountName,
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
