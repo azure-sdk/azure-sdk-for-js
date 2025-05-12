@@ -172,10 +172,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
     assessmentMetadataName: string,
     options?: AssessmentsMetadataGetOptionalParams,
   ): Promise<AssessmentsMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { assessmentMetadataName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ assessmentMetadataName, options }, getOperationSpec);
   }
 
   /**
@@ -185,10 +182,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
   private _listBySubscription(
     options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -248,10 +242,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
     nextLink: string,
     options?: AssessmentsMetadataListNextOptionalParams,
   ): Promise<AssessmentsMetadataListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -283,7 +274,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,
@@ -299,7 +290,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer,
@@ -315,7 +306,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
+  queryParameters: [Parameters.apiVersion20],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -331,12 +322,8 @@ const getInSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  queryParameters: [Parameters.apiVersion20],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -352,12 +339,8 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.assessmentMetadata,
-  queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  queryParameters: [Parameters.apiVersion20],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -371,12 +354,8 @@ const deleteInSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  queryParameters: [Parameters.apiVersion20],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -406,11 +385,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -21,9 +21,7 @@ export interface SecureScores {
    * List secure scores for all your Microsoft Defender for Cloud initiatives within your current scope.
    * @param options The options parameters.
    */
-  list(
-    options?: SecureScoresListOptionalParams,
-  ): PagedAsyncIterableIterator<SecureScoreItem>;
+  list(options?: SecureScoresListOptionalParams): PagedAsyncIterableIterator<SecureScoreItem>;
   /**
    * Get secure score for a specific Microsoft Defender for Cloud initiative within your current scope.
    * For the ASC Default initiative, use 'ascScore'.

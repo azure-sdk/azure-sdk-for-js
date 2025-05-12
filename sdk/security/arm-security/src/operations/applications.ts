@@ -38,9 +38,7 @@ export class ApplicationsImpl implements Applications {
    * Get a list of all relevant applications over a subscription level scope
    * @param options The options parameters.
    */
-  public list(
-    options?: ApplicationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Application> {
+  public list(options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<Application> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class ApplicationsImpl implements Applications {
    * Get a list of all relevant applications over a subscription level scope
    * @param options The options parameters.
    */
-  private _list(
-    options?: ApplicationsListOptionalParams,
-  ): Promise<ApplicationsListResponse> {
+  private _list(options?: ApplicationsListOptionalParams): Promise<ApplicationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class ApplicationsImpl implements Applications {
     nextLink: string,
     options?: ApplicationsListNextOptionalParams,
   ): Promise<ApplicationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -127,7 +120,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -143,11 +136,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
