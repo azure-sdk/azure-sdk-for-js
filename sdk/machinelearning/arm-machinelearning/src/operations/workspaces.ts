@@ -13,45 +13,41 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Workspace,
-  WorkspacesListByResourceGroupNextOptionalParams,
-  WorkspacesListByResourceGroupOptionalParams,
-  WorkspacesListByResourceGroupResponse,
   WorkspacesListBySubscriptionNextOptionalParams,
   WorkspacesListBySubscriptionOptionalParams,
   WorkspacesListBySubscriptionResponse,
+  WorkspacesListByResourceGroupNextOptionalParams,
+  WorkspacesListByResourceGroupOptionalParams,
+  WorkspacesListByResourceGroupResponse,
+  WorkspacesDeleteOptionalParams,
   WorkspacesGetOptionalParams,
   WorkspacesGetResponse,
-  WorkspacesCreateOrUpdateOptionalParams,
-  WorkspacesCreateOrUpdateResponse,
-  WorkspacesDeleteOptionalParams,
   WorkspaceUpdateParameters,
   WorkspacesUpdateOptionalParams,
   WorkspacesUpdateResponse,
+  WorkspacesCreateOrUpdateOptionalParams,
+  WorkspacesCreateOrUpdateResponse,
   WorkspacesDiagnoseOptionalParams,
   WorkspacesDiagnoseResponse,
   WorkspacesListKeysOptionalParams,
   WorkspacesListKeysResponse,
-  WorkspacesResyncKeysOptionalParams,
   WorkspacesListNotebookAccessTokenOptionalParams,
   WorkspacesListNotebookAccessTokenResponse,
-  WorkspacesPrepareNotebookOptionalParams,
-  WorkspacesPrepareNotebookResponse,
-  WorkspacesListStorageAccountKeysOptionalParams,
-  WorkspacesListStorageAccountKeysResponse,
   WorkspacesListNotebookKeysOptionalParams,
   WorkspacesListNotebookKeysResponse,
+  WorkspacesListStorageAccountKeysOptionalParams,
+  WorkspacesListStorageAccountKeysResponse,
   WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
   WorkspacesListOutboundNetworkDependenciesEndpointsResponse,
-  WorkspacesListByResourceGroupNextResponse,
+  WorkspacesPrepareNotebookOptionalParams,
+  WorkspacesPrepareNotebookResponse,
+  WorkspacesResyncKeysOptionalParams,
   WorkspacesListBySubscriptionNextResponse,
+  WorkspacesListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,75 +61,6 @@ export class WorkspacesImpl implements Workspaces {
    */
   constructor(client: AzureMachineLearningServicesManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Lists all the available machine learning workspaces under the specified resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Workspace> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<Workspace[]> {
-    let result: WorkspacesListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-  ): AsyncIterableIterator<Workspace> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
-      yield* page;
-    }
   }
 
   /**
@@ -191,120 +118,92 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Gets the properties of the specified machine learning workspace.
+   * Lists all the available machine learning workspaces under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
    * @param options The options parameters.
    */
-  get(
+  public listByResourceGroup(
     resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesGetOptionalParams,
-  ): Promise<WorkspacesGetResponse> {
+    options?: WorkspacesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Workspace> {
+    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
+    };
+  }
+
+  private async *listByResourceGroupPagingPage(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<Workspace[]> {
+    let result: WorkspacesListByResourceGroupResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByResourceGroupPagingAll(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams,
+  ): AsyncIterableIterator<Workspace> {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists all the available machine learning workspaces under the specified subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: WorkspacesListBySubscriptionOptionalParams,
+  ): Promise<WorkspacesListBySubscriptionResponse> {
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+  }
+
+  /**
+   * Lists all the available machine learning workspaces under the specified resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: WorkspacesListByResourceGroupOptionalParams,
+  ): Promise<WorkspacesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      getOperationSpec,
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
     );
-  }
-
-  /**
-   * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesCreateOrUpdateResponse>,
-      WorkspacesCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<WorkspacesCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, workspaceName, parameters, options },
-      spec: createOrUpdateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      WorkspacesCreateOrUpdateResponse,
-      OperationState<WorkspacesCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Creates or updates a workspace with the specified parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for creating or updating a machine learning workspace.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    parameters: Workspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams,
-  ): Promise<WorkspacesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      workspaceName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginDelete(
@@ -322,8 +221,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -358,6 +256,7 @@ export class WorkspacesImpl implements Workspaces {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -366,7 +265,7 @@ export class WorkspacesImpl implements Workspaces {
   /**
    * Deletes a machine learning workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -374,32 +273,40 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the properties of the specified machine learning workspace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesGetOptionalParams,
+  ): Promise<WorkspacesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Updates a machine learning workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for updating a machine learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param body The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     workspaceName: string,
-    parameters: WorkspaceUpdateParameters,
+    body: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesUpdateResponse>,
-      WorkspacesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<WorkspacesUpdateResponse>, WorkspacesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -410,8 +317,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -440,7 +346,7 @@ export class WorkspacesImpl implements Workspaces {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, workspaceName, parameters, options },
+      args: { resourceGroupName, workspaceName, body, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -457,44 +363,113 @@ export class WorkspacesImpl implements Workspaces {
   /**
    * Updates a machine learning workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param parameters The parameters for updating a machine learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param body The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    parameters: WorkspaceUpdateParameters,
+    body: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams,
   ): Promise<WorkspacesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      workspaceName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, workspaceName, body, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists all the available machine learning workspaces under the specified resource group.
+   * Creates or updates a workspace with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param body The parameters for creating or updating a machine learning workspace.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams,
-  ): Promise<WorkspacesListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
+    workspaceName: string,
+    body: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<WorkspacesCreateOrUpdateResponse>,
+      WorkspacesCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<WorkspacesCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, body, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      WorkspacesCreateOrUpdateResponse,
+      OperationState<WorkspacesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates or updates a workspace with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param body The parameters for creating or updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    body: Workspace,
+    options?: WorkspacesCreateOrUpdateOptionalParams,
+  ): Promise<WorkspacesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, workspaceName, body, options);
+    return poller.pollUntilDone();
   }
 
   /**
    * Diagnose workspace setup issue.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginDiagnose(
@@ -502,10 +477,7 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacesDiagnoseResponse>,
-      WorkspacesDiagnoseResponse
-    >
+    SimplePollerLike<OperationState<WorkspacesDiagnoseResponse>, WorkspacesDiagnoseResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -517,8 +489,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -565,7 +536,7 @@ export class WorkspacesImpl implements Workspaces {
   /**
    * Diagnose workspace setup issue.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginDiagnoseAndWait(
@@ -573,19 +544,15 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesDiagnoseOptionalParams,
   ): Promise<WorkspacesDiagnoseResponse> {
-    const poller = await this.beginDiagnose(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginDiagnose(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Lists all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
+   * insights and password for container registry.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   listKeys(
@@ -600,105 +567,9 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Resync all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
+   * Get Azure Machine Learning Workspace notebook access token
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  async beginResyncKeys(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, workspaceName, options },
-      spec: resyncKeysOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Resync all the keys associated with this workspace. This includes keys for the storage account, app
-   * insights and password for container registry
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
-   * @param options The options parameters.
-   */
-  async beginResyncKeysAndWait(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesResyncKeysOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginResyncKeys(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Lists all the available machine learning workspaces under the specified subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams,
-  ): Promise<WorkspacesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * return notebook access token and refresh token
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   listNotebookAccessToken(
@@ -713,9 +584,61 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Prepare a notebook.
+   * Lists keys of Azure Machine Learning Workspaces notebook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param options The options parameters.
+   */
+  listNotebookKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListNotebookKeysOptionalParams,
+  ): Promise<WorkspacesListNotebookKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      listNotebookKeysOperationSpec,
+    );
+  }
+
+  /**
+   * Lists keys of Azure Machine Learning Workspace's storage account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param options The options parameters.
+   */
+  listStorageAccountKeys(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListStorageAccountKeysOptionalParams,
+  ): Promise<WorkspacesListStorageAccountKeysResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      listStorageAccountKeysOperationSpec,
+    );
+  }
+
+  /**
+   * Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs)
+   * programmatically.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
+   * @param options The options parameters.
+   */
+  listOutboundNetworkDependenciesEndpoints(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
+  ): Promise<WorkspacesListOutboundNetworkDependenciesEndpointsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, workspaceName, options },
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
+    );
+  }
+
+  /**
+   * Prepare Azure Machine Learning Workspace's notebook resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginPrepareNotebook(
@@ -738,8 +661,7 @@ export class WorkspacesImpl implements Workspaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -784,9 +706,9 @@ export class WorkspacesImpl implements Workspaces {
   }
 
   /**
-   * Prepare a notebook.
+   * Prepare Azure Machine Learning Workspace's notebook resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
   async beginPrepareNotebookAndWait(
@@ -794,63 +716,101 @@ export class WorkspacesImpl implements Workspaces {
     workspaceName: string,
     options?: WorkspacesPrepareNotebookOptionalParams,
   ): Promise<WorkspacesPrepareNotebookResponse> {
-    const poller = await this.beginPrepareNotebook(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const poller = await this.beginPrepareNotebook(resourceGroupName, workspaceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * List storage account keys of a workspace.
+   * Resync all the keys associated with this workspace.This includes keys for the storage account, app
+   * insights and password for container registry
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
-  listStorageAccountKeys(
+  async beginResyncKeys(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListStorageAccountKeysOptionalParams,
-  ): Promise<WorkspacesListStorageAccountKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listStorageAccountKeysOperationSpec,
-    );
+    options?: WorkspacesResyncKeysOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, options },
+      spec: resyncKeysOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * List keys of a notebook.
+   * Resync all the keys associated with this workspace.This includes keys for the storage account, app
+   * insights and password for container registry
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param workspaceName Azure Machine Learning Workspace Name
    * @param options The options parameters.
    */
-  listNotebookKeys(
+  async beginResyncKeysAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesListNotebookKeysOptionalParams,
-  ): Promise<WorkspacesListNotebookKeysResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listNotebookKeysOperationSpec,
-    );
+    options?: WorkspacesResyncKeysOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginResyncKeys(resourceGroupName, workspaceName, options);
+    return poller.pollUntilDone();
   }
 
   /**
-   * Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs)
-   * programmatically.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName Name of Azure Machine Learning workspace.
+   * ListBySubscriptionNext
+   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
    */
-  listOutboundNetworkDependenciesEndpoints(
-    resourceGroupName: string,
-    workspaceName: string,
-    options?: WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams,
-  ): Promise<WorkspacesListOutboundNetworkDependenciesEndpointsResponse> {
+  private _listBySubscriptionNext(
+    nextLink: string,
+    options?: WorkspacesListBySubscriptionNextOptionalParams,
+  ): Promise<WorkspacesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec,
+      { nextLink, options },
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -870,76 +830,50 @@ export class WorkspacesImpl implements Workspaces {
       listByResourceGroupNextOperationSpec,
     );
   }
-
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  private _listBySubscriptionNext(
-    nextLink: string,
-    options?: WorkspacesListBySubscriptionNextOptionalParams,
-  ): Promise<WorkspacesListBySubscriptionNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBySubscriptionNextOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip,
+    Parameters.kind,
+    Parameters.aiCapabilities,
   ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
-  httpMethod: "PUT",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces",
+  httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Workspace,
-    },
-    201: {
-      bodyMapper: Mappers.Workspace,
-    },
-    202: {
-      bodyMapper: Mappers.Workspace,
-    },
-    204: {
-      bodyMapper: Mappers.Workspace,
+      bodyMapper: Mappers.WorkspaceListResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skip,
+    Parameters.kind,
+    Parameters.aiCapabilities,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -955,6 +889,27 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.forceToPurge],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Workspace,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -984,7 +939,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters1,
+  requestBody: Parameters.body44,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -996,24 +951,36 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces",
-  httpMethod: "GET",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult,
+      bodyMapper: Mappers.Workspace,
+    },
+    201: {
+      bodyMapper: Mappers.Workspace,
+    },
+    202: {
+      bodyMapper: Mappers.Workspace,
+    },
+    204: {
+      bodyMapper: Mappers.Workspace,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip],
+  requestBody: Parameters.body45,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.workspaceName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const diagnoseOperationSpec: coreClient.OperationSpec = {
@@ -1036,7 +1003,7 @@ const diagnoseOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.body46,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1069,14 +1036,13 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const resyncKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys",
+const listNotebookAccessTokenOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookAccessToken",
   httpMethod: "POST",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.NotebookAccessTokenResult,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -1091,28 +1057,54 @@ const resyncKeysOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
-  httpMethod: "GET",
+const listNotebookKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookKeys",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkspaceListResult,
+      bodyMapper: Mappers.ListNotebookKeysResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.skip],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listNotebookAccessTokenOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookAccessToken",
+const listStorageAccountKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listStorageAccountKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NotebookAccessTokenResult,
+      bodyMapper: Mappers.ListStorageAccountKeysResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExternalFqdnResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -1158,13 +1150,14 @@ const prepareNotebookOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listStorageAccountKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listStorageAccountKeys",
+const resyncKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.ListStorageAccountKeysResult,
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -1175,69 +1168,6 @@ const listStorageAccountKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listNotebookKeysOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ListNotebookKeysResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ExternalFqdnResponse,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
-    },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.workspaceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.WorkspaceListResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1253,10 +1183,26 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.WorkspaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
