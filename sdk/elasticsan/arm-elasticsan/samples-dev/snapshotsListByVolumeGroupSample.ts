@@ -1,0 +1,57 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ElasticSanClient } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
+ *
+ * @summary list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
+ * x-ms-original-file: 2024-07-01-preview/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
+ */
+async function volumeSnapshotsListByVolumeGroupMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.snapshots.listByVolumeGroup(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    { filter: "volumeName eq <volume name>" },
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+/**
+ * This sample demonstrates how to list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
+ *
+ * @summary list Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
+ * x-ms-original-file: 2024-07-01-preview/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
+ */
+async function volumeSnapshotsListByVolumeGroupMinimumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.snapshots.listByVolumeGroup(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main(): Promise<void> {
+  await volumeSnapshotsListByVolumeGroupMaximumSetGen();
+  await volumeSnapshotsListByVolumeGroupMinimumSetGen();
+}
+
+main().catch(console.error);

@@ -1,0 +1,48 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ElasticSanClient } from "@azure/arm-elasticsan";
+import { DefaultAzureCredential } from "@azure/identity";
+
+/**
+ * This sample demonstrates how to create a Volume.
+ *
+ * @summary create a Volume.
+ * x-ms-original-file: 2024-07-01-preview/Volumes_Create_MaximumSet_Gen.json
+ */
+async function volumesCreateMaximumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  await client.volumes.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    "volumename",
+  );
+}
+
+/**
+ * This sample demonstrates how to create a Volume.
+ *
+ * @summary create a Volume.
+ * x-ms-original-file: 2024-07-01-preview/Volumes_Create_MinimumSet_Gen.json
+ */
+async function volumesCreateMinimumSetGen(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subscriptionid";
+  const client = new ElasticSanClient(credential, subscriptionId);
+  await client.volumes.create(
+    "resourcegroupname",
+    "elasticsanname",
+    "volumegroupname",
+    "volumename",
+  );
+}
+
+async function main(): Promise<void> {
+  await volumesCreateMaximumSetGen();
+  await volumesCreateMinimumSetGen();
+}
+
+main().catch(console.error);
