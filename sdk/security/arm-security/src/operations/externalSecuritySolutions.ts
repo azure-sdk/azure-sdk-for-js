@@ -29,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExternalSecuritySolutions operations. */
-export class ExternalSecuritySolutionsImpl
-  implements ExternalSecuritySolutions
-{
+export class ExternalSecuritySolutionsImpl implements ExternalSecuritySolutions {
   private readonly client: SecurityCenter;
 
   /**
@@ -138,11 +136,7 @@ export class ExternalSecuritySolutionsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(
-        ascLocation,
-        continuationToken,
-        options,
-      );
+      result = await this._listByHomeRegionNext(ascLocation, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -154,10 +148,7 @@ export class ExternalSecuritySolutionsImpl
     ascLocation: string,
     options?: ExternalSecuritySolutionsListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<ExternalSecuritySolution> {
-    for await (const page of this.listByHomeRegionPagingPage(
-      ascLocation,
-      options,
-    )) {
+    for await (const page of this.listByHomeRegionPagingPage(ascLocation, options)) {
       yield* page;
     }
   }
@@ -223,10 +214,7 @@ export class ExternalSecuritySolutionsImpl
     nextLink: string,
     options?: ExternalSecuritySolutionsListNextOptionalParams,
   ): Promise<ExternalSecuritySolutionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -278,11 +266,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -319,11 +303,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

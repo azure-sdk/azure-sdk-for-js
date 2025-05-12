@@ -111,10 +111,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
     settingName: string,
     options?: AutoProvisioningSettingsGetOptionalParams,
   ): Promise<AutoProvisioningSettingsGetResponse> {
-    return this.client.sendOperationRequest(
-      { settingName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ settingName, options }, getOperationSpec);
   }
 
   /**
@@ -128,10 +125,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
     setting: AutoProvisioningSetting,
     options?: AutoProvisioningSettingsCreateOptionalParams,
   ): Promise<AutoProvisioningSettingsCreateResponse> {
-    return this.client.sendOperationRequest(
-      { settingName, setting, options },
-      createOperationSpec,
-    );
+    return this.client.sendOperationRequest({ settingName, setting, options }, createOperationSpec);
   }
 
   /**
@@ -143,10 +137,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
     nextLink: string,
     options?: AutoProvisioningSettingsListNextOptionalParams,
   ): Promise<AutoProvisioningSettingsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -180,11 +171,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.settingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.settingName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -201,11 +188,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.setting,
   queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.settingName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.settingName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -221,11 +204,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

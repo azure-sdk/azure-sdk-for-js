@@ -111,10 +111,7 @@ export class AssessmentsImpl implements Assessments {
     scope: string,
     options?: AssessmentsListOptionalParams,
   ): Promise<AssessmentsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -185,10 +182,7 @@ export class AssessmentsImpl implements Assessments {
     nextLink: string,
     options?: AssessmentsListNextOptionalParams,
   ): Promise<AssessmentsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -222,11 +216,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion21, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -246,11 +236,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.assessment,
   queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -266,11 +252,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.assessmentName,
-    Parameters.resourceId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.assessmentName, Parameters.resourceId],
   headerParameters: [Parameters.accept],
   serializer,
 };

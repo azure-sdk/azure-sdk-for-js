@@ -109,10 +109,7 @@ export interface GovernanceRules {
     ruleId: string,
     options?: GovernanceRulesExecuteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GovernanceRulesExecuteResponse>,
-      GovernanceRulesExecuteResponse
-    >
+    SimplePollerLike<OperationState<GovernanceRulesExecuteResponse>, GovernanceRulesExecuteResponse>
   >;
   /**
    * Execute a governance rule
