@@ -16,7 +16,5 @@ export interface EdgeNodes {
    * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
    * @param options The options parameters.
    */
-  list(
-    options?: EdgeNodesListOptionalParams,
-  ): PagedAsyncIterableIterator<EdgeNode>;
+  list(options?: EdgeNodesListOptionalParams): PagedAsyncIterableIterator<EdgeNode>;
 }

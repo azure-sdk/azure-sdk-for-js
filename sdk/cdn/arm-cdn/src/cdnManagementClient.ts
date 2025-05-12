@@ -8,11 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AfdProfilesImpl,
@@ -93,10 +89,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     subscriptionId: string,
     options?: CdnManagementClientOptionalParams,
   );
-  constructor(
-    credentials: coreAuth.TokenCredential,
-    options?: CdnManagementClientOptionalParams,
-  );
+  constructor(credentials: coreAuth.TokenCredential, options?: CdnManagementClientOptionalParams);
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionIdOrOptions?: CdnManagementClientOptionalParams | string,
@@ -123,7 +116,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/9.1.1`;
+    const packageDetails = `azsdk-js-arm-cdn/10.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -135,8 +128,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -146,8 +138,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -163,11 +154,9 @@ export class CdnManagementClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -177,7 +166,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-02-01";
+    this.apiVersion = options.apiVersion || "2025-04-15";
     this.afdProfiles = new AfdProfilesImpl(this);
     this.afdCustomDomains = new AfdCustomDomainsImpl(this);
     this.afdEndpoints = new AfdEndpointsImpl(this);
@@ -209,10 +198,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -291,10 +277,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     validateProbeInput: ValidateProbeInput,
     options?: ValidateProbeOptionalParams,
   ): Promise<ValidateProbeResponse> {
-    return this.sendOperationRequest(
-      { validateProbeInput, options },
-      validateProbeOperationSpec,
-    );
+    return this.sendOperationRequest({ validateProbeInput, options }, validateProbeOperationSpec);
   }
 
   afdProfiles: AfdProfiles;
@@ -335,11 +318,7 @@ const checkEndpointNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.checkEndpointNameAvailabilityInput,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
@@ -362,25 +341,24 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const checkNameAvailabilityWithSubscriptionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.CheckNameAvailabilityOutput,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const checkNameAvailabilityWithSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/checkNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityOutput,
     },
-    requestBody: Parameters.checkNameAvailabilityInput,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.subscriptionId],
-    headerParameters: [Parameters.contentType, Parameters.accept],
-    mediaType: "json",
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.checkNameAvailabilityInput,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
 const validateProbeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Cdn/validateProbe",
   httpMethod: "POST",

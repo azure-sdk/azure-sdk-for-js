@@ -68,12 +68,7 @@ export interface Origins {
     originName: string,
     origin: Origin,
     options?: OriginsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<OriginsCreateResponse>,
-      OriginsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<OriginsCreateResponse>, OriginsCreateResponse>>;
   /**
    * Creates a new origin within the specified endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -107,12 +102,7 @@ export interface Origins {
     originName: string,
     originUpdateProperties: OriginUpdateParameters,
     options?: OriginsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<OriginsUpdateResponse>,
-      OriginsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<OriginsUpdateResponse>, OriginsUpdateResponse>>;
   /**
    * Updates an existing origin within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   RuleSet,
@@ -53,8 +49,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * Lists existing AzureFrontDoor rule sets within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -62,11 +58,7 @@ export class RuleSetsImpl implements RuleSets {
     profileName: string,
     options?: RuleSetsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<RuleSet> {
-    const iter = this.listByProfilePagingAll(
-      resourceGroupName,
-      profileName,
-      options,
-    );
+    const iter = this.listByProfilePagingAll(resourceGroupName, profileName, options);
     return {
       next() {
         return iter.next();
@@ -78,12 +70,7 @@ export class RuleSetsImpl implements RuleSets {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProfilePagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listByProfilePagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -97,11 +84,7 @@ export class RuleSetsImpl implements RuleSets {
     let result: RuleSetsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProfile(
-        resourceGroupName,
-        profileName,
-        options,
-      );
+      result = await this._listByProfile(resourceGroupName, profileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -138,8 +121,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -187,12 +170,7 @@ export class RuleSetsImpl implements RuleSets {
     let result: RuleSetsListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listResourceUsage(
-        resourceGroupName,
-        profileName,
-        ruleSetName,
-        options,
-      );
+      result = await this._listResourceUsage(resourceGroupName, profileName, ruleSetName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -232,8 +210,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * Lists existing AzureFrontDoor rule sets within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -251,8 +229,8 @@ export class RuleSetsImpl implements RuleSets {
    * Gets an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -271,8 +249,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * Creates a new rule set within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally
    * @param options The options parameters.
    */
@@ -292,8 +270,8 @@ export class RuleSetsImpl implements RuleSets {
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -313,8 +291,7 @@ export class RuleSetsImpl implements RuleSets {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -359,8 +336,8 @@ export class RuleSetsImpl implements RuleSets {
    * Deletes an existing AzureFrontDoor rule set with the specified rule set name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -370,20 +347,15 @@ export class RuleSetsImpl implements RuleSets {
     ruleSetName: string,
     options?: RuleSetsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      profileName,
-      ruleSetName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, profileName, ruleSetName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile..
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -402,8 +374,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -422,8 +394,8 @@ export class RuleSetsImpl implements RuleSets {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
@@ -460,7 +432,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -481,7 +453,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
@@ -506,7 +478,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
@@ -529,7 +501,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
@@ -551,7 +523,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.ruleSetName,
   ],
   headerParameters: [Parameters.accept],
@@ -572,7 +544,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
@@ -593,7 +565,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
     Parameters.ruleSetName,
   ],

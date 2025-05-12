@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Usage,
@@ -55,8 +51,8 @@ export class AfdProfilesImpl implements AfdProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listResourceUsage(
@@ -64,11 +60,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     profileName: string,
     options?: AfdProfilesListResourceUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
-    const iter = this.listResourceUsagePagingAll(
-      resourceGroupName,
-      profileName,
-      options,
-    );
+    const iter = this.listResourceUsagePagingAll(resourceGroupName, profileName, options);
     return {
       next() {
         return iter.next();
@@ -80,12 +72,7 @@ export class AfdProfilesImpl implements AfdProfiles {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listResourceUsagePagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listResourceUsagePagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -99,11 +86,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     let result: AfdProfilesListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listResourceUsage(
-        resourceGroupName,
-        profileName,
-        options,
-      );
+      result = await this._listResourceUsage(resourceGroupName, profileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -165,8 +148,8 @@ export class AfdProfilesImpl implements AfdProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listResourceUsage(
@@ -184,8 +167,8 @@ export class AfdProfilesImpl implements AfdProfiles {
    * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
    * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param checkHostNameAvailabilityInput Custom domain to be validated.
    * @param options The options parameters.
    */
@@ -240,10 +223,7 @@ export class AfdProfilesImpl implements AfdProfiles {
     profileUpgradeParameters: ProfileUpgradeParameters,
     options?: AfdProfilesUpgradeOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AfdProfilesUpgradeResponse>,
-      AfdProfilesUpgradeResponse
-    >
+    SimplePollerLike<OperationState<AfdProfilesUpgradeResponse>, AfdProfilesUpgradeResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -255,8 +235,7 @@ export class AfdProfilesImpl implements AfdProfiles {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -331,8 +310,8 @@ export class AfdProfilesImpl implements AfdProfiles {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
    */
@@ -390,7 +369,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -412,7 +391,7 @@ const checkHostNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -488,7 +467,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { CdnManagementClient } from "../cdnManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AFDEndpoint,
@@ -61,8 +57,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * Lists existing AzureFrontDoor endpoints.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   public listByProfile(
@@ -70,11 +66,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     options?: AfdEndpointsListByProfileOptionalParams,
   ): PagedAsyncIterableIterator<AFDEndpoint> {
-    const iter = this.listByProfilePagingAll(
-      resourceGroupName,
-      profileName,
-      options,
-    );
+    const iter = this.listByProfilePagingAll(resourceGroupName, profileName, options);
     return {
       next() {
         return iter.next();
@@ -86,12 +78,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByProfilePagingPage(
-          resourceGroupName,
-          profileName,
-          options,
-          settings,
-        );
+        return this.listByProfilePagingPage(resourceGroupName, profileName, options, settings);
       },
     };
   }
@@ -105,11 +92,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     let result: AfdEndpointsListByProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByProfile(
-        resourceGroupName,
-        profileName,
-        options,
-      );
+      result = await this._listByProfile(resourceGroupName, profileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -146,8 +129,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -195,12 +178,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     let result: AfdEndpointsListResourceUsageResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listResourceUsage(
-        resourceGroupName,
-        profileName,
-        endpointName,
-        options,
-      );
+      result = await this._listResourceUsage(resourceGroupName, profileName, endpointName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -240,8 +218,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * Lists existing AzureFrontDoor endpoints.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param options The options parameters.
    */
   private _listByProfile(
@@ -259,8 +237,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -280,8 +258,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Creates a new AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
    * @param options The options parameters.
@@ -293,10 +271,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpoint: AFDEndpoint,
     options?: AfdEndpointsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AfdEndpointsCreateResponse>,
-      AfdEndpointsCreateResponse
-    >
+    SimplePollerLike<OperationState<AfdEndpointsCreateResponse>, AfdEndpointsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -308,8 +283,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -357,8 +331,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Creates a new AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpoint Endpoint properties
    * @param options The options parameters.
@@ -386,8 +360,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * update origins, use the Update Origin operation. To update origin groups, use the Update Origin
    * group operation. To update domains, use the Update Custom Domain operation.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
    * @param options The options parameters.
@@ -399,10 +373,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpointUpdateProperties: AFDEndpointUpdateParameters,
     options?: AfdEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AfdEndpointsUpdateResponse>,
-      AfdEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<AfdEndpointsUpdateResponse>, AfdEndpointsUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -414,8 +385,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -471,8 +441,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * update origins, use the Update Origin operation. To update origin groups, use the Update Origin
    * group operation. To update domains, use the Update Custom Domain operation.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param endpointUpdateProperties Endpoint update properties
    * @param options The options parameters.
@@ -498,8 +468,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -519,8 +489,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -565,8 +534,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -576,20 +545,15 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpointName: string,
     options?: AfdEndpointsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      profileName,
-      endpointName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, profileName, endpointName, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Removes a content from AzureFrontDoor.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contents The list of paths to the content and the list of linked domains to be purged. Path
    *                 can be a full URL, e.g. '/pictures/city.png' which removes a single file, or a directory with a
@@ -613,8 +577,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -658,8 +621,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * Removes a content from AzureFrontDoor.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param contents The list of paths to the content and the list of linked domains to be purged. Path
    *                 can be a full URL, e.g. '/pictures/city.png' which removes a single file, or a directory with a
@@ -686,8 +649,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param options The options parameters.
    */
@@ -707,8 +670,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
    * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
    * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param customDomainProperties Custom domain to be validated.
    * @param options The options parameters.
@@ -735,8 +698,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * ListByProfileNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListByProfile method.
    * @param options The options parameters.
    */
@@ -755,8 +718,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
@@ -793,7 +756,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -814,7 +777,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
@@ -846,7 +809,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -879,7 +842,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -903,7 +866,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
@@ -927,7 +890,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -950,7 +913,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
@@ -973,7 +936,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.endpointName,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -995,7 +958,7 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
@@ -1016,7 +979,7 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName1,
+    Parameters.profileName,
     Parameters.nextLink,
     Parameters.endpointName,
   ],

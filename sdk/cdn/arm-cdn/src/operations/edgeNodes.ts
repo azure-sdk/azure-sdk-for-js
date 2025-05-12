@@ -38,9 +38,7 @@ export class EdgeNodesImpl implements EdgeNodes {
    * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
    * @param options The options parameters.
    */
-  public list(
-    options?: EdgeNodesListOptionalParams,
-  ): PagedAsyncIterableIterator<EdgeNode> {
+  public list(options?: EdgeNodesListOptionalParams): PagedAsyncIterableIterator<EdgeNode> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -92,9 +90,7 @@ export class EdgeNodesImpl implements EdgeNodes {
    * Edgenodes are the global Point of Presence (POP) locations used to deliver CDN content to end users.
    * @param options The options parameters.
    */
-  private _list(
-    options?: EdgeNodesListOptionalParams,
-  ): Promise<EdgeNodesListResponse> {
+  private _list(options?: EdgeNodesListOptionalParams): Promise<EdgeNodesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +103,7 @@ export class EdgeNodesImpl implements EdgeNodes {
     nextLink: string,
     options?: EdgeNodesListNextOptionalParams,
   ): Promise<EdgeNodesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

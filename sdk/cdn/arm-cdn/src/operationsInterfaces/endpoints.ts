@@ -90,12 +90,7 @@ export interface Endpoints {
     endpointName: string,
     endpoint: Endpoint,
     options?: EndpointsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<EndpointsCreateResponse>,
-      EndpointsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<EndpointsCreateResponse>, EndpointsCreateResponse>>;
   /**
    * Creates a new CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile.
@@ -129,12 +124,7 @@ export interface Endpoints {
     endpointName: string,
     endpointUpdateProperties: EndpointUpdateParameters,
     options?: EndpointsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<EndpointsUpdateResponse>,
-      EndpointsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<EndpointsUpdateResponse>, EndpointsUpdateResponse>>;
   /**
    * Updates an existing CDN endpoint with the specified endpoint name under the specified subscription,
    * resource group and profile. Only tags can be updated after creating an endpoint. To update origins,
@@ -193,12 +183,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     options?: EndpointsStartOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<EndpointsStartResponse>,
-      EndpointsStartResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<EndpointsStartResponse>, EndpointsStartResponse>>;
   /**
    * Starts an existing CDN endpoint that is on a stopped state.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -224,12 +209,7 @@ export interface Endpoints {
     profileName: string,
     endpointName: string,
     options?: EndpointsStopOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<EndpointsStopResponse>,
-      EndpointsStopResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<EndpointsStopResponse>, EndpointsStopResponse>>;
   /**
    * Stops an existing running CDN endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

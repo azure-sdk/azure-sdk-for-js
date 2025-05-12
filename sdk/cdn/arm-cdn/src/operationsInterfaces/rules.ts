@@ -27,8 +27,8 @@ export interface Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -41,8 +41,8 @@ export interface Rules {
   /**
    * Gets an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -57,8 +57,8 @@ export interface Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -71,14 +71,12 @@ export interface Rules {
     ruleName: string,
     rule: Rule,
     options?: RulesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>>;
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -95,8 +93,8 @@ export interface Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -109,14 +107,12 @@ export interface Rules {
     ruleName: string,
     ruleUpdateProperties: RuleUpdateParameters,
     options?: RulesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>>;
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -133,8 +129,8 @@ export interface Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -149,8 +145,8 @@ export interface Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
-   *                    is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium which is unique
+   *                    within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.

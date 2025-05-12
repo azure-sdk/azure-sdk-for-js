@@ -71,10 +71,7 @@ export interface CustomDomains {
     customDomainProperties: CustomDomainParameters,
     options?: CustomDomainsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CustomDomainsCreateResponse>,
-      CustomDomainsCreateResponse
-    >
+    SimplePollerLike<OperationState<CustomDomainsCreateResponse>, CustomDomainsCreateResponse>
   >;
   /**
    * Creates a new custom domain within an endpoint.

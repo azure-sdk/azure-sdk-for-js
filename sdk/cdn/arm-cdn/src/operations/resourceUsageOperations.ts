@@ -92,9 +92,7 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
    * Check the quota and actual usage of the CDN profiles under the given subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ResourceUsageListOptionalParams,
-  ): Promise<ResourceUsageListResponse> {
+  private _list(options?: ResourceUsageListOptionalParams): Promise<ResourceUsageListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,10 +105,7 @@ export class ResourceUsageOperationsImpl implements ResourceUsageOperations {
     nextLink: string,
     options?: ResourceUsageListNextOptionalParams,
   ): Promise<ResourceUsageListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +138,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
