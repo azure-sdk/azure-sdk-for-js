@@ -70,11 +70,7 @@ export class ScalingPlansImpl implements ScalingPlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -94,11 +90,7 @@ export class ScalingPlansImpl implements ScalingPlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,10 +102,7 @@ export class ScalingPlansImpl implements ScalingPlans {
     resourceGroupName: string,
     options?: ScalingPlansListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ScalingPlan> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -183,11 +172,7 @@ export class ScalingPlansImpl implements ScalingPlans {
     hostPoolName: string,
     options?: ScalingPlansListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlan> {
-    const iter = this.listByHostPoolPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    );
+    const iter = this.listByHostPoolPagingAll(resourceGroupName, hostPoolName, options);
     return {
       next() {
         return iter.next();
@@ -199,12 +184,7 @@ export class ScalingPlansImpl implements ScalingPlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByHostPoolPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
+        return this.listByHostPoolPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
@@ -218,11 +198,7 @@ export class ScalingPlansImpl implements ScalingPlans {
     let result: ScalingPlansListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options,
-      );
+      result = await this._listByHostPool(resourceGroupName, hostPoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -348,10 +324,7 @@ export class ScalingPlansImpl implements ScalingPlans {
   private _listBySubscription(
     options?: ScalingPlansListBySubscriptionOptionalParams,
   ): Promise<ScalingPlansListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -532,11 +505,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.isDescending,
     Parameters.initialSkip,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -618,11 +587,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

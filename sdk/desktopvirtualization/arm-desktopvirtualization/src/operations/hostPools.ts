@@ -70,11 +70,7 @@ export class HostPoolsImpl implements HostPools {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -94,11 +90,7 @@ export class HostPoolsImpl implements HostPools {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,10 +102,7 @@ export class HostPoolsImpl implements HostPools {
     resourceGroupName: string,
     options?: HostPoolsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<HostPool> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -122,9 +111,7 @@ export class HostPoolsImpl implements HostPools {
    * List hostPools in subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: HostPoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool> {
+  public list(options?: HostPoolsListOptionalParams): PagedAsyncIterableIterator<HostPool> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -261,9 +248,7 @@ export class HostPoolsImpl implements HostPools {
    * List hostPools in subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: HostPoolsListOptionalParams,
-  ): Promise<HostPoolsListResponse> {
+  private _list(options?: HostPoolsListOptionalParams): Promise<HostPoolsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -285,7 +270,7 @@ export class HostPoolsImpl implements HostPools {
   }
 
   /**
-   * Operation to list the RegistrationTokens associated with the HostPool
+   * Operation to list the RegistrationTokens associated with the HostPool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.
@@ -327,10 +312,7 @@ export class HostPoolsImpl implements HostPools {
     nextLink: string,
     options?: HostPoolsListNextOptionalParams,
   ): Promise<HostPoolsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -443,11 +425,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.isDescending,
     Parameters.initialSkip,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -545,11 +523,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -38,9 +38,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
-export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections
-{
+export class PrivateEndpointConnectionsImpl implements PrivateEndpointConnections {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
@@ -62,11 +60,7 @@ export class PrivateEndpointConnectionsImpl
     workspaceName: string,
     options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
-    const iter = this.listByWorkspacePagingAll(
-      resourceGroupName,
-      workspaceName,
-      options,
-    );
+    const iter = this.listByWorkspacePagingAll(resourceGroupName, workspaceName, options);
     return {
       next() {
         return iter.next();
@@ -78,12 +72,7 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByWorkspacePagingPage(
-          resourceGroupName,
-          workspaceName,
-          options,
-          settings,
-        );
+        return this.listByWorkspacePagingPage(resourceGroupName, workspaceName, options, settings);
       },
     };
   }
@@ -97,11 +86,7 @@ export class PrivateEndpointConnectionsImpl
     let result: PrivateEndpointConnectionsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByWorkspace(
-        resourceGroupName,
-        workspaceName,
-        options,
-      );
+      result = await this._listByWorkspace(resourceGroupName, workspaceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -146,11 +131,7 @@ export class PrivateEndpointConnectionsImpl
     hostPoolName: string,
     options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
-    const iter = this.listByHostPoolPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    );
+    const iter = this.listByHostPoolPagingAll(resourceGroupName, hostPoolName, options);
     return {
       next() {
         return iter.next();
@@ -162,12 +143,7 @@ export class PrivateEndpointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByHostPoolPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
+        return this.listByHostPoolPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
@@ -181,11 +157,7 @@ export class PrivateEndpointConnectionsImpl
     let result: PrivateEndpointConnectionsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options,
-      );
+      result = await this._listByHostPool(resourceGroupName, hostPoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

@@ -40,9 +40,7 @@ export interface HostPools {
    * List hostPools in subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: HostPoolsListOptionalParams,
-  ): PagedAsyncIterableIterator<HostPool>;
+  list(options?: HostPoolsListOptionalParams): PagedAsyncIterableIterator<HostPool>;
   /**
    * Get a host pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -101,7 +99,7 @@ export interface HostPools {
     options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
   ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
   /**
-   * Operation to list the RegistrationTokens associated with the HostPool
+   * Operation to list the RegistrationTokens associated with the HostPool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param options The options parameters.

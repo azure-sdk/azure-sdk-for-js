@@ -54,11 +54,7 @@ export class UserSessionsImpl implements UserSessions {
     hostPoolName: string,
     options?: UserSessionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<UserSession> {
-    const iter = this.listByHostPoolPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      options,
-    );
+    const iter = this.listByHostPoolPagingAll(resourceGroupName, hostPoolName, options);
     return {
       next() {
         return iter.next();
@@ -70,12 +66,7 @@ export class UserSessionsImpl implements UserSessions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByHostPoolPagingPage(
-          resourceGroupName,
-          hostPoolName,
-          options,
-          settings,
-        );
+        return this.listByHostPoolPagingPage(resourceGroupName, hostPoolName, options, settings);
       },
     };
   }
@@ -89,11 +80,7 @@ export class UserSessionsImpl implements UserSessions {
     let result: UserSessionsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByHostPool(
-        resourceGroupName,
-        hostPoolName,
-        options,
-      );
+      result = await this._listByHostPool(resourceGroupName, hostPoolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -140,12 +127,7 @@ export class UserSessionsImpl implements UserSessions {
     sessionHostName: string,
     options?: UserSessionsListOptionalParams,
   ): PagedAsyncIterableIterator<UserSession> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      sessionHostName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, hostPoolName, sessionHostName, options);
     return {
       next() {
         return iter.next();
@@ -178,12 +160,7 @@ export class UserSessionsImpl implements UserSessions {
     let result: UserSessionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        hostPoolName,
-        sessionHostName,
-        options,
-      );
+      result = await this._list(resourceGroupName, hostPoolName, sessionHostName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

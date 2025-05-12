@@ -34,9 +34,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AppAttachPackageOperations operations. */
-export class AppAttachPackageOperationsImpl
-  implements AppAttachPackageOperations
-{
+export class AppAttachPackageOperationsImpl implements AppAttachPackageOperations {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
@@ -68,11 +66,7 @@ export class AppAttachPackageOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -92,11 +86,7 @@ export class AppAttachPackageOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -108,10 +98,7 @@ export class AppAttachPackageOperationsImpl
     resourceGroupName: string,
     options?: AppAttachPackageListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AppAttachPackage> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -173,7 +160,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Get an app attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   get(
@@ -190,7 +177,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Create or update an App Attach package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param appAttachPackage Object containing App Attach Package definitions.
    * @param options The options parameters.
    */
@@ -209,7 +196,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Remove an App Attach Package.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   delete(
@@ -226,7 +213,7 @@ export class AppAttachPackageOperationsImpl
   /**
    * Update an App Attach Package
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param appAttachPackageName The name of the App Attach package
+   * @param appAttachPackageName The name of the App Attach package arm object
    * @param options The options parameters.
    */
   update(
@@ -262,10 +249,7 @@ export class AppAttachPackageOperationsImpl
   private _listBySubscription(
     options?: AppAttachPackageListBySubscriptionOptionalParams,
   ): Promise<AppAttachPackageListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -360,7 +344,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -405,11 +389,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -460,11 +440,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

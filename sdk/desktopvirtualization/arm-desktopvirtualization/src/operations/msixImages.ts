@@ -48,12 +48,7 @@ export class MsixImagesImpl implements MsixImages {
     msixImageURI: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
   ): PagedAsyncIterableIterator<ExpandMsixImage> {
-    const iter = this.expandPagingAll(
-      resourceGroupName,
-      hostPoolName,
-      msixImageURI,
-      options,
-    );
+    const iter = this.expandPagingAll(resourceGroupName, hostPoolName, msixImageURI, options);
     return {
       next() {
         return iter.next();
@@ -86,12 +81,7 @@ export class MsixImagesImpl implements MsixImages {
     let result: MsixImagesExpandResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._expand(
-        resourceGroupName,
-        hostPoolName,
-        msixImageURI,
-        options,
-      );
+      result = await this._expand(resourceGroupName, hostPoolName, msixImageURI, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
