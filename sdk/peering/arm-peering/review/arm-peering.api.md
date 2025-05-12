@@ -136,6 +136,15 @@ export type ConnectionMonitorTestsListByPeeringServiceResponse = ConnectionMonit
 export type ConnectionState = string;
 
 // @public
+export interface ConnectivityProbe {
+    readonly azureRegion?: string;
+    createdTimeUtc?: Date;
+    readonly endpoint?: string;
+    readonly prefixesToAccesslist?: string[];
+    readonly protocol?: Protocol;
+}
+
+// @public
 export interface ContactDetail {
     email?: string;
     phone?: string;
@@ -149,8 +158,14 @@ export interface DirectConnection {
     connectionIdentifier?: string;
     readonly connectionState?: ConnectionState;
     readonly errorMessage?: string;
+    lastFailureTimeUtc?: Date;
     readonly microsoftTrackingId?: string;
+    migrationWorkWindowBgpSessionSameDevice?: {
+        [propertyName: string]: Enum11;
+    };
+    migrationWorkWindowTracker?: string;
     peeringDBFacilityId?: number;
+    previousConnectionProvisioningState?: PreviousConnectionProvisioningState;
     readonly provisionedBandwidthInMbps?: number;
     sessionAddressProvider?: SessionAddressProvider;
     useForPeeringService?: boolean;
@@ -171,6 +186,12 @@ export type DirectPeeringType = string;
 export type Enum0 = string;
 
 // @public
+export type Enum11 = string;
+
+// @public
+export type Enum13 = string;
+
+// @public
 export interface ErrorDetail {
     readonly code?: string;
     readonly message?: string;
@@ -187,7 +208,13 @@ export interface ExchangeConnection {
     connectionIdentifier?: string;
     readonly connectionState?: ConnectionState;
     readonly errorMessage?: string;
+    lastFailureTimeUtc?: Date;
+    migrationWorkWindowBgpSessionSameDevice?: {
+        [propertyName: string]: Enum13;
+    };
+    migrationWorkWindowTracker?: string;
     peeringDBFacilityId?: number;
+    previousConnectionProvisioningState?: PreviousConnectionProvisioningState;
 }
 
 // @public
@@ -222,11 +249,14 @@ export enum KnownCommand {
 export enum KnownConnectionState {
     Active = "Active",
     Approved = "Approved",
+    ExternalBlocker = "ExternalBlocker",
     None = "None",
     PendingApproval = "PendingApproval",
     ProvisioningCompleted = "ProvisioningCompleted",
     ProvisioningFailed = "ProvisioningFailed",
     ProvisioningStarted = "ProvisioningStarted",
+    TypeChangeInProgress = "TypeChangeInProgress",
+    TypeChangeRequested = "TypeChangeRequested",
     Validating = "Validating"
 }
 
@@ -234,9 +264,11 @@ export enum KnownConnectionState {
 export enum KnownDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
+    PeerProp = "PeerProp",
     Transit = "Transit",
     Voice = "Voice"
 }
@@ -245,6 +277,36 @@ export enum KnownDirectPeeringType {
 export enum KnownEnum0 {
     Available = "Available",
     Unavailable = "Unavailable"
+}
+
+// @public
+export enum KnownEnum11 {
+    Active = "Active",
+    Connect = "Connect",
+    Established = "Established",
+    Idle = "Idle",
+    None = "None",
+    OpenConfirm = "OpenConfirm",
+    OpenReceived = "OpenReceived",
+    OpenSent = "OpenSent",
+    PendingAdd = "PendingAdd",
+    PendingRemove = "PendingRemove",
+    PendingUpdate = "PendingUpdate"
+}
+
+// @public
+export enum KnownEnum13 {
+    Active = "Active",
+    Connect = "Connect",
+    Established = "Established",
+    Idle = "Idle",
+    None = "None",
+    OpenConfirm = "OpenConfirm",
+    OpenReceived = "OpenReceived",
+    OpenSent = "OpenSent",
+    PendingAdd = "PendingAdd",
+    PendingRemove = "PendingRemove",
+    PendingUpdate = "PendingUpdate"
 }
 
 // @public
@@ -289,9 +351,11 @@ export enum KnownLookingGlassSourceType {
 export enum KnownPeeringLocationsDirectPeeringType {
     Cdn = "Cdn",
     Edge = "Edge",
+    EdgeZoneForOperators = "EdgeZoneForOperators",
     Internal = "Internal",
     Ix = "Ix",
     IxRs = "IxRs",
+    PeerProp = "PeerProp",
     Transit = "Transit",
     Voice = "Voice"
 }
@@ -311,6 +375,119 @@ export enum KnownPrefixValidationState {
     Unknown = "Unknown",
     Verified = "Verified",
     Warning = "Warning"
+}
+
+// @public
+export enum KnownPreviousConnectionProvisioningState {
+    ACLConfiguration = "ACLConfiguration",
+    AddDenyAllRocPendingApproval = "AddDenyAllRocPendingApproval",
+    AllocatePorts = "AllocatePorts",
+    AwaitApplyDenyAll = "AwaitApplyDenyAll",
+    AwaitLagCompletion = "AwaitLagCompletion",
+    AwaitPairUpgrade = "AwaitPairUpgrade",
+    AwaitPeerIps = "AwaitPeerIps",
+    BfdConfiguration = "BfdConfiguration",
+    BgpGroupChangeRocPendingApproval = "BgpGroupChangeRocPendingApproval",
+    BgpGroupChangeWorkWindow = "BgpGroupChangeWorkWindow",
+    BgpSessionConfiguration = "BgpSessionConfiguration",
+    CheckInterfaces = "CheckInterfaces",
+    DecomAddDenyAll = "DecomAddDenyAll",
+    DecomCabling = "DecomCabling",
+    DecomCompleted = "DecomCompleted",
+    DecomGraphCleanup = "DecomGraphCleanup",
+    DecomRemoveBgpConfig = "DecomRemoveBgpConfig",
+    DecomRemoveInterfaceConfig = "DecomRemoveInterfaceConfig",
+    DecomRocPendingApproval = "DecomRocPendingApproval",
+    DecomShutdownBgp = "DecomShutdownBgp",
+    DecomShutInterfaces = "DecomShutInterfaces",
+    DecomValidatePrefix = "DecomValidatePrefix",
+    DecomValidateTraffic = "DecomValidateTraffic",
+    DeviceStateValidation = "DeviceStateValidation",
+    DirectPeeringTypeUpdateApplyDenyAll = "DirectPeeringTypeUpdateApplyDenyAll",
+    DirectPeeringTypeUpdateApproved = "DirectPeeringTypeUpdateApproved",
+    DirectPeeringTypeUpdateBfdConfig = "DirectPeeringTypeUpdateBfdConfig",
+    DirectPeeringTypeUpdateBgpConfig = "DirectPeeringTypeUpdateBgpConfig",
+    DirectPeeringTypeUpdateCleanupOldIPsfromLAG = "DirectPeeringTypeUpdateCleanupOldIPsfromLAG",
+    DirectPeeringTypeUpdateConfigureLagWithNewIP = "DirectPeeringTypeUpdateConfigureLagWithNewIP",
+    DirectPeeringTypeUpdateDeleteDenyAll = "DirectPeeringTypeUpdateDeleteDenyAll",
+    DirectPeeringTypeUpdateDeleteSession = "DirectPeeringTypeUpdateDeleteSession",
+    DirectPeeringTypeUpdateFetchSessionState = "DirectPeeringTypeUpdateFetchSessionState",
+    DirectPeeringTypeUpdateIfDescription = "DirectPeeringTypeUpdateIfDescription",
+    DirectPeeringTypeUpdateLagAcl = "DirectPeeringTypeUpdateLagAcl",
+    DirectPeeringTypeUpdateMd5AuthKeyConfiguration = "DirectPeeringTypeUpdateMd5AuthKeyConfiguration",
+    DirectPeeringTypeUpdateMd5AuthKeyRead = "DirectPeeringTypeUpdateMd5AuthKeyRead",
+    DirectPeeringTypeUpdatePrefixPostCheck = "DirectPeeringTypeUpdatePrefixPostCheck",
+    DirectPeeringTypeUpdatePrefixPrecheck = "DirectPeeringTypeUpdatePrefixPrecheck",
+    DirectPeeringTypeUpdateReadMaxPrefixLimit = "DirectPeeringTypeUpdateReadMaxPrefixLimit",
+    DirectPeeringTypeUpdateRejected = "DirectPeeringTypeUpdateRejected",
+    DirectPeeringTypeUpdateUpdatePortWithNewIP = "DirectPeeringTypeUpdateUpdatePortWithNewIP",
+    EnableInterfaces = "EnableInterfaces",
+    ExternalBlocker = "ExternalBlocker",
+    FacilityMapValidation = "FacilityMapValidation",
+    FetchPrefixLimitFromPeeringDb = "FetchPrefixLimitFromPeeringDb",
+    FetchSessionState = "FetchSessionState",
+    ForcedIpChangeCleanup = "ForcedIpChangeCleanup",
+    ForcedIpChangeCleanupWithActiveSessions = "ForcedIpChangeCleanupWithActiveSessions",
+    InterconnectionPendingApproval = "InterconnectionPendingApproval",
+    IPChangeApplyDenyAll = "IPChangeApplyDenyAll",
+    IPChangeBgpUpdate = "IPChangeBgpUpdate",
+    IPChangeCleanup = "IPChangeCleanup",
+    IPChangeInitiate = "IPChangeInitiate",
+    IPChangeLag = "IPChangeLag",
+    IPChangeMd5Configuration = "IPChangeMd5Configuration",
+    IPChangeRemoveDenyAll = "IPChangeRemoveDenyAll",
+    IPChangeValidateSessions = "IPChangeValidateSessions",
+    IPChangeValidation = "IPChangeValidation",
+    IPChangeWorkWindow = "IPChangeWorkWindow",
+    LagSetup = "LagSetup",
+    LightCheck = "LightCheck",
+    MapsToMapsVoiceConfigureBFD = "MapsToMapsVoiceConfigureBFD",
+    MapsToMapsVoiceFetchSessionState = "MapsToMapsVoiceFetchSessionState",
+    MapsToMapsVoicePrefixPostCheck = "MapsToMapsVoicePrefixPostCheck",
+    MapsToMapsVoicePrefixPrecheck = "MapsToMapsVoicePrefixPrecheck",
+    MapsToMapsVoiceUpdateIfDescription = "MapsToMapsVoiceUpdateIfDescription",
+    MapsToMapsVoiceUpdateLAGAcl = "MapsToMapsVoiceUpdateLAGAcl",
+    Md5AuthKeyConfiguration = "Md5AuthKeyConfiguration",
+    MigrationCompletionRequested = "MigrationCompletionRequested",
+    MigrationConfigValidation = "MigrationConfigValidation",
+    MigrationNpmError = "MigrationNpmError",
+    MigrationRequestPortAllocationRequested = "MigrationRequestPortAllocationRequested",
+    MigrationSpecificConfigDrift = "MigrationSpecificConfigDrift",
+    MigrationWorkWindow = "MigrationWorkWindow",
+    None = "None",
+    NpmBgpSessionConfiguration = "NpmBgpSessionConfiguration",
+    PendingASNChangeApplyDenyALL = "PendingASNChangeApplyDenyALL",
+    PendingASNChangeRemoveDenyALL = "PendingASNChangeRemoveDenyALL",
+    PendingASNChangeUpdateInterfaceDescription = "PendingASNChangeUpdateInterfaceDescription",
+    PendingASNChangeUpdateNeighborConfig = "PendingASNChangeUpdateNeighborConfig",
+    PendingGlobalPolicyUpdate = "PendingGlobalPolicyUpdate",
+    PendingMigration = "PendingMigration",
+    PendingMigrationCompletion = "PendingMigrationCompletion",
+    PendingSpecialWorkItem = "PendingSpecialWorkItem",
+    PendingWorkWindow = "PendingWorkWindow",
+    PhysicalConnectionSetup = "PhysicalConnectionSetup",
+    PingTestDone = "PingTestDone",
+    PortExhaustion = "PortExhaustion",
+    PrefixListConfiguration = "PrefixListConfiguration",
+    ProvisioningCompleted = "ProvisioningCompleted",
+    RemoveNomonit = "RemoveNomonit",
+    RocPendingApproval = "RocPendingApproval",
+    StaticMacConfiguration = "StaticMacConfiguration",
+    TestPing = "TestPing",
+    UndoMigrationGraphCleanup = "UndoMigrationGraphCleanup",
+    UpdateAddressesOnDevice = "UpdateAddressesOnDevice",
+    UpdateApipaPrefixInSitepro = "UpdateApipaPrefixInSitepro",
+    UpdateGraphForASNChange = "UpdateGraphForASNChange",
+    UpdatePeeringForASNChange = "UpdatePeeringForASNChange",
+    ValidateFltFirewall = "ValidateFltFirewall",
+    WorkWindowCompleted = "WorkWindowCompleted"
+}
+
+// @public
+export enum KnownProtocol {
+    Icmp = "ICMP",
+    None = "None",
+    TCP = "TCP"
 }
 
 // @public
@@ -401,7 +578,6 @@ export type LegacyPeeringsKind = string;
 
 // @public
 export interface LegacyPeeringsListNextOptionalParams extends coreClient.OperationOptions {
-    asn?: number;
 }
 
 // @public
@@ -410,6 +586,7 @@ export type LegacyPeeringsListNextResponse = PeeringListResult;
 // @public
 export interface LegacyPeeringsListOptionalParams extends coreClient.OperationOptions {
     asn?: number;
+    directPeeringType?: DirectPeeringType;
 }
 
 // @public
@@ -561,6 +738,7 @@ export type PeerAsnsListBySubscriptionResponse = PeerAsnListResult;
 
 // @public
 export interface Peering extends Resource {
+    connectivityProbes?: ConnectivityProbe[];
     direct?: PeeringPropertiesDirect;
     exchange?: PeeringPropertiesExchange;
     kind: Kind;
@@ -625,7 +803,6 @@ export type PeeringLocationsKind = string;
 
 // @public
 export interface PeeringLocationsListNextOptionalParams extends coreClient.OperationOptions {
-    directPeeringType?: PeeringLocationsDirectPeeringType;
 }
 
 // @public
@@ -679,6 +856,8 @@ export class PeeringManagementClient extends coreClient.ServiceClient {
     registeredAsns: RegisteredAsns;
     // (undocumented)
     registeredPrefixes: RegisteredPrefixes;
+    // (undocumented)
+    rpUnbilledPrefixes: RpUnbilledPrefixes;
     // (undocumented)
     subscriptionId: string;
 }
@@ -840,7 +1019,6 @@ export interface PeeringServiceLocations {
 
 // @public
 export interface PeeringServiceLocationsListNextOptionalParams extends coreClient.OperationOptions {
-    country?: string;
 }
 
 // @public
@@ -1063,7 +1241,6 @@ export type PrefixesGetResponse = PeeringServicePrefix;
 
 // @public
 export interface PrefixesListByPeeringServiceNextOptionalParams extends coreClient.OperationOptions {
-    expand?: string;
 }
 
 // @public
@@ -1081,6 +1258,12 @@ export type PrefixesListByPeeringServiceResponse = PeeringServicePrefixListResul
 export type PrefixValidationState = string;
 
 // @public
+export type PreviousConnectionProvisioningState = string;
+
+// @public
+export type Protocol = string;
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -1090,11 +1273,6 @@ export interface ReceivedRoutes {
 
 // @public
 export interface ReceivedRoutesListByPeeringNextOptionalParams extends coreClient.OperationOptions {
-    asPath?: string;
-    originAsValidationState?: string;
-    prefix?: string;
-    rpkiValidationState?: string;
-    skipToken?: string;
 }
 
 // @public
@@ -1158,6 +1336,7 @@ export interface RegisteredPrefixes {
     delete(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesGetOptionalParams): Promise<RegisteredPrefixesGetResponse>;
     listByPeering(resourceGroupName: string, peeringName: string, options?: RegisteredPrefixesListByPeeringOptionalParams): PagedAsyncIterableIterator<PeeringRegisteredPrefix>;
+    validate(resourceGroupName: string, peeringName: string, registeredPrefixName: string, options?: RegisteredPrefixesValidateOptionalParams): Promise<RegisteredPrefixesValidateResponse>;
 }
 
 // @public
@@ -1193,6 +1372,13 @@ export interface RegisteredPrefixesListByPeeringOptionalParams extends coreClien
 export type RegisteredPrefixesListByPeeringResponse = PeeringRegisteredPrefixListResult;
 
 // @public
+export interface RegisteredPrefixesValidateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegisteredPrefixesValidateResponse = PeeringRegisteredPrefix;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1208,6 +1394,39 @@ export interface ResourceTags {
 
 // @public
 export type Role = string;
+
+// @public
+export interface RpUnbilledPrefix {
+    readonly azureRegion?: string;
+    readonly peerAsn?: number;
+    readonly prefix?: string;
+}
+
+// @public
+export interface RpUnbilledPrefixes {
+    list(resourceGroupName: string, peeringName: string, options?: RpUnbilledPrefixesListOptionalParams): PagedAsyncIterableIterator<RpUnbilledPrefix>;
+}
+
+// @public
+export interface RpUnbilledPrefixesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RpUnbilledPrefixesListNextResponse = RpUnbilledPrefixListResult;
+
+// @public
+export interface RpUnbilledPrefixesListOptionalParams extends coreClient.OperationOptions {
+    consolidate?: boolean;
+}
+
+// @public
+export type RpUnbilledPrefixesListResponse = RpUnbilledPrefixListResult;
+
+// @public
+export interface RpUnbilledPrefixListResult {
+    nextLink?: string;
+    value?: RpUnbilledPrefix[];
+}
 
 // @public
 export interface ServiceSpecification {

@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PeeringServiceCountry,
-  PeeringServiceCountriesListOptionalParams
+  PeeringServiceCountriesListOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface PeeringServiceCountries {
    * @param options The options parameters.
    */
   list(
-    options?: PeeringServiceCountriesListOptionalParams
+    options?: PeeringServiceCountriesListOptionalParams,
   ): PagedAsyncIterableIterator<PeeringServiceCountry>;
 }

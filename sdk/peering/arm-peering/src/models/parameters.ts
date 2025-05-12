@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CheckServiceProviderAvailabilityInput as CheckServiceProviderAvailabilityInputMapper,
@@ -20,7 +20,7 @@ import {
   ResourceTags as ResourceTagsMapper,
   ConnectionMonitorTest as ConnectionMonitorTestMapper,
   PeeringServicePrefix as PeeringServicePrefixMapper,
-  PeeringService as PeeringServiceMapper
+  PeeringService as PeeringServiceMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -30,9 +30,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -41,10 +41,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const peeringLocation: OperationQueryParameter = {
@@ -53,9 +53,9 @@ export const peeringLocation: OperationQueryParameter = {
     serializedName: "peeringLocation",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -64,21 +64,21 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2025-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -87,10 +87,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -100,14 +100,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const checkServiceProviderAvailabilityInput: OperationParameter = {
   parameterPath: "checkServiceProviderAvailabilityInput",
-  mapper: CheckServiceProviderAvailabilityInputMapper
+  mapper: CheckServiceProviderAvailabilityInputMapper,
 };
 
 export const kind: OperationQueryParameter = {
@@ -116,9 +116,9 @@ export const kind: OperationQueryParameter = {
     serializedName: "kind",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const asn: OperationQueryParameter = {
@@ -126,9 +126,19 @@ export const asn: OperationQueryParameter = {
   mapper: {
     serializedName: "asn",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
+};
+
+export const directPeeringType: OperationQueryParameter = {
+  parameterPath: ["options", "directPeeringType"],
+  mapper: {
+    serializedName: "directPeeringType",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const command: OperationQueryParameter = {
@@ -137,9 +147,9 @@ export const command: OperationQueryParameter = {
     serializedName: "command",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceType: OperationQueryParameter = {
@@ -148,9 +158,9 @@ export const sourceType: OperationQueryParameter = {
     serializedName: "sourceType",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sourceLocation: OperationQueryParameter = {
@@ -159,9 +169,9 @@ export const sourceLocation: OperationQueryParameter = {
     serializedName: "sourceLocation",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const destinationIP: OperationQueryParameter = {
@@ -170,9 +180,9 @@ export const destinationIP: OperationQueryParameter = {
     serializedName: "destinationIP",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const peerAsnName: OperationURLParameter = {
@@ -181,14 +191,14 @@ export const peerAsnName: OperationURLParameter = {
     serializedName: "peerAsnName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const peerAsn: OperationParameter = {
   parameterPath: "peerAsn",
-  mapper: PeerAsnMapper
+  mapper: PeerAsnMapper,
 };
 
 export const kind1: OperationQueryParameter = {
@@ -197,19 +207,19 @@ export const kind1: OperationQueryParameter = {
     serializedName: "kind",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const directPeeringType: OperationQueryParameter = {
+export const directPeeringType1: OperationQueryParameter = {
   parameterPath: ["options", "directPeeringType"],
   mapper: {
     serializedName: "directPeeringType",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -218,9 +228,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const peeringName: OperationURLParameter = {
@@ -229,9 +239,9 @@ export const peeringName: OperationURLParameter = {
     serializedName: "peeringName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const registeredAsnName: OperationURLParameter = {
@@ -240,14 +250,14 @@ export const registeredAsnName: OperationURLParameter = {
     serializedName: "registeredAsnName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const registeredAsn: OperationParameter = {
   parameterPath: "registeredAsn",
-  mapper: PeeringRegisteredAsnMapper
+  mapper: PeeringRegisteredAsnMapper,
 };
 
 export const registeredPrefixName: OperationURLParameter = {
@@ -256,24 +266,24 @@ export const registeredPrefixName: OperationURLParameter = {
     serializedName: "registeredPrefixName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const registeredPrefix: OperationParameter = {
   parameterPath: "registeredPrefix",
-  mapper: PeeringRegisteredPrefixMapper
+  mapper: PeeringRegisteredPrefixMapper,
 };
 
 export const peering: OperationParameter = {
   parameterPath: "peering",
-  mapper: PeeringMapper
+  mapper: PeeringMapper,
 };
 
 export const tags: OperationParameter = {
   parameterPath: "tags",
-  mapper: ResourceTagsMapper
+  mapper: ResourceTagsMapper,
 };
 
 export const prefix: OperationQueryParameter = {
@@ -281,9 +291,9 @@ export const prefix: OperationQueryParameter = {
   mapper: {
     serializedName: "prefix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const asPath: OperationQueryParameter = {
@@ -291,9 +301,9 @@ export const asPath: OperationQueryParameter = {
   mapper: {
     serializedName: "asPath",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const originAsValidationState: OperationQueryParameter = {
@@ -301,9 +311,9 @@ export const originAsValidationState: OperationQueryParameter = {
   mapper: {
     serializedName: "originAsValidationState",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const rpkiValidationState: OperationQueryParameter = {
@@ -311,9 +321,9 @@ export const rpkiValidationState: OperationQueryParameter = {
   mapper: {
     serializedName: "rpkiValidationState",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -321,9 +331,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const peeringServiceName: OperationURLParameter = {
@@ -332,9 +342,9 @@ export const peeringServiceName: OperationURLParameter = {
     serializedName: "peeringServiceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const connectionMonitorTestName: OperationURLParameter = {
@@ -343,14 +353,14 @@ export const connectionMonitorTestName: OperationURLParameter = {
     serializedName: "connectionMonitorTestName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const connectionMonitorTest: OperationParameter = {
   parameterPath: "connectionMonitorTest",
-  mapper: ConnectionMonitorTestMapper
+  mapper: ConnectionMonitorTestMapper,
 };
 
 export const country: OperationQueryParameter = {
@@ -358,9 +368,9 @@ export const country: OperationQueryParameter = {
   mapper: {
     serializedName: "country",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const prefixName: OperationURLParameter = {
@@ -369,9 +379,9 @@ export const prefixName: OperationURLParameter = {
     serializedName: "prefixName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const expand: OperationQueryParameter = {
@@ -379,17 +389,27 @@ export const expand: OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const peeringServicePrefix: OperationParameter = {
   parameterPath: "peeringServicePrefix",
-  mapper: PeeringServicePrefixMapper
+  mapper: PeeringServicePrefixMapper,
 };
 
 export const peeringService: OperationParameter = {
   parameterPath: "peeringService",
-  mapper: PeeringServiceMapper
+  mapper: PeeringServiceMapper,
+};
+
+export const consolidate: OperationQueryParameter = {
+  parameterPath: ["options", "consolidate"],
+  mapper: {
+    serializedName: "consolidate",
+    type: {
+      name: "Boolean",
+    },
+  },
 };

@@ -14,7 +14,7 @@ import {
   ConnectionMonitorTestsGetResponse,
   ConnectionMonitorTestsCreateOrUpdateOptionalParams,
   ConnectionMonitorTestsCreateOrUpdateResponse,
-  ConnectionMonitorTestsDeleteOptionalParams
+  ConnectionMonitorTestsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ConnectionMonitorTests {
   listByPeeringService(
     resourceGroupName: string,
     peeringServiceName: string,
-    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams
+    options?: ConnectionMonitorTestsListByPeeringServiceOptionalParams,
   ): PagedAsyncIterableIterator<ConnectionMonitorTest>;
   /**
    * Gets an existing connection monitor test with the specified name under the given subscription,
@@ -43,7 +43,7 @@ export interface ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     connectionMonitorTestName: string,
-    options?: ConnectionMonitorTestsGetOptionalParams
+    options?: ConnectionMonitorTestsGetOptionalParams,
   ): Promise<ConnectionMonitorTestsGetResponse>;
   /**
    * Creates or updates a connection monitor test with the specified name under the given subscription,
@@ -59,7 +59,7 @@ export interface ConnectionMonitorTests {
     peeringServiceName: string,
     connectionMonitorTestName: string,
     connectionMonitorTest: ConnectionMonitorTest,
-    options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams
+    options?: ConnectionMonitorTestsCreateOrUpdateOptionalParams,
   ): Promise<ConnectionMonitorTestsCreateOrUpdateResponse>;
   /**
    * Deletes an existing connection monitor test with the specified name under the given subscription,
@@ -73,6 +73,6 @@ export interface ConnectionMonitorTests {
     resourceGroupName: string,
     peeringServiceName: string,
     connectionMonitorTestName: string,
-    options?: ConnectionMonitorTestsDeleteOptionalParams
+    options?: ConnectionMonitorTestsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  CdnPeeringPrefix,
-  CdnPeeringPrefixesListOptionalParams
-} from "../models/index.js";
+import { CdnPeeringPrefix, CdnPeeringPrefixesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CdnPeeringPrefixes. */
@@ -22,6 +19,6 @@ export interface CdnPeeringPrefixes {
    */
   list(
     peeringLocation: string,
-    options?: CdnPeeringPrefixesListOptionalParams
+    options?: CdnPeeringPrefixesListOptionalParams,
   ): PagedAsyncIterableIterator<CdnPeeringPrefix>;
 }

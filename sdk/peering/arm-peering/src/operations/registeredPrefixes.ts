@@ -23,7 +23,9 @@ import {
   RegisteredPrefixesCreateOrUpdateOptionalParams,
   RegisteredPrefixesCreateOrUpdateResponse,
   RegisteredPrefixesDeleteOptionalParams,
-  RegisteredPrefixesListByPeeringNextResponse
+  RegisteredPrefixesValidateOptionalParams,
+  RegisteredPrefixesValidateResponse,
+  RegisteredPrefixesListByPeeringNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,13 +50,9 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
   public listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredPrefixesListByPeeringOptionalParams
+    options?: RegisteredPrefixesListByPeeringOptionalParams,
   ): PagedAsyncIterableIterator<PeeringRegisteredPrefix> {
-    const iter = this.listByPeeringPagingAll(
-      resourceGroupName,
-      peeringName,
-      options
-    );
+    const iter = this.listByPeeringPagingAll(resourceGroupName, peeringName, options);
     return {
       next() {
         return iter.next();
@@ -66,13 +64,8 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByPeeringPagingPage(
-          resourceGroupName,
-          peeringName,
-          options,
-          settings
-        );
-      }
+        return this.listByPeeringPagingPage(resourceGroupName, peeringName, options, settings);
+      },
     };
   }
 
@@ -80,16 +73,12 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     options?: RegisteredPrefixesListByPeeringOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PeeringRegisteredPrefix[]> {
     let result: RegisteredPrefixesListByPeeringResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByPeering(
-        resourceGroupName,
-        peeringName,
-        options
-      );
+      result = await this._listByPeering(resourceGroupName, peeringName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -100,7 +89,7 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
         resourceGroupName,
         peeringName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +101,12 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
   private async *listByPeeringPagingAll(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredPrefixesListByPeeringOptionalParams
+    options?: RegisteredPrefixesListByPeeringOptionalParams,
   ): AsyncIterableIterator<PeeringRegisteredPrefix> {
     for await (const page of this.listByPeeringPagingPage(
       resourceGroupName,
       peeringName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -135,11 +124,11 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     registeredPrefixName: string,
-    options?: RegisteredPrefixesGetOptionalParams
+    options?: RegisteredPrefixesGetOptionalParams,
   ): Promise<RegisteredPrefixesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, registeredPrefixName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -157,7 +146,7 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
     peeringName: string,
     registeredPrefixName: string,
     registeredPrefix: PeeringRegisteredPrefix,
-    options?: RegisteredPrefixesCreateOrUpdateOptionalParams
+    options?: RegisteredPrefixesCreateOrUpdateOptionalParams,
   ): Promise<RegisteredPrefixesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -165,9 +154,9 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
         peeringName,
         registeredPrefixName,
         registeredPrefix,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -183,11 +172,11 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     registeredPrefixName: string,
-    options?: RegisteredPrefixesDeleteOptionalParams
+    options?: RegisteredPrefixesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, registeredPrefixName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -200,11 +189,31 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
   private _listByPeering(
     resourceGroupName: string,
     peeringName: string,
-    options?: RegisteredPrefixesListByPeeringOptionalParams
+    options?: RegisteredPrefixesListByPeeringOptionalParams,
   ): Promise<RegisteredPrefixesListByPeeringResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, options },
-      listByPeeringOperationSpec
+      listByPeeringOperationSpec,
+    );
+  }
+
+  /**
+   * Validates an existing registered prefix with the specified name under the given subscription,
+   * resource group and peering.
+   * @param resourceGroupName The name of the resource group.
+   * @param peeringName The name of the peering.
+   * @param registeredPrefixName The name of the registered prefix.
+   * @param options The options parameters.
+   */
+  validate(
+    resourceGroupName: string,
+    peeringName: string,
+    registeredPrefixName: string,
+    options?: RegisteredPrefixesValidateOptionalParams,
+  ): Promise<RegisteredPrefixesValidateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, peeringName, registeredPrefixName, options },
+      validateOperationSpec,
     );
   }
 
@@ -219,11 +228,11 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
     resourceGroupName: string,
     peeringName: string,
     nextLink: string,
-    options?: RegisteredPrefixesListByPeeringNextOptionalParams
+    options?: RegisteredPrefixesListByPeeringNextOptionalParams,
   ): Promise<RegisteredPrefixesListByPeeringNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, peeringName, nextLink, options },
-      listByPeeringNextOperationSpec
+      listByPeeringNextOperationSpec,
     );
   }
 }
@@ -231,16 +240,15 @@ export class RegisteredPrefixesImpl implements RegisteredPrefixes {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredPrefix
+      bodyMapper: Mappers.PeeringRegisteredPrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -248,25 +256,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredPrefixName
+    Parameters.registeredPrefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredPrefix
+      bodyMapper: Mappers.PeeringRegisteredPrefix,
     },
     201: {
-      bodyMapper: Mappers.PeeringRegisteredPrefix
+      bodyMapper: Mappers.PeeringRegisteredPrefix,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.registeredPrefix,
   queryParameters: [Parameters.apiVersion],
@@ -275,22 +282,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredPrefixName
+    Parameters.registeredPrefixName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -298,52 +304,72 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.peeringName,
-    Parameters.registeredPrefixName
+    Parameters.registeredPrefixName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByPeeringOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredPrefixListResult
+      bodyMapper: Mappers.PeeringRegisteredPrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Peering/peerings/{peeringName}/registeredPrefixes/{registeredPrefixName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PeeringRegisteredPrefix,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.peeringName,
+    Parameters.registeredPrefixName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByPeeringNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PeeringRegisteredPrefixListResult
+      bodyMapper: Mappers.PeeringRegisteredPrefixListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceGroupName,
-    Parameters.peeringName
+    Parameters.peeringName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
