@@ -116,10 +116,7 @@ export interface AzureDevOpsRepos {
     azureDevOpsRepository: AzureDevOpsRepository,
     options?: AzureDevOpsReposUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AzureDevOpsReposUpdateResponse>,
-      AzureDevOpsReposUpdateResponse
-    >
+    SimplePollerLike<OperationState<AzureDevOpsReposUpdateResponse>, AzureDevOpsReposUpdateResponse>
   >;
   /**
    * Updates a monitored Azure DevOps repository resource.

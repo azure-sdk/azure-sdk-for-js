@@ -60,11 +60,7 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBySecureScorePagingPage(
-          secureScoreName,
-          options,
-          settings,
-        );
+        return this.listBySecureScorePagingPage(secureScoreName, options, settings);
       },
     };
   }
@@ -84,11 +80,7 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listBySecureScoreNext(
-        secureScoreName,
-        continuationToken,
-        options,
-      );
+      result = await this._listBySecureScoreNext(secureScoreName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -100,10 +92,7 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
     secureScoreName: string,
     options?: SecureScoreControlsListBySecureScoreOptionalParams,
   ): AsyncIterableIterator<SecureScoreControlDetails> {
-    for await (const page of this.listBySecureScorePagingPage(
-      secureScoreName,
-      options,
-    )) {
+    for await (const page of this.listBySecureScorePagingPage(secureScoreName, options)) {
       yield* page;
     }
   }
@@ -215,10 +204,7 @@ export class SecureScoreControlsImpl implements SecureScoreControls {
     nextLink: string,
     options?: SecureScoreControlsListNextOptionalParams,
   ): Promise<SecureScoreControlsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -235,12 +221,8 @@ const listBySecureScoreOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.secureScoreName,
-  ],
+  queryParameters: [Parameters.apiVersion19, Parameters.expand],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.secureScoreName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -255,7 +237,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion20, Parameters.expand],
+  queryParameters: [Parameters.apiVersion19, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -291,11 +273,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

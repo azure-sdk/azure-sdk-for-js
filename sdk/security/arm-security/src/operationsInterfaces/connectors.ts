@@ -24,18 +24,13 @@ export interface Connectors {
    * Cloud accounts connectors of a subscription
    * @param options The options parameters.
    */
-  list(
-    options?: ConnectorsListOptionalParams,
-  ): PagedAsyncIterableIterator<ConnectorSetting>;
+  list(options?: ConnectorsListOptionalParams): PagedAsyncIterableIterator<ConnectorSetting>;
   /**
    * Details of a specific cloud account connector
    * @param connectorName Name of the cloud account connector
    * @param options The options parameters.
    */
-  get(
-    connectorName: string,
-    options?: ConnectorsGetOptionalParams,
-  ): Promise<ConnectorsGetResponse>;
+  get(connectorName: string, options?: ConnectorsGetOptionalParams): Promise<ConnectorsGetResponse>;
   /**
    * Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS,
    * use either account credentials or role-based authentication. For GCP, use account organization
@@ -54,8 +49,5 @@ export interface Connectors {
    * @param connectorName Name of the cloud account connector
    * @param options The options parameters.
    */
-  delete(
-    connectorName: string,
-    options?: ConnectorsDeleteOptionalParams,
-  ): Promise<void>;
+  delete(connectorName: string, options?: ConnectorsDeleteOptionalParams): Promise<void>;
 }
