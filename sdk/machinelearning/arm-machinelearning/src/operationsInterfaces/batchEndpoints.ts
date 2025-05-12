@@ -91,10 +91,7 @@ export interface BatchEndpoints {
     body: PartialMinimalTrackedResourceWithIdentity,
     options?: BatchEndpointsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<BatchEndpointsUpdateResponse>,
-      BatchEndpointsUpdateResponse
-    >
+    SimplePollerLike<OperationState<BatchEndpointsUpdateResponse>, BatchEndpointsUpdateResponse>
   >;
   /**
    * Update a batch inference endpoint (asynchronous).
