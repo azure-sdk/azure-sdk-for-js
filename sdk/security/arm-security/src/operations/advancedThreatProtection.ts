@@ -40,10 +40,7 @@ export class AdvancedThreatProtectionImpl implements AdvancedThreatProtection {
     resourceId: string,
     options?: AdvancedThreatProtectionGetOptionalParams,
   ): Promise<AdvancedThreatProtectionGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceId, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceId, options }, getOperationSpec);
   }
 
   /**
@@ -78,11 +75,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.settingName2,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.settingName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -99,11 +92,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.advancedThreatProtectionSetting,
   queryParameters: [Parameters.apiVersion18],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.settingName2,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.settingName1],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,

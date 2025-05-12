@@ -31,9 +31,7 @@ export interface Automations {
    * response to get the next page of security automations for the specified subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: AutomationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Automation>;
+  list(options?: AutomationsListOptionalParams): PagedAsyncIterableIterator<Automation>;
   /**
    * Lists all the security automations in the specified resource group. Use the 'nextLink' property in
    * the response to get the next page of security automations for the specified resource group.

@@ -19,14 +19,10 @@ export interface MdeOnboardings {
    * The configuration or data needed to onboard the machine to MDE
    * @param options The options parameters.
    */
-  list(
-    options?: MdeOnboardingsListOptionalParams,
-  ): Promise<MdeOnboardingsListResponse>;
+  list(options?: MdeOnboardingsListOptionalParams): Promise<MdeOnboardingsListResponse>;
   /**
    * The default configuration or data needed to onboard the machine to MDE
    * @param options The options parameters.
    */
-  get(
-    options?: MdeOnboardingsGetOptionalParams,
-  ): Promise<MdeOnboardingsGetResponse>;
+  get(options?: MdeOnboardingsGetOptionalParams): Promise<MdeOnboardingsGetResponse>;
 }

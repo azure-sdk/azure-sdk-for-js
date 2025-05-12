@@ -106,10 +106,7 @@ export class DeviceSecurityGroupsImpl implements DeviceSecurityGroups {
     resourceId: string,
     options?: DeviceSecurityGroupsListOptionalParams,
   ): Promise<DeviceSecurityGroupsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceId, options }, listOperationSpec);
   }
 
   /**
@@ -216,11 +213,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion19],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.deviceSecurityGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -240,11 +233,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.deviceSecurityGroup,
   queryParameters: [Parameters.apiVersion19],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.deviceSecurityGroupName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -260,11 +249,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion19],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.deviceSecurityGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.deviceSecurityGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };

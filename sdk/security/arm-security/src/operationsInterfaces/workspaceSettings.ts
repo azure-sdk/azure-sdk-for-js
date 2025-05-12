@@ -27,9 +27,7 @@ export interface WorkspaceSettings {
    * that no custom-workspace configuration was set
    * @param options The options parameters.
    */
-  list(
-    options?: WorkspaceSettingsListOptionalParams,
-  ): PagedAsyncIterableIterator<WorkspaceSetting>;
+  list(options?: WorkspaceSettingsListOptionalParams): PagedAsyncIterableIterator<WorkspaceSetting>;
   /**
    * Settings about where we should store your security data and logs. If the result is empty, it means
    * that no custom-workspace configuration was set
