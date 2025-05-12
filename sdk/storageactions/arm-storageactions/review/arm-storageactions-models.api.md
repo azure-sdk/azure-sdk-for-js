@@ -4,22 +4,8 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -202,28 +188,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string;
@@ -241,34 +206,10 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageActionsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type RunResult = string;
 
 // @public
 export type RunStatusEnum = string;
-
-// @public (undocumented)
-export class StorageActionsClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: StorageActionsClientOptionalParams);
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-    readonly storageTasks: StorageTasksOperations;
-    readonly storageTasksOperationGroup: StorageTasksOperationGroupOperations;
-}
-
-// @public
-export interface StorageActionsClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
 
 // @public
 export interface StorageTask extends TrackedResource {
@@ -373,65 +314,6 @@ export interface StorageTaskReportProperties {
     readonly taskAssignmentId?: string;
     readonly taskId?: string;
     readonly taskVersion?: string;
-}
-
-// @public
-export interface StorageTasksCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StorageTasksDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StorageTasksGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StorageTasksListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StorageTasksListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StorageTasksListOptionalParams extends OperationOptions {
-    filter?: string;
-    maxpagesize?: number;
-}
-
-// @public
-export interface StorageTasksOperationGroupOperations {
-    previewActions: (location: string, parameters: StorageTaskPreviewAction, options?: StorageTasksOperationGroupPreviewActionsOptionalParams) => Promise<StorageTaskPreviewAction>;
-}
-
-// @public
-export interface StorageTasksOperationGroupPreviewActionsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StorageTasksOperations {
-    create: (resourceGroupName: string, storageTaskName: string, parameters: StorageTask, options?: StorageTasksCreateOptionalParams) => PollerLike<OperationState<void>, void>;
-    delete: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksGetOptionalParams) => Promise<StorageTask>;
-    list: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksListOptionalParams) => PagedAsyncIterableIterator<StorageTaskReportInstance>;
-    listByResourceGroup: (resourceGroupName: string, options?: StorageTasksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<StorageTask>;
-    listBySubscription: (options?: StorageTasksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<StorageTask>;
-    storageTaskAssignmentList: (resourceGroupName: string, storageTaskName: string, options?: StorageTasksStorageTaskAssignmentListOptionalParams) => PagedAsyncIterableIterator<StorageTaskAssignment>;
-    update: (resourceGroupName: string, storageTaskName: string, parameters: StorageTaskUpdateParameters, options?: StorageTasksUpdateOptionalParams) => PollerLike<OperationState<StorageTask>, StorageTask>;
-}
-
-// @public
-export interface StorageTasksStorageTaskAssignmentListOptionalParams extends OperationOptions {
-    maxpagesize?: number;
-}
-
-// @public
-export interface StorageTasksUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
