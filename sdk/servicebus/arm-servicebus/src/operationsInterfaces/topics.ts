@@ -26,7 +26,7 @@ import {
   TopicsCreateOrUpdateResponse,
   TopicsDeleteOptionalParams,
   TopicsGetOptionalParams,
-  TopicsGetResponse
+  TopicsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ import {
 export interface Topics {
   /**
    * Gets authorization rules for a topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -43,22 +43,22 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsListAuthorizationRulesOptionalParams
+    options?: TopicsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SBAuthorizationRule>;
   /**
    * Gets all the topics in a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param options The options parameters.
    */
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: TopicsListByNamespaceOptionalParams
+    options?: TopicsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SBTopic>;
   /**
    * Creates an authorization rule for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -71,11 +71,11 @@ export interface Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: SBAuthorizationRule,
-    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<TopicsCreateOrUpdateAuthorizationRuleResponse>;
   /**
    * Returns the specified authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -86,11 +86,11 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsGetAuthorizationRuleOptionalParams
+    options?: TopicsGetAuthorizationRuleOptionalParams,
   ): Promise<TopicsGetAuthorizationRuleResponse>;
   /**
    * Deletes a topic authorization rule.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -101,11 +101,11 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsDeleteAuthorizationRuleOptionalParams
+    options?: TopicsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void>;
   /**
    * Gets the primary and secondary connection strings for the topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -116,11 +116,11 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     authorizationRuleName: string,
-    options?: TopicsListKeysOptionalParams
+    options?: TopicsListKeysOptionalParams,
   ): Promise<TopicsListKeysResponse>;
   /**
    * Regenerates primary or secondary connection strings for the topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param authorizationRuleName The authorization rule name.
@@ -133,11 +133,11 @@ export interface Topics {
     topicName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: TopicsRegenerateKeysOptionalParams
+    options?: TopicsRegenerateKeysOptionalParams,
   ): Promise<TopicsRegenerateKeysResponse>;
   /**
    * Creates a topic in the specified namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param parameters Parameters supplied to create a topic resource.
@@ -148,11 +148,11 @@ export interface Topics {
     namespaceName: string,
     topicName: string,
     parameters: SBTopic,
-    options?: TopicsCreateOrUpdateOptionalParams
+    options?: TopicsCreateOrUpdateOptionalParams,
   ): Promise<TopicsCreateOrUpdateResponse>;
   /**
    * Deletes a topic from the specified namespace and resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -161,11 +161,11 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsDeleteOptionalParams
+    options?: TopicsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Returns a description for the specified topic.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param namespaceName The namespace name
    * @param topicName The topic name.
    * @param options The options parameters.
@@ -174,6 +174,6 @@ export interface Topics {
     resourceGroupName: string,
     namespaceName: string,
     topicName: string,
-    options?: TopicsGetOptionalParams
+    options?: TopicsGetOptionalParams,
   ): Promise<TopicsGetResponse>;
 }
