@@ -4,87 +4,81 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ApplyUpdate extends Resource {
+export type ActionType = string;
+
+// @public
+export interface ApplyUpdate extends ProxyResource {
+    properties?: ApplyUpdateProperties;
+}
+
+// @public
+export interface ApplyUpdateForResourceGroupOperationGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplyUpdateForResourceGroupOperationGroupOperations {
+    list: (resourceGroupName: string, options?: ApplyUpdateForResourceGroupOperationGroupListOptionalParams) => PagedAsyncIterableIterator<ApplyUpdate>;
+}
+
+// @public
+export interface ApplyUpdateOperationGroupCreateOrUpdateOrCancelOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplyUpdateOperationGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplyUpdateOperationGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ApplyUpdateOperationGroupOperations {
+    createOrUpdateOrCancel: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, applyUpdate: ApplyUpdate, options?: ApplyUpdateOperationGroupCreateOrUpdateOrCancelOptionalParams) => Promise<ApplyUpdate>;
+    get: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdateOperationGroupGetOptionalParams) => Promise<ApplyUpdate>;
+    list: (options?: ApplyUpdateOperationGroupListOptionalParams) => PagedAsyncIterableIterator<ApplyUpdate>;
+}
+
+// @public
+export interface ApplyUpdateProperties {
     lastUpdateTime?: Date;
     resourceId?: string;
     status?: UpdateStatus;
 }
 
 // @public
-export interface ApplyUpdateForResourceGroup {
-    list(resourceGroupName: string, options?: ApplyUpdateForResourceGroupListOptionalParams): PagedAsyncIterableIterator<ApplyUpdate>;
+export interface ApplyUpdatesGetParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplyUpdateForResourceGroupListOptionalParams extends coreClient.OperationOptions {
+export interface ApplyUpdatesOperationGroupCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApplyUpdateForResourceGroupListResponse = ListApplyUpdate;
-
-// @public
-export interface ApplyUpdates {
-    createOrUpdate(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesCreateOrUpdateOptionalParams): Promise<ApplyUpdatesCreateOrUpdateResponse>;
-    createOrUpdateOrCancel(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, applyUpdate: ApplyUpdate, options?: ApplyUpdatesCreateOrUpdateOrCancelOptionalParams): Promise<ApplyUpdatesCreateOrUpdateOrCancelResponse>;
-    createOrUpdateParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesCreateOrUpdateParentOptionalParams): Promise<ApplyUpdatesCreateOrUpdateParentResponse>;
-    get(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdatesGetOptionalParams): Promise<ApplyUpdatesGetResponse>;
-    getParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdatesGetParentOptionalParams): Promise<ApplyUpdatesGetParentResponse>;
-    list(options?: ApplyUpdatesListOptionalParams): PagedAsyncIterableIterator<ApplyUpdate>;
+export interface ApplyUpdatesOperationGroupCreateOrUpdateParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApplyUpdatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApplyUpdatesOperationGroupOperations {
+    createOrUpdate: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesOperationGroupCreateOrUpdateOptionalParams) => Promise<ApplyUpdate>;
+    createOrUpdateParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: ApplyUpdatesOperationGroupCreateOrUpdateParentOptionalParams) => Promise<ApplyUpdate>;
 }
 
 // @public
-export interface ApplyUpdatesCreateOrUpdateOrCancelOptionalParams extends coreClient.OperationOptions {
+export interface ApplyUpdatesOperations {
+    getParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, applyUpdateName: string, options?: ApplyUpdatesGetParentOptionalParams) => Promise<ApplyUpdate>;
 }
 
 // @public
-export type ApplyUpdatesCreateOrUpdateOrCancelResponse = ApplyUpdate;
-
-// @public
-export interface ApplyUpdatesCreateOrUpdateParentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplyUpdatesCreateOrUpdateParentResponse = ApplyUpdate;
-
-// @public
-export type ApplyUpdatesCreateOrUpdateResponse = ApplyUpdate;
-
-// @public
-export interface ApplyUpdatesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface ApplyUpdatesGetParentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplyUpdatesGetParentResponse = ApplyUpdate;
-
-// @public
-export type ApplyUpdatesGetResponse = ApplyUpdate;
-
-// @public
-export interface ApplyUpdatesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ApplyUpdatesListResponse = ListApplyUpdate;
-
-// @public
-export interface ConfigurationAssignment extends Resource {
-    filter?: ConfigurationAssignmentFilterProperties;
+export interface ConfigurationAssignment extends ProxyResource {
     location?: string;
-    maintenanceConfigurationId?: string;
-    resourceId?: string;
+    properties?: ConfigurationAssignmentProperties;
 }
 
 // @public
@@ -97,156 +91,121 @@ export interface ConfigurationAssignmentFilterProperties {
 }
 
 // @public
-export interface ConfigurationAssignments {
-    createOrUpdate(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams): Promise<ConfigurationAssignmentsCreateOrUpdateResponse>;
-    createOrUpdateParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams): Promise<ConfigurationAssignmentsCreateOrUpdateParentResponse>;
-    delete(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteOptionalParams): Promise<ConfigurationAssignmentsDeleteResponse>;
-    deleteParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams): Promise<ConfigurationAssignmentsDeleteParentResponse>;
-    get(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetOptionalParams): Promise<ConfigurationAssignmentsGetResponse>;
-    getParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetParentOptionalParams): Promise<ConfigurationAssignmentsGetParentResponse>;
-    list(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentsListOptionalParams): PagedAsyncIterableIterator<ConfigurationAssignment>;
-    listParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentsListParentOptionalParams): PagedAsyncIterableIterator<ConfigurationAssignment>;
+export interface ConfigurationAssignmentForResourceGroupOperationGroupListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentForResourceGroupOperationGroupOperations {
+    list: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentForResourceGroupOperationGroupListOptionalParams) => PagedAsyncIterableIterator<ConfigurationAssignment>;
 }
 
 // @public
-export interface ConfigurationAssignmentsCreateOrUpdateParentOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentOperationGroupCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsCreateOrUpdateParentResponse = ConfigurationAssignment;
-
-// @public
-export type ConfigurationAssignmentsCreateOrUpdateResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentOperationGroupDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsDeleteParentOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentOperationGroupGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsDeleteParentResponse = ConfigurationAssignment;
-
-// @public
-export type ConfigurationAssignmentsDeleteResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForResourceGroup {
-    createOrUpdate(resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams): Promise<ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams): Promise<ConfigurationAssignmentsForResourceGroupDeleteResponse>;
-    get(resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams): Promise<ConfigurationAssignmentsForResourceGroupGetResponse>;
-    update(resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams): Promise<ConfigurationAssignmentsForResourceGroupUpdateResponse>;
+export interface ConfigurationAssignmentOperationGroupOperations {
+    createOrUpdate: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentOperationGroupCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentOperationGroupDeleteOptionalParams) => Promise<ConfigurationAssignment | null>;
+    get: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentOperationGroupGetOptionalParams) => Promise<ConfigurationAssignment>;
 }
 
 // @public
-export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentProperties {
+    filter?: ConfigurationAssignmentFilterProperties;
+    maintenanceConfigurationId?: string;
+    resourceId?: string;
 }
 
 // @public
-export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForResourceGroupDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsCreateOrUpdateParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForResourceGroupDeleteResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForResourceGroupGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsDeleteParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForResourceGroupGetResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForResourceGroupUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForResourceGroupUpdateResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForSubscriptions {
-    createOrUpdate(configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams): Promise<ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse>;
-    delete(configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams): Promise<ConfigurationAssignmentsForSubscriptionsDeleteResponse>;
-    get(configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams): Promise<ConfigurationAssignmentsForSubscriptionsGetResponse>;
-    update(configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams): Promise<ConfigurationAssignmentsForSubscriptionsUpdateResponse>;
+export interface ConfigurationAssignmentsForResourceGroupDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForResourceGroupGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForResourceGroupOperations {
+    createOrUpdate: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams) => Promise<ConfigurationAssignment | null>;
+    get: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams) => Promise<ConfigurationAssignment>;
+    update: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
 
 // @public
-export type ConfigurationAssignmentsForSubscriptionsDeleteResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForResourceGroupUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForSubscriptionsGetResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsForSubscriptionsUpdateResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsGetParentOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForSubscriptionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsGetParentResponse = ConfigurationAssignment;
-
-// @public
-export type ConfigurationAssignmentsGetResponse = ConfigurationAssignment;
-
-// @public
-export interface ConfigurationAssignmentsListOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForSubscriptionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsListParentOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsForSubscriptionsOperations {
+    createOrUpdate: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams) => Promise<ConfigurationAssignment | null>;
+    get: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams) => Promise<ConfigurationAssignment>;
+    list: (options?: ConfigurationAssignmentsForSubscriptionsListOptionalParams) => PagedAsyncIterableIterator<ConfigurationAssignment>;
+    update: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
 
 // @public
-export type ConfigurationAssignmentsListParentResponse = ListConfigurationAssignmentsResult;
-
-// @public
-export type ConfigurationAssignmentsListResponse = ListConfigurationAssignmentsResult;
-
-// @public
-export interface ConfigurationAssignmentsWithinSubscription {
-    list(options?: ConfigurationAssignmentsWithinSubscriptionListOptionalParams): PagedAsyncIterableIterator<ConfigurationAssignment>;
+export interface ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ConfigurationAssignmentsWithinSubscriptionListOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationAssignmentsGetParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationAssignmentsWithinSubscriptionListResponse = ListConfigurationAssignmentsResult;
+export interface ConfigurationAssignmentsListParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ConfigurationAssignmentsOperations {
+    createOrUpdateParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams) => Promise<ConfigurationAssignment>;
+    deleteParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams) => Promise<ConfigurationAssignment | null>;
+    getParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetParentOptionalParams) => Promise<ConfigurationAssignment>;
+    listParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentsListParentOptionalParams) => PagedAsyncIterableIterator<ConfigurationAssignment>;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -256,9 +215,6 @@ export interface ErrorDetails {
     code?: string;
     message?: string;
 }
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type ImpactType = string;
@@ -283,6 +239,11 @@ export interface InputWindowsParameters {
     excludeKbsRequiringReboot?: boolean;
     kbNumbersToExclude?: string[];
     kbNumbersToInclude?: string[];
+}
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
 }
 
 // @public
@@ -313,9 +274,19 @@ export enum KnownMaintenanceScope {
 }
 
 // @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
 export enum KnownRebootOptions {
+    // (undocumented)
     Always = "Always",
+    // (undocumented)
     IfRequired = "IfRequired",
+    // (undocumented)
     Never = "Never"
 }
 
@@ -332,210 +303,165 @@ export enum KnownUpdateStatus {
 }
 
 // @public
+export enum KnownVersions {
+    V20231001Preview = "2023-10-01-preview"
+}
+
+// @public
 export enum KnownVisibility {
     Custom = "Custom",
     Public = "Public"
 }
 
-// @public
-export interface ListApplyUpdate {
-    value?: ApplyUpdate[];
+// @public (undocumented)
+export class MaintenanceClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: MaintenanceClientOptionalParams);
+    readonly applyUpdateForResourceGroupOperationGroup: ApplyUpdateForResourceGroupOperationGroupOperations;
+    readonly applyUpdateOperationGroup: ApplyUpdateOperationGroupOperations;
+    readonly applyUpdates: ApplyUpdatesOperations;
+    readonly applyUpdatesOperationGroup: ApplyUpdatesOperationGroupOperations;
+    readonly configurationAssignmentForResourceGroupOperationGroup: ConfigurationAssignmentForResourceGroupOperationGroupOperations;
+    readonly configurationAssignmentOperationGroup: ConfigurationAssignmentOperationGroupOperations;
+    readonly configurationAssignments: ConfigurationAssignmentsOperations;
+    readonly configurationAssignmentsForResourceGroup: ConfigurationAssignmentsForResourceGroupOperations;
+    readonly configurationAssignmentsForSubscriptions: ConfigurationAssignmentsForSubscriptionsOperations;
+    readonly maintenanceConfigurationOperationGroup: MaintenanceConfigurationOperationGroupOperations;
+    readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly scheduledEventOperationGroup: ScheduledEventOperationGroupOperations;
+    readonly updatesOperationGroup: UpdatesOperationGroupOperations;
 }
 
 // @public
-export interface ListConfigurationAssignmentsResult {
-    value?: ConfigurationAssignment[];
+export interface MaintenanceClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
 }
 
 // @public
-export interface ListMaintenanceConfigurationsResult {
-    value?: MaintenanceConfiguration[];
+export interface MaintenanceConfiguration extends TrackedResource {
+    properties?: MaintenanceConfigurationProperties;
 }
 
 // @public
-export interface ListUpdatesResult {
-    value?: Update[];
+export interface MaintenanceConfigurationOperationGroupCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceConfiguration extends Resource {
-    duration?: string;
-    expirationDateTime?: string;
-    extensionProperties?: {
-        [propertyName: string]: string;
-    };
+export interface MaintenanceConfigurationOperationGroupDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceConfigurationOperationGroupGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceConfigurationOperationGroupListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceConfigurationOperationGroupMaintenanceConfigurationsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceConfigurationOperationGroupOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationOperationGroupCreateOrUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
+    delete: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationOperationGroupDeleteOptionalParams) => Promise<MaintenanceConfiguration | null>;
+    get: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationOperationGroupGetOptionalParams) => Promise<MaintenanceConfiguration>;
+    list: (resourceGroupName: string, options?: MaintenanceConfigurationOperationGroupListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfiguration>;
+    maintenanceConfigurationsList: (options?: MaintenanceConfigurationOperationGroupMaintenanceConfigurationsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfiguration>;
+    update: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationOperationGroupUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
+}
+
+// @public
+export interface MaintenanceConfigurationOperationGroupUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceConfigurationProperties {
+    extensionProperties?: Record<string, string>;
     installPatches?: InputPatchConfiguration;
-    location?: string;
     maintenanceScope?: MaintenanceScope;
+    maintenanceWindow?: MaintenanceWindow;
     namespace?: string;
-    recurEvery?: string;
-    startDateTime?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    timeZone?: string;
     visibility?: Visibility;
 }
 
 // @public
-export interface MaintenanceConfigurations {
-    createOrUpdate(resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams): Promise<MaintenanceConfigurationsCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsDeleteOptionalParams): Promise<MaintenanceConfigurationsDeleteResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsGetOptionalParams): Promise<MaintenanceConfigurationsGetResponse>;
-    list(options?: MaintenanceConfigurationsListOptionalParams): PagedAsyncIterableIterator<MaintenanceConfiguration>;
-    update(resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsUpdateOptionalParams): Promise<MaintenanceConfigurationsUpdateResponse>;
+export interface MaintenanceConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfiguration;
-
-// @public
-export interface MaintenanceConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface MaintenanceConfigurationsOperations {
+    get: (resourceName: string, options?: MaintenanceConfigurationsGetOptionalParams) => Promise<MaintenanceConfiguration>;
+    list: (options?: MaintenanceConfigurationsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfiguration>;
 }
-
-// @public
-export type MaintenanceConfigurationsDeleteResponse = MaintenanceConfiguration;
-
-// @public
-export interface MaintenanceConfigurationsForResourceGroup {
-    list(resourceGroupName: string, options?: MaintenanceConfigurationsForResourceGroupListOptionalParams): PagedAsyncIterableIterator<MaintenanceConfiguration>;
-}
-
-// @public
-export interface MaintenanceConfigurationsForResourceGroupListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MaintenanceConfigurationsForResourceGroupListResponse = ListMaintenanceConfigurationsResult;
-
-// @public
-export interface MaintenanceConfigurationsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MaintenanceConfigurationsGetResponse = MaintenanceConfiguration;
-
-// @public
-export interface MaintenanceConfigurationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MaintenanceConfigurationsListResponse = ListMaintenanceConfigurationsResult;
-
-// @public
-export interface MaintenanceConfigurationsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MaintenanceConfigurationsUpdateResponse = MaintenanceConfiguration;
 
 // @public
 export interface MaintenanceError {
     error?: ErrorDetails;
 }
 
-// @public (undocumented)
-export class MaintenanceManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MaintenanceManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    applyUpdateForResourceGroup: ApplyUpdateForResourceGroup;
-    // (undocumented)
-    applyUpdates: ApplyUpdates;
-    // (undocumented)
-    configurationAssignments: ConfigurationAssignments;
-    // (undocumented)
-    configurationAssignmentsForResourceGroup: ConfigurationAssignmentsForResourceGroup;
-    // (undocumented)
-    configurationAssignmentsForSubscriptions: ConfigurationAssignmentsForSubscriptions;
-    // (undocumented)
-    configurationAssignmentsWithinSubscription: ConfigurationAssignmentsWithinSubscription;
-    // (undocumented)
-    maintenanceConfigurations: MaintenanceConfigurations;
-    // (undocumented)
-    maintenanceConfigurationsForResourceGroup: MaintenanceConfigurationsForResourceGroup;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    publicMaintenanceConfigurations: PublicMaintenanceConfigurations;
-    // (undocumented)
-    scheduledEvent: ScheduledEvent;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    updates: Updates;
-}
-
-// @public
-export interface MaintenanceManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
 // @public
 export type MaintenanceScope = string;
 
 // @public
+export interface MaintenanceWindow {
+    duration?: string;
+    expirationDateTime?: string;
+    recurEvery?: string;
+    startDateTime?: string;
+    timeZone?: string;
+}
+
+// @public
 export interface Operation {
-    display?: OperationInfo;
-    isDataAction?: boolean;
-    name?: string;
-    origin?: string;
-    properties?: Record<string, unknown>;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
-export interface OperationInfo {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export type OperationsListResponse = OperationsListResult;
+export type Origin = string;
 
 // @public
-export interface OperationsListResult {
-    value?: Operation[];
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface PublicMaintenanceConfigurations {
-    get(resourceName: string, options?: PublicMaintenanceConfigurationsGetOptionalParams): Promise<PublicMaintenanceConfigurationsGetResponse>;
-    list(options?: PublicMaintenanceConfigurationsListOptionalParams): PagedAsyncIterableIterator<MaintenanceConfiguration>;
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
-export interface PublicMaintenanceConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProxyResource extends Resource {
 }
-
-// @public
-export type PublicMaintenanceConfigurationsGetResponse = MaintenanceConfiguration;
-
-// @public
-export interface PublicMaintenanceConfigurationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PublicMaintenanceConfigurationsListResponse = ListMaintenanceConfigurationsResult;
 
 // @public
 export type RebootOptions = string;
@@ -549,20 +475,17 @@ export interface Resource {
 }
 
 // @public
-export interface ScheduledEvent {
-    acknowledge(resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventId: string, options?: ScheduledEventAcknowledgeOptionalParams): Promise<ScheduledEventAcknowledgeResponse>;
-}
-
-// @public
-export interface ScheduledEventAcknowledgeOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ScheduledEventAcknowledgeResponse = ScheduledEventApproveResponse;
-
-// @public
 export interface ScheduledEventApproveResponse {
     value?: string;
+}
+
+// @public
+export interface ScheduledEventOperationGroupAcknowledgeOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledEventOperationGroupOperations {
+    acknowledge: (resourceGroupName: string, resourceType: string, resourceName: string, scheduledEventId: string, options?: ScheduledEventOperationGroupAcknowledgeOptionalParams) => Promise<ScheduledEventApproveResponse>;
 }
 
 // @public
@@ -581,9 +504,13 @@ export type TagOperators = "All" | "Any";
 // @public
 export interface TagSettingsProperties {
     filterOperator?: TagOperators;
-    tags?: {
-        [propertyName: string]: string[];
-    };
+    tags?: Record<string, string[]>;
+}
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -592,29 +519,28 @@ export interface Update {
     impactType?: ImpactType;
     maintenanceScope?: MaintenanceScope;
     notBefore?: Date;
-    resourceId?: string;
+    properties?: UpdateProperties;
     status?: UpdateStatus;
 }
 
 // @public
-export interface Updates {
-    list(resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: UpdatesListOptionalParams): PagedAsyncIterableIterator<Update>;
-    listParent(resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: UpdatesListParentOptionalParams): PagedAsyncIterableIterator<Update>;
+export interface UpdateProperties {
+    resourceId?: string;
 }
 
 // @public
-export interface UpdatesListOptionalParams extends coreClient.OperationOptions {
+export interface UpdatesOperationGroupListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UpdatesListParentOptionalParams extends coreClient.OperationOptions {
+export interface UpdatesOperationGroupListParentOptionalParams extends OperationOptions {
 }
 
 // @public
-export type UpdatesListParentResponse = ListUpdatesResult;
-
-// @public
-export type UpdatesListResponse = ListUpdatesResult;
+export interface UpdatesOperationGroupOperations {
+    list: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: UpdatesOperationGroupListOptionalParams) => PagedAsyncIterableIterator<Update>;
+    listParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, options?: UpdatesOperationGroupListParentOptionalParams) => PagedAsyncIterableIterator<Update>;
+}
 
 // @public
 export type UpdateStatus = string;
