@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   TaskRun,
@@ -73,12 +69,7 @@ export class TaskRunsImpl implements TaskRuns {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, options, settings);
       },
     };
   }
@@ -99,12 +90,7 @@ export class TaskRunsImpl implements TaskRuns {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        registryName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, registryName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -117,11 +103,7 @@ export class TaskRunsImpl implements TaskRuns {
     registryName: string,
     options?: TaskRunsListOptionalParams,
   ): AsyncIterableIterator<TaskRun> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, options)) {
       yield* page;
     }
   }
@@ -159,12 +141,7 @@ export class TaskRunsImpl implements TaskRuns {
     taskRunName: string,
     taskRun: TaskRun,
     options?: TaskRunsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsCreateResponse>,
-      TaskRunsCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<TaskRunsCreateResponse>, TaskRunsCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -175,8 +152,7 @@ export class TaskRunsImpl implements TaskRuns {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -278,12 +254,7 @@ export class TaskRunsImpl implements TaskRuns {
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
     options?: TaskRunsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TaskRunsUpdateResponse>,
-      TaskRunsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<TaskRunsUpdateResponse>, TaskRunsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -294,8 +265,7 @@ export class TaskRunsImpl implements TaskRuns {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

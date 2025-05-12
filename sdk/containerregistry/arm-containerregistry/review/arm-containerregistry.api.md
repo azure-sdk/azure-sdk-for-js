@@ -1077,7 +1077,8 @@ export type ExportPipelinesListResponse = ExportPipelineListResult;
 
 // @public
 export interface ExportPipelineTargetProperties {
-    keyVaultUri: string;
+    keyVaultUri?: string;
+    storageAccessMode?: StorageAccessMode;
     type?: string;
     uri?: string;
 }
@@ -1253,7 +1254,8 @@ export type ImportPipelinesListResponse = ImportPipelineListResult;
 
 // @public
 export interface ImportPipelineSourceProperties {
-    keyVaultUri: string;
+    keyVaultUri?: string;
+    storageAccessMode?: StorageAccessMode;
     type?: PipelineSourceType;
     uri?: string;
 }
@@ -1583,6 +1585,12 @@ export enum KnownStepType {
 }
 
 // @public
+export enum KnownStorageAccessMode {
+    ManagedIdentity = "ManagedIdentity",
+    SasToken = "SasToken"
+}
+
+// @public
 export enum KnownTaskStatus {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1887,7 +1895,7 @@ export interface PipelineRunsListOptionalParams extends coreClient.OperationOpti
 // @public
 export type PipelineRunsListResponse = PipelineRunListResult;
 
-// @public (undocumented)
+// @public
 export interface PipelineRunSourceProperties {
     name?: string;
     type?: PipelineRunSourceType;
@@ -1896,7 +1904,7 @@ export interface PipelineRunSourceProperties {
 // @public
 export type PipelineRunSourceType = string;
 
-// @public (undocumented)
+// @public
 export interface PipelineRunTargetProperties {
     name?: string;
     type?: PipelineRunTargetType;
@@ -1905,12 +1913,12 @@ export interface PipelineRunTargetProperties {
 // @public
 export type PipelineRunTargetType = string;
 
-// @public (undocumented)
+// @public
 export interface PipelineSourceTriggerDescriptor {
     timestamp?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface PipelineSourceTriggerProperties {
     status: TriggerStatus;
 }
@@ -1918,12 +1926,12 @@ export interface PipelineSourceTriggerProperties {
 // @public
 export type PipelineSourceType = string;
 
-// @public (undocumented)
+// @public
 export interface PipelineTriggerDescriptor {
     sourceTrigger?: PipelineSourceTriggerDescriptor;
 }
 
-// @public (undocumented)
+// @public
 export interface PipelineTriggerProperties {
     sourceTrigger?: PipelineSourceTriggerProperties;
 }
@@ -2054,7 +2062,7 @@ export interface PrivateLinkServiceConnectionState {
     status?: ConnectionStatus;
 }
 
-// @public (undocumented)
+// @public
 export interface ProgressProperties {
     percentage?: string;
 }
@@ -2842,6 +2850,9 @@ export interface StatusDetailProperties {
 
 // @public
 export type StepType = string;
+
+// @public
+export type StorageAccessMode = string;
 
 // @public
 export interface StorageAccountProperties {
