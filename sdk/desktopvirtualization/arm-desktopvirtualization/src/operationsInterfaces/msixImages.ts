@@ -7,11 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ExpandMsixImage,
-  MsixImageURI,
-  MsixImagesExpandOptionalParams,
-} from "../models/index.js";
+import { ExpandMsixImage, MsixImageURI, MsixImagesExpandOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MsixImages. */

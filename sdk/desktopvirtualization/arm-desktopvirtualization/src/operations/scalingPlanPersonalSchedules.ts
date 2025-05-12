@@ -30,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScalingPlanPersonalSchedules operations. */
-export class ScalingPlanPersonalSchedulesImpl
-  implements ScalingPlanPersonalSchedules
-{
+export class ScalingPlanPersonalSchedulesImpl implements ScalingPlanPersonalSchedules {
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
@@ -54,11 +52,7 @@ export class ScalingPlanPersonalSchedulesImpl
     scalingPlanName: string,
     options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlanPersonalSchedule> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      scalingPlanName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, scalingPlanName, options);
     return {
       next() {
         return iter.next();
@@ -70,12 +64,7 @@ export class ScalingPlanPersonalSchedulesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          scalingPlanName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, scalingPlanName, options, settings);
       },
     };
   }
@@ -96,12 +85,7 @@ export class ScalingPlanPersonalSchedulesImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        scalingPlanName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, scalingPlanName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -114,11 +98,7 @@ export class ScalingPlanPersonalSchedulesImpl
     scalingPlanName: string,
     options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): AsyncIterableIterator<ScalingPlanPersonalSchedule> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      scalingPlanName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, scalingPlanName, options)) {
       yield* page;
     }
   }

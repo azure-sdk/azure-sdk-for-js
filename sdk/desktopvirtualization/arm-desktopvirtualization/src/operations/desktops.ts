@@ -49,11 +49,7 @@ export class DesktopsImpl implements Desktops {
     applicationGroupName: string,
     options?: DesktopsListOptionalParams,
   ): PagedAsyncIterableIterator<Desktop> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      applicationGroupName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, applicationGroupName, options);
     return {
       next() {
         return iter.next();
@@ -65,12 +61,7 @@ export class DesktopsImpl implements Desktops {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          applicationGroupName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, applicationGroupName, options, settings);
       },
     };
   }
@@ -84,11 +75,7 @@ export class DesktopsImpl implements Desktops {
     let result: DesktopsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        applicationGroupName,
-        options,
-      );
+      result = await this._list(resourceGroupName, applicationGroupName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
