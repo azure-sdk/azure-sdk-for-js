@@ -60,10 +60,7 @@ export interface Addons {
     addon: Addon,
     options?: AddonsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AddonsCreateOrUpdateResponse>,
-      AddonsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<AddonsCreateOrUpdateResponse>, AddonsCreateOrUpdateResponse>
   >;
   /**
    * Create a Addon

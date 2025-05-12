@@ -50,11 +50,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
     privateCloudName: string,
     options?: HcxEnterpriseSitesListOptionalParams,
   ): PagedAsyncIterableIterator<HcxEnterpriseSite> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -66,12 +62,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -110,11 +101,7 @@ export class HcxEnterpriseSitesImpl implements HcxEnterpriseSites {
     privateCloudName: string,
     options?: HcxEnterpriseSitesListOptionalParams,
   ): AsyncIterableIterator<HcxEnterpriseSite> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateCloudName, options)) {
       yield* page;
     }
   }

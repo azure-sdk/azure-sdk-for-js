@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureVMwareSolutionAPI } from "../azureVMwareSolutionAPI.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   WorkloadNetwork,
@@ -149,11 +145,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetwork> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -165,12 +157,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -209,11 +196,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListOptionalParams,
   ): AsyncIterableIterator<WorkloadNetwork> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, privateCloudName, options)) {
       yield* page;
     }
   }
@@ -229,11 +212,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListDhcpOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDhcp> {
-    const iter = this.listDhcpPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listDhcpPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -245,12 +224,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDhcpPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listDhcpPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -264,11 +238,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListDhcpResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDhcp(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listDhcp(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -313,11 +283,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListDnsServicesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsService> {
-    const iter = this.listDnsServicesPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listDnsServicesPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -348,11 +314,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListDnsServicesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDnsServices(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listDnsServices(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -397,11 +359,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListDnsZonesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkDnsZone> {
-    const iter = this.listDnsZonesPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listDnsZonesPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -413,12 +371,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listDnsZonesPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listDnsZonesPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -432,11 +385,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListDnsZonesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listDnsZones(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listDnsZones(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -481,11 +430,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListGatewaysOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkGateway> {
-    const iter = this.listGatewaysPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listGatewaysPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -497,12 +442,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listGatewaysPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listGatewaysPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -516,11 +456,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListGatewaysResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listGateways(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listGateways(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -565,11 +501,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListPortMirroringOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkPortMirroring> {
-    const iter = this.listPortMirroringPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPortMirroringPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -600,11 +532,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListPortMirroringResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPortMirroring(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listPortMirroring(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -649,11 +577,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListPublicIPsOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkPublicIP> {
-    const iter = this.listPublicIPsPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listPublicIPsPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -665,12 +589,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPublicIPsPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listPublicIPsPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -684,11 +603,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListPublicIPsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPublicIPs(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listPublicIPs(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -733,11 +648,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListSegmentsOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkSegment> {
-    const iter = this.listSegmentsPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listSegmentsPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -749,12 +660,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listSegmentsPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listSegmentsPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -768,11 +674,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListSegmentsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSegments(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listSegments(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -817,11 +719,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListVirtualMachinesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkVirtualMachine> {
-    const iter = this.listVirtualMachinesPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listVirtualMachinesPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -852,11 +750,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListVirtualMachinesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listVirtualMachines(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listVirtualMachines(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -901,11 +795,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     privateCloudName: string,
     options?: WorkloadNetworksListVMGroupsOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadNetworkVMGroup> {
-    const iter = this.listVMGroupsPagingAll(
-      resourceGroupName,
-      privateCloudName,
-      options,
-    );
+    const iter = this.listVMGroupsPagingAll(resourceGroupName, privateCloudName, options);
     return {
       next() {
         return iter.next();
@@ -917,12 +807,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listVMGroupsPagingPage(
-          resourceGroupName,
-          privateCloudName,
-          options,
-          settings,
-        );
+        return this.listVMGroupsPagingPage(resourceGroupName, privateCloudName, options, settings);
       },
     };
   }
@@ -936,11 +821,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     let result: WorkloadNetworksListVMGroupsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listVMGroups(
-        resourceGroupName,
-        privateCloudName,
-        options,
-      );
+      result = await this._listVMGroups(resourceGroupName, privateCloudName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1074,8 +955,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1180,8 +1060,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1279,8 +1158,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1334,12 +1212,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     dhcpId: string,
     options?: WorkloadNetworksDeleteDhcpOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeleteDhcp(
-      resourceGroupName,
-      privateCloudName,
-      dhcpId,
-      options,
-    );
+    const poller = await this.beginDeleteDhcp(resourceGroupName, privateCloudName, dhcpId, options);
     return poller.pollUntilDone();
   }
 
@@ -1409,8 +1282,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1515,8 +1387,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1614,8 +1485,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1744,8 +1614,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1850,8 +1719,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1949,8 +1817,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2115,8 +1982,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2221,8 +2087,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2320,8 +2185,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2450,8 +2314,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2549,8 +2412,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2679,8 +2541,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2785,8 +2646,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2884,8 +2744,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3050,8 +2909,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3156,8 +3014,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -3255,8 +3112,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

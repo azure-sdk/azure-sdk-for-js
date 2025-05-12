@@ -93,7 +93,7 @@ export interface PrivateClouds {
    * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated.
+   * @param privateCloudUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -102,16 +102,13 @@ export interface PrivateClouds {
     privateCloudUpdate: PrivateCloudUpdate,
     options?: PrivateCloudsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PrivateCloudsUpdateResponse>,
-      PrivateCloudsUpdateResponse
-    >
+    SimplePollerLike<OperationState<PrivateCloudsUpdateResponse>, PrivateCloudsUpdateResponse>
   >;
   /**
    * Update a PrivateCloud
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
-   * @param privateCloudUpdate The private cloud properties to be updated.
+   * @param privateCloudUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(

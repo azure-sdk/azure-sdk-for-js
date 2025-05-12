@@ -65,10 +65,7 @@ export interface Clusters {
     cluster: Cluster,
     options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateOrUpdateResponse>,
-      ClustersCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>
   >;
   /**
    * Create a Cluster
@@ -90,7 +87,7 @@ export interface Clusters {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
+   * @param clusterUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdate(
@@ -99,18 +96,13 @@ export interface Clusters {
     clusterName: string,
     clusterUpdate: ClusterUpdate,
     options?: ClustersUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersUpdateResponse>,
-      ClustersUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
   /**
    * Update a Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster
-   * @param clusterUpdate The cluster properties to be updated.
+   * @param clusterUpdate The resource properties to be updated.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
