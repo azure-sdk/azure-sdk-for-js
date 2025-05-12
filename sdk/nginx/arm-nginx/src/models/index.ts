@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Nginx Deployment Api Key Request */
 export interface NginxDeploymentApiKeyRequest {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -15,9 +16,16 @@ export interface NginxDeploymentApiKeyRequest {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Nginx Deployment Api Key Request Properties */
   properties?: NginxDeploymentApiKeyRequestProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
+/** Nginx Deployment Api Key Request Properties */
 export interface NginxDeploymentApiKeyRequestProperties {
   /**
    * Secret text to be used as a Dataplane API Key. This is a write only property that can never be read back, but the first three characters will be returned in the 'hint' property.
@@ -28,6 +36,23 @@ export interface NginxDeploymentApiKeyRequestProperties {
   endDateTime?: Date;
 }
 
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Nginx Deployment Api Key Response */
 export interface NginxDeploymentApiKeyResponse {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -35,9 +60,16 @@ export interface NginxDeploymentApiKeyResponse {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Nginx Deployment Api Key Response Properties */
   properties?: NginxDeploymentApiKeyResponseProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
 }
 
+/** Nginx Deployment Api Key Response Properties */
 export interface NginxDeploymentApiKeyResponseProperties {
   /**
    * The first three characters of the secret text to help identify it in use. This property is read-only.
@@ -97,11 +129,13 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+/** Nginx Deployment Api Key List Response */
 export interface NginxDeploymentApiKeyListResponse {
   value?: NginxDeploymentApiKeyResponse[];
   nextLink?: string;
 }
 
+/** Nginx Certificate */
 export interface NginxCertificate {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -109,8 +143,8 @@ export interface NginxCertificate {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Nginx Certificate Properties */
   properties?: NginxCertificateProperties;
-  location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -118,8 +152,12 @@ export interface NginxCertificate {
   readonly systemData?: SystemData;
 }
 
+/** Nginx Certificate Properties */
 export interface NginxCertificateProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly provisioningState?: ProvisioningState;
   keyVirtualPath?: string;
   certificateVirtualPath?: string;
@@ -130,30 +168,17 @@ export interface NginxCertificateProperties {
   readonly keyVaultSecretVersion?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly keyVaultSecretCreated?: Date;
+  /** Nginx Certificate Error Response Body */
   certificateError?: NginxCertificateErrorResponseBody;
 }
 
+/** Nginx Certificate Error Response Body */
 export interface NginxCertificateErrorResponseBody {
   code?: string;
   message?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
+/** Nginx Certificate List Response */
 export interface NginxCertificateListResponse {
   value?: NginxCertificate[];
   nextLink?: string;
@@ -167,6 +192,7 @@ export interface NginxConfigurationListResponse {
   nextLink?: string;
 }
 
+/** Nginx Configuration Response */
 export interface NginxConfigurationResponse {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -174,6 +200,7 @@ export interface NginxConfigurationResponse {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Nginx Configuration Response Properties */
   properties?: NginxConfigurationResponseProperties;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -182,20 +209,27 @@ export interface NginxConfigurationResponse {
   readonly systemData?: SystemData;
 }
 
+/** Nginx Configuration Response Properties */
 export interface NginxConfigurationResponseProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
   protectedFiles?: NginxConfigurationProtectedFileResponse[];
+  /** Nginx Configuration Package */
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }
 
+/** Nginx Configuration File */
 export interface NginxConfigurationFile {
   content?: string;
   virtualPath?: string;
 }
 
+/** Nginx Configuration Protected File Response */
 export interface NginxConfigurationProtectedFileResponse {
   /** The virtual path of the protected file. */
   virtualPath?: string;
@@ -203,11 +237,13 @@ export interface NginxConfigurationProtectedFileResponse {
   contentHash?: string;
 }
 
+/** Nginx Configuration Package */
 export interface NginxConfigurationPackage {
   data?: string;
   protectedFiles?: string[];
 }
 
+/** Nginx Configuration Request */
 export interface NginxConfigurationRequest {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -215,6 +251,7 @@ export interface NginxConfigurationRequest {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Nginx Configuration Request Properties */
   properties?: NginxConfigurationRequestProperties;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -223,15 +260,21 @@ export interface NginxConfigurationRequest {
   readonly systemData?: SystemData;
 }
 
+/** Nginx Configuration Request Properties */
 export interface NginxConfigurationRequestProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly provisioningState?: ProvisioningState;
   files?: NginxConfigurationFile[];
   protectedFiles?: NginxConfigurationProtectedFileRequest[];
+  /** Nginx Configuration Package */
   package?: NginxConfigurationPackage;
   rootFile?: string;
 }
 
+/** Nginx Configuration Protected File Request */
 export interface NginxConfigurationProtectedFileRequest {
   /** The content of the protected file. This value is a PUT only value. If you perform a GET request on this value, it will be empty because it is a protected file. */
   content?: string;
@@ -243,14 +286,11 @@ export interface NginxConfigurationProtectedFileRequest {
 
 /** The request body for creating an analysis for an NGINX configuration. */
 export interface AnalysisCreate {
-  config: AnalysisCreateConfig;
-}
-
-export interface AnalysisCreateConfig {
   /** The root file of the NGINX config file(s). It must match one of the files' filepath. */
   rootFile?: string;
   files?: NginxConfigurationFile[];
   protectedFiles?: NginxConfigurationProtectedFileRequest[];
+  /** Nginx Configuration Package */
   package?: NginxConfigurationPackage;
 }
 
@@ -258,10 +298,6 @@ export interface AnalysisCreateConfig {
 export interface AnalysisResult {
   /** The status of the analysis. */
   status: string;
-  data?: AnalysisResultData;
-}
-
-export interface AnalysisResultData {
   errors?: AnalysisDiagnostic[];
   diagnostics?: DiagnosticItem[];
 }
@@ -296,6 +332,7 @@ export interface DiagnosticItem {
   category?: string;
 }
 
+/** Nginx Deployment */
 export interface NginxDeployment {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly id?: string;
@@ -303,11 +340,15 @@ export interface NginxDeployment {
   readonly name?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
+  /** Identity Properties */
   identity?: IdentityProperties;
+  /** Nginx Deployment Properties */
   properties?: NginxDeploymentProperties;
   /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
+  /** Resource Sku */
   sku?: ResourceSku;
+  /** The geo-location where the resource lives */
   location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -316,16 +357,19 @@ export interface NginxDeployment {
   readonly systemData?: SystemData;
 }
 
+/** Identity Properties */
 export interface IdentityProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly principalId?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly tenantId?: string;
+  /** Identity Type */
   type?: IdentityType;
   /** Dictionary of <UserIdentityProperties> */
   userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
 }
 
+/** User Identity Properties */
 export interface UserIdentityProperties {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly principalId?: string;
@@ -333,11 +377,16 @@ export interface UserIdentityProperties {
   readonly clientId?: string;
 }
 
+/** Nginx Deployment Properties */
 export interface NginxDeploymentProperties {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly provisioningState?: ProvisioningState;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nginxVersion?: string;
+  /** Nginx Network Profile */
   networkProfile?: NginxNetworkProfile;
   /**
    * The IP address of the deployment.
@@ -345,49 +394,67 @@ export interface NginxDeploymentProperties {
    */
   readonly ipAddress?: string;
   enableDiagnosticsSupport?: boolean;
+  /** Nginx Logging */
   logging?: NginxLogging;
   /** Information on how the deployment will be scaled. */
   scalingProperties?: NginxDeploymentScalingProperties;
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
+  /** Nginx Deployment User Profile */
   userProfile?: NginxDeploymentUserProfile;
-  /** Settings for NGINX App Protect (NAP) */
-  nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
   /**
    * Dataplane API endpoint for the caller to update the NGINX state of the deployment.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataplaneApiEndpoint?: string;
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings?: WebApplicationFirewallSettings;
+  /**
+   * The status of the NGINX App Protect Web Application Firewall
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
 }
 
+/** Nginx Network Profile */
 export interface NginxNetworkProfile {
+  /** Nginx Frontend IP Configuration */
   frontEndIPConfiguration?: NginxFrontendIPConfiguration;
+  /** Nginx Network Interface Configuration */
   networkInterfaceConfiguration?: NginxNetworkInterfaceConfiguration;
 }
 
+/** Nginx Frontend IP Configuration */
 export interface NginxFrontendIPConfiguration {
   publicIPAddresses?: NginxPublicIPAddress[];
   privateIPAddresses?: NginxPrivateIPAddress[];
 }
 
+/** Nginx Public IP Address */
 export interface NginxPublicIPAddress {
   id?: string;
 }
 
+/** Nginx Private IP Address */
 export interface NginxPrivateIPAddress {
   privateIPAddress?: string;
+  /** Nginx Private IP Allocation Method */
   privateIPAllocationMethod?: NginxPrivateIPAllocationMethod;
   subnetId?: string;
 }
 
+/** Nginx Network Interface Configuration */
 export interface NginxNetworkInterfaceConfiguration {
   subnetId?: string;
 }
 
+/** Nginx Logging */
 export interface NginxLogging {
+  /** Nginx Storage Account */
   storageAccount?: NginxStorageAccount;
 }
 
+/** Nginx Storage Account */
 export interface NginxStorageAccount {
   accountName?: string;
   containerName?: string;
@@ -402,12 +469,6 @@ export interface NginxDeploymentScalingProperties {
 /** The autoscale profile. */
 export interface ScaleProfile {
   name: string;
-  /** The capacity parameters of the profile. */
-  capacity: ScaleProfileCapacity;
-}
-
-/** The capacity parameters of the profile. */
-export interface ScaleProfileCapacity {
   /** The minimum number of NCUs the deployment can be autoscaled to. */
   min: number;
   /** The maximum number of NCUs the deployment can be autoscaled to. */
@@ -420,20 +481,10 @@ export interface AutoUpgradeProfile {
   upgradeChannel: string;
 }
 
+/** Nginx Deployment User Profile */
 export interface NginxDeploymentUserProfile {
   /** The preferred support contact email address of the user used for sending alerts and notification. Can be an empty string or a valid email address. */
   preferredEmail?: string;
-}
-
-/** Settings for NGINX App Protect (NAP) */
-export interface NginxDeploymentPropertiesNginxAppProtect {
-  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
-  webApplicationFirewallSettings: WebApplicationFirewallSettings;
-  /**
-   * The status of the NGINX App Protect Web Application Firewall
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
 }
 
 /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
@@ -444,6 +495,8 @@ export interface WebApplicationFirewallSettings {
 
 /** The status of the NGINX App Protect Web Application Firewall */
 export interface WebApplicationFirewallStatus {
+  /** NGINX App Protect WAF release version */
+  wafRelease?: string;
   /**
    * Package containing attack signatures for the NGINX App Protect Web Application Firewall (WAF).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -482,64 +535,251 @@ export interface WebApplicationFirewallComponentVersions {
   wafNginxVersion: string;
 }
 
+/** Resource Sku */
 export interface ResourceSku {
   /** Name of the SKU. */
   name: string;
 }
 
+/** Nginx Deployment Update Parameters */
 export interface NginxDeploymentUpdateParameters {
+  /** Identity Properties */
   identity?: IdentityProperties;
   /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
+  /** Resource Sku */
   sku?: ResourceSku;
+  /** The geo-location where the resource lives */
   location?: string;
+  /** Nginx Deployment Update Properties */
   properties?: NginxDeploymentUpdateProperties;
 }
 
+/** Nginx Deployment Update Properties */
 export interface NginxDeploymentUpdateProperties {
   enableDiagnosticsSupport?: boolean;
+  /** Nginx Logging */
   logging?: NginxLogging;
   /** Information on how the deployment will be scaled. */
   scalingProperties?: NginxDeploymentScalingProperties;
+  /** Nginx Deployment User Profile */
   userProfile?: NginxDeploymentUserProfile;
+  /** Nginx Network Profile */
   networkProfile?: NginxNetworkProfile;
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
-  /** Update settings for NGINX App Protect (NAP) */
-  nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
-}
-
-/** Update settings for NGINX App Protect (NAP) */
-export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
   /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
   webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
+/** Nginx Deployment List Response */
 export interface NginxDeploymentListResponse {
   value?: NginxDeployment[];
   nextLink?: string;
 }
 
-/** Result of GET request to list Nginx.NginxPlus operations. */
-export interface OperationListResult {
-  /** List of operations supported by the Nginx.NginxPlus provider. */
-  value?: OperationResult[];
-  /** URL to get the next set of operation list results if there are any. */
+/** Nginx Deployment Waf Policy */
+export interface NginxDeploymentWafPolicy {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+  /** Nginx Deployment Waf Policy Properties */
+  properties?: NginxDeploymentWafPolicyProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Nginx Deployment Waf Policy Properties */
+export interface NginxDeploymentWafPolicyProperties {
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The byte content of the Policy */
+  content?: Uint8Array;
+  /** The file path where the Policy is to be saved */
+  filepath?: string;
+  /**
+   * Nginx Deployment Waf Policy Compiling Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly compilingState?: NginxDeploymentWafPolicyCompilingStatus;
+  /**
+   * Nginx Deployment Waf Policy Applying Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applyingState?: NginxDeploymentWafPolicyApplyingStatus;
+}
+
+/** Nginx Deployment Waf Policy Compiling Status */
+export interface NginxDeploymentWafPolicyCompilingStatus {
+  /**
+   * Machine readable code indicating the compilation status of a WAF Policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: NginxDeploymentWafPolicyCompilingStatusCode;
+  /**
+   * A readable string of the current status, and sometimes have the reason for the current state. If the CompilingStatus is Failed the Display Status will be The waf Policy failed to compile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayStatus?: string;
+  /**
+   * The date and time the policy was compiled in UTC.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: string;
+}
+
+/** Nginx Deployment Waf Policy Applying Status */
+export interface NginxDeploymentWafPolicyApplyingStatus {
+  /**
+   * Machine readable code indicating the applying status code of a WAF Policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: NginxDeploymentWafPolicyApplyingStatusCode;
+  /**
+   * A readable string of the current status, and sometimes have the reason for the current state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayStatus?: string;
+  /**
+   * The date and time in UTC the current applying status was set.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly time?: string;
+}
+
+/** Nginx Deployment Default Waf Policy List Response */
+export interface NginxDeploymentDefaultWafPolicyListResponse {
+  value?: NginxDeploymentDefaultWafPolicyProperties[];
   nextLink?: string;
 }
 
-/** A Nginx.NginxPlus REST API operation. */
-export interface OperationResult {
-  /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
-  /** The object that represents the operation. */
+/** Nginx Deployment Default Waf Policy Properties */
+export interface NginxDeploymentDefaultWafPolicyProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly content?: Uint8Array;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly filepath?: string;
+}
+
+/** Nginx Deployment Waf Policy List Response */
+export interface NginxDeploymentWafPolicyListResponse {
+  value?: NginxDeploymentWafPolicyMetadata[];
+  nextLink?: string;
+}
+
+/** Nginx Deployment Waf Policy Metadata */
+export interface NginxDeploymentWafPolicyMetadata {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly id?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly type?: string;
+  /** Nginx Deployment Waf Policy Metadata Properties */
+  properties?: NginxDeploymentWafPolicyMetadataProperties;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Nginx Deployment Waf Policy Metadata Properties */
+export interface NginxDeploymentWafPolicyMetadataProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly filepath?: string;
+  /**
+   * Provisioning State
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * Nginx Deployment Waf Policy Compiling Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly compilingState?: NginxDeploymentWafPolicyCompilingStatus;
+  /**
+   * Nginx Deployment Waf Policy Applying Status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applyingState?: NginxDeploymentWafPolicyApplyingStatus;
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
   display?: OperationDisplay;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
+}
+
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
 }
 
 /** The object that represents the operation. */
-export interface OperationDisplay {
+export interface OperationDisplayAutoGenerated {
   /** Service provider: Nginx.NginxPlus */
   provider?: string;
   /** Type on which the operation is performed, e.g., 'deployments'. */
@@ -549,6 +789,98 @@ export interface OperationDisplay {
   /** Description of the operation, e.g., 'Write deployments'. */
   description?: string;
 }
+
+/** A Nginx.NginxPlus REST API operation. */
+export interface OperationResult {
+  /** Operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The object that represents the operation. */
+  display?: OperationDisplayAutoGenerated;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+}
+
+/** Defines headers for Certificates_delete operation. */
+export interface CertificatesDeleteHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+  /** The URL to poll for the status of this asynchronous operation */
+  location?: string;
+}
+
+/** Defines headers for Configurations_delete operation. */
+export interface ConfigurationsDeleteHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+  /** The URL to poll for the status of this asynchronous operation */
+  location?: string;
+}
+
+/** Defines headers for Deployments_update operation. */
+export interface DeploymentsUpdateHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+  /** The URL to poll for the status of this asynchronous operation */
+  location?: string;
+}
+
+/** Defines headers for Deployments_delete operation. */
+export interface DeploymentsDeleteHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+  /** The URL to poll for the status of this asynchronous operation */
+  location?: string;
+}
+
+/** Defines headers for WafPolicy_create operation. */
+export interface WafPolicyCreateHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+}
+
+/** Defines headers for WafPolicy_delete operation. */
+export interface WafPolicyDeleteHeaders {
+  /** Number of seconds to wait before retrying or until the operation is likely to complete */
+  retryAfter?: number;
+  /** The URL to poll for the status of this asynchronous operation */
+  operationLocation?: string;
+  /** The URL to poll for the status of this asynchronous operation */
+  location?: string;
+}
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -588,30 +920,6 @@ export enum KnownProvisioningState {
  * **NotSpecified**
  */
 export type ProvisioningState = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key",
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link Level} that the service accepts. */
 export enum KnownLevel {
@@ -691,9 +999,95 @@ export enum KnownActivationState {
  */
 export type ActivationState = string;
 
+/** Known values of {@link NginxDeploymentWafPolicyCompilingStatusCode} that the service accepts. */
+export enum KnownNginxDeploymentWafPolicyCompilingStatusCode {
+  /** The compilation of the custom waf policy has not started */
+  NotStarted = "NotStarted",
+  /** The compilation of the custom waf policy is in progress */
+  InProgress = "InProgress",
+  /** The compilation of the custom waf policy is completed successfully and can now be referenced in the nginx config. */
+  Succeeded = "Succeeded",
+  /** The compilation of the custom waf policy failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for NginxDeploymentWafPolicyCompilingStatusCode. \
+ * {@link KnownNginxDeploymentWafPolicyCompilingStatusCode} can be used interchangeably with NginxDeploymentWafPolicyCompilingStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted**: The compilation of the custom waf policy has not started \
+ * **InProgress**: The compilation of the custom waf policy is in progress \
+ * **Succeeded**: The compilation of the custom waf policy is completed successfully and can now be referenced in the nginx config. \
+ * **Failed**: The compilation of the custom waf policy failed.
+ */
+export type NginxDeploymentWafPolicyCompilingStatusCode = string;
+
+/** Known values of {@link NginxDeploymentWafPolicyApplyingStatusCode} that the service accepts. */
+export enum KnownNginxDeploymentWafPolicyApplyingStatusCode {
+  /** The policy is not referenced in the nginx config and not applied. */
+  NotApplied = "NotApplied",
+  /** The policy is referenced in the nginx config and is applying. */
+  Applying = "Applying",
+  /** The policy is referenced in the nginx config and that config has been successfully applied. */
+  Succeeded = "Succeeded",
+  /** The policy is referenced in the nginx config and that config failed to apply. */
+  Failed = "Failed",
+  /** The policy is now not referenced in the nginx config and its being removed from the applied nginx config. */
+  Removing = "Removing",
+}
+
+/**
+ * Defines values for NginxDeploymentWafPolicyApplyingStatusCode. \
+ * {@link KnownNginxDeploymentWafPolicyApplyingStatusCode} can be used interchangeably with NginxDeploymentWafPolicyApplyingStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotApplied**: The policy is not referenced in the nginx config and not applied. \
+ * **Applying**: The policy is referenced in the nginx config and is applying. \
+ * **Succeeded**: The policy is referenced in the nginx config and that config has been successfully applied. \
+ * **Failed**: The policy is referenced in the nginx config and that config failed to apply. \
+ * **Removing**: The policy is now not referenced in the nginx config and its being removed from the applied nginx config.
+ */
+export type NginxDeploymentWafPolicyApplyingStatusCode = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
 /** Optional parameters. */
-export interface ApiKeysCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ApiKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The API Key object containing fields (e.g. secret text, expiration date) to upsert the key. */
   body?: NginxDeploymentApiKeyRequest;
 }
@@ -702,8 +1096,7 @@ export interface ApiKeysCreateOrUpdateOptionalParams
 export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
 
 /** Optional parameters. */
-export interface ApiKeysDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
@@ -712,29 +1105,25 @@ export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {}
 export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
 
 /** Optional parameters. */
-export interface ApiKeysListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
-export interface ApiKeysListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ApiKeysListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
 
 /** Optional parameters. */
-export interface CertificatesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type CertificatesGetResponse = NginxCertificate;
 
 /** Optional parameters. */
-export interface CertificatesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The certificate */
   body?: NginxCertificate;
   /** Delay to wait until next poll, in milliseconds. */
@@ -747,45 +1136,42 @@ export interface CertificatesCreateOrUpdateOptionalParams
 export type CertificatesCreateOrUpdateResponse = NginxCertificate;
 
 /** Optional parameters. */
-export interface CertificatesDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type CertificatesDeleteResponse = CertificatesDeleteHeaders;
+
 /** Optional parameters. */
-export interface CertificatesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type CertificatesListResponse = NginxCertificateListResponse;
 
 /** Optional parameters. */
-export interface CertificatesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type CertificatesListNextResponse = NginxCertificateListResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ConfigurationsListResponse = NginxConfigurationListResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ConfigurationsGetResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** The NGINX configuration */
   body?: NginxConfigurationRequest;
   /** Delay to wait until next poll, in milliseconds. */
@@ -798,17 +1184,18 @@ export interface ConfigurationsCreateOrUpdateOptionalParams
 export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
 
 /** Optional parameters. */
-export interface ConfigurationsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type ConfigurationsDeleteResponse = ConfigurationsDeleteHeaders;
+
 /** Optional parameters. */
-export interface ConfigurationsAnalysisOptionalParams
-  extends coreClient.OperationOptions {
+export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
   /** The NGINX configuration to analyze */
   body?: AnalysisCreate;
 }
@@ -817,22 +1204,20 @@ export interface ConfigurationsAnalysisOptionalParams
 export type ConfigurationsAnalysisResponse = AnalysisResult;
 
 /** Optional parameters. */
-export interface ConfigurationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ConfigurationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ConfigurationsListNextResponse = NginxConfigurationListResponse;
 
 /** Optional parameters. */
-export interface DeploymentsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type DeploymentsGetResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The Nginx deployment */
   body?: NginxDeployment;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -844,8 +1229,8 @@ export interface DeploymentsCreateOrUpdateOptionalParams
 export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
+  /** The Nginx deployment update parameters */
   body?: NginxDeploymentUpdateParameters;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -857,32 +1242,30 @@ export interface DeploymentsUpdateOptionalParams
 export type DeploymentsUpdateResponse = NginxDeployment;
 
 /** Optional parameters. */
-export interface DeploymentsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
 
+/** Contains response data for the delete operation. */
+export type DeploymentsDeleteResponse = DeploymentsDeleteHeaders;
+
 /** Optional parameters. */
-export interface DeploymentsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type DeploymentsListResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface DeploymentsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DeploymentsListByResourceGroupResponse =
-  NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface DeploymentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type DeploymentsListNextResponse = NginxDeploymentListResponse;
@@ -892,26 +1275,70 @@ export interface DeploymentsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DeploymentsListByResourceGroupNextResponse =
-  NginxDeploymentListResponse;
+export type DeploymentsListByResourceGroupNextResponse = NginxDeploymentListResponse;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface WafPolicyGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WafPolicyGetResponse = NginxDeploymentWafPolicy;
+
+/** Optional parameters. */
+export interface WafPolicyCreateOptionalParams extends coreClient.OperationOptions {
+  /** The Nginx Deployment Waf Policy */
+  body?: NginxDeploymentWafPolicy;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type WafPolicyCreateResponse = NginxDeploymentWafPolicy;
+
+/** Optional parameters. */
+export interface WafPolicyDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type WafPolicyDeleteResponse = WafPolicyDeleteHeaders;
+
+/** Optional parameters. */
+export interface WafPolicyListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WafPolicyListResponse = NginxDeploymentWafPolicyListResponse;
+
+/** Optional parameters. */
+export interface WafPolicyListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WafPolicyListNextResponse = NginxDeploymentWafPolicyListResponse;
+
+/** Optional parameters. */
+export interface DefaultWafPolicyListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DefaultWafPolicyListResponse = NginxDeploymentDefaultWafPolicyListResponse;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface NginxManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface NginxManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
