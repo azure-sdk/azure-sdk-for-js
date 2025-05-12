@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { HDInsightManagementClient } from "../hDInsightManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Cluster,
@@ -91,11 +87,7 @@ export class ClustersImpl implements Clusters {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -115,11 +107,7 @@ export class ClustersImpl implements Clusters {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -131,10 +119,7 @@ export class ClustersImpl implements Clusters {
     resourceGroupName: string,
     options?: ClustersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Cluster> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -143,9 +128,7 @@ export class ClustersImpl implements Clusters {
    * Lists all the HDInsight clusters under the subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: ClustersListOptionalParams,
-  ): PagedAsyncIterableIterator<Cluster> {
+  public list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -205,12 +188,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     parameters: ClusterCreateParametersExtended,
     options?: ClustersCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ClustersCreateResponse>,
-      ClustersCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ClustersCreateResponse>, ClustersCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -221,8 +199,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -279,12 +256,7 @@ export class ClustersImpl implements Clusters {
     parameters: ClusterCreateParametersExtended,
     options?: ClustersCreateOptionalParams,
   ): Promise<ClustersCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      clusterName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, clusterName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -328,8 +300,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -381,11 +352,7 @@ export class ClustersImpl implements Clusters {
     clusterName: string,
     options?: ClustersDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      clusterName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, clusterName, options);
     return poller.pollUntilDone();
   }
 
@@ -446,8 +413,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -538,8 +504,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -609,9 +574,7 @@ export class ClustersImpl implements Clusters {
    * Lists all the HDInsight clusters under the subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: ClustersListOptionalParams,
-  ): Promise<ClustersListResponse> {
+  private _list(options?: ClustersListOptionalParams): Promise<ClustersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -638,8 +601,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -742,8 +704,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -848,8 +809,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -935,8 +895,7 @@ export class ClustersImpl implements Clusters {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1025,10 +984,7 @@ export class ClustersImpl implements Clusters {
     nextLink: string,
     options?: ClustersListNextOptionalParams,
   ): Promise<ClustersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -1144,11 +1100,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1391,11 +1343,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
