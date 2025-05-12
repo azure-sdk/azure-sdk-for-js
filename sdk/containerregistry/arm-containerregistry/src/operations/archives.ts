@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Archive,
@@ -62,12 +58,7 @@ export class ArchivesImpl implements Archives {
     packageType: string,
     options?: ArchivesListOptionalParams,
   ): PagedAsyncIterableIterator<Archive> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      registryName,
-      packageType,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, registryName, packageType, options);
     return {
       next() {
         return iter.next();
@@ -79,13 +70,7 @@ export class ArchivesImpl implements Archives {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          packageType,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, packageType, options, settings);
       },
     };
   }
@@ -100,12 +85,7 @@ export class ArchivesImpl implements Archives {
     let result: ArchivesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        registryName,
-        packageType,
-        options,
-      );
+      result = await this._list(resourceGroupName, registryName, packageType, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -198,12 +178,7 @@ export class ArchivesImpl implements Archives {
     archiveName: string,
     archiveCreateParameters: Archive,
     options?: ArchivesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ArchivesCreateResponse>,
-      ArchivesCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ArchivesCreateResponse>, ArchivesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -214,8 +189,7 @@ export class ArchivesImpl implements Archives {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -308,12 +282,7 @@ export class ArchivesImpl implements Archives {
     packageType: string,
     archiveName: string,
     options?: ArchivesDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ArchivesDeleteResponse>,
-      ArchivesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ArchivesDeleteResponse>, ArchivesDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -324,8 +293,7 @@ export class ArchivesImpl implements Archives {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -60,10 +60,7 @@ export interface PipelineRuns {
     pipelineRunCreateParameters: PipelineRun,
     options?: PipelineRunsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PipelineRunsCreateResponse>,
-      PipelineRunsCreateResponse
-    >
+    SimplePollerLike<OperationState<PipelineRunsCreateResponse>, PipelineRunsCreateResponse>
   >;
   /**
    * Creates a pipeline run for a container registry with the specified parameters

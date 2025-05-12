@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Registry,
@@ -83,9 +79,7 @@ export class RegistriesImpl implements Registries {
    * Lists all the container registries under the specified subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: RegistriesListOptionalParams,
-  ): PagedAsyncIterableIterator<Registry> {
+  public list(options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -154,11 +148,7 @@ export class RegistriesImpl implements Registries {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -178,11 +168,7 @@ export class RegistriesImpl implements Registries {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -194,10 +180,7 @@ export class RegistriesImpl implements Registries {
     resourceGroupName: string,
     options?: RegistriesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Registry> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -213,11 +196,7 @@ export class RegistriesImpl implements Registries {
     registryName: string,
     options?: RegistriesListPrivateLinkResourcesOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
-    const iter = this.listPrivateLinkResourcesPagingAll(
-      resourceGroupName,
-      registryName,
-      options,
-    );
+    const iter = this.listPrivateLinkResourcesPagingAll(resourceGroupName, registryName, options);
     return {
       next() {
         return iter.next();
@@ -248,11 +227,7 @@ export class RegistriesImpl implements Registries {
     let result: RegistriesListPrivateLinkResourcesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listPrivateLinkResources(
-        resourceGroupName,
-        registryName,
-        options,
-      );
+      result = await this._listPrivateLinkResources(resourceGroupName, registryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -309,8 +284,7 @@ export class RegistriesImpl implements Registries {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -393,9 +367,7 @@ export class RegistriesImpl implements Registries {
    * Lists all the container registries under the specified subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RegistriesListOptionalParams,
-  ): Promise<RegistriesListResponse> {
+  private _list(options?: RegistriesListOptionalParams): Promise<RegistriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -443,12 +415,7 @@ export class RegistriesImpl implements Registries {
     registryName: string,
     registry: Registry,
     options?: RegistriesCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesCreateResponse>,
-      RegistriesCreateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<RegistriesCreateResponse>, RegistriesCreateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -459,8 +426,7 @@ export class RegistriesImpl implements Registries {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -517,12 +483,7 @@ export class RegistriesImpl implements Registries {
     registry: Registry,
     options?: RegistriesCreateOptionalParams,
   ): Promise<RegistriesCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      registryName,
-      registry,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, registryName, registry, options);
     return poller.pollUntilDone();
   }
 
@@ -547,8 +508,7 @@ export class RegistriesImpl implements Registries {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -600,11 +560,7 @@ export class RegistriesImpl implements Registries {
     registryName: string,
     options?: RegistriesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, registryName, options);
     return poller.pollUntilDone();
   }
 
@@ -620,12 +576,7 @@ export class RegistriesImpl implements Registries {
     registryName: string,
     registryUpdateParameters: RegistryUpdateParameters,
     options?: RegistriesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<RegistriesUpdateResponse>,
-      RegistriesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<RegistriesUpdateResponse>, RegistriesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -636,8 +587,7 @@ export class RegistriesImpl implements Registries {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -831,8 +781,7 @@ export class RegistriesImpl implements Registries {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -948,10 +897,7 @@ export class RegistriesImpl implements Registries {
     nextLink: string,
     options?: RegistriesListNextOptionalParams,
   ): Promise<RegistriesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -1047,11 +993,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1324,11 +1266,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RegistryListResult,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
