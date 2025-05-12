@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SavingsPlanModel,
   SavingsPlanListOptionalParams,
@@ -18,7 +19,7 @@ import {
   SavingsPlanUpdateResponse,
   SavingsPlanUpdateValidateRequest,
   SavingsPlanValidateUpdateOptionalParams,
-  SavingsPlanValidateUpdateResponse
+  SavingsPlanValidateUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,15 +32,13 @@ export interface SavingsPlan {
    */
   list(
     savingsPlanOrderId: string,
-    options?: SavingsPlanListOptionalParams
+    options?: SavingsPlanListOptionalParams,
   ): PagedAsyncIterableIterator<SavingsPlanModel>;
   /**
    * List savings plans.
    * @param options The options parameters.
    */
-  listAll(
-    options?: SavingsPlanListAllOptionalParams
-  ): PagedAsyncIterableIterator<SavingsPlanModel>;
+  listAll(options?: SavingsPlanListAllOptionalParams): PagedAsyncIterableIterator<SavingsPlanModel>;
   /**
    * Get savings plan.
    * @param savingsPlanOrderId Order ID of the savings plan
@@ -49,7 +48,7 @@ export interface SavingsPlan {
   get(
     savingsPlanOrderId: string,
     savingsPlanId: string,
-    options?: SavingsPlanGetOptionalParams
+    options?: SavingsPlanGetOptionalParams,
   ): Promise<SavingsPlanGetResponse>;
   /**
    * Update savings plan.
@@ -58,11 +57,26 @@ export interface SavingsPlan {
    * @param body Request body for patching a savings plan order alias
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateRequest,
-    options?: SavingsPlanUpdateOptionalParams
+    options?: SavingsPlanUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<SavingsPlanUpdateResponse>, SavingsPlanUpdateResponse>
+  >;
+  /**
+   * Update savings plan.
+   * @param savingsPlanOrderId Order ID of the savings plan
+   * @param savingsPlanId ID of the savings plan
+   * @param body Request body for patching a savings plan order alias
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    savingsPlanOrderId: string,
+    savingsPlanId: string,
+    body: SavingsPlanUpdateRequest,
+    options?: SavingsPlanUpdateOptionalParams,
   ): Promise<SavingsPlanUpdateResponse>;
   /**
    * Validate savings plan patch.
@@ -75,6 +89,6 @@ export interface SavingsPlan {
     savingsPlanOrderId: string,
     savingsPlanId: string,
     body: SavingsPlanUpdateValidateRequest,
-    options?: SavingsPlanValidateUpdateOptionalParams
+    options?: SavingsPlanValidateUpdateOptionalParams,
   ): Promise<SavingsPlanValidateUpdateResponse>;
 }
