@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   WebApplicationFirewallPolicy,
@@ -93,11 +89,7 @@ export class PoliciesImpl implements Policies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -177,10 +169,7 @@ export class PoliciesImpl implements Policies {
     resourceGroupName: string,
     options?: PoliciesListOptionalParams,
   ): Promise<PoliciesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -190,10 +179,7 @@ export class PoliciesImpl implements Policies {
   private _listBySubscription(
     options?: PoliciesListBySubscriptionOptionalParams,
   ): Promise<PoliciesListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -226,10 +212,7 @@ export class PoliciesImpl implements Policies {
     parameters: WebApplicationFirewallPolicy,
     options?: PoliciesCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesCreateOrUpdateResponse>,
-      PoliciesCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<PoliciesCreateOrUpdateResponse>, PoliciesCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -241,8 +224,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -320,12 +302,7 @@ export class PoliciesImpl implements Policies {
     policyName: string,
     parameters: TagsObject,
     options?: PoliciesUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<PoliciesUpdateResponse>,
-      PoliciesUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<PoliciesUpdateResponse>, PoliciesUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -336,8 +313,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -394,12 +370,7 @@ export class PoliciesImpl implements Policies {
     parameters: TagsObject,
     options?: PoliciesUpdateOptionalParams,
   ): Promise<PoliciesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      policyName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, policyName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -424,8 +395,7 @@ export class PoliciesImpl implements Policies {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -476,11 +446,7 @@ export class PoliciesImpl implements Policies {
     policyName: string,
     options?: PoliciesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      policyName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, policyName, options);
     return poller.pollUntilDone();
   }
 
@@ -531,11 +497,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceGroupName, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -684,11 +646,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
