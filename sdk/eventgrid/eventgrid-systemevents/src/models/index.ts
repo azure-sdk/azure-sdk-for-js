@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -32,6 +31,14 @@ export {
   ApiManagementGatewayCertificateAuthorityDeletedEventData,
   ApiManagementGatewayApiAddedEventData,
   ApiManagementGatewayApiRemovedEventData,
+  ApiManagementCircuitBreakerOpenedEventData,
+  ApiManagementCircuitBreakerProperties,
+  ApiManagementCircuitBreakerClosedEventData,
+  ApiManagementGatewayTokenNearExpiryEventData,
+  ApiManagementGatewayProperties,
+  ApiManagementNearExpiryGatewayTokenProperties,
+  ApiManagementGatewayTokenExpiredEventData,
+  ApiManagementExpiredGatewayTokenProperties,
   AppConfigurationKeyValueModifiedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationSnapshotEventData,
@@ -64,11 +71,28 @@ export {
   MicrosoftTeamsAppIdentifierModel,
   AcsIncomingCallCustomContext,
   AcsUserDisconnectedEventData,
+  AcsCallingEvent,
+  AcsCallParticipant,
+  KnownAcsCallParticipantRoleKind,
+  AcsCallParticipantRoleKind,
+  AcsCallGroup,
+  AcsCallRoom,
+  AcsCallStartedEventData,
+  AcsCallEndedEventData,
+  AcsCallEndedBy,
+  KnownAcsCallEndedByKind,
+  AcsCallEndedByKind,
+  AcsCallEndReason,
+  AcsCallParticipantEvent,
+  AcsCallParticipantAddedEventData,
+  AcsCallParticipantRemovedEventData,
   AcsChatEventBase,
   AcsChatEventInThreadBase,
   AcsChatMessageEventBase,
   AcsChatMessageReceivedEventData,
   AcsChatMessageEventInThreadBase,
+  AcsChatAzureBotCommandReceivedInThreadEventData,
+  AcsChatTypingIndicatorReceivedInThreadEventData,
   AcsChatMessageReceivedInThreadEventData,
   AcsChatMessageEditedEventData,
   AcsChatMessageEditedInThreadEventData,
@@ -186,6 +210,7 @@ export {
   DataBoxStageName,
   DataBoxCopyCompletedEventData,
   DataBoxOrderCompletedEventData,
+  EdgeSolutionVersionPublishedEventData,
   EventHubCaptureFileCreatedEventData,
   MapsGeofenceEvent,
   MapsGeofenceGeometry,
@@ -324,5 +349,4 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
   KnownServiceApiVersions,
-} from "./models/index.js";
-export { SystemEventsClientOptionalParams } from "./api/index.js";
+} from "./models.js";
