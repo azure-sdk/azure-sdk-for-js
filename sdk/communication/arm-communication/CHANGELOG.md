@@ -1,15 +1,12 @@
 # Release History
-
-## 4.1.1 (Unreleased)
-
+    
+## 4.2.0 (2025-05-12)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface CommunicationServiceResource has a new optional parameter disableLocalAuth
+    
+    
 ## 4.1.0 (2024-03-08)
     
 ### Features Added
@@ -195,7 +192,7 @@
     
 ## 3.0.1 (2022-04-11)
 
-### Features Added
+**features**
 
   - Bug fix
 
