@@ -7,10 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
-  PurgeParameters,
-  EndpointsPurgeContentOptionalParams,
-} from "../models/index.js";
+import { PurgeParameters, EndpointsPurgeContentOptionalParams } from "../models/index.js";
 
 /** Interface representing a Endpoints. */
 export interface Endpoints {

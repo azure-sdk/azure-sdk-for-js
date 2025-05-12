@@ -98,10 +98,7 @@ export interface Experiments {
     parameters: ExperimentUpdateModel,
     options?: ExperimentsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ExperimentsUpdateResponse>,
-      ExperimentsUpdateResponse
-    >
+    SimplePollerLike<OperationState<ExperimentsUpdateResponse>, ExperimentsUpdateResponse>
   >;
   /**
    * Updates an Experiment

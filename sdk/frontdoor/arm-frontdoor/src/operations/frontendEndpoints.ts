@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FrontendEndpoint,
@@ -56,11 +52,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     frontDoorName: string,
     options?: FrontendEndpointsListByFrontDoorOptionalParams,
   ): PagedAsyncIterableIterator<FrontendEndpoint> {
-    const iter = this.listByFrontDoorPagingAll(
-      resourceGroupName,
-      frontDoorName,
-      options,
-    );
+    const iter = this.listByFrontDoorPagingAll(resourceGroupName, frontDoorName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFrontDoorPagingPage(
-          resourceGroupName,
-          frontDoorName,
-          options,
-          settings,
-        );
+        return this.listByFrontDoorPagingPage(resourceGroupName, frontDoorName, options, settings);
       },
     };
   }
@@ -91,11 +78,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
     let result: FrontendEndpointsListByFrontDoorResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFrontDoor(
-        resourceGroupName,
-        frontDoorName,
-        options,
-      );
+      result = await this._listByFrontDoor(resourceGroupName, frontDoorName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -190,8 +173,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -286,8 +268,7 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
