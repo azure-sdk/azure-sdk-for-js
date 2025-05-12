@@ -41,31 +41,82 @@ export const NginxDeploymentApiKeyRequest: coreClient.CompositeMapper = {
           className: "NginxDeploymentApiKeyRequestProperties",
         },
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
     },
   },
 };
 
-export const NginxDeploymentApiKeyRequestProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxDeploymentApiKeyRequestProperties",
-      modelProperties: {
-        secretText: {
-          serializedName: "secretText",
-          type: {
-            name: "String",
-          },
+export const NginxDeploymentApiKeyRequestProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentApiKeyRequestProperties",
+    modelProperties: {
+      secretText: {
+        serializedName: "secretText",
+        type: {
+          name: "String",
         },
-        endDateTime: {
-          serializedName: "endDateTime",
-          type: {
-            name: "DateTime",
-          },
+      },
+      endDateTime: {
+        serializedName: "endDateTime",
+        type: {
+          name: "DateTime",
         },
       },
     },
-  };
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      createdByType: {
+        serializedName: "createdByType",
+        type: {
+          name: "String",
+        },
+      },
+      createdAt: {
+        serializedName: "createdAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
+        type: {
+          name: "String",
+        },
+      },
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
 
 export const NginxDeploymentApiKeyResponse: coreClient.CompositeMapper = {
   type: {
@@ -100,32 +151,38 @@ export const NginxDeploymentApiKeyResponse: coreClient.CompositeMapper = {
           className: "NginxDeploymentApiKeyResponseProperties",
         },
       },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
     },
   },
 };
 
-export const NginxDeploymentApiKeyResponseProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxDeploymentApiKeyResponseProperties",
-      modelProperties: {
-        hint: {
-          serializedName: "hint",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const NginxDeploymentApiKeyResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentApiKeyResponseProperties",
+    modelProperties: {
+      hint: {
+        serializedName: "hint",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        endDateTime: {
-          serializedName: "endDateTime",
-          type: {
-            name: "DateTime",
-          },
+      },
+      endDateTime: {
+        serializedName: "endDateTime",
+        type: {
+          name: "DateTime",
         },
       },
     },
-  };
+  },
+};
 
 export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
@@ -283,12 +340,6 @@ export const NginxCertificate: coreClient.CompositeMapper = {
           className: "NginxCertificateProperties",
         },
       },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
-        },
-      },
       systemData: {
         serializedName: "systemData",
         type: {
@@ -377,51 +428,6 @@ export const NginxCertificateErrorResponseBody: coreClient.CompositeMapper = {
         serializedName: "message",
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String",
-        },
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String",
-        },
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime",
-        },
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String",
-        },
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime",
         },
       },
     },
@@ -526,59 +532,58 @@ export const NginxConfigurationResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfigurationResponseProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxConfigurationResponseProperties",
-      modelProperties: {
-        provisioningState: {
-          serializedName: "provisioningState",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const NginxConfigurationResponseProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxConfigurationResponseProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        files: {
-          serializedName: "files",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "NginxConfigurationFile",
-              },
+      },
+      files: {
+        serializedName: "files",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxConfigurationFile",
             },
-          },
-        },
-        protectedFiles: {
-          serializedName: "protectedFiles",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "NginxConfigurationProtectedFileResponse",
-              },
-            },
-          },
-        },
-        package: {
-          serializedName: "package",
-          type: {
-            name: "Composite",
-            className: "NginxConfigurationPackage",
-          },
-        },
-        rootFile: {
-          serializedName: "rootFile",
-          type: {
-            name: "String",
           },
         },
       },
+      protectedFiles: {
+        serializedName: "protectedFiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxConfigurationProtectedFileResponse",
+            },
+          },
+        },
+      },
+      package: {
+        serializedName: "package",
+        type: {
+          name: "Composite",
+          className: "NginxConfigurationPackage",
+        },
+      },
+      rootFile: {
+        serializedName: "rootFile",
+        type: {
+          name: "String",
+        },
+      },
     },
-  };
+  },
+};
 
 export const NginxConfigurationFile: coreClient.CompositeMapper = {
   type: {
@@ -601,27 +606,26 @@ export const NginxConfigurationFile: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfigurationProtectedFileResponse: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxConfigurationProtectedFileResponse",
-      modelProperties: {
-        virtualPath: {
-          serializedName: "virtualPath",
-          type: {
-            name: "String",
-          },
+export const NginxConfigurationProtectedFileResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxConfigurationProtectedFileResponse",
+    modelProperties: {
+      virtualPath: {
+        serializedName: "virtualPath",
+        type: {
+          name: "String",
         },
-        contentHash: {
-          serializedName: "contentHash",
-          type: {
-            name: "String",
-          },
+      },
+      contentHash: {
+        serializedName: "contentHash",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const NginxConfigurationPackage: coreClient.CompositeMapper = {
   type: {
@@ -746,63 +750,46 @@ export const NginxConfigurationRequestProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfigurationProtectedFileRequest: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxConfigurationProtectedFileRequest",
-      modelProperties: {
-        content: {
-          serializedName: "content",
-          type: {
-            name: "String",
-          },
-        },
-        virtualPath: {
-          serializedName: "virtualPath",
-          type: {
-            name: "String",
-          },
-        },
-        contentHash: {
-          serializedName: "contentHash",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const AnalysisCreate: coreClient.CompositeMapper = {
+export const NginxConfigurationProtectedFileRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnalysisCreate",
+    className: "NginxConfigurationProtectedFileRequest",
     modelProperties: {
-      config: {
-        serializedName: "config",
+      content: {
+        serializedName: "content",
         type: {
-          name: "Composite",
-          className: "AnalysisCreateConfig",
+          name: "String",
+        },
+      },
+      virtualPath: {
+        serializedName: "virtualPath",
+        type: {
+          name: "String",
+        },
+      },
+      contentHash: {
+        serializedName: "contentHash",
+        type: {
+          name: "String",
         },
       },
     },
   },
 };
 
-export const AnalysisCreateConfig: coreClient.CompositeMapper = {
+export const AnalysisCreate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnalysisCreateConfig",
+    className: "AnalysisCreate",
     modelProperties: {
       rootFile: {
-        serializedName: "rootFile",
+        serializedName: "config.rootFile",
         type: {
           name: "String",
         },
       },
       files: {
-        serializedName: "files",
+        serializedName: "config.files",
         type: {
           name: "Sequence",
           element: {
@@ -814,7 +801,7 @@ export const AnalysisCreateConfig: coreClient.CompositeMapper = {
         },
       },
       protectedFiles: {
-        serializedName: "protectedFiles",
+        serializedName: "config.protectedFiles",
         type: {
           name: "Sequence",
           element: {
@@ -826,7 +813,7 @@ export const AnalysisCreateConfig: coreClient.CompositeMapper = {
         },
       },
       package: {
-        serializedName: "package",
+        serializedName: "config.package",
         type: {
           name: "Composite",
           className: "NginxConfigurationPackage",
@@ -848,24 +835,8 @@ export const AnalysisResult: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      data: {
-        serializedName: "data",
-        type: {
-          name: "Composite",
-          className: "AnalysisResultData",
-        },
-      },
-    },
-  },
-};
-
-export const AnalysisResultData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AnalysisResultData",
-    modelProperties: {
       errors: {
-        serializedName: "errors",
+        serializedName: "data.errors",
         type: {
           name: "Sequence",
           element: {
@@ -877,7 +848,7 @@ export const AnalysisResultData: coreClient.CompositeMapper = {
         },
       },
       diagnostics: {
-        serializedName: "diagnostics",
+        serializedName: "data.diagnostics",
         type: {
           name: "Sequence",
           element: {
@@ -1218,18 +1189,25 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
           className: "NginxDeploymentUserProfile",
         },
       },
-      nginxAppProtect: {
-        serializedName: "nginxAppProtect",
-        type: {
-          name: "Composite",
-          className: "NginxDeploymentPropertiesNginxAppProtect",
-        },
-      },
       dataplaneApiEndpoint: {
         serializedName: "dataplaneApiEndpoint",
         readOnly: true,
         type: {
           name: "String",
+        },
+      },
+      webApplicationFirewallSettings: {
+        serializedName: "nginxAppProtect.webApplicationFirewallSettings",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallSettings",
+        },
+      },
+      webApplicationFirewallStatus: {
+        serializedName: "nginxAppProtect.webApplicationFirewallStatus",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallStatus",
         },
       },
     },
@@ -1425,27 +1403,11 @@ export const ScaleProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      capacity: {
-        serializedName: "capacity",
-        type: {
-          name: "Composite",
-          className: "ScaleProfileCapacity",
-        },
-      },
-    },
-  },
-};
-
-export const ScaleProfileCapacity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ScaleProfileCapacity",
-    modelProperties: {
       min: {
         constraints: {
           InclusiveMinimum: 0,
         },
-        serializedName: "min",
+        serializedName: "capacity.min",
         required: true,
         type: {
           name: "Number",
@@ -1455,7 +1417,7 @@ export const ScaleProfileCapacity: coreClient.CompositeMapper = {
         constraints: {
           InclusiveMinimum: 0,
         },
-        serializedName: "max",
+        serializedName: "capacity.max",
         required: true,
         type: {
           name: "Number",
@@ -1488,9 +1450,7 @@ export const NginxDeploymentUserProfile: coreClient.CompositeMapper = {
     modelProperties: {
       preferredEmail: {
         constraints: {
-          Pattern: new RegExp(
-            "^$|^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$",
-          ),
+          Pattern: new RegExp("^$|^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"),
         },
         serializedName: "preferredEmail",
         type: {
@@ -1500,30 +1460,6 @@ export const NginxDeploymentUserProfile: coreClient.CompositeMapper = {
     },
   },
 };
-
-export const NginxDeploymentPropertiesNginxAppProtect: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxDeploymentPropertiesNginxAppProtect",
-      modelProperties: {
-        webApplicationFirewallSettings: {
-          serializedName: "webApplicationFirewallSettings",
-          type: {
-            name: "Composite",
-            className: "WebApplicationFirewallSettings",
-          },
-        },
-        webApplicationFirewallStatus: {
-          serializedName: "webApplicationFirewallStatus",
-          type: {
-            name: "Composite",
-            className: "WebApplicationFirewallStatus",
-          },
-        },
-      },
-    },
-  };
 
 export const WebApplicationFirewallSettings: coreClient.CompositeMapper = {
   type: {
@@ -1545,6 +1481,12 @@ export const WebApplicationFirewallStatus: coreClient.CompositeMapper = {
     name: "Composite",
     className: "WebApplicationFirewallStatus",
     modelProperties: {
+      wafRelease: {
+        serializedName: "wafRelease",
+        type: {
+          name: "String",
+        },
+      },
       attackSignaturesPackage: {
         serializedName: "attackSignaturesPackage",
         type: {
@@ -1600,29 +1542,28 @@ export const WebApplicationFirewallPackage: coreClient.CompositeMapper = {
   },
 };
 
-export const WebApplicationFirewallComponentVersions: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "WebApplicationFirewallComponentVersions",
-      modelProperties: {
-        wafEngineVersion: {
-          serializedName: "wafEngineVersion",
-          required: true,
-          type: {
-            name: "String",
-          },
+export const WebApplicationFirewallComponentVersions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallComponentVersions",
+    modelProperties: {
+      wafEngineVersion: {
+        serializedName: "wafEngineVersion",
+        required: true,
+        type: {
+          name: "String",
         },
-        wafNginxVersion: {
-          serializedName: "wafNginxVersion",
-          required: true,
-          type: {
-            name: "String",
-          },
+      },
+      wafNginxVersion: {
+        serializedName: "wafNginxVersion",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ResourceSku: coreClient.CompositeMapper = {
   type: {
@@ -1729,33 +1670,16 @@ export const NginxDeploymentUpdateProperties: coreClient.CompositeMapper = {
           className: "AutoUpgradeProfile",
         },
       },
-      nginxAppProtect: {
-        serializedName: "nginxAppProtect",
+      webApplicationFirewallSettings: {
+        serializedName: "nginxAppProtect.webApplicationFirewallSettings",
         type: {
           name: "Composite",
-          className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
+          className: "WebApplicationFirewallSettings",
         },
       },
     },
   },
 };
-
-export const NginxDeploymentUpdatePropertiesNginxAppProtect: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
-      modelProperties: {
-        webApplicationFirewallSettings: {
-          serializedName: "webApplicationFirewallSettings",
-          type: {
-            name: "Composite",
-            className: "WebApplicationFirewallSettings",
-          },
-        },
-      },
-    },
-  };
 
 export const NginxDeploymentListResponse: coreClient.CompositeMapper = {
   type: {
@@ -1784,10 +1708,156 @@ export const NginxDeploymentListResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const OperationListResult: coreClient.CompositeMapper = {
+export const NginxDeploymentWafPolicy: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationListResult",
+    className: "NginxDeploymentWafPolicy",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyProperties",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "ByteArray",
+        },
+      },
+      filepath: {
+        serializedName: "filepath",
+        type: {
+          name: "String",
+        },
+      },
+      compilingState: {
+        serializedName: "compilingState",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyCompilingStatus",
+        },
+      },
+      applyingState: {
+        serializedName: "applyingState",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyApplyingStatus",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyCompilingStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyCompilingStatus",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      displayStatus: {
+        serializedName: "displayStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      time: {
+        serializedName: "time",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyApplyingStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyApplyingStatus",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      displayStatus: {
+        serializedName: "displayStatus",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      time: {
+        serializedName: "time",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentDefaultWafPolicyListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentDefaultWafPolicyListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1796,13 +1866,287 @@ export const OperationListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "OperationResult",
+              className: "NginxDeploymentDefaultWafPolicyProperties",
             },
           },
         },
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentDefaultWafPolicyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentDefaultWafPolicyProperties",
+    modelProperties: {
+      content: {
+        serializedName: "content",
+        readOnly: true,
+        type: {
+          name: "ByteArray",
+        },
+      },
+      filepath: {
+        serializedName: "filepath",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxDeploymentWafPolicyMetadata",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyMetadata",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyMetadataProperties",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentWafPolicyMetadataProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentWafPolicyMetadataProperties",
+    modelProperties: {
+      filepath: {
+        serializedName: "filepath",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      compilingState: {
+        serializedName: "compilingState",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyCompilingStatus",
+        },
+      },
+      applyingState: {
+        serializedName: "applyingState",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentWafPolicyApplyingStatus",
+        },
+      },
+    },
+  },
+};
+
+export const OperationListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Operation",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Operation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Operation",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "OperationDisplay",
+        },
+      },
+      origin: {
+        serializedName: "origin",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      actionType: {
+        serializedName: "actionType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationDisplay: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplay",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resource: {
+        serializedName: "resource",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "operation",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const OperationDisplayAutoGenerated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperationDisplayAutoGenerated",
+    modelProperties: {
+      provider: {
+        serializedName: "provider",
+        type: {
+          name: "String",
+        },
+      },
+      resource: {
+        serializedName: "resource",
+        type: {
+          name: "String",
+        },
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
         type: {
           name: "String",
         },
@@ -1826,7 +2170,7 @@ export const OperationResult: coreClient.CompositeMapper = {
         serializedName: "display",
         type: {
           name: "Composite",
-          className: "OperationDisplay",
+          className: "OperationDisplayAutoGenerated",
         },
       },
       isDataAction: {
@@ -1839,31 +2183,154 @@ export const OperationResult: coreClient.CompositeMapper = {
   },
 };
 
-export const OperationDisplay: coreClient.CompositeMapper = {
+export const CertificatesDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperationDisplay",
+    className: "CertificatesDeleteHeaders",
     modelProperties: {
-      provider: {
-        serializedName: "provider",
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
         type: {
           name: "String",
         },
       },
-      resource: {
-        serializedName: "resource",
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },
       },
-      operation: {
-        serializedName: "operation",
+    },
+  },
+};
+
+export const ConfigurationsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfigurationsDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
         type: {
           name: "String",
         },
       },
-      description: {
-        serializedName: "description",
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentsUpdateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DeploymentsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentsDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const WafPolicyCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WafPolicyCreateHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const WafPolicyDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WafPolicyDeleteHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String",
+        },
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String",
         },
