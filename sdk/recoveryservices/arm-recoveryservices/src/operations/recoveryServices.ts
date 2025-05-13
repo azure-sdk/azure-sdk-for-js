@@ -111,11 +111,7 @@ const capabilitiesOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.input1,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,

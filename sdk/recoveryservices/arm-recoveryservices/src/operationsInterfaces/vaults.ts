@@ -66,10 +66,7 @@ export interface Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VaultsCreateOrUpdateResponse>,
-      VaultsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a Recovery Services vault.
@@ -94,9 +91,7 @@ export interface Vaults {
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>>;
   /**
    * Deletes a vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -120,9 +115,7 @@ export interface Vaults {
     vaultName: string,
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>>;
   /**
    * Updates the vault.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

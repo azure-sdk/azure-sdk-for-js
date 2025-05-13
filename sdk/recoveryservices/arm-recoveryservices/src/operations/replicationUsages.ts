@@ -54,12 +54,7 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -80,11 +75,7 @@ export class ReplicationUsagesImpl implements ReplicationUsages {
     vaultName: string,
     options?: ReplicationUsagesListOptionalParams,
   ): AsyncIterableIterator<ReplicationUsage> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }

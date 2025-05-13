@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResourcesOperations operations. */
-export class PrivateLinkResourcesOperationsImpl
-  implements PrivateLinkResourcesOperations
-{
+export class PrivateLinkResourcesOperationsImpl implements PrivateLinkResourcesOperations {
   private readonly client: RecoveryServicesClient;
 
   /**
@@ -61,12 +59,7 @@ export class PrivateLinkResourcesOperationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          vaultName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, vaultName, options, settings);
       },
     };
   }
@@ -87,12 +80,7 @@ export class PrivateLinkResourcesOperationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        vaultName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, vaultName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -105,11 +93,7 @@ export class PrivateLinkResourcesOperationsImpl
     vaultName: string,
     options?: PrivateLinkResourcesListOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vaultName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, vaultName, options)) {
       yield* page;
     }
   }

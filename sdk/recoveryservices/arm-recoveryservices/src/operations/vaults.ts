@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { RecoveryServicesClient } from "../recoveryServicesClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Vault,
@@ -128,11 +124,7 @@ export class VaultsImpl implements Vaults {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -152,11 +144,7 @@ export class VaultsImpl implements Vaults {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -168,10 +156,7 @@ export class VaultsImpl implements Vaults {
     resourceGroupName: string,
     options?: VaultsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Vault> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -183,10 +168,7 @@ export class VaultsImpl implements Vaults {
   private _listBySubscriptionId(
     options?: VaultsListBySubscriptionIdOptionalParams,
   ): Promise<VaultsListBySubscriptionIdResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionIdOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionIdOperationSpec);
   }
 
   /**
@@ -234,10 +216,7 @@ export class VaultsImpl implements Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VaultsCreateOrUpdateResponse>,
-      VaultsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<VaultsCreateOrUpdateResponse>, VaultsCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -249,8 +228,7 @@ export class VaultsImpl implements Vaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -306,12 +284,7 @@ export class VaultsImpl implements Vaults {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ): Promise<VaultsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      vaultName,
-      vault,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, vaultName, vault, options);
     return poller.pollUntilDone();
   }
 
@@ -325,9 +298,7 @@ export class VaultsImpl implements Vaults {
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<VaultsDeleteResponse>, VaultsDeleteResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -338,8 +309,7 @@ export class VaultsImpl implements Vaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -393,11 +363,7 @@ export class VaultsImpl implements Vaults {
     vaultName: string,
     options?: VaultsDeleteOptionalParams,
   ): Promise<VaultsDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      vaultName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, vaultName, options);
     return poller.pollUntilDone();
   }
 
@@ -413,9 +379,7 @@ export class VaultsImpl implements Vaults {
     vaultName: string,
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<VaultsUpdateResponse>, VaultsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -426,8 +390,7 @@ export class VaultsImpl implements Vaults {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -483,12 +446,7 @@ export class VaultsImpl implements Vaults {
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams,
   ): Promise<VaultsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      vaultName,
-      vault,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, vaultName, vault, options);
     return poller.pollUntilDone();
   }
 
@@ -555,11 +513,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -697,11 +651,7 @@ const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

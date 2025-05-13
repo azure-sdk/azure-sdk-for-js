@@ -578,6 +578,8 @@ export interface SecuritySettings {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly multiUserAuthorization?: MultiUserAuthorization;
+  /** Source scan configuration of vault */
+  sourceScanConfiguration?: SourceScanConfiguration;
 }
 
 /** Immutability Settings of vault */
@@ -591,6 +593,21 @@ export interface SoftDeleteSettings {
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
   enhancedSecurityState?: EnhancedSecurityState;
+}
+
+/** Source scan configuration of vault */
+export interface SourceScanConfiguration {
+  state?: State;
+  /** Identity details to be used for an operation */
+  sourceScanIdentity?: AssociatedIdentity;
+}
+
+/** Identity details to be used for an operation */
+export interface AssociatedIdentity {
+  /** Identity type that should be used for an operation. */
+  operationIdentityType?: IdentityType;
+  /** User assigned identity to be used for an operation if operationIdentityType is UserAssigned. */
+  userAssignedIdentity?: string;
 }
 
 /** Identifies the unique system identifier for each Azure resource. */
@@ -780,8 +797,7 @@ export interface NameInfo {
 }
 
 /** Certificate details representing the Vault credentials for AAD. */
-export interface ResourceCertificateAndAadDetails
-  extends ResourceCertificateDetails {
+export interface ResourceCertificateAndAadDetails extends ResourceCertificateDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "AzureActiveDirectory";
   /** AAD tenant authority. */
@@ -801,8 +817,7 @@ export interface ResourceCertificateAndAadDetails
 }
 
 /** Certificate details representing the Vault credentials for ACS. */
-export interface ResourceCertificateAndAcsDetails
-  extends ResourceCertificateDetails {
+export interface ResourceCertificateAndAcsDetails extends ResourceCertificateDetails {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authType: "AccessControlService";
   /** ACS namespace name - tenant for our service. */
@@ -1339,6 +1354,45 @@ export enum KnownMultiUserAuthorization {
  */
 export type MultiUserAuthorization = string;
 
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type State = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type IdentityType = string;
+
 /** Known values of {@link SecureScoreLevel} that the service accepts. */
 export enum KnownSecureScoreLevel {
   /** None */
@@ -1460,40 +1514,34 @@ export enum KnownUsagesUnit {
 export type UsagesUnit = string;
 
 /** Optional parameters. */
-export interface VaultCertificatesCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultCertificatesCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type VaultCertificatesCreateResponse = VaultCertificateResponse;
 
 /** Optional parameters. */
-export interface RegisteredIdentitiesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RegisteredIdentitiesDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ReplicationUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ReplicationUsagesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ReplicationUsagesListResponse = ReplicationUsageList;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type PrivateLinkResourcesListResponse = PrivateLinkResources;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
 
 /** Optional parameters. */
-export interface PrivateLinkResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface PrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PrivateLinkResourcesListNextResponse = PrivateLinkResources;
@@ -1503,26 +1551,22 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type RecoveryServicesCheckNameAvailabilityResponse =
-  CheckNameAvailabilityResult;
+export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 /** Optional parameters. */
-export interface RecoveryServicesCapabilitiesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecoveryServicesCapabilitiesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the capabilities operation. */
 export type RecoveryServicesCapabilitiesResponse = CapabilitiesResponse;
 
 /** Optional parameters. */
-export interface VaultsListBySubscriptionIdOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListBySubscriptionIdOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionId operation. */
 export type VaultsListBySubscriptionIdResponse = VaultList;
 
 /** Optional parameters. */
-export interface VaultsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListByResourceGroupOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type VaultsListByResourceGroupResponse = VaultList;
@@ -1534,8 +1578,7 @@ export interface VaultsGetOptionalParams extends coreClient.OperationOptions {}
 export type VaultsGetResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -1547,8 +1590,7 @@ export interface VaultsCreateOrUpdateOptionalParams
 export type VaultsCreateOrUpdateResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsDeleteOptionalParams extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1559,8 +1601,7 @@ export interface VaultsDeleteOptionalParams
 export type VaultsDeleteResponse = VaultsDeleteHeaders;
 
 /** Optional parameters. */
-export interface VaultsUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface VaultsUpdateOptionalParams extends coreClient.OperationOptions {
   xMsAuthorizationAuxiliary?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -1572,36 +1613,31 @@ export interface VaultsUpdateOptionalParams
 export type VaultsUpdateResponse = Vault;
 
 /** Optional parameters. */
-export interface VaultsListBySubscriptionIdNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListBySubscriptionIdNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionIdNext operation. */
 export type VaultsListBySubscriptionIdNextResponse = VaultList;
 
 /** Optional parameters. */
-export interface VaultsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type VaultsListByResourceGroupNextResponse = VaultList;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = ClientDiscoveryResponse;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = ClientDiscoveryResponse;
 
 /** Optional parameters. */
-export interface VaultExtendedInfoGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultExtendedInfoGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type VaultExtendedInfoGetResponse = VaultExtendedInfoResource;
@@ -1614,36 +1650,31 @@ export interface VaultExtendedInfoCreateOrUpdateOptionalParams
 export type VaultExtendedInfoCreateOrUpdateResponse = VaultExtendedInfoResource;
 
 /** Optional parameters. */
-export interface VaultExtendedInfoUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface VaultExtendedInfoUpdateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type VaultExtendedInfoUpdateResponse = VaultExtendedInfoResource;
 
 /** Optional parameters. */
-export interface GetOperationStatusOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetOperationStatusOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationStatus operation. */
 export type GetOperationStatusResponse = OperationResource;
 
 /** Optional parameters. */
-export interface GetOperationResultOptionalParams
-  extends coreClient.OperationOptions {}
+export interface GetOperationResultOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationResult operation. */
 export type GetOperationResultResponse = Vault;
 
 /** Optional parameters. */
-export interface UsagesListByVaultsOptionalParams
-  extends coreClient.OperationOptions {}
+export interface UsagesListByVaultsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByVaults operation. */
 export type UsagesListByVaultsResponse = VaultUsageList;
 
 /** Optional parameters. */
-export interface RecoveryServicesClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface RecoveryServicesClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
