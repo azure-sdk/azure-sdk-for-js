@@ -47,11 +47,7 @@ export class StorageTasksReportImpl implements StorageTasksReport {
     storageTaskName: string,
     options?: StorageTasksReportListOptionalParams,
   ): PagedAsyncIterableIterator<StorageTaskReportInstance> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      storageTaskName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, storageTaskName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +59,7 @@ export class StorageTasksReportImpl implements StorageTasksReport {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          storageTaskName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, storageTaskName, options, settings);
       },
     };
   }
@@ -89,12 +80,7 @@ export class StorageTasksReportImpl implements StorageTasksReport {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        storageTaskName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, storageTaskName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +93,7 @@ export class StorageTasksReportImpl implements StorageTasksReport {
     storageTaskName: string,
     options?: StorageTasksReportListOptionalParams,
   ): AsyncIterableIterator<StorageTaskReportInstance> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      storageTaskName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, storageTaskName, options)) {
       yield* page;
     }
   }
@@ -170,16 +152,12 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxpagesize,
-    Parameters.filter,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize, Parameters.filter],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -198,9 +176,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.storageTaskName,
-    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

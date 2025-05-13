@@ -8,5 +8,5 @@
 
 export * from "./operations.js";
 export * from "./storageTasks.js";
-export * from "./storageTaskAssignmentOperations.js";
 export * from "./storageTasksReport.js";
+export * from "./storageTaskAssignmentOperations.js";

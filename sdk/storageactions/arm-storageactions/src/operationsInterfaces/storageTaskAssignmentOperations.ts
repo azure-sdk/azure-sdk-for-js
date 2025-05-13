@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  StorageTaskAssignment,
-  StorageTaskAssignmentListOptionalParams,
-} from "../models/index.js";
+import { StorageTaskAssignment, StorageTaskAssignmentListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageTaskAssignmentOperations. */
