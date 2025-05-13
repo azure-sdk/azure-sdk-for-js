@@ -3,9 +3,9 @@
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
 import {
+  OperationStatusResult,
   SolutionConfiguration,
   SolutionConfigurationUpdate,
-  OperationStatusResult,
 } from "../../models/models.js";
 import {
   SolutionConfigurationsSyncNowOptionalParams,
