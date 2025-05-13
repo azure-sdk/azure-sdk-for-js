@@ -19,6 +19,14 @@ export interface CancelOperationsResponse {
 }
 
 // @public
+export interface CreateResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
+
+// @public
 export type DeadlineType = string;
 
 // @public
@@ -30,9 +38,52 @@ export interface DeallocateResourceOperationResponse {
 }
 
 // @public
+export interface DeleteResourceOperationResponse {
+    description: string;
+    location: string;
+    results?: ResourceOperation[];
+    type: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export interface ExecuteCreateRequest {
+    correlationid?: string;
+    executionParameters: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayload;
+}
+
+// @public
 export interface ExecuteDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
+    resources: Resources;
+}
+
+// @public
+export interface ExecuteDeleteRequest {
+    correlationid?: string;
+    executionParameters: ExecutionParameters;
+    forceDeletion?: boolean;
     resources: Resources;
 }
 
@@ -134,7 +185,8 @@ export enum KnownResourceOperationType {
 
 // @public
 export enum KnownVersions {
-    "V2024-10-01" = "2024-10-01"
+    "V2024-10-01" = "2024-10-01",
+    _20250501 = "2025-05-01"
 }
 
 // @public
@@ -218,6 +270,14 @@ export interface ResourceOperationError {
 export type ResourceOperationType = string;
 
 // @public
+export interface ResourceProvisionPayload {
+    baseProfile?: string;
+    resourceCount: number;
+    resourceOverrides?: string[];
+    resourcePrefix?: string;
+}
+
+// @public
 export interface Resources {
     ids: string[];
 }
@@ -246,9 +306,26 @@ export interface StartResourceOperationResponse {
 }
 
 // @public
+export interface SubmitCreateRequest {
+    correlationid?: string;
+    executionParameters?: ExecutionParameters;
+    resourceConfigParameters: ResourceProvisionPayload;
+    schedule: Schedule;
+}
+
+// @public
 export interface SubmitDeallocateRequest {
     correlationId: string;
     executionParameters: ExecutionParameters;
+    resources: Resources;
+    schedule: Schedule;
+}
+
+// @public
+export interface SubmitDeleteRequest {
+    correlationid?: string;
+    executionParameters: ExecutionParameters;
+    forceDeletion?: boolean;
     resources: Resources;
     schedule: Schedule;
 }
