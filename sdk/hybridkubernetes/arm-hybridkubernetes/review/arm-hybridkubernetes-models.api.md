@@ -4,15 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
-
 // @public
 export interface AadProfile {
     adminGroupObjectIDs?: string[];
@@ -114,53 +105,7 @@ export interface ConnectedClusterProperties {
 }
 
 // @public
-export interface ConnectedClustersCreateOrReplaceOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedClustersDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ConnectedClustersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ConnectedClustersListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ConnectedClustersListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ConnectedClustersListClusterUserCredentialOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ConnectedClustersOperations {
-    createOrReplace: (resourceGroupName: string, clusterName: string, connectedCluster: ConnectedCluster, options?: ConnectedClustersCreateOrReplaceOptionalParams) => PollerLike<OperationState<ConnectedCluster>, ConnectedCluster>;
-    delete: (resourceGroupName: string, clusterName: string, options?: ConnectedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, clusterName: string, options?: ConnectedClustersGetOptionalParams) => Promise<ConnectedCluster>;
-    listByResourceGroup: (resourceGroupName: string, options?: ConnectedClustersListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
-    listBySubscription: (options?: ConnectedClustersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedCluster>;
-    listClusterUserCredential: (resourceGroupName: string, clusterName: string, properties: ListClusterUserCredentialProperties, options?: ConnectedClustersListClusterUserCredentialOptionalParams) => Promise<CredentialResults>;
-    update: (resourceGroupName: string, clusterName: string, connectedClusterPatch: ConnectedClusterPatch, options?: ConnectedClustersUpdateOptionalParams) => Promise<ConnectedCluster>;
-}
-
-// @public
-export interface ConnectedClustersUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export type ConnectivityStatus = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -312,19 +257,6 @@ export enum KnownVersions {
     V20241201Preview = "2024-12-01-preview"
 }
 
-// @public (undocumented)
-export class KubernetesClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: KubernetesClientOptionalParams);
-    readonly connectedClusters: ConnectedClustersOperations;
-    readonly operations: OperationsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface KubernetesClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-}
-
 // @public
 export interface ListClusterUserCredentialProperties {
     authenticationMethod: AuthenticationMethod;
@@ -356,28 +288,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface OperationsOperations {
-    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type PrivateLinkState = string;
@@ -395,16 +306,6 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "None" | "SystemAssigned";
-
-// @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
-    abortSignal?: AbortSignalLike;
-    processResponseBody?: (result: TResponse) => Promise<TResult>;
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface SecurityProfile {
