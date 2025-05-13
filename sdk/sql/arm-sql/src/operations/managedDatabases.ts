@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedDatabase,
@@ -71,11 +67,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     managedInstanceName: string,
     options?: ManagedDatabasesListByInstanceOptionalParams,
   ): PagedAsyncIterableIterator<ManagedDatabase> {
-    const iter = this.listByInstancePagingAll(
-      resourceGroupName,
-      managedInstanceName,
-      options,
-    );
+    const iter = this.listByInstancePagingAll(resourceGroupName, managedInstanceName, options);
     return {
       next() {
         return iter.next();
@@ -106,11 +98,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     let result: ManagedDatabasesListByInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -298,8 +286,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -398,8 +385,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -478,10 +464,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
     parameters: ManagedDatabaseUpdate,
     options?: ManagedDatabasesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedDatabasesUpdateResponse>,
-      ManagedDatabasesUpdateResponse
-    >
+    SimplePollerLike<OperationState<ManagedDatabasesUpdateResponse>, ManagedDatabasesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -493,8 +476,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -595,8 +577,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -694,8 +675,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -793,8 +773,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -892,8 +871,7 @@ export class ManagedDatabasesImpl implements ManagedDatabases {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

@@ -51,11 +51,7 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     serverName: string,
     options?: IPv6FirewallRulesListByServerOptionalParams,
   ): PagedAsyncIterableIterator<IPv6FirewallRule> {
-    const iter = this.listByServerPagingAll(
-      resourceGroupName,
-      serverName,
-      options,
-    );
+    const iter = this.listByServerPagingAll(resourceGroupName, serverName, options);
     return {
       next() {
         return iter.next();
@@ -67,12 +63,7 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByServerPagingPage(
-          resourceGroupName,
-          serverName,
-          options,
-          settings,
-        );
+        return this.listByServerPagingPage(resourceGroupName, serverName, options, settings);
       },
     };
   }
@@ -111,11 +102,7 @@ export class IPv6FirewallRulesImpl implements IPv6FirewallRules {
     serverName: string,
     options?: IPv6FirewallRulesListByServerOptionalParams,
   ): AsyncIterableIterator<IPv6FirewallRule> {
-    for await (const page of this.listByServerPagingPage(
-      resourceGroupName,
-      serverName,
-      options,
-    )) {
+    for await (const page of this.listByServerPagingPage(resourceGroupName, serverName, options)) {
       yield* page;
     }
   }

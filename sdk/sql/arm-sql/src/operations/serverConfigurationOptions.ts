@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SqlManagementClient } from "../sqlManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ServerConfigurationOption,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerConfigurationOptions operations. */
-export class ServerConfigurationOptionsImpl
-  implements ServerConfigurationOptions
-{
+export class ServerConfigurationOptionsImpl implements ServerConfigurationOptions {
   private readonly client: SqlManagementClient;
 
   /**
@@ -94,11 +88,7 @@ export class ServerConfigurationOptionsImpl
     let result: ServerConfigurationOptionsListByManagedInstanceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByManagedInstance(
-        resourceGroupName,
-        managedInstanceName,
-        options,
-      );
+      result = await this._listByManagedInstance(resourceGroupName, managedInstanceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -206,8 +196,7 @@ export class ServerConfigurationOptionsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

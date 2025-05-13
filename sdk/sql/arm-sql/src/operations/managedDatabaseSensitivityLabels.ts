@@ -37,9 +37,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedDatabaseSensitivityLabels operations. */
-export class ManagedDatabaseSensitivityLabelsImpl
-  implements ManagedDatabaseSensitivityLabels
-{
+export class ManagedDatabaseSensitivityLabelsImpl implements ManagedDatabaseSensitivityLabels {
   private readonly client: SqlManagementClient;
 
   /**
