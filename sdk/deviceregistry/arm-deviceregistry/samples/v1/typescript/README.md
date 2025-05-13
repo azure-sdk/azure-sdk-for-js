@@ -2,24 +2,24 @@
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-deviceregistry in some common scenarios.
 
-| **File Name**                                                                                                                                 | **Description**                                                                                                                    |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| [assetEndpointProfilesAssetEndpointProfilesCreateOrReplaceSample.ts][assetendpointprofilesassetendpointprofilescreateorreplacesample]         | create a AssetEndpointProfile x-ms-original-file: 2024-11-01/Create_AssetEndpointProfile.json                                      |
-| [assetEndpointProfilesAssetEndpointProfilesDeleteSample.ts][assetendpointprofilesassetendpointprofilesdeletesample]                           | delete a AssetEndpointProfile x-ms-original-file: 2024-11-01/Delete_AssetEndpointProfile.json                                      |
-| [assetEndpointProfilesAssetEndpointProfilesGetSample.ts][assetendpointprofilesassetendpointprofilesgetsample]                                 | get a AssetEndpointProfile x-ms-original-file: 2024-11-01/Get_AssetEndpointProfile.json                                            |
-| [assetEndpointProfilesAssetEndpointProfilesListByResourceGroupSample.ts][assetendpointprofilesassetendpointprofileslistbyresourcegroupsample] | list AssetEndpointProfile resources by resource group x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_ResourceGroup.json |
-| [assetEndpointProfilesAssetEndpointProfilesListBySubscriptionSample.ts][assetendpointprofilesassetendpointprofileslistbysubscriptionsample]   | list AssetEndpointProfile resources by subscription ID x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_Subscription.json |
-| [assetEndpointProfilesAssetEndpointProfilesUpdateSample.ts][assetendpointprofilesassetendpointprofilesupdatesample]                           | update a AssetEndpointProfile x-ms-original-file: 2024-11-01/Update_AssetEndpointProfile.json                                      |
-| [assetsAssetsCreateOrReplaceSample.ts][assetsassetscreateorreplacesample]                                                                     | create a Asset x-ms-original-file: 2024-11-01/Create_Asset_With_DiscoveredAssetRef.json                                            |
-| [assetsAssetsDeleteSample.ts][assetsassetsdeletesample]                                                                                       | delete a Asset x-ms-original-file: 2024-11-01/Delete_Asset.json                                                                    |
-| [assetsAssetsGetSample.ts][assetsassetsgetsample]                                                                                             | get a Asset x-ms-original-file: 2024-11-01/Get_Asset.json                                                                          |
-| [assetsAssetsListByResourceGroupSample.ts][assetsassetslistbyresourcegroupsample]                                                             | list Asset resources by resource group x-ms-original-file: 2024-11-01/List_Assets_ResourceGroup.json                               |
-| [assetsAssetsListBySubscriptionSample.ts][assetsassetslistbysubscriptionsample]                                                               | list Asset resources by subscription ID x-ms-original-file: 2024-11-01/List_Assets_Subscription.json                               |
-| [assetsAssetsUpdateSample.ts][assetsassetsupdatesample]                                                                                       | update a Asset x-ms-original-file: 2024-11-01/Update_Asset.json                                                                    |
-| [billingContainersBillingContainersGetSample.ts][billingcontainersbillingcontainersgetsample]                                                 | get a BillingContainer x-ms-original-file: 2024-11-01/Get_BillingContainer.json                                                    |
-| [billingContainersBillingContainersListBySubscriptionSample.ts][billingcontainersbillingcontainerslistbysubscriptionsample]                   | list BillingContainer resources by subscription ID x-ms-original-file: 2024-11-01/List_BillingContainers_Subscription.json         |
-| [operationStatusOperationStatusGetSample.ts][operationstatusoperationstatusgetsample]                                                         | returns the current status of an async operation. x-ms-original-file: 2024-11-01/Get_OperationStatus.json                          |
-| [operationsOperationsListSample.ts][operationsoperationslistsample]                                                                           | list the operations for the provider x-ms-original-file: 2024-11-01/List_Operations.json                                           |
+| **File Name**                                                                                       | **Description**                                                                                                                    |
+| --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [assetEndpointProfilesCreateOrReplaceSample.ts][assetendpointprofilescreateorreplacesample]         | create a AssetEndpointProfile x-ms-original-file: 2024-11-01/Create_AssetEndpointProfile.json                                      |
+| [assetEndpointProfilesDeleteSample.ts][assetendpointprofilesdeletesample]                           | delete a AssetEndpointProfile x-ms-original-file: 2024-11-01/Delete_AssetEndpointProfile.json                                      |
+| [assetEndpointProfilesGetSample.ts][assetendpointprofilesgetsample]                                 | get a AssetEndpointProfile x-ms-original-file: 2024-11-01/Get_AssetEndpointProfile.json                                            |
+| [assetEndpointProfilesListByResourceGroupSample.ts][assetendpointprofileslistbyresourcegroupsample] | list AssetEndpointProfile resources by resource group x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_ResourceGroup.json |
+| [assetEndpointProfilesListBySubscriptionSample.ts][assetendpointprofileslistbysubscriptionsample]   | list AssetEndpointProfile resources by subscription ID x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_Subscription.json |
+| [assetEndpointProfilesUpdateSample.ts][assetendpointprofilesupdatesample]                           | update a AssetEndpointProfile x-ms-original-file: 2024-11-01/Update_AssetEndpointProfile.json                                      |
+| [assetsCreateOrReplaceSample.ts][assetscreateorreplacesample]                                       | create a Asset x-ms-original-file: 2024-11-01/Create_Asset_With_DiscoveredAssetRef.json                                            |
+| [assetsDeleteSample.ts][assetsdeletesample]                                                         | delete a Asset x-ms-original-file: 2024-11-01/Delete_Asset.json                                                                    |
+| [assetsGetSample.ts][assetsgetsample]                                                               | get a Asset x-ms-original-file: 2024-11-01/Get_Asset.json                                                                          |
+| [assetsListByResourceGroupSample.ts][assetslistbyresourcegroupsample]                               | list Asset resources by resource group x-ms-original-file: 2024-11-01/List_Assets_ResourceGroup.json                               |
+| [assetsListBySubscriptionSample.ts][assetslistbysubscriptionsample]                                 | list Asset resources by subscription ID x-ms-original-file: 2024-11-01/List_Assets_Subscription.json                               |
+| [assetsUpdateSample.ts][assetsupdatesample]                                                         | update a Asset x-ms-original-file: 2024-11-01/Update_Asset.json                                                                    |
+| [billingContainersGetSample.ts][billingcontainersgetsample]                                         | get a BillingContainer x-ms-original-file: 2024-11-01/Get_BillingContainer.json                                                    |
+| [billingContainersListBySubscriptionSample.ts][billingcontainerslistbysubscriptionsample]           | list BillingContainer resources by subscription ID x-ms-original-file: 2024-11-01/List_BillingContainers_Subscription.json         |
+| [operationStatusGetSample.ts][operationstatusgetsample]                                             | returns the current status of an async operation. x-ms-original-file: 2024-11-01/Get_OperationStatus.json                          |
+| [operationsListSample.ts][operationslistsample]                                                     | list the operations for the provider x-ms-original-file: 2024-11-01/List_Operations.json                                           |
 
 ## Prerequisites
 
@@ -58,35 +58,35 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/assetEndpointProfilesAssetEndpointProfilesCreateOrReplaceSample.js
+node dist/assetEndpointProfilesCreateOrReplaceSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env  node dist/assetEndpointProfilesAssetEndpointProfilesCreateOrReplaceSample.js
+npx dev-tool run vendored cross-env  node dist/assetEndpointProfilesCreateOrReplaceSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[assetendpointprofilesassetendpointprofilescreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesCreateOrReplaceSample.ts
-[assetendpointprofilesassetendpointprofilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesDeleteSample.ts
-[assetendpointprofilesassetendpointprofilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesGetSample.ts
-[assetendpointprofilesassetendpointprofileslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesListByResourceGroupSample.ts
-[assetendpointprofilesassetendpointprofileslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesListBySubscriptionSample.ts
-[assetendpointprofilesassetendpointprofilesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesAssetEndpointProfilesUpdateSample.ts
-[assetsassetscreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsCreateOrReplaceSample.ts
-[assetsassetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsDeleteSample.ts
-[assetsassetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsGetSample.ts
-[assetsassetslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsListByResourceGroupSample.ts
-[assetsassetslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsListBySubscriptionSample.ts
-[assetsassetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsAssetsUpdateSample.ts
-[billingcontainersbillingcontainersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/billingContainersBillingContainersGetSample.ts
-[billingcontainersbillingcontainerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/billingContainersBillingContainersListBySubscriptionSample.ts
-[operationstatusoperationstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/operationStatusOperationStatusGetSample.ts
-[operationsoperationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/operationsOperationsListSample.ts
+[assetendpointprofilescreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesCreateOrReplaceSample.ts
+[assetendpointprofilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesDeleteSample.ts
+[assetendpointprofilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesGetSample.ts
+[assetendpointprofileslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesListByResourceGroupSample.ts
+[assetendpointprofileslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesListBySubscriptionSample.ts
+[assetendpointprofilesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetEndpointProfilesUpdateSample.ts
+[assetscreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsCreateOrReplaceSample.ts
+[assetsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsDeleteSample.ts
+[assetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsGetSample.ts
+[assetslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsListByResourceGroupSample.ts
+[assetslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsListBySubscriptionSample.ts
+[assetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/assetsUpdateSample.ts
+[billingcontainersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/billingContainersGetSample.ts
+[billingcontainerslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/billingContainersListBySubscriptionSample.ts
+[operationstatusgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/operationStatusGetSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceregistry/arm-deviceregistry/samples/v1/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/README.md

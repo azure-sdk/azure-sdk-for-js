@@ -2,24 +2,24 @@
 // Licensed under the MIT License.
 
 import {
-  _getBillingContainersOperations,
-  BillingContainersOperations,
-} from "./classic/billingContainers/index.js";
-import {
-  _getAssetEndpointProfilesOperations,
-  AssetEndpointProfilesOperations,
-} from "./classic/assetEndpointProfiles/index.js";
-import { _getAssetsOperations, AssetsOperations } from "./classic/assets/index.js";
-import {
-  _getOperationStatusOperations,
-  OperationStatusOperations,
-} from "./classic/operationStatus/index.js";
-import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import {
   createDeviceRegistryManagement,
   DeviceRegistryManagementContext,
   DeviceRegistryManagementClientOptionalParams,
 } from "./api/index.js";
+import {
+  BillingContainersOperations,
+  _getBillingContainersOperations,
+} from "./classic/billingContainers/index.js";
+import {
+  AssetEndpointProfilesOperations,
+  _getAssetEndpointProfilesOperations,
+} from "./classic/assetEndpointProfiles/index.js";
+import { AssetsOperations, _getAssetsOperations } from "./classic/assets/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 
