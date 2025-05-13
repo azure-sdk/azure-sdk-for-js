@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { IotDpsClient } from "../iotDpsClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ProvisioningServiceDescription,
@@ -27,14 +23,17 @@ import {
   IotDpsResourceListByResourceGroupNextOptionalParams,
   IotDpsResourceListByResourceGroupOptionalParams,
   IotDpsResourceListByResourceGroupResponse,
-  IotDpsSkuDefinition,
-  IotDpsResourceListValidSkusNextOptionalParams,
-  IotDpsResourceListValidSkusOptionalParams,
-  IotDpsResourceListValidSkusResponse,
   SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   IotDpsResourceListKeysNextOptionalParams,
   IotDpsResourceListKeysOptionalParams,
   IotDpsResourceListKeysResponse,
+  IotDpsSkuDefinition,
+  IotDpsResourceListValidSkusNextOptionalParams,
+  IotDpsResourceListValidSkusOptionalParams,
+  IotDpsResourceListValidSkusResponse,
+  OperationInputs,
+  IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
+  IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetResponse,
   IotDpsResourceCreateOrUpdateOptionalParams,
@@ -43,17 +42,10 @@ import {
   IotDpsResourceUpdateOptionalParams,
   IotDpsResourceUpdateResponse,
   IotDpsResourceDeleteOptionalParams,
-  IotDpsResourceGetOperationResultOptionalParams,
-  IotDpsResourceGetOperationResultResponse,
-  OperationInputs,
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceListKeysForKeyNameOptionalParams,
   IotDpsResourceListKeysForKeyNameResponse,
-  IotDpsResourceListPrivateLinkResourcesOptionalParams,
-  IotDpsResourceListPrivateLinkResourcesResponse,
-  IotDpsResourceGetPrivateLinkResourcesOptionalParams,
-  IotDpsResourceGetPrivateLinkResourcesResponse,
+  IotDpsResourceGetOperationResultOptionalParams,
+  IotDpsResourceGetOperationResultResponse,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsResponse,
   IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
@@ -63,10 +55,14 @@ import {
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionResponse,
+  IotDpsResourceListPrivateLinkResourcesOptionalParams,
+  IotDpsResourceListPrivateLinkResourcesResponse,
+  IotDpsResourceGetPrivateLinkResourcesOptionalParams,
+  IotDpsResourceGetPrivateLinkResourcesResponse,
   IotDpsResourceListBySubscriptionNextResponse,
   IotDpsResourceListByResourceGroupNextResponse,
+  IotDpsResourceListKeysNextResponse,
   IotDpsResourceListValidSkusNextResponse,
-  IotDpsResourceListKeysNextResponse
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -87,7 +83,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: IotDpsResourceListBySubscriptionOptionalParams
+    options?: IotDpsResourceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -102,13 +98,13 @@ export class IotDpsResourceImpl implements IotDpsResource {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: IotDpsResourceListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProvisioningServiceDescription[]> {
     let result: IotDpsResourceListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -129,7 +125,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: IotDpsResourceListBySubscriptionOptionalParams
+    options?: IotDpsResourceListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<ProvisioningServiceDescription> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -138,12 +134,12 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Get a list of all provisioning services in the given resource group.
-   * @param resourceGroupName Resource group identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IotDpsResourceListByResourceGroupOptionalParams
+    options?: IotDpsResourceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -157,19 +153,15 @@ export class IotDpsResourceImpl implements IotDpsResource {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: IotDpsResourceListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProvisioningServiceDescription[]> {
     let result: IotDpsResourceListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -181,11 +173,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -195,118 +183,25 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IotDpsResourceListByResourceGroupOptionalParams
+    options?: IotDpsResourceListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ProvisioningServiceDescription> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Gets the list of valid SKUs and tiers for a provisioning service.
-   * @param provisioningServiceName Name of provisioning service.
-   * @param resourceGroupName Name of resource group.
-   * @param options The options parameters.
-   */
-  public listValidSkus(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams
-  ): PagedAsyncIterableIterator<IotDpsSkuDefinition> {
-    const iter = this.listValidSkusPagingAll(
-      provisioningServiceName,
-      resourceGroupName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listValidSkusPagingPage(
-          provisioningServiceName,
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listValidSkusPagingPage(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<IotDpsSkuDefinition[]> {
-    let result: IotDpsResourceListValidSkusResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listValidSkus(
-        provisioningServiceName,
-        resourceGroupName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listValidSkusNext(
-        provisioningServiceName,
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listValidSkusPagingAll(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams
-  ): AsyncIterableIterator<IotDpsSkuDefinition> {
-    for await (const page of this.listValidSkusPagingPage(
-      provisioningServiceName,
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
 
   /**
    * List the primary and secondary keys for a provisioning service.
-   * @param provisioningServiceName The provisioning service name to get the shared access keys for.
-   * @param resourceGroupName resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   public listKeys(
-    provisioningServiceName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListKeysOptionalParams
-  ): PagedAsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  > {
-    const iter = this.listKeysPagingAll(
-      provisioningServiceName,
-      resourceGroupName,
-      options
-    );
+    provisioningServiceName: string,
+    options?: IotDpsResourceListKeysOptionalParams,
+  ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
+    const iter = this.listKeysPagingAll(resourceGroupName, provisioningServiceName, options);
     return {
       next() {
         return iter.next();
@@ -319,31 +214,25 @@ export class IotDpsResourceImpl implements IotDpsResource {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listKeysPagingPage(
-          provisioningServiceName,
           resourceGroupName,
+          provisioningServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listKeysPagingPage(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     options?: IotDpsResourceListKeysOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription[]
-  > {
+    settings?: PageSettings,
+  ): AsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription[]> {
     let result: IotDpsResourceListKeysResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listKeys(
-        provisioningServiceName,
-        resourceGroupName,
-        options
-      );
+      result = await this._listKeys(resourceGroupName, provisioningServiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -351,10 +240,10 @@ export class IotDpsResourceImpl implements IotDpsResource {
     }
     while (continuationToken) {
       result = await this._listKeysNext(
-        provisioningServiceName,
         resourceGroupName,
+        provisioningServiceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -364,35 +253,150 @@ export class IotDpsResourceImpl implements IotDpsResource {
   }
 
   private async *listKeysPagingAll(
-    provisioningServiceName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListKeysOptionalParams
-  ): AsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  > {
+    provisioningServiceName: string,
+    options?: IotDpsResourceListKeysOptionalParams,
+  ): AsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription> {
     for await (const page of this.listKeysPagingPage(
-      provisioningServiceName,
       resourceGroupName,
-      options
+      provisioningServiceName,
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
+   * Gets the list of valid SKUs and tiers for a provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param options The options parameters.
+   */
+  public listValidSkus(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListValidSkusOptionalParams,
+  ): PagedAsyncIterableIterator<IotDpsSkuDefinition> {
+    const iter = this.listValidSkusPagingAll(resourceGroupName, provisioningServiceName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listValidSkusPagingPage(
+          resourceGroupName,
+          provisioningServiceName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listValidSkusPagingPage(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListValidSkusOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<IotDpsSkuDefinition[]> {
+    let result: IotDpsResourceListValidSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listValidSkus(resourceGroupName, provisioningServiceName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listValidSkusNext(
+        resourceGroupName,
+        provisioningServiceName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listValidSkusPagingAll(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListValidSkusOptionalParams,
+  ): AsyncIterableIterator<IotDpsSkuDefinition> {
+    for await (const page of this.listValidSkusPagingPage(
+      resourceGroupName,
+      provisioningServiceName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Check if a provisioning service name is available. This will validate if the name is syntactically
+   * valid and if the name is usable
+   * @param argumentsParam The request body
+   * @param options The options parameters.
+   */
+  checkProvisioningServiceNameAvailability(
+    argumentsParam: OperationInputs,
+    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
+  ): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      { argumentsParam, options },
+      checkProvisioningServiceNameAvailabilityOperationSpec,
+    );
+  }
+
+  /**
+   * List all the provisioning services for a given subscription id.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: IotDpsResourceListBySubscriptionOptionalParams,
+  ): Promise<IotDpsResourceListBySubscriptionResponse> {
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+  }
+
+  /**
+   * Get a list of all provisioning services in the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: IotDpsResourceListByResourceGroupOptionalParams,
+  ): Promise<IotDpsResourceListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param resourceGroupName Resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceGetOptionalParams
+    options?: IotDpsResourceGetOptionalParams,
   ): Promise<IotDpsResourceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, provisioningServiceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -400,8 +404,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
    * Create or update the metadata of the provisioning service. The usual pattern to modify a property is
    * to retrieve the provisioning service metadata and security metadata, and then combine them with the
    * modified values in a new body to update the provisioning service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param iotDpsDescription Description of the provisioning service to create or update.
    * @param options The options parameters.
    */
@@ -409,7 +413,7 @@ export class IotDpsResourceImpl implements IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceCreateOrUpdateResponse>,
@@ -418,21 +422,19 @@ export class IotDpsResourceImpl implements IotDpsResource {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotDpsResourceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -441,8 +443,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -450,8 +452,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -461,16 +463,17 @@ export class IotDpsResourceImpl implements IotDpsResource {
         resourceGroupName,
         provisioningServiceName,
         iotDpsDescription,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       IotDpsResourceCreateOrUpdateResponse,
       OperationState<IotDpsResourceCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -480,8 +483,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
    * Create or update the metadata of the provisioning service. The usual pattern to modify a property is
    * to retrieve the provisioning service metadata and security metadata, and then combine them with the
    * modified values in a new body to update the provisioning service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param iotDpsDescription Description of the provisioning service to create or update.
    * @param options The options parameters.
    */
@@ -489,21 +492,21 @@ export class IotDpsResourceImpl implements IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       provisioningServiceName,
       iotDpsDescription,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param provisioningServiceTags Updated tag information to set into the provisioning service
    *                                instance.
    * @param options The options parameters.
@@ -512,30 +515,25 @@ export class IotDpsResourceImpl implements IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotDpsResourceUpdateResponse>,
-      IotDpsResourceUpdateResponse
-    >
+    SimplePollerLike<OperationState<IotDpsResourceUpdateResponse>, IotDpsResourceUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotDpsResourceUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -544,8 +542,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -553,8 +551,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -564,16 +562,17 @@ export class IotDpsResourceImpl implements IotDpsResource {
         resourceGroupName,
         provisioningServiceName,
         provisioningServiceTags,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       IotDpsResourceUpdateResponse,
       OperationState<IotDpsResourceUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -581,8 +580,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param provisioningServiceTags Updated tag information to set into the provisioning service
    *                                instance.
    * @param options The options parameters.
@@ -591,45 +590,43 @@ export class IotDpsResourceImpl implements IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<IotDpsResourceUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       provisioningServiceName,
       provisioningServiceTags,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -638,8 +635,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -647,19 +644,20 @@ export class IotDpsResourceImpl implements IotDpsResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, provisioningServiceName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -667,267 +665,161 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      provisioningServiceName,
-      options
-    );
+    const poller = await this.beginDelete(resourceGroupName, provisioningServiceName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * List all the provisioning services for a given subscription id.
+   * List primary and secondary keys for a specific key name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param keyName Logical key name to get key-values for.
    * @param options The options parameters.
    */
-  private _listBySubscription(
-    options?: IotDpsResourceListBySubscriptionOptionalParams
-  ): Promise<IotDpsResourceListBySubscriptionResponse> {
+  listKeysForKeyName(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    keyName: string,
+    options?: IotDpsResourceListKeysForKeyNameOptionalParams,
+  ): Promise<IotDpsResourceListKeysForKeyNameResponse> {
     return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec
+      { resourceGroupName, provisioningServiceName, keyName, options },
+      listKeysForKeyNameOperationSpec,
     );
   }
 
   /**
-   * Get a list of all provisioning services in the given resource group.
-   * @param resourceGroupName Resource group identifier.
+   * List the primary and secondary keys for a provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  private _listKeys(
     resourceGroupName: string,
-    options?: IotDpsResourceListByResourceGroupOptionalParams
-  ): Promise<IotDpsResourceListByResourceGroupResponse> {
+    provisioningServiceName: string,
+    options?: IotDpsResourceListKeysOptionalParams,
+  ): Promise<IotDpsResourceListKeysResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      { resourceGroupName, provisioningServiceName, options },
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Gets the status of a long running operation, such as create, update or delete a provisioning
    * service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param operationId Operation id corresponding to long running operation. Use this to poll for the
    *                    status.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service that the operation is running on.
    * @param asyncinfo Async header used to poll on the status of the operation, obtained while creating
    *                  the long running operation.
    * @param options The options parameters.
    */
   getOperationResult(
-    operationId: string,
     resourceGroupName: string,
     provisioningServiceName: string,
+    operationId: string,
     asyncinfo: string,
-    options?: IotDpsResourceGetOperationResultOptionalParams
+    options?: IotDpsResourceGetOperationResultOptionalParams,
   ): Promise<IotDpsResourceGetOperationResultResponse> {
     return this.client.sendOperationRequest(
       {
-        operationId,
         resourceGroupName,
         provisioningServiceName,
+        operationId,
         asyncinfo,
-        options
+        options,
       },
-      getOperationResultOperationSpec
-    );
-  }
-
-  /**
-   * Gets the list of valid SKUs and tiers for a provisioning service.
-   * @param provisioningServiceName Name of provisioning service.
-   * @param resourceGroupName Name of resource group.
-   * @param options The options parameters.
-   */
-  private _listValidSkus(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams
-  ): Promise<IotDpsResourceListValidSkusResponse> {
-    return this.client.sendOperationRequest(
-      { provisioningServiceName, resourceGroupName, options },
-      listValidSkusOperationSpec
-    );
-  }
-
-  /**
-   * Check if a provisioning service name is available. This will validate if the name is syntactically
-   * valid and if the name is usable
-   * @param argumentsParam Set the name parameter in the OperationInputs structure to the name of the
-   *                       provisioning service to check.
-   * @param options The options parameters.
-   */
-  checkProvisioningServiceNameAvailability(
-    argumentsParam: OperationInputs,
-    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
-  ): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { argumentsParam, options },
-      checkProvisioningServiceNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * List the primary and secondary keys for a provisioning service.
-   * @param provisioningServiceName The provisioning service name to get the shared access keys for.
-   * @param resourceGroupName resource group name
-   * @param options The options parameters.
-   */
-  private _listKeys(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListKeysOptionalParams
-  ): Promise<IotDpsResourceListKeysResponse> {
-    return this.client.sendOperationRequest(
-      { provisioningServiceName, resourceGroupName, options },
-      listKeysOperationSpec
-    );
-  }
-
-  /**
-   * List primary and secondary keys for a specific key name
-   * @param provisioningServiceName Name of the provisioning service.
-   * @param keyName Logical key name to get key-values for.
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param options The options parameters.
-   */
-  listKeysForKeyName(
-    provisioningServiceName: string,
-    keyName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListKeysForKeyNameOptionalParams
-  ): Promise<IotDpsResourceListKeysForKeyNameResponse> {
-    return this.client.sendOperationRequest(
-      { provisioningServiceName, keyName, resourceGroupName, options },
-      listKeysForKeyNameOperationSpec
-    );
-  }
-
-  /**
-   * List private link resources for the given provisioning service
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
-   * @param options The options parameters.
-   */
-  listPrivateLinkResources(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams
-  ): Promise<IotDpsResourceListPrivateLinkResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
-      listPrivateLinkResourcesOperationSpec
-    );
-  }
-
-  /**
-   * Get the specified private link resource for the given provisioning service
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
-   * @param groupId The name of the private link resource
-   * @param options The options parameters.
-   */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    resourceName: string,
-    groupId: string,
-    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams
-  ): Promise<IotDpsResourceGetPrivateLinkResourcesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, groupId, options },
-      getPrivateLinkResourcesOperationSpec
+      getOperationResultOperationSpec,
     );
   }
 
   /**
    * List private endpoint connection properties
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   listPrivateEndpointConnections(
     resourceGroupName: string,
-    resourceName: string,
-    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams
+    provisioningServiceName: string,
+    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   ): Promise<IotDpsResourceListPrivateEndpointConnectionsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
-      listPrivateEndpointConnectionsOperationSpec
+      { resourceGroupName, provisioningServiceName, options },
+      listPrivateEndpointConnectionsOperationSpec,
     );
   }
 
   /**
    * Get private endpoint connection properties
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   getPrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceGetPrivateEndpointConnectionResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        resourceName,
+        provisioningServiceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getPrivateEndpointConnectionOperationSpec
+      getPrivateEndpointConnectionOperationSpec,
     );
   }
 
   /**
    * Create or update the status of a private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param privateEndpointConnection The private endpoint connection with updated properties
    * @param options The options parameters.
    */
   async beginCreateOrUpdatePrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
-      >,
+      OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -936,8 +828,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -945,8 +837,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -954,21 +846,20 @@ export class IotDpsResourceImpl implements IotDpsResource {
       sendOperationFn,
       args: {
         resourceGroupName,
-        resourceName,
+        provisioningServiceName,
         privateEndpointConnectionName,
         privateEndpointConnection,
-        options
+        options,
       },
-      spec: createOrUpdatePrivateEndpointConnectionOperationSpec
+      spec: createOrUpdatePrivateEndpointConnectionOperationSpec,
     });
     const poller = await createHttpPoller<
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
-      OperationState<
-        IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
-      >
+      OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -976,41 +867,41 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Create or update the status of a private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param privateEndpointConnection The private endpoint connection with updated properties
    * @param options The options parameters.
    */
   async beginCreateOrUpdatePrivateEndpointConnectionAndWait(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse> {
     const poller = await this.beginCreateOrUpdatePrivateEndpointConnection(
       resourceGroupName,
-      resourceName,
+      provisioningServiceName,
       privateEndpointConnectionName,
       privateEndpointConnection,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Delete private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   async beginDeletePrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
@@ -1019,21 +910,19 @@ export class IotDpsResourceImpl implements IotDpsResource {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1042,8 +931,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1051,8 +940,8 @@ export class IotDpsResourceImpl implements IotDpsResource {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1060,18 +949,19 @@ export class IotDpsResourceImpl implements IotDpsResource {
       sendOperationFn,
       args: {
         resourceGroupName,
-        resourceName,
+        provisioningServiceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      spec: deletePrivateEndpointConnectionOperationSpec
+      spec: deletePrivateEndpointConnectionOperationSpec,
     });
     const poller = await createHttpPoller<
       IotDpsResourceDeletePrivateEndpointConnectionResponse,
       OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1079,24 +969,77 @@ export class IotDpsResourceImpl implements IotDpsResource {
 
   /**
    * Delete private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   async beginDeletePrivateEndpointConnectionAndWait(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse> {
     const poller = await this.beginDeletePrivateEndpointConnection(
       resourceGroupName,
-      resourceName,
+      provisioningServiceName,
       privateEndpointConnectionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * List private link resources for the given provisioning service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param options The options parameters.
+   */
+  listPrivateLinkResources(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams,
+  ): Promise<IotDpsResourceListPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, provisioningServiceName, options },
+      listPrivateLinkResourcesOperationSpec,
+    );
+  }
+
+  /**
+   * Get the specified private link resource for the given provisioning service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param groupId The name of the private link resource
+   * @param options The options parameters.
+   */
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    groupId: string,
+    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams,
+  ): Promise<IotDpsResourceGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, provisioningServiceName, groupId, options },
+      getPrivateLinkResourcesOperationSpec,
+    );
+  }
+
+  /**
+   * Gets the list of valid SKUs and tiers for a provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param options The options parameters.
+   */
+  private _listValidSkus(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListValidSkusOptionalParams,
+  ): Promise<IotDpsResourceListValidSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, provisioningServiceName, options },
+      listValidSkusOperationSpec,
+    );
   }
 
   /**
@@ -1106,114 +1049,162 @@ export class IotDpsResourceImpl implements IotDpsResource {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: IotDpsResourceListBySubscriptionNextOptionalParams
+    options?: IotDpsResourceListBySubscriptionNextOptionalParams,
   ): Promise<IotDpsResourceListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName Resource group identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IotDpsResourceListByResourceGroupNextOptionalParams
+    options?: IotDpsResourceListByResourceGroupNextOptionalParams,
   ): Promise<IotDpsResourceListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListValidSkusNext
-   * @param provisioningServiceName Name of provisioning service.
-   * @param resourceGroupName Name of resource group.
-   * @param nextLink The nextLink from the previous successful call to the ListValidSkus method.
-   * @param options The options parameters.
-   */
-  private _listValidSkusNext(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    nextLink: string,
-    options?: IotDpsResourceListValidSkusNextOptionalParams
-  ): Promise<IotDpsResourceListValidSkusNextResponse> {
-    return this.client.sendOperationRequest(
-      { provisioningServiceName, resourceGroupName, nextLink, options },
-      listValidSkusNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
   /**
    * ListKeysNext
-   * @param provisioningServiceName The provisioning service name to get the shared access keys for.
-   * @param resourceGroupName resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param nextLink The nextLink from the previous successful call to the ListKeys method.
    * @param options The options parameters.
    */
   private _listKeysNext(
-    provisioningServiceName: string,
     resourceGroupName: string,
+    provisioningServiceName: string,
     nextLink: string,
-    options?: IotDpsResourceListKeysNextOptionalParams
+    options?: IotDpsResourceListKeysNextOptionalParams,
   ): Promise<IotDpsResourceListKeysNextResponse> {
     return this.client.sendOperationRequest(
-      { provisioningServiceName, resourceGroupName, nextLink, options },
-      listKeysNextOperationSpec
+      { resourceGroupName, provisioningServiceName, nextLink, options },
+      listKeysNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListValidSkusNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param nextLink The nextLink from the previous successful call to the ListValidSkus method.
+   * @param options The options parameters.
+   */
+  private _listValidSkusNext(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    nextLink: string,
+    options?: IotDpsResourceListValidSkusNextOptionalParams,
+  ): Promise<IotDpsResourceListValidSkusNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, provisioningServiceName, nextLink, options },
+      listValidSkusNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+const checkProvisioningServiceNameAvailabilityOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NameAvailabilityInfo,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  requestBody: Parameters.argumentsParam,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProvisioningServiceDescription,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
     },
     201: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
     },
     202: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
     },
     204: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.iotDpsDescription,
   queryParameters: [Parameters.apiVersion],
@@ -1221,29 +1212,35 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
+      headersMapper: Mappers.IotDpsResourceUpdateHeaders,
     },
     201: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
+      headersMapper: Mappers.IotDpsResourceUpdateHeaders,
     },
     202: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
+      bodyMapper: Mappers.ProvisioningServiceDescription,
+      headersMapper: Mappers.IotDpsResourceUpdateHeaders,
     },
     204: {
-      bodyMapper: Mappers.ProvisioningServiceDescription
-    }
+      bodyMapper: Mappers.ProvisioningServiceDescription,
+      headersMapper: Mappers.IotDpsResourceUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.provisioningServiceTags,
   queryParameters: [Parameters.apiVersion],
@@ -1251,15 +1248,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1267,68 +1263,72 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/provisioningServices",
-  httpMethod: "GET",
+const listKeysForKeyNameOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
+      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
+      bodyMapper: Mappers.ErrorDetails,
     },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+    Parameters.keyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getOperationResultOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/operationresults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AsyncOperationResult
+      bodyMapper: Mappers.AsyncOperationResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.asyncinfo],
   urlParameters: [
@@ -1336,146 +1336,13 @@ const getOperationResultOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.provisioningServiceName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listValidSkusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IotDpsSkuDefinitionListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const checkProvisioningServiceNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkProvisioningServiceNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NameAvailabilityInfo
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  requestBody: Parameters.argumentsParam,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/listkeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysForKeyNameOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/keys/{keyName}/listkeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper:
-        Mappers.SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.provisioningServiceName,
-    Parameters.keyName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResources
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateLinkResources/{groupId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GroupIdInformation
-    },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.groupId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
@@ -1483,68 +1350,66 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "PrivateEndpointConnection" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "PrivateEndpointConnection" },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.provisioningServiceName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdatePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   requestBody: Parameters.privateEndpointConnection,
   queryParameters: [Parameters.apiVersion],
@@ -1552,123 +1417,182 @@ const createOrUpdatePrivateEndpointConnectionOperationSpec: coreClient.Operation
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.provisioningServiceName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deletePrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.provisioningServiceName,
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateLinkResources",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResources,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/privateLinkResources/{groupId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GroupIdInformation,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+    Parameters.groupId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listValidSkusOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IotDpsSkuDefinitionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
+      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult
+      bodyMapper: Mappers.ProvisioningServiceDescriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listValidSkusNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.IotDpsSkuDefinitionListResult
+      bodyMapper: Mappers.ErrorDetails,
     },
-    default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult
+      bodyMapper: Mappers.SharedAccessSignatureAuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorDetails
-    }
+      bodyMapper: Mappers.ErrorDetails,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.provisioningServiceName
+    Parameters.provisioningServiceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listValidSkusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IotDpsSkuDefinitionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorDetails,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.provisioningServiceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

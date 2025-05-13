@@ -8,32 +8,28 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of the request to list provisioning service operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /**
-   * Provisioning service operations supported by the Microsoft.Devices resource provider.
+   * [Placeholder] Description for value property
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: Operation[];
-  /**
-   * URL to get the next set of operation list results if there are any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  readonly value: Operation[];
+  /** [Placeholder] Description for nextLink property. */
+  nextLink?: string;
 }
 
-/** Provisioning Service REST API operation. */
+/** Represents an operation. */
 export interface Operation {
   /**
-   * Operation name: {provider}/{resource}/{read | write | action | delete}
+   * The name of the operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** The object that represents the operation. */
+  /** The display information for the operation. */
   display?: OperationDisplay;
 }
 
-/** The object that represents the operation. */
+/** The display information for the operation. */
 export interface OperationDisplay {
   /**
    * Service provider: Microsoft Devices.
@@ -76,84 +72,28 @@ export interface ErrorDetails {
   readonly details?: string;
 }
 
-/** The X509 Certificate. */
-export interface CertificateResponse {
-  /** properties of a certificate */
-  properties?: CertificateProperties;
-  /**
-   * The resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The entity tag.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly etag?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
+/** Input values for operation results call. */
+export interface OperationInputs {
+  /** The name of the Provisioning Service to check. */
+  name: string;
 }
 
-/** The description of an X509 CA Certificate. */
-export interface CertificateProperties {
-  /**
-   * The certificate's subject name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subject?: string;
-  /**
-   * The certificate's expiration date and time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiry?: Date;
-  /**
-   * The certificate's thumbprint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly thumbprint?: string;
-  /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
-  /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: Uint8Array;
-  /**
-   * The certificate's creation date and time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly created?: Date;
-  /**
-   * The certificate's last update date and time.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly updated?: Date;
+/** Description of name availability. */
+export interface NameAvailabilityInfo {
+  /** specifies if a name is available or not */
+  nameAvailable?: boolean;
+  /** specifies the reason a name is unavailable */
+  reason?: NameUnavailabilityReason;
+  /** message containing a detailed reason name is unavailable */
+  message?: string;
 }
 
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
+/** The response of a ProvisioningServiceDescription list operation. */
+export interface ProvisioningServiceDescriptionListResult {
+  /** The ProvisioningServiceDescription items on this page */
+  value: ProvisioningServiceDescription[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
@@ -210,32 +150,6 @@ export interface IpFilterRule {
   target?: IpFilterTargetType;
 }
 
-/** The private endpoint connection of a provisioning service */
-export interface PrivateEndpointConnection {
-  /**
-   * The resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The properties of a private endpoint connection */
-  properties: PrivateEndpointConnectionProperties;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint property of a private endpoint connection */
@@ -263,6 +177,46 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Description of the IoT hub. */
 export interface IotHubDefinitionDescription {
   /** flag for applying allocationPolicy or not for a given iot hub. */
@@ -275,9 +229,13 @@ export interface IotHubDefinitionDescription {
    */
   readonly name?: string;
   /** Connection string of the IoT hub. */
-  connectionString: string;
+  connectionString?: string;
   /** ARM region of the IoT hub. */
   location: string;
+  /** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
+  authenticationType?: IotHubAuthenticationType;
+  /** The selected user-assigned identity resource Id associated with IoT Hub. This is required when authenticationType is UserAssigned. */
+  selectedUserAssignedIdentityResourceId?: string;
 }
 
 /** Description of the shared access key. */
@@ -320,9 +278,7 @@ export interface ManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedIdentity | null;
-  };
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /** User assigned identity properties */
@@ -339,37 +295,59 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-/** The common properties of an Azure resource. */
-export interface Resource {
-  /**
-   * The resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource group of the resource. */
-  resourcegroup?: string;
-  /** The subscription id of the resource. */
-  subscriptionid?: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a Provisioning Service instance. */
 export interface TagsResource {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** The JSON-serialized array of Certificate objects. */
@@ -378,50 +356,37 @@ export interface CertificateListDescription {
   value?: CertificateResponse[];
 }
 
-/** List of provisioning service descriptions. */
-export interface ProvisioningServiceDescriptionListResult {
-  /** List of provisioning service descriptions. */
-  value?: ProvisioningServiceDescription[];
+/** The description of an X509 CA Certificate. */
+export interface CertificateProperties {
   /**
-   * the next link
+   * The certificate's subject name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Result of a long running operation. */
-export interface AsyncOperationResult {
-  /** current status of a long running operation. */
-  status?: string;
-  /** Error message containing code, description and details */
-  error?: ErrorMessage;
-}
-
-/** Error response containing message and code. */
-export interface ErrorMessage {
-  /** standard error code */
-  code?: string;
-  /** standard error description */
-  message?: string;
-  /** detailed summary of error */
-  details?: string;
-}
-
-/** List of available SKUs. */
-export interface IotDpsSkuDefinitionListResult {
-  /** The list of SKUs */
-  value?: IotDpsSkuDefinition[];
+  readonly subject?: string;
   /**
-   * The next link.
+   * The certificate's expiration date and time.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/** Available SKUs of tier and units. */
-export interface IotDpsSkuDefinition {
-  /** Sku name. */
-  name?: IotDpsSku;
+  readonly expiry?: Date;
+  /**
+   * The certificate's thumbprint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thumbprint?: string;
+  /** Determines whether certificate has been verified. */
+  isVerified?: boolean;
+  /** base-64 representation of X509 certificate .cer file or just .pem file content. */
+  certificate?: Uint8Array;
+  /**
+   * The certificate's creation date and time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: Date;
+  /**
+   * The certificate's last update date and time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updated?: Date;
 }
 
 /** Description of the response of the verification code. */
@@ -474,58 +439,36 @@ export interface VerificationCodeRequest {
   certificate?: string;
 }
 
-/** Input values for operation results call. */
-export interface OperationInputs {
-  /** The name of the Provisioning Service to check. */
-  name: string;
-}
-
-/** Description of name availability. */
-export interface NameAvailabilityInfo {
-  /** specifies if a name is available or not */
-  nameAvailable?: boolean;
-  /** specifies the reason a name is unavailable */
-  reason?: NameUnavailabilityReason;
-  /** message containing a detailed reason name is unavailable */
-  message?: string;
-}
-
 /** List of shared access keys. */
 export interface SharedAccessSignatureAuthorizationRuleListResult {
-  /** The list of shared access policies. */
-  value?: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
-  /**
-   * The next link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+  /** The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this page */
+  value: SharedAccessSignatureAuthorizationRuleAccessRightsDescription[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Result of a long running operation. */
+export interface AsyncOperationResult {
+  /** current status of a long running operation. */
+  status?: string;
+  /** Error message containing code, description and details */
+  error?: ErrorMessage;
+}
+
+/** Error response containing message and code. */
+export interface ErrorMessage {
+  /** standard error code */
+  code?: string;
+  /** standard error description */
+  message?: string;
+  /** detailed summary of error */
+  details?: string;
 }
 
 /** The available private link resources for a provisioning service */
 export interface PrivateLinkResources {
   /** The list of available private link resources for a provisioning service */
   value?: GroupIdInformation[];
-}
-
-/** The group information for creating a private endpoint on a provisioning service */
-export interface GroupIdInformation {
-  /**
-   * The resource identifier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The properties for a group information object */
-  properties: GroupIdInformationProperties;
 }
 
 /** The properties for a group information object */
@@ -538,82 +481,121 @@ export interface GroupIdInformationProperties {
   requiredZoneNames?: string[];
 }
 
-/** The JSON-serialized X509 Certificate. */
-export interface CertificateBodyDescription {
-  /** Base-64 representation of the X509 leaf certificate .cer file or just .pem file content. */
-  certificate?: string;
-  /** True indicates that the certificate will be created in verified state and proof of possession will not be required. */
-  isVerified?: boolean;
+/** List of available SKUs. */
+export interface IotDpsSkuDefinitionListResult {
+  /** The IotDpsSkuDefinition items on this page */
+  value: IotDpsSkuDefinition[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Available SKUs of tier and units. */
+export interface IotDpsSkuDefinition {
+  /** Sku name. */
+  name?: IotDpsSku;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The private endpoint connection of a provisioning service */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+}
+
+/** The X509 Certificate. */
+export interface CertificateResponse extends ProxyResource {
+  /** properties of a certificate */
+  properties?: CertificateProperties;
+  /**
+   * The entity tag.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly etag?: string;
+}
+
+/** The group information for creating a private endpoint on a provisioning service */
+export interface GroupIdInformation extends ProxyResource {
+  /** The properties for a group information object */
+  properties: GroupIdInformationProperties;
 }
 
 /** The description of the provisioning service. */
-export interface ProvisioningServiceDescription extends Resource {
+export interface ProvisioningServiceDescription extends TrackedResource {
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
   etag?: string;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The managed identities for a provisioning service. */
+  /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+}
+
+/** Defines headers for IotDpsResource_createOrUpdate operation. */
+export interface IotDpsResourceCreateOrUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for IotDpsResource_update operation. */
+export interface IotDpsResourceUpdateHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for IotDpsResource_delete operation. */
+export interface IotDpsResourceDeleteHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for IotDpsResource_createOrUpdatePrivateEndpointConnection operation. */
+export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
 /** Defines headers for IotDpsResource_deletePrivateEndpointConnection operation. */
 export interface IotDpsResourceDeletePrivateEndpointConnectionHeaders {
-  /** Operation Status Location URI */
-  azureAsyncOperation?: string;
-  /** Operation Status Location URI */
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
   location?: string;
-  /** Retry After */
-  retryAfter?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
+/** Known values of {@link NameUnavailabilityReason} that the service accepts. */
+export enum KnownNameUnavailabilityReason {
+  /** Invalid */
+  Invalid = "Invalid",
+  /** AlreadyExists */
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * Defines values for NameUnavailabilityReason. \
+ * {@link KnownNameUnavailabilityReason} can be used interchangeably with NameUnavailabilityReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **Invalid** \
+ * **AlreadyExists**
  */
-export type CreatedByType = string;
-
-/** Known values of {@link CertificatePurpose} that the service accepts. */
-export enum KnownCertificatePurpose {
-  /** ClientAuthentication */
-  ClientAuthentication = "clientAuthentication",
-  /** ServerAuthentication */
-  ServerAuthentication = "serverAuthentication"
-}
-
-/**
- * Defines values for CertificatePurpose. \
- * {@link KnownCertificatePurpose} can be used interchangeably with CertificatePurpose,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **clientAuthentication** \
- * **serverAuthentication**
- */
-export type CertificatePurpose = string;
+export type NameUnavailabilityReason = string;
 
 /** Known values of {@link State} that the service accepts. */
 export enum KnownState {
@@ -640,7 +622,7 @@ export enum KnownState {
   /** FailingOver */
   FailingOver = "FailingOver",
   /** FailoverFailed */
-  FailoverFailed = "FailoverFailed"
+  FailoverFailed = "FailoverFailed",
 }
 
 /**
@@ -668,7 +650,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -690,7 +672,7 @@ export enum KnownPrivateLinkServiceConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -705,6 +687,51 @@ export enum KnownPrivateLinkServiceConnectionStatus {
  */
 export type PrivateLinkServiceConnectionStatus = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link IotHubAuthenticationType} that the service accepts. */
+export enum KnownIotHubAuthenticationType {
+  /** KeyBased */
+  KeyBased = "KeyBased",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+}
+
+/**
+ * Defines values for IotHubAuthenticationType. \
+ * {@link KnownIotHubAuthenticationType} can be used interchangeably with IotHubAuthenticationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **KeyBased** \
+ * **UserAssigned** \
+ * **SystemAssigned**
+ */
+export type IotHubAuthenticationType = string;
+
 /** Known values of {@link AllocationPolicy} that the service accepts. */
 export enum KnownAllocationPolicy {
   /** Hashed */
@@ -712,7 +739,7 @@ export enum KnownAllocationPolicy {
   /** GeoLatency */
   GeoLatency = "GeoLatency",
   /** Static */
-  Static = "Static"
+  Static = "Static",
 }
 
 /**
@@ -739,7 +766,7 @@ export enum KnownAccessRightsDescription {
   /** RegistrationStatusRead */
   RegistrationStatusRead = "RegistrationStatusRead",
   /** RegistrationStatusWrite */
-  RegistrationStatusWrite = "RegistrationStatusWrite"
+  RegistrationStatusWrite = "RegistrationStatusWrite",
 }
 
 /**
@@ -759,7 +786,7 @@ export type AccessRightsDescription = string;
 /** Known values of {@link IotDpsSku} that the service accepts. */
 export enum KnownIotDpsSku {
   /** S1 */
-  S1 = "S1"
+  S1 = "S1",
 }
 
 /**
@@ -780,7 +807,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -795,45 +822,214 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
-/** Known values of {@link NameUnavailabilityReason} that the service accepts. */
-export enum KnownNameUnavailabilityReason {
-  /** Invalid */
-  Invalid = "Invalid",
-  /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+/** Known values of {@link CertificatePurpose} that the service accepts. */
+export enum KnownCertificatePurpose {
+  /** ClientAuthentication */
+  ClientAuthentication = "clientAuthentication",
+  /** ServerAuthentication */
+  ServerAuthentication = "serverAuthentication",
 }
 
 /**
- * Defines values for NameUnavailabilityReason. \
- * {@link KnownNameUnavailabilityReason} can be used interchangeably with NameUnavailabilityReason,
+ * Defines values for CertificatePurpose. \
+ * {@link KnownCertificatePurpose} can be used interchangeably with CertificatePurpose,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Invalid** \
- * **AlreadyExists**
+ * **clientAuthentication** \
+ * **serverAuthentication**
  */
-export type NameUnavailabilityReason = string;
+export type CertificatePurpose = string;
 /** Defines values for IpFilterActionType. */
 export type IpFilterActionType = "Accept" | "Reject";
 /** Defines values for IpFilterTargetType. */
 export type IpFilterTargetType = "all" | "serviceApi" | "deviceApi";
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface DpsCertificateGetOptionalParams
+export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkProvisioningServiceNameAvailability operation. */
+export type IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse = NameAvailabilityInfo;
+
+/** Optional parameters. */
+export interface IotDpsResourceListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type IotDpsResourceListBySubscriptionResponse = ProvisioningServiceDescriptionListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type IotDpsResourceListByResourceGroupResponse = ProvisioningServiceDescriptionListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type IotDpsResourceGetResponse = ProvisioningServiceDescription;
+
+/** Optional parameters. */
+export interface IotDpsResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type IotDpsResourceCreateOrUpdateResponse = ProvisioningServiceDescription;
+
+/** Optional parameters. */
+export interface IotDpsResourceUpdateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type IotDpsResourceUpdateResponse = IotDpsResourceUpdateHeaders &
+  ProvisioningServiceDescription;
+
+/** Optional parameters. */
+export interface IotDpsResourceDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface IotDpsResourceListKeysForKeyNameOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeysForKeyName operation. */
+export type IotDpsResourceListKeysForKeyNameResponse =
+  SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
+
+/** Optional parameters. */
+export interface IotDpsResourceListKeysOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type IotDpsResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceGetOperationResultOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOperationResult operation. */
+export type IotDpsResourceGetOperationResultResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListPrivateEndpointConnectionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateEndpointConnections operation. */
+export type IotDpsResourceListPrivateEndpointConnectionsResponse = PrivateEndpointConnection[];
+
+/** Optional parameters. */
+export interface IotDpsResourceGetPrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateEndpointConnection operation. */
+export type IotDpsResourceGetPrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
   extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdatePrivateEndpointConnection operation. */
+export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse =
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deletePrivateEndpointConnection operation. */
+export type IotDpsResourceDeletePrivateEndpointConnectionResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface IotDpsResourceListPrivateLinkResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPrivateLinkResources operation. */
+export type IotDpsResourceListPrivateLinkResourcesResponse = PrivateLinkResources;
+
+/** Optional parameters. */
+export interface IotDpsResourceGetPrivateLinkResourcesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPrivateLinkResources operation. */
+export type IotDpsResourceGetPrivateLinkResourcesResponse = GroupIdInformation;
+
+/** Optional parameters. */
+export interface IotDpsResourceListValidSkusOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listValidSkus operation. */
+export type IotDpsResourceListValidSkusResponse = IotDpsSkuDefinitionListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type IotDpsResourceListBySubscriptionNextResponse = ProvisioningServiceDescriptionListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type IotDpsResourceListByResourceGroupNextResponse =
+  ProvisioningServiceDescriptionListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListKeysNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeysNext operation. */
+export type IotDpsResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface IotDpsResourceListValidSkusNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listValidSkusNext operation. */
+export type IotDpsResourceListValidSkusNextResponse = IotDpsSkuDefinitionListResult;
+
+/** Optional parameters. */
+export interface DpsCertificateListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DpsCertificateListResponse = CertificateListDescription;
+
+/** Optional parameters. */
+export interface DpsCertificateGetOptionalParams extends coreClient.OperationOptions {
   /** ETag of the certificate. */
   ifMatch?: string;
 }
@@ -842,8 +1038,7 @@ export interface DpsCertificateGetOptionalParams
 export type DpsCertificateGetResponse = CertificateResponse;
 
 /** Optional parameters. */
-export interface DpsCertificateCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DpsCertificateCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
   /** ETag of the certificate. This is required to update an existing certificate, and ignored while creating a brand new certificate. */
   ifMatch?: string;
 }
@@ -852,8 +1047,7 @@ export interface DpsCertificateCreateOrUpdateOptionalParams
 export type DpsCertificateCreateOrUpdateResponse = CertificateResponse;
 
 /** Optional parameters. */
-export interface DpsCertificateDeleteOptionalParams
-  extends coreClient.OperationOptions {
+export interface DpsCertificateDeleteOptionalParams extends coreClient.OperationOptions {
   /** This is optional, and it is the Common Name of the certificate. */
   certificateName1?: string;
   /** Raw data within the certificate. */
@@ -871,13 +1065,6 @@ export interface DpsCertificateDeleteOptionalParams
   /** Random number generated to indicate Proof of Possession. */
   certificateNonce?: string;
 }
-
-/** Optional parameters. */
-export interface DpsCertificateListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DpsCertificateListResponse = CertificateListDescription;
 
 /** Optional parameters. */
 export interface DpsCertificateGenerateVerificationCodeOptionalParams
@@ -904,8 +1091,7 @@ export interface DpsCertificateGenerateVerificationCodeOptionalParams
 export type DpsCertificateGenerateVerificationCodeResponse = VerificationCodeResponse;
 
 /** Optional parameters. */
-export interface DpsCertificateVerifyCertificateOptionalParams
-  extends coreClient.OperationOptions {
+export interface DpsCertificateVerifyCertificateOptionalParams extends coreClient.OperationOptions {
   /** Common Name for the certificate. */
   certificateName1?: string;
   /** Raw data of certificate. */
@@ -928,177 +1114,7 @@ export interface DpsCertificateVerifyCertificateOptionalParams
 export type DpsCertificateVerifyCertificateResponse = CertificateResponse;
 
 /** Optional parameters. */
-export interface IotDpsResourceGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type IotDpsResourceGetResponse = ProvisioningServiceDescription;
-
-/** Optional parameters. */
-export interface IotDpsResourceCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type IotDpsResourceCreateOrUpdateResponse = ProvisioningServiceDescription;
-
-/** Optional parameters. */
-export interface IotDpsResourceUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the update operation. */
-export type IotDpsResourceUpdateResponse = ProvisioningServiceDescription;
-
-/** Optional parameters. */
-export interface IotDpsResourceDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface IotDpsResourceListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type IotDpsResourceListBySubscriptionResponse = ProvisioningServiceDescriptionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type IotDpsResourceListByResourceGroupResponse = ProvisioningServiceDescriptionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceGetOperationResultOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getOperationResult operation. */
-export type IotDpsResourceGetOperationResultResponse = AsyncOperationResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListValidSkusOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listValidSkus operation. */
-export type IotDpsResourceListValidSkusResponse = IotDpsSkuDefinitionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkProvisioningServiceNameAvailability operation. */
-export type IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse = NameAvailabilityInfo;
-
-/** Optional parameters. */
-export interface IotDpsResourceListKeysOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeys operation. */
-export type IotDpsResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListKeysForKeyNameOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeysForKeyName operation. */
-export type IotDpsResourceListKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRuleAccessRightsDescription;
-
-/** Optional parameters. */
-export interface IotDpsResourceListPrivateLinkResourcesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listPrivateLinkResources operation. */
-export type IotDpsResourceListPrivateLinkResourcesResponse = PrivateLinkResources;
-
-/** Optional parameters. */
-export interface IotDpsResourceGetPrivateLinkResourcesOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPrivateLinkResources operation. */
-export type IotDpsResourceGetPrivateLinkResourcesResponse = GroupIdInformation;
-
-/** Optional parameters. */
-export interface IotDpsResourceListPrivateEndpointConnectionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listPrivateEndpointConnections operation. */
-export type IotDpsResourceListPrivateEndpointConnectionsResponse = PrivateEndpointConnection[];
-
-/** Optional parameters. */
-export interface IotDpsResourceGetPrivateEndpointConnectionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getPrivateEndpointConnection operation. */
-export type IotDpsResourceGetPrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdatePrivateEndpointConnection operation. */
-export type IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the deletePrivateEndpointConnection operation. */
-export type IotDpsResourceDeletePrivateEndpointConnectionResponse = PrivateEndpointConnection;
-
-/** Optional parameters. */
-export interface IotDpsResourceListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type IotDpsResourceListBySubscriptionNextResponse = ProvisioningServiceDescriptionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type IotDpsResourceListByResourceGroupNextResponse = ProvisioningServiceDescriptionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListValidSkusNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listValidSkusNext operation. */
-export type IotDpsResourceListValidSkusNextResponse = IotDpsSkuDefinitionListResult;
-
-/** Optional parameters. */
-export interface IotDpsResourceListKeysNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listKeysNext operation. */
-export type IotDpsResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
-
-/** Optional parameters. */
-export interface IotDpsClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface IotDpsClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */
