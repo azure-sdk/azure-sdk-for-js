@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a trusted signing account.
  *
  * @summary delete a trusted signing account.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_Delete.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_Delete.json
  */
 async function deleteATrustedSigningAccount() {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function deleteATrustedSigningAccount() {
 }
 
 async function main() {
-  deleteATrustedSigningAccount();
+  await deleteATrustedSigningAccount();
 }
 
 main().catch(console.error);

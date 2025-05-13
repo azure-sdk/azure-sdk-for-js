@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a trusted Signing Account.
  *
  * @summary create a trusted Signing Account.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_Create.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_Create.json
  */
 async function createATrustedSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();

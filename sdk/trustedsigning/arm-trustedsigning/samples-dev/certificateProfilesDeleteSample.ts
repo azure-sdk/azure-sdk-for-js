@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a certificate profile.
  *
  * @summary delete a certificate profile.
- * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_Delete.json
+ * x-ms-original-file: 2024-09-30-preview/CertificateProfiles_Delete.json
  */
 async function deleteACertificateProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

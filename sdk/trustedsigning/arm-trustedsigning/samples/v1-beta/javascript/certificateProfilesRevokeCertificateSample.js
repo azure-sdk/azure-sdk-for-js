@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to revoke a certificate under a certificate profile.
  *
  * @summary revoke a certificate under a certificate profile.
- * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_RevokeCertificate.json
+ * x-ms-original-file: 2024-09-30-preview/CertificateProfiles_RevokeCertificate.json
  */
 async function revokeACertificateUnderACertificateProfile() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function revokeACertificateUnderACertificateProfile() {
 }
 
 async function main() {
-  revokeACertificateUnderACertificateProfile();
+  await revokeACertificateUnderACertificateProfile();
 }
 
 main().catch(console.error);
