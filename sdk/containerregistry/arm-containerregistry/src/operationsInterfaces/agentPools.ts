@@ -65,12 +65,7 @@ export interface AgentPools {
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolsCreateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsCreateResponse>,
-      AgentPoolsCreateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsCreateResponse>, AgentPoolsCreateResponse>>;
   /**
    * Creates an agent pool for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -98,12 +93,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     options?: AgentPoolsDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsDeleteResponse>,
-      AgentPoolsDeleteResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
   /**
    * Deletes a specified agent pool resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -131,12 +121,7 @@ export interface AgentPools {
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
     options?: AgentPoolsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<AgentPoolsUpdateResponse>,
-      AgentPoolsUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
   /**
    * Updates an agent pool with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

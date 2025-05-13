@@ -75,7 +75,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2025-03-01-preview",
+    defaultValue: "2025-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -234,16 +234,6 @@ export const cacheRuleUpdateParameters: OperationParameter = {
   mapper: CacheRuleUpdateParametersMapper,
 };
 
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const connectedRegistryName: OperationURLParameter = {
   parameterPath: "connectedRegistryName",
   mapper: {
@@ -268,6 +258,16 @@ export const connectedRegistryCreateParameters: OperationParameter = {
 export const connectedRegistryUpdateParameters: OperationParameter = {
   parameterPath: "connectedRegistryUpdateParameters",
   mapper: ConnectedRegistryUpdateParametersMapper,
+};
+
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
+  mapper: {
+    serializedName: "$filter",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const credentialSetName: OperationURLParameter = {
@@ -371,6 +371,18 @@ export const resourceGroupName1: OperationURLParameter = {
     },
     serializedName: "resourceGroupName",
     required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2025-03-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String",
     },

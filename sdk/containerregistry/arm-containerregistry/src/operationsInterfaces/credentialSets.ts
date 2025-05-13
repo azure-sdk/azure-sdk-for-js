@@ -64,10 +64,7 @@ export interface CredentialSets {
     credentialSetCreateParameters: CredentialSet,
     options?: CredentialSetsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsCreateResponse>,
-      CredentialSetsCreateResponse
-    >
+    SimplePollerLike<OperationState<CredentialSetsCreateResponse>, CredentialSetsCreateResponse>
   >;
   /**
    * Creates a credential set for a container registry with the specified parameters.
@@ -97,10 +94,7 @@ export interface CredentialSets {
     credentialSetName: string,
     options?: CredentialSetsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsDeleteResponse>,
-      CredentialSetsDeleteResponse
-    >
+    SimplePollerLike<OperationState<CredentialSetsDeleteResponse>, CredentialSetsDeleteResponse>
   >;
   /**
    * Deletes a credential set from a container registry.
@@ -130,10 +124,7 @@ export interface CredentialSets {
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
     options?: CredentialSetsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<CredentialSetsUpdateResponse>,
-      CredentialSetsUpdateResponse
-    >
+    SimplePollerLike<OperationState<CredentialSetsUpdateResponse>, CredentialSetsUpdateResponse>
   >;
   /**
    * Updates a credential set for a container registry with the specified parameters.

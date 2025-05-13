@@ -15,10 +15,10 @@ import {
   ConnectedRegistriesGetResponse,
   ConnectedRegistriesCreateOptionalParams,
   ConnectedRegistriesCreateResponse,
-  ConnectedRegistriesDeleteOptionalParams,
   ConnectedRegistryUpdateParameters,
   ConnectedRegistriesUpdateOptionalParams,
   ConnectedRegistriesUpdateResponse,
+  ConnectedRegistriesDeleteOptionalParams,
   ConnectedRegistriesDeactivateOptionalParams,
 } from "../models/index.js";
 
@@ -85,32 +85,6 @@ export interface ConnectedRegistries {
     options?: ConnectedRegistriesCreateOptionalParams,
   ): Promise<ConnectedRegistriesCreateResponse>;
   /**
-   * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param connectedRegistryName The name of the connected registry.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceGroupName: string,
-    registryName: string,
-    connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a connected registry from a container registry.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param registryName The name of the container registry.
-   * @param connectedRegistryName The name of the connected registry.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceGroupName: string,
-    registryName: string,
-    connectedRegistryName: string,
-    options?: ConnectedRegistriesDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Updates a connected registry with the specified parameters.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param registryName The name of the container registry.
@@ -145,6 +119,32 @@ export interface ConnectedRegistries {
     connectedRegistryUpdateParameters: ConnectedRegistryUpdateParameters,
     options?: ConnectedRegistriesUpdateOptionalParams,
   ): Promise<ConnectedRegistriesUpdateResponse>;
+  /**
+   * Deletes a connected registry from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    registryName: string,
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a connected registry from a container registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param registryName The name of the container registry.
+   * @param connectedRegistryName The name of the connected registry.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    connectedRegistryName: string,
+    options?: ConnectedRegistriesDeleteOptionalParams,
+  ): Promise<void>;
   /**
    * Deactivates the connected registry instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
