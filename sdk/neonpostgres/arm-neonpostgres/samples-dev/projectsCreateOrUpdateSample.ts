@@ -10,11 +10,11 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Project
  * x-ms-original-file: 2025-03-01/Projects_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function projectsCreateOrUpdateMaximumSet(): Promise<void> {
+async function projectsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9B8E3300-C5FA-442B-A259-3F6F614D5BD4";
   const client = new PostgresClient(credential, subscriptionId);
-  const result = await client.projects.createOrUpdate("rgneon", "test-org", "entity-name", {
+  const result = await client.projects.createOrUpdate("rgneon", "contoso-org", "sample-resource", {
     properties: {
       entityName: "entity-name",
       attributes: [{ name: "trhvzyvaqy", value: "evpkgsskyavybxwwssm" }],
@@ -92,7 +92,7 @@ async function projectsCreateOrUpdateMaximumSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await projectsCreateOrUpdateMaximumSet();
+  await projectsCreateOrUpdateMaximumSetGeneratedByMaximumSetRuleGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);
