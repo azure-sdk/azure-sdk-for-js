@@ -8,51 +8,64 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
   CheckNameAvailabilityImpl,
   DiagnosticsImpl,
-  DiscoverySolutionImpl,
-  SolutionImpl,
   SimplifiedSolutionsImpl,
+  SolutionImpl,
   TroubleshootersImpl,
-  SolutionSelfHelpImpl,
   DiscoverySolutionNLPImpl,
+  DiscoverySolutionImpl,
+  OperationsImpl,
+  SolutionSelfHelpImpl,
 } from "./operations/index.js";
 import {
-  Operations,
   CheckNameAvailability,
   Diagnostics,
-  DiscoverySolution,
-  Solution,
   SimplifiedSolutions,
+  Solution,
   Troubleshooters,
-  SolutionSelfHelp,
   DiscoverySolutionNLP,
+  DiscoverySolution,
+  Operations,
+  SolutionSelfHelp,
 } from "./operationsInterfaces/index.js";
 import { HelpRPOptionalParams } from "./models/index.js";
 
 export class HelpRP extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HelpRP class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
+    subscriptionId: string,
+    options?: HelpRPOptionalParams,
+  );
+  constructor(credentials: coreAuth.TokenCredential, options?: HelpRPOptionalParams);
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: HelpRPOptionalParams | string,
     options?: HelpRPOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -76,8 +89,7 @@ export class HelpRP extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix,
       },
-      endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
+      endpoint: options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
@@ -87,8 +99,7 @@ export class HelpRP extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -104,28 +115,28 @@ export class HelpRP extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
     }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2024-03-01-preview";
-    this.operations = new OperationsImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
     this.diagnostics = new DiagnosticsImpl(this);
-    this.discoverySolution = new DiscoverySolutionImpl(this);
-    this.solution = new SolutionImpl(this);
     this.simplifiedSolutions = new SimplifiedSolutionsImpl(this);
+    this.solution = new SolutionImpl(this);
     this.troubleshooters = new TroubleshootersImpl(this);
-    this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
     this.discoverySolutionNLP = new DiscoverySolutionNLPImpl(this);
+    this.discoverySolution = new DiscoverySolutionImpl(this);
+    this.operations = new OperationsImpl(this);
+    this.solutionSelfHelp = new SolutionSelfHelpImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -136,10 +147,7 @@ export class HelpRP extends coreClient.ServiceClient {
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest,
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -157,13 +165,13 @@ export class HelpRP extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
-  operations: Operations;
   checkNameAvailability: CheckNameAvailability;
   diagnostics: Diagnostics;
-  discoverySolution: DiscoverySolution;
-  solution: Solution;
   simplifiedSolutions: SimplifiedSolutions;
+  solution: Solution;
   troubleshooters: Troubleshooters;
-  solutionSelfHelp: SolutionSelfHelp;
   discoverySolutionNLP: DiscoverySolutionNLP;
+  discoverySolution: DiscoverySolution;
+  operations: Operations;
+  solutionSelfHelp: SolutionSelfHelp;
 }

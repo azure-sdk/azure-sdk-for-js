@@ -123,10 +123,7 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
     nextLink: string,
     options?: DiscoverySolutionListNextOptionalParams,
   ): Promise<DiscoverySolutionListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -143,11 +140,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skiptoken,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skiptoken],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer,

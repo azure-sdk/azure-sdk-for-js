@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  SolutionMetadataResource,
-  DiscoverySolutionListOptionalParams,
-} from "../models/index.js";
+import { SolutionMetadataResource, DiscoverySolutionListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiscoverySolution. */

@@ -105,14 +105,19 @@ export interface DiagnosticResource extends ProxyResource {
 
 // @public
 export interface Diagnostics {
-    beginCreate(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsCreateResponse>, DiagnosticsCreateResponse>>;
-    beginCreateAndWait(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<DiagnosticsCreateResponse>;
+    beginCreate(scope: string, diagnosticsResourceName: string, diagnosticResourceRequest: DiagnosticResource, options?: DiagnosticsCreateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsCreateResponse>, DiagnosticsCreateResponse>>;
+    beginCreateAndWait(scope: string, diagnosticsResourceName: string, diagnosticResourceRequest: DiagnosticResource, options?: DiagnosticsCreateOptionalParams): Promise<DiagnosticsCreateResponse>;
     get(scope: string, diagnosticsResourceName: string, options?: DiagnosticsGetOptionalParams): Promise<DiagnosticsGetResponse>;
 }
 
 // @public
+export interface DiagnosticsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface DiagnosticsCreateOptionalParams extends coreClient.OperationOptions {
-    diagnosticResourceRequest?: DiagnosticResource;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -143,7 +148,7 @@ export interface DiscoveryNlpResponse {
 // @public
 export interface DiscoveryResponse {
     nextLink?: string;
-    value?: SolutionMetadataResource[];
+    value: SolutionMetadataResource[];
 }
 
 // @public
@@ -169,13 +174,12 @@ export type DiscoverySolutionListResponse = DiscoveryResponse;
 
 // @public
 export interface DiscoverySolutionNLP {
-    discoverSolutions(options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse>;
-    discoverSolutionsBySubscription(subscriptionId: string, options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse>;
+    discoverSolutions(discoverSolutionRequest: DiscoveryNlpRequest, options?: DiscoverySolutionNLPDiscoverSolutionsOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsResponse>;
+    discoverSolutionsBySubscription(discoverSolutionRequest: DiscoveryNlpRequest, options?: DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams): Promise<DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse>;
 }
 
 // @public
 export interface DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams extends coreClient.OperationOptions {
-    discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
 // @public
@@ -183,7 +187,6 @@ export type DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse = Discov
 
 // @public
 export interface DiscoverySolutionNLPDiscoverSolutionsOptionalParams extends coreClient.OperationOptions {
-    discoverSolutionRequest?: DiscoveryNlpRequest;
 }
 
 // @public
@@ -239,6 +242,7 @@ export function getContinuationToken(page: unknown): string | undefined;
 export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: HelpRPOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: HelpRPOptionalParams);
     // (undocumented)
     apiVersion: string;
@@ -258,6 +262,8 @@ export class HelpRP extends coreClient.ServiceClient {
     solution: Solution;
     // (undocumented)
     solutionSelfHelp: SolutionSelfHelp;
+    // (undocumented)
+    subscriptionId?: string;
     // (undocumented)
     troubleshooters: Troubleshooters;
 }
@@ -575,15 +581,20 @@ export interface SectionSelfHelp {
 
 // @public
 export interface SimplifiedSolutions {
-    beginCreate(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SimplifiedSolutionsCreateResponse>, SimplifiedSolutionsCreateResponse>>;
-    beginCreateAndWait(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplifiedSolutionsCreateResponse>;
+    beginCreate(scope: string, simplifiedSolutionsResourceName: string, simplifiedSolutionsRequestBody: SimplifiedSolutionsResource, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplePollerLike<OperationState<SimplifiedSolutionsCreateResponse>, SimplifiedSolutionsCreateResponse>>;
+    beginCreateAndWait(scope: string, simplifiedSolutionsResourceName: string, simplifiedSolutionsRequestBody: SimplifiedSolutionsResource, options?: SimplifiedSolutionsCreateOptionalParams): Promise<SimplifiedSolutionsCreateResponse>;
     get(scope: string, simplifiedSolutionsResourceName: string, options?: SimplifiedSolutionsGetOptionalParams): Promise<SimplifiedSolutionsGetResponse>;
+}
+
+// @public
+export interface SimplifiedSolutionsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
 }
 
 // @public
 export interface SimplifiedSolutionsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
-    simplifiedSolutionsRequestBody?: SimplifiedSolutionsResource;
     updateIntervalInMs?: number;
 }
 
@@ -613,18 +624,23 @@ export interface SimplifiedSolutionsResource extends ProxyResource {
 
 // @public
 export interface Solution {
-    beginCreate(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionCreateResponse>, SolutionCreateResponse>>;
-    beginCreateAndWait(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SolutionCreateResponse>;
-    beginUpdate(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionUpdateResponse>, SolutionUpdateResponse>>;
-    beginUpdateAndWait(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SolutionUpdateResponse>;
+    beginCreate(scope: string, solutionResourceName: string, solutionRequestBody: SolutionResource, options?: SolutionCreateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionCreateResponse>, SolutionCreateResponse>>;
+    beginCreateAndWait(scope: string, solutionResourceName: string, solutionRequestBody: SolutionResource, options?: SolutionCreateOptionalParams): Promise<SolutionCreateResponse>;
+    beginUpdate(scope: string, solutionResourceName: string, solutionPatchRequestBody: SolutionPatchRequestBody, options?: SolutionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionUpdateResponse>, SolutionUpdateResponse>>;
+    beginUpdateAndWait(scope: string, solutionResourceName: string, solutionPatchRequestBody: SolutionPatchRequestBody, options?: SolutionUpdateOptionalParams): Promise<SolutionUpdateResponse>;
     get(scope: string, solutionResourceName: string, options?: SolutionGetOptionalParams): Promise<SolutionGetResponse>;
     warmUp(scope: string, solutionResourceName: string, options?: SolutionWarmUpOptionalParams): Promise<void>;
 }
 
 // @public
+export interface SolutionCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SolutionCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
-    solutionRequestBody?: SolutionResource;
     updateIntervalInMs?: number;
 }
 
@@ -736,19 +752,17 @@ export type SolutionType = string;
 
 // @public
 export interface SolutionUpdateHeaders {
-    // (undocumented)
-    location?: string;
+    azureAsyncOperation?: string;
 }
 
 // @public
 export interface SolutionUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
-    solutionPatchRequestBody?: SolutionPatchRequestBody;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
+export type SolutionUpdateResponse = SolutionResource;
 
 // @public
 export interface SolutionWarmUpOptionalParams extends coreClient.OperationOptions {
@@ -836,17 +850,11 @@ export interface TroubleshooterResponse {
 
 // @public
 export interface Troubleshooters {
-    continue(scope: string, troubleshooterName: string, options?: TroubleshootersContinueOptionalParams): Promise<TroubleshootersContinueResponse>;
-    create(scope: string, troubleshooterName: string, options?: TroubleshootersCreateOptionalParams): Promise<TroubleshootersCreateResponse>;
-    end(scope: string, troubleshooterName: string, options?: TroubleshootersEndOptionalParams): Promise<TroubleshootersEndResponse>;
+    continue(scope: string, troubleshooterName: string, options?: TroubleshootersContinueOptionalParams): Promise<void>;
+    create(scope: string, troubleshooterName: string, createTroubleshooterRequestBody: TroubleshooterResource, options?: TroubleshootersCreateOptionalParams): Promise<TroubleshootersCreateResponse>;
+    end(scope: string, troubleshooterName: string, options?: TroubleshootersEndOptionalParams): Promise<void>;
     get(scope: string, troubleshooterName: string, options?: TroubleshootersGetOptionalParams): Promise<TroubleshootersGetResponse>;
     restart(scope: string, troubleshooterName: string, options?: TroubleshootersRestartOptionalParams): Promise<TroubleshootersRestartResponse>;
-}
-
-// @public
-export interface TroubleshootersContinueHeaders {
-    // (undocumented)
-    location?: string;
 }
 
 // @public
@@ -855,28 +863,15 @@ export interface TroubleshootersContinueOptionalParams extends coreClient.Operat
 }
 
 // @public
-export type TroubleshootersContinueResponse = TroubleshootersContinueHeaders;
-
-// @public
 export interface TroubleshootersCreateOptionalParams extends coreClient.OperationOptions {
-    createTroubleshooterRequestBody?: TroubleshooterResource;
 }
 
 // @public
 export type TroubleshootersCreateResponse = TroubleshooterResource;
 
 // @public
-export interface TroubleshootersEndHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface TroubleshootersEndOptionalParams extends coreClient.OperationOptions {
 }
-
-// @public
-export type TroubleshootersEndResponse = TroubleshootersEndHeaders;
 
 // @public
 export interface TroubleshootersGetOptionalParams extends coreClient.OperationOptions {
@@ -886,17 +881,11 @@ export interface TroubleshootersGetOptionalParams extends coreClient.OperationOp
 export type TroubleshootersGetResponse = TroubleshooterResource;
 
 // @public
-export interface TroubleshootersRestartHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
 export interface TroubleshootersRestartOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders & RestartTroubleshooterResponse;
+export type TroubleshootersRestartResponse = RestartTroubleshooterResponse;
 
 // @public
 export type Type = string;
