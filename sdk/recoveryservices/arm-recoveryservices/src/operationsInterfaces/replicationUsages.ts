@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ReplicationUsage,
-  ReplicationUsagesListOptionalParams,
-} from "../models/index.js";
+import { ReplicationUsage, ReplicationUsagesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationUsages. */
