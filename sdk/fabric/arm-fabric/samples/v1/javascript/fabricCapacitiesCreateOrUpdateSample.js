@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FabricCapacity
  *
  * @summary create a FabricCapacity
- * x-ms-original-file: 2023-11-01/FabricCapacities_CreateOrUpdate.json
+ * x-ms-original-file: 2025-01-15-preview/FabricCapacities_CreateOrUpdate.json
  */
 async function createOrUpdateACapacity() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createOrUpdateACapacity() {
 }
 
 async function main() {
-  createOrUpdateACapacity();
+  await createOrUpdateACapacity();
 }
 
 main().catch(console.error);

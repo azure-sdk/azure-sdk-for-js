@@ -10,16 +10,10 @@ import {
 export { FabricClient } from "./fabricClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Operation,
-  OperationDisplay,
-  KnownOrigin,
-  Origin,
-  KnownActionType,
-  ActionType,
   FabricCapacity,
   FabricCapacityProperties,
-  ProvisioningState,
   KnownProvisioningState,
+  ProvisioningState,
   KnownResourceState,
   ResourceState,
   CapacityAdministration,
@@ -31,6 +25,9 @@ export {
   SystemData,
   KnownCreatedByType,
   CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
   FabricCapacityUpdate,
   FabricCapacityUpdateProperties,
   CheckNameAvailabilityRequest,
@@ -39,21 +36,31 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
+  Quota,
+  QuotaName,
+  Operation,
+  OperationDisplay,
+  KnownOrigin,
+  Origin,
+  KnownActionType,
+  ActionType,
+  KnownVersions,
 } from "./models/index.js";
+export { FabricClientOptionalParams } from "./api/index.js";
 export {
-  FabricClientOptionalParams,
-  FabricCapacitiesGetOptionalParams,
-  FabricCapacitiesCreateOrUpdateOptionalParams,
-  FabricCapacitiesUpdateOptionalParams,
-  FabricCapacitiesDeleteOptionalParams,
-  FabricCapacitiesListByResourceGroupOptionalParams,
-  FabricCapacitiesListBySubscriptionOptionalParams,
-  FabricCapacitiesResumeOptionalParams,
-  FabricCapacitiesSuspendOptionalParams,
-  FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesListUsagesOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
-  OperationsListOptionalParams,
-} from "./api/index.js";
+  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  FabricCapacitiesSuspendOptionalParams,
+  FabricCapacitiesResumeOptionalParams,
+  FabricCapacitiesListBySubscriptionOptionalParams,
+  FabricCapacitiesListByResourceGroupOptionalParams,
+  FabricCapacitiesDeleteOptionalParams,
+  FabricCapacitiesUpdateOptionalParams,
+  FabricCapacitiesCreateOrUpdateOptionalParams,
+  FabricCapacitiesGetOptionalParams,
+} from "./api/fabricCapacities/index.js";
+export { OperationsListOptionalParams } from "./api/operations/index.js";
 export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

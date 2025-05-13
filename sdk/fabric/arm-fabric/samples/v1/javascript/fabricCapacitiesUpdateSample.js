@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a FabricCapacity
  *
  * @summary update a FabricCapacity
- * x-ms-original-file: 2023-11-01/FabricCapacities_Update.json
+ * x-ms-original-file: 2025-01-15-preview/FabricCapacities_Update.json
  */
 async function updateCapacityProperties() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function updateCapacityProperties() {
 }
 
 async function main() {
-  updateCapacityProperties();
+  await updateCapacityProperties();
 }
 
 main().catch(console.error);
