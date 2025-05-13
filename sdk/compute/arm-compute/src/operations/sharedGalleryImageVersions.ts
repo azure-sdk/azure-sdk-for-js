@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedGalleryImageVersions operations. */
-export class SharedGalleryImageVersionsImpl
-  implements SharedGalleryImageVersions
-{
+export class SharedGalleryImageVersionsImpl implements SharedGalleryImageVersions {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -52,12 +50,7 @@ export class SharedGalleryImageVersionsImpl
     galleryImageName: string,
     options?: SharedGalleryImageVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<SharedGalleryImageVersion> {
-    const iter = this.listPagingAll(
-      location,
-      galleryUniqueName,
-      galleryImageName,
-      options,
-    );
+    const iter = this.listPagingAll(location, galleryUniqueName, galleryImageName, options);
     return {
       next() {
         return iter.next();
@@ -90,12 +83,7 @@ export class SharedGalleryImageVersionsImpl
     let result: SharedGalleryImageVersionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        location,
-        galleryUniqueName,
-        galleryImageName,
-        options,
-      );
+      result = await this._list(location, galleryUniqueName, galleryImageName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -218,7 +206,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
+  queryParameters: [Parameters.apiVersion4, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -240,7 +228,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

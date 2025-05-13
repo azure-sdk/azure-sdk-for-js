@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   GalleryImage,
@@ -60,11 +56,7 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryName: string,
     options?: GalleryImagesListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryImage> {
-    const iter = this.listByGalleryPagingAll(
-      resourceGroupName,
-      galleryName,
-      options,
-    );
+    const iter = this.listByGalleryPagingAll(resourceGroupName, galleryName, options);
     return {
       next() {
         return iter.next();
@@ -76,12 +68,7 @@ export class GalleryImagesImpl implements GalleryImages {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByGalleryPagingPage(
-          resourceGroupName,
-          galleryName,
-          options,
-          settings,
-        );
+        return this.listByGalleryPagingPage(resourceGroupName, galleryName, options, settings);
       },
     };
   }
@@ -95,11 +82,7 @@ export class GalleryImagesImpl implements GalleryImages {
     let result: GalleryImagesListByGalleryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByGallery(
-        resourceGroupName,
-        galleryName,
-        options,
-      );
+      result = await this._listByGallery(resourceGroupName, galleryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -166,8 +149,7 @@ export class GalleryImagesImpl implements GalleryImages {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -262,10 +244,7 @@ export class GalleryImagesImpl implements GalleryImages {
     galleryImage: GalleryImageUpdate,
     options?: GalleryImagesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<GalleryImagesUpdateResponse>,
-      GalleryImagesUpdateResponse
-    >
+    SimplePollerLike<OperationState<GalleryImagesUpdateResponse>, GalleryImagesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -277,8 +256,7 @@ export class GalleryImagesImpl implements GalleryImages {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -399,8 +377,7 @@ export class GalleryImagesImpl implements GalleryImages {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -525,7 +502,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.galleryImage,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -558,7 +535,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.galleryImage1,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -581,7 +558,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -604,7 +581,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -626,7 +603,7 @@ const listByGalleryOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

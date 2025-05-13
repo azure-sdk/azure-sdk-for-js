@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachine,
@@ -130,11 +126,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByLocationNext(
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listByLocationNext(location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -193,11 +185,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -280,11 +268,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesListAvailableSizesOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineSize> {
-    const iter = this.listAvailableSizesPagingAll(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const iter = this.listAvailableSizesPagingAll(resourceGroupName, vmName, options);
     return {
       next() {
         return iter.next();
@@ -296,12 +280,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAvailableSizesPagingPage(
-          resourceGroupName,
-          vmName,
-          options,
-          settings,
-        );
+        return this.listAvailableSizesPagingPage(resourceGroupName, vmName, options, settings);
       },
     };
   }
@@ -340,10 +319,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     location: string,
     options?: VirtualMachinesListByLocationOptionalParams,
   ): Promise<VirtualMachinesListByLocationResponse> {
-    return this.client.sendOperationRequest(
-      { location, options },
-      listByLocationOperationSpec,
-    );
+    return this.client.sendOperationRequest({ location, options }, listByLocationOperationSpec);
   }
 
   /**
@@ -360,10 +336,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: VirtualMachineCaptureParameters,
     options?: VirtualMachinesCaptureOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesCaptureResponse>,
-      VirtualMachinesCaptureResponse
-    >
+    SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -375,8 +348,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -434,12 +406,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: VirtualMachineCaptureParameters,
     options?: VirtualMachinesCaptureOptionalParams,
   ): Promise<VirtualMachinesCaptureResponse> {
-    const poller = await this.beginCapture(
-      resourceGroupName,
-      vmName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCapture(resourceGroupName, vmName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -472,8 +439,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -530,12 +496,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachinesCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      vmName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, vmName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -552,10 +513,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: VirtualMachineUpdate,
     options?: VirtualMachinesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachinesUpdateResponse>,
-      VirtualMachinesUpdateResponse
-    >
+    SimplePollerLike<OperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -567,8 +525,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -624,12 +581,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: VirtualMachineUpdate,
     options?: VirtualMachinesUpdateOptionalParams,
   ): Promise<VirtualMachinesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      vmName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, vmName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -654,8 +606,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -766,8 +717,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -819,11 +769,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesConvertToManagedDisksOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginConvertToManagedDisks(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const poller = await this.beginConvertToManagedDisks(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
@@ -849,8 +795,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -902,11 +847,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesDeallocateOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDeallocate(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const poller = await this.beginDeallocate(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
@@ -942,10 +883,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     resourceGroupName: string,
     options?: VirtualMachinesListOptionalParams,
   ): Promise<VirtualMachinesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -999,8 +937,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1078,8 +1015,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1155,8 +1091,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1232,8 +1167,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1309,8 +1243,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1391,8 +1324,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1490,8 +1422,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1542,11 +1473,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesPerformMaintenanceOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginPerformMaintenance(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const poller = await this.beginPerformMaintenance(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
@@ -1593,8 +1520,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1649,11 +1575,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesAssessPatchesOptionalParams,
   ): Promise<VirtualMachinesAssessPatchesResponse> {
-    const poller = await this.beginAssessPatches(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const poller = await this.beginAssessPatches(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
@@ -1685,8 +1607,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1781,8 +1702,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1870,8 +1790,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -1922,11 +1841,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     vmName: string,
     options?: VirtualMachinesMigrateToVMScaleSetOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginMigrateToVMScaleSet(
-      resourceGroupName,
-      vmName,
-      options,
-    );
+    const poller = await this.beginMigrateToVMScaleSet(resourceGroupName, vmName, options);
     return poller.pollUntilDone();
   }
 
@@ -1958,8 +1873,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -2016,12 +1930,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     parameters: RunCommandInput,
     options?: VirtualMachinesRunCommandOptionalParams,
   ): Promise<VirtualMachinesRunCommandResponse> {
-    const poller = await this.beginRunCommand(
-      resourceGroupName,
-      vmName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginRunCommand(resourceGroupName, vmName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -2068,10 +1977,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     nextLink: string,
     options?: VirtualMachinesListAllNextOptionalParams,
   ): Promise<VirtualMachinesListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -2089,11 +1995,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.location,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.location, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -2341,16 +2243,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand3,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand3],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -2541,10 +2435,7 @@ const retrieveBootDiagnosticsDataOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.sasUriExpirationTimeInMinutes,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.sasUriExpirationTimeInMinutes],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -2793,11 +2684,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
