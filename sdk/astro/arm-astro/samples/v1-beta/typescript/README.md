@@ -1,16 +1,16 @@
-# client library samples for TypeScript (Beta)
+# @azure/arm-astro client library samples for TypeScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for @azure/arm-astro in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                                                                                                                                                                            |
-| ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [operationsListSample.ts][operationslistsample]                                     | List the operations for the provider x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Operations_List_MaximumSet_Gen.json                                    |
-| [organizationsCreateOrUpdateSample.ts][organizationscreateorupdatesample]           | Create a OrganizationResource x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [organizationsDeleteSample.ts][organizationsdeletesample]                           | Delete a OrganizationResource x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Delete_MaximumSet_Gen.json                                      |
-| [organizationsGetSample.ts][organizationsgetsample]                                 | Get a OrganizationResource x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Get_MaximumSet_Gen.json                                            |
-| [organizationsListByResourceGroupSample.ts][organizationslistbyresourcegroupsample] | List OrganizationResource resources by resource group x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_ListByResourceGroup_MaximumSet_Gen.json |
-| [organizationsListBySubscriptionSample.ts][organizationslistbysubscriptionsample]   | List OrganizationResource resources by subscription ID x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_ListBySubscription_MaximumSet_Gen.json |
-| [organizationsUpdateSample.ts][organizationsupdatesample]                           | Update a OrganizationResource x-ms-original-file: specification/liftrastronomer/resource-manager/Astronomer.Astro/stable/2023-08-01/examples/Organizations_Update_MaximumSet_Gen.json                                      |
+| **File Name**                                                                       | **Description**                                                                                                                            |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| [operationsListSample.ts][operationslistsample]                                     | list the operations for the provider x-ms-original-file: 2024-08-27/Operations_List_MaximumSet_Gen.json                                    |
+| [organizationsCreateOrUpdateSample.ts][organizationscreateorupdatesample]           | create a OrganizationResource x-ms-original-file: 2024-08-27/Organizations_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [organizationsDeleteSample.ts][organizationsdeletesample]                           | delete a OrganizationResource x-ms-original-file: 2024-08-27/Organizations_Delete_MaximumSet_Gen.json                                      |
+| [organizationsGetSample.ts][organizationsgetsample]                                 | get a OrganizationResource x-ms-original-file: 2024-08-27/Organizations_Get_MaximumSet_Gen.json                                            |
+| [organizationsListByResourceGroupSample.ts][organizationslistbyresourcegroupsample] | list OrganizationResource resources by resource group x-ms-original-file: 2024-08-27/Organizations_ListByResourceGroup_MaximumSet_Gen.json |
+| [organizationsListBySubscriptionSample.ts][organizationslistbysubscriptionsample]   | list OrganizationResource resources by subscription ID x-ms-original-file: 2024-08-27/Organizations_ListBySubscription_MaximumSet_Gen.json |
+| [organizationsUpdateSample.ts][organizationsupdatesample]                           | update a OrganizationResource x-ms-original-file: 2024-08-27/Organizations_Update_MaximumSet_Gen.json                                      |
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ASTRO_SUBSCRIPTION_ID="<astro subscription id>" node dist/operationsListSample.js
+npx dev-tool run vendored cross-env  node dist/operationsListSample.js
 ```
 
 ## Next Steps
