@@ -20,7 +20,7 @@ import {
   MetadataListResponse,
   MetadataGetEntityOptionalParams,
   MetadataGetEntityResponse,
-  MetadataListNextResponse
+  MetadataListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -40,9 +40,7 @@ export class MetadataImpl implements Metadata {
    * Gets the list of metadata entities.
    * @param options The options parameters.
    */
-  public list(
-    options?: MetadataListOptionalParams
-  ): PagedAsyncIterableIterator<MetadataEntity> {
+  public list(options?: MetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -56,13 +54,13 @@ export class MetadataImpl implements Metadata {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: MetadataListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MetadataEntity[]> {
     let result: MetadataListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +81,7 @@ export class MetadataImpl implements Metadata {
   }
 
   private async *listPagingAll(
-    options?: MetadataListOptionalParams
+    options?: MetadataListOptionalParams,
   ): AsyncIterableIterator<MetadataEntity> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -94,9 +92,7 @@ export class MetadataImpl implements Metadata {
    * Gets the list of metadata entities.
    * @param options The options parameters.
    */
-  private _list(
-    options?: MetadataListOptionalParams
-  ): Promise<MetadataListResponse> {
+  private _list(options?: MetadataListOptionalParams): Promise<MetadataListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -107,12 +103,9 @@ export class MetadataImpl implements Metadata {
    */
   getEntity(
     name: string,
-    options?: MetadataGetEntityOptionalParams
+    options?: MetadataGetEntityOptionalParams,
   ): Promise<MetadataGetEntityResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getEntityOperationSpec
-    );
+    return this.client.sendOperationRequest({ name, options }, getEntityOperationSpec);
   }
 
   /**
@@ -122,12 +115,9 @@ export class MetadataImpl implements Metadata {
    */
   private _listNext(
     nextLink: string,
-    options?: MetadataListNextOptionalParams
+    options?: MetadataListNextOptionalParams,
   ): Promise<MetadataListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -138,45 +128,45 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult
+      bodyMapper: Mappers.MetadataEntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getEntityOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.ResourceHealth/metadata/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntity
+      bodyMapper: Mappers.MetadataEntity,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.name],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetadataEntityListResult
+      bodyMapper: Mappers.MetadataEntityListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

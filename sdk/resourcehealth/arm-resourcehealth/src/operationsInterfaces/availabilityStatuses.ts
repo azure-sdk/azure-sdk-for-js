@@ -13,7 +13,7 @@ import {
   AvailabilityStatusesListByResourceGroupOptionalParams,
   AvailabilityStatusesListOptionalParams,
   AvailabilityStatusesGetByResourceOptionalParams,
-  AvailabilityStatusesGetByResourceResponse
+  AvailabilityStatusesGetByResourceResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface AvailabilityStatuses {
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
    * Lists the current availability status for all the resources in the resource group.
@@ -33,7 +33,7 @@ export interface AvailabilityStatuses {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
    * Lists all historical availability transitions and impacting events for a single resource.
@@ -46,7 +46,7 @@ export interface AvailabilityStatuses {
    */
   list(
     resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
+    options?: AvailabilityStatusesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus>;
   /**
    * Gets current availability status for a single resource
@@ -59,6 +59,6 @@ export interface AvailabilityStatuses {
    */
   getByResource(
     resourceUri: string,
-    options?: AvailabilityStatusesGetByResourceOptionalParams
+    options?: AvailabilityStatusesGetByResourceOptionalParams,
   ): Promise<AvailabilityStatusesGetByResourceResponse>;
 }

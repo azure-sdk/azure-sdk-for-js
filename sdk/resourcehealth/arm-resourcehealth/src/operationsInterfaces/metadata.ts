@@ -11,7 +11,7 @@ import {
   MetadataEntity,
   MetadataListOptionalParams,
   MetadataGetEntityOptionalParams,
-  MetadataGetEntityResponse
+  MetadataGetEntityResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -21,9 +21,7 @@ export interface Metadata {
    * Gets the list of metadata entities.
    * @param options The options parameters.
    */
-  list(
-    options?: MetadataListOptionalParams
-  ): PagedAsyncIterableIterator<MetadataEntity>;
+  list(options?: MetadataListOptionalParams): PagedAsyncIterableIterator<MetadataEntity>;
   /**
    * Gets the list of metadata entities.
    * @param name Name of metadata entity.
@@ -31,6 +29,6 @@ export interface Metadata {
    */
   getEntity(
     name: string,
-    options?: MetadataGetEntityOptionalParams
+    options?: MetadataGetEntityOptionalParams,
   ): Promise<MetadataGetEntityResponse>;
 }

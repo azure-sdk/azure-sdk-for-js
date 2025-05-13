@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   EventImpactedResource,
   SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
-  SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
+  SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface SecurityAdvisoryImpactedResources {
    */
   listBySubscriptionIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource>;
   /**
    * Lists impacted resources in the tenant by an event (Security Advisory).
@@ -32,6 +32,6 @@ export interface SecurityAdvisoryImpactedResources {
    */
   listByTenantIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource>;
 }

@@ -11,7 +11,7 @@ import {
   Event,
   EventsListBySubscriptionIdOptionalParams,
   EventsListByTenantIdOptionalParams,
-  EventsListBySingleResourceOptionalParams
+  EventsListBySingleResourceOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,15 +22,13 @@ export interface EventsOperations {
    * @param options The options parameters.
    */
   listBySubscriptionId(
-    options?: EventsListBySubscriptionIdOptionalParams
+    options?: EventsListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<Event>;
   /**
    * Lists current service health events in the tenant.
    * @param options The options parameters.
    */
-  listByTenantId(
-    options?: EventsListByTenantIdOptionalParams
-  ): PagedAsyncIterableIterator<Event>;
+  listByTenantId(options?: EventsListByTenantIdOptionalParams): PagedAsyncIterableIterator<Event>;
   /**
    * Lists current service health events for given resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
@@ -42,6 +40,6 @@ export interface EventsOperations {
    */
   listBySingleResource(
     resourceUri: string,
-    options?: EventsListBySingleResourceOptionalParams
+    options?: EventsListBySingleResourceOptionalParams,
   ): PagedAsyncIterableIterator<Event>;
 }
