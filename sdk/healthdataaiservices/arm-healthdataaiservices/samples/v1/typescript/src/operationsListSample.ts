@@ -15,7 +15,7 @@ async function operationsListMaximumSetGeneratedByMaximumSetRuleStable(): Promis
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -33,7 +33,7 @@ async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promis
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -41,8 +41,8 @@ async function operationsListMinimumSetGeneratedByMinimumSetRuleStable(): Promis
 }
 
 async function main(): Promise<void> {
-  operationsListMaximumSetGeneratedByMaximumSetRuleStable();
-  operationsListMinimumSetGeneratedByMinimumSetRuleStable();
+  await operationsListMaximumSetGeneratedByMaximumSetRuleStable();
+  await operationsListMinimumSetGeneratedByMinimumSetRuleStable();
 }
 
 main().catch(console.error);

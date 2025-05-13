@@ -3,14 +3,14 @@
 
 import { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
 import {
-  _deidServicesCreateDeserialize,
-  _deidServicesUpdateDeserialize,
-  _deidServicesDeleteDeserialize,
-} from "./api/deidServices/index.js";
+  _$deleteDeserialize,
+  _createDeserialize,
+} from "./api/privateEndpointConnections/operations.js";
 import {
-  _privateEndpointConnectionsCreateDeserialize,
-  _privateEndpointConnectionsDeleteDeserialize,
-} from "./api/privateEndpointConnections/index.js";
+  _$deleteDeserialize as _$deleteDeserializeDeidServices,
+  _updateDeserialize,
+  _createDeserialize as _createDeserializeDeidServices,
+} from "./api/deidServices/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -84,30 +84,24 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _deidServicesCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    {
-      deserializer: _deidServicesDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
     {
-      deserializer: _privateEndpointConnectionsCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _privateEndpointConnectionsDeleteDeserialize,
+      deserializer: _$deleteDeserializeDeidServices,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
+    {
+      deserializer: _createDeserializeDeidServices,
+      expectedStatuses: ["200", "201"],
     },
 };
 

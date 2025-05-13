@@ -18,7 +18,7 @@ async function deidServicesDeleteGeneratedByMaximumSetRuleStable(): Promise<void
 }
 
 async function main(): Promise<void> {
-  deidServicesDeleteGeneratedByMaximumSetRuleStable();
+  await deidServicesDeleteGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);
