@@ -12,10 +12,13 @@ import {
   ProvisioningServiceDescription,
   IotDpsResourceListBySubscriptionOptionalParams,
   IotDpsResourceListByResourceGroupOptionalParams,
-  IotDpsSkuDefinition,
-  IotDpsResourceListValidSkusOptionalParams,
   SharedAccessSignatureAuthorizationRuleAccessRightsDescription,
   IotDpsResourceListKeysOptionalParams,
+  IotDpsSkuDefinition,
+  IotDpsResourceListValidSkusOptionalParams,
+  OperationInputs,
+  IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
+  IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetResponse,
   IotDpsResourceCreateOrUpdateOptionalParams,
@@ -24,17 +27,10 @@ import {
   IotDpsResourceUpdateOptionalParams,
   IotDpsResourceUpdateResponse,
   IotDpsResourceDeleteOptionalParams,
-  IotDpsResourceGetOperationResultOptionalParams,
-  IotDpsResourceGetOperationResultResponse,
-  OperationInputs,
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
-  IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse,
   IotDpsResourceListKeysForKeyNameOptionalParams,
   IotDpsResourceListKeysForKeyNameResponse,
-  IotDpsResourceListPrivateLinkResourcesOptionalParams,
-  IotDpsResourceListPrivateLinkResourcesResponse,
-  IotDpsResourceGetPrivateLinkResourcesOptionalParams,
-  IotDpsResourceGetPrivateLinkResourcesResponse,
+  IotDpsResourceGetOperationResultOptionalParams,
+  IotDpsResourceGetOperationResultResponse,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsResponse,
   IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
@@ -43,7 +39,11 @@ import {
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
-  IotDpsResourceDeletePrivateEndpointConnectionResponse
+  IotDpsResourceDeletePrivateEndpointConnectionResponse,
+  IotDpsResourceListPrivateLinkResourcesOptionalParams,
+  IotDpsResourceListPrivateLinkResourcesResponse,
+  IotDpsResourceGetPrivateLinkResourcesOptionalParams,
+  IotDpsResourceGetPrivateLinkResourcesResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,58 +54,66 @@ export interface IotDpsResource {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IotDpsResourceListBySubscriptionOptionalParams
+    options?: IotDpsResourceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /**
    * Get a list of all provisioning services in the given resource group.
-   * @param resourceGroupName Resource group identifier.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IotDpsResourceListByResourceGroupOptionalParams
+    options?: IotDpsResourceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /**
-   * Gets the list of valid SKUs and tiers for a provisioning service.
-   * @param provisioningServiceName Name of provisioning service.
-   * @param resourceGroupName Name of resource group.
-   * @param options The options parameters.
-   */
-  listValidSkus(
-    provisioningServiceName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListValidSkusOptionalParams
-  ): PagedAsyncIterableIterator<IotDpsSkuDefinition>;
-  /**
    * List the primary and secondary keys for a provisioning service.
-   * @param provisioningServiceName The provisioning service name to get the shared access keys for.
-   * @param resourceGroupName resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   listKeys(
-    provisioningServiceName: string,
     resourceGroupName: string,
-    options?: IotDpsResourceListKeysOptionalParams
-  ): PagedAsyncIterableIterator<
-    SharedAccessSignatureAuthorizationRuleAccessRightsDescription
-  >;
+    provisioningServiceName: string,
+    options?: IotDpsResourceListKeysOptionalParams,
+  ): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+  /**
+   * Gets the list of valid SKUs and tiers for a provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param options The options parameters.
+   */
+  listValidSkus(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListValidSkusOptionalParams,
+  ): PagedAsyncIterableIterator<IotDpsSkuDefinition>;
+  /**
+   * Check if a provisioning service name is available. This will validate if the name is syntactically
+   * valid and if the name is usable
+   * @param argumentsParam The request body
+   * @param options The options parameters.
+   */
+  checkProvisioningServiceNameAvailability(
+    argumentsParam: OperationInputs,
+    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
+  ): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
   /**
    * Get the metadata of the provisioning service without SAS keys.
-   * @param resourceGroupName Resource group name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceGetOptionalParams
+    options?: IotDpsResourceGetOptionalParams,
   ): Promise<IotDpsResourceGetResponse>;
   /**
    * Create or update the metadata of the provisioning service. The usual pattern to modify a property is
    * to retrieve the provisioning service metadata and security metadata, and then combine them with the
    * modified values in a new body to update the provisioning service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param iotDpsDescription Description of the provisioning service to create or update.
    * @param options The options parameters.
    */
@@ -113,7 +121,7 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceCreateOrUpdateResponse>,
@@ -124,8 +132,8 @@ export interface IotDpsResource {
    * Create or update the metadata of the provisioning service. The usual pattern to modify a property is
    * to retrieve the provisioning service metadata and security metadata, and then combine them with the
    * modified values in a new body to update the provisioning service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param iotDpsDescription Description of the provisioning service to create or update.
    * @param options The options parameters.
    */
@@ -133,12 +141,12 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     iotDpsDescription: ProvisioningServiceDescription,
-    options?: IotDpsResourceCreateOrUpdateOptionalParams
+    options?: IotDpsResourceCreateOrUpdateOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdateResponse>;
   /**
    * Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param provisioningServiceTags Updated tag information to set into the provisioning service
    *                                instance.
    * @param options The options parameters.
@@ -147,17 +155,14 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotDpsResourceUpdateResponse>,
-      IotDpsResourceUpdateResponse
-    >
+    SimplePollerLike<OperationState<IotDpsResourceUpdateResponse>, IotDpsResourceUpdateResponse>
   >;
   /**
    * Update an existing provisioning service's tags. to update other fields use the CreateOrUpdate method
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to create or update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param provisioningServiceTags Updated tag information to set into the provisioning service
    *                                instance.
    * @param options The options parameters.
@@ -166,169 +171,132 @@ export interface IotDpsResource {
     resourceGroupName: string,
     provisioningServiceName: string,
     provisioningServiceTags: TagsResource,
-    options?: IotDpsResourceUpdateOptionalParams
+    options?: IotDpsResourceUpdateOptionalParams,
   ): Promise<IotDpsResourceUpdateResponse>;
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the Provisioning Service.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service to delete.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     provisioningServiceName: string,
-    options?: IotDpsResourceDeleteOptionalParams
+    options?: IotDpsResourceDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * List primary and secondary keys for a specific key name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param keyName Logical key name to get key-values for.
+   * @param options The options parameters.
+   */
+  listKeysForKeyName(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    keyName: string,
+    options?: IotDpsResourceListKeysForKeyNameOptionalParams,
+  ): Promise<IotDpsResourceListKeysForKeyNameResponse>;
   /**
    * Gets the status of a long running operation, such as create, update or delete a provisioning
    * service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param operationId Operation id corresponding to long running operation. Use this to poll for the
    *                    status.
-   * @param resourceGroupName Resource group identifier.
-   * @param provisioningServiceName Name of provisioning service that the operation is running on.
    * @param asyncinfo Async header used to poll on the status of the operation, obtained while creating
    *                  the long running operation.
    * @param options The options parameters.
    */
   getOperationResult(
-    operationId: string,
     resourceGroupName: string,
     provisioningServiceName: string,
+    operationId: string,
     asyncinfo: string,
-    options?: IotDpsResourceGetOperationResultOptionalParams
+    options?: IotDpsResourceGetOperationResultOptionalParams,
   ): Promise<IotDpsResourceGetOperationResultResponse>;
   /**
-   * Check if a provisioning service name is available. This will validate if the name is syntactically
-   * valid and if the name is usable
-   * @param argumentsParam Set the name parameter in the OperationInputs structure to the name of the
-   *                       provisioning service to check.
-   * @param options The options parameters.
-   */
-  checkProvisioningServiceNameAvailability(
-    argumentsParam: OperationInputs,
-    options?: IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams
-  ): Promise<IotDpsResourceCheckProvisioningServiceNameAvailabilityResponse>;
-  /**
-   * List primary and secondary keys for a specific key name
-   * @param provisioningServiceName Name of the provisioning service.
-   * @param keyName Logical key name to get key-values for.
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param options The options parameters.
-   */
-  listKeysForKeyName(
-    provisioningServiceName: string,
-    keyName: string,
-    resourceGroupName: string,
-    options?: IotDpsResourceListKeysForKeyNameOptionalParams
-  ): Promise<IotDpsResourceListKeysForKeyNameResponse>;
-  /**
-   * List private link resources for the given provisioning service
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
-   * @param options The options parameters.
-   */
-  listPrivateLinkResources(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams
-  ): Promise<IotDpsResourceListPrivateLinkResourcesResponse>;
-  /**
-   * Get the specified private link resource for the given provisioning service
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
-   * @param groupId The name of the private link resource
-   * @param options The options parameters.
-   */
-  getPrivateLinkResources(
-    resourceGroupName: string,
-    resourceName: string,
-    groupId: string,
-    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams
-  ): Promise<IotDpsResourceGetPrivateLinkResourcesResponse>;
-  /**
    * List private endpoint connection properties
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param options The options parameters.
    */
   listPrivateEndpointConnections(
     resourceGroupName: string,
-    resourceName: string,
-    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams
+    provisioningServiceName: string,
+    options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   ): Promise<IotDpsResourceListPrivateEndpointConnectionsResponse>;
   /**
    * Get private endpoint connection properties
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   getPrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceGetPrivateEndpointConnectionResponse>;
   /**
    * Create or update the status of a private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param privateEndpointConnection The private endpoint connection with updated properties
    * @param options The options parameters.
    */
   beginCreateOrUpdatePrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
-      >,
+      OperationState<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>,
       IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse
     >
   >;
   /**
    * Create or update the status of a private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param privateEndpointConnection The private endpoint connection with updated properties
    * @param options The options parameters.
    */
   beginCreateOrUpdatePrivateEndpointConnectionAndWait(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceCreateOrUpdatePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>;
   /**
    * Delete private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   beginDeletePrivateEndpointConnection(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IotDpsResourceDeletePrivateEndpointConnectionResponse>,
@@ -337,15 +305,39 @@ export interface IotDpsResource {
   >;
   /**
    * Delete private endpoint connection with the specified name
-   * @param resourceGroupName The name of the resource group that contains the provisioning service.
-   * @param resourceName The name of the provisioning service.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param options The options parameters.
    */
   beginDeletePrivateEndpointConnectionAndWait(
     resourceGroupName: string,
-    resourceName: string,
+    provisioningServiceName: string,
     privateEndpointConnectionName: string,
-    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams
+    options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
   ): Promise<IotDpsResourceDeletePrivateEndpointConnectionResponse>;
+  /**
+   * List private link resources for the given provisioning service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param options The options parameters.
+   */
+  listPrivateLinkResources(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    options?: IotDpsResourceListPrivateLinkResourcesOptionalParams,
+  ): Promise<IotDpsResourceListPrivateLinkResourcesResponse>;
+  /**
+   * Get the specified private link resource for the given provisioning service
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param provisioningServiceName Name of the provisioning service to retrieve.
+   * @param groupId The name of the private link resource
+   * @param options The options parameters.
+   */
+  getPrivateLinkResources(
+    resourceGroupName: string,
+    provisioningServiceName: string,
+    groupId: string,
+    options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams,
+  ): Promise<IotDpsResourceGetPrivateLinkResourcesResponse>;
 }

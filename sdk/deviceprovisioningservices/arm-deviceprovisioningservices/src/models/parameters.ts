@@ -9,15 +9,15 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
-  CertificateResponse as CertificateResponseMapper,
-  VerificationCodeRequest as VerificationCodeRequestMapper,
+  OperationInputs as OperationInputsMapper,
   ProvisioningServiceDescription as ProvisioningServiceDescriptionMapper,
   TagsResource as TagsResourceMapper,
-  OperationInputs as OperationInputsMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  CertificateResponse as CertificateResponseMapper,
+  VerificationCodeRequest as VerificationCodeRequestMapper,
 } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
@@ -27,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,22 +38,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-01-preview",
+    defaultValue: "2025-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -62,64 +62,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
-};
-
-export const certificateName: OperationURLParameter = {
-  parameterPath: "certificateName",
-  mapper: {
-    serializedName: "certificateName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
-  mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const provisioningServiceName: OperationURLParameter = {
-  parameterPath: "provisioningServiceName",
-  mapper: {
-    serializedName: "provisioningServiceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
-  mapper: {
-    serializedName: "If-Match",
-    type: {
-      name: "String"
-    }
-  }
+  skipEncoding: true,
 };
 
 export const contentType: OperationParameter = {
@@ -129,134 +75,75 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const certificateDescription: OperationParameter = {
-  parameterPath: "certificateDescription",
-  mapper: CertificateResponseMapper
+export const argumentsParam: OperationParameter = {
+  parameterPath: "argumentsParam",
+  mapper: OperationInputsMapper,
 };
 
-export const certificateName1: OperationURLParameter = {
-  parameterPath: "certificateName",
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MaxLength: 256
+      MinLength: 1,
     },
-    serializedName: "certificateName",
+    serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const ifMatch1: OperationParameter = {
-  parameterPath: "ifMatch",
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
-    serializedName: "If-Match",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
-export const certificateName11: OperationQueryParameter = {
-  parameterPath: ["options", "certificateName1"],
+export const provisioningServiceName: OperationURLParameter = {
+  parameterPath: "provisioningServiceName",
   mapper: {
-    serializedName: "certificate.name",
+    serializedName: "provisioningServiceName",
+    required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificateRawBytes: OperationQueryParameter = {
-  parameterPath: ["options", "certificateRawBytes"],
-  mapper: {
-    serializedName: "certificate.rawBytes",
-    type: {
-      name: "ByteArray"
-    }
-  }
-};
-
-export const certificateIsVerified: OperationQueryParameter = {
-  parameterPath: ["options", "certificateIsVerified"],
-  mapper: {
-    serializedName: "certificate.isVerified",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const certificatePurpose: OperationQueryParameter = {
-  parameterPath: ["options", "certificatePurpose"],
-  mapper: {
-    serializedName: "certificate.purpose",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const certificateCreated: OperationQueryParameter = {
-  parameterPath: ["options", "certificateCreated"],
-  mapper: {
-    serializedName: "certificate.created",
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const certificateLastUpdated: OperationQueryParameter = {
-  parameterPath: ["options", "certificateLastUpdated"],
-  mapper: {
-    serializedName: "certificate.lastUpdated",
-    type: {
-      name: "DateTime"
-    }
-  }
-};
-
-export const certificateHasPrivateKey: OperationQueryParameter = {
-  parameterPath: ["options", "certificateHasPrivateKey"],
-  mapper: {
-    serializedName: "certificate.hasPrivateKey",
-    type: {
-      name: "Boolean"
-    }
-  }
-};
-
-export const certificateNonce: OperationQueryParameter = {
-  parameterPath: ["options", "certificateNonce"],
-  mapper: {
-    serializedName: "certificate.nonce",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const request: OperationParameter = {
-  parameterPath: "request",
-  mapper: VerificationCodeRequestMapper
+      name: "String",
+    },
+  },
 };
 
 export const iotDpsDescription: OperationParameter = {
   parameterPath: "iotDpsDescription",
-  mapper: ProvisioningServiceDescriptionMapper
+  mapper: ProvisioningServiceDescriptionMapper,
 };
 
 export const provisioningServiceTags: OperationParameter = {
   parameterPath: "provisioningServiceTags",
-  mapper: TagsResourceMapper
+  mapper: TagsResourceMapper,
+};
+
+export const keyName: OperationURLParameter = {
+  parameterPath: "keyName",
+  mapper: {
+    serializedName: "keyName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const operationId: OperationURLParameter = {
@@ -265,9 +152,9 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const asyncinfo: OperationQueryParameter = {
@@ -277,47 +164,9 @@ export const asyncinfo: OperationQueryParameter = {
     serializedName: "asyncinfo",
     required: true,
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const argumentsParam: OperationParameter = {
-  parameterPath: "argumentsParam",
-  mapper: OperationInputsMapper
-};
-
-export const keyName: OperationURLParameter = {
-  parameterPath: "keyName",
-  mapper: {
-    serializedName: "keyName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const resourceName: OperationURLParameter = {
-  parameterPath: "resourceName",
-  mapper: {
-    serializedName: "resourceName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const groupId: OperationURLParameter = {
-  parameterPath: "groupId",
-  mapper: {
-    serializedName: "groupId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnectionName: OperationURLParameter = {
@@ -326,12 +175,148 @@ export const privateEndpointConnectionName: OperationURLParameter = {
     serializedName: "privateEndpointConnectionName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
-  mapper: PrivateEndpointConnectionMapper
+  mapper: PrivateEndpointConnectionMapper,
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    serializedName: "groupId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName: OperationURLParameter = {
+  parameterPath: "certificateName",
+  mapper: {
+    constraints: {
+      MaxLength: 256,
+    },
+    serializedName: "certificateName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateDescription: OperationParameter = {
+  parameterPath: "certificateDescription",
+  mapper: CertificateResponseMapper,
+};
+
+export const ifMatch1: OperationParameter = {
+  parameterPath: "ifMatch",
+  mapper: {
+    serializedName: "If-Match",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateName1: OperationQueryParameter = {
+  parameterPath: ["options", "certificateName1"],
+  mapper: {
+    serializedName: "certificate.name",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateRawBytes: OperationQueryParameter = {
+  parameterPath: ["options", "certificateRawBytes"],
+  mapper: {
+    serializedName: "certificate.rawBytes",
+    type: {
+      name: "ByteArray",
+    },
+  },
+};
+
+export const certificateIsVerified: OperationQueryParameter = {
+  parameterPath: ["options", "certificateIsVerified"],
+  mapper: {
+    serializedName: "certificate.isVerified",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const certificatePurpose: OperationQueryParameter = {
+  parameterPath: ["options", "certificatePurpose"],
+  mapper: {
+    serializedName: "certificate.purpose",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const certificateCreated: OperationQueryParameter = {
+  parameterPath: ["options", "certificateCreated"],
+  mapper: {
+    serializedName: "certificate.created",
+    type: {
+      name: "DateTime",
+    },
+  },
+};
+
+export const certificateLastUpdated: OperationQueryParameter = {
+  parameterPath: ["options", "certificateLastUpdated"],
+  mapper: {
+    serializedName: "certificate.lastUpdated",
+    type: {
+      name: "DateTime",
+    },
+  },
+};
+
+export const certificateHasPrivateKey: OperationQueryParameter = {
+  parameterPath: ["options", "certificateHasPrivateKey"],
+  mapper: {
+    serializedName: "certificate.hasPrivateKey",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const certificateNonce: OperationQueryParameter = {
+  parameterPath: ["options", "certificateNonce"],
+  mapper: {
+    serializedName: "certificate.nonce",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const request: OperationParameter = {
+  parameterPath: "request",
+  mapper: VerificationCodeRequestMapper,
 };
