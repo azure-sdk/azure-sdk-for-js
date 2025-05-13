@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndPointConnections operations. */
-export class PrivateEndPointConnectionsImpl
-  implements PrivateEndPointConnections
-{
+export class PrivateEndPointConnectionsImpl implements PrivateEndPointConnections {
   private readonly client: DataFactoryManagementClient;
 
   /**
@@ -47,11 +45,7 @@ export class PrivateEndPointConnectionsImpl
     factoryName: string,
     options?: PrivateEndPointConnectionsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -63,12 +57,7 @@ export class PrivateEndPointConnectionsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -82,11 +71,7 @@ export class PrivateEndPointConnectionsImpl
     let result: PrivateEndPointConnectionsListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
