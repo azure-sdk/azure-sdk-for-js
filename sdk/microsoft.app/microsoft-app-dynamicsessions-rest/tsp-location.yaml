@@ -1,0 +1,4 @@
+directory: specification/app/Microsoft.App.DynamicSessions
+commit: bf123b85e6368f1753c359d1defa7bc0d219767a
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
