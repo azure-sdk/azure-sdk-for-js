@@ -32,6 +32,26 @@ export interface CheckNameAvailabilityResponse {
 export type CreatedByType = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FabricCapacity extends TrackedResource {
     properties: FabricCapacityProperties;
     sku: RpSku;
@@ -114,9 +134,14 @@ export enum KnownRpSkuTier {
 }
 
 // @public
+export enum KnownVersions {
+    V20250115Preview = "2025-01-15-preview"
+}
+
+// @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -135,6 +160,20 @@ export type Origin = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface Quota {
+    currentValue: number;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
+}
+
+// @public
+export interface QuotaName {
+    localizedValue?: string;
+    value?: string;
+}
 
 // @public
 export interface Resource {
