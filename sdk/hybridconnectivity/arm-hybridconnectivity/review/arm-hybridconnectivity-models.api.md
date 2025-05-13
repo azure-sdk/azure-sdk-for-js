@@ -79,6 +79,10 @@ export interface GenerateAwsTemplateRequest {
 }
 
 // @public
+export interface GenerateAwsTemplateResponse {
+}
+
+// @public
 export type HostType = string;
 
 // @public
@@ -351,7 +355,8 @@ export interface SolutionConfigurationUpdate extends ProxyResource {
 }
 
 // @public
-export interface SolutionSettings extends Record<string, string> {
+export interface SolutionSettings {
+    additionalProperties?: Record<string, string>;
 }
 
 // @public
