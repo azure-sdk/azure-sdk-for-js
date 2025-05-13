@@ -133,9 +133,7 @@ export const associatedTenantName: OperationURLParameter = {
   parameterPath: "associatedTenantName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
+      Pattern: new RegExp("^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$"),
     },
     serializedName: "associatedTenantName",
     required: true,
@@ -430,9 +428,7 @@ export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
+      Pattern: new RegExp("^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$"),
     },
     serializedName: "subscriptionId",
     required: true,
@@ -473,9 +469,7 @@ export const billingRequestName: OperationURLParameter = {
   parameterPath: "billingRequestName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
+      Pattern: new RegExp("^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$"),
     },
     serializedName: "billingRequestName",
     required: true,
@@ -531,9 +525,7 @@ export const roleDefinitionName: OperationURLParameter = {
   parameterPath: "roleDefinitionName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
+      Pattern: new RegExp("^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$"),
     },
     serializedName: "roleDefinitionName",
     required: true,
@@ -847,9 +839,7 @@ export const productName: OperationURLParameter = {
   parameterPath: "productName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$",
-      ),
+      Pattern: new RegExp("^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$"),
     },
     serializedName: "productName",
     required: true,

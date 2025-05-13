@@ -1081,121 +1081,119 @@ export const TransitionDetails: coreClient.CompositeMapper = {
   },
 };
 
-export const InvoiceSectionWithCreateSubPermissionListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoiceSectionWithCreateSubPermissionListResult",
-      modelProperties: {
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const InvoiceSectionWithCreateSubPermissionListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoiceSectionWithCreateSubPermissionListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "InvoiceSectionWithCreateSubPermission",
-              },
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InvoiceSectionWithCreateSubPermission",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
-export const InvoiceSectionWithCreateSubPermission: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoiceSectionWithCreateSubPermission",
-      modelProperties: {
-        billingProfileDisplayName: {
-          serializedName: "billingProfileDisplayName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+export const InvoiceSectionWithCreateSubPermission: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoiceSectionWithCreateSubPermission",
+    modelProperties: {
+      billingProfileDisplayName: {
+        serializedName: "billingProfileDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        billingProfileId: {
-          serializedName: "billingProfileId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      billingProfileId: {
+        serializedName: "billingProfileId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        billingProfileSystemId: {
-          serializedName: "billingProfileSystemId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      billingProfileSystemId: {
+        serializedName: "billingProfileSystemId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        billingProfileStatus: {
-          serializedName: "billingProfileStatus",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      billingProfileStatus: {
+        serializedName: "billingProfileStatus",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        billingProfileStatusReasonCode: {
-          serializedName: "billingProfileStatusReasonCode",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      billingProfileStatusReasonCode: {
+        serializedName: "billingProfileStatusReasonCode",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        billingProfileSpendingLimit: {
-          serializedName: "billingProfileSpendingLimit",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      billingProfileSpendingLimit: {
+        serializedName: "billingProfileSpendingLimit",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        enabledAzurePlans: {
-          serializedName: "enabledAzurePlans",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "AzurePlan",
-              },
+      },
+      enabledAzurePlans: {
+        serializedName: "enabledAzurePlans",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AzurePlan",
             },
           },
         },
-        invoiceSectionDisplayName: {
-          serializedName: "invoiceSectionDisplayName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      invoiceSectionDisplayName: {
+        serializedName: "invoiceSectionDisplayName",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        invoiceSectionId: {
-          serializedName: "invoiceSectionId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      invoiceSectionId: {
+        serializedName: "invoiceSectionId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        invoiceSectionSystemId: {
-          serializedName: "invoiceSectionSystemId",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      invoiceSectionSystemId: {
+        serializedName: "invoiceSectionSystemId",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const AzurePlan: coreClient.CompositeMapper = {
   type: {
@@ -1442,55 +1440,53 @@ export const CheckAccessResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const DeleteBillingProfileEligibilityResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DeleteBillingProfileEligibilityResult",
-      modelProperties: {
-        eligibilityStatus: {
-          serializedName: "eligibilityStatus",
-          type: {
-            name: "String",
-          },
+export const DeleteBillingProfileEligibilityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteBillingProfileEligibilityResult",
+    modelProperties: {
+      eligibilityStatus: {
+        serializedName: "eligibilityStatus",
+        type: {
+          name: "String",
         },
-        eligibilityDetails: {
-          serializedName: "eligibilityDetails",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "DeleteBillingProfileEligibilityDetail",
-              },
+      },
+      eligibilityDetails: {
+        serializedName: "eligibilityDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeleteBillingProfileEligibilityDetail",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
-export const DeleteBillingProfileEligibilityDetail: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DeleteBillingProfileEligibilityDetail",
-      modelProperties: {
-        code: {
-          serializedName: "code",
-          type: {
-            name: "String",
-          },
+export const DeleteBillingProfileEligibilityDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteBillingProfileEligibilityDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String",
         },
-        message: {
-          serializedName: "message",
-          type: {
-            name: "String",
-          },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const BillingProfileProperties: coreClient.CompositeMapper = {
   type: {
@@ -3667,16 +3663,14 @@ export const BillingSubscriptionProperties: coreClient.CompositeMapper = {
         },
       },
       enrollmentAccountStartDate: {
-        serializedName:
-          "enrollmentAccountSubscriptionDetails.enrollmentAccountStartDate",
+        serializedName: "enrollmentAccountSubscriptionDetails.enrollmentAccountStartDate",
         readOnly: true,
         type: {
           name: "DateTime",
         },
       },
       subscriptionEnrollmentAccountStatus: {
-        serializedName:
-          "enrollmentAccountSubscriptionDetails.subscriptionEnrollmentAccountStatus",
+        serializedName: "enrollmentAccountSubscriptionDetails.subscriptionEnrollmentAccountStatus",
         readOnly: true,
         type: {
           name: "String",
@@ -3994,29 +3988,28 @@ export const BillingSubscriptionSplitRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const MoveBillingSubscriptionEligibilityResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MoveBillingSubscriptionEligibilityResult",
-      modelProperties: {
-        isMoveEligible: {
-          serializedName: "isMoveEligible",
-          readOnly: true,
-          type: {
-            name: "Boolean",
-          },
+export const MoveBillingSubscriptionEligibilityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveBillingSubscriptionEligibilityResult",
+    modelProperties: {
+      isMoveEligible: {
+        serializedName: "isMoveEligible",
+        readOnly: true,
+        type: {
+          name: "Boolean",
         },
-        errorDetails: {
-          serializedName: "errorDetails",
-          type: {
-            name: "Composite",
-            className: "MoveBillingSubscriptionErrorDetails",
-          },
+      },
+      errorDetails: {
+        serializedName: "errorDetails",
+        type: {
+          name: "Composite",
+          className: "MoveBillingSubscriptionErrorDetails",
         },
       },
     },
-  };
+  },
+};
 
 export const MoveBillingSubscriptionErrorDetails: coreClient.CompositeMapper = {
   type: {
@@ -4860,55 +4853,53 @@ export const DocumentDownloadResult: coreClient.CompositeMapper = {
   },
 };
 
-export const DeleteInvoiceSectionEligibilityResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DeleteInvoiceSectionEligibilityResult",
-      modelProperties: {
-        eligibilityStatus: {
-          serializedName: "eligibilityStatus",
-          type: {
-            name: "String",
-          },
+export const DeleteInvoiceSectionEligibilityResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteInvoiceSectionEligibilityResult",
+    modelProperties: {
+      eligibilityStatus: {
+        serializedName: "eligibilityStatus",
+        type: {
+          name: "String",
         },
-        eligibilityDetails: {
-          serializedName: "eligibilityDetails",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "DeleteInvoiceSectionEligibilityDetail",
-              },
+      },
+      eligibilityDetails: {
+        serializedName: "eligibilityDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeleteInvoiceSectionEligibilityDetail",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
-export const DeleteInvoiceSectionEligibilityDetail: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "DeleteInvoiceSectionEligibilityDetail",
-      modelProperties: {
-        code: {
-          serializedName: "code",
-          type: {
-            name: "String",
-          },
+export const DeleteInvoiceSectionEligibilityDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteInvoiceSectionEligibilityDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String",
         },
-        message: {
-          serializedName: "message",
-          type: {
-            name: "String",
-          },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const InvoiceSectionProperties: coreClient.CompositeMapper = {
   type: {
@@ -5329,8 +5320,7 @@ export const BillingProfilePolicyProperties: coreClient.CompositeMapper = {
         serializedName: "enterpriseAgreementPolicies",
         type: {
           name: "Composite",
-          className:
-            "BillingProfilePolicyPropertiesEnterpriseAgreementPolicies",
+          className: "BillingProfilePolicyPropertiesEnterpriseAgreementPolicies",
         },
       },
       invoiceSectionLabelManagement: {
@@ -5422,8 +5412,7 @@ export const BillingAccountPolicyProperties: coreClient.CompositeMapper = {
         serializedName: "enterpriseAgreementPolicies",
         type: {
           name: "Composite",
-          className:
-            "BillingAccountPolicyPropertiesEnterpriseAgreementPolicies",
+          className: "BillingAccountPolicyPropertiesEnterpriseAgreementPolicies",
         },
       },
       marketplacePurchases: {
@@ -6143,14 +6132,12 @@ export const ReservationPurchaseRequest: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-      instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility:
-        {
-          serializedName:
-            "properties.reservedResourceProperties.instanceFlexibility",
-          type: {
-            name: "String",
-          },
+      instanceFlexibilityPropertiesReservedResourcePropertiesInstanceFlexibility: {
+        serializedName: "properties.reservedResourceProperties.instanceFlexibility",
+        type: {
+          name: "String",
         },
+      },
     },
   },
 };
@@ -6318,46 +6305,45 @@ export const ReservationList: coreClient.CompositeMapper = {
   },
 };
 
-export const ReservationOrderBillingPlanInformation: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationOrderBillingPlanInformation",
-      modelProperties: {
-        pricingCurrencyTotal: {
-          serializedName: "pricingCurrencyTotal",
-          type: {
-            name: "Composite",
-            className: "Price",
-          },
+export const ReservationOrderBillingPlanInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationOrderBillingPlanInformation",
+    modelProperties: {
+      pricingCurrencyTotal: {
+        serializedName: "pricingCurrencyTotal",
+        type: {
+          name: "Composite",
+          className: "Price",
         },
-        startDate: {
-          serializedName: "startDate",
-          type: {
-            name: "Date",
-          },
+      },
+      startDate: {
+        serializedName: "startDate",
+        type: {
+          name: "Date",
         },
-        nextPaymentDueDate: {
-          serializedName: "nextPaymentDueDate",
-          type: {
-            name: "Date",
-          },
+      },
+      nextPaymentDueDate: {
+        serializedName: "nextPaymentDueDate",
+        type: {
+          name: "Date",
         },
-        transactions: {
-          serializedName: "transactions",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "ReservationPaymentDetail",
-              },
+      },
+      transactions: {
+        serializedName: "transactions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReservationPaymentDetail",
             },
           },
         },
       },
     },
-  };
+  },
+};
 
 export const ReservationPaymentDetail: coreClient.CompositeMapper = {
   type: {
@@ -7194,16 +7180,15 @@ export const PaymentOnAccountAmount: coreClient.CompositeMapper = {
   },
 };
 
-export const AvailableBalancePropertiesTotalPaymentsOnAccount: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AvailableBalancePropertiesTotalPaymentsOnAccount",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const AvailableBalancePropertiesTotalPaymentsOnAccount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvailableBalancePropertiesTotalPaymentsOnAccount",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
 export const InvoicePropertiesAmountDue: coreClient.CompositeMapper = {
   type: {
@@ -7215,16 +7200,15 @@ export const InvoicePropertiesAmountDue: coreClient.CompositeMapper = {
   },
 };
 
-export const InvoicePropertiesAzurePrepaymentApplied: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicePropertiesAzurePrepaymentApplied",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const InvoicePropertiesAzurePrepaymentApplied: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicePropertiesAzurePrepaymentApplied",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
 export const InvoicePropertiesBilledAmount: coreClient.CompositeMapper = {
   type: {
@@ -7246,16 +7230,15 @@ export const InvoicePropertiesCreditAmount: coreClient.CompositeMapper = {
   },
 };
 
-export const InvoicePropertiesFreeAzureCreditApplied: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicePropertiesFreeAzureCreditApplied",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const InvoicePropertiesFreeAzureCreditApplied: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicePropertiesFreeAzureCreditApplied",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
 export const PaymentAmount: coreClient.CompositeMapper = {
   type: {
@@ -7327,27 +7310,25 @@ export const ProductPropertiesLastCharge: coreClient.CompositeMapper = {
   },
 };
 
-export const TransactionPropertiesAzureCreditApplied: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TransactionPropertiesAzureCreditApplied",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const TransactionPropertiesAzureCreditApplied: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransactionPropertiesAzureCreditApplied",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
-export const TransactionPropertiesConsumptionCommitmentDecremented: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TransactionPropertiesConsumptionCommitmentDecremented",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const TransactionPropertiesConsumptionCommitmentDecremented: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransactionPropertiesConsumptionCommitmentDecremented",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
 export const TransactionPropertiesEffectivePrice: coreClient.CompositeMapper = {
   type: {
@@ -7389,82 +7370,75 @@ export const TransactionPropertiesTax: coreClient.CompositeMapper = {
   },
 };
 
-export const TransactionPropertiesTransactionAmount: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TransactionPropertiesTransactionAmount",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const TransactionPropertiesTransactionAmount: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransactionPropertiesTransactionAmount",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
-export const RefundTransactionDetailsAmountRequested: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RefundTransactionDetailsAmountRequested",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const RefundTransactionDetailsAmountRequested: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RefundTransactionDetailsAmountRequested",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
-export const RefundTransactionDetailsAmountRefunded: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RefundTransactionDetailsAmountRefunded",
-      modelProperties: {
-        ...Amount.type.modelProperties,
-      },
+export const RefundTransactionDetailsAmountRefunded: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RefundTransactionDetailsAmountRefunded",
+    modelProperties: {
+      ...Amount.type.modelProperties,
     },
-  };
+  },
+};
 
-export const BillingProfilePropertiesCurrentPaymentTerm: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingProfilePropertiesCurrentPaymentTerm",
-      modelProperties: {
-        ...PaymentTerm.type.modelProperties,
-      },
+export const BillingProfilePropertiesCurrentPaymentTerm: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingProfilePropertiesCurrentPaymentTerm",
+    modelProperties: {
+      ...PaymentTerm.type.modelProperties,
     },
-  };
+  },
+};
 
-export const BillingAccountPropertiesEnrollmentDetails: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingAccountPropertiesEnrollmentDetails",
-      modelProperties: {
-        ...EnrollmentDetails.type.modelProperties,
-      },
+export const BillingAccountPropertiesEnrollmentDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingAccountPropertiesEnrollmentDetails",
+    modelProperties: {
+      ...EnrollmentDetails.type.modelProperties,
     },
-  };
+  },
+};
 
-export const EnrollmentDetailsIndirectRelationshipInfo: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "EnrollmentDetailsIndirectRelationshipInfo",
-      modelProperties: {
-        ...IndirectRelationshipInfo.type.modelProperties,
-      },
+export const EnrollmentDetailsIndirectRelationshipInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnrollmentDetailsIndirectRelationshipInfo",
+    modelProperties: {
+      ...IndirectRelationshipInfo.type.modelProperties,
     },
-  };
+  },
+};
 
-export const BillingProfilePropertiesIndirectRelationshipInfo: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingProfilePropertiesIndirectRelationshipInfo",
-      modelProperties: {
-        ...IndirectRelationshipInfo.type.modelProperties,
-      },
+export const BillingProfilePropertiesIndirectRelationshipInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingProfilePropertiesIndirectRelationshipInfo",
+    modelProperties: {
+      ...IndirectRelationshipInfo.type.modelProperties,
     },
-  };
+  },
+};
 
 export const BillingAccountPropertiesSoldTo: coreClient.CompositeMapper = {
   type: {
@@ -7517,27 +7491,25 @@ export const BillingPropertyPropertiesSubscriptionServiceUsageAddress: coreClien
     },
   };
 
-export const BillingAccountPropertiesRegistrationNumber: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingAccountPropertiesRegistrationNumber",
-      modelProperties: {
-        ...RegistrationNumber.type.modelProperties,
-      },
+export const BillingAccountPropertiesRegistrationNumber: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingAccountPropertiesRegistrationNumber",
+    modelProperties: {
+      ...RegistrationNumber.type.modelProperties,
     },
-  };
+  },
+};
 
-export const BillingPropertyPropertiesEnrollmentDetails: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingPropertyPropertiesEnrollmentDetails",
-      modelProperties: {
-        ...SubscriptionEnrollmentDetails.type.modelProperties,
-      },
+export const BillingPropertyPropertiesEnrollmentDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingPropertyPropertiesEnrollmentDetails",
+    modelProperties: {
+      ...SubscriptionEnrollmentDetails.type.modelProperties,
     },
-  };
+  },
+};
 
 export const BillingRequestPropertiesReviewedBy: coreClient.CompositeMapper = {
   type: {
@@ -7559,16 +7531,15 @@ export const BillingRequestPropertiesCreatedBy: coreClient.CompositeMapper = {
   },
 };
 
-export const BillingRequestPropertiesLastUpdatedBy: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRequestPropertiesLastUpdatedBy",
-      modelProperties: {
-        ...Principal.type.modelProperties,
-      },
+export const BillingRequestPropertiesLastUpdatedBy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRequestPropertiesLastUpdatedBy",
+    modelProperties: {
+      ...Principal.type.modelProperties,
     },
-  };
+  },
+};
 
 export const Commitment: coreClient.CompositeMapper = {
   type: {
@@ -7655,27 +7626,25 @@ export const BillingAccountPolicyPropertiesEnterpriseAgreementPolicies: coreClie
     },
   };
 
-export const MoveProductEligibilityResultErrorDetails: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "MoveProductEligibilityResultErrorDetails",
-      modelProperties: {
-        ...MoveProductErrorDetails.type.modelProperties,
-      },
+export const MoveProductEligibilityResultErrorDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MoveProductEligibilityResultErrorDetails",
+    modelProperties: {
+      ...MoveProductErrorDetails.type.modelProperties,
     },
-  };
+  },
+};
 
-export const TransactionPropertiesRefundTransactionDetails: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TransactionPropertiesRefundTransactionDetails",
-      modelProperties: {
-        ...RefundTransactionDetails.type.modelProperties,
-      },
+export const TransactionPropertiesRefundTransactionDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransactionPropertiesRefundTransactionDetails",
+    modelProperties: {
+      ...RefundTransactionDetails.type.modelProperties,
     },
-  };
+  },
+};
 
 export const ProxyResourceWithTags: coreClient.CompositeMapper = {
   type: {
@@ -10212,71 +10181,68 @@ export const AssociatedTenantsDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const AssociatedTenantsCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "AssociatedTenantsCreateOrUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const AssociatedTenantsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssociatedTenantsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingAccountsAddPaymentTermsHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingAccountsAddPaymentTermsHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingAccountsAddPaymentTermsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingAccountsAddPaymentTermsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingAccountsCancelPaymentTermsHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingAccountsCancelPaymentTermsHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingAccountsCancelPaymentTermsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingAccountsCancelPaymentTermsHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const BillingAccountsUpdateHeaders: coreClient.CompositeMapper = {
   type: {
@@ -10320,181 +10286,173 @@ export const BillingProfilesDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const BillingProfilesCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingProfilesCreateOrUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingProfilesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingProfilesCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRequestsCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRequestsCreateOrUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRequestsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRequestsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsCreateByBillingProfileHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsCreateByBillingProfileHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsCreateByBillingProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsCreateByBillingProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsCreateByCustomerHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsCreateByCustomerHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsCreateByCustomerHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsCreateByCustomerHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsResolveByCustomerHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsResolveByCustomerHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsResolveByCustomerHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsResolveByCustomerHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsCreateByInvoiceSectionHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsCreateByInvoiceSectionHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsCreateByInvoiceSectionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsCreateByInvoiceSectionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsResolveByInvoiceSectionHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsResolveByInvoiceSectionHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsResolveByInvoiceSectionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsResolveByInvoiceSectionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsResolveByBillingProfileHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsResolveByBillingProfileHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsResolveByBillingProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsResolveByBillingProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const BillingRoleAssignmentsCreateOrUpdateByBillingAccountHeaders: coreClient.CompositeMapper =
   {
@@ -10518,56 +10476,53 @@ export const BillingRoleAssignmentsCreateOrUpdateByBillingAccountHeaders: coreCl
     },
   };
 
-export const BillingRoleAssignmentsCreateByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsCreateByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsCreateByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsCreateByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsCreateOrUpdateByDepartmentHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
-      className:
-        "BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders",
+      className: "BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders",
       modelProperties: {
         location: {
           serializedName: "location",
@@ -10585,55 +10540,53 @@ export const BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountHeaders: cor
     },
   };
 
-export const BillingRoleAssignmentsResolveByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingRoleAssignmentsResolveByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingRoleAssignmentsResolveByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingRoleAssignmentsResolveByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const SavingsPlansUpdateByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SavingsPlansUpdateByBillingAccountHeaders",
-      modelProperties: {
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
+export const SavingsPlansUpdateByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SavingsPlansUpdateByBillingAccountHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
         },
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const BillingSubscriptionsCancelHeaders: coreClient.CompositeMapper = {
   type: {
@@ -10761,49 +10714,47 @@ export const BillingSubscriptionsUpdateHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const BillingSubscriptionsAliasesCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BillingSubscriptionsAliasesCreateOrUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const BillingSubscriptionsAliasesCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BillingSubscriptionsAliasesCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const InvoicesDownloadDocumentsByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicesDownloadDocumentsByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoicesDownloadDocumentsByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicesDownloadDocumentsByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const InvoicesAmendHeaders: coreClient.CompositeMapper = {
   type: {
@@ -10826,93 +10777,89 @@ export const InvoicesAmendHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const InvoicesDownloadByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicesDownloadByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoicesDownloadByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicesDownloadByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const InvoicesDownloadSummaryByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicesDownloadSummaryByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoicesDownloadSummaryByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicesDownloadSummaryByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const InvoicesDownloadDocumentsByBillingSubscriptionHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicesDownloadDocumentsByBillingSubscriptionHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoicesDownloadDocumentsByBillingSubscriptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicesDownloadDocumentsByBillingSubscriptionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const InvoicesDownloadByBillingSubscriptionHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoicesDownloadByBillingSubscriptionHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoicesDownloadByBillingSubscriptionHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoicesDownloadByBillingSubscriptionHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const InvoiceSectionsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
@@ -10935,115 +10882,110 @@ export const InvoiceSectionsDeleteHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const InvoiceSectionsCreateOrUpdateHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "InvoiceSectionsCreateOrUpdateHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const InvoiceSectionsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvoiceSectionsCreateOrUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const PoliciesCreateOrUpdateByCustomerHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PoliciesCreateOrUpdateByCustomerHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PoliciesCreateOrUpdateByCustomerHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PoliciesCreateOrUpdateByCustomerHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const PoliciesCreateOrUpdateByBillingProfileHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PoliciesCreateOrUpdateByBillingProfileHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PoliciesCreateOrUpdateByBillingProfileHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PoliciesCreateOrUpdateByBillingProfileHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PoliciesCreateOrUpdateByCustomerAtBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const PoliciesCreateOrUpdateByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PoliciesCreateOrUpdateByBillingAccountHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PoliciesCreateOrUpdateByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PoliciesCreateOrUpdateByBillingAccountHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const ProductsMoveHeaders: coreClient.CompositeMapper = {
   type: {
@@ -11066,52 +11008,50 @@ export const ProductsMoveHeaders: coreClient.CompositeMapper = {
   },
 };
 
-export const ReservationsUpdateByBillingAccountHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ReservationsUpdateByBillingAccountHeaders",
-      modelProperties: {
-        azureAsyncOperation: {
-          serializedName: "azure-asyncoperation",
-          type: {
-            name: "String",
-          },
+export const ReservationsUpdateByBillingAccountHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ReservationsUpdateByBillingAccountHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
         },
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
-export const TransactionsTransactionsDownloadByInvoiceHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "TransactionsTransactionsDownloadByInvoiceHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const TransactionsTransactionsDownloadByInvoiceHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TransactionsTransactionsDownloadByInvoiceHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        retryAfter: {
-          serializedName: "retry-after",
-          type: {
-            name: "Number",
-          },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};

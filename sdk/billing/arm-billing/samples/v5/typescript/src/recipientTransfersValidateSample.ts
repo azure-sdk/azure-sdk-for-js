@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Validates if a subscription or a reservation can be transferred. Use this operation to validate your subscriptions or reservation before using the accept transfer operation.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/recipientTransfersValidate.json
  */
-async function validateTransfer() {
+async function validateTransfer(): Promise<void> {
   const transferName = "aabb123";
   const parameters: AcceptTransferRequest = {
     productDetails: [
@@ -35,7 +35,7 @@ async function validateTransfer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateTransfer();
 }
 

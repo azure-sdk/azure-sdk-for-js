@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Product,
@@ -204,11 +200,7 @@ export class ProductsImpl implements Products {
     let result: ProductsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -254,11 +246,7 @@ export class ProductsImpl implements Products {
     customerName: string,
     options?: ProductsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
-    const iter = this.listByCustomerPagingAll(
-      billingAccountName,
-      customerName,
-      options,
-    );
+    const iter = this.listByCustomerPagingAll(billingAccountName, customerName, options);
     return {
       next() {
         return iter.next();
@@ -270,12 +258,7 @@ export class ProductsImpl implements Products {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByCustomerPagingPage(
-          billingAccountName,
-          customerName,
-          options,
-          settings,
-        );
+        return this.listByCustomerPagingPage(billingAccountName, customerName, options, settings);
       },
     };
   }
@@ -289,11 +272,7 @@ export class ProductsImpl implements Products {
     let result: ProductsListByCustomerResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCustomer(
-        billingAccountName,
-        customerName,
-        options,
-      );
+      result = await this._listByCustomer(billingAccountName, customerName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -338,10 +317,7 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     options?: ProductsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Product> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -353,11 +329,7 @@ export class ProductsImpl implements Products {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -377,11 +349,7 @@ export class ProductsImpl implements Products {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -393,10 +361,7 @@ export class ProductsImpl implements Products {
     billingAccountName: string,
     options?: ProductsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<Product> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -473,9 +438,7 @@ export class ProductsImpl implements Products {
     productName: string,
     parameters: MoveProductRequest,
     options?: ProductsMoveOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ProductsMoveResponse>, ProductsMoveResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<ProductsMoveResponse>, ProductsMoveResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -486,8 +449,7 @@ export class ProductsImpl implements Products {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -547,12 +509,7 @@ export class ProductsImpl implements Products {
     parameters: MoveProductRequest,
     options?: ProductsMoveOptionalParams,
   ): Promise<ProductsMoveResponse> {
-    const poller = await this.beginMove(
-      billingAccountName,
-      productName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginMove(billingAccountName, productName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -766,11 +723,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.count,
     Parameters.search,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -794,11 +747,7 @@ const listByCustomerOperationSpec: coreClient.OperationSpec = {
     Parameters.count,
     Parameters.search,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.customerName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -824,11 +773,7 @@ const moveOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.productName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.productName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -846,11 +791,7 @@ const validateMoveEligibilityOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.productName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.productName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -867,11 +808,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.productName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.productName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -888,11 +825,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters23,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.productName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.productName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -993,11 +926,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

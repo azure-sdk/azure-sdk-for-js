@@ -94,9 +94,7 @@ export interface Products {
     productName: string,
     parameters: MoveProductRequest,
     options?: ProductsMoveOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<ProductsMoveResponse>, ProductsMoveResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<ProductsMoveResponse>, ProductsMoveResponse>>;
   /**
    * Moves a product's charges to a new invoice section. The new invoice section must belong to the same
    * billing profile as the existing invoice section. This operation is supported only for products that
