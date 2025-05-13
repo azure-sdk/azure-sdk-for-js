@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { StorageActionsManagementClient } from "../storageActionsManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   StorageTask,
@@ -27,18 +23,18 @@ import {
   StorageTasksListByResourceGroupNextOptionalParams,
   StorageTasksListByResourceGroupOptionalParams,
   StorageTasksListByResourceGroupResponse,
-  StorageTasksCreateOptionalParams,
-  StorageTasksCreateResponse,
-  StorageTasksDeleteOptionalParams,
-  StorageTasksDeleteResponse,
-  StorageTasksGetOptionalParams,
-  StorageTasksGetResponse,
-  StorageTaskUpdateParameters,
-  StorageTasksUpdateOptionalParams,
-  StorageTasksUpdateResponse,
   StorageTaskPreviewAction,
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksPreviewActionsResponse,
+  StorageTasksGetOptionalParams,
+  StorageTasksGetResponse,
+  StorageTasksCreateOptionalParams,
+  StorageTasksCreateResponse,
+  StorageTaskUpdateParameters,
+  StorageTasksUpdateOptionalParams,
+  StorageTasksUpdateResponse,
+  StorageTasksDeleteOptionalParams,
+  StorageTasksDeleteResponse,
   StorageTasksListBySubscriptionNextResponse,
   StorageTasksListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -131,11 +127,7 @@ export class StorageTasksImpl implements StorageTasks {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -155,11 +147,7 @@ export class StorageTasksImpl implements StorageTasks {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -171,12 +159,71 @@ export class StorageTasksImpl implements StorageTasks {
     resourceGroupName: string,
     options?: StorageTasksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<StorageTask> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
+  }
+
+  /**
+   * Runs the input conditions against input object metadata properties and designates matched objects in
+   * response.
+   * @param location
+   * @param parameters The parameters to preview action condition.
+   * @param options The options parameters.
+   */
+  previewActions(
+    location: string,
+    parameters: StorageTaskPreviewAction,
+    options?: StorageTasksPreviewActionsOptionalParams,
+  ): Promise<StorageTasksPreviewActionsResponse> {
+    return this.client.sendOperationRequest(
+      { location, parameters, options },
+      previewActionsOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all the storage tasks available under the subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: StorageTasksListBySubscriptionOptionalParams,
+  ): Promise<StorageTasksListBySubscriptionResponse> {
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
+  }
+
+  /**
+   * Lists all the storage tasks available under the given resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: StorageTasksListByResourceGroupOptionalParams,
+  ): Promise<StorageTasksListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Get the storage task properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    storageTaskName: string,
+    options?: StorageTasksGetOptionalParams,
+  ): Promise<StorageTasksGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, storageTaskName, options },
+      getOperationSpec,
+    );
   }
 
   /**
@@ -197,10 +244,7 @@ export class StorageTasksImpl implements StorageTasks {
     parameters: StorageTask,
     options?: StorageTasksCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StorageTasksCreateResponse>,
-      StorageTasksCreateResponse
-    >
+    SimplePollerLike<OperationState<StorageTasksCreateResponse>, StorageTasksCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -212,8 +256,7 @@ export class StorageTasksImpl implements StorageTasks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -275,126 +318,8 @@ export class StorageTasksImpl implements StorageTasks {
     parameters: StorageTask,
     options?: StorageTasksCreateOptionalParams,
   ): Promise<StorageTasksCreateResponse> {
-    const poller = await this.beginCreate(
-      resourceGroupName,
-      storageTaskName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreate(resourceGroupName, storageTaskName, parameters, options);
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Delete the storage task resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksDeleteOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<StorageTasksDeleteResponse>,
-      StorageTasksDeleteResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<StorageTasksDeleteResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, storageTaskName, options },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      StorageTasksDeleteResponse,
-      OperationState<StorageTasksDeleteResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete the storage task resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksDeleteOptionalParams,
-  ): Promise<StorageTasksDeleteResponse> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      storageTaskName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Get the storage task properties
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param storageTaskName The name of the storage task within the specified resource group. Storage
-   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
-   *                        only.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    storageTaskName: string,
-    options?: StorageTasksGetOptionalParams,
-  ): Promise<StorageTasksGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, storageTaskName, options },
-      getOperationSpec,
-    );
   }
 
   /**
@@ -412,10 +337,7 @@ export class StorageTasksImpl implements StorageTasks {
     parameters: StorageTaskUpdateParameters,
     options?: StorageTasksUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StorageTasksUpdateResponse>,
-      StorageTasksUpdateResponse
-    >
+    SimplePollerLike<OperationState<StorageTasksUpdateResponse>, StorageTasksUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -427,8 +349,7 @@ export class StorageTasksImpl implements StorageTasks {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -487,59 +408,94 @@ export class StorageTasksImpl implements StorageTasks {
     parameters: StorageTaskUpdateParameters,
     options?: StorageTasksUpdateOptionalParams,
   ): Promise<StorageTasksUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      storageTaskName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, storageTaskName, parameters, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Lists all the storage tasks available under the subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: StorageTasksListBySubscriptionOptionalParams,
-  ): Promise<StorageTasksListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all the storage tasks available under the given resource group.
+   * Delete the storage task resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
    * @param options The options parameters.
    */
-  private _listByResourceGroup(
+  async beginDelete(
     resourceGroupName: string,
-    options?: StorageTasksListByResourceGroupOptionalParams,
-  ): Promise<StorageTasksListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
-    );
+    storageTaskName: string,
+    options?: StorageTasksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<StorageTasksDeleteResponse>, StorageTasksDeleteResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<StorageTasksDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, storageTaskName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      StorageTasksDeleteResponse,
+      OperationState<StorageTasksDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Runs the input conditions against input object metadata properties and designates matched objects in
-   * response.
-   * @param location The location to perform preview of the actions.
-   * @param parameters The parameters to preview action condition.
+   * Delete the storage task resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param storageTaskName The name of the storage task within the specified resource group. Storage
+   *                        task names must be between 3 and 18 characters in length and use numbers and lower-case letters
+   *                        only.
    * @param options The options parameters.
    */
-  previewActions(
-    location: string,
-    parameters: StorageTaskPreviewAction,
-    options?: StorageTasksPreviewActionsOptionalParams,
-  ): Promise<StorageTasksPreviewActionsResponse> {
-    return this.client.sendOperationRequest(
-      { location, parameters, options },
-      previewActionsOperationSpec,
-    );
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    storageTaskName: string,
+    options?: StorageTasksDeleteOptionalParams,
+  ): Promise<StorageTasksDeleteResponse> {
+    const poller = await this.beginDelete(resourceGroupName, storageTaskName, options);
+    return poller.pollUntilDone();
   }
 
   /**
@@ -577,21 +533,12 @@ export class StorageTasksImpl implements StorageTasks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
-  httpMethod: "PUT",
+const previewActionsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/locations/{location}/previewActions",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    201: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    202: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    204: {
-      bodyMapper: Mappers.StorageTask,
+      bodyMapper: Mappers.StorageTaskPreviewAction,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -599,95 +546,7 @@ const createOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.storageTaskName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      headersMapper: Mappers.StorageTasksDeleteHeaders,
-    },
-    201: {
-      headersMapper: Mappers.StorageTasksDeleteHeaders,
-    },
-    202: {
-      headersMapper: Mappers.StorageTasksDeleteHeaders,
-    },
-    204: {
-      headersMapper: Mappers.StorageTasksDeleteHeaders,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.storageTaskName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.storageTaskName,
-    Parameters.subscriptionId,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    201: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    202: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    204: {
-      bodyMapper: Mappers.StorageTask,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.storageTaskName,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.location],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -720,20 +579,78 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageTaskName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const previewActionsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.StorageActions/locations/{location}/previewActions",
-  httpMethod: "POST",
+const createOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
+  httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.StorageTaskPreviewAction,
+      bodyMapper: Mappers.StorageTask,
+    },
+    201: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    202: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    204: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageTaskName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    201: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    202: {
+      bodyMapper: Mappers.StorageTask,
+    },
+    204: {
+      bodyMapper: Mappers.StorageTask,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -744,10 +661,41 @@ const previewActionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.resourceGroupName,
+    Parameters.storageTaskName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageActions/storageTasks/{storageTaskName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.StorageTasksDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.StorageTasksDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.StorageTasksDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.StorageTasksDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.storageTaskName,
+  ],
+  headerParameters: [Parameters.accept],
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
@@ -761,11 +709,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -783,8 +727,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
