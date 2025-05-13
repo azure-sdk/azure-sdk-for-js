@@ -13,21 +13,29 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
-  DryrunResource,
-  ConnectorListDryrunNextOptionalParams,
-  ConnectorListDryrunOptionalParams,
-  ConnectorListDryrunResponse,
   LinkerResource,
   ConnectorListNextOptionalParams,
   ConnectorListOptionalParams,
   ConnectorListResponse,
+  DryrunResource,
+  ConnectorListDryrunNextOptionalParams,
+  ConnectorListDryrunOptionalParams,
+  ConnectorListDryrunResponse,
+  ConnectorGetOptionalParams,
+  ConnectorGetResponse,
+  ConnectorCreateOrUpdateOptionalParams,
+  ConnectorCreateOrUpdateResponse,
+  LinkerPatch,
+  ConnectorUpdateOptionalParams,
+  ConnectorUpdateResponse,
+  ConnectorDeleteOptionalParams,
+  ConnectorGenerateConfigurationsOptionalParams,
+  ConnectorGenerateConfigurationsResponse,
+  ConnectorValidateOptionalParams,
+  ConnectorValidateResponse,
   ConnectorGetDryrunOptionalParams,
   ConnectorGetDryrunResponse,
   ConnectorCreateDryrunOptionalParams,
@@ -36,20 +44,8 @@ import {
   ConnectorUpdateDryrunOptionalParams,
   ConnectorUpdateDryrunResponse,
   ConnectorDeleteDryrunOptionalParams,
-  ConnectorGetOptionalParams,
-  ConnectorGetResponse,
-  ConnectorCreateOrUpdateOptionalParams,
-  ConnectorCreateOrUpdateResponse,
-  ConnectorDeleteOptionalParams,
-  LinkerPatch,
-  ConnectorUpdateOptionalParams,
-  ConnectorUpdateResponse,
-  ConnectorValidateOptionalParams,
-  ConnectorValidateResponse,
-  ConnectorGenerateConfigurationsOptionalParams,
-  ConnectorGenerateConfigurationsResponse,
-  ConnectorListDryrunNextResponse,
   ConnectorListNextResponse,
+  ConnectorListDryrunNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,118 +62,18 @@ export class ConnectorImpl implements Connector {
   }
 
   /**
-   * list dryrun jobs
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param options The options parameters.
-   */
-  public listDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    options?: ConnectorListDryrunOptionalParams,
-  ): PagedAsyncIterableIterator<DryrunResource> {
-    const iter = this.listDryrunPagingAll(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listDryrunPagingPage(
-          subscriptionId,
-          resourceGroupName,
-          location,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listDryrunPagingPage(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    options?: ConnectorListDryrunOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<DryrunResource[]> {
-    let result: ConnectorListDryrunResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listDryrun(
-        subscriptionId,
-        resourceGroupName,
-        location,
-        options,
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listDryrunNext(
-        subscriptionId,
-        resourceGroupName,
-        location,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listDryrunPagingAll(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    options?: ConnectorListDryrunOptionalParams,
-  ): AsyncIterableIterator<DryrunResource> {
-    for await (const page of this.listDryrunPagingPage(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Returns list of connector which connects to the resource, which supports to config the target
    * service during the resource provision.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     options?: ConnectorListOptionalParams,
   ): PagedAsyncIterableIterator<LinkerResource> {
-    const iter = this.listPagingAll(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, location, options);
     return {
       next() {
         return iter.next();
@@ -189,19 +85,12 @@ export class ConnectorImpl implements Connector {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          subscriptionId,
-          resourceGroupName,
-          location,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, location, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     options?: ConnectorListOptionalParams,
@@ -210,25 +99,14 @@ export class ConnectorImpl implements Connector {
     let result: ConnectorListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        subscriptionId,
-        resourceGroupName,
-        location,
-        options,
-      );
+      result = await this._list(resourceGroupName, location, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        subscriptionId,
-        resourceGroupName,
-        location,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, location, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -237,358 +115,123 @@ export class ConnectorImpl implements Connector {
   }
 
   private async *listPagingAll(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     options?: ConnectorListOptionalParams,
   ): AsyncIterableIterator<LinkerResource> {
-    for await (const page of this.listPagingPage(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, location, options)) {
       yield* page;
     }
   }
 
   /**
    * list dryrun jobs
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
-  private _listDryrun(
-    subscriptionId: string,
+  public listDryrun(
     resourceGroupName: string,
     location: string,
     options?: ConnectorListDryrunOptionalParams,
-  ): Promise<ConnectorListDryrunResponse> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, options },
-      listDryrunOperationSpec,
-    );
-  }
-
-  /**
-   * get a dryrun job
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param options The options parameters.
-   */
-  getDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    options?: ConnectorGetDryrunOptionalParams,
-  ): Promise<ConnectorGetDryrunResponse> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, dryrunName, options },
-      getDryrunOperationSpec,
-    );
-  }
-
-  /**
-   * create a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  async beginCreateDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunResource,
-    options?: ConnectorCreateDryrunOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorCreateDryrunResponse>,
-      ConnectorCreateDryrunResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ConnectorCreateDryrunResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        dryrunName,
-        parameters,
-        options,
+  ): PagedAsyncIterableIterator<DryrunResource> {
+    const iter = this.listDryrunPagingAll(resourceGroupName, location, options);
+    return {
+      next() {
+        return iter.next();
       },
-      spec: createDryrunOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ConnectorCreateDryrunResponse,
-      OperationState<ConnectorCreateDryrunResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * create a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  async beginCreateDryrunAndWait(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunResource,
-    options?: ConnectorCreateDryrunOptionalParams,
-  ): Promise<ConnectorCreateDryrunResponse> {
-    const poller = await this.beginCreateDryrun(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      dryrunName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * update a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  async beginUpdateDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunPatch,
-    options?: ConnectorUpdateDryrunOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorUpdateDryrunResponse>,
-      ConnectorUpdateDryrunResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<ConnectorUpdateDryrunResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        dryrunName,
-        parameters,
-        options,
+      [Symbol.asyncIterator]() {
+        return this;
       },
-      spec: updateDryrunOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      ConnectorUpdateDryrunResponse,
-      OperationState<ConnectorUpdateDryrunResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listDryrunPagingPage(resourceGroupName, location, options, settings);
+      },
+    };
   }
 
-  /**
-   * update a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  async beginUpdateDryrunAndWait(
-    subscriptionId: string,
+  private async *listDryrunPagingPage(
     resourceGroupName: string,
     location: string,
-    dryrunName: string,
-    parameters: DryrunPatch,
-    options?: ConnectorUpdateDryrunOptionalParams,
-  ): Promise<ConnectorUpdateDryrunResponse> {
-    const poller = await this.beginUpdateDryrun(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      dryrunName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
+    options?: ConnectorListDryrunOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<DryrunResource[]> {
+    let result: ConnectorListDryrunResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listDryrun(resourceGroupName, location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listDryrunNext(resourceGroupName, location, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
-  /**
-   * delete a dryrun job
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param options The options parameters.
-   */
-  deleteDryrun(
-    subscriptionId: string,
+  private async *listDryrunPagingAll(
     resourceGroupName: string,
     location: string,
-    dryrunName: string,
-    options?: ConnectorDeleteDryrunOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, dryrunName, options },
-      deleteDryrunOperationSpec,
-    );
+    options?: ConnectorListDryrunOptionalParams,
+  ): AsyncIterableIterator<DryrunResource> {
+    for await (const page of this.listDryrunPagingPage(resourceGroupName, location, options)) {
+      yield* page;
+    }
   }
 
   /**
    * Returns list of connector which connects to the resource, which supports to config the target
    * service during the resource provision.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     options?: ConnectorListOptionalParams,
   ): Promise<ConnectorListResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, options },
+      { resourceGroupName, location, options },
       listOperationSpec,
     );
   }
 
   /**
    * Returns Connector resource for a given name.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
   get(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     options?: ConnectorGetOptionalParams,
   ): Promise<ConnectorGetResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, connectorName, options },
+      { resourceGroupName, location, connectorName, options },
       getOperationSpec,
     );
   }
 
   /**
    * Create or update Connector resource.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -610,8 +253,7 @@ export class ConnectorImpl implements Connector {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -640,14 +282,7 @@ export class ConnectorImpl implements Connector {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        connectorName,
-        parameters,
-        options,
-      },
+      args: { resourceGroupName, location, connectorName, parameters, options },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -664,15 +299,13 @@ export class ConnectorImpl implements Connector {
 
   /**
    * Create or update Connector resource.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -680,7 +313,6 @@ export class ConnectorImpl implements Connector {
     options?: ConnectorCreateOrUpdateOptionalParams,
   ): Promise<ConnectorCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      subscriptionId,
       resourceGroupName,
       location,
       connectorName,
@@ -691,125 +323,20 @@ export class ConnectorImpl implements Connector {
   }
 
   /**
-   * Delete a Connector.
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param connectorName The name of resource.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    connectorName: string,
-    options?: ConnectorDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        connectorName,
-        options,
-      },
-      spec: deleteOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Delete a Connector.
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param connectorName The name of resource.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    connectorName: string,
-    options?: ConnectorDeleteOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      subscriptionId,
-      resourceGroupName,
-      location,
-      connectorName,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * Operation to update an existing Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   async beginUpdate(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     parameters: LinkerPatch,
     options?: ConnectorUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorUpdateResponse>,
-      ConnectorUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<ConnectorUpdateResponse>, ConnectorUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -820,8 +347,7 @@ export class ConnectorImpl implements Connector {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -850,14 +376,7 @@ export class ConnectorImpl implements Connector {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        connectorName,
-        parameters,
-        options,
-      },
+      args: { resourceGroupName, location, connectorName, parameters, options },
       spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -874,15 +393,13 @@ export class ConnectorImpl implements Connector {
 
   /**
    * Operation to update an existing Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -890,7 +407,6 @@ export class ConnectorImpl implements Connector {
     options?: ConnectorUpdateOptionalParams,
   ): Promise<ConnectorUpdateResponse> {
     const poller = await this.beginUpdate(
-      subscriptionId,
       resourceGroupName,
       location,
       connectorName,
@@ -901,37 +417,29 @@ export class ConnectorImpl implements Connector {
   }
 
   /**
-   * Validate a Connector.
-   * @param subscriptionId The ID of the target subscription.
+   * Delete a Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
-  async beginValidate(
-    subscriptionId: string,
+  async beginDelete(
     resourceGroupName: string,
     location: string,
     connectorName: string,
-    options?: ConnectorValidateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorValidateResponse>,
-      ConnectorValidateResponse
-    >
-  > {
+    options?: ConnectorDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<ConnectorValidateResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -960,13 +468,109 @@ export class ConnectorImpl implements Connector {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        subscriptionId,
-        resourceGroupName,
-        location,
-        connectorName,
-        options,
-      },
+      args: { resourceGroupName, location, connectorName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorDeleteOptionalParams,
+  ): Promise<void> {
+    const poller = await this.beginDelete(resourceGroupName, location, connectorName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Generate configurations for a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  generateConfigurations(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorGenerateConfigurationsOptionalParams,
+  ): Promise<ConnectorGenerateConfigurationsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, location, connectorName, options },
+      generateConfigurationsOperationSpec,
+    );
+  }
+
+  /**
+   * Validate a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  async beginValidate(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorValidateOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConnectorValidateResponse>, ConnectorValidateResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectorValidateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, connectorName, options },
       spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -983,227 +587,311 @@ export class ConnectorImpl implements Connector {
 
   /**
    * Validate a Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
   async beginValidateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     options?: ConnectorValidateOptionalParams,
   ): Promise<ConnectorValidateResponse> {
-    const poller = await this.beginValidate(
-      subscriptionId,
+    const poller = await this.beginValidate(resourceGroupName, location, connectorName, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * list dryrun jobs
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param options The options parameters.
+   */
+  private _listDryrun(
+    resourceGroupName: string,
+    location: string,
+    options?: ConnectorListDryrunOptionalParams,
+  ): Promise<ConnectorListDryrunResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, location, options },
+      listDryrunOperationSpec,
+    );
+  }
+
+  /**
+   * get a dryrun job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param options The options parameters.
+   */
+  getDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    options?: ConnectorGetDryrunOptionalParams,
+  ): Promise<ConnectorGetDryrunResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, location, dryrunName, options },
+      getDryrunOperationSpec,
+    );
+  }
+
+  /**
+   * create a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  async beginCreateDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunResource,
+    options?: ConnectorCreateDryrunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConnectorCreateDryrunResponse>, ConnectorCreateDryrunResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectorCreateDryrunResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, dryrunName, parameters, options },
+      spec: createDryrunOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectorCreateDryrunResponse,
+      OperationState<ConnectorCreateDryrunResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * create a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  async beginCreateDryrunAndWait(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunResource,
+    options?: ConnectorCreateDryrunOptionalParams,
+  ): Promise<ConnectorCreateDryrunResponse> {
+    const poller = await this.beginCreateDryrun(
       resourceGroupName,
       location,
-      connectorName,
+      dryrunName,
+      parameters,
       options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Generate configurations for a Connector.
-   * @param subscriptionId The ID of the target subscription.
+   * update a dryrun job to do necessary check before actual creation
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
    * @param options The options parameters.
    */
-  generateConfigurations(
-    subscriptionId: string,
+  async beginUpdateDryrun(
     resourceGroupName: string,
     location: string,
-    connectorName: string,
-    options?: ConnectorGenerateConfigurationsOptionalParams,
-  ): Promise<ConnectorGenerateConfigurationsResponse> {
-    return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, connectorName, options },
-      generateConfigurationsOperationSpec,
-    );
+    dryrunName: string,
+    parameters: DryrunPatch,
+    options?: ConnectorUpdateDryrunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConnectorUpdateDryrunResponse>, ConnectorUpdateDryrunResponse>
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ConnectorUpdateDryrunResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, location, dryrunName, parameters, options },
+      spec: updateDryrunOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ConnectorUpdateDryrunResponse,
+      OperationState<ConnectorUpdateDryrunResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "original-uri",
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * ListDryrunNext
-   * @param subscriptionId The ID of the target subscription.
+   * update a dryrun job to do necessary check before actual creation
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param nextLink The nextLink from the previous successful call to the ListDryrun method.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
    * @param options The options parameters.
    */
-  private _listDryrunNext(
-    subscriptionId: string,
+  async beginUpdateDryrunAndWait(
     resourceGroupName: string,
     location: string,
-    nextLink: string,
-    options?: ConnectorListDryrunNextOptionalParams,
-  ): Promise<ConnectorListDryrunNextResponse> {
+    dryrunName: string,
+    parameters: DryrunPatch,
+    options?: ConnectorUpdateDryrunOptionalParams,
+  ): Promise<ConnectorUpdateDryrunResponse> {
+    const poller = await this.beginUpdateDryrun(
+      resourceGroupName,
+      location,
+      dryrunName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * delete a dryrun job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param options The options parameters.
+   */
+  deleteDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    options?: ConnectorDeleteDryrunOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, nextLink, options },
-      listDryrunNextOperationSpec,
+      { resourceGroupName, location, dryrunName, options },
+      deleteDryrunOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     nextLink: string,
     options?: ConnectorListNextOptionalParams,
   ): Promise<ConnectorListNextResponse> {
     return this.client.sendOperationRequest(
-      { subscriptionId, resourceGroupName, location, nextLink, options },
+      { resourceGroupName, location, nextLink, options },
       listNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListDryrunNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param nextLink The nextLink from the previous successful call to the ListDryrun method.
+   * @param options The options parameters.
+   */
+  private _listDryrunNext(
+    resourceGroupName: string,
+    location: string,
+    nextLink: string,
+    options?: ConnectorListDryrunNextOptionalParams,
+  ): Promise<ConnectorListDryrunNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, location, nextLink, options },
+      listDryrunNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DryrunList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.dryrunName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const createDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    201: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    202: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    204: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.dryrunName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    201: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    202: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    204: {
-      bodyMapper: Mappers.DryrunResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.dryrunName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteDryrunOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.dryrunName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors",
   httpMethod: "GET",
   responses: {
     200: {
@@ -1224,7 +912,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -1246,7 +934,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -1265,7 +953,40 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+    Parameters.connectorName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkerResource,
+    },
+    201: {
+      bodyMapper: Mappers.LinkerResource,
+    },
+    202: {
+      bodyMapper: Mappers.LinkerResource,
+    },
+    204: {
+      bodyMapper: Mappers.LinkerResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1279,7 +1000,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -1301,72 +1022,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    201: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    202: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    204: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.connectorName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const validateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    201: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    202: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    204: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.location,
-    Parameters.connectorName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const generateConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}/generateConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}/generateConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
@@ -1389,8 +1046,39 @@ const generateConfigurationsOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const listDryrunNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const validateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/connectors/{connectorName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    201: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    202: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    204: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+    Parameters.connectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listDryrunOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns",
   httpMethod: "GET",
   responses: {
     200: {
@@ -1400,12 +1088,121 @@ const listDryrunNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.location,
-    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getDryrunOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dryrunName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createDryrunOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    201: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    202: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    204: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dryrunName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateDryrunOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    201: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    202: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    204: {
+      bodyMapper: Mappers.DryrunResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dryrunName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteDryrunOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceLinker/locations/{location}/dryruns/{dryrunName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.dryrunName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1423,10 +1220,31 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listDryrunNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DryrunList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
     Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

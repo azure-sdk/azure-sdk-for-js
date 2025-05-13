@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  ConfigurationNameItem,
-  ConfigurationNamesListOptionalParams,
-} from "../models/index.js";
+import { ConfigurationNameItem, ConfigurationNamesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationNames. */

@@ -15,14 +15,14 @@ import {
   LinkerGetResponse,
   LinkerCreateOrUpdateOptionalParams,
   LinkerCreateOrUpdateResponse,
-  LinkerDeleteOptionalParams,
   LinkerPatch,
   LinkerUpdateOptionalParams,
   LinkerUpdateResponse,
-  LinkerValidateOptionalParams,
-  LinkerValidateResponse,
+  LinkerDeleteOptionalParams,
   LinkerListConfigurationsOptionalParams,
   LinkerListConfigurationsResponse,
+  LinkerValidateOptionalParams,
+  LinkerValidateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,28 +31,36 @@ export interface Linker {
   /**
    * Returns list of Linkers which connects to the resource. which supports to config both application
    * and target service during the resource provision.
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   list(
+    providers: string,
     resourceUri: string,
     options?: LinkerListOptionalParams,
   ): PagedAsyncIterableIterator<LinkerResource>;
   /**
    * Returns Linker resource for a given name.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   get(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerGetOptionalParams,
   ): Promise<LinkerGetResponse>;
   /**
    * Create or update Linker resource.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -60,18 +68,19 @@ export interface Linker {
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
     options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkerCreateOrUpdateResponse>,
-      LinkerCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>
   >;
   /**
    * Create or update Linker resource.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -79,104 +88,109 @@ export interface Linker {
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
     options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<LinkerCreateOrUpdateResponse>;
   /**
-   * Delete a Linker.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    resourceUri: string,
-    linkerName: string,
-    options?: LinkerDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a Linker.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    resourceUri: string,
-    linkerName: string,
-    options?: LinkerDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Operation to update an existing Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param parameters Linker details.
    * @param options The options parameters.
    */
-  beginUpdate(
-    resourceUri: string,
-    linkerName: string,
-    parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
-  >;
-  /**
-   * Operation to update an existing Linker.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param parameters Linker details.
-   * @param options The options parameters.
-   */
-  beginUpdateAndWait(
+  update(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     parameters: LinkerPatch,
     options?: LinkerUpdateOptionalParams,
   ): Promise<LinkerUpdateResponse>;
   /**
-   * Validate a Linker.
+   * Delete a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
-  beginValidate(
+  beginDelete(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LinkerValidateResponse>,
-      LinkerValidateResponse
-    >
-  >;
+    options?: LinkerDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Validate a Linker.
+   * Delete a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
-  beginValidateAndWait(
+  beginDeleteAndWait(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
-    options?: LinkerValidateOptionalParams,
-  ): Promise<LinkerValidateResponse>;
+    options?: LinkerDeleteOptionalParams,
+  ): Promise<void>;
   /**
    * list source configurations for a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   listConfigurations(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerListConfigurationsOptionalParams,
   ): Promise<LinkerListConfigurationsResponse>;
+  /**
+   * Validate a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
+   *                    connected.
+   * @param linkerName The name Linker resource.
+   * @param options The options parameters.
+   */
+  beginValidate(
+    providers: string,
+    linkers: string,
+    resourceUri: string,
+    linkerName: string,
+    options?: LinkerValidateOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>>;
+  /**
+   * Validate a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
+   *                    connected.
+   * @param linkerName The name Linker resource.
+   * @param options The options parameters.
+   */
+  beginValidateAndWait(
+    providers: string,
+    linkers: string,
+    resourceUri: string,
+    linkerName: string,
+    options?: LinkerValidateOptionalParams,
+  ): Promise<LinkerValidateResponse>;
 }

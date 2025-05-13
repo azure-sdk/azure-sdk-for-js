@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ServiceLinkerManagementClient } from "../serviceLinkerManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   LinkerResource,
@@ -28,14 +24,14 @@ import {
   LinkerGetResponse,
   LinkerCreateOrUpdateOptionalParams,
   LinkerCreateOrUpdateResponse,
-  LinkerDeleteOptionalParams,
   LinkerPatch,
   LinkerUpdateOptionalParams,
   LinkerUpdateResponse,
-  LinkerValidateOptionalParams,
-  LinkerValidateResponse,
+  LinkerDeleteOptionalParams,
   LinkerListConfigurationsOptionalParams,
   LinkerListConfigurationsResponse,
+  LinkerValidateOptionalParams,
+  LinkerValidateResponse,
   LinkerListNextResponse,
 } from "../models/index.js";
 
@@ -55,15 +51,17 @@ export class LinkerImpl implements Linker {
   /**
    * Returns list of Linkers which connects to the resource. which supports to config both application
    * and target service during the resource provision.
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   public list(
+    providers: string,
     resourceUri: string,
     options?: LinkerListOptionalParams,
   ): PagedAsyncIterableIterator<LinkerResource> {
-    const iter = this.listPagingAll(resourceUri, options);
+    const iter = this.listPagingAll(providers, resourceUri, options);
     return {
       next() {
         return iter.next();
@@ -75,12 +73,13 @@ export class LinkerImpl implements Linker {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(resourceUri, options, settings);
+        return this.listPagingPage(providers, resourceUri, options, settings);
       },
     };
   }
 
   private async *listPagingPage(
+    providers: string,
     resourceUri: string,
     options?: LinkerListOptionalParams,
     settings?: PageSettings,
@@ -88,14 +87,14 @@ export class LinkerImpl implements Linker {
     let result: LinkerListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceUri, options);
+      result = await this._list(providers, resourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(resourceUri, continuationToken, options);
+      result = await this._listNext(providers, resourceUri, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -104,10 +103,11 @@ export class LinkerImpl implements Linker {
   }
 
   private async *listPagingAll(
+    providers: string,
     resourceUri: string,
     options?: LinkerListOptionalParams,
   ): AsyncIterableIterator<LinkerResource> {
-    for await (const page of this.listPagingPage(resourceUri, options)) {
+    for await (const page of this.listPagingPage(providers, resourceUri, options)) {
       yield* page;
     }
   }
@@ -115,40 +115,45 @@ export class LinkerImpl implements Linker {
   /**
    * Returns list of Linkers which connects to the resource. which supports to config both application
    * and target service during the resource provision.
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param options The options parameters.
    */
   private _list(
+    providers: string,
     resourceUri: string,
     options?: LinkerListOptionalParams,
   ): Promise<LinkerListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ providers, resourceUri, options }, listOperationSpec);
   }
 
   /**
    * Returns Linker resource for a given name.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   get(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerGetOptionalParams,
   ): Promise<LinkerGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, linkerName, options },
+      { providers, linkers, resourceUri, linkerName, options },
       getOperationSpec,
     );
   }
 
   /**
    * Create or update Linker resource.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -156,15 +161,14 @@ export class LinkerImpl implements Linker {
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
     options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<LinkerCreateOrUpdateResponse>,
-      LinkerCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<LinkerCreateOrUpdateResponse>, LinkerCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -176,8 +180,7 @@ export class LinkerImpl implements Linker {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -206,7 +209,14 @@ export class LinkerImpl implements Linker {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, linkerName, parameters, options },
+      args: {
+        providers,
+        linkers,
+        resourceUri,
+        linkerName,
+        parameters,
+        options,
+      },
       spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -223,6 +233,8 @@ export class LinkerImpl implements Linker {
 
   /**
    * Create or update Linker resource.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
@@ -230,12 +242,16 @@ export class LinkerImpl implements Linker {
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     parameters: LinkerResource,
     options?: LinkerCreateOrUpdateOptionalParams,
   ): Promise<LinkerCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
+      providers,
+      linkers,
       resourceUri,
       linkerName,
       parameters,
@@ -245,13 +261,41 @@ export class LinkerImpl implements Linker {
   }
 
   /**
+   * Operation to update an existing Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
+   *                    connected.
+   * @param linkerName The name Linker resource.
+   * @param parameters Linker details.
+   * @param options The options parameters.
+   */
+  update(
+    providers: string,
+    linkers: string,
+    resourceUri: string,
+    linkerName: string,
+    parameters: LinkerPatch,
+    options?: LinkerUpdateOptionalParams,
+  ): Promise<LinkerUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { providers, linkers, resourceUri, linkerName, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
    * Delete a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   async beginDelete(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerDeleteOptionalParams,
@@ -266,8 +310,7 @@ export class LinkerImpl implements Linker {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -296,7 +339,7 @@ export class LinkerImpl implements Linker {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, linkerName, options },
+      args: { providers, linkers, resourceUri, linkerName, options },
       spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
@@ -310,131 +353,62 @@ export class LinkerImpl implements Linker {
 
   /**
    * Delete a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(resourceUri, linkerName, options);
+    const poller = await this.beginDelete(providers, linkers, resourceUri, linkerName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * Operation to update an existing Linker.
+   * list source configurations for a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
-   * @param parameters Linker details.
    * @param options The options parameters.
    */
-  async beginUpdate(
+  listConfigurations(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
-    parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<LinkerUpdateResponse>, LinkerUpdateResponse>
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<LinkerUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceUri, linkerName, parameters, options },
-      spec: updateOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      LinkerUpdateResponse,
-      OperationState<LinkerUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Operation to update an existing Linker.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param parameters Linker details.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceUri: string,
-    linkerName: string,
-    parameters: LinkerPatch,
-    options?: LinkerUpdateOptionalParams,
-  ): Promise<LinkerUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceUri,
-      linkerName,
-      parameters,
-      options,
+    options?: LinkerListConfigurationsOptionalParams,
+  ): Promise<LinkerListConfigurationsResponse> {
+    return this.client.sendOperationRequest(
+      { providers, linkers, resourceUri, linkerName, options },
+      listConfigurationsOperationSpec,
     );
-    return poller.pollUntilDone();
   }
 
   /**
    * Validate a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   async beginValidate(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerValidateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<LinkerValidateResponse>,
-      LinkerValidateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<LinkerValidateResponse>, LinkerValidateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -445,8 +419,7 @@ export class LinkerImpl implements Linker {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -475,7 +448,7 @@ export class LinkerImpl implements Linker {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceUri, linkerName, options },
+      args: { providers, linkers, resourceUri, linkerName, options },
       spec: validateOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -492,52 +465,40 @@ export class LinkerImpl implements Linker {
 
   /**
    * Validate a Linker.
+   * @param providers {resourceUri}
+   * @param linkers The name of the LinkerResource
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param linkerName The name Linker resource.
    * @param options The options parameters.
    */
   async beginValidateAndWait(
+    providers: string,
+    linkers: string,
     resourceUri: string,
     linkerName: string,
     options?: LinkerValidateOptionalParams,
   ): Promise<LinkerValidateResponse> {
-    const poller = await this.beginValidate(resourceUri, linkerName, options);
+    const poller = await this.beginValidate(providers, linkers, resourceUri, linkerName, options);
     return poller.pollUntilDone();
   }
 
   /**
-   * list source configurations for a Linker.
-   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
-   *                    connected.
-   * @param linkerName The name Linker resource.
-   * @param options The options parameters.
-   */
-  listConfigurations(
-    resourceUri: string,
-    linkerName: string,
-    options?: LinkerListConfigurationsOptionalParams,
-  ): Promise<LinkerListConfigurationsResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, linkerName, options },
-      listConfigurationsOperationSpec,
-    );
-  }
-
-  /**
    * ListNext
+   * @param providers {resourceUri}
    * @param resourceUri The fully qualified Azure Resource manager identifier of the resource to be
    *                    connected.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
+    providers: string,
     resourceUri: string,
     nextLink: string,
     options?: LinkerListNextOptionalParams,
   ): Promise<LinkerListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceUri, nextLink, options },
+      { providers, resourceUri, nextLink, options },
       listNextOperationSpec,
     );
   }
@@ -546,7 +507,7 @@ export class LinkerImpl implements Linker {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers",
+  path: "/{resourceUri}/{providers}/{resourceUri}/connectors",
   httpMethod: "GET",
   responses: {
     200: {
@@ -557,12 +518,12 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceUri],
+  urlParameters: [Parameters.$host, Parameters.providers, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -575,14 +536,16 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.linkers,
     Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -601,11 +564,41 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters2,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.linkers,
+    Parameters.linkerName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LinkerResource,
+    },
+    201: {
+      bodyMapper: Mappers.LinkerResource,
+      headersMapper: Mappers.LinkerUpdateHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.providers,
+    Parameters.resourceUri,
+    Parameters.linkers,
     Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -613,7 +606,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -627,74 +620,16 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.providers,
     Parameters.resourceUri,
-    Parameters.linkerName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    201: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    202: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    204: {
-      bodyMapper: Mappers.LinkerResource,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters3,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.linkerName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const validateOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/validateLinker",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    201: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    202: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    204: {
-      bodyMapper: Mappers.ValidateOperationResult,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
+    Parameters.linkers,
     Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
 const listConfigurationsOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.ServiceLinker/linkers/{linkerName}/listConfigurations",
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}/listConfigurations",
   httpMethod: "POST",
   responses: {
     200: {
@@ -707,7 +642,40 @@ const listConfigurationsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.linkers,
+    Parameters.linkerName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/{providers}/Microsoft.ServiceLinker/{linkers}/{resourceUri}/{linkerName}/validateLinker",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    201: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    202: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    204: {
+      bodyMapper: Mappers.ValidateOperationResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.providers,
+    Parameters.resourceUri,
+    Parameters.linkers,
     Parameters.linkerName,
   ],
   headerParameters: [Parameters.accept],
@@ -726,8 +694,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.providers,
     Parameters.resourceUri,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
   serializer,

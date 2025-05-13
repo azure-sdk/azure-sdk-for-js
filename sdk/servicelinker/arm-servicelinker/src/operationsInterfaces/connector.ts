@@ -9,10 +9,22 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  DryrunResource,
-  ConnectorListDryrunOptionalParams,
   LinkerResource,
   ConnectorListOptionalParams,
+  DryrunResource,
+  ConnectorListDryrunOptionalParams,
+  ConnectorGetOptionalParams,
+  ConnectorGetResponse,
+  ConnectorCreateOrUpdateOptionalParams,
+  ConnectorCreateOrUpdateResponse,
+  LinkerPatch,
+  ConnectorUpdateOptionalParams,
+  ConnectorUpdateResponse,
+  ConnectorDeleteOptionalParams,
+  ConnectorGenerateConfigurationsOptionalParams,
+  ConnectorGenerateConfigurationsResponse,
+  ConnectorValidateOptionalParams,
+  ConnectorValidateResponse,
   ConnectorGetDryrunOptionalParams,
   ConnectorGetDryrunResponse,
   ConnectorCreateDryrunOptionalParams,
@@ -21,168 +33,42 @@ import {
   ConnectorUpdateDryrunOptionalParams,
   ConnectorUpdateDryrunResponse,
   ConnectorDeleteDryrunOptionalParams,
-  ConnectorGetOptionalParams,
-  ConnectorGetResponse,
-  ConnectorCreateOrUpdateOptionalParams,
-  ConnectorCreateOrUpdateResponse,
-  ConnectorDeleteOptionalParams,
-  LinkerPatch,
-  ConnectorUpdateOptionalParams,
-  ConnectorUpdateResponse,
-  ConnectorValidateOptionalParams,
-  ConnectorValidateResponse,
-  ConnectorGenerateConfigurationsOptionalParams,
-  ConnectorGenerateConfigurationsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Connector. */
 export interface Connector {
   /**
-   * list dryrun jobs
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param options The options parameters.
-   */
-  listDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    options?: ConnectorListDryrunOptionalParams,
-  ): PagedAsyncIterableIterator<DryrunResource>;
-  /**
    * Returns list of connector which connects to the resource, which supports to config the target
    * service during the resource provision.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     options?: ConnectorListOptionalParams,
   ): PagedAsyncIterableIterator<LinkerResource>;
   /**
-   * get a dryrun job
-   * @param subscriptionId The ID of the target subscription.
+   * list dryrun jobs
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
    * @param options The options parameters.
    */
-  getDryrun(
-    subscriptionId: string,
+  listDryrun(
     resourceGroupName: string,
     location: string,
-    dryrunName: string,
-    options?: ConnectorGetDryrunOptionalParams,
-  ): Promise<ConnectorGetDryrunResponse>;
-  /**
-   * create a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  beginCreateDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunResource,
-    options?: ConnectorCreateDryrunOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorCreateDryrunResponse>,
-      ConnectorCreateDryrunResponse
-    >
-  >;
-  /**
-   * create a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  beginCreateDryrunAndWait(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunResource,
-    options?: ConnectorCreateDryrunOptionalParams,
-  ): Promise<ConnectorCreateDryrunResponse>;
-  /**
-   * update a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  beginUpdateDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunPatch,
-    options?: ConnectorUpdateDryrunOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorUpdateDryrunResponse>,
-      ConnectorUpdateDryrunResponse
-    >
-  >;
-  /**
-   * update a dryrun job to do necessary check before actual creation
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param parameters dryrun resource.
-   * @param options The options parameters.
-   */
-  beginUpdateDryrunAndWait(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    parameters: DryrunPatch,
-    options?: ConnectorUpdateDryrunOptionalParams,
-  ): Promise<ConnectorUpdateDryrunResponse>;
-  /**
-   * delete a dryrun job
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param dryrunName The name of dryrun.
-   * @param options The options parameters.
-   */
-  deleteDryrun(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    dryrunName: string,
-    options?: ConnectorDeleteDryrunOptionalParams,
-  ): Promise<void>;
+    options?: ConnectorListDryrunOptionalParams,
+  ): PagedAsyncIterableIterator<DryrunResource>;
   /**
    * Returns Connector resource for a given name.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
   get(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -190,15 +76,13 @@ export interface Connector {
   ): Promise<ConnectorGetResponse>;
   /**
    * Create or update Connector resource.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -212,15 +96,13 @@ export interface Connector {
   >;
   /**
    * Create or update Connector resource.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -228,68 +110,29 @@ export interface Connector {
     options?: ConnectorCreateOrUpdateOptionalParams,
   ): Promise<ConnectorCreateOrUpdateResponse>;
   /**
-   * Delete a Connector.
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param connectorName The name of resource.
-   * @param options The options parameters.
-   */
-  beginDelete(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    connectorName: string,
-    options?: ConnectorDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Delete a Connector.
-   * @param subscriptionId The ID of the target subscription.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param location The name of Azure region.
-   * @param connectorName The name of resource.
-   * @param options The options parameters.
-   */
-  beginDeleteAndWait(
-    subscriptionId: string,
-    resourceGroupName: string,
-    location: string,
-    connectorName: string,
-    options?: ConnectorDeleteOptionalParams,
-  ): Promise<void>;
-  /**
    * Operation to update an existing Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   beginUpdate(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     parameters: LinkerPatch,
     options?: ConnectorUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorUpdateResponse>,
-      ConnectorUpdateResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<ConnectorUpdateResponse>, ConnectorUpdateResponse>>;
   /**
    * Operation to update an existing Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param parameters Connector details.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
@@ -297,53 +140,160 @@ export interface Connector {
     options?: ConnectorUpdateOptionalParams,
   ): Promise<ConnectorUpdateResponse>;
   /**
-   * Validate a Connector.
-   * @param subscriptionId The ID of the target subscription.
+   * Delete a Connector.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Delete a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorDeleteOptionalParams,
+  ): Promise<void>;
+  /**
+   * Generate configurations for a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
+   * @param options The options parameters.
+   */
+  generateConfigurations(
+    resourceGroupName: string,
+    location: string,
+    connectorName: string,
+    options?: ConnectorGenerateConfigurationsOptionalParams,
+  ): Promise<ConnectorGenerateConfigurationsResponse>;
+  /**
+   * Validate a Connector.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
   beginValidate(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     options?: ConnectorValidateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ConnectorValidateResponse>,
-      ConnectorValidateResponse
-    >
+    SimplePollerLike<OperationState<ConnectorValidateResponse>, ConnectorValidateResponse>
   >;
   /**
    * Validate a Connector.
-   * @param subscriptionId The ID of the target subscription.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param connectorName The name of the LinkerResource
    * @param options The options parameters.
    */
   beginValidateAndWait(
-    subscriptionId: string,
     resourceGroupName: string,
     location: string,
     connectorName: string,
     options?: ConnectorValidateOptionalParams,
   ): Promise<ConnectorValidateResponse>;
   /**
-   * Generate configurations for a Connector.
-   * @param subscriptionId The ID of the target subscription.
+   * get a dryrun job
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param location The name of Azure region.
-   * @param connectorName The name of resource.
+   * @param dryrunName The name of the DryrunResource
    * @param options The options parameters.
    */
-  generateConfigurations(
-    subscriptionId: string,
+  getDryrun(
     resourceGroupName: string,
     location: string,
-    connectorName: string,
-    options?: ConnectorGenerateConfigurationsOptionalParams,
-  ): Promise<ConnectorGenerateConfigurationsResponse>;
+    dryrunName: string,
+    options?: ConnectorGetDryrunOptionalParams,
+  ): Promise<ConnectorGetDryrunResponse>;
+  /**
+   * create a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  beginCreateDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunResource,
+    options?: ConnectorCreateDryrunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConnectorCreateDryrunResponse>, ConnectorCreateDryrunResponse>
+  >;
+  /**
+   * create a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  beginCreateDryrunAndWait(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunResource,
+    options?: ConnectorCreateDryrunOptionalParams,
+  ): Promise<ConnectorCreateDryrunResponse>;
+  /**
+   * update a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  beginUpdateDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunPatch,
+    options?: ConnectorUpdateDryrunOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<ConnectorUpdateDryrunResponse>, ConnectorUpdateDryrunResponse>
+  >;
+  /**
+   * update a dryrun job to do necessary check before actual creation
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param parameters dryrun resource.
+   * @param options The options parameters.
+   */
+  beginUpdateDryrunAndWait(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    parameters: DryrunPatch,
+    options?: ConnectorUpdateDryrunOptionalParams,
+  ): Promise<ConnectorUpdateDryrunResponse>;
+  /**
+   * delete a dryrun job
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of Azure region.
+   * @param dryrunName The name of the DryrunResource
+   * @param options The options parameters.
+   */
+  deleteDryrun(
+    resourceGroupName: string,
+    location: string,
+    dryrunName: string,
+    options?: ConnectorDeleteDryrunOptionalParams,
+  ): Promise<void>;
 }
