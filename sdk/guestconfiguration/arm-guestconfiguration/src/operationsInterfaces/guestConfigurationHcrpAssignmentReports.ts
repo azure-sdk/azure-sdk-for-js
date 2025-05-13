@@ -7,40 +7,40 @@
  */
 
 import {
-  GuestConfigurationHcrpAssignmentReportsListOptionalParams,
-  GuestConfigurationHcrpAssignmentReportsListResponse,
   GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   GuestConfigurationHcrpAssignmentReportsGetResponse,
+  GuestConfigurationHcrpAssignmentReportsListOptionalParams,
+  GuestConfigurationHcrpAssignmentReportsListResponse,
 } from "../models/index.js";
 
 /** Interface representing a GuestConfigurationHcrpAssignmentReports. */
 export interface GuestConfigurationHcrpAssignmentReports {
   /**
-   * List all reports for the guest configuration assignment, latest report first.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param machineName The name of the ARC machine.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams,
-  ): Promise<GuestConfigurationHcrpAssignmentReportsListResponse>;
-  /**
    * Get a report for the guest configuration assignment, by reportId.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param reportId The GUID for the guest configuration assignment report.
-   * @param machineName The name of the ARC machine.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    machineName: string,
     guestConfigurationAssignmentName: string,
     reportId: string,
-    machineName: string,
     options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   ): Promise<GuestConfigurationHcrpAssignmentReportsGetResponse>;
+  /**
+   * List all reports for the guest configuration assignment, latest report first.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams,
+  ): Promise<GuestConfigurationHcrpAssignmentReportsListResponse>;
 }

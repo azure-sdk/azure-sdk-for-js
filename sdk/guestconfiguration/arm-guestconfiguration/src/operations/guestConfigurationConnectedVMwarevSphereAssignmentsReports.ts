@@ -12,10 +12,10 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
-  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetOptionalParams,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsGetResponse,
+  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
+  GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse,
 } from "../models/index.js";
 
 /** Class containing GuestConfigurationConnectedVMwarevSphereAssignmentsReports operations. */
@@ -33,29 +33,10 @@ export class GuestConfigurationConnectedVMwarevSphereAssignmentsReportsImpl
   }
 
   /**
-   * List all reports for the guest configuration assignment, latest report first.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmName: string,
-    guestConfigurationAssignmentName: string,
-    options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
-  ): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmName, guestConfigurationAssignmentName, options },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * Get a report for the guest configuration assignment, by reportId.
-   * @param resourceGroupName The resource group name.
-   * @param vmName The name of the virtual machine.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualmachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param reportId The GUID for the guest configuration assignment report.
    * @param options The options parameters.
    */
@@ -77,34 +58,31 @@ export class GuestConfigurationConnectedVMwarevSphereAssignmentsReportsImpl
       getOperationSpec,
     );
   }
+
+  /**
+   * List all reports for the guest configuration assignment, latest report first.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmName virtualmachines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListOptionalParams,
+  ): Promise<GuestConfigurationConnectedVMwarevSphereAssignmentsReportsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmName, guestConfigurationAssignmentName, options },
+      listOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignmentReportList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmName,
-    Parameters.guestConfigurationAssignmentName1,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedVMwarevSphere/virtualmachines/{vmName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualmachines/{vmName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}/{reportId}/{reportId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -117,10 +95,32 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.vmName,
     Parameters.reportId,
+    Parameters.guestConfigurationAssignmentName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualmachines/{vmName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignmentReportList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.vmName,
     Parameters.guestConfigurationAssignmentName1,
   ],
   headerParameters: [Parameters.accept],

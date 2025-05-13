@@ -12,10 +12,10 @@ import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
-  GuestConfigurationHcrpAssignmentReportsListOptionalParams,
-  GuestConfigurationHcrpAssignmentReportsListResponse,
   GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   GuestConfigurationHcrpAssignmentReportsGetResponse,
+  GuestConfigurationHcrpAssignmentReportsListOptionalParams,
+  GuestConfigurationHcrpAssignmentReportsListResponse,
 } from "../models/index.js";
 
 /** Class containing GuestConfigurationHcrpAssignmentReports operations. */
@@ -33,83 +33,61 @@ export class GuestConfigurationHcrpAssignmentReportsImpl
   }
 
   /**
-   * List all reports for the guest configuration assignment, latest report first.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param machineName The name of the ARC machine.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
-    machineName: string,
-    options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams,
-  ): Promise<GuestConfigurationHcrpAssignmentReportsListResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        guestConfigurationAssignmentName,
-        machineName,
-        options,
-      },
-      listOperationSpec,
-    );
-  }
-
-  /**
    * Get a report for the guest configuration assignment, by reportId.
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param reportId The GUID for the guest configuration assignment report.
-   * @param machineName The name of the ARC machine.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    machineName: string,
     guestConfigurationAssignmentName: string,
     reportId: string,
-    machineName: string,
     options?: GuestConfigurationHcrpAssignmentReportsGetOptionalParams,
   ): Promise<GuestConfigurationHcrpAssignmentReportsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
+        machineName,
         guestConfigurationAssignmentName,
         reportId,
-        machineName,
         options,
       },
       getOperationSpec,
+    );
+  }
+
+  /**
+   * List all reports for the guest configuration assignment, latest report first.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    options?: GuestConfigurationHcrpAssignmentReportsListOptionalParams,
+  ): Promise<GuestConfigurationHcrpAssignmentReportsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        machineName,
+        guestConfigurationAssignmentName,
+        options,
+      },
+      listOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignmentReportList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.guestConfigurationAssignmentName,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.machineName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports/{reportId}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}/{reportId}/{reportId}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -122,10 +100,32 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.guestConfigurationAssignmentName,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.guestConfigurationAssignmentName,
+    Parameters.machineName,
     Parameters.reportId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/machines/{machineName}/guestConfigurationAssignments/{guestConfigurationAssignmentName}/reports",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignmentReportList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.guestConfigurationAssignmentName,
     Parameters.machineName,
   ],
   headerParameters: [Parameters.accept],

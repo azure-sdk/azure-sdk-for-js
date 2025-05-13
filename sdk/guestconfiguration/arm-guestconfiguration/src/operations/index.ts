@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./operations.js";
 export * from "./guestConfigurationAssignments.js";
-export * from "./guestConfigurationAssignmentReports.js";
 export * from "./guestConfigurationHcrpAssignments.js";
 export * from "./guestConfigurationHcrpAssignmentReports.js";
 export * from "./guestConfigurationAssignmentsVmss.js";
 export * from "./guestConfigurationAssignmentReportsVmss.js";
+export * from "./guestConfigurationAssignmentReports.js";
 export * from "./guestConfigurationConnectedVMwarevSphereAssignments.js";
 export * from "./guestConfigurationConnectedVMwarevSphereAssignmentsReports.js";
-export * from "./operations.js";

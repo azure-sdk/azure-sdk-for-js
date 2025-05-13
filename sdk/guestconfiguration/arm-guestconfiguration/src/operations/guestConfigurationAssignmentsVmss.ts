@@ -6,29 +6,25 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { GuestConfigurationAssignmentsVmss } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { GuestConfigurationClient } from "../guestConfigurationClient.js";
 import {
-  GuestConfigurationAssignment,
   GuestConfigurationAssignmentsVmssListOptionalParams,
   GuestConfigurationAssignmentsVmssListResponse,
-  GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams,
-  GuestConfigurationAssignmentsVmssCreateOrUpdateResponse,
   GuestConfigurationAssignmentsVmssGetOptionalParams,
   GuestConfigurationAssignmentsVmssGetResponse,
+  GuestConfigurationAssignment,
+  GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams,
+  GuestConfigurationAssignmentsVmssCreateOrUpdateResponse,
   GuestConfigurationAssignmentsVmssDeleteOptionalParams,
   GuestConfigurationAssignmentsVmssDeleteResponse,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class containing GuestConfigurationAssignmentsVmss operations. */
-export class GuestConfigurationAssignmentsVmssImpl
-  implements GuestConfigurationAssignmentsVmss
-{
+export class GuestConfigurationAssignmentsVmssImpl implements GuestConfigurationAssignmentsVmss {
   private readonly client: GuestConfigurationClient;
 
   /**
@@ -41,67 +37,45 @@ export class GuestConfigurationAssignmentsVmssImpl
 
   /**
    * List all guest configuration assignments for VMSS.
-   * @param resourceGroupName The resource group name.
-   * @param vmssName The name of the virtual machine scale set.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmssName virtualMachineScaleSets
    * @param options The options parameters.
    */
-  public list(
+  list(
     resourceGroupName: string,
     vmssName: string,
     options?: GuestConfigurationAssignmentsVmssListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment> {
-    const iter = this.listPagingAll(resourceGroupName, vmssName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(
-          resourceGroupName,
-          vmssName,
-          options,
-          settings,
-        );
-      },
-    };
+  ): Promise<GuestConfigurationAssignmentsVmssListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmssName, options },
+      listOperationSpec,
+    );
   }
 
-  private async *listPagingPage(
+  /**
+   * Get information about a guest configuration assignment for VMSS
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmssName virtualMachineScaleSets
+   * @param name The name of the GuestConfigurationAssignment
+   * @param options The options parameters.
+   */
+  get(
     resourceGroupName: string,
     vmssName: string,
-    options?: GuestConfigurationAssignmentsVmssListOptionalParams,
-    _settings?: PageSettings,
-  ): AsyncIterableIterator<GuestConfigurationAssignment[]> {
-    let result: GuestConfigurationAssignmentsVmssListResponse;
-    result = await this._list(resourceGroupName, vmssName, options);
-    yield result.value || [];
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    vmssName: string,
-    options?: GuestConfigurationAssignmentsVmssListOptionalParams,
-  ): AsyncIterableIterator<GuestConfigurationAssignment> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      vmssName,
-      options,
-    )) {
-      yield* page;
-    }
+    name: string,
+    options?: GuestConfigurationAssignmentsVmssGetOptionalParams,
+  ): Promise<GuestConfigurationAssignmentsVmssGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmssName, name, options },
+      getOperationSpec,
+    );
   }
 
   /**
    * Creates an association between a VMSS and guest configuration
-   * @param resourceGroupName The resource group name.
-   * @param vmssName The name of the virtual machine scale set.
-   * @param name Name of the guest configuration assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmssName virtualMachineScaleSets
+   * @param name The name of the GuestConfigurationAssignment
    * @param parameters Parameters supplied to the create or update guest configuration assignment.
    * @param options The options parameters.
    */
@@ -119,29 +93,10 @@ export class GuestConfigurationAssignmentsVmssImpl
   }
 
   /**
-   * Get information about a guest configuration assignment for VMSS
-   * @param resourceGroupName The resource group name.
-   * @param vmssName The name of the virtual machine scale set.
-   * @param name The guest configuration assignment name.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmssName: string,
-    name: string,
-    options?: GuestConfigurationAssignmentsVmssGetOptionalParams,
-  ): Promise<GuestConfigurationAssignmentsVmssGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmssName, name, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete a guest configuration assignment for VMSS
-   * @param resourceGroupName The resource group name.
-   * @param vmssName The name of the virtual machine scale set.
-   * @param name The guest configuration assignment name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmssName virtualMachineScaleSets
+   * @param name The name of the GuestConfigurationAssignment
    * @param options The options parameters.
    */
   delete(
@@ -155,29 +110,55 @@ export class GuestConfigurationAssignmentsVmssImpl
       deleteOperationSpec,
     );
   }
-
-  /**
-   * List all guest configuration assignments for VMSS.
-   * @param resourceGroupName The resource group name.
-   * @param vmssName The name of the virtual machine scale set.
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    vmssName: string,
-    options?: GuestConfigurationAssignmentsVmssListOptionalParams,
-  ): Promise<GuestConfigurationAssignmentsVmssListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmssName, options },
-      listOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualMachineScaleSets/{vmssName}/guestConfigurationAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignmentList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.vmssName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualMachineScaleSets/{vmssName}/guestConfigurationAssignments/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GuestConfigurationAssignment,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.vmssName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualMachineScaleSets/{vmssName}/guestConfigurationAssignments/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -194,39 +175,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.vmssName,
     Parameters.name,
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignment,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmssName,
-    Parameters.name,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GuestConfiguration/virtualMachineScaleSets/{vmssName}/guestConfigurationAssignments/{name}",
   httpMethod: "DELETE",
   responses: {
     200: {
@@ -240,31 +199,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.subscriptionId,
     Parameters.vmssName,
     Parameters.name,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmssName}/providers/Microsoft.GuestConfiguration/guestConfigurationAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GuestConfigurationAssignmentList,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmssName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
