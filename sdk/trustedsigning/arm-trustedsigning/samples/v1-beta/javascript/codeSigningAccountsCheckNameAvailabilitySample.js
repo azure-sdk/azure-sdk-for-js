@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to checks that the trusted signing account name is valid and is not already in use.
  *
  * @summary checks that the trusted signing account name is valid and is not already in use.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_CheckNameAvailability.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_CheckNameAvailability.json
  */
 async function checksThatTheTrustedSigningAccountNameIsAvailable() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function checksThatTheTrustedSigningAccountNameIsAvailable() {
 }
 
 async function main() {
-  checksThatTheTrustedSigningAccountNameIsAvailable();
+  await checksThatTheTrustedSigningAccountNameIsAvailable();
 }
 
 main().catch(console.error);

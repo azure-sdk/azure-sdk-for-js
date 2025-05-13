@@ -4,11 +4,14 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export interface AccountSku {
     name: SkuName;
+}
+
+// @public
+export interface AccountSkuPatch {
+    name?: SkuName;
 }
 
 // @public
@@ -17,6 +20,7 @@ export type ActionType = string;
 // @public
 export interface Certificate {
     createdDate?: string;
+    enhancedKeyUsage?: string;
     expiryDate?: string;
     revocation?: Revocation;
     serialNumber?: string;
@@ -33,46 +37,15 @@ export interface CertificateProfile extends ProxyResource {
 // @public
 export interface CertificateProfileProperties {
     readonly certificates?: Certificate[];
-    readonly city?: string;
-    readonly commonName?: string;
-    readonly country?: string;
-    readonly enhancedKeyUsage?: string;
-    identityValidationId?: string;
+    identityValidationId: string;
     includeCity?: boolean;
     includeCountry?: boolean;
     includePostalCode?: boolean;
     includeState?: boolean;
     includeStreetAddress?: boolean;
-    readonly organization?: string;
-    readonly organizationUnit?: string;
-    readonly postalCode?: string;
     profileType: ProfileType;
     readonly provisioningState?: ProvisioningState;
-    readonly state?: string;
     readonly status?: CertificateProfileStatus;
-    readonly streetAddress?: string;
-}
-
-// @public
-export interface CertificateProfilesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CertificateProfilesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CertificateProfilesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CertificateProfilesListByCodeSigningAccountOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CertificateProfilesRevokeCertificateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -106,7 +79,7 @@ export interface CodeSigningAccountPatch {
 
 // @public
 export interface CodeSigningAccountPatchProperties {
-    sku?: AccountSku;
+    sku?: AccountSkuPatch;
 }
 
 // @public
@@ -117,38 +90,27 @@ export interface CodeSigningAccountProperties {
 }
 
 // @public
-export interface CodeSigningAccountsCheckNameAvailabilityOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CodeSigningAccountsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CodeSigningAccountsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CodeSigningAccountsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CodeSigningAccountsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CodeSigningAccountsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface CodeSigningAccountsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export enum KnownActionType {
@@ -223,12 +185,19 @@ export enum KnownSkuName {
 }
 
 // @public
+export enum KnownVersions {
+    V20240205Preview = "2024-02-05-preview",
+    // (undocumented)
+    V20240930Preview = "2024-09-30-preview"
+}
+
+// @public
 export type NameUnavailabilityReason = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -240,10 +209,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public

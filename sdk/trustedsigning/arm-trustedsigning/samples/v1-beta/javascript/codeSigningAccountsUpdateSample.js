@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a trusted signing account.
  *
  * @summary update a trusted signing account.
- * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_Update.json
+ * x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_Update.json
  */
 async function updateATrustedSigningAccount() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function updateATrustedSigningAccount() {
 }
 
 async function main() {
-  updateATrustedSigningAccount();
+  await updateATrustedSigningAccount();
 }
 
 main().catch(console.error);

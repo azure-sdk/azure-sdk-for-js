@@ -1,25 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { ClientOptions, Client, getClient } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
+import { KnownVersions } from "../models/models.js";
+import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
+import { TokenCredential } from "@azure/core-auth";
 
-export interface CodeSigningContext extends Client {}
+/** Code Signing resource provider api. */
+export interface CodeSigningContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface CodeSigningClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
 }
 
 /** Code Signing resource provider api. */
 export function createCodeSigning(
   credential: TokenCredential,
+  subscriptionId: string,
   options: CodeSigningClientOptionalParams = {},
 ): CodeSigningContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
-
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-trustedsigning/1.0.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
@@ -35,7 +44,7 @@ export function createCodeSigning(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-02-05-preview";
+  const apiVersion = options.apiVersion ?? "2024-09-30-preview";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -51,5 +60,5 @@ export function createCodeSigning(
       return next(req);
     },
   });
-  return clientContext;
+  return { ...clientContext, apiVersion, subscriptionId } as CodeSigningContext;
 }
