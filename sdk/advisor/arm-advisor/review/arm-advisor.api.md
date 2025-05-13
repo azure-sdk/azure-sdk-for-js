@@ -8,6 +8,9 @@ import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
+// @public
+export type ActionType = string;
+
 // @public (undocumented)
 export class AdvisorManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -15,19 +18,34 @@ export class AdvisorManagementClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AdvisorManagementClientOptionalParams);
     constructor(credentials: coreAuth.TokenCredential, options?: AdvisorManagementClientOptionalParams);
     // (undocumented)
+    advisorScores: AdvisorScores;
+    // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    assessments: Assessments;
+    // (undocumented)
+    assessmentTypes: AssessmentTypes;
     // (undocumented)
     configurations: Configurations;
     // (undocumented)
     operations: Operations;
+    predict(body: PredictionRequest, options?: PredictOptionalParams): Promise<PredictResponse>;
     // (undocumented)
     recommendationMetadata: RecommendationMetadata;
     // (undocumented)
     recommendations: Recommendations;
     // (undocumented)
+    resiliencyReviews: ResiliencyReviews;
+    // (undocumented)
     subscriptionId?: string;
     // (undocumented)
     suppressions: Suppressions;
+    // (undocumented)
+    triageRecommendations: TriageRecommendations;
+    // (undocumented)
+    triageResources: TriageResources;
+    // (undocumented)
+    workloads: Workloads;
 }
 
 // @public
@@ -37,16 +55,135 @@ export interface AdvisorManagementClientOptionalParams extends coreClient.Servic
     endpoint?: string;
 }
 
+// @public
+export interface AdvisorScoreEntity extends ProxyResource {
+    lastRefreshedScore?: ScoreEntity;
+    timeSeries?: TimeSeriesEntityItem[];
+}
+
 // @public (undocumented)
-export interface ArmErrorResponse {
-    error?: ARMErrorResponseBody;
+export interface AdvisorScoreResponse {
+    value?: AdvisorScoreEntity[];
 }
 
 // @public
-export interface ARMErrorResponseBody {
-    code?: string;
-    message?: string;
+export interface AdvisorScores {
+    get(name: string, options?: AdvisorScoresGetOptionalParams): Promise<AdvisorScoresGetResponse>;
+    list(options?: AdvisorScoresListOptionalParams): Promise<AdvisorScoresListResponse>;
 }
+
+// @public
+export interface AdvisorScoresGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresGetResponse = AdvisorScoreEntity;
+
+// @public
+export interface AdvisorScoresListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AdvisorScoresListResponse = AdvisorScoreResponse;
+
+// @public
+export type Aggregated = string;
+
+// @public
+export interface AssessmentListResult {
+    nextLink?: string;
+    value: AssessmentResult[];
+}
+
+// @public
+export interface AssessmentResult extends ProxyResource {
+    readonly assessmentId?: string;
+    readonly description?: string;
+    locale?: string;
+    readonly score?: number;
+    readonly state?: string;
+    typeId?: string;
+    readonly typePropertiesType?: string;
+    readonly typeVersion?: string;
+    workloadId?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface Assessments {
+    delete(assessmentName: string, options?: AssessmentsDeleteOptionalParams): Promise<void>;
+    get(assessmentName: string, options?: AssessmentsGetOptionalParams): Promise<AssessmentsGetResponse>;
+    list(options?: AssessmentsListOptionalParams): PagedAsyncIterableIterator<AssessmentResult>;
+    put(assessmentName: string, assessmentContract: AssessmentResult, options?: AssessmentsPutOptionalParams): Promise<AssessmentsPutResponse>;
+}
+
+// @public
+export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsGetResponse = AssessmentResult;
+
+// @public
+export interface AssessmentsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsListNextResponse = AssessmentListResult;
+
+// @public
+export interface AssessmentsListOptionalParams extends coreClient.OperationOptions {
+    skiptoken?: string;
+    top?: string;
+}
+
+// @public
+export type AssessmentsListResponse = AssessmentListResult;
+
+// @public
+export interface AssessmentsPutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentsPutResponse = AssessmentResult;
+
+// @public
+export interface AssessmentTypeListResult {
+    nextLink?: string;
+    value: AssessmentTypeResult[];
+}
+
+// @public
+export interface AssessmentTypeResult {
+    description?: string;
+    id?: string;
+    locale?: string;
+    title?: string;
+    version?: string;
+}
+
+// @public
+export interface AssessmentTypes {
+    list(options?: AssessmentTypesListOptionalParams): PagedAsyncIterableIterator<AssessmentTypeResult>;
+}
+
+// @public
+export interface AssessmentTypesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentTypesListNextResponse = AssessmentTypeListResult;
+
+// @public
+export interface AssessmentTypesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AssessmentTypesListResponse = AssessmentTypeListResult;
 
 // @public
 export type Category = string;
@@ -54,14 +191,21 @@ export type Category = string;
 // @public
 export interface ConfigData extends Resource {
     digests?: DigestConfig[];
+    duration?: Duration;
     exclude?: boolean;
     lowCpuThreshold?: CpuThreshold;
 }
 
 // @public
+export interface ConfigDataListResult {
+    nextLink?: string;
+    value: ConfigData[];
+}
+
+// @public
 export interface ConfigurationListResult {
     nextLink?: string;
-    value?: ConfigData[];
+    value: ConfigData[];
 }
 
 // @public
@@ -90,11 +234,18 @@ export interface ConfigurationsCreateInSubscriptionOptionalParams extends coreCl
 export type ConfigurationsCreateInSubscriptionResponse = ConfigData;
 
 // @public
+export interface ConfigurationsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationsListByResourceGroupNextResponse = ConfigDataListResult;
+
+// @public
 export interface ConfigurationsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ConfigurationsListByResourceGroupResponse = ConfigurationListResult;
+export type ConfigurationsListByResourceGroupResponse = ConfigDataListResult;
 
 // @public
 export interface ConfigurationsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
@@ -114,6 +265,9 @@ export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult;
 export type CpuThreshold = string;
 
 // @public
+export type CreatedByType = string;
+
+// @public
 export interface DigestConfig {
     actionGroupResourceId?: string;
     categories?: Category[];
@@ -127,10 +281,45 @@ export interface DigestConfig {
 export type DigestConfigState = string;
 
 // @public
+export type Duration = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export type Impact = string;
+
+// @public
+export enum KnownActionType {
+    Internal = "Internal"
+}
+
+// @public
+export enum KnownAggregated {
+    Day = "day",
+    Month = "month",
+    Week = "week"
+}
 
 // @public
 export enum KnownCategory {
@@ -155,9 +344,27 @@ export enum KnownCpuThreshold {
 }
 
 // @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
 export enum KnownDigestConfigState {
     Active = "Active",
     Disabled = "Disabled"
+}
+
+// @public
+export enum KnownDuration {
+    Fourteen = "14",
+    Ninety = "90",
+    Seven = "7",
+    Sixty = "60",
+    Thirty = "30",
+    TwentyOne = "21"
 }
 
 // @public
@@ -165,6 +372,65 @@ export enum KnownImpact {
     High = "High",
     Low = "Low",
     Medium = "Medium"
+}
+
+// @public
+export enum KnownOrigin {
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
+}
+
+// @public
+export enum KnownPredictionType {
+    PredictiveRightsizing = "PredictiveRightsizing"
+}
+
+// @public
+export enum KnownPriority {
+    Critical = "Critical",
+    High = "High",
+    Informational = "Informational",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownPriorityName {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownReason {
+    AlternativeSolution = "AlternativeSolution",
+    ExcessiveInvestment = "ExcessiveInvestment",
+    Incompatible = "Incompatible",
+    RiskAccepted = "RiskAccepted",
+    TooComplex = "TooComplex",
+    Unclear = "Unclear"
+}
+
+// @public
+export enum KnownReasonForRejectionName {
+    NotARisk = "NotARisk",
+    RiskAccepted = "RiskAccepted"
+}
+
+// @public
+export enum KnownRecommendationStatusName {
+    Approved = "Approved",
+    Pending = "Pending",
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownReviewStatus {
+    Completed = "Completed",
+    InProgress = "InProgress",
+    New = "New",
+    Triaged = "Triaged"
 }
 
 // @public
@@ -180,20 +446,28 @@ export enum KnownScenario {
 }
 
 // @public
-export interface MetadataEntity {
+export enum KnownState {
+    Approved = "Approved",
+    Completed = "Completed",
+    Dismissed = "Dismissed",
+    InProgress = "InProgress",
+    Pending = "Pending",
+    Postponed = "Postponed",
+    Rejected = "Rejected"
+}
+
+// @public
+export interface MetadataEntity extends ProxyResource {
     applicableScenarios?: Scenario[];
     dependsOn?: string[];
     displayName?: string;
-    id?: string;
-    name?: string;
     supportedValues?: MetadataSupportedValueDetail[];
-    type?: string;
 }
 
 // @public
 export interface MetadataEntityListResult {
     nextLink?: string;
-    value?: MetadataEntity[];
+    value: MetadataEntity[];
 }
 
 // @public
@@ -203,28 +477,31 @@ export interface MetadataSupportedValueDetail {
 }
 
 // @public
-export interface OperationDisplayInfo {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+export interface Operation {
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
+    readonly isDataAction?: boolean;
+    readonly name?: string;
+    readonly origin?: Origin;
 }
 
 // @public
-export interface OperationEntity {
-    display?: OperationDisplayInfo;
-    name?: string;
+export interface OperationDisplay {
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
-export interface OperationEntityListResult {
-    nextLink?: string;
-    value?: OperationEntity[];
+export interface OperationListResult {
+    readonly nextLink?: string;
+    readonly value?: Operation[];
 }
 
 // @public
 export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationEntity>;
+    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
@@ -232,14 +509,64 @@ export interface OperationsListNextOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type OperationsListNextResponse = OperationEntityListResult;
+export type OperationsListNextResponse = OperationListResult;
 
 // @public
 export interface OperationsListOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type OperationsListResponse = OperationEntityListResult;
+export type OperationsListResponse = OperationListResult;
+
+// @public
+export type Origin = string;
+
+// @public
+export interface PredictionRequest {
+    extendedProperties?: {
+        [propertyName: string]: any;
+    };
+    predictionType?: PredictionType;
+}
+
+// @public
+export interface PredictionResponse {
+    category?: Category;
+    extendedProperties?: {
+        [propertyName: string]: any;
+    };
+    impact?: Impact;
+    impactedField?: string;
+    lastUpdated?: Date;
+    predictionType?: PredictionType;
+    shortDescription?: ShortDescription;
+}
+
+// @public
+export type PredictionType = string;
+
+// @public
+export interface PredictOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PredictResponse = PredictionResponse;
+
+// @public
+export type Priority = string;
+
+// @public
+export type PriorityName = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export type Reason = string;
+
+// @public
+export type ReasonForRejectionName = string;
 
 // @public
 export interface RecommendationMetadata {
@@ -269,17 +596,34 @@ export interface RecommendationMetadataListOptionalParams extends coreClient.Ope
 export type RecommendationMetadataListResponse = MetadataEntityListResult;
 
 // @public
+export interface RecommendationPropertiesResourceWorkload {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface RecommendationPropertiesReview {
+    id?: string;
+    name?: string;
+}
+
+// @public
+export interface RecommendationRejectBody {
+    reasonForRejection?: ReasonForRejectionName;
+}
+
+// @public
 export interface Recommendations {
     generate(options?: RecommendationsGenerateOptionalParams): Promise<RecommendationsGenerateResponse>;
     get(resourceUri: string, recommendationId: string, options?: RecommendationsGetOptionalParams): Promise<RecommendationsGetResponse>;
-    getGenerateStatus(operationId: string, options?: RecommendationsGetGenerateStatusOptionalParams): Promise<void>;
+    getGenerateStatus(operationId: string, options?: RecommendationsGetGenerateStatusOptionalParams): Promise<RecommendationsGetGenerateStatusResponse>;
     list(options?: RecommendationsListOptionalParams): PagedAsyncIterableIterator<ResourceRecommendationBase>;
+    patch(resourceUri: string, recommendationId: string, trackedProperties: TrackedRecommendationPropertiesPayload, options?: RecommendationsPatchOptionalParams): Promise<RecommendationsPatchResponse>;
 }
 
 // @public
 export interface RecommendationsGenerateHeaders {
-    location?: string;
-    retryAfter?: string;
+    retryAfter?: number;
 }
 
 // @public
@@ -290,8 +634,16 @@ export interface RecommendationsGenerateOptionalParams extends coreClient.Operat
 export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders;
 
 // @public
+export interface RecommendationsGetGenerateStatusHeaders {
+    retryAfter?: number;
+}
+
+// @public
 export interface RecommendationsGetGenerateStatusOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export type RecommendationsGetGenerateStatusResponse = RecommendationsGetGenerateStatusHeaders;
 
 // @public
 export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {
@@ -318,16 +670,75 @@ export interface RecommendationsListOptionalParams extends coreClient.OperationO
 export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
 
 // @public
+export interface RecommendationsPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RecommendationsPatchResponse = ResourceRecommendationBase;
+
+// @public
+export type RecommendationStatusName = string;
+
+// @public
+export interface ResiliencyReview extends ProxyResource {
+    readonly publishedAt?: string;
+    readonly recommendationsCount?: number;
+    readonly reviewName?: string;
+    readonly reviewStatus?: ReviewStatus;
+    readonly updatedAt?: string;
+    readonly workloadName?: string;
+}
+
+// @public
+export interface ResiliencyReviewCollection {
+    nextLink?: string;
+    value: ResiliencyReview[];
+}
+
+// @public
+export interface ResiliencyReviews {
+    get(reviewId: string, options?: ResiliencyReviewsGetOptionalParams): Promise<ResiliencyReviewsGetResponse>;
+    list(options?: ResiliencyReviewsListOptionalParams): PagedAsyncIterableIterator<ResiliencyReview>;
+}
+
+// @public
+export interface ResiliencyReviewsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResiliencyReviewsGetResponse = ResiliencyReview;
+
+// @public
+export interface ResiliencyReviewsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ResiliencyReviewsListNextResponse = ResiliencyReviewCollection;
+
+// @public
+export interface ResiliencyReviewsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type ResiliencyReviewsListResponse = ResiliencyReviewCollection;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
 export interface ResourceMetadata {
     action?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     plural?: string;
     resourceId?: string;
@@ -336,14 +747,18 @@ export interface ResourceMetadata {
 }
 
 // @public
-export interface ResourceRecommendationBase extends Resource {
+export interface ResourceRecommendationBase extends ProxyResource {
     actions?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     }[];
     category?: Category;
     description?: string;
     exposedMetadataProperties?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     extendedProperties?: {
         [propertyName: string]: string;
@@ -355,24 +770,37 @@ export interface ResourceRecommendationBase extends Resource {
     lastUpdated?: Date;
     learnMoreLink?: string;
     metadata?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
+    notes?: string;
     potentialBenefits?: string;
     recommendationTypeId?: string;
     remediation?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: {
+            [propertyName: string]: any;
+        };
     };
     resourceMetadata?: ResourceMetadata;
+    resourceWorkload?: RecommendationPropertiesResourceWorkload;
+    review?: RecommendationPropertiesReview;
     risk?: Risk;
     shortDescription?: ShortDescription;
+    sourceSystem?: string;
     suppressionIds?: string[];
+    tracked?: boolean;
+    trackedProperties?: TrackedRecommendationProperties;
 }
 
 // @public
 export interface ResourceRecommendationBaseListResult {
     nextLink?: string;
-    value?: ResourceRecommendationBase[];
+    value: ResourceRecommendationBase[];
 }
+
+// @public
+export type ReviewStatus = string;
 
 // @public
 export type Risk = string;
@@ -381,13 +809,26 @@ export type Risk = string;
 export type Scenario = string;
 
 // @public
+export interface ScoreEntity {
+    readonly categoryCount?: number;
+    consumptionUnits?: number;
+    date?: string;
+    impactedResourceCount?: number;
+    potentialScoreIncrease?: number;
+    score?: number;
+}
+
+// @public
 export interface ShortDescription {
     problem?: string;
     solution?: string;
 }
 
 // @public
-export interface SuppressionContract extends Resource {
+export type State = string;
+
+// @public
+export interface SuppressionContract extends ProxyResource {
     readonly expirationTimeStamp?: Date;
     suppressionId?: string;
     ttl?: string;
@@ -396,7 +837,7 @@ export interface SuppressionContract extends Resource {
 // @public
 export interface SuppressionContractListResult {
     nextLink?: string;
-    value?: SuppressionContract[];
+    value: SuppressionContract[];
 }
 
 // @public
@@ -440,6 +881,182 @@ export interface SuppressionsListOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type SuppressionsListResponse = SuppressionContractListResult;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TimeSeriesEntityItem {
+    aggregationLevel?: Aggregated;
+    scoreHistory?: ScoreEntity[];
+}
+
+// @public
+export interface TrackedRecommendationProperties {
+    postponedTime?: Date;
+    priority?: Priority;
+    reason?: Reason;
+    state?: State;
+}
+
+// @public (undocumented)
+export interface TrackedRecommendationPropertiesPayload {
+    // (undocumented)
+    properties?: TrackedRecommendationPropertiesPayloadProperties;
+}
+
+// @public (undocumented)
+export interface TrackedRecommendationPropertiesPayloadProperties {
+    trackedProperties?: TrackedRecommendationProperties;
+}
+
+// @public
+export interface TriageRecommendation extends ProxyResource {
+    readonly appliesToSubscriptions?: string[];
+    readonly description?: string;
+    readonly notes?: string;
+    readonly potentialBenefits?: string;
+    readonly priority?: PriorityName;
+    readonly recommendationStatus?: RecommendationStatusName;
+    readonly rejectReason?: string;
+    readonly reviewId?: string;
+    readonly title?: string;
+    readonly updatedAt?: string;
+}
+
+// @public
+export interface TriageRecommendationCollection {
+    nextLink?: string;
+    value: TriageRecommendation[];
+}
+
+// @public
+export interface TriageRecommendations {
+    approveTriageRecommendation(reviewId: string, recommendationId: string, options?: TriageRecommendationsApproveTriageRecommendationOptionalParams): Promise<void>;
+    get(reviewId: string, recommendationId: string, options?: TriageRecommendationsGetOptionalParams): Promise<TriageRecommendationsGetResponse>;
+    list(reviewId: string, options?: TriageRecommendationsListOptionalParams): PagedAsyncIterableIterator<TriageRecommendation>;
+    rejectTriageRecommendation(reviewId: string, recommendationId: string, recommendationRejectBody: RecommendationRejectBody, options?: TriageRecommendationsRejectTriageRecommendationOptionalParams): Promise<void>;
+    resetTriageRecommendation(reviewId: string, recommendationId: string, options?: TriageRecommendationsResetTriageRecommendationOptionalParams): Promise<void>;
+}
+
+// @public
+export interface TriageRecommendationsApproveTriageRecommendationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TriageRecommendationsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriageRecommendationsGetResponse = TriageRecommendation;
+
+// @public
+export interface TriageRecommendationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriageRecommendationsListNextResponse = TriageRecommendationCollection;
+
+// @public
+export interface TriageRecommendationsListOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export type TriageRecommendationsListResponse = TriageRecommendationCollection;
+
+// @public
+export interface TriageRecommendationsRejectTriageRecommendationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TriageRecommendationsResetTriageRecommendationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TriageResource extends ProxyResource {
+    readonly recommendationId?: string;
+    readonly resourceGroup?: string;
+    readonly resourceId?: string;
+    readonly resourceName?: string;
+    readonly resourceType?: string;
+    readonly reviewId?: string;
+    readonly subscriptionId?: string;
+}
+
+// @public
+export interface TriageResourceCollection {
+    nextLink?: string;
+    value: TriageResource[];
+}
+
+// @public
+export interface TriageResources {
+    get(reviewId: string, recommendationId: string, recommendationResourceId: string, options?: TriageResourcesGetOptionalParams): Promise<TriageResourcesGetResponse>;
+    list(reviewId: string, recommendationId: string, options?: TriageResourcesListOptionalParams): PagedAsyncIterableIterator<TriageResource>;
+}
+
+// @public
+export interface TriageResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriageResourcesGetResponse = TriageResource;
+
+// @public
+export interface TriageResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriageResourcesListNextResponse = TriageResourceCollection;
+
+// @public
+export interface TriageResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TriageResourcesListResponse = TriageResourceCollection;
+
+// @public
+export interface WorkloadListResult {
+    nextLink?: string;
+    value: WorkloadResult[];
+}
+
+// @public
+export interface WorkloadResult {
+    id?: string;
+    name?: string;
+    subscriptionId?: string;
+    subscriptionName?: string;
+}
+
+// @public
+export interface Workloads {
+    list(options?: WorkloadsListOptionalParams): PagedAsyncIterableIterator<WorkloadResult>;
+}
+
+// @public
+export interface WorkloadsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadsListNextResponse = WorkloadListResult;
+
+// @public
+export interface WorkloadsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkloadsListResponse = WorkloadListResult;
 
 // (No @packageDocumentation comment for this package)
 

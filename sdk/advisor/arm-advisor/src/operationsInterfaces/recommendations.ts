@@ -10,11 +10,15 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ResourceRecommendationBase,
   RecommendationsListOptionalParams,
+  RecommendationsGetOptionalParams,
+  RecommendationsGetResponse,
+  TrackedRecommendationPropertiesPayload,
+  RecommendationsPatchOptionalParams,
+  RecommendationsPatchResponse,
   RecommendationsGenerateOptionalParams,
   RecommendationsGenerateResponse,
   RecommendationsGetGenerateStatusOptionalParams,
-  RecommendationsGetOptionalParams,
-  RecommendationsGetResponse,
+  RecommendationsGetGenerateStatusResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,6 +32,30 @@ export interface Recommendations {
   list(
     options?: RecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceRecommendationBase>;
+  /**
+   * Obtains details of a cached recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param options The options parameters.
+   */
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options?: RecommendationsGetOptionalParams,
+  ): Promise<RecommendationsGetResponse>;
+  /**
+   * Update the tracked properties of a Recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param trackedProperties The properties to update on the recommendation.
+   * @param options The options parameters.
+   */
+  patch(
+    resourceUri: string,
+    recommendationId: string,
+    trackedProperties: TrackedRecommendationPropertiesPayload,
+    options?: RecommendationsPatchOptionalParams,
+  ): Promise<RecommendationsPatchResponse>;
   /**
    * Initiates the recommendation generation or computation process for a subscription. This operation is
    * asynchronous. The generated recommendations are stored in a cache in the Advisor service.
@@ -47,17 +75,5 @@ export interface Recommendations {
   getGenerateStatus(
     operationId: string,
     options?: RecommendationsGetGenerateStatusOptionalParams,
-  ): Promise<void>;
-  /**
-   * Obtains details of a cached recommendation.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
-   * @param recommendationId The recommendation ID.
-   * @param options The options parameters.
-   */
-  get(
-    resourceUri: string,
-    recommendationId: string,
-    options?: RecommendationsGetOptionalParams,
-  ): Promise<RecommendationsGetResponse>;
+  ): Promise<RecommendationsGetGenerateStatusResponse>;
 }
