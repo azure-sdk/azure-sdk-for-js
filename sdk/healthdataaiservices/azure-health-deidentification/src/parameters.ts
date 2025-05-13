@@ -16,21 +16,23 @@ export interface GetJobHeaderParam {
 
 export type GetJobParameters = GetJobHeaderParam & RequestParameters;
 
-export interface CreateJobHeaders {
+export interface DeidentifyDocumentsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface CreateJobBodyParam {
+export interface DeidentifyDocumentsBodyParam {
   /** The resource instance. */
   body: DeidentificationJob;
 }
 
-export interface CreateJobHeaderParam {
-  headers?: RawHttpHeadersInput & CreateJobHeaders;
+export interface DeidentifyDocumentsHeaderParam {
+  headers?: RawHttpHeadersInput & DeidentifyDocumentsHeaders;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+export type DeidentifyDocumentsParameters = DeidentifyDocumentsHeaderParam &
+  DeidentifyDocumentsBodyParam &
+  RequestParameters;
 
 export interface ListJobsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -100,9 +102,20 @@ export interface DeleteJobHeaderParam {
 
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
-export interface DeidentifyBodyParam {
+export interface DeidentifyTextHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeidentifyTextBodyParam {
   /** Request body for de-identification operation. */
   body: DeidentificationContent;
 }
 
-export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+export interface DeidentifyTextHeaderParam {
+  headers?: RawHttpHeadersInput & DeidentifyTextHeaders;
+}
+
+export type DeidentifyTextParameters = DeidentifyTextHeaderParam &
+  DeidentifyTextBodyParam &
+  RequestParameters;
