@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a Pool
  *
  * @summary get a Pool
- * x-ms-original-file: 2024-10-19/GetPool.json
+ * x-ms-original-file: 2025-01-21/GetPool.json
  */
 async function poolsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function poolsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  poolsGet();
+  await poolsGet();
 }
 
 main().catch(console.error);

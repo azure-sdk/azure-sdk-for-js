@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a Pool
  *
  * @summary update a Pool
- * x-ms-original-file: 2024-10-19/UpdatePool.json
+ * x-ms-original-file: 2025-01-21/UpdatePool.json
  */
 async function poolsUpdate() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function poolsUpdate() {
 }
 
 async function main() {
-  poolsUpdate();
+  await poolsUpdate();
 }
 
 main().catch(console.error);

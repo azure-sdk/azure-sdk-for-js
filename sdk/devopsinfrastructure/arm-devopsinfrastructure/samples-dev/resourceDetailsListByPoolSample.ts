@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ResourceDetailsObject resources by Pool
  *
  * @summary list ResourceDetailsObject resources by Pool
- * x-ms-original-file: 2024-10-19/ResourceDetails_ListByPool.json
+ * x-ms-original-file: 2025-01-21/ResourceDetails_ListByPool.json
  */
 async function resourceDetailsListByPool(): Promise<void> {
   const credential = new DefaultAzureCredential();

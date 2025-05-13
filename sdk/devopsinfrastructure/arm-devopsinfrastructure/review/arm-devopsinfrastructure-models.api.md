@@ -24,6 +24,9 @@ export interface AutomaticResourcePredictionsProfile extends ResourcePredictions
 }
 
 // @public
+export type AvailabilityStatus = string;
+
+// @public
 export interface AzureDevOpsOrganizationProfile extends OrganizationProfile {
     kind: "AzureDevOps";
     organizations: Organization[];
@@ -44,6 +47,26 @@ export type AzureDevOpsPermissionType = string;
 export type CachingType = string;
 
 // @public
+export type CertificateStoreNameOption = string;
+
+// @public
+export interface CheckNameAvailability {
+    name: string;
+    type: DevOpsInfrastructureResourceType;
+}
+
+// @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityResult {
+    available: AvailabilityStatus;
+    message: string;
+    name: string;
+    reason: CheckNameAvailabilityReason;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -57,6 +80,32 @@ export interface DataDisk {
 // @public
 export interface DevOpsAzureSku {
     name: string;
+}
+
+// @public
+export type DevOpsInfrastructureResourceType = string;
+
+// @public
+export type EphemeralType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -95,6 +144,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAvailabilityStatus {
+    Available = "Available",
+    Unavailable = "Unavailable"
+}
+
+// @public
 export enum KnownAzureDevOpsPermissionType {
     CreatorOnly = "CreatorOnly",
     Inherit = "Inherit",
@@ -109,11 +164,35 @@ export enum KnownCachingType {
 }
 
 // @public
+export enum KnownCertificateStoreNameOption {
+    My = "My",
+    Root = "Root"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    AlreadyExists = "AlreadyExists",
+    Invalid = "Invalid"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDevOpsInfrastructureResourceType {
+    MicrosoftDevOpsInfrastructurePools = "Microsoft.DevOpsInfrastructure/pools"
+}
+
+// @public
+export enum KnownEphemeralType {
+    Automatic = "Automatic",
+    CacheDisk = "CacheDisk",
+    ResourceDisk = "ResourceDisk"
 }
 
 // @public
@@ -202,13 +281,13 @@ export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS"
+    StandardSsdlrs = "StandardSSD_LRS",
+    StandardSsdzrs = "StandardSSD_ZRS"
 }
 
 // @public
 export enum KnownVersions {
-    "V2024-10-19" = "2024-10-19"
+    _20250121 = "2025-01-21"
 }
 
 // @public
@@ -237,8 +316,8 @@ export interface NetworkProfile {
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -254,6 +333,7 @@ export interface OperationDisplay {
 
 // @public
 export interface Organization {
+    openAccess?: boolean;
     parallelism?: number;
     projects?: string[];
     url: string;
@@ -289,6 +369,7 @@ export interface Pool extends TrackedResource {
 export interface PoolImage {
     aliases?: string[];
     buffer?: string;
+    ephemeralType?: EphemeralType;
     resourceId?: string;
     wellKnownImageName?: string;
 }
@@ -442,6 +523,7 @@ export type ResourceStatus = string;
 // @public
 export interface SecretsManagementSettings {
     certificateStoreLocation?: string;
+    certificateStoreName?: CertificateStoreNameOption;
     keyExportable: boolean;
     observedCertificates: string[];
 }
