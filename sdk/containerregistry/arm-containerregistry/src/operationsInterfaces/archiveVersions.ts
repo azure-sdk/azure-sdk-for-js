@@ -71,10 +71,7 @@ export interface ArchiveVersions {
     archiveVersionName: string,
     options?: ArchiveVersionsCreateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ArchiveVersionsCreateResponse>,
-      ArchiveVersionsCreateResponse
-    >
+    SimplePollerLike<OperationState<ArchiveVersionsCreateResponse>, ArchiveVersionsCreateResponse>
   >;
   /**
    * Creates a archive for a container registry with the specified parameters.
@@ -110,10 +107,7 @@ export interface ArchiveVersions {
     archiveVersionName: string,
     options?: ArchiveVersionsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<ArchiveVersionsDeleteResponse>,
-      ArchiveVersionsDeleteResponse
-    >
+    SimplePollerLike<OperationState<ArchiveVersionsDeleteResponse>, ArchiveVersionsDeleteResponse>
   >;
   /**
    * Deletes a archive version from a container registry.
