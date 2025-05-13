@@ -45,10 +45,7 @@ export class ReservationOrdersImpl implements ReservationOrders {
     billingAccountName: string,
     options?: ReservationOrdersListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<ReservationOrder> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -60,11 +57,7 @@ export class ReservationOrdersImpl implements ReservationOrders {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -84,11 +77,7 @@ export class ReservationOrdersImpl implements ReservationOrders {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -100,10 +89,7 @@ export class ReservationOrdersImpl implements ReservationOrders {
     billingAccountName: string,
     options?: ReservationOrdersListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<ReservationOrder> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -172,11 +158,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.reservationOrderId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.reservationOrderId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -212,11 +194,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

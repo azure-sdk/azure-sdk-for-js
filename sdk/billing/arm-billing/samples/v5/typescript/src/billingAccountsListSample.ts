@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists the billing accounts that a user has access to.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountForLegacyAccountDetails.json
  */
-async function billingAccountForLegacyAccountDetails() {
+async function billingAccountForLegacyAccountDetails(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
@@ -34,7 +34,7 @@ async function billingAccountForLegacyAccountDetails() {
  * @summary Lists the billing accounts that a user has access to.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsList.json
  */
-async function billingAccountsList() {
+async function billingAccountsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingManagementClient(credential);
   const resArray = new Array();
@@ -50,7 +50,7 @@ async function billingAccountsList() {
  * @summary Lists the billing accounts that a user has access to.
  * x-ms-original-file: specification/billing/resource-manager/Microsoft.Billing/stable/2024-04-01/examples/billingAccountsListWithExpandForPONumber.json
  */
-async function billingAccountsListWithExpandForPoNumber() {
+async function billingAccountsListWithExpandForPoNumber(): Promise<void> {
   const expand = "soldTo,enrollmentDetails/poNumber";
   const options: BillingAccountsListOptionalParams = { expand };
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function billingAccountsListWithExpandForPoNumber() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   billingAccountForLegacyAccountDetails();
   billingAccountsList();
   billingAccountsListWithExpandForPoNumber();

@@ -20,9 +20,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing BillingPropertyOperations operations. */
-export class BillingPropertyOperationsImpl
-  implements BillingPropertyOperations
-{
+export class BillingPropertyOperationsImpl implements BillingPropertyOperations {
   private readonly client: BillingManagementClient;
 
   /**
@@ -37,9 +35,7 @@ export class BillingPropertyOperationsImpl
    * Gets the billing properties for a subscription
    * @param options The options parameters.
    */
-  get(
-    options?: BillingPropertyGetOptionalParams,
-  ): Promise<BillingPropertyGetResponse> {
+  get(options?: BillingPropertyGetOptionalParams): Promise<BillingPropertyGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 
@@ -54,10 +50,7 @@ export class BillingPropertyOperationsImpl
     parameters: BillingProperty,
     options?: BillingPropertyUpdateOptionalParams,
   ): Promise<BillingPropertyUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { parameters, options },
-      updateOperationSpec,
-    );
+    return this.client.sendOperationRequest({ parameters, options }, updateOperationSpec);
   }
 }
 // Operation Specifications

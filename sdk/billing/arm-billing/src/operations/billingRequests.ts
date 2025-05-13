@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   BillingRequest,
@@ -106,11 +102,7 @@ export class BillingRequestsImpl implements BillingRequests {
     let result: BillingRequestsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -339,10 +331,7 @@ export class BillingRequestsImpl implements BillingRequests {
     billingAccountName: string,
     options?: BillingRequestsListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<BillingRequest> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -354,11 +343,7 @@ export class BillingRequestsImpl implements BillingRequests {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -378,11 +363,7 @@ export class BillingRequestsImpl implements BillingRequests {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -394,10 +375,7 @@ export class BillingRequestsImpl implements BillingRequests {
     billingAccountName: string,
     options?: BillingRequestsListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<BillingRequest> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -535,10 +513,7 @@ export class BillingRequestsImpl implements BillingRequests {
     billingRequestName: string,
     options?: BillingRequestsGetOptionalParams,
   ): Promise<BillingRequestsGetResponse> {
-    return this.client.sendOperationRequest(
-      { billingRequestName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ billingRequestName, options }, getOperationSpec);
   }
 
   /**
@@ -568,8 +543,7 @@ export class BillingRequestsImpl implements BillingRequests {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -625,11 +599,7 @@ export class BillingRequestsImpl implements BillingRequests {
     parameters: BillingRequest,
     options?: BillingRequestsCreateOrUpdateOptionalParams,
   ): Promise<BillingRequestsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      billingRequestName,
-      parameters,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(billingRequestName, parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -640,10 +610,7 @@ export class BillingRequestsImpl implements BillingRequests {
   private _listByUser(
     options?: BillingRequestsListByUserOptionalParams,
   ): Promise<BillingRequestsListByUserResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listByUserOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listByUserOperationSpec);
   }
 
   /**
@@ -745,10 +712,7 @@ export class BillingRequestsImpl implements BillingRequests {
     nextLink: string,
     options?: BillingRequestsListByUserNextOptionalParams,
   ): Promise<BillingRequestsListByUserNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listByUserNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listByUserNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -774,11 +738,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.count,
     Parameters.search,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1004,11 +964,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

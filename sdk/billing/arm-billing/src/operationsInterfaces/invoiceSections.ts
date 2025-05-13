@@ -64,10 +64,7 @@ export interface InvoiceSections {
     invoiceSectionName: string,
     options?: InvoiceSectionsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<InvoiceSectionsDeleteResponse>,
-      InvoiceSectionsDeleteResponse
-    >
+    SimplePollerLike<OperationState<InvoiceSectionsDeleteResponse>, InvoiceSectionsDeleteResponse>
   >;
   /**
    * Deletes an invoice section. The operation is supported for billing accounts with agreement type

@@ -39,10 +39,7 @@ export class AddressImpl implements Address {
     parameters: AddressDetails,
     options?: AddressValidateOptionalParams,
   ): Promise<AddressValidateResponse> {
-    return this.client.sendOperationRequest(
-      { parameters, options },
-      validateOperationSpec,
-    );
+    return this.client.sendOperationRequest({ parameters, options }, validateOperationSpec);
   }
 }
 // Operation Specifications

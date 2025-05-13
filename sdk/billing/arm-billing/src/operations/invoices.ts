@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Invoice,
@@ -115,11 +111,7 @@ export class InvoicesImpl implements Invoices {
     let result: InvoicesListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByBillingProfile(
-        billingAccountName,
-        billingProfileName,
-        options,
-      );
+      result = await this._listByBillingProfile(billingAccountName, billingProfileName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -163,10 +155,7 @@ export class InvoicesImpl implements Invoices {
     billingAccountName: string,
     options?: InvoicesListByBillingAccountOptionalParams,
   ): PagedAsyncIterableIterator<Invoice> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options,
-    );
+    const iter = this.listByBillingAccountPagingAll(billingAccountName, options);
     return {
       next() {
         return iter.next();
@@ -178,11 +167,7 @@ export class InvoicesImpl implements Invoices {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings,
-        );
+        return this.listByBillingAccountPagingPage(billingAccountName, options, settings);
       },
     };
   }
@@ -202,11 +187,7 @@ export class InvoicesImpl implements Invoices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingAccountNext(billingAccountName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -218,10 +199,7 @@ export class InvoicesImpl implements Invoices {
     billingAccountName: string,
     options?: InvoicesListByBillingAccountOptionalParams,
   ): AsyncIterableIterator<Invoice> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options,
-    )) {
+    for await (const page of this.listByBillingAccountPagingPage(billingAccountName, options)) {
       yield* page;
     }
   }
@@ -265,10 +243,7 @@ export class InvoicesImpl implements Invoices {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByBillingSubscriptionNext(
-        continuationToken,
-        options,
-      );
+      result = await this._listByBillingSubscriptionNext(continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -279,9 +254,7 @@ export class InvoicesImpl implements Invoices {
   private async *listByBillingSubscriptionPagingAll(
     options?: InvoicesListByBillingSubscriptionOptionalParams,
   ): AsyncIterableIterator<Invoice> {
-    for await (const page of this.listByBillingSubscriptionPagingPage(
-      options,
-    )) {
+    for await (const page of this.listByBillingSubscriptionPagingPage(options)) {
       yield* page;
     }
   }
@@ -333,8 +306,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -410,12 +382,7 @@ export class InvoicesImpl implements Invoices {
     billingAccountName: string,
     invoiceName: string,
     options?: InvoicesAmendOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<InvoicesAmendResponse>,
-      InvoicesAmendResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<InvoicesAmendResponse>, InvoicesAmendResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -426,8 +393,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -483,11 +449,7 @@ export class InvoicesImpl implements Invoices {
     invoiceName: string,
     options?: InvoicesAmendOptionalParams,
   ): Promise<InvoicesAmendResponse> {
-    const poller = await this.beginAmend(
-      billingAccountName,
-      invoiceName,
-      options,
-    );
+    const poller = await this.beginAmend(billingAccountName, invoiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -518,8 +480,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -610,8 +571,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -735,8 +695,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -791,10 +750,7 @@ export class InvoicesImpl implements Invoices {
     parameters: DocumentDownloadRequest[],
     options?: InvoicesDownloadDocumentsByBillingSubscriptionOptionalParams,
   ): Promise<InvoicesDownloadDocumentsByBillingSubscriptionResponse> {
-    const poller = await this.beginDownloadDocumentsByBillingSubscription(
-      parameters,
-      options,
-    );
+    const poller = await this.beginDownloadDocumentsByBillingSubscription(parameters, options);
     return poller.pollUntilDone();
   }
 
@@ -823,8 +779,7 @@ export class InvoicesImpl implements Invoices {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -878,10 +833,7 @@ export class InvoicesImpl implements Invoices {
     invoiceName: string,
     options?: InvoicesDownloadByBillingSubscriptionOptionalParams,
   ): Promise<InvoicesDownloadByBillingSubscriptionResponse> {
-    const poller = await this.beginDownloadByBillingSubscription(
-      invoiceName,
-      options,
-    );
+    const poller = await this.beginDownloadByBillingSubscription(invoiceName, options);
     return poller.pollUntilDone();
   }
 
@@ -909,10 +861,7 @@ export class InvoicesImpl implements Invoices {
   private _listByBillingSubscription(
     options?: InvoicesListByBillingSubscriptionOptionalParams,
   ): Promise<InvoicesListByBillingSubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listByBillingSubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listByBillingSubscriptionOperationSpec);
   }
 
   /**
@@ -921,14 +870,8 @@ export class InvoicesImpl implements Invoices {
    * @param invoiceName The ID that uniquely identifies an invoice.
    * @param options The options parameters.
    */
-  get(
-    invoiceName: string,
-    options?: InvoicesGetOptionalParams,
-  ): Promise<InvoicesGetResponse> {
-    return this.client.sendOperationRequest(
-      { invoiceName, options },
-      getOperationSpec,
-    );
+  get(invoiceName: string, options?: InvoicesGetOptionalParams): Promise<InvoicesGetResponse> {
+    return this.client.sendOperationRequest({ invoiceName, options }, getOperationSpec);
   }
 
   /**
@@ -1008,42 +951,37 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.periodStartDate,
     Parameters.periodEndDate,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const downloadDocumentsByBillingAccountOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/downloadDocuments",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      201: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      202: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      204: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const downloadDocumentsByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/downloadDocuments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DocumentDownloadResult,
     },
-    requestBody: Parameters.parameters17,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.billingAccountName],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    202: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    204: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const amendOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/invoices/{invoiceName}/amend",
   httpMethod: "POST",
@@ -1065,11 +1003,7 @@ const amendOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1094,11 +1028,7 @@ const downloadByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.documentName],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1123,11 +1053,7 @@ const downloadSummaryByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1143,11 +1069,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1177,34 +1099,33 @@ const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const downloadDocumentsByBillingSubscriptionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments",
-    httpMethod: "POST",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      201: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      202: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      204: {
-        bodyMapper: Mappers.DocumentDownloadResult,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const downloadDocumentsByBillingSubscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/downloadDocuments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DocumentDownloadResult,
     },
-    requestBody: Parameters.parameters17,
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [Parameters.$host, Parameters.subscriptionId],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    202: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    204: {
+      bodyMapper: Mappers.DocumentDownloadResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const downloadByBillingSubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Billing/billingAccounts/default/billingSubscriptions/{subscriptionId}/invoices/{invoiceName}/download",
   httpMethod: "POST",
@@ -1226,11 +1147,7 @@ const downloadByBillingSubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.documentName],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1246,11 +1163,7 @@ const getByBillingSubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1327,11 +1240,7 @@ const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1346,11 +1255,7 @@ const listByBillingSubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
 };

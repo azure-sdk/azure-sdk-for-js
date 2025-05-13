@@ -20,9 +20,7 @@ export interface BillingPropertyOperations {
    * Gets the billing properties for a subscription
    * @param options The options parameters.
    */
-  get(
-    options?: BillingPropertyGetOptionalParams,
-  ): Promise<BillingPropertyGetResponse>;
+  get(options?: BillingPropertyGetOptionalParams): Promise<BillingPropertyGetResponse>;
   /**
    * Updates the billing property of a subscription. Currently, cost center can be updated for billing
    * accounts with agreement type Microsoft Customer Agreement and subscription service usage address can

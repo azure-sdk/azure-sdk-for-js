@@ -110,12 +110,7 @@ export interface Invoices {
     billingAccountName: string,
     invoiceName: string,
     options?: InvoicesAmendOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<InvoicesAmendResponse>,
-      InvoicesAmendResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<InvoicesAmendResponse>, InvoicesAmendResponse>>;
   /**
    * Regenerate an invoice by billing account name and invoice name. The operation is supported for
    * billing accounts with agreement type Microsoft Customer Agreement.
@@ -266,8 +261,5 @@ export interface Invoices {
    * @param invoiceName The ID that uniquely identifies an invoice.
    * @param options The options parameters.
    */
-  get(
-    invoiceName: string,
-    options?: InvoicesGetOptionalParams,
-  ): Promise<InvoicesGetResponse>;
+  get(invoiceName: string, options?: InvoicesGetOptionalParams): Promise<InvoicesGetResponse>;
 }

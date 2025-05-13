@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { BillingManagementClient } from "../billingManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Transaction,
@@ -426,11 +422,7 @@ export class TransactionsImpl implements Transactions {
     invoiceName: string,
     options?: TransactionsListByInvoiceOptionalParams,
   ): PagedAsyncIterableIterator<Transaction> {
-    const iter = this.listByInvoicePagingAll(
-      billingAccountName,
-      invoiceName,
-      options,
-    );
+    const iter = this.listByInvoicePagingAll(billingAccountName, invoiceName, options);
     return {
       next() {
         return iter.next();
@@ -442,12 +434,7 @@ export class TransactionsImpl implements Transactions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByInvoicePagingPage(
-          billingAccountName,
-          invoiceName,
-          options,
-          settings,
-        );
+        return this.listByInvoicePagingPage(billingAccountName, invoiceName, options, settings);
       },
     };
   }
@@ -461,11 +448,7 @@ export class TransactionsImpl implements Transactions {
     let result: TransactionsListByInvoiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByInvoice(
-        billingAccountName,
-        invoiceName,
-        options,
-      );
+      result = await this._listByInvoice(billingAccountName, invoiceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -655,8 +638,7 @@ export class TransactionsImpl implements Transactions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -920,11 +902,7 @@ const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.periodEndDate1,
     Parameters.typeParam,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.billingProfileName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -948,11 +926,7 @@ const listByInvoiceOperationSpec: coreClient.OperationSpec = {
     Parameters.count,
     Parameters.search,
   ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -977,11 +951,7 @@ const transactionsDownloadByInvoiceOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -996,16 +966,8 @@ const getTransactionSummaryByInvoiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.search,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.invoiceName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.search],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName, Parameters.invoiceName],
   headerParameters: [Parameters.accept],
   serializer,
 };

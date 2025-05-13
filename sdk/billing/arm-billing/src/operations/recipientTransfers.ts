@@ -141,10 +141,7 @@ export class RecipientTransfersImpl implements RecipientTransfers {
     transferName: string,
     options?: RecipientTransfersDeclineOptionalParams,
   ): Promise<RecipientTransfersDeclineResponse> {
-    return this.client.sendOperationRequest(
-      { transferName, options },
-      declineOperationSpec,
-    );
+    return this.client.sendOperationRequest({ transferName, options }, declineOperationSpec);
   }
 
   /**
@@ -156,10 +153,7 @@ export class RecipientTransfersImpl implements RecipientTransfers {
     transferName: string,
     options?: RecipientTransfersGetOptionalParams,
   ): Promise<RecipientTransfersGetResponse> {
-    return this.client.sendOperationRequest(
-      { transferName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ transferName, options }, getOperationSpec);
   }
 
   /**
@@ -181,10 +175,7 @@ export class RecipientTransfersImpl implements RecipientTransfers {
     nextLink: string,
     options?: RecipientTransfersListNextOptionalParams,
   ): Promise<RecipientTransfersListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

@@ -55,12 +55,7 @@ export class PartnerTransfersImpl implements PartnerTransfers {
     customerName: string,
     options?: PartnerTransfersListOptionalParams,
   ): PagedAsyncIterableIterator<PartnerTransferDetails> {
-    const iter = this.listPagingAll(
-      billingAccountName,
-      billingProfileName,
-      customerName,
-      options,
-    );
+    const iter = this.listPagingAll(billingAccountName, billingProfileName, customerName, options);
     return {
       next() {
         return iter.next();
@@ -93,12 +88,7 @@ export class PartnerTransfersImpl implements PartnerTransfers {
     let result: PartnerTransfersListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        billingAccountName,
-        billingProfileName,
-        customerName,
-        options,
-      );
+      result = await this._list(billingAccountName, billingProfileName, customerName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
