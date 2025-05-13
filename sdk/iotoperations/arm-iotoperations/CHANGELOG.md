@@ -1,5 +1,214 @@
 # Release History
     
+## 1.1.0-beta.1 (2025-05-13)
+Compared with version 1.0.0
+    
+### Features Added
+
+  - Added operation group AkriConnectorOperations
+  - Added operation group AkriConnectorTemplateOperations
+  - Added operation group AkriDiscoveryHandlerOperations
+  - Added operation group DataflowGraphOperations
+  - Added operation group RegistryEndpointOperations
+  - Added Interface AkriConnectorCreateOrUpdateOptionalParams
+  - Added Interface AkriConnectorDeleteOptionalParams
+  - Added Interface AkriConnectorGetOptionalParams
+  - Added Interface AkriConnectorListByTemplateOptionalParams
+  - Added Interface AkriConnectorProperties
+  - Added Interface AkriConnectorResource
+  - Added Interface AkriConnectorsContainerRegistry
+  - Added Interface AkriConnectorsContainerRegistrySettings
+  - Added Interface AkriConnectorsDiagnosticsLogs
+  - Added Interface AkriConnectorsDigest
+  - Added Interface AkriConnectorsImagePullSecret
+  - Added Interface AkriConnectorsMqttAuthentication
+  - Added Interface AkriConnectorsMqttConnectionConfiguration
+  - Added Interface AkriConnectorsRegistryEndpointRef
+  - Added Interface AkriConnectorsRegistrySettings
+  - Added Interface AkriConnectorsSecret
+  - Added Interface AkriConnectorsServiceAccountAuthentication
+  - Added Interface AkriConnectorsServiceAccountTokenSettings
+  - Added Interface AkriConnectorsTag
+  - Added Interface AkriConnectorsTagDigestSettings
+  - Added Interface AkriConnectorTemplateAioMetadata
+  - Added Interface AkriConnectorTemplateAllocation
+  - Added Interface AkriConnectorTemplateBucketizedAllocation
+  - Added Interface AkriConnectorTemplateCreateOrUpdateOptionalParams
+  - Added Interface AkriConnectorTemplateDeleteOptionalParams
+  - Added Interface AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs
+  - Added Interface AkriConnectorTemplateDeviceInboundEndpointType
+  - Added Interface AkriConnectorTemplateDiagnostics
+  - Added Interface AkriConnectorTemplateGetOptionalParams
+  - Added Interface AkriConnectorTemplateHelmAdvancedConfiguration
+  - Added Interface AkriConnectorTemplateHelmAuthSecretRef
+  - Added Interface AkriConnectorTemplateHelmConfiguration
+  - Added Interface AkriConnectorTemplateHelmConfigurationSettings
+  - Added Interface AkriConnectorTemplateHelmContainerRegistry
+  - Added Interface AkriConnectorTemplateHelmContainerRegistrySettings
+  - Added Interface AkriConnectorTemplateHelmDeleteConfiguration
+  - Added Interface AkriConnectorTemplateHelmInstallConfiguration
+  - Added Interface AkriConnectorTemplateHelmRegistryEndpointRef
+  - Added Interface AkriConnectorTemplateHelmRegistrySettings
+  - Added Interface AkriConnectorTemplateHelmUpgradeConfiguration
+  - Added Interface AkriConnectorTemplateListByInstanceResourceOptionalParams
+  - Added Interface AkriConnectorTemplateManagedConfiguration
+  - Added Interface AkriConnectorTemplateManagedConfigurationSettings
+  - Added Interface AkriConnectorTemplatePersistentVolumeClaim
+  - Added Interface AkriConnectorTemplateProperties
+  - Added Interface AkriConnectorTemplateResource
+  - Added Interface AkriConnectorTemplateRuntimeConfiguration
+  - Added Interface AkriConnectorTemplateRuntimeImageConfiguration
+  - Added Interface AkriConnectorTemplateRuntimeImageConfigurationSettings
+  - Added Interface AkriConnectorTemplateRuntimeStatefulSetConfiguration
+  - Added Interface AkriConnectorTemplateTrustList
+  - Added Interface AkriDiscoveryHandlerAioMetadata
+  - Added Interface AkriDiscoveryHandlerCreateOrUpdateOptionalParams
+  - Added Interface AkriDiscoveryHandlerDeleteOptionalParams
+  - Added Interface AkriDiscoveryHandlerDiagnostics
+  - Added Interface AkriDiscoveryHandlerDiscoverableDeviceEndpointType
+  - Added Interface AkriDiscoveryHandlerGetOptionalParams
+  - Added Interface AkriDiscoveryHandlerImageConfiguration
+  - Added Interface AkriDiscoveryHandlerListByInstanceResourceOptionalParams
+  - Added Interface AkriDiscoveryHandlerProperties
+  - Added Interface AkriDiscoveryHandlerResource
+  - Added Interface AkriDiscoveryHandlerSchedule
+  - Added Interface AkriDiscoveryHandlerScheduleContinuous
+  - Added Interface AkriDiscoveryHandlerScheduleCron
+  - Added Interface AkriDiscoveryHandlerScheduleRunOnce
+  - Added Interface AzureDeviceRegistryNamespaceRef
+  - Added Interface BrokerPersistence
+  - Added Interface BrokerPersistenceDynamicSettings
+  - Added Interface BrokerPersistenceEncryption
+  - Added Interface BrokerRetainMessagesCustomPolicy
+  - Added Interface BrokerRetainMessagesDynamic
+  - Added Interface BrokerRetainMessagesPolicy
+  - Added Interface BrokerRetainMessagesSettings
+  - Added Interface BrokerStateStoreCustomPolicy
+  - Added Interface BrokerStateStoreDynamic
+  - Added Interface BrokerStateStorePolicy
+  - Added Interface BrokerStateStorePolicyResources
+  - Added Interface BrokerStateStorePolicySettings
+  - Added Interface BrokerSubscriberQueueCustomPolicy
+  - Added Interface BrokerSubscriberQueueCustomPolicySettings
+  - Added Interface BrokerSubscriberQueueDynamic
+  - Added Interface BrokerSubscriberQueuePolicy
+  - Added Interface DatafloGraphDestinationNode
+  - Added Interface DataflowEndpointAuthenticationAnonymous
+  - Added Interface DataflowEndpointOpenTelemetry
+  - Added Interface DataflowGraphConnectionInput
+  - Added Interface DataflowGraphConnectionOutput
+  - Added Interface DataflowGraphCreateOrUpdateOptionalParams
+  - Added Interface DataflowGraphDeleteOptionalParams
+  - Added Interface DataflowGraphDestinationNodeSettings
+  - Added Interface DataflowGraphGetOptionalParams
+  - Added Interface DataflowGraphGraphNode
+  - Added Interface DataflowGraphGraphNodeConfiguration
+  - Added Interface DataflowGraphListByDataflowProfileOptionalParams
+  - Added Interface DataflowGraphNode
+  - Added Interface DataflowGraphNodeConnection
+  - Added Interface DataflowGraphNodeGraphSettings
+  - Added Interface DataflowGraphProperties
+  - Added Interface DataflowGraphResource
+  - Added Interface DataflowGraphSchemaSettings
+  - Added Interface DataflowGraphSourceNode
+  - Added Interface DataflowGraphSourceSettings
+  - Added Interface DataflowOpenTelemetryAnonymousAuthentication
+  - Added Interface DataflowOpenTelemetryAuthentication
+  - Added Interface DataflowOpenTelemetryServiceAccountAuthentication
+  - Added Interface DataflowOpenTelemetryX509CertificateAuthentication
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface InstanceFeature
+  - Added Interface RegistryEndpointAnonymousAuthentication
+  - Added Interface RegistryEndpointAnonymousSettings
+  - Added Interface RegistryEndpointArtifactPullSecretAuthentication
+  - Added Interface RegistryEndpointArtifactPullSecretSettings
+  - Added Interface RegistryEndpointAuthentication
+  - Added Interface RegistryEndpointCreateOrUpdateOptionalParams
+  - Added Interface RegistryEndpointDeleteOptionalParams
+  - Added Interface RegistryEndpointGetOptionalParams
+  - Added Interface RegistryEndpointListByInstanceResourceOptionalParams
+  - Added Interface RegistryEndpointProperties
+  - Added Interface RegistryEndpointResource
+  - Added Interface RegistryEndpointSystemAssignedIdentityAuthentication
+  - Added Interface RegistryEndpointSystemAssignedManagedIdentitySettings
+  - Added Interface RegistryEndpointTrustedSettings
+  - Added Interface RegistryEndpointTrustedSigningKey
+  - Added Interface RegistryEndpointTrustedSigningKeyConfigMap
+  - Added Interface RegistryEndpointTrustedSigningKeySecret
+  - Added Interface RegistryEndpointUserAssignedIdentityAuthentication
+  - Added Interface RegistryEndpointUserAssignedManagedIdentitySettings
+  - Added Interface SecretProviderClassRef
+  - Added Interface VolumeClaimResourceRequirementsClaims
+  - Added Type Alias AkriConnectorsImagePullPolicy
+  - Added Type Alias AkriConnectorsMqttAuthenticationMethod
+  - Added Type Alias AkriConnectorsMqttAuthenticationUnion
+  - Added Type Alias AkriConnectorsMqttProtocolType
+  - Added Type Alias AkriConnectorsRegistrySettingsType
+  - Added Type Alias AkriConnectorsRegistrySettingsUnion
+  - Added Type Alias AkriConnectorsTagDigestSettingsUnion
+  - Added Type Alias AkriConnectorsTagDigestType
+  - Added Type Alias AkriConnectorTemplateAllocationPolicy
+  - Added Type Alias AkriConnectorTemplateAllocationUnion
+  - Added Type Alias AkriConnectorTemplateHelmRegistrySettingsType
+  - Added Type Alias AkriConnectorTemplateHelmRegistrySettingsUnion
+  - Added Type Alias AkriConnectorTemplateManagedConfigurationSettingsUnion
+  - Added Type Alias AkriConnectorTemplateManagedConfigurationType
+  - Added Type Alias AkriConnectorTemplateRuntimeConfigurationType
+  - Added Type Alias AkriConnectorTemplateRuntimeConfigurationUnion
+  - Added Type Alias AkriDiscoveryHandlerScheduleType
+  - Added Type Alias AkriDiscoveryHandlerScheduleUnion
+  - Added Type Alias BrokerAuthenticatorValidationMethods
+  - Added Type Alias BrokerPersistencePolicyMode
+  - Added Type Alias BrokerRetainMessagesPolicyUnion
+  - Added Type Alias BrokerStateStoreKeyType
+  - Added Type Alias BrokerStateStorePolicyUnion
+  - Added Type Alias BrokerSubscriberQueuePolicyUnion
+  - Added Type Alias DataflowEnpointHostType
+  - Added Type Alias DataflowGraphNodeType
+  - Added Type Alias DataflowGraphNodeUnion
+  - Added Type Alias DataflowGraphSerializationFormat
+  - Added Type Alias DataflowOpenTelemetryAuthenticationMethod
+  - Added Type Alias DataflowOpenTelemetryAuthenticationUnion
+  - Added Type Alias InstanceFeatureMode
+  - Added Type Alias RegistryEndpointAuthenticationMethod
+  - Added Type Alias RegistryEndpointAuthenticationUnion
+  - Added Type Alias RegistryEndpointTrustedSigningKeyType
+  - Added Type Alias RegistryEndpointTrustedSigningKeyUnion
+  - Interface BrokerAuthenticatorMethodX509 has a new optional parameter additionalValidation
+  - Interface BrokerProperties has a new optional parameter persistence
+  - Interface DataflowEndpointProperties has a new optional parameter hostType
+  - Interface DataflowEndpointProperties has a new optional parameter openTelemetrySettings
+  - Interface InstanceProperties has a new optional parameter adrNamespaceRef
+  - Interface InstanceProperties has a new optional parameter defaultSecretProviderClassRef
+  - Interface InstanceProperties has a new optional parameter features
+  - Interface VolumeClaimResourceRequirements has a new optional parameter claims
+  - Added Enum KnownAkriConnectorsImagePullPolicy
+  - Added Enum KnownAkriConnectorsMqttAuthenticationMethod
+  - Added Enum KnownAkriConnectorsMqttProtocolType
+  - Added Enum KnownAkriConnectorsRegistrySettingsType
+  - Added Enum KnownAkriConnectorsTagDigestType
+  - Added Enum KnownAkriConnectorTemplateAllocationPolicy
+  - Added Enum KnownAkriConnectorTemplateHelmRegistrySettingsType
+  - Added Enum KnownAkriConnectorTemplateManagedConfigurationType
+  - Added Enum KnownAkriConnectorTemplateRuntimeConfigurationType
+  - Added Enum KnownAkriDiscoveryHandlerScheduleType
+  - Added Enum KnownBrokerAuthenticatorValidationMethods
+  - Added Enum KnownBrokerPersistencePolicyMode
+  - Added Enum KnownBrokerStateStoreKeyType
+  - Added Enum KnownDataflowEnpointHostType
+  - Added Enum KnownDataflowGraphNodeType
+  - Added Enum KnownDataflowGraphSerializationFormat
+  - Added Enum KnownDataflowOpenTelemetryAuthenticationMethod
+  - Added Enum KnownInstanceFeatureMode
+  - Added Enum KnownRegistryEndpointAuthenticationMethod
+  - Added Enum KnownRegistryEndpointTrustedSigningKeyType
+  - Enum KnownEndpointType has a new value OpenTelemetry
+  - Enum KnownVersions has a new value _20250701Preview
+  - Enum KnownVersions has a new value V20250401
+    
+    
 ## 1.0.0 (2024-12-13)
 
 ### Features Added

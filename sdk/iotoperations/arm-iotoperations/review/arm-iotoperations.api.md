@@ -24,6 +24,492 @@ export interface AdvancedSettings {
 }
 
 // @public
+export interface AkriConnectorCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriConnectorDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriConnectorGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriConnectorListByTemplateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriConnectorOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, akriConnectorName: string, resource: AkriConnectorResource, options?: AkriConnectorCreateOrUpdateOptionalParams) => PollerLike<OperationState<AkriConnectorResource>, AkriConnectorResource>;
+    delete: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, akriConnectorName: string, options?: AkriConnectorDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, akriConnectorName: string, options?: AkriConnectorGetOptionalParams) => Promise<AkriConnectorResource>;
+    listByTemplate: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, options?: AkriConnectorListByTemplateOptionalParams) => PagedAsyncIterableIterator<AkriConnectorResource>;
+}
+
+// @public
+export interface AkriConnectorProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AkriConnectorResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: AkriConnectorProperties;
+}
+
+// @public
+export interface AkriConnectorsContainerRegistry extends AkriConnectorsRegistrySettings {
+    containerRegistrySettings: AkriConnectorsContainerRegistrySettings;
+    registrySettingsType: "ContainerRegistry";
+}
+
+// @public
+export interface AkriConnectorsContainerRegistrySettings {
+    imagePullSecrets?: AkriConnectorsImagePullSecret[];
+    registry: string;
+}
+
+// @public
+export interface AkriConnectorsDiagnosticsLogs {
+    level?: string;
+}
+
+// @public
+export interface AkriConnectorsDigest extends AkriConnectorsTagDigestSettings {
+    digest: string;
+    tagDigestType: "Digest";
+}
+
+// @public
+export type AkriConnectorsImagePullPolicy = string;
+
+// @public
+export interface AkriConnectorsImagePullSecret {
+    secretRef: string;
+}
+
+// @public
+export interface AkriConnectorsMqttAuthentication {
+    method: AkriConnectorsMqttAuthenticationMethod;
+}
+
+// @public
+export type AkriConnectorsMqttAuthenticationMethod = string;
+
+// @public
+export type AkriConnectorsMqttAuthenticationUnion = AkriConnectorsServiceAccountAuthentication | AkriConnectorsMqttAuthentication;
+
+// @public
+export interface AkriConnectorsMqttConnectionConfiguration {
+    authentication?: AkriConnectorsMqttAuthenticationUnion;
+    host?: string;
+    keepAliveSeconds?: number;
+    maxInflightMessages?: number;
+    protocol?: AkriConnectorsMqttProtocolType;
+    sessionExpirySeconds?: number;
+    tls?: TlsProperties;
+}
+
+// @public
+export type AkriConnectorsMqttProtocolType = string;
+
+// @public
+export interface AkriConnectorsRegistryEndpointRef extends AkriConnectorsRegistrySettings {
+    registryEndpointRef: string;
+    registrySettingsType: "RegistryEndpointRef";
+}
+
+// @public
+export interface AkriConnectorsRegistrySettings {
+    // (undocumented)
+    registrySettingsType: AkriConnectorsRegistrySettingsType;
+}
+
+// @public
+export type AkriConnectorsRegistrySettingsType = string;
+
+// @public
+export type AkriConnectorsRegistrySettingsUnion = AkriConnectorsRegistryEndpointRef | AkriConnectorsContainerRegistry | AkriConnectorsRegistrySettings;
+
+// @public
+export interface AkriConnectorsSecret {
+    secretAlias: string;
+    secretKey: string;
+    secretRef: string;
+}
+
+// @public
+export interface AkriConnectorsServiceAccountAuthentication extends AkriConnectorsMqttAuthentication {
+    method: "ServiceAccountToken";
+    serviceAccountTokenSettings: AkriConnectorsServiceAccountTokenSettings;
+}
+
+// @public
+export interface AkriConnectorsServiceAccountTokenSettings {
+    audience: string;
+}
+
+// @public
+export interface AkriConnectorsTag extends AkriConnectorsTagDigestSettings {
+    tag: string;
+    tagDigestType: "Tag";
+}
+
+// @public
+export interface AkriConnectorsTagDigestSettings {
+    tagDigestType: AkriConnectorsTagDigestType;
+}
+
+// @public
+export type AkriConnectorsTagDigestSettingsUnion = AkriConnectorsTag | AkriConnectorsDigest | AkriConnectorsTagDigestSettings;
+
+// @public
+export type AkriConnectorsTagDigestType = string;
+
+// @public
+export interface AkriConnectorTemplateAioMetadata {
+    aioMaxVersion?: string;
+    aioMinVersion?: string;
+}
+
+// @public
+export interface AkriConnectorTemplateAllocation {
+    policy: AkriConnectorTemplateAllocationPolicy;
+}
+
+// @public
+export type AkriConnectorTemplateAllocationPolicy = string;
+
+// @public
+export type AkriConnectorTemplateAllocationUnion = AkriConnectorTemplateBucketizedAllocation | AkriConnectorTemplateAllocation;
+
+// @public
+export interface AkriConnectorTemplateBucketizedAllocation extends AkriConnectorTemplateAllocation {
+    bucketSize: number;
+    policy: "Bucketized";
+}
+
+// @public
+export interface AkriConnectorTemplateCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriConnectorTemplateDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs {
+    additionalConfigSchemaRef?: string;
+    defaultDatasetConfigSchemaRef?: string;
+    defaultEventsConfigSchemaRef?: string;
+    defaultProcessControlConfigSchemaRef?: string;
+    defaultStreamsConfigSchemaRef?: string;
+}
+
+// @public
+export interface AkriConnectorTemplateDeviceInboundEndpointType {
+    configurationSchemaRefs?: AkriConnectorTemplateDeviceInboundEndpointConfigurationSchemaRefs;
+    endpointType: string;
+    version: string;
+}
+
+// @public
+export interface AkriConnectorTemplateDiagnostics {
+    logs: AkriConnectorsDiagnosticsLogs;
+}
+
+// @public
+export interface AkriConnectorTemplateGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriConnectorTemplateHelmAdvancedConfiguration {
+    delete?: AkriConnectorTemplateHelmDeleteConfiguration;
+    install?: AkriConnectorTemplateHelmInstallConfiguration;
+    upgrade?: AkriConnectorTemplateHelmUpgradeConfiguration;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmAuthSecretRef {
+    passwordKey: string;
+    secretRef: string;
+    usernameKey: string;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmConfiguration extends AkriConnectorTemplateRuntimeConfiguration {
+    helmConfigurationSettings: AkriConnectorTemplateHelmConfigurationSettings;
+    runtimeConfigurationType: "HelmConfiguration";
+}
+
+// @public
+export interface AkriConnectorTemplateHelmConfigurationSettings {
+    advancedConfiguration?: AkriConnectorTemplateHelmAdvancedConfiguration;
+    registrySettings?: AkriConnectorTemplateHelmRegistrySettingsUnion;
+    releaseName: string;
+    values?: Record<string, string>;
+    version: string;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmContainerRegistry extends AkriConnectorTemplateHelmRegistrySettings {
+    containerRegistrySettings: AkriConnectorTemplateHelmContainerRegistrySettings;
+    registrySettingsType: "ContainerRegistry";
+}
+
+// @public
+export interface AkriConnectorTemplateHelmContainerRegistrySettings {
+    authSecretRef?: AkriConnectorTemplateHelmAuthSecretRef;
+    registry: string;
+    repository: string;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmDeleteConfiguration {
+    atomic?: boolean;
+    disableHooks?: boolean;
+    timeout?: number;
+    wait?: boolean;
+    waitForJobs?: boolean;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmInstallConfiguration {
+    atomic?: boolean;
+    disableHooks?: boolean;
+    timeout?: number;
+    wait?: boolean;
+    waitForJobs?: boolean;
+}
+
+// @public
+export interface AkriConnectorTemplateHelmRegistryEndpointRef extends AkriConnectorTemplateHelmRegistrySettings {
+    registryEndpointRef: string;
+    registrySettingsType: "RegistryEndpointRef";
+}
+
+// @public
+export interface AkriConnectorTemplateHelmRegistrySettings {
+    // (undocumented)
+    registrySettingsType: AkriConnectorTemplateHelmRegistrySettingsType;
+}
+
+// @public
+export type AkriConnectorTemplateHelmRegistrySettingsType = string;
+
+// @public
+export type AkriConnectorTemplateHelmRegistrySettingsUnion = AkriConnectorTemplateHelmRegistryEndpointRef | AkriConnectorTemplateHelmContainerRegistry | AkriConnectorTemplateHelmRegistrySettings;
+
+// @public
+export interface AkriConnectorTemplateHelmUpgradeConfiguration {
+    atomic?: boolean;
+    disableHooks?: boolean;
+    timeout?: number;
+    wait?: boolean;
+    waitForJobs?: boolean;
+}
+
+// @public
+export interface AkriConnectorTemplateListByInstanceResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriConnectorTemplateManagedConfiguration extends AkriConnectorTemplateRuntimeConfiguration {
+    managedConfigurationSettings: AkriConnectorTemplateManagedConfigurationSettingsUnion;
+    runtimeConfigurationType: "ManagedConfiguration";
+}
+
+// @public
+export interface AkriConnectorTemplateManagedConfigurationSettings {
+    additionalConfiguration?: Record<string, string>;
+    allocation?: AkriConnectorTemplateAllocationUnion;
+    managedConfigurationType: AkriConnectorTemplateManagedConfigurationType;
+    persistentVolumeClaims?: AkriConnectorTemplatePersistentVolumeClaim[];
+    persistentVolumeClaimTemplates?: Record<string, any>[];
+    secrets?: AkriConnectorsSecret[];
+    trustSettings?: AkriConnectorTemplateTrustList;
+}
+
+// @public
+export type AkriConnectorTemplateManagedConfigurationSettingsUnion = AkriConnectorTemplateRuntimeImageConfiguration | AkriConnectorTemplateRuntimeStatefulSetConfiguration | AkriConnectorTemplateManagedConfigurationSettings;
+
+// @public
+export type AkriConnectorTemplateManagedConfigurationType = string;
+
+// @public
+export interface AkriConnectorTemplateOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, resource: AkriConnectorTemplateResource, options?: AkriConnectorTemplateCreateOrUpdateOptionalParams) => PollerLike<OperationState<AkriConnectorTemplateResource>, AkriConnectorTemplateResource>;
+    delete: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, options?: AkriConnectorTemplateDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, akriConnectorTemplateName: string, options?: AkriConnectorTemplateGetOptionalParams) => Promise<AkriConnectorTemplateResource>;
+    listByInstanceResource: (resourceGroupName: string, instanceName: string, options?: AkriConnectorTemplateListByInstanceResourceOptionalParams) => PagedAsyncIterableIterator<AkriConnectorTemplateResource>;
+}
+
+// @public
+export interface AkriConnectorTemplatePersistentVolumeClaim {
+    claimName: string;
+    mountPath: string;
+}
+
+// @public
+export interface AkriConnectorTemplateProperties {
+    aioMetadata?: AkriConnectorTemplateAioMetadata;
+    deviceInboundEndpointTypes: AkriConnectorTemplateDeviceInboundEndpointType[];
+    diagnostics?: AkriConnectorTemplateDiagnostics;
+    mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    runtimeConfiguration: AkriConnectorTemplateRuntimeConfigurationUnion;
+}
+
+// @public
+export interface AkriConnectorTemplateResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: AkriConnectorTemplateProperties;
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeConfiguration {
+    runtimeConfigurationType: AkriConnectorTemplateRuntimeConfigurationType;
+}
+
+// @public
+export type AkriConnectorTemplateRuntimeConfigurationType = string;
+
+// @public
+export type AkriConnectorTemplateRuntimeConfigurationUnion = AkriConnectorTemplateHelmConfiguration | AkriConnectorTemplateManagedConfiguration | AkriConnectorTemplateRuntimeConfiguration;
+
+// @public
+export interface AkriConnectorTemplateRuntimeImageConfiguration extends AkriConnectorTemplateManagedConfigurationSettings {
+    imageConfigurationSettings: AkriConnectorTemplateRuntimeImageConfigurationSettings;
+    managedConfigurationType: "ImageConfiguration";
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeImageConfigurationSettings {
+    imageName: string;
+    imagePullPolicy?: AkriConnectorsImagePullPolicy;
+    registrySettings?: AkriConnectorsRegistrySettingsUnion;
+    replicas?: number;
+    tagDigestSettings?: AkriConnectorsTagDigestSettingsUnion;
+}
+
+// @public
+export interface AkriConnectorTemplateRuntimeStatefulSetConfiguration extends AkriConnectorTemplateManagedConfigurationSettings {
+    managedConfigurationType: "StatefulSetConfiguration";
+    statefulSetConfigurationSettings: Record<string, any>;
+}
+
+// @public
+export interface AkriConnectorTemplateTrustList {
+    trustListSecretRef: string;
+}
+
+// @public
+export interface AkriDiscoveryHandlerAioMetadata {
+    aioMaxVersion?: string;
+    aioMinVersion?: string;
+}
+
+// @public
+export interface AkriDiscoveryHandlerCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriDiscoveryHandlerDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface AkriDiscoveryHandlerDiagnostics {
+    logs: AkriConnectorsDiagnosticsLogs;
+}
+
+// @public
+export interface AkriDiscoveryHandlerDiscoverableDeviceEndpointType {
+    endpointType: string;
+    version: string;
+}
+
+// @public
+export interface AkriDiscoveryHandlerGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriDiscoveryHandlerImageConfiguration {
+    imageName: string;
+    imagePullPolicy?: AkriConnectorsImagePullPolicy;
+    registrySettings?: AkriConnectorsRegistrySettingsUnion;
+    replicas?: number;
+    tagDigestSettings?: AkriConnectorsTagDigestSettingsUnion;
+}
+
+// @public
+export interface AkriDiscoveryHandlerListByInstanceResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface AkriDiscoveryHandlerOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, akriDiscoveryHandlerName: string, resource: AkriDiscoveryHandlerResource, options?: AkriDiscoveryHandlerCreateOrUpdateOptionalParams) => PollerLike<OperationState<AkriDiscoveryHandlerResource>, AkriDiscoveryHandlerResource>;
+    delete: (resourceGroupName: string, instanceName: string, akriDiscoveryHandlerName: string, options?: AkriDiscoveryHandlerDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, akriDiscoveryHandlerName: string, options?: AkriDiscoveryHandlerGetOptionalParams) => Promise<AkriDiscoveryHandlerResource>;
+    listByInstanceResource: (resourceGroupName: string, instanceName: string, options?: AkriDiscoveryHandlerListByInstanceResourceOptionalParams) => PagedAsyncIterableIterator<AkriDiscoveryHandlerResource>;
+}
+
+// @public
+export interface AkriDiscoveryHandlerProperties {
+    additionalConfiguration?: Record<string, string>;
+    aioMetadata?: AkriDiscoveryHandlerAioMetadata;
+    diagnostics?: AkriDiscoveryHandlerDiagnostics;
+    discoverableDeviceEndpointTypes: AkriDiscoveryHandlerDiscoverableDeviceEndpointType[];
+    imageConfiguration: AkriDiscoveryHandlerImageConfiguration;
+    mode?: OperationalMode;
+    mqttConnectionConfiguration?: AkriConnectorsMqttConnectionConfiguration;
+    readonly provisioningState?: ProvisioningState;
+    schedule: AkriDiscoveryHandlerScheduleUnion;
+    secrets?: AkriConnectorsSecret[];
+}
+
+// @public
+export interface AkriDiscoveryHandlerResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: AkriDiscoveryHandlerProperties;
+}
+
+// @public
+export interface AkriDiscoveryHandlerSchedule {
+    scheduleType: AkriDiscoveryHandlerScheduleType;
+}
+
+// @public
+export interface AkriDiscoveryHandlerScheduleContinuous extends AkriDiscoveryHandlerSchedule {
+    continuous: string;
+    scheduleType: "Continuous";
+}
+
+// @public
+export interface AkriDiscoveryHandlerScheduleCron extends AkriDiscoveryHandlerSchedule {
+    cron: string;
+    scheduleType: "Cron";
+}
+
+// @public
+export interface AkriDiscoveryHandlerScheduleRunOnce extends AkriDiscoveryHandlerSchedule {
+    runOnce: string;
+    scheduleType: "RunOnce";
+}
+
+// @public
+export type AkriDiscoveryHandlerScheduleType = string;
+
+// @public
+export type AkriDiscoveryHandlerScheduleUnion = AkriDiscoveryHandlerScheduleCron | AkriDiscoveryHandlerScheduleRunOnce | AkriDiscoveryHandlerScheduleContinuous | AkriDiscoveryHandlerSchedule;
+
+// @public
 export interface AuthorizationConfig {
     cache?: OperationalMode;
     rules?: AuthorizationRule[];
@@ -34,6 +520,11 @@ export interface AuthorizationRule {
     brokerResources: BrokerResourceRule[];
     principals: PrincipalDefinition;
     stateStoreResources?: StateStoreResourceRule[];
+}
+
+// @public
+export interface AzureDeviceRegistryNamespaceRef {
+    resourceId: string;
 }
 
 // @public
@@ -86,7 +577,7 @@ export interface BrokerAuthenticationProperties {
 
 // @public
 export interface BrokerAuthenticationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerAuthenticationProperties;
 }
 
@@ -118,6 +609,7 @@ export interface BrokerAuthenticatorMethodSat {
 
 // @public
 export interface BrokerAuthenticatorMethodX509 {
+    additionalValidation?: BrokerAuthenticatorValidationMethods;
     authorizationAttributes?: Record<string, BrokerAuthenticatorMethodX509Attributes>;
     trustedClientCaCert?: string;
 }
@@ -127,6 +619,9 @@ export interface BrokerAuthenticatorMethodX509Attributes {
     attributes: Record<string, string>;
     subject: string;
 }
+
+// @public
+export type BrokerAuthenticatorValidationMethods = string;
 
 // @public
 export interface BrokerAuthorizationCreateOrUpdateOptionalParams extends OperationOptions {
@@ -162,7 +657,7 @@ export interface BrokerAuthorizationProperties {
 
 // @public
 export interface BrokerAuthorizationResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerAuthorizationProperties;
 }
 
@@ -228,7 +723,7 @@ export interface BrokerListenerProperties {
 
 // @public
 export interface BrokerListenerResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerListenerProperties;
 }
 
@@ -244,6 +739,31 @@ export interface BrokerOperations {
 }
 
 // @public
+export interface BrokerPersistence {
+    dynamicSettings?: BrokerPersistenceDynamicSettings;
+    encryption?: BrokerPersistenceEncryption;
+    maxSize: string;
+    persistentVolumeClaimSpec?: VolumeClaimSpec;
+    retain?: BrokerRetainMessagesPolicyUnion;
+    stateStore?: BrokerStateStorePolicyUnion;
+    subscriberQueue?: BrokerSubscriberQueuePolicyUnion;
+}
+
+// @public
+export interface BrokerPersistenceDynamicSettings {
+    userPropertyKey: string;
+    userPropertyValue: string;
+}
+
+// @public
+export interface BrokerPersistenceEncryption {
+    mode: OperationalMode;
+}
+
+// @public
+export type BrokerPersistencePolicyMode = string;
+
+// @public
 export interface BrokerProperties {
     advanced?: AdvancedSettings;
     cardinality?: Cardinality;
@@ -251,6 +771,7 @@ export interface BrokerProperties {
     diskBackedMessageBuffer?: DiskBackedMessageBuffer;
     generateResourceLimits?: GenerateResourceLimits;
     memoryProfile?: BrokerMemoryProfile;
+    persistence?: BrokerPersistence;
     readonly provisioningState?: ProvisioningState;
 }
 
@@ -259,7 +780,7 @@ export type BrokerProtocolType = string;
 
 // @public
 export interface BrokerResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: BrokerProperties;
 }
 
@@ -272,6 +793,91 @@ export interface BrokerResourceRule {
     method: BrokerResourceDefinitionMethods;
     topics?: string[];
 }
+
+// @public
+export interface BrokerRetainMessagesCustomPolicy extends BrokerRetainMessagesPolicy {
+    mode: "Custom";
+    retainSettings: BrokerRetainMessagesSettings;
+}
+
+// @public
+export interface BrokerRetainMessagesDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export interface BrokerRetainMessagesPolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export type BrokerRetainMessagesPolicyUnion = BrokerRetainMessagesCustomPolicy | BrokerRetainMessagesPolicy;
+
+// @public
+export interface BrokerRetainMessagesSettings {
+    dynamic?: BrokerRetainMessagesDynamic;
+    topics?: string[];
+}
+
+// @public
+export interface BrokerStateStoreCustomPolicy extends BrokerStateStorePolicy {
+    mode: "Custom";
+    stateStoreSettings: BrokerStateStorePolicySettings;
+}
+
+// @public
+export interface BrokerStateStoreDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export type BrokerStateStoreKeyType = string;
+
+// @public
+export interface BrokerStateStorePolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export interface BrokerStateStorePolicyResources {
+    keys: string[];
+    keyType: BrokerStateStoreKeyType;
+}
+
+// @public
+export interface BrokerStateStorePolicySettings {
+    dynamic?: BrokerStateStoreDynamic;
+    stateStoreResources?: BrokerStateStorePolicyResources[];
+}
+
+// @public
+export type BrokerStateStorePolicyUnion = BrokerStateStoreCustomPolicy | BrokerStateStorePolicy;
+
+// @public
+export interface BrokerSubscriberQueueCustomPolicy extends BrokerSubscriberQueuePolicy {
+    mode: "Custom";
+    subscriberQueueSettings: BrokerSubscriberQueueCustomPolicySettings;
+}
+
+// @public
+export interface BrokerSubscriberQueueCustomPolicySettings {
+    dynamic?: BrokerSubscriberQueueDynamic;
+    subscriberClientIds?: string[];
+    topics?: string[];
+}
+
+// @public
+export interface BrokerSubscriberQueueDynamic {
+    mode: OperationalMode;
+}
+
+// @public
+export interface BrokerSubscriberQueuePolicy {
+    mode: BrokerPersistencePolicyMode;
+}
+
+// @public
+export type BrokerSubscriberQueuePolicyUnion = BrokerSubscriberQueueCustomPolicy | BrokerSubscriberQueuePolicy;
 
 // @public
 export interface Cardinality {
@@ -337,6 +943,12 @@ export type CreatedByType = string;
 export type DataExplorerAuthMethod = string;
 
 // @public
+export interface DatafloGraphDestinationNode extends DataflowGraphNode {
+    destinationSettings: DataflowGraphDestinationNodeSettings;
+    type: "Destination";
+}
+
+// @public
 export interface DataflowBuiltInTransformationDataset {
     description?: string;
     expression?: string;
@@ -390,6 +1002,10 @@ export interface DataflowDestinationOperationSettings {
 // @public
 export interface DataflowEndpointAuthenticationAccessToken {
     secretRef: string;
+}
+
+// @public
+export interface DataflowEndpointAuthenticationAnonymous {
 }
 
 // @public
@@ -566,6 +1182,14 @@ export interface DataflowEndpointMqttAuthentication {
 }
 
 // @public
+export interface DataflowEndpointOpenTelemetry {
+    authentication: DataflowOpenTelemetryAuthenticationUnion;
+    batching?: BatchingConfiguration;
+    host: string;
+    tls?: TlsProperties;
+}
+
+// @public
 export interface DataflowEndpointOperations {
     createOrUpdate: (resourceGroupName: string, instanceName: string, dataflowEndpointName: string, resource: DataflowEndpointResource, options?: DataflowEndpointCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowEndpointResource>, DataflowEndpointResource>;
     delete: (resourceGroupName: string, instanceName: string, dataflowEndpointName: string, options?: DataflowEndpointDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
@@ -579,20 +1203,142 @@ export interface DataflowEndpointProperties {
     dataLakeStorageSettings?: DataflowEndpointDataLakeStorage;
     endpointType: EndpointType;
     fabricOneLakeSettings?: DataflowEndpointFabricOneLake;
+    hostType?: DataflowEnpointHostType;
     kafkaSettings?: DataflowEndpointKafka;
     localStorageSettings?: DataflowEndpointLocalStorage;
     mqttSettings?: DataflowEndpointMqtt;
+    openTelemetrySettings?: DataflowEndpointOpenTelemetry;
     readonly provisioningState?: ProvisioningState;
 }
 
 // @public
 export interface DataflowEndpointResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowEndpointProperties;
 }
 
 // @public
+export type DataflowEnpointHostType = string;
+
+// @public
 export interface DataflowGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DataflowGraphConnectionInput {
+    name: string;
+    schema?: DataflowGraphSchemaSettings;
+}
+
+// @public
+export interface DataflowGraphConnectionOutput {
+    name: string;
+}
+
+// @public
+export interface DataflowGraphCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataflowGraphDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DataflowGraphDestinationNodeSettings {
+    dataDestination: string;
+    endpointRef: string;
+    outputSchemaSettings?: DataflowGraphSchemaSettings;
+}
+
+// @public
+export interface DataflowGraphGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DataflowGraphGraphNode extends DataflowGraphNode {
+    graphSettings: DataflowGraphNodeGraphSettings;
+    type: "Graph";
+}
+
+// @public
+export interface DataflowGraphGraphNodeConfiguration {
+    key: string;
+    value: string;
+}
+
+// @public
+export interface DataflowGraphListByDataflowProfileOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DataflowGraphNode {
+    name: string;
+    type: DataflowGraphNodeType;
+}
+
+// @public
+export interface DataflowGraphNodeConnection {
+    from: DataflowGraphConnectionInput;
+    to: DataflowGraphConnectionOutput;
+}
+
+// @public
+export interface DataflowGraphNodeGraphSettings {
+    artifact: string;
+    configuration?: DataflowGraphGraphNodeConfiguration[];
+    registryEndpointRef: string;
+}
+
+// @public
+export type DataflowGraphNodeType = string;
+
+// @public
+export type DataflowGraphNodeUnion = DataflowGraphSourceNode | DataflowGraphGraphNode | DatafloGraphDestinationNode | DataflowGraphNode;
+
+// @public
+export interface DataflowGraphOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowGraphName: string, resource: DataflowGraphResource, options?: DataflowGraphCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataflowGraphResource>, DataflowGraphResource>;
+    delete: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowGraphName: string, options?: DataflowGraphDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, dataflowGraphName: string, options?: DataflowGraphGetOptionalParams) => Promise<DataflowGraphResource>;
+    listByDataflowProfile: (resourceGroupName: string, instanceName: string, dataflowProfileName: string, options?: DataflowGraphListByDataflowProfileOptionalParams) => PagedAsyncIterableIterator<DataflowGraphResource>;
+}
+
+// @public
+export interface DataflowGraphProperties {
+    mode?: OperationalMode;
+    nodeConnections: DataflowGraphNodeConnection[];
+    nodes: DataflowGraphNodeUnion[];
+    readonly provisioningState?: ProvisioningState;
+    requestDiskPersistence?: OperationalMode;
+}
+
+// @public
+export interface DataflowGraphResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: DataflowGraphProperties;
+}
+
+// @public
+export interface DataflowGraphSchemaSettings {
+    schemaRef: string;
+    serializationFormat?: DataflowGraphSerializationFormat;
+}
+
+// @public
+export type DataflowGraphSerializationFormat = string;
+
+// @public
+export interface DataflowGraphSourceNode extends DataflowGraphNode {
+    sourceSettings: DataflowGraphSourceSettings;
+    type: "Source";
+}
+
+// @public
+export interface DataflowGraphSourceSettings {
+    dataSources: string[];
+    endpointRef: string;
 }
 
 // @public
@@ -601,6 +1347,35 @@ export interface DataflowListByResourceGroupOptionalParams extends OperationOpti
 
 // @public
 export type DataflowMappingType = string;
+
+// @public
+export interface DataflowOpenTelemetryAnonymousAuthentication extends DataflowOpenTelemetryAuthentication {
+    anonymousSettings: DataflowEndpointAuthenticationAnonymous;
+    method: "Anonymous";
+}
+
+// @public
+export interface DataflowOpenTelemetryAuthentication {
+    method: DataflowOpenTelemetryAuthenticationMethod;
+}
+
+// @public
+export type DataflowOpenTelemetryAuthenticationMethod = string;
+
+// @public
+export type DataflowOpenTelemetryAuthenticationUnion = DataflowOpenTelemetryServiceAccountAuthentication | DataflowOpenTelemetryX509CertificateAuthentication | DataflowOpenTelemetryAnonymousAuthentication | DataflowOpenTelemetryAuthentication;
+
+// @public
+export interface DataflowOpenTelemetryServiceAccountAuthentication extends DataflowOpenTelemetryAuthentication {
+    method: "ServiceAccountToken";
+    serviceAccountTokenSettings: DataflowEndpointAuthenticationServiceAccountToken;
+}
+
+// @public
+export interface DataflowOpenTelemetryX509CertificateAuthentication extends DataflowOpenTelemetryAuthentication {
+    method: "X509Certificate";
+    x509CertificateSettings: DataflowEndpointAuthenticationX509;
+}
 
 // @public
 export interface DataflowOperation {
@@ -654,7 +1429,7 @@ export interface DataflowProfileProperties {
 
 // @public
 export interface DataflowProfileResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowProfileProperties;
 }
 
@@ -667,7 +1442,7 @@ export interface DataflowProperties {
 
 // @public
 export interface DataflowResource extends ProxyResource {
-    extendedLocation: ExtendedLocation;
+    extendedLocation?: ExtendedLocation;
     properties?: DataflowProperties;
 }
 
@@ -697,6 +1472,26 @@ export interface DiskBackedMessageBuffer {
 
 // @public
 export type EndpointType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface ExtendedLocation {
@@ -735,6 +1530,15 @@ export interface InstanceDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface InstanceFeature {
+    mode?: InstanceFeatureMode;
+    settings?: Record<string, OperationalMode>;
+}
+
+// @public
+export type InstanceFeatureMode = string;
+
+// @public
 export interface InstanceGetOptionalParams extends OperationOptions {
 }
 
@@ -764,7 +1568,10 @@ export interface InstancePatchModel {
 
 // @public
 export interface InstanceProperties {
+    adrNamespaceRef?: AzureDeviceRegistryNamespaceRef;
+    defaultSecretProviderClassRef?: SecretProviderClassRef;
     description?: string;
+    features?: Record<string, InstanceFeature>;
     readonly provisioningState?: ProvisioningState;
     schemaRegistryRef: SchemaRegistryRef;
     readonly version?: string;
@@ -784,16 +1591,21 @@ export interface InstanceUpdateOptionalParams extends OperationOptions {
 // @public (undocumented)
 export class IoTOperationsClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: IoTOperationsClientOptionalParams);
+    readonly akriConnector: AkriConnectorOperations;
+    readonly akriConnectorTemplate: AkriConnectorTemplateOperations;
+    readonly akriDiscoveryHandler: AkriDiscoveryHandlerOperations;
     readonly broker: BrokerOperations;
     readonly brokerAuthentication: BrokerAuthenticationOperations;
     readonly brokerAuthorization: BrokerAuthorizationOperations;
     readonly brokerListener: BrokerListenerOperations;
     readonly dataflow: DataflowOperations;
     readonly dataflowEndpoint: DataflowEndpointOperations;
+    readonly dataflowGraph: DataflowGraphOperations;
     readonly dataflowProfile: DataflowProfileOperations;
     readonly instance: InstanceOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly registryEndpoint: RegistryEndpointOperations;
 }
 
 // @public
@@ -810,10 +1622,75 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAkriConnectorsImagePullPolicy {
+    Always = "Always",
+    IfNotPresent = "IfNotPresent",
+    Never = "Never"
+}
+
+// @public
+export enum KnownAkriConnectorsMqttAuthenticationMethod {
+    ServiceAccountToken = "ServiceAccountToken"
+}
+
+// @public
+export enum KnownAkriConnectorsMqttProtocolType {
+    Mqtt = "Mqtt"
+}
+
+// @public
+export enum KnownAkriConnectorsRegistrySettingsType {
+    ContainerRegistry = "ContainerRegistry",
+    RegistryEndpointRef = "RegistryEndpointRef"
+}
+
+// @public
+export enum KnownAkriConnectorsTagDigestType {
+    Digest = "Digest",
+    Tag = "Tag"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateAllocationPolicy {
+    Bucketized = "Bucketized"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateHelmRegistrySettingsType {
+    ContainerRegistry = "ContainerRegistry",
+    RegistryEndpointRef = "RegistryEndpointRef"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateManagedConfigurationType {
+    ImageConfiguration = "ImageConfiguration",
+    StatefulSetConfiguration = "StatefulSetConfiguration"
+}
+
+// @public
+export enum KnownAkriConnectorTemplateRuntimeConfigurationType {
+    HelmConfiguration = "HelmConfiguration",
+    ManagedConfiguration = "ManagedConfiguration"
+}
+
+// @public
+export enum KnownAkriDiscoveryHandlerScheduleType {
+    Continuous = "Continuous",
+    Cron = "Cron",
+    RunOnce = "RunOnce"
+}
+
+// @public
 export enum KnownBrokerAuthenticationMethod {
     Custom = "Custom",
     ServiceAccountToken = "ServiceAccountToken",
     X509 = "X509"
+}
+
+// @public
+export enum KnownBrokerAuthenticatorValidationMethods {
+    AzureDeviceRegistry = "AzureDeviceRegistry",
+    None = "None"
 }
 
 // @public
@@ -822,6 +1699,13 @@ export enum KnownBrokerMemoryProfile {
     Low = "Low",
     Medium = "Medium",
     Tiny = "Tiny"
+}
+
+// @public
+export enum KnownBrokerPersistencePolicyMode {
+    All = "All",
+    Custom = "Custom",
+    None = "None"
 }
 
 // @public
@@ -835,6 +1719,13 @@ export enum KnownBrokerResourceDefinitionMethods {
     Connect = "Connect",
     Publish = "Publish",
     Subscribe = "Subscribe"
+}
+
+// @public
+export enum KnownBrokerStateStoreKeyType {
+    Binary = "Binary",
+    Pattern = "Pattern",
+    String = "String"
 }
 
 // @public
@@ -900,12 +1791,44 @@ export enum KnownDataflowEndpointKafkaPartitionStrategy {
 }
 
 // @public
+export enum KnownDataflowEnpointHostType {
+    CustomKafka = "CustomKafka",
+    CustomMqtt = "CustomMqtt",
+    EventGrid = "EventGrid",
+    Eventhub = "Eventhub",
+    FabricRT = "FabricRT",
+    LocalBroker = "LocalBroker"
+}
+
+// @public
+export enum KnownDataflowGraphNodeType {
+    Destination = "Destination",
+    Graph = "Graph",
+    Source = "Source"
+}
+
+// @public
+export enum KnownDataflowGraphSerializationFormat {
+    Avro = "Avro",
+    Delta = "Delta",
+    Json = "Json",
+    Parquet = "Parquet"
+}
+
+// @public
 export enum KnownDataflowMappingType {
     BuiltInFunction = "BuiltInFunction",
     Compute = "Compute",
     NewProperties = "NewProperties",
     PassThrough = "PassThrough",
     Rename = "Rename"
+}
+
+// @public
+export enum KnownDataflowOpenTelemetryAuthenticationMethod {
+    Anonymous = "Anonymous",
+    ServiceAccountToken = "ServiceAccountToken",
+    X509Certificate = "X509Certificate"
 }
 
 // @public
@@ -922,7 +1845,8 @@ export enum KnownEndpointType {
     FabricOneLake = "FabricOneLake",
     Kafka = "Kafka",
     LocalStorage = "LocalStorage",
-    Mqtt = "Mqtt"
+    Mqtt = "Mqtt",
+    OpenTelemetry = "OpenTelemetry"
 }
 
 // @public
@@ -939,6 +1863,13 @@ export enum KnownFabricOneLakeAuthMethod {
 // @public
 export enum KnownFilterType {
     Filter = "Filter"
+}
+
+// @public
+export enum KnownInstanceFeatureMode {
+    Disabled = "Disabled",
+    Preview = "Preview",
+    Stable = "Stable"
 }
 
 // @public
@@ -1030,6 +1961,20 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownRegistryEndpointAuthenticationMethod {
+    Anonymous = "Anonymous",
+    ArtifactPullSecret = "ArtifactPullSecret",
+    SystemAssignedManagedIdentity = "SystemAssignedManagedIdentity",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity"
+}
+
+// @public
+export enum KnownRegistryEndpointTrustedSigningKeyType {
+    ConfigMap = "ConfigMap",
+    Secret = "Secret"
+}
+
+// @public
 export enum KnownServiceType {
     ClusterIp = "ClusterIp",
     LoadBalancer = "LoadBalancer",
@@ -1076,7 +2021,9 @@ export enum KnownTransformationSerializationFormat {
 
 // @public
 export enum KnownVersions {
-    "V2024-11-01" = "2024-11-01"
+    "V2024-11-01" = "2024-11-01",
+    _20250701Preview = "2025-07-01-preview",
+    V20250401 = "2025-04-01"
 }
 
 // @public
@@ -1128,8 +2075,8 @@ export type MqttRetainType = string;
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -1203,6 +2150,130 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export interface RegistryEndpointAnonymousAuthentication extends RegistryEndpointAuthentication {
+    anonymousSettings: RegistryEndpointAnonymousSettings;
+    method: "Anonymous";
+}
+
+// @public
+export interface RegistryEndpointAnonymousSettings {
+}
+
+// @public
+export interface RegistryEndpointArtifactPullSecretAuthentication extends RegistryEndpointAuthentication {
+    artifactPullSecretSettings: RegistryEndpointArtifactPullSecretSettings;
+    method: "ArtifactPullSecret";
+}
+
+// @public
+export interface RegistryEndpointArtifactPullSecretSettings {
+    secretRef: string;
+}
+
+// @public
+export interface RegistryEndpointAuthentication {
+    method: RegistryEndpointAuthenticationMethod;
+}
+
+// @public
+export type RegistryEndpointAuthenticationMethod = string;
+
+// @public
+export type RegistryEndpointAuthenticationUnion = RegistryEndpointSystemAssignedIdentityAuthentication | RegistryEndpointUserAssignedIdentityAuthentication | RegistryEndpointAnonymousAuthentication | RegistryEndpointArtifactPullSecretAuthentication | RegistryEndpointAuthentication;
+
+// @public
+export interface RegistryEndpointCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryEndpointDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface RegistryEndpointGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RegistryEndpointListByInstanceResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface RegistryEndpointOperations {
+    createOrUpdate: (resourceGroupName: string, instanceName: string, registryEndpointName: string, resource: RegistryEndpointResource, options?: RegistryEndpointCreateOrUpdateOptionalParams) => PollerLike<OperationState<RegistryEndpointResource>, RegistryEndpointResource>;
+    delete: (resourceGroupName: string, instanceName: string, registryEndpointName: string, options?: RegistryEndpointDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, instanceName: string, registryEndpointName: string, options?: RegistryEndpointGetOptionalParams) => Promise<RegistryEndpointResource>;
+    listByInstanceResource: (resourceGroupName: string, instanceName: string, options?: RegistryEndpointListByInstanceResourceOptionalParams) => PagedAsyncIterableIterator<RegistryEndpointResource>;
+}
+
+// @public
+export interface RegistryEndpointProperties {
+    authentication: RegistryEndpointAuthenticationUnion;
+    host: string;
+    readonly provisioningState?: ProvisioningState;
+    trustSettings?: RegistryEndpointTrustedSettings;
+}
+
+// @public
+export interface RegistryEndpointResource extends ProxyResource {
+    extendedLocation?: ExtendedLocation;
+    properties?: RegistryEndpointProperties;
+}
+
+// @public
+export interface RegistryEndpointSystemAssignedIdentityAuthentication extends RegistryEndpointAuthentication {
+    method: "SystemAssignedManagedIdentity";
+    systemAssignedManagedIdentitySettings: RegistryEndpointSystemAssignedManagedIdentitySettings;
+}
+
+// @public
+export interface RegistryEndpointSystemAssignedManagedIdentitySettings {
+    audience?: string;
+}
+
+// @public
+export interface RegistryEndpointTrustedSettings {
+    trustedSigningKeys: RegistryEndpointTrustedSigningKeyUnion;
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKey {
+    type: RegistryEndpointTrustedSigningKeyType;
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKeyConfigMap extends RegistryEndpointTrustedSigningKey {
+    configMapRef: string;
+    type: "ConfigMap";
+}
+
+// @public
+export interface RegistryEndpointTrustedSigningKeySecret extends RegistryEndpointTrustedSigningKey {
+    secretRef: string;
+    type: "Secret";
+}
+
+// @public
+export type RegistryEndpointTrustedSigningKeyType = string;
+
+// @public
+export type RegistryEndpointTrustedSigningKeyUnion = RegistryEndpointTrustedSigningKeySecret | RegistryEndpointTrustedSigningKeyConfigMap | RegistryEndpointTrustedSigningKey;
+
+// @public
+export interface RegistryEndpointUserAssignedIdentityAuthentication extends RegistryEndpointAuthentication {
+    method: "UserAssignedManagedIdentity";
+    userAssignedManagedIdentitySettings: RegistryEndpointUserAssignedManagedIdentitySettings;
+}
+
+// @public
+export interface RegistryEndpointUserAssignedManagedIdentitySettings {
+    clientId: string;
+    scope?: string;
+    tenantId: string;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -1228,6 +2299,11 @@ export interface SanForCert {
 
 // @public
 export interface SchemaRegistryRef {
+    resourceId: string;
+}
+
+// @public
+export interface SecretProviderClassRef {
     resourceId: string;
 }
 
@@ -1323,8 +2399,14 @@ export interface UserAssignedIdentity {
 
 // @public
 export interface VolumeClaimResourceRequirements {
+    claims?: VolumeClaimResourceRequirementsClaims[];
     limits?: Record<string, string>;
     requests?: Record<string, string>;
+}
+
+// @public
+export interface VolumeClaimResourceRequirementsClaims {
+    name: string;
 }
 
 // @public
