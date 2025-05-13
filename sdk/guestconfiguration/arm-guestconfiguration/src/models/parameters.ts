@@ -13,23 +13,6 @@ import {
 } from "@azure/core-client";
 import { GuestConfigurationAssignment as GuestConfigurationAssignmentMapper } from "../models/mappers.js";
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: GuestConfigurationAssignmentMapper,
-};
-
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -54,6 +37,70 @@ export const $host: OperationURLParameter = {
   skipEncoding: true,
 };
 
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-04-05",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const vmName: OperationURLParameter = {
+  parameterPath: "vmName",
+  mapper: {
+    serializedName: "vmName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const guestConfigurationAssignmentName: OperationURLParameter = {
   parameterPath: "guestConfigurationAssignmentName",
   mapper: {
@@ -65,51 +112,28 @@ export const guestConfigurationAssignmentName: OperationURLParameter = {
   },
 };
 
-export const subscriptionId: OperationURLParameter = {
-  parameterPath: "subscriptionId",
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "subscriptionId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const resourceGroupName: OperationURLParameter = {
-  parameterPath: "resourceGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[-\\w\\._]+$"),
-    },
-    serializedName: "resourceGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const vmName: OperationURLParameter = {
-  parameterPath: "vmName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][-a-zA-Z0-9_.]*[a-zA-Z0-9]$"),
-    },
-    serializedName: "vmName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-01-25",
+    defaultValue: "application/json",
     isConstant: true,
-    serializedName: "api-version",
+    serializedName: "Content-Type",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GuestConfigurationAssignmentMapper,
+};
+
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    serializedName: "machineName",
+    required: true,
     type: {
       name: "String",
     },
@@ -120,17 +144,6 @@ export const reportId: OperationURLParameter = {
   parameterPath: "reportId",
   mapper: {
     serializedName: "reportId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const machineName: OperationURLParameter = {
-  parameterPath: "machineName",
-  mapper: {
-    serializedName: "machineName",
     required: true,
     type: {
       name: "String",

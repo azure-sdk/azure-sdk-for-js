@@ -6,70 +6,69 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
-  GuestConfigurationAssignment,
   GuestConfigurationHcrpAssignmentsListOptionalParams,
-  GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
-  GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse,
+  GuestConfigurationHcrpAssignmentsListResponse,
   GuestConfigurationHcrpAssignmentsGetOptionalParams,
   GuestConfigurationHcrpAssignmentsGetResponse,
+  GuestConfigurationAssignment,
+  GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
+  GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse,
   GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a GuestConfigurationHcrpAssignments. */
 export interface GuestConfigurationHcrpAssignments {
   /**
    * List all guest configuration assignments for an ARC machine.
-   * @param resourceGroupName The resource group name.
-   * @param machineName The name of the ARC machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     machineName: string,
     options?: GuestConfigurationHcrpAssignmentsListOptionalParams,
-  ): PagedAsyncIterableIterator<GuestConfigurationAssignment>;
-  /**
-   * Creates an association between a ARC machine and guest configuration
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment.
-   * @param resourceGroupName The resource group name.
-   * @param machineName The name of the ARC machine.
-   * @param parameters Parameters supplied to the create or update guest configuration assignment.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    guestConfigurationAssignmentName: string,
-    resourceGroupName: string,
-    machineName: string,
-    parameters: GuestConfigurationAssignment,
-    options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
-  ): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse>;
+  ): Promise<GuestConfigurationHcrpAssignmentsListResponse>;
   /**
    * Get information about a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName The guest configuration assignment name.
-   * @param machineName The name of the ARC machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
     machineName: string,
+    guestConfigurationAssignmentName: string,
     options?: GuestConfigurationHcrpAssignmentsGetOptionalParams,
   ): Promise<GuestConfigurationHcrpAssignmentsGetResponse>;
   /**
+   * Creates an association between a ARC machine and guest configuration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
+   * @param parameters Parameters supplied to the create or update guest configuration assignment.
+   * @param options The options parameters.
+   */
+  createOrUpdate(
+    resourceGroupName: string,
+    machineName: string,
+    guestConfigurationAssignmentName: string,
+    parameters: GuestConfigurationAssignment,
+    options?: GuestConfigurationHcrpAssignmentsCreateOrUpdateOptionalParams,
+  ): Promise<GuestConfigurationHcrpAssignmentsCreateOrUpdateResponse>;
+  /**
    * Delete a guest configuration assignment
-   * @param resourceGroupName The resource group name.
-   * @param guestConfigurationAssignmentName Name of the guest configuration assignment
-   * @param machineName The name of the ARC machine.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param machineName machines
+   * @param guestConfigurationAssignmentName The name of the GuestConfigurationAssignment
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    guestConfigurationAssignmentName: string,
     machineName: string,
+    guestConfigurationAssignmentName: string,
     options?: GuestConfigurationHcrpAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }
