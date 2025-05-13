@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ImageVersion resources by Image
  *
  * @summary list ImageVersion resources by Image
- * x-ms-original-file: 2024-10-19/ImageVersions_ListByImage.json
+ * x-ms-original-file: 2025-01-21/ImageVersions_ListByImage.json
  */
 async function imageVersionsListByImage(): Promise<void> {
   const credential = new DefaultAzureCredential();

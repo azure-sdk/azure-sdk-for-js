@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a Pool
  *
  * @summary delete a Pool
- * x-ms-original-file: 2024-10-19/DeletePool.json
+ * x-ms-original-file: 2025-01-21/DeletePool.json
  */
 async function poolsDelete() {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function poolsDelete() {
 }
 
 async function main() {
-  poolsDelete();
+  await poolsDelete();
 }
 
 main().catch(console.error);

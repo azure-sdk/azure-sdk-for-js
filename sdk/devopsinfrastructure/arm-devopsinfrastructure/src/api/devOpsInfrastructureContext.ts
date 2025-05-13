@@ -6,7 +6,13 @@ import { KnownVersions } from "../models/models.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-export interface DevOpsInfrastructureContext extends Client {}
+export interface DevOpsInfrastructureContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+}
 
 /** Optional parameters for the client. */
 export interface DevOpsInfrastructureClientOptionalParams extends ClientOptions {
@@ -17,11 +23,12 @@ export interface DevOpsInfrastructureClientOptionalParams extends ClientOptions 
 
 export function createDevOpsInfrastructure(
   credential: TokenCredential,
+  subscriptionId: string,
   options: DevOpsInfrastructureClientOptionalParams = {},
 ): DevOpsInfrastructureContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-devopsinfrastructure/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-arm-devopsinfrastructure/2.0.0`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
@@ -35,7 +42,7 @@ export function createDevOpsInfrastructure(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "2024-10-19";
+  const apiVersion = options.apiVersion ?? "2025-01-21";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -51,5 +58,9 @@ export function createDevOpsInfrastructure(
       return next(req);
     },
   });
-  return clientContext;
+  return {
+    ...clientContext,
+    apiVersion,
+    subscriptionId,
+  } as DevOpsInfrastructureContext;
 }

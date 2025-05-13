@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a Pool
  *
  * @summary get a Pool
- * x-ms-original-file: 2024-10-19/GetPool.json
+ * x-ms-original-file: 2025-01-21/GetPool.json
  */
 async function poolsGet() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function poolsGet() {
 }
 
 async function main() {
-  poolsGet();
+  await poolsGet();
 }
 
 main().catch(console.error);

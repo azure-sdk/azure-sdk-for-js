@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Quota resources by subscription ID
  *
  * @summary list Quota resources by subscription ID
- * x-ms-original-file: 2024-10-19/SubscriptionUsages_Usages.json
+ * x-ms-original-file: 2025-01-21/SubscriptionUsages_Usages.json
  */
 async function subscriptionUsagesUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.subscriptionUsages.usages("eastus")) {
+  for await (const item of client.subscriptionUsages.usages("eastus")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function subscriptionUsagesUsages(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  subscriptionUsagesUsages();
+  await subscriptionUsagesUsages();
 }
 
 main().catch(console.error);
