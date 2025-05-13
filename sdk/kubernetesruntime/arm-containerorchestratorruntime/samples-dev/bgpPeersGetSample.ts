@@ -12,7 +12,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function bgpPeersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new KubernetesRuntimeClient(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new KubernetesRuntimeClient(credential, subscriptionId);
   const result = await client.bgpPeers.get(
     "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/example/providers/Microsoft.Kubernetes/connectedClusters/cluster1",
     "testpeer",

@@ -12,7 +12,8 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function operationsList0(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const client = new KubernetesRuntimeClient(credential);
+  const subscriptionId = "00000000-0000-0000-0000-00000000000";
+  const client = new KubernetesRuntimeClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.operations.list()) {
     resArray.push(item);
