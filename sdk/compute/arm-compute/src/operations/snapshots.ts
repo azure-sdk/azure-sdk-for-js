@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   Snapshot,
@@ -77,11 +73,7 @@ export class SnapshotsImpl implements Snapshots {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -101,11 +93,7 @@ export class SnapshotsImpl implements Snapshots {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -117,10 +105,7 @@ export class SnapshotsImpl implements Snapshots {
     resourceGroupName: string,
     options?: SnapshotsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Snapshot> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -129,9 +114,7 @@ export class SnapshotsImpl implements Snapshots {
    * Lists snapshots under a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: SnapshotsListOptionalParams,
-  ): PagedAsyncIterableIterator<Snapshot> {
+  public list(options?: SnapshotsListOptionalParams): PagedAsyncIterableIterator<Snapshot> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -209,8 +192,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -291,12 +273,7 @@ export class SnapshotsImpl implements Snapshots {
     snapshotName: string,
     snapshot: SnapshotUpdate,
     options?: SnapshotsUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsUpdateResponse>,
-      SnapshotsUpdateResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<SnapshotsUpdateResponse>, SnapshotsUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -307,8 +284,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -366,12 +342,7 @@ export class SnapshotsImpl implements Snapshots {
     snapshot: SnapshotUpdate,
     options?: SnapshotsUpdateOptionalParams,
   ): Promise<SnapshotsUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      snapshotName,
-      snapshot,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, snapshotName, snapshot, options);
     return poller.pollUntilDone();
   }
 
@@ -417,8 +388,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -471,11 +441,7 @@ export class SnapshotsImpl implements Snapshots {
     snapshotName: string,
     options?: SnapshotsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      snapshotName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, snapshotName, options);
     return poller.pollUntilDone();
   }
 
@@ -498,9 +464,7 @@ export class SnapshotsImpl implements Snapshots {
    * Lists snapshots under a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: SnapshotsListOptionalParams,
-  ): Promise<SnapshotsListResponse> {
+  private _list(options?: SnapshotsListOptionalParams): Promise<SnapshotsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -519,10 +483,7 @@ export class SnapshotsImpl implements Snapshots {
     grantAccessData: GrantAccessData,
     options?: SnapshotsGrantAccessOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SnapshotsGrantAccessResponse>,
-      SnapshotsGrantAccessResponse
-    >
+    SimplePollerLike<OperationState<SnapshotsGrantAccessResponse>, SnapshotsGrantAccessResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -534,8 +495,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -626,8 +586,7 @@ export class SnapshotsImpl implements Snapshots {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -681,11 +640,7 @@ export class SnapshotsImpl implements Snapshots {
     snapshotName: string,
     options?: SnapshotsRevokeAccessOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginRevokeAccess(
-      resourceGroupName,
-      snapshotName,
-      options,
-    );
+    const poller = await this.beginRevokeAccess(resourceGroupName, snapshotName, options);
     return poller.pollUntilDone();
   }
 
@@ -715,10 +670,7 @@ export class SnapshotsImpl implements Snapshots {
     nextLink: string,
     options?: SnapshotsListNextOptionalParams,
   ): Promise<SnapshotsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -742,7 +694,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.snapshot,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -771,7 +723,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.snapshot1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -790,7 +742,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Snapshot,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -804,7 +756,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -821,12 +773,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SnapshotList,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -838,7 +786,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SnapshotList,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -861,7 +809,7 @@ const grantAccessOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.grantAccessData,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -876,7 +824,7 @@ const revokeAccessOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -910,11 +858,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SnapshotList,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

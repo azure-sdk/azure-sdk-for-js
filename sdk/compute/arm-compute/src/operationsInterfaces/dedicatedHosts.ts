@@ -104,10 +104,7 @@ export interface DedicatedHosts {
     parameters: DedicatedHostUpdate,
     options?: DedicatedHostsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHostsUpdateResponse>,
-      DedicatedHostsUpdateResponse
-    >
+    SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>
   >;
   /**
    * Update a dedicated host .
@@ -211,10 +208,7 @@ export interface DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRedeployOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DedicatedHostsRedeployResponse>,
-      DedicatedHostsRedeployResponse
-    >
+    SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>
   >;
   /**
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has

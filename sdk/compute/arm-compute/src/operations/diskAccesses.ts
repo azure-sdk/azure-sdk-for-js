@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DiskAccess,
@@ -85,11 +81,7 @@ export class DiskAccessesImpl implements DiskAccesses {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -109,11 +101,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -125,10 +113,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     resourceGroupName: string,
     options?: DiskAccessesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DiskAccess> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -137,9 +122,7 @@ export class DiskAccessesImpl implements DiskAccesses {
    * Lists all the disk access resources under a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: DiskAccessesListOptionalParams,
-  ): PagedAsyncIterableIterator<DiskAccess> {
+  public list(options?: DiskAccessesListOptionalParams): PagedAsyncIterableIterator<DiskAccess> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -303,8 +286,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -386,10 +368,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccess: DiskAccessUpdate,
     options?: DiskAccessesUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<DiskAccessesUpdateResponse>,
-      DiskAccessesUpdateResponse
-    >
+    SimplePollerLike<OperationState<DiskAccessesUpdateResponse>, DiskAccessesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -401,8 +380,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -460,12 +438,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccess: DiskAccessUpdate,
     options?: DiskAccessesUpdateOptionalParams,
   ): Promise<DiskAccessesUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      diskAccessName,
-      diskAccess,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceGroupName, diskAccessName, diskAccess, options);
     return poller.pollUntilDone();
   }
 
@@ -511,8 +484,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -565,11 +537,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     diskAccessName: string,
     options?: DiskAccessesDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      diskAccessName,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, diskAccessName, options);
     return poller.pollUntilDone();
   }
 
@@ -592,9 +560,7 @@ export class DiskAccessesImpl implements DiskAccesses {
    * Lists all the disk access resources under a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: DiskAccessesListOptionalParams,
-  ): Promise<DiskAccessesListResponse> {
+  private _list(options?: DiskAccessesListOptionalParams): Promise<DiskAccessesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -651,8 +617,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -781,8 +746,7 @@ export class DiskAccessesImpl implements DiskAccesses {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -896,10 +860,7 @@ export class DiskAccessesImpl implements DiskAccesses {
     nextLink: string,
     options?: DiskAccessesListNextOptionalParams,
   ): Promise<DiskAccessesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -948,7 +909,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.diskAccess,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -980,7 +941,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.diskAccess1,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1002,7 +963,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1024,7 +985,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1045,12 +1006,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1065,7 +1022,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -1078,7 +1035,7 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1088,40 +1045,39 @@ const getPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const updateAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "PUT",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnection,
-      },
-      201: {
-        bodyMapper: Mappers.PrivateEndpointConnection,
-      },
-      202: {
-        bodyMapper: Mappers.PrivateEndpointConnection,
-      },
-      204: {
-        bodyMapper: Mappers.PrivateEndpointConnection,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const updateAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
     },
-    requestBody: Parameters.privateEndpointConnection,
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.diskAccessName,
-      Parameters.privateEndpointConnectionName,
-    ],
-    headerParameters: [Parameters.accept, Parameters.contentType],
-    mediaType: "json",
-    serializer,
-  };
+    201: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    202: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    204: {
+      bodyMapper: Mappers.PrivateEndpointConnection,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.privateEndpointConnection,
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
@@ -1133,7 +1089,7 @@ const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1144,30 +1100,29 @@ const getAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
-    httpMethod: "DELETE",
-    responses: {
-      200: {},
-      201: {},
-      202: {},
-      204: {},
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const deleteAPrivateEndpointConnectionOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
     },
-    queryParameters: [Parameters.apiVersion1],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.diskAccessName,
-      Parameters.privateEndpointConnectionName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
   httpMethod: "GET",
@@ -1179,7 +1134,7 @@ const listPrivateEndpointConnectionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1220,33 +1175,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
+    Parameters.diskAccessName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listPrivateEndpointConnectionsNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.PrivateEndpointConnectionListResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.resourceGroupName,
-      Parameters.diskAccessName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };

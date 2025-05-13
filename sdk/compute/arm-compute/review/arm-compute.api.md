@@ -1157,6 +1157,11 @@ export interface CommunityGalleryMetadata {
     publisherUri?: string;
 }
 
+// @public
+export interface ComputeDiagnosticBase extends ProxyResource {
+    properties?: DiagnosticProperties;
+}
+
 // @public (undocumented)
 export class ComputeManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -1236,6 +1241,8 @@ export class ComputeManagementClient extends coreClient.ServiceClient {
     snapshots: Snapshots;
     // (undocumented)
     softDeletedResource: SoftDeletedResource;
+    // (undocumented)
+    spotPlacementScores: SpotPlacementScores;
     // (undocumented)
     sshPublicKeys: SshPublicKeys;
     // (undocumented)
@@ -1640,6 +1647,11 @@ export interface DefaultVirtualMachineScaleSetInfo {
 
 // @public
 export type DeleteOptions = string;
+
+// @public
+export interface DiagnosticProperties {
+    supportedResourceTypes?: string[];
+}
 
 // @public
 export interface DiagnosticsProfile {
@@ -2314,6 +2326,26 @@ export type EndpointAccess = string;
 
 // @public
 export type EndpointTypes = "WireServer" | "IMDS";
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
 
 // @public
 export interface EventGridAndResourceGraph {
@@ -4919,6 +4951,15 @@ export interface Placement {
 }
 
 // @public
+export interface PlacementScore {
+    availabilityZone?: string;
+    isQuotaAvailable?: boolean;
+    region?: string;
+    score?: string;
+    sku?: string;
+}
+
+// @public
 export interface Plan {
     name?: string;
     product?: string;
@@ -5259,6 +5300,11 @@ export interface ResourceRange {
 // @public (undocumented)
 export interface ResourceSharingProfile {
     subscriptionIds?: SubResource[];
+}
+
+// @public
+export interface ResourceSize {
+    sku?: string;
 }
 
 // @public
@@ -6208,6 +6254,43 @@ export interface SoftDeletePolicy {
 // @public
 export interface SourceVault {
     id?: string;
+}
+
+// @public
+export interface SpotPlacementScores {
+    get(location: string, options?: SpotPlacementScoresGetOptionalParams): Promise<SpotPlacementScoresGetResponse>;
+    post(location: string, spotPlacementScoresInput: SpotPlacementScoresInput, options?: SpotPlacementScoresPostOptionalParams): Promise<SpotPlacementScoresPostResponse>;
+}
+
+// @public
+export interface SpotPlacementScoresGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SpotPlacementScoresGetResponse = ComputeDiagnosticBase;
+
+// @public
+export interface SpotPlacementScoresInput {
+    availabilityZones?: boolean;
+    desiredCount?: number;
+    desiredLocations?: string[];
+    desiredSizes?: ResourceSize[];
+}
+
+// @public
+export interface SpotPlacementScoresPostOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SpotPlacementScoresPostResponse = SpotPlacementScoresResponse;
+
+// @public
+export interface SpotPlacementScoresResponse {
+    availabilityZones?: boolean;
+    desiredCount?: number;
+    desiredLocations?: string[];
+    desiredSizes?: ResourceSize[];
+    placementScores?: PlacementScore[];
 }
 
 // @public

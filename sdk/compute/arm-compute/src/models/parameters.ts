@@ -61,6 +61,7 @@ import {
   ThrottledRequestsInput as ThrottledRequestsInputMapper,
   VirtualMachineRunCommand as VirtualMachineRunCommandMapper,
   VirtualMachineRunCommandUpdate as VirtualMachineRunCommandUpdateMapper,
+  SpotPlacementScoresInput as SpotPlacementScoresInputMapper,
   Disk as DiskMapper,
   DiskUpdate as DiskUpdateMapper,
   GrantAccessData as GrantAccessDataMapper,
@@ -1022,6 +1023,37 @@ export const runCommand1: OperationParameter = {
   mapper: VirtualMachineRunCommandUpdateMapper,
 };
 
+export const location2: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1,
+    },
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2025-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const spotPlacementScoresInput: OperationParameter = {
+  parameterPath: "spotPlacementScoresInput",
+  mapper: SpotPlacementScoresInputMapper,
+};
+
 export const disk: OperationParameter = {
   parameterPath: "disk",
   mapper: DiskMapper,
@@ -1038,7 +1070,7 @@ export const diskName: OperationURLParameter = {
   },
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const apiVersion2: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2024-03-02",
@@ -1161,7 +1193,7 @@ export const snapshot1: OperationParameter = {
   mapper: SnapshotUpdateMapper,
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-07-01",
@@ -1199,7 +1231,7 @@ export const galleryName: OperationURLParameter = {
   },
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2024-03-03",
@@ -1516,7 +1548,7 @@ export const cloudServiceName: OperationURLParameter = {
   },
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2024-11-04",

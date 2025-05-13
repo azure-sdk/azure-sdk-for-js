@@ -21,9 +21,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing VirtualMachineExtensionImages operations. */
-export class VirtualMachineExtensionImagesImpl
-  implements VirtualMachineExtensionImages
-{
+export class VirtualMachineExtensionImagesImpl implements VirtualMachineExtensionImages {
   private readonly client: ComputeManagementClient;
 
   /**
@@ -169,12 +167,7 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.orderby],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

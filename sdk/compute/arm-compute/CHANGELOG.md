@@ -1,5 +1,25 @@
 # Release History
     
+## 22.5.0 (2025-05-13)
+    
+### Features Added
+
+  - Added operation group SpotPlacementScores
+  - Added Interface ComputeDiagnosticBase
+  - Added Interface DiagnosticProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface PlacementScore
+  - Added Interface ResourceSize
+  - Added Interface SpotPlacementScoresGetOptionalParams
+  - Added Interface SpotPlacementScoresInput
+  - Added Interface SpotPlacementScoresPostOptionalParams
+  - Added Interface SpotPlacementScoresResponse
+  - Added Type Alias SpotPlacementScoresGetResponse
+  - Added Type Alias SpotPlacementScoresPostResponse
+    
+    
 ## 22.4.0 (2025-03-18)
     
 ### Features Added
