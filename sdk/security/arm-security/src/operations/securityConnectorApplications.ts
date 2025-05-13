@@ -23,9 +23,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityConnectorApplications operations. */
-export class SecurityConnectorApplicationsImpl
-  implements SecurityConnectorApplications
-{
+export class SecurityConnectorApplicationsImpl implements SecurityConnectorApplications {
   private readonly client: SecurityCenter;
 
   /**
@@ -48,11 +46,7 @@ export class SecurityConnectorApplicationsImpl
     securityConnectorName: string,
     options?: SecurityConnectorApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      securityConnectorName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, securityConnectorName, options);
     return {
       next() {
         return iter.next();
@@ -64,12 +58,7 @@ export class SecurityConnectorApplicationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          securityConnectorName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, securityConnectorName, options, settings);
       },
     };
   }
@@ -83,11 +72,7 @@ export class SecurityConnectorApplicationsImpl
     let result: SecurityConnectorApplicationsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        securityConnectorName,
-        options,
-      );
+      result = await this._list(resourceGroupName, securityConnectorName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -173,7 +158,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { SecurityCenter } from "../securityCenter.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   ApiCollection,
@@ -130,11 +126,7 @@ export class APICollectionsImpl implements APICollections {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -154,11 +146,7 @@ export class APICollectionsImpl implements APICollections {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -170,10 +158,7 @@ export class APICollectionsImpl implements APICollections {
     resourceGroupName: string,
     options?: APICollectionsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<ApiCollection> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -227,11 +212,7 @@ export class APICollectionsImpl implements APICollections {
     let result: APICollectionsListByAzureApiManagementServiceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByAzureApiManagementService(
-        resourceGroupName,
-        serviceName,
-        options,
-      );
+      result = await this._listByAzureApiManagementService(resourceGroupName, serviceName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -273,10 +254,7 @@ export class APICollectionsImpl implements APICollections {
   private _listBySubscription(
     options?: APICollectionsListBySubscriptionOptionalParams,
   ): Promise<APICollectionsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -369,8 +347,7 @@ export class APICollectionsImpl implements APICollections {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -526,7 +503,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
+  queryParameters: [Parameters.apiVersion24],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -542,12 +519,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-  ],
+  queryParameters: [Parameters.apiVersion24],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -562,7 +535,7 @@ const listByAzureApiManagementServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
+  queryParameters: [Parameters.apiVersion24],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -583,7 +556,7 @@ const getByAzureApiManagementServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
+  queryParameters: [Parameters.apiVersion24],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -614,7 +587,7 @@ const onboardAzureApiManagementApiOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
+  queryParameters: [Parameters.apiVersion24],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -635,7 +608,7 @@ const offboardAzureApiManagementApiOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion25],
+  queryParameters: [Parameters.apiVersion24],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -657,11 +630,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -685,25 +654,24 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByAzureApiManagementServiceNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ApiCollectionList,
-      },
-      default: {
-        bodyMapper: Mappers.ErrorResponse,
-      },
+const listByAzureApiManagementServiceNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiCollectionList,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.resourceGroupName1,
-      Parameters.serviceName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.serviceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

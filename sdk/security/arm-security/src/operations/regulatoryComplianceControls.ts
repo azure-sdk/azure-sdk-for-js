@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegulatoryComplianceControls operations. */
-export class RegulatoryComplianceControlsImpl
-  implements RegulatoryComplianceControls
-{
+export class RegulatoryComplianceControlsImpl implements RegulatoryComplianceControls {
   private readonly client: SecurityCenter;
 
   /**
@@ -59,11 +57,7 @@ export class RegulatoryComplianceControlsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          regulatoryComplianceStandardName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(regulatoryComplianceStandardName, options, settings);
       },
     };
   }
@@ -83,11 +77,7 @@ export class RegulatoryComplianceControlsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        regulatoryComplianceStandardName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(regulatoryComplianceStandardName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -99,10 +89,7 @@ export class RegulatoryComplianceControlsImpl
     regulatoryComplianceStandardName: string,
     options?: RegulatoryComplianceControlsListOptionalParams,
   ): AsyncIterableIterator<RegulatoryComplianceControl> {
-    for await (const page of this.listPagingPage(
-      regulatoryComplianceStandardName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(regulatoryComplianceStandardName, options)) {
       yield* page;
     }
   }

@@ -85,12 +85,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        scope,
-        assessmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(scope, assessmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -103,11 +98,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     assessmentName: string,
     options?: GovernanceAssignmentsListOptionalParams,
   ): AsyncIterableIterator<GovernanceAssignment> {
-    for await (const page of this.listPagingPage(
-      scope,
-      assessmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(scope, assessmentName, options)) {
       yield* page;
     }
   }
@@ -125,10 +116,7 @@ export class GovernanceAssignmentsImpl implements GovernanceAssignments {
     assessmentName: string,
     options?: GovernanceAssignmentsListOptionalParams,
   ): Promise<GovernanceAssignmentsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, assessmentName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, assessmentName, options }, listOperationSpec);
   }
 
   /**
@@ -234,12 +222,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope1,
-    Parameters.assessmentName1,
-  ],
+  queryParameters: [Parameters.apiVersion7],
+  urlParameters: [Parameters.$host, Parameters.scope1, Parameters.assessmentName1],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -254,7 +238,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
@@ -279,7 +263,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.governanceAssignment,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
@@ -294,7 +278,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/governanceAssignments/{assignmentKey}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion7],
   urlParameters: [
     Parameters.$host,
     Parameters.scope1,
