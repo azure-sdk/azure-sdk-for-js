@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   StaticCidr,
@@ -59,12 +55,7 @@ export class StaticCidrsImpl implements StaticCidrs {
     poolName: string,
     options?: StaticCidrsListOptionalParams,
   ): PagedAsyncIterableIterator<StaticCidr> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      networkManagerName,
-      poolName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, networkManagerName, poolName, options);
     return {
       next() {
         return iter.next();
@@ -97,12 +88,7 @@ export class StaticCidrsImpl implements StaticCidrs {
     let result: StaticCidrsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        networkManagerName,
-        poolName,
-        options,
-      );
+      result = await this._list(resourceGroupName, networkManagerName, poolName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -227,10 +213,7 @@ export class StaticCidrsImpl implements StaticCidrs {
     staticCidrName: string,
     options?: StaticCidrsDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<StaticCidrsDeleteResponse>,
-      StaticCidrsDeleteResponse
-    >
+    SimplePollerLike<OperationState<StaticCidrsDeleteResponse>, StaticCidrsDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -242,8 +225,7 @@ export class StaticCidrsImpl implements StaticCidrs {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

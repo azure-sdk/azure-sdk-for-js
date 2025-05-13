@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualHubRouteTableV2,
@@ -68,12 +64,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          virtualHubName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, virtualHubName, options, settings);
       },
     };
   }
@@ -94,12 +85,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        virtualHubName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, virtualHubName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -112,11 +98,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
     virtualHubName: string,
     options?: VirtualHubRouteTableV2SListOptionalParams,
   ): AsyncIterableIterator<VirtualHubRouteTableV2> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      virtualHubName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, virtualHubName, options)) {
       yield* page;
     }
   }
@@ -172,8 +154,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -273,8 +254,7 @@ export class VirtualHubRouteTableV2SImpl implements VirtualHubRouteTableV2S {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

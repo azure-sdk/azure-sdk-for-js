@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   LoadBalancingRule,
@@ -33,9 +29,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerLoadBalancingRules operations. */
-export class LoadBalancerLoadBalancingRulesImpl
-  implements LoadBalancerLoadBalancingRules
-{
+export class LoadBalancerLoadBalancingRulesImpl implements LoadBalancerLoadBalancingRules {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -57,11 +51,7 @@ export class LoadBalancerLoadBalancingRulesImpl
     loadBalancerName: string,
     options?: LoadBalancerLoadBalancingRulesListOptionalParams,
   ): PagedAsyncIterableIterator<LoadBalancingRule> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, loadBalancerName, options);
     return {
       next() {
         return iter.next();
@@ -73,12 +63,7 @@ export class LoadBalancerLoadBalancingRulesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          loadBalancerName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, loadBalancerName, options, settings);
       },
     };
   }
@@ -117,11 +102,7 @@ export class LoadBalancerLoadBalancingRulesImpl
     loadBalancerName: string,
     options?: LoadBalancerLoadBalancingRulesListOptionalParams,
   ): AsyncIterableIterator<LoadBalancingRule> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      loadBalancerName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, loadBalancerName, options)) {
       yield* page;
     }
   }
@@ -190,8 +171,7 @@ export class LoadBalancerLoadBalancingRulesImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -346,8 +326,8 @@ const healthOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.groupName1,
-    Parameters.loadBalancerName1,
+    Parameters.groupName2,
+    Parameters.loadBalancerName2,
     Parameters.loadBalancingRuleName1,
   ],
   headerParameters: [Parameters.accept],

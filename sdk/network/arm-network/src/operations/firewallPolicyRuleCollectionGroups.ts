@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   FirewallPolicyRuleCollectionGroup,
@@ -34,9 +30,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallPolicyRuleCollectionGroups operations. */
-export class FirewallPolicyRuleCollectionGroupsImpl
-  implements FirewallPolicyRuleCollectionGroups
-{
+export class FirewallPolicyRuleCollectionGroupsImpl implements FirewallPolicyRuleCollectionGroups {
   private readonly client: NetworkManagementClient;
 
   /**
@@ -58,11 +52,7 @@ export class FirewallPolicyRuleCollectionGroupsImpl
     firewallPolicyName: string,
     options?: FirewallPolicyRuleCollectionGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<FirewallPolicyRuleCollectionGroup> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      firewallPolicyName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, firewallPolicyName, options);
     return {
       next() {
         return iter.next();
@@ -74,12 +64,7 @@ export class FirewallPolicyRuleCollectionGroupsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          firewallPolicyName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, firewallPolicyName, options, settings);
       },
     };
   }
@@ -118,11 +103,7 @@ export class FirewallPolicyRuleCollectionGroupsImpl
     firewallPolicyName: string,
     options?: FirewallPolicyRuleCollectionGroupsListOptionalParams,
   ): AsyncIterableIterator<FirewallPolicyRuleCollectionGroup> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      firewallPolicyName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, firewallPolicyName, options)) {
       yield* page;
     }
   }
@@ -150,8 +131,7 @@ export class FirewallPolicyRuleCollectionGroupsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -274,8 +254,7 @@ export class FirewallPolicyRuleCollectionGroupsImpl
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
