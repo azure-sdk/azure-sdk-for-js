@@ -146,12 +146,7 @@ export class SubAssessmentsImpl implements SubAssessments {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        scope,
-        assessmentName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(scope, assessmentName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -164,11 +159,7 @@ export class SubAssessmentsImpl implements SubAssessments {
     assessmentName: string,
     options?: SubAssessmentsListOptionalParams,
   ): AsyncIterableIterator<SecuritySubAssessment> {
-    for await (const page of this.listPagingPage(
-      scope,
-      assessmentName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(scope, assessmentName, options)) {
       yield* page;
     }
   }
@@ -184,10 +175,7 @@ export class SubAssessmentsImpl implements SubAssessments {
     scope: string,
     options?: SubAssessmentsListAllOptionalParams,
   ): Promise<SubAssessmentsListAllResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listAllOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listAllOperationSpec);
   }
 
   /**
@@ -203,10 +191,7 @@ export class SubAssessmentsImpl implements SubAssessments {
     assessmentName: string,
     options?: SubAssessmentsListOptionalParams,
   ): Promise<SubAssessmentsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, assessmentName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, assessmentName, options }, listOperationSpec);
   }
 
   /**
@@ -243,10 +228,7 @@ export class SubAssessmentsImpl implements SubAssessments {
     nextLink: string,
     options?: SubAssessmentsListAllNextOptionalParams,
   ): Promise<SubAssessmentsListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -301,11 +283,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.scope, Parameters.assessmentName],
   headerParameters: [Parameters.accept],
   serializer,
 };

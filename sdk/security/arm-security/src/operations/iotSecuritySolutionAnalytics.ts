@@ -19,9 +19,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing IotSecuritySolutionAnalytics operations. */
-export class IotSecuritySolutionAnalyticsImpl
-  implements IotSecuritySolutionAnalytics
-{
+export class IotSecuritySolutionAnalyticsImpl implements IotSecuritySolutionAnalytics {
   private readonly client: SecurityCenter;
 
   /**
@@ -82,7 +80,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -103,7 +101,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion19],
+  queryParameters: [Parameters.apiVersion18],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

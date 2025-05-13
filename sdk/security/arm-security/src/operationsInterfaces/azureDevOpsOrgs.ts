@@ -110,10 +110,7 @@ export interface AzureDevOpsOrgs {
     azureDevOpsOrg: AzureDevOpsOrg,
     options?: AzureDevOpsOrgsUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<AzureDevOpsOrgsUpdateResponse>,
-      AzureDevOpsOrgsUpdateResponse
-    >
+    SimplePollerLike<OperationState<AzureDevOpsOrgsUpdateResponse>, AzureDevOpsOrgsUpdateResponse>
   >;
   /**
    * Updates monitored Azure DevOps organization details.
