@@ -79,6 +79,26 @@ export type CreatedByType = string;
 export type DataResilienceTier = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, any>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtensionResource extends Resource {
 }
 
@@ -168,6 +188,11 @@ export enum KnownSCType {
 }
 
 // @public
+export enum KnownVersions {
+    V20240301 = "2024-03-01"
+}
+
+// @public
 export enum KnownVolumeBindingMode {
     Immediate = "Immediate",
     WaitForFirstConsumer = "WaitForFirstConsumer"
@@ -254,8 +279,8 @@ export interface NfsStorageClassTypeProperties extends StorageClassTypePropertie
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;

@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/kubernetesruntime/ci.mgmt.yml
       - sdk/kubernetesruntime/arm-containerorchestratorruntime
+      - /mnt/vss/_work/1/s/azure-sdk-for-js/sdk/kubernetesruntime/arm-containerorchestratorruntime
 pr:
   branches:
     include:
@@ -23,6 +24,7 @@ pr:
     include:
       - sdk/kubernetesruntime/ci.mgmt.yml
       - sdk/kubernetesruntime/arm-containerorchestratorruntime
+      - /mnt/vss/_work/1/s/azure-sdk-for-js/sdk/kubernetesruntime/arm-containerorchestratorruntime
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
