@@ -8,22 +8,160 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** The metadata entity contract. */
-export interface MetadataEntity {
-  /** The resource Id of the metadata entity. */
+/** A summary of the recommendation. */
+export interface ShortDescription {
+  /** The issue or opportunity identified by the recommendation and proposed solution. */
+  problem?: string;
+  /** The issue or opportunity identified by the recommendation and proposed solution. */
+  solution?: string;
+}
+
+/** Recommendation resource metadata */
+export interface ResourceMetadata {
+  /** Azure resource Id of the assessed resource */
+  resourceId?: string;
+  /** Source from which recommendation is generated */
+  source?: string;
+  /** The action to view resource. */
+  action?: { [propertyName: string]: { [propertyName: string]: any } };
+  /** The singular user friendly name of resource type. eg: virtual machine */
+  singular?: string;
+  /** The plural user friendly name of resource type. eg: virtual machines */
+  plural?: string;
+}
+
+/** The tracked properties of a Recommendation */
+export interface TrackedRecommendationProperties {
+  /** The state of the Recommendation */
+  state?: State;
+  /** The time the Recommendation was postponed until. */
+  postponedTime?: Date;
+  /** The reason the state of the Recommendation was changed. */
+  reason?: Reason;
+  /** The Priority of the Recommendation. */
+  priority?: Priority;
+}
+
+/** The Review that this Recommendation belongs to. */
+export interface RecommendationPropertiesReview {
+  /** The ARM Resource Id of the Review */
   id?: string;
-  /** The type of the metadata entity. */
-  type?: string;
-  /** The name of the metadata entity. */
+  /** The Name of the Review */
   name?: string;
-  /** The display name. */
-  displayName?: string;
-  /** The list of keys on which this entity depends on. */
-  dependsOn?: string[];
-  /** The list of scenarios applicable to this metadata entity. */
-  applicableScenarios?: Scenario[];
-  /** The list of supported values. */
-  supportedValues?: MetadataSupportedValueDetail[];
+}
+
+/** The Workload that this Resource belongs to. */
+export interface RecommendationPropertiesResourceWorkload {
+  /** The Id of the Workload */
+  id?: string;
+  /** The Name of the Workload */
+  name?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+export interface TrackedRecommendationPropertiesPayload {
+  properties?: TrackedRecommendationPropertiesPayloadProperties;
+}
+
+export interface TrackedRecommendationPropertiesPayloadProperties {
+  /** The tracked properties of a Recommendation */
+  trackedProperties?: TrackedRecommendationProperties;
+}
+
+/** The response of a MetadataEntity list operation. */
+export interface MetadataEntityListResult {
+  /** The MetadataEntity items on this page */
+  value: MetadataEntity[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The metadata supported value detail. */
@@ -34,32 +172,137 @@ export interface MetadataSupportedValueDetail {
   displayName?: string;
 }
 
-/** ARM error response body. */
-export interface ARMErrorResponseBody {
-  /** Gets or sets the string that describes the error in detail and provides debugging information. */
-  message?: string;
-  /** Gets or sets the string that can be used to programmatically identify the error. */
-  code?: string;
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface OperationListResult {
+  /**
+   * List of operations supported by the resource provider
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Operation[];
+  /**
+   * URL to get the next set of operation list results (if there are any).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
-export interface ArmErrorResponse {
-  /** ARM error response body. */
-  error?: ARMErrorResponseBody;
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionType?: ActionType;
 }
 
-/** The list of metadata entities */
-export interface MetadataEntityListResult {
-  /** The list of metadata entities. */
-  value?: MetadataEntity[];
-  /** The link used to get the next page of metadata. */
+/** Localized display information for this particular operation. */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+}
+
+export interface AdvisorScoreResponse {
+  /** The list of operations. */
+  value?: AdvisorScoreEntity[];
+}
+
+/** The details of Advisor Score */
+export interface ScoreEntity {
+  /** The date score was calculated. */
+  date?: string;
+  /** The percentage score. */
+  score?: number;
+  /** The consumption units for the score. */
+  consumptionUnits?: number;
+  /** The number of impacted resources. */
+  impactedResourceCount?: number;
+  /** The potential percentage increase in overall score at subscription level once all recommendations in this scope are implemented. */
+  potentialScoreIncrease?: number;
+  /**
+   * The count of impacted categories.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly categoryCount?: number;
+}
+
+/** The data from different aggregation levels. */
+export interface TimeSeriesEntityItem {
+  /** The aggregation level of the score. */
+  aggregationLevel?: Aggregated;
+  /** The past score data */
+  scoreHistory?: ScoreEntity[];
+}
+
+/** The Advisor assessment type list result data structure. */
+export interface AssessmentTypeListResult {
+  /** The AssessmentTypeResult items on this page */
+  value: AssessmentTypeResult[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** The list of Advisor configurations. */
+/** The Advisor assessment type result data structure. */
+export interface AssessmentTypeResult {
+  /** Assessment Type Id */
+  id?: string;
+  /** Assessment Type Title */
+  title?: string;
+  /** Assessment Type Description */
+  description?: string;
+  /** Assessment Type Locale */
+  locale?: string;
+  /** Assessment Type Version */
+  version?: string;
+}
+
+/** Paged collection of AssessmentResult items */
+export interface AssessmentListResult {
+  /** The AssessmentResult items on this page */
+  value: AssessmentResult[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Paged collection of ConfigData items */
 export interface ConfigurationListResult {
-  /** The list of configurations. */
-  value?: ConfigData[];
-  /** The link used to get the next page of configurations. */
+  /** The ConfigData items on this page */
+  value: ConfigData[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
@@ -79,90 +322,108 @@ export interface DigestConfig {
   state?: DigestConfigState;
 }
 
-/** An Azure resource. */
-export interface Resource {
-  /**
-   * The resource ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
+/** Parameters for predict recommendation. */
+export interface PredictionRequest {
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** Extended properties are arguments specific for each prediction type. */
+  extendedProperties?: { [propertyName: string]: any };
 }
 
-/** The list of Advisor recommendations. */
+/** Response used by predictions. */
+export interface PredictionResponse {
+  /** Extended properties */
+  extendedProperties?: { [propertyName: string]: any };
+  /** Type of the prediction. */
+  predictionType?: PredictionType;
+  /** The category of the recommendation. */
+  category?: Category;
+  /** The business impact of the recommendation. */
+  impact?: Impact;
+  /** The resource type identified by Advisor. */
+  impactedField?: string;
+  /** The most recent time that Advisor checked the validity of the recommendation. */
+  lastUpdated?: Date;
+  /** A summary of the recommendation. */
+  shortDescription?: ShortDescription;
+}
+
+/** The response of a ResourceRecommendationBase list operation. */
 export interface ResourceRecommendationBaseListResult {
-  /** The link used to get the next page of recommendations. */
+  /** The ResourceRecommendationBase items on this page */
+  value: ResourceRecommendationBase[];
+  /** The link to the next page of items */
   nextLink?: string;
-  /** The list of recommendations. */
-  value?: ResourceRecommendationBase[];
 }
 
-/** A summary of the recommendation. */
-export interface ShortDescription {
-  /** The issue or opportunity identified by the recommendation. */
-  problem?: string;
-  /** The remediation action suggested by the recommendation. */
-  solution?: string;
-}
-
-/** Recommendation resource metadata */
-export interface ResourceMetadata {
-  /** Azure resource Id of the assessed resource */
-  resourceId?: string;
-  /** Source from which recommendation is generated */
-  source?: string;
-  /** The action to view resource. */
-  action?: { [propertyName: string]: Record<string, unknown> };
-  /** The singular user friendly name of resource type. eg: virtual machine */
-  singular?: string;
-  /** The plural user friendly name of resource type. eg: virtual machines */
-  plural?: string;
-}
-
-/** The list of Advisor operations. */
-export interface OperationEntityListResult {
-  /** The link used to get the next page of operations. */
+/** Collection of Resiliency Reviews. */
+export interface ResiliencyReviewCollection {
+  /** The ResiliencyReview items on this page */
+  value: ResiliencyReview[];
+  /** The link to the next page of items */
   nextLink?: string;
-  /** The list of operations. */
-  value?: OperationEntity[];
 }
 
-/** The operation supported by Advisor. */
-export interface OperationEntity {
-  /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
-  /** The operation supported by Advisor. */
-  display?: OperationDisplayInfo;
+/** Collection of Advisor triage recommendations. */
+export interface TriageRecommendationCollection {
+  /** The TriageRecommendation items on this page */
+  value: TriageRecommendation[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** The operation supported by Advisor. */
-export interface OperationDisplayInfo {
-  /** The description of the operation. */
-  description?: string;
-  /** The action that users can perform, based on their permission level. */
-  operation?: string;
-  /** Service provider: Microsoft Advisor. */
-  provider?: string;
-  /** Resource on which the operation is performed. */
-  resource?: string;
+/** Recommendation reject body. */
+export interface RecommendationRejectBody {
+  /** Reason for rejecting recommendation. */
+  reasonForRejection?: ReasonForRejectionName;
 }
 
-/** The list of Advisor suppressions. */
+/** Collection of Advisor triage resources. */
+export interface TriageResourceCollection {
+  /** The TriageResource items on this page */
+  value: TriageResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The response of a SuppressionContract list operation. */
 export interface SuppressionContractListResult {
-  /** The link used to get the next page of suppressions. */
+  /** The SuppressionContract items on this page */
+  value: SuppressionContract[];
+  /** The link to the next page of items */
   nextLink?: string;
-  /** The list of suppressions. */
-  value?: SuppressionContract[];
 }
+
+/** The Workload list result data structure. */
+export interface WorkloadListResult {
+  /** The WorkloadResult items on this page */
+  value: WorkloadResult[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The Workload result data structure. */
+export interface WorkloadResult {
+  /** Workload Id */
+  id?: string;
+  /** Workload Name */
+  name?: string;
+  /** Subscription Id */
+  subscriptionId?: string;
+  /** Subscription Name */
+  subscriptionName?: string;
+}
+
+/** The response of a ConfigData list operation. */
+export interface ConfigDataListResult {
+  /** The ConfigData items on this page */
+  value: ConfigData[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
 
 /** The Advisor configuration data structure. */
 export interface ConfigData extends Resource {
@@ -170,12 +431,14 @@ export interface ConfigData extends Resource {
   exclude?: boolean;
   /** Minimum percentage threshold for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. */
   lowCpuThreshold?: CpuThreshold;
+  /** Minimum duration for Advisor low CPU utilization evaluation. Valid only for subscriptions. Valid values: 7 (default), 14, 21, 30, 60 or 90. */
+  duration?: Duration;
   /** Advisor digest configuration. Valid only for subscriptions */
   digests?: DigestConfig[];
 }
 
 /** Advisor Recommendation. */
-export interface ResourceRecommendationBase extends Resource {
+export interface ResourceRecommendationBase extends ProxyResource {
   /** The category of the recommendation. */
   category?: Category;
   /** The business impact of the recommendation. */
@@ -187,7 +450,7 @@ export interface ResourceRecommendationBase extends Resource {
   /** The most recent time that Advisor checked the validity of the recommendation. */
   lastUpdated?: Date;
   /** The recommendation metadata. */
-  metadata?: { [propertyName: string]: Record<string, unknown> };
+  metadata?: { [propertyName: string]: { [propertyName: string]: any } };
   /** The recommendation-type GUID. */
   recommendationTypeId?: string;
   /** The potential risk of not implementing the recommendation. */
@@ -209,17 +472,29 @@ export interface ResourceRecommendationBase extends Resource {
   /** The potential benefit of implementing recommendation. */
   potentialBenefits?: string;
   /** The list of recommended actions to implement recommendation. */
-  actions?: { [propertyName: string]: Record<string, unknown> }[];
+  actions?: { [propertyName: string]: { [propertyName: string]: any } }[];
   /** The automated way to apply recommendation. */
-  remediation?: { [propertyName: string]: Record<string, unknown> };
+  remediation?: { [propertyName: string]: { [propertyName: string]: any } };
   /** The recommendation metadata properties exposed to customer to provide additional information. */
   exposedMetadataProperties?: {
-    [propertyName: string]: Record<string, unknown>;
+    [propertyName: string]: { [propertyName: string]: any };
   };
+  /** If the Recommendation has Tracking enabled. */
+  tracked?: boolean;
+  /** The properties of a tracked recommendation. */
+  trackedProperties?: TrackedRecommendationProperties;
+  /** The Review that this Recommendation belongs to. */
+  review?: RecommendationPropertiesReview;
+  /** The Workload that this Resource belongs to. */
+  resourceWorkload?: RecommendationPropertiesResourceWorkload;
+  /** The Source System that this Recommendation originated from. */
+  sourceSystem?: string;
+  /** Additional notes for the Recommendation */
+  notes?: string;
 }
 
 /** The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule. */
-export interface SuppressionContract extends Resource {
+export interface SuppressionContract extends ProxyResource {
   /** The GUID of the suppression. */
   suppressionId?: string;
   /** The duration for which the suppression is valid. */
@@ -231,52 +506,209 @@ export interface SuppressionContract extends Resource {
   readonly expirationTimeStamp?: Date;
 }
 
+/** The metadata entity contract. */
+export interface MetadataEntity extends ProxyResource {
+  /** The display name. */
+  displayName?: string;
+  /** The list of keys on which this entity depends on. */
+  dependsOn?: string[];
+  /** The list of scenarios applicable to this metadata entity. */
+  applicableScenarios?: Scenario[];
+  /** The list of supported values. */
+  supportedValues?: MetadataSupportedValueDetail[];
+}
+
+/** The details of Advisor score for a single category. */
+export interface AdvisorScoreEntity extends ProxyResource {
+  /** The details of latest available score. */
+  lastRefreshedScore?: ScoreEntity;
+  /** The historic Advisor score data. */
+  timeSeries?: TimeSeriesEntityItem[];
+}
+
+/** The Advisor assessment result data structure. */
+export interface AssessmentResult extends ProxyResource {
+  /** Workload Id. */
+  workloadId?: string;
+  /**
+   * Workload Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadName?: string;
+  /**
+   * Assessment Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly assessmentId?: string;
+  /**
+   * Assessment Type Description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /** Assessment Type Id. */
+  typeId?: string;
+  /**
+   * Assessment Type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typePropertiesType?: string;
+  /**
+   * Assessment Score.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly score?: number;
+  /**
+   * Assessment State.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: string;
+  /**
+   * Assessment Type Version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly typeVersion?: string;
+  /** Assessment Type Locale. */
+  locale?: string;
+}
+
+/** The Advisor resiliency review data structure. */
+export interface ResiliencyReview extends ProxyResource {
+  /**
+   * Review name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reviewName?: string;
+  /**
+   * Workload Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workloadName?: string;
+  /**
+   * Review status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reviewStatus?: ReviewStatus;
+  /**
+   * Review recommendations count.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationsCount?: number;
+  /**
+   * Review last updated timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publishedAt?: string;
+  /**
+   * Review last updated timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: string;
+}
+
+/** Triage recommendation data structure. */
+export interface TriageRecommendation extends ProxyResource {
+  /**
+   * Review id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reviewId?: string;
+  /**
+   * Recommendation label.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * Recommendation priority.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly priority?: PriorityName;
+  /**
+   * List of subscription ids.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly appliesToSubscriptions?: string[];
+  /**
+   * Recommendation status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationStatus?: RecommendationStatusName;
+  /**
+   * Recommendation potential benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: string;
+  /**
+   * Recommendation rejection reason.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rejectReason?: string;
+  /**
+   * Recommendation potential benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly potentialBenefits?: string;
+  /**
+   * Recommendation description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Recommendation notes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notes?: string;
+}
+
+/** Triage resource data structure. */
+export interface TriageResource extends ProxyResource {
+  /**
+   * Unique identifier for the review resource this triageResource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reviewId?: string;
+  /**
+   * Unique identifier for the recommendation resource this triageResource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recommendationId?: string;
+  /**
+   * Unique identifier for the subscription resource this triageResource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Name of the resource group this triageResource belongs to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /**
+   * Type of resource this triageResource corresponds to e.g. "Cosmos DB".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * Full Azure resource id path of the resource this triageResource corresponds to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /**
+   * Name of the resource this triageResource corresponds to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceName?: string;
+}
+
 /** Defines headers for Recommendations_generate operation. */
 export interface RecommendationsGenerateHeaders {
-  /** The URL where the status of the asynchronous operation can be checked. */
-  location?: string;
-  /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
 
-/** Known values of {@link Scenario} that the service accepts. */
-export enum KnownScenario {
-  /** Alerts */
-  Alerts = "Alerts",
+/** Defines headers for Recommendations_getGenerateStatus operation. */
+export interface RecommendationsGetGenerateStatusHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
 }
-
-/**
- * Defines values for Scenario. \
- * {@link KnownScenario} can be used interchangeably with Scenario,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Alerts**
- */
-export type Scenario = string;
-
-/** Known values of {@link CpuThreshold} that the service accepts. */
-export enum KnownCpuThreshold {
-  /** Five */
-  Five = "5",
-  /** Ten */
-  Ten = "10",
-  /** Fifteen */
-  Fifteen = "15",
-  /** Twenty */
-  Twenty = "20",
-}
-
-/**
- * Defines values for CpuThreshold. \
- * {@link KnownCpuThreshold} can be used interchangeably with CpuThreshold,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **5** \
- * **10** \
- * **15** \
- * **20**
- */
-export type CpuThreshold = string;
 
 /** Known values of {@link Category} that the service accepts. */
 export enum KnownCategory {
@@ -304,39 +736,6 @@ export enum KnownCategory {
  * **OperationalExcellence**
  */
 export type Category = string;
-
-/** Known values of {@link DigestConfigState} that the service accepts. */
-export enum KnownDigestConfigState {
-  /** Active */
-  Active = "Active",
-  /** Disabled */
-  Disabled = "Disabled",
-}
-
-/**
- * Defines values for DigestConfigState. \
- * {@link KnownDigestConfigState} can be used interchangeably with DigestConfigState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Active** \
- * **Disabled**
- */
-export type DigestConfigState = string;
-
-/** Known values of {@link ConfigurationName} that the service accepts. */
-export enum KnownConfigurationName {
-  /** Default */
-  Default = "default",
-}
-
-/**
- * Defines values for ConfigurationName. \
- * {@link KnownConfigurationName} can be used interchangeably with ConfigurationName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **default**
- */
-export type ConfigurationName = string;
 
 /** Known values of {@link Impact} that the service accepts. */
 export enum KnownImpact {
@@ -380,58 +779,389 @@ export enum KnownRisk {
  */
 export type Risk = string;
 
+/** Known values of {@link State} that the service accepts. */
+export enum KnownState {
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Pending */
+  Pending = "Pending",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Postponed */
+  Postponed = "Postponed",
+  /** Dismissed */
+  Dismissed = "Dismissed",
+  /** Completed */
+  Completed = "Completed",
+}
+
+/**
+ * Defines values for State. \
+ * {@link KnownState} can be used interchangeably with State,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Rejected** \
+ * **Pending** \
+ * **InProgress** \
+ * **Postponed** \
+ * **Dismissed** \
+ * **Completed**
+ */
+export type State = string;
+
+/** Known values of {@link Reason} that the service accepts. */
+export enum KnownReason {
+  /** ExcessiveInvestment */
+  ExcessiveInvestment = "ExcessiveInvestment",
+  /** TooComplex */
+  TooComplex = "TooComplex",
+  /** AlternativeSolution */
+  AlternativeSolution = "AlternativeSolution",
+  /** Incompatible */
+  Incompatible = "Incompatible",
+  /** Unclear */
+  Unclear = "Unclear",
+  /** RiskAccepted */
+  RiskAccepted = "RiskAccepted",
+}
+
+/**
+ * Defines values for Reason. \
+ * {@link KnownReason} can be used interchangeably with Reason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ExcessiveInvestment** \
+ * **TooComplex** \
+ * **AlternativeSolution** \
+ * **Incompatible** \
+ * **Unclear** \
+ * **RiskAccepted**
+ */
+export type Reason = string;
+
+/** Known values of {@link Priority} that the service accepts. */
+export enum KnownPriority {
+  /** Critical */
+  Critical = "Critical",
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+  /** Informational */
+  Informational = "Informational",
+}
+
+/**
+ * Defines values for Priority. \
+ * {@link KnownPriority} can be used interchangeably with Priority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical** \
+ * **High** \
+ * **Medium** \
+ * **Low** \
+ * **Informational**
+ */
+export type Priority = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link Scenario} that the service accepts. */
+export enum KnownScenario {
+  /** Alerts */
+  Alerts = "Alerts",
+}
+
+/**
+ * Defines values for Scenario. \
+ * {@link KnownScenario} can be used interchangeably with Scenario,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Alerts**
+ */
+export type Scenario = string;
+
+/** Known values of {@link Origin} that the service accepts. */
+export enum KnownOrigin {
+  /** User */
+  User = "user",
+  /** System */
+  System = "system",
+  /** UserSystem */
+  UserSystem = "user,system",
+}
+
+/**
+ * Defines values for Origin. \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **system** \
+ * **user,system**
+ */
+export type Origin = string;
+
+/** Known values of {@link ActionType} that the service accepts. */
+export enum KnownActionType {
+  /** Internal */
+  Internal = "Internal",
+}
+
+/**
+ * Defines values for ActionType. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**
+ */
+export type ActionType = string;
+
+/** Known values of {@link Aggregated} that the service accepts. */
+export enum KnownAggregated {
+  /** Week */
+  Week = "week",
+  /** Day */
+  Day = "day",
+  /** Month */
+  Month = "month",
+}
+
+/**
+ * Defines values for Aggregated. \
+ * {@link KnownAggregated} can be used interchangeably with Aggregated,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **week** \
+ * **day** \
+ * **month**
+ */
+export type Aggregated = string;
+
+/** Known values of {@link CpuThreshold} that the service accepts. */
+export enum KnownCpuThreshold {
+  /** Five */
+  Five = "5",
+  /** Ten */
+  Ten = "10",
+  /** Fifteen */
+  Fifteen = "15",
+  /** Twenty */
+  Twenty = "20",
+}
+
+/**
+ * Defines values for CpuThreshold. \
+ * {@link KnownCpuThreshold} can be used interchangeably with CpuThreshold,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **5** \
+ * **10** \
+ * **15** \
+ * **20**
+ */
+export type CpuThreshold = string;
+
+/** Known values of {@link Duration} that the service accepts. */
+export enum KnownDuration {
+  /** Seven */
+  Seven = "7",
+  /** Fourteen */
+  Fourteen = "14",
+  /** TwentyOne */
+  TwentyOne = "21",
+  /** Thirty */
+  Thirty = "30",
+  /** Sixty */
+  Sixty = "60",
+  /** Ninety */
+  Ninety = "90",
+}
+
+/**
+ * Defines values for Duration. \
+ * {@link KnownDuration} can be used interchangeably with Duration,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **7** \
+ * **14** \
+ * **21** \
+ * **30** \
+ * **60** \
+ * **90**
+ */
+export type Duration = string;
+
+/** Known values of {@link DigestConfigState} that the service accepts. */
+export enum KnownDigestConfigState {
+  /** Active */
+  Active = "Active",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for DigestConfigState. \
+ * {@link KnownDigestConfigState} can be used interchangeably with DigestConfigState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Active** \
+ * **Disabled**
+ */
+export type DigestConfigState = string;
+
+/** Known values of {@link ConfigurationName} that the service accepts. */
+export enum KnownConfigurationName {
+  /** Default */
+  Default = "default",
+}
+
+/**
+ * Defines values for ConfigurationName. \
+ * {@link KnownConfigurationName} can be used interchangeably with ConfigurationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type ConfigurationName = string;
+
+/** Known values of {@link PredictionType} that the service accepts. */
+export enum KnownPredictionType {
+  /** PredictiveRightsizing */
+  PredictiveRightsizing = "PredictiveRightsizing",
+}
+
+/**
+ * Defines values for PredictionType. \
+ * {@link KnownPredictionType} can be used interchangeably with PredictionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PredictiveRightsizing**
+ */
+export type PredictionType = string;
+
+/** Known values of {@link ReviewStatus} that the service accepts. */
+export enum KnownReviewStatus {
+  /** New */
+  New = "New",
+  /** In Progress */
+  InProgress = "InProgress",
+  /** Triaged */
+  Triaged = "Triaged",
+  /** Completed */
+  Completed = "Completed",
+}
+
+/**
+ * Defines values for ReviewStatus. \
+ * {@link KnownReviewStatus} can be used interchangeably with ReviewStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New**: New \
+ * **InProgress**: In Progress \
+ * **Triaged**: Triaged \
+ * **Completed**: Completed
+ */
+export type ReviewStatus = string;
+
+/** Known values of {@link PriorityName} that the service accepts. */
+export enum KnownPriorityName {
+  /** High */
+  High = "High",
+  /** Medium */
+  Medium = "Medium",
+  /** Low */
+  Low = "Low",
+}
+
+/**
+ * Defines values for PriorityName. \
+ * {@link KnownPriorityName} can be used interchangeably with PriorityName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: High \
+ * **Medium**: Medium \
+ * **Low**: Low
+ */
+export type PriorityName = string;
+
+/** Known values of {@link RecommendationStatusName} that the service accepts. */
+export enum KnownRecommendationStatusName {
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+  /** Pending */
+  Pending = "Pending",
+}
+
+/**
+ * Defines values for RecommendationStatusName. \
+ * {@link KnownRecommendationStatusName} can be used interchangeably with RecommendationStatusName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved**: Approved \
+ * **Rejected**: Rejected \
+ * **Pending**: Pending
+ */
+export type RecommendationStatusName = string;
+
+/** Known values of {@link ReasonForRejectionName} that the service accepts. */
+export enum KnownReasonForRejectionName {
+  /** Not A Risk */
+  NotARisk = "NotARisk",
+  /** Risk Accepted */
+  RiskAccepted = "RiskAccepted",
+}
+
+/**
+ * Defines values for ReasonForRejectionName. \
+ * {@link KnownReasonForRejectionName} can be used interchangeably with ReasonForRejectionName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotARisk**: Not A Risk \
+ * **RiskAccepted**: Risk Accepted
+ */
+export type ReasonForRejectionName = string;
+
 /** Optional parameters. */
-export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {}
+export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type RecommendationMetadataGetResponse = MetadataEntity;
+export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
-export interface RecommendationMetadataListOptionalParams extends coreClient.OperationOptions {}
+export interface RecommendationsPatchOptionalParams extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type RecommendationMetadataListResponse = MetadataEntityListResult;
-
-/** Optional parameters. */
-export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type RecommendationMetadataListNextResponse = MetadataEntityListResult;
-
-/** Optional parameters. */
-export interface ConfigurationsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult;
-
-/** Optional parameters. */
-export interface ConfigurationsCreateInSubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createInSubscription operation. */
-export type ConfigurationsCreateInSubscriptionResponse = ConfigData;
-
-/** Optional parameters. */
-export interface ConfigurationsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ConfigurationsListByResourceGroupResponse = ConfigurationListResult;
-
-/** Optional parameters. */
-export interface ConfigurationsCreateInResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createInResourceGroup operation. */
-export type ConfigurationsCreateInResourceGroupResponse = ConfigData;
-
-/** Optional parameters. */
-export interface ConfigurationsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResult;
+/** Contains response data for the patch operation. */
+export type RecommendationsPatchResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
 export interface RecommendationsGenerateOptionalParams extends coreClient.OperationOptions {}
@@ -442,6 +1172,9 @@ export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders;
 /** Optional parameters. */
 export interface RecommendationsGetGenerateStatusOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Contains response data for the getGenerateStatus operation. */
+export type RecommendationsGetGenerateStatusResponse = RecommendationsGetGenerateStatusHeaders;
 
 /** Optional parameters. */
 export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
@@ -457,28 +1190,10 @@ export interface RecommendationsListOptionalParams extends coreClient.OperationO
 export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
 
 /** Optional parameters. */
-export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type RecommendationsGetResponse = ResourceRecommendationBase;
-
-/** Optional parameters. */
 export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
-
-/** Optional parameters. */
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationEntityListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationEntityListResult;
 
 /** Optional parameters. */
 export interface SuppressionsGetOptionalParams extends coreClient.OperationOptions {}
@@ -511,6 +1226,230 @@ export interface SuppressionsListNextOptionalParams extends coreClient.Operation
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;
+
+/** Optional parameters. */
+export interface RecommendationMetadataListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type RecommendationMetadataListResponse = MetadataEntityListResult;
+
+/** Optional parameters. */
+export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RecommendationMetadataGetResponse = MetadataEntity;
+
+/** Optional parameters. */
+export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type RecommendationMetadataListNextResponse = MetadataEntityListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface AdvisorScoresListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AdvisorScoresListResponse = AdvisorScoreResponse;
+
+/** Optional parameters. */
+export interface AdvisorScoresGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AdvisorScoresGetResponse = AdvisorScoreEntity;
+
+/** Optional parameters. */
+export interface AssessmentTypesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type AssessmentTypesListResponse = AssessmentTypeListResult;
+
+/** Optional parameters. */
+export interface AssessmentTypesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AssessmentTypesListNextResponse = AssessmentTypeListResult;
+
+/** Optional parameters. */
+export interface AssessmentsListOptionalParams extends coreClient.OperationOptions {
+  /** Limit the result to the specified number of rows. */
+  top?: string;
+  /** The page-continuation token to use with a paged version of this API. */
+  skiptoken?: string;
+}
+
+/** Contains response data for the list operation. */
+export type AssessmentsListResponse = AssessmentListResult;
+
+/** Optional parameters. */
+export interface AssessmentsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type AssessmentsGetResponse = AssessmentResult;
+
+/** Optional parameters. */
+export interface AssessmentsPutOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the put operation. */
+export type AssessmentsPutResponse = AssessmentResult;
+
+/** Optional parameters. */
+export interface AssessmentsDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface AssessmentsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type AssessmentsListNextResponse = AssessmentListResult;
+
+/** Optional parameters. */
+export interface ConfigurationsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type ConfigurationsListBySubscriptionResponse = ConfigurationListResult;
+
+/** Optional parameters. */
+export interface ConfigurationsCreateInSubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createInSubscription operation. */
+export type ConfigurationsCreateInSubscriptionResponse = ConfigData;
+
+/** Optional parameters. */
+export interface ConfigurationsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type ConfigurationsListByResourceGroupResponse = ConfigDataListResult;
+
+/** Optional parameters. */
+export interface ConfigurationsCreateInResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createInResourceGroup operation. */
+export type ConfigurationsCreateInResourceGroupResponse = ConfigData;
+
+/** Optional parameters. */
+export interface ConfigurationsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResult;
+
+/** Optional parameters. */
+export interface ConfigurationsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ConfigurationsListByResourceGroupNextResponse = ConfigDataListResult;
+
+/** Optional parameters. */
+export interface PredictOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the predict operation. */
+export type PredictResponse = PredictionResponse;
+
+/** Optional parameters. */
+export interface ResiliencyReviewsListOptionalParams extends coreClient.OperationOptions {
+  /** The filter to apply.<br>Filter can be applied to properties ['reviewStatus', 'reviewId'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=reviewStatus eq 'New' */
+  filter?: string;
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The number of items to skip before starting to collect the result set. */
+  skip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type ResiliencyReviewsListResponse = ResiliencyReviewCollection;
+
+/** Optional parameters. */
+export interface ResiliencyReviewsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ResiliencyReviewsGetResponse = ResiliencyReview;
+
+/** Optional parameters. */
+export interface ResiliencyReviewsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ResiliencyReviewsListNextResponse = ResiliencyReviewCollection;
+
+/** Optional parameters. */
+export interface TriageRecommendationsListOptionalParams extends coreClient.OperationOptions {
+  /** The number of items to be included in the result. */
+  top?: number;
+  /** The number of items to skip before starting to collect the result set. */
+  skip?: number;
+}
+
+/** Contains response data for the list operation. */
+export type TriageRecommendationsListResponse = TriageRecommendationCollection;
+
+/** Optional parameters. */
+export interface TriageRecommendationsGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TriageRecommendationsGetResponse = TriageRecommendation;
+
+/** Optional parameters. */
+export interface TriageRecommendationsApproveTriageRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TriageRecommendationsRejectTriageRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TriageRecommendationsResetTriageRecommendationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TriageRecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TriageRecommendationsListNextResponse = TriageRecommendationCollection;
+
+/** Optional parameters. */
+export interface TriageResourcesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TriageResourcesListResponse = TriageResourceCollection;
+
+/** Optional parameters. */
+export interface TriageResourcesGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TriageResourcesGetResponse = TriageResource;
+
+/** Optional parameters. */
+export interface TriageResourcesListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TriageResourcesListNextResponse = TriageResourceCollection;
+
+/** Optional parameters. */
+export interface WorkloadsListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkloadsListResponse = WorkloadListResult;
+
+/** Optional parameters. */
+export interface WorkloadsListNextOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkloadsListNextResponse = WorkloadListResult;
 
 /** Optional parameters. */
 export interface AdvisorManagementClientOptionalParams extends coreClient.ServiceClientOptions {

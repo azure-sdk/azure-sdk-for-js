@@ -18,11 +18,15 @@ import {
   RecommendationsListNextOptionalParams,
   RecommendationsListOptionalParams,
   RecommendationsListResponse,
+  RecommendationsGetOptionalParams,
+  RecommendationsGetResponse,
+  TrackedRecommendationPropertiesPayload,
+  RecommendationsPatchOptionalParams,
+  RecommendationsPatchResponse,
   RecommendationsGenerateOptionalParams,
   RecommendationsGenerateResponse,
   RecommendationsGetGenerateStatusOptionalParams,
-  RecommendationsGetOptionalParams,
-  RecommendationsGetResponse,
+  RecommendationsGetGenerateStatusResponse,
   RecommendationsListNextResponse,
 } from "../models/index.js";
 
@@ -95,6 +99,42 @@ export class RecommendationsImpl implements Recommendations {
   }
 
   /**
+   * Obtains details of a cached recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param options The options parameters.
+   */
+  get(
+    resourceUri: string,
+    recommendationId: string,
+    options?: RecommendationsGetOptionalParams,
+  ): Promise<RecommendationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, recommendationId, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Update the tracked properties of a Recommendation.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
+   * @param recommendationId The recommendation ID.
+   * @param trackedProperties The properties to update on the recommendation.
+   * @param options The options parameters.
+   */
+  patch(
+    resourceUri: string,
+    recommendationId: string,
+    trackedProperties: TrackedRecommendationPropertiesPayload,
+    options?: RecommendationsPatchOptionalParams,
+  ): Promise<RecommendationsPatchResponse> {
+    return this.client.sendOperationRequest(
+      { resourceUri, recommendationId, trackedProperties, options },
+      patchOperationSpec,
+    );
+  }
+
+  /**
    * Initiates the recommendation generation or computation process for a subscription. This operation is
    * asynchronous. The generated recommendations are stored in a cache in the Advisor service.
    * @param options The options parameters.
@@ -116,7 +156,7 @@ export class RecommendationsImpl implements Recommendations {
   getGenerateStatus(
     operationId: string,
     options?: RecommendationsGetGenerateStatusOptionalParams,
-  ): Promise<void> {
+  ): Promise<RecommendationsGetGenerateStatusResponse> {
     return this.client.sendOperationRequest(
       { operationId, options },
       getGenerateStatusOperationSpec,
@@ -130,24 +170,6 @@ export class RecommendationsImpl implements Recommendations {
    */
   private _list(options?: RecommendationsListOptionalParams): Promise<RecommendationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Obtains details of a cached recommendation.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
-   * @param recommendationId The recommendation ID.
-   * @param options The options parameters.
-   */
-  get(
-    resourceUri: string,
-    recommendationId: string,
-    options?: RecommendationsGetOptionalParams,
-  ): Promise<RecommendationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, recommendationId, options },
-      getOperationSpec,
-    );
   }
 
   /**
@@ -165,6 +187,40 @@ export class RecommendationsImpl implements Recommendations {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBase,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const patchOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceRecommendationBase,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.trackedProperties,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
 const generateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations",
   httpMethod: "POST",
@@ -173,7 +229,7 @@ const generateOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.RecommendationsGenerateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -185,10 +241,12 @@ const getGenerateStatusOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
   httpMethod: "GET",
   responses: {
-    202: {},
+    202: {
+      headersMapper: Mappers.RecommendationsGetGenerateStatusHeaders,
+    },
     204: {},
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -204,27 +262,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceRecommendationBaseListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceRecommendationBase,
-    },
-    default: {
-      bodyMapper: Mappers.ArmErrorResponse,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -236,10 +278,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ResourceRecommendationBaseListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

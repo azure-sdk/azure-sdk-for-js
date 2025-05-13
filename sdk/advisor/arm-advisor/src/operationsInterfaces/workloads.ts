@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operation, OperationsListOptionalParams } from "../models/index.js";
+import { WorkloadResult, WorkloadsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Operations. */
-export interface Operations {
+/** Interface representing a Workloads. */
+export interface Workloads {
   /**
-   * List the operations for the provider
+   * Get list of Workloads.
    * @param options The options parameters.
    */
-  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+  list(options?: WorkloadsListOptionalParams): PagedAsyncIterableIterator<WorkloadResult>;
 }

@@ -7,14 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Operation, OperationsListOptionalParams } from "../models/index.js";
+import { AssessmentTypeResult, AssessmentTypesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a Operations. */
-export interface Operations {
+/** Interface representing a AssessmentTypes. */
+export interface AssessmentTypes {
   /**
-   * List the operations for the provider
+   * Get list of Azure Advisor assessment types.
    * @param options The options parameters.
    */
-  list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+  list(
+    options?: AssessmentTypesListOptionalParams,
+  ): PagedAsyncIterableIterator<AssessmentTypeResult>;
 }

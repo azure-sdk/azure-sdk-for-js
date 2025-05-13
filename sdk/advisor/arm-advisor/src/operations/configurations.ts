@@ -18,6 +18,7 @@ import {
   ConfigurationsListBySubscriptionNextOptionalParams,
   ConfigurationsListBySubscriptionOptionalParams,
   ConfigurationsListBySubscriptionResponse,
+  ConfigurationsListByResourceGroupNextOptionalParams,
   ConfigurationsListByResourceGroupOptionalParams,
   ConfigurationsListByResourceGroupResponse,
   ConfigurationName,
@@ -26,6 +27,7 @@ import {
   ConfigurationsCreateInResourceGroupOptionalParams,
   ConfigurationsCreateInResourceGroupResponse,
   ConfigurationsListBySubscriptionNextResponse,
+  ConfigurationsListByResourceGroupNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -124,11 +126,24 @@ export class ConfigurationsImpl implements Configurations {
   private async *listByResourceGroupPagingPage(
     resourceGroup: string,
     options?: ConfigurationsListByResourceGroupOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConfigData[]> {
     let result: ConfigurationsListByResourceGroupResponse;
-    result = await this._listByResourceGroup(resourceGroup, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByResourceGroup(resourceGroup, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByResourceGroupNext(resourceGroup, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listByResourceGroupPagingAll(
@@ -216,6 +231,23 @@ export class ConfigurationsImpl implements Configurations {
       listBySubscriptionNextOperationSpec,
     );
   }
+
+  /**
+   * ListByResourceGroupNext
+   * @param resourceGroup The name of the Azure resource group.
+   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroupNext(
+    resourceGroup: string,
+    nextLink: string,
+    options?: ConfigurationsListByResourceGroupNextOptionalParams,
+  ): Promise<ConfigurationsListByResourceGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroup, nextLink, options },
+      listByResourceGroupNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -228,7 +260,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -244,7 +276,7 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigData,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.configContract,
@@ -259,10 +291,10 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConfigurationListResult,
+      bodyMapper: Mappers.ConfigDataListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -278,7 +310,7 @@ const createInResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigData,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.configContract,
@@ -301,10 +333,30 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigDataListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.resourceGroup,
+  ],
   headerParameters: [Parameters.accept],
   serializer,
 };

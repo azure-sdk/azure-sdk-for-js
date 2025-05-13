@@ -96,8 +96,7 @@ export class SuppressionsImpl implements Suppressions {
 
   /**
    * Obtains the details of a suppression.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param options The options parameters.
@@ -118,8 +117,7 @@ export class SuppressionsImpl implements Suppressions {
    * Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute
    * is referred to as a suppression. Use this API to create or update the snoozed or dismissed status of
    * a recommendation.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param suppressionContract The snoozed or dismissed attribute; for example, the snooze duration.
@@ -141,8 +139,7 @@ export class SuppressionsImpl implements Suppressions {
   /**
    * Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute
    * of a recommendation is referred to as a suppression.
-   * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
-   *                    the recommendation applies.
+   * @param resourceUri The fully qualified Azure Resource manager identifier of the resource.
    * @param recommendationId The recommendation ID.
    * @param name The name of the suppression.
    * @param options The options parameters.
@@ -190,20 +187,16 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SuppressionContract,
     },
-    404: {
-      bodyMapper: Mappers.ArmErrorResponse,
-      isError: true,
-    },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -215,21 +208,17 @@ const createOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.SuppressionContract,
     },
-    404: {
-      bodyMapper: Mappers.ArmErrorResponse,
-      isError: true,
-    },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.suppressionContract,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -241,15 +230,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.name,
     Parameters.resourceUri,
     Parameters.recommendationId,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -262,7 +251,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SuppressionContractListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken],
@@ -278,10 +267,10 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SuppressionContractListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
