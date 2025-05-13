@@ -8,177 +8,93 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const DatadogAgreementResourceListResponse: coreClient.CompositeMapper = {
+export const OperationListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogAgreementResourceListResponse",
+    className: "OperationListResult",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DatadogAgreementResource"
-            }
-          }
-        }
+              className: "OperationResult",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const DatadogAgreementResource: coreClient.CompositeMapper = {
+export const OperationResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogAgreementResource",
+    className: "OperationResult",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
+      display: {
+        serializedName: "display",
         type: {
           name: "Composite",
-          className: "DatadogAgreementProperties"
-        }
+          className: "OperationDisplay",
+        },
       },
-      systemData: {
-        serializedName: "systemData",
+      isDataAction: {
+        serializedName: "isDataAction",
         type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
-export const DatadogAgreementProperties: coreClient.CompositeMapper = {
+export const OperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogAgreementProperties",
+    className: "OperationDisplay",
     modelProperties: {
-      publisher: {
-        serializedName: "publisher",
+      provider: {
+        serializedName: "provider",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      product: {
-        serializedName: "product",
+      resource: {
+        serializedName: "resource",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      plan: {
-        serializedName: "plan",
+      operation: {
+        serializedName: "operation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      licenseTextLink: {
-        serializedName: "licenseTextLink",
+      description: {
+        serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      privacyPolicyLink: {
-        serializedName: "privacyPolicyLink",
-        type: {
-          name: "String"
-        }
-      },
-      retrieveDatetime: {
-        serializedName: "retrieveDatetime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      signature: {
-        serializedName: "signature",
-        type: {
-          name: "String"
-        }
-      },
-      accepted: {
-        serializedName: "accepted",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const SystemData: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SystemData",
-    modelProperties: {
-      createdBy: {
-        serializedName: "createdBy",
-        type: {
-          name: "String"
-        }
-      },
-      createdByType: {
-        serializedName: "createdByType",
-        type: {
-          name: "String"
-        }
-      },
-      createdAt: {
-        serializedName: "createdAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastModifiedBy: {
-        serializedName: "lastModifiedBy",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedByType: {
-        serializedName: "lastModifiedByType",
-        type: {
-          name: "String"
-        }
-      },
-      lastModifiedAt: {
-        serializedName: "lastModifiedAt",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -190,11 +106,11 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorDetail: coreClient.CompositeMapper = {
@@ -206,22 +122,22 @@ export const ErrorDetail: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -231,10 +147,10 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
+              className: "ErrorDetail",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -244,13 +160,13 @@ export const ErrorDetail: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -262,478 +178,193 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
-export const CreateResourceSupportedResponseList: coreClient.CompositeMapper = {
+export const DatadogAgreementResourceListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateResourceSupportedResponseList",
+    className: "DatadogAgreementResourceListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "CreateResourceSupportedResponse"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "DatadogAgreementResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const CreateResourceSupportedResponse: coreClient.CompositeMapper = {
+export const DatadogAgreementResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CreateResourceSupportedResponse",
+    className: "DatadogAgreementResource",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "CreateResourceSupportedProperties"
-        }
-      }
-    }
-  }
-};
-
-export const CreateResourceSupportedProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CreateResourceSupportedProperties",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          className: "DatadogAgreementProperties",
+        },
       },
-      creationSupported: {
-        serializedName: "creationSupported",
-        readOnly: true,
+      systemData: {
+        serializedName: "systemData",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogApiKeyListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogApiKeyListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogApiKey"
-            }
-          }
-        }
+          name: "Composite",
+          className: "SystemData",
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
-export const DatadogApiKey: coreClient.CompositeMapper = {
+export const DatadogAgreementProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogApiKey",
+    className: "DatadogAgreementProperties",
+    modelProperties: {
+      publisher: {
+        serializedName: "publisher",
+        type: {
+          name: "String",
+        },
+      },
+      product: {
+        serializedName: "product",
+        type: {
+          name: "String",
+        },
+      },
+      plan: {
+        serializedName: "plan",
+        type: {
+          name: "String",
+        },
+      },
+      licenseTextLink: {
+        serializedName: "licenseTextLink",
+        type: {
+          name: "String",
+        },
+      },
+      privacyPolicyLink: {
+        serializedName: "privacyPolicyLink",
+        type: {
+          name: "String",
+        },
+      },
+      retrieveDatetime: {
+        serializedName: "retrieveDatetime",
+        type: {
+          name: "DateTime",
+        },
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String",
+        },
+      },
+      accepted: {
+        serializedName: "accepted",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const SystemData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SystemData",
     modelProperties: {
       createdBy: {
         serializedName: "createdBy",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      name: {
-        serializedName: "name",
+      createdByType: {
+        serializedName: "createdByType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      key: {
-        serializedName: "key",
-        required: true,
+      createdAt: {
+        serializedName: "createdAt",
         type: {
-          name: "String"
-        }
+          name: "DateTime",
+        },
       },
-      created: {
-        serializedName: "created",
+      lastModifiedBy: {
+        serializedName: "lastModifiedBy",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHostListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogHostListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DatadogHost"
-            }
-          }
-        }
+          name: "String",
+        },
       },
-      nextLink: {
-        serializedName: "nextLink",
+      lastModifiedByType: {
+        serializedName: "lastModifiedByType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHost: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogHost",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      aliases: {
-        serializedName: "aliases",
+      lastModifiedAt: {
+        serializedName: "lastModifiedAt",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
+          name: "DateTime",
+        },
       },
-      apps: {
-        serializedName: "apps",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      meta: {
-        serializedName: "meta",
-        type: {
-          name: "Composite",
-          className: "DatadogHostMetadata"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogHostMetadata: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogHostMetadata",
-    modelProperties: {
-      agentVersion: {
-        serializedName: "agentVersion",
-        type: {
-          name: "String"
-        }
-      },
-      installMethod: {
-        serializedName: "installMethod",
-        type: {
-          name: "Composite",
-          className: "DatadogInstallMethod"
-        }
-      },
-      logsAgent: {
-        serializedName: "logsAgent",
-        type: {
-          name: "Composite",
-          className: "DatadogLogsAgent"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogInstallMethod: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogInstallMethod",
-    modelProperties: {
-      tool: {
-        serializedName: "tool",
-        type: {
-          name: "String"
-        }
-      },
-      toolVersion: {
-        serializedName: "toolVersion",
-        type: {
-          name: "String"
-        }
-      },
-      installerVersion: {
-        serializedName: "installerVersion",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogLogsAgent: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogLogsAgent",
-    modelProperties: {
-      transport: {
-        serializedName: "transport",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedResourceListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LinkedResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitoredResourceListResponse",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MonitoredResource"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitoredResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      sendingMetrics: {
-        serializedName: "sendingMetrics",
-        type: {
-          name: "Boolean"
-        }
-      },
-      reasonForMetricsStatus: {
-        serializedName: "reasonForMetricsStatus",
-        type: {
-          name: "String"
-        }
-      },
-      sendingLogs: {
-        serializedName: "sendingLogs",
-        type: {
-          name: "Boolean"
-        }
-      },
-      reasonForLogsStatus: {
-        serializedName: "reasonForLogsStatus",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "OperationResult"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const OperationResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationResult",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
-        type: {
-          name: "Composite",
-          className: "OperationDisplay"
-        }
-      },
-      isDataAction: {
-        serializedName: "isDataAction",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const OperationDisplay: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "OperationDisplay",
-    modelProperties: {
-      provider: {
-        serializedName: "provider",
-        type: {
-          name: "String"
-        }
-      },
-      resource: {
-        serializedName: "resource",
-        type: {
-          name: "String"
-        }
-      },
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const DatadogMonitorResourceListResponse: coreClient.CompositeMapper = {
@@ -743,96 +374,25 @@ export const DatadogMonitorResourceListResponse: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DatadogMonitorResource"
-            }
-          }
-        }
+              className: "DatadogMonitorResource",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogMonitorResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogMonitorResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "ResourceSku"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "MonitorProperties"
-        }
-      },
-      identity: {
-        serializedName: "identity",
-        type: {
-          name: "Composite",
-          className: "IdentityProperties"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      location: {
-        serializedName: "location",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const ResourceSku: coreClient.CompositeMapper = {
@@ -844,11 +404,11 @@ export const ResourceSku: coreClient.CompositeMapper = {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorProperties: coreClient.CompositeMapper = {
@@ -860,53 +420,52 @@ export const MonitorProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       monitoringStatus: {
-        defaultValue: "Enabled",
         serializedName: "monitoringStatus",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       marketplaceSubscriptionStatus: {
         serializedName: "marketplaceSubscriptionStatus",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       datadogOrganizationProperties: {
         serializedName: "datadogOrganizationProperties",
         type: {
           name: "Composite",
-          className: "DatadogOrganizationProperties"
-        }
+          className: "DatadogOrganizationProperties",
+        },
       },
       userInfo: {
         serializedName: "userInfo",
         type: {
           name: "Composite",
-          className: "UserInfo"
-        }
+          className: "UserInfo",
+        },
       },
       liftrResourceCategory: {
         serializedName: "liftrResourceCategory",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       liftrResourcePreference: {
         serializedName: "liftrResourcePreference",
         readOnly: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const DatadogOrganizationProperties: coreClient.CompositeMapper = {
@@ -917,59 +476,59 @@ export const DatadogOrganizationProperties: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       linkingAuthCode: {
         serializedName: "linkingAuthCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       linkingClientId: {
         serializedName: "linkingClientId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       redirectUri: {
         serializedName: "redirectUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       apiKey: {
         serializedName: "apiKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       applicationKey: {
         serializedName: "applicationKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       enterpriseAppId: {
         serializedName: "enterpriseAppId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       cspm: {
         serializedName: "cspm",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const UserInfo: coreClient.CompositeMapper = {
@@ -979,35 +538,33 @@ export const UserInfo: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 50,
         },
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       emailAddress: {
         constraints: {
-          Pattern: new RegExp(
-            "^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
-          )
+          Pattern: new RegExp("^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"),
         },
         serializedName: "emailAddress",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       phoneNumber: {
         constraints: {
-          MaxLength: 40
+          MaxLength: 40,
         },
         serializedName: "phoneNumber",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const IdentityProperties: coreClient.CompositeMapper = {
@@ -1019,24 +576,128 @@ export const IdentityProperties: coreClient.CompositeMapper = {
         serializedName: "principalId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tenantId: {
         serializedName: "tenantId",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const CreateResourceSupportedResponseList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateResourceSupportedResponseList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CreateResourceSupportedResponse",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CreateResourceSupportedResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateResourceSupportedResponse",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "CreateResourceSupportedProperties",
+        },
+      },
+    },
+  },
+};
+
+export const CreateResourceSupportedProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateResourceSupportedProperties",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      creationSupported: {
+        serializedName: "creationSupported",
+        readOnly: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const DatadogMonitorResourceUpdateParameters: coreClient.CompositeMapper = {
@@ -1048,25 +709,25 @@ export const DatadogMonitorResourceUpdateParameters: coreClient.CompositeMapper 
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "MonitorUpdateProperties"
-        }
+          className: "MonitorUpdateProperties",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       sku: {
         serializedName: "sku",
         type: {
           name: "Composite",
-          className: "ResourceSku"
-        }
-      }
-    }
-  }
+          className: "ResourceSku",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorUpdateProperties: coreClient.CompositeMapper = {
@@ -1075,106 +736,519 @@ export const MonitorUpdateProperties: coreClient.CompositeMapper = {
     className: "MonitorUpdateProperties",
     modelProperties: {
       monitoringStatus: {
-        defaultValue: "Enabled",
         serializedName: "monitoringStatus",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       cspm: {
         serializedName: "cspm",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
-export const DatadogSetPasswordLink: coreClient.CompositeMapper = {
+export const BillingInfoResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatadogSetPasswordLink",
+    className: "BillingInfoResponse",
     modelProperties: {
-      setPasswordLink: {
-        serializedName: "setPasswordLink",
+      marketplaceSaasInfo: {
+        serializedName: "marketplaceSaasInfo",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "Composite",
+          className: "MarketplaceSaaSInfo",
+        },
+      },
+      partnerBillingEntity: {
+        serializedName: "partnerBillingEntity",
+        type: {
+          name: "Composite",
+          className: "PartnerBillingEntity",
+        },
+      },
+    },
+  },
 };
 
-export const MonitoringTagRulesListResponse: coreClient.CompositeMapper = {
+export const MarketplaceSaaSInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MonitoringTagRulesListResponse",
+    className: "MarketplaceSaaSInfo",
+    modelProperties: {
+      marketplaceSubscriptionId: {
+        serializedName: "marketplaceSubscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      marketplaceName: {
+        serializedName: "marketplaceName",
+        type: {
+          name: "String",
+        },
+      },
+      marketplaceStatus: {
+        serializedName: "marketplaceStatus",
+        type: {
+          name: "String",
+        },
+      },
+      billedAzureSubscriptionId: {
+        serializedName: "billedAzureSubscriptionId",
+        type: {
+          name: "String",
+        },
+      },
+      subscribed: {
+        serializedName: "subscribed",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const PartnerBillingEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PartnerBillingEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      partnerEntityUri: {
+        serializedName: "partnerEntityUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogApiKey: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogApiKey",
+    modelProperties: {
+      createdBy: {
+        serializedName: "createdBy",
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String",
+        },
+      },
+      key: {
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      created: {
+        serializedName: "created",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogApiKeyListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogApiKeyListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MonitoringTagRules"
-            }
-          }
-        }
+              className: "DatadogApiKey",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MonitoringTagRules: coreClient.CompositeMapper = {
+export const DatadogHostListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MonitoringTagRules",
+    className: "DatadogHostListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DatadogHost",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogHost: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogHost",
     modelProperties: {
       name: {
         serializedName: "name",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
+      aliases: {
+        serializedName: "aliases",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      apps: {
+        serializedName: "apps",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+      meta: {
+        serializedName: "meta",
+        type: {
+          name: "Composite",
+          className: "DatadogHostMetadata",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogHostMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogHostMetadata",
+    modelProperties: {
+      agentVersion: {
+        serializedName: "agentVersion",
+        type: {
+          name: "String",
+        },
+      },
+      installMethod: {
+        serializedName: "installMethod",
+        type: {
+          name: "Composite",
+          className: "DatadogInstallMethod",
+        },
+      },
+      logsAgent: {
+        serializedName: "logsAgent",
+        type: {
+          name: "Composite",
+          className: "DatadogLogsAgent",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogInstallMethod: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogInstallMethod",
+    modelProperties: {
+      tool: {
+        serializedName: "tool",
+        type: {
+          name: "String",
+        },
+      },
+      toolVersion: {
+        serializedName: "toolVersion",
+        type: {
+          name: "String",
+        },
+      },
+      installerVersion: {
+        serializedName: "installerVersion",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DatadogLogsAgent: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogLogsAgent",
+    modelProperties: {
+      transport: {
+        serializedName: "transport",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LinkedResourceListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedResourceListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const LinkedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedResource",
+    modelProperties: {
       id: {
         serializedName: "id",
-        readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      type: {
-        serializedName: "type",
-        readOnly: true,
+      location: {
+        serializedName: "location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      properties: {
-        serializedName: "properties",
+    },
+  },
+};
+
+export const MonitoredResourceListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredResourceListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoredResource",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      sendingMetrics: {
+        serializedName: "sendingMetrics",
+        type: {
+          name: "Boolean",
+        },
+      },
+      reasonForMetricsStatus: {
+        serializedName: "reasonForMetricsStatus",
+        type: {
+          name: "String",
+        },
+      },
+      sendingLogs: {
+        serializedName: "sendingLogs",
+        type: {
+          name: "Boolean",
+        },
+      },
+      reasonForLogsStatus: {
+        serializedName: "reasonForLogsStatus",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredSubscriptionPropertiesList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredSubscriptionPropertiesList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoredSubscriptionProperties",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const SubscriptionList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SubscriptionList",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String",
+        },
+      },
+      monitoredSubscriptionList: {
+        serializedName: "monitoredSubscriptionList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MonitoredSubscription",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredSubscription: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredSubscription",
+    modelProperties: {
+      subscriptionId: {
+        serializedName: "subscriptionId",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
+        },
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "String",
+        },
+      },
+      tagRules: {
+        serializedName: "tagRules",
         type: {
           name: "Composite",
-          className: "MonitoringTagRulesProperties"
-        }
+          className: "MonitoringTagRulesProperties",
+        },
       },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const MonitoringTagRulesProperties: coreClient.CompositeMapper = {
@@ -1186,31 +1260,37 @@ export const MonitoringTagRulesProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       logRules: {
         serializedName: "logRules",
         type: {
           name: "Composite",
-          className: "LogRules"
-        }
+          className: "LogRules",
+        },
       },
       metricRules: {
         serializedName: "metricRules",
         type: {
           name: "Composite",
-          className: "MetricRules"
-        }
+          className: "MetricRules",
+        },
       },
       automuting: {
         serializedName: "automuting",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+      customMetrics: {
+        serializedName: "customMetrics",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const LogRules: coreClient.CompositeMapper = {
@@ -1221,20 +1301,20 @@ export const LogRules: coreClient.CompositeMapper = {
       sendAadLogs: {
         serializedName: "sendAadLogs",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sendSubscriptionLogs: {
         serializedName: "sendSubscriptionLogs",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       sendResourceLogs: {
         serializedName: "sendResourceLogs",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       filteringTags: {
         serializedName: "filteringTags",
@@ -1243,13 +1323,13 @@ export const LogRules: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FilteringTag"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "FilteringTag",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const FilteringTag: coreClient.CompositeMapper = {
@@ -1260,23 +1340,23 @@ export const FilteringTag: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       action: {
         serializedName: "action",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MetricRules: coreClient.CompositeMapper = {
@@ -1291,13 +1371,28 @@ export const MetricRules: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FilteringTag"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "FilteringTag",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const DatadogSetPasswordLink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogSetPasswordLink",
+    modelProperties: {
+      setPasswordLink: {
+        serializedName: "setPasswordLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const DatadogSingleSignOnResourceListResponse: coreClient.CompositeMapper = {
@@ -1307,68 +1402,25 @@ export const DatadogSingleSignOnResourceListResponse: coreClient.CompositeMapper
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DatadogSingleSignOnResource"
-            }
-          }
-        }
+              className: "DatadogSingleSignOnResource",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DatadogSingleSignOnResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DatadogSingleSignOnResource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "DatadogSingleSignOnProperties"
-        }
-      },
-      systemData: {
-        serializedName: "systemData",
-        type: {
-          name: "Composite",
-          className: "SystemData"
-        }
-      }
-    }
-  }
+    },
+  },
 };
 
 export const DatadogSingleSignOnProperties: coreClient.CompositeMapper = {
@@ -1380,51 +1432,123 @@ export const DatadogSingleSignOnProperties: coreClient.CompositeMapper = {
         serializedName: "provisioningState",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       singleSignOnState: {
         serializedName: "singleSignOnState",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       enterpriseAppId: {
         serializedName: "enterpriseAppId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       singleSignOnUrl: {
         serializedName: "singleSignOnUrl",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
-export const MonitoredSubscriptionPropertiesList: coreClient.CompositeMapper = {
+export const MonitoringTagRulesListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MonitoredSubscriptionPropertiesList",
+    className: "MonitoringTagRulesListResponse",
     modelProperties: {
       value: {
         serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "MonitoredSubscriptionProperties"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "MonitoringTagRules",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const TrackedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
+        },
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ProxyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+    },
+  },
+};
+
+export const DatadogMonitorResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DatadogMonitorResource",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "ResourceSku",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MonitorProperties",
+        },
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "IdentityProperties",
+        },
+      },
+    },
+  },
 };
 
 export const MonitoredSubscriptionProperties: coreClient.CompositeMapper = {
@@ -1432,95 +1556,195 @@ export const MonitoredSubscriptionProperties: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MonitoredSubscriptionProperties",
     modelProperties: {
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
+      ...ProxyResource.type.modelProperties,
       properties: {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "SubscriptionList"
-        }
-      }
-    }
-  }
+          className: "SubscriptionList",
+        },
+      },
+    },
+  },
 };
 
-export const SubscriptionList: coreClient.CompositeMapper = {
+export const DatadogSingleSignOnResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SubscriptionList",
+    className: "DatadogSingleSignOnResource",
     modelProperties: {
-      operation: {
-        serializedName: "operation",
-        type: {
-          name: "String"
-        }
-      },
-      monitoredSubscriptionList: {
-        serializedName: "monitoredSubscriptionList",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MonitoredSubscription"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const MonitoredSubscription: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitoredSubscription",
-    modelProperties: {
-      subscriptionId: {
-        serializedName: "subscriptionId",
-        type: {
-          name: "String"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "String"
-        }
-      },
-      tagRules: {
-        serializedName: "tagRules",
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "MonitoringTagRulesProperties"
-        }
-      }
-    }
-  }
+          className: "DatadogSingleSignOnProperties",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoringTagRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoringTagRules",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MonitoringTagRulesProperties",
+        },
+      },
+    },
+  },
+};
+
+export const MonitorsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsCreateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitorsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitorsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredSubscriptionsCreateorUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredSubscriptionsCreateorUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredSubscriptionsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredSubscriptionsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const MonitoredSubscriptionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitoredSubscriptionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const SingleSignOnConfigurationsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SingleSignOnConfigurationsCreateOrUpdateHeaders",
+    modelProperties: {
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String",
+        },
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number",
+        },
+      },
+    },
+  },
 };

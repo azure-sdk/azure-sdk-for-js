@@ -11,7 +11,7 @@ import {
   DatadogAgreementResource,
   MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsCreateOrUpdateOptionalParams,
-  MarketplaceAgreementsCreateOrUpdateResponse
+  MarketplaceAgreementsCreateOrUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,13 +22,15 @@ export interface MarketplaceAgreements {
    * @param options The options parameters.
    */
   list(
-    options?: MarketplaceAgreementsListOptionalParams
+    options?: MarketplaceAgreementsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogAgreementResource>;
   /**
    * Create Datadog marketplace agreement in the subscription.
+   * @param body The request body
    * @param options The options parameters.
    */
   createOrUpdate(
-    options?: MarketplaceAgreementsCreateOrUpdateOptionalParams
+    body: DatadogAgreementResource,
+    options?: MarketplaceAgreementsCreateOrUpdateOptionalParams,
   ): Promise<MarketplaceAgreementsCreateOrUpdateResponse>;
 }

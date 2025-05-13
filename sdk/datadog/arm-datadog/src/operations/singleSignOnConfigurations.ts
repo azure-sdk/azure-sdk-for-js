@@ -13,28 +13,23 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { MicrosoftDatadogClient } from "../microsoftDatadogClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DatadogSingleSignOnResource,
   SingleSignOnConfigurationsListNextOptionalParams,
   SingleSignOnConfigurationsListOptionalParams,
   SingleSignOnConfigurationsListResponse,
-  SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
-  SingleSignOnConfigurationsCreateOrUpdateResponse,
   SingleSignOnConfigurationsGetOptionalParams,
   SingleSignOnConfigurationsGetResponse,
-  SingleSignOnConfigurationsListNextResponse
+  SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  SingleSignOnConfigurationsCreateOrUpdateResponse,
+  SingleSignOnConfigurationsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SingleSignOnConfigurations operations. */
-export class SingleSignOnConfigurationsImpl
-  implements SingleSignOnConfigurations {
+export class SingleSignOnConfigurationsImpl implements SingleSignOnConfigurations {
   private readonly client: MicrosoftDatadogClient;
 
   /**
@@ -54,7 +49,7 @@ export class SingleSignOnConfigurationsImpl
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<DatadogSingleSignOnResource> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -68,13 +63,8 @@ export class SingleSignOnConfigurationsImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          monitorName,
-          options,
-          settings
-        );
-      }
+        return this.listPagingPage(resourceGroupName, monitorName, options, settings);
+      },
     };
   }
 
@@ -82,7 +72,7 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     options?: SingleSignOnConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DatadogSingleSignOnResource[]> {
     let result: SingleSignOnConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,12 +84,7 @@ export class SingleSignOnConfigurationsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        monitorName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(resourceGroupName, monitorName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -110,13 +95,9 @@ export class SingleSignOnConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): AsyncIterableIterator<DatadogSingleSignOnResource> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      monitorName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, monitorName, options)) {
       yield* page;
     }
   }
@@ -130,108 +111,12 @@ export class SingleSignOnConfigurationsImpl
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: SingleSignOnConfigurationsListOptionalParams
+    options?: SingleSignOnConfigurationsListOptionalParams,
   ): Promise<SingleSignOnConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
-  }
-
-  /**
-   * Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    monitorName: string,
-    configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
-      SingleSignOnConfigurationsCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, monitorName, configurationName, options },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      SingleSignOnConfigurationsCreateOrUpdateResponse,
-      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param monitorName Monitor resource name
-   * @param configurationName Configuration name
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    monitorName: string,
-    configurationName: string,
-    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams
-  ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      monitorName,
-      configurationName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
@@ -245,12 +130,119 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     configurationName: string,
-    options?: SingleSignOnConfigurationsGetOptionalParams
+    options?: SingleSignOnConfigurationsGetOptionalParams,
   ): Promise<SingleSignOnConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
+  }
+
+  /**
+   * Configures single-sign-on for this resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param configurationName Configuration name
+   * @param body Concrete proxy resource types can be created by aliasing this type using a specific
+   *             property type.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdate(
+    resourceGroupName: string,
+    monitorName: string,
+    configurationName: string,
+    body: DatadogSingleSignOnResource,
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>,
+      SingleSignOnConfigurationsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        monitorName,
+        configurationName,
+        body,
+        options,
+      },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      SingleSignOnConfigurationsCreateOrUpdateResponse,
+      OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Configures single-sign-on for this resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param monitorName Monitor resource name
+   * @param configurationName Configuration name
+   * @param body Concrete proxy resource types can be created by aliasing this type using a specific
+   *             property type.
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    monitorName: string,
+    configurationName: string,
+    body: DatadogSingleSignOnResource,
+    options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  ): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      monitorName,
+      configurationName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -264,11 +256,11 @@ export class SingleSignOnConfigurationsImpl
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: SingleSignOnConfigurationsListNextOptionalParams
+    options?: SingleSignOnConfigurationsListNextOptionalParams,
   ): Promise<SingleSignOnConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -276,47 +268,67 @@ export class SingleSignOnConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
+      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.monitorName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     201: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     202: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     204: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
+      bodyMapper: Mappers.DatadogSingleSignOnResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
@@ -325,53 +337,30 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.monitorName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/singleSignOnConfigurations/{configurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.monitorName,
-    Parameters.configurationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
+      bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

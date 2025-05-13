@@ -11,6 +11,24 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface BillingInfo {
+    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+}
+
+// @public
+export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BillingInfoGetResponse = BillingInfoResponse;
+
+// @public
+export interface BillingInfoResponse {
+    marketplaceSaasInfo?: MarketplaceSaaSInfo;
+    partnerBillingEntity?: PartnerBillingEntity;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -24,10 +42,10 @@ export interface CreateResourceSupportedResponse {
     properties?: CreateResourceSupportedProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateResourceSupportedResponseList {
-    // (undocumented)
-    value?: CreateResourceSupportedResponse[];
+    nextLink?: string;
+    value: CreateResourceSupportedResponse[];
 }
 
 // @public
@@ -42,6 +60,13 @@ export interface CreationSupportedGetOptionalParams extends coreClient.Operation
 
 // @public
 export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
+
+// @public
+export interface CreationSupportedListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedListNextResponse = CreateResourceSupportedResponseList;
 
 // @public
 export interface CreationSupportedListOptionalParams extends coreClient.OperationOptions {
@@ -74,7 +99,7 @@ export interface DatadogAgreementResource {
 // @public
 export interface DatadogAgreementResourceListResponse {
     nextLink?: string;
-    value?: DatadogAgreementResource[];
+    value: DatadogAgreementResource[];
 }
 
 // @public (undocumented)
@@ -88,7 +113,7 @@ export interface DatadogApiKey {
 // @public
 export interface DatadogApiKeyListResponse {
     nextLink?: string;
-    value?: DatadogApiKey[];
+    value: DatadogApiKey[];
 }
 
 // @public (undocumented)
@@ -103,7 +128,7 @@ export interface DatadogHost {
 // @public
 export interface DatadogHostListResponse {
     nextLink?: string;
-    value?: DatadogHost[];
+    value: DatadogHost[];
 }
 
 // @public (undocumented)
@@ -128,33 +153,22 @@ export interface DatadogLogsAgent {
 }
 
 // @public (undocumented)
-export interface DatadogMonitorResource {
-    readonly id?: string;
+export interface DatadogMonitorResource extends TrackedResource {
     // (undocumented)
     identity?: IdentityProperties;
-    // (undocumented)
-    location: string;
-    readonly name?: string;
     properties?: MonitorProperties;
-    // (undocumented)
     sku?: ResourceSku;
-    readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public
 export interface DatadogMonitorResourceListResponse {
     nextLink?: string;
-    value?: DatadogMonitorResource[];
+    value: DatadogMonitorResource[];
 }
 
 // @public
 export interface DatadogMonitorResourceUpdateParameters {
     properties?: MonitorUpdateProperties;
-    // (undocumented)
     sku?: ResourceSku;
     tags?: {
         [propertyName: string]: string;
@@ -188,20 +202,16 @@ export interface DatadogSingleSignOnProperties {
     readonly singleSignOnUrl?: string;
 }
 
-// @public (undocumented)
-export interface DatadogSingleSignOnResource {
-    readonly id?: string;
-    readonly name?: string;
+// @public
+export interface DatadogSingleSignOnResource extends ProxyResource {
     // (undocumented)
     properties?: DatadogSingleSignOnProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
 export interface DatadogSingleSignOnResourceListResponse {
     nextLink?: string;
-    value?: DatadogSingleSignOnResource[];
+    value: DatadogSingleSignOnResource[];
 }
 
 // @public
@@ -325,12 +335,13 @@ export type LiftrResourceCategories = string;
 // @public
 export interface LinkedResource {
     id?: string;
+    location?: string;
 }
 
 // @public
 export interface LinkedResourceListResponse {
     nextLink?: string;
-    value?: LinkedResource[];
+    value: LinkedResource[];
 }
 
 // @public
@@ -346,14 +357,12 @@ export type ManagedIdentityTypes = string;
 
 // @public
 export interface MarketplaceAgreements {
-    createOrUpdate(options?: MarketplaceAgreementsCreateOrUpdateOptionalParams): Promise<MarketplaceAgreementsCreateOrUpdateResponse>;
+    createOrUpdate(body: DatadogAgreementResource, options?: MarketplaceAgreementsCreateOrUpdateOptionalParams): Promise<MarketplaceAgreementsCreateOrUpdateResponse>;
     list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<DatadogAgreementResource>;
 }
 
 // @public
 export interface MarketplaceAgreementsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    body?: DatadogAgreementResource;
 }
 
 // @public
@@ -374,6 +383,15 @@ export interface MarketplaceAgreementsListOptionalParams extends coreClient.Oper
 export type MarketplaceAgreementsListResponse = DatadogAgreementResourceListResponse;
 
 // @public
+export interface MarketplaceSaaSInfo {
+    billedAzureSubscriptionId?: string;
+    marketplaceName?: string;
+    marketplaceStatus?: string;
+    marketplaceSubscriptionId?: string;
+    subscribed?: boolean;
+}
+
+// @public
 export type MarketplaceSubscriptionStatus = string;
 
 // @public
@@ -388,6 +406,8 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftDatadogClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    billingInfo: BillingInfo;
     // (undocumented)
     creationSupported: CreationSupported;
     // (undocumented)
@@ -425,52 +445,60 @@ export interface MonitoredResource {
 // @public
 export interface MonitoredResourceListResponse {
     nextLink?: string;
-    value?: MonitoredResource[];
+    value: MonitoredResource[];
 }
 
 // @public
 export interface MonitoredSubscription {
     error?: string;
     status?: Status;
-    subscriptionId?: string;
+    subscriptionId: string;
     tagRules?: MonitoringTagRulesProperties;
 }
 
 // @public
-export interface MonitoredSubscriptionProperties {
-    readonly id?: string;
-    readonly name?: string;
+export interface MonitoredSubscriptionProperties extends ProxyResource {
     properties?: SubscriptionList;
-    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MonitoredSubscriptionPropertiesList {
-    // (undocumented)
-    value?: MonitoredSubscriptionProperties[];
+    nextLink?: string;
+    value: MonitoredSubscriptionProperties[];
 }
 
 // @public
 export interface MonitoredSubscriptions {
-    beginCreateorUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateorUpdateResponse>, MonitoredSubscriptionsCreateorUpdateResponse>>;
-    beginCreateorUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
+    beginCreateorUpdate(resourceGroupName: string, monitorName: string, configurationName: string, body: MonitoredSubscriptionProperties, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateorUpdateResponse>, MonitoredSubscriptionsCreateorUpdateResponse>>;
+    beginCreateorUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, body: MonitoredSubscriptionProperties, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
     beginDelete(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
+    beginUpdate(resourceGroupName: string, monitorName: string, configurationName: string, body: MonitoredSubscriptionProperties, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, body: MonitoredSubscriptionProperties, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams): Promise<MonitoredSubscriptionsGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
 }
 
 // @public
+export interface MonitoredSubscriptionsCreateorUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: MonitoredSubscriptionProperties;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface MonitoredSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -486,6 +514,13 @@ export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.Oper
 export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
 
 // @public
+export interface MonitoredSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
 export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -493,8 +528,13 @@ export interface MonitoredSubscriptionsListOptionalParams extends coreClient.Ope
 export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
 
 // @public
+export interface MonitoredSubscriptionsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitoredSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: MonitoredSubscriptionProperties;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -506,23 +546,20 @@ export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperti
 export type MonitoringStatus = string;
 
 // @public
-export interface MonitoringTagRules {
-    readonly id?: string;
-    readonly name?: string;
+export interface MonitoringTagRules extends ProxyResource {
     properties?: MonitoringTagRulesProperties;
-    readonly systemData?: SystemData;
-    readonly type?: string;
 }
 
 // @public
 export interface MonitoringTagRulesListResponse {
     nextLink?: string;
-    value?: MonitoringTagRules[];
+    value: MonitoringTagRules[];
 }
 
 // @public
 export interface MonitoringTagRulesProperties {
     automuting?: boolean;
+    customMetrics?: boolean;
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
@@ -541,12 +578,12 @@ export interface MonitorProperties {
 
 // @public
 export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
+    beginCreate(resourceGroupName: string, monitorName: string, body: DatadogMonitorResource, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, monitorName: string, body: DatadogMonitorResource, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
     beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
+    beginUpdate(resourceGroupName: string, monitorName: string, body: DatadogMonitorResourceUpdateParameters, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, body: DatadogMonitorResourceUpdateParameters, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     getDefaultKey(resourceGroupName: string, monitorName: string, options?: MonitorsGetDefaultKeyOptionalParams): Promise<MonitorsGetDefaultKeyResponse>;
     list(options?: MonitorsListOptionalParams): PagedAsyncIterableIterator<DatadogMonitorResource>;
@@ -560,15 +597,25 @@ export interface Monitors {
 }
 
 // @public
+export interface MonitorsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitorsCreateOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    body?: DatadogMonitorResource;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export type MonitorsCreateResponse = DatadogMonitorResource;
+
+// @public
+export interface MonitorsDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
 
 // @public
 export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -688,8 +735,13 @@ export interface MonitorsSetDefaultKeyOptionalParams extends coreClient.Operatio
 }
 
 // @public
+export interface MonitorsUpdateHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: DatadogMonitorResourceUpdateParameters;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -717,7 +769,7 @@ export interface OperationDisplay {
 // @public
 export interface OperationListResult {
     nextLink?: string;
-    value?: OperationResult[];
+    value: OperationResult[];
 }
 
 // @public
@@ -747,25 +799,48 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface PartnerBillingEntity {
+    id?: string;
+    name?: string;
+    partnerEntityUri?: string;
+}
+
+// @public
 export type ProvisioningState = string;
 
-// @public (undocumented)
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
 export interface ResourceSku {
     name: string;
 }
 
 // @public
 export interface SingleSignOnConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, body: DatadogSingleSignOnResource, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, body: DatadogSingleSignOnResource, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsGetOptionalParams): Promise<SingleSignOnConfigurationsGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: SingleSignOnConfigurationsListOptionalParams): PagedAsyncIterableIterator<DatadogSingleSignOnResource>;
 }
 
 // @public
+export interface SingleSignOnConfigurationsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: number;
+}
+
+// @public
 export interface SingleSignOnConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    body?: DatadogSingleSignOnResource;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -821,14 +896,13 @@ export type TagAction = string;
 
 // @public
 export interface TagRules {
-    createOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, body: MonitoringTagRules, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: TagRulesListOptionalParams): PagedAsyncIterableIterator<MonitoringTagRules>;
 }
 
 // @public
 export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    body?: MonitoringTagRules;
 }
 
 // @public
@@ -854,6 +928,14 @@ export interface TagRulesListOptionalParams extends coreClient.OperationOptions 
 
 // @public
 export type TagRulesListResponse = MonitoringTagRulesListResponse;
+
+// @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
 
 // @public
 export interface UserInfo {
