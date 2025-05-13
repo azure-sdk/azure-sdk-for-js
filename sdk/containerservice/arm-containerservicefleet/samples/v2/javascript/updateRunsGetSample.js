@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a UpdateRun
  *
  * @summary get a UpdateRun
- * x-ms-original-file: 2025-03-01/UpdateRuns_Get.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Get.json
  */
 async function getsAnUpdateRunResource() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAnUpdateRunResource() {
  * This sample demonstrates how to get a UpdateRun
  *
  * @summary get a UpdateRun
- * x-ms-original-file: 2025-03-01/UpdateRuns_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Get_MaximumSet_Gen.json
  */
 async function getsAnUpdateRunResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

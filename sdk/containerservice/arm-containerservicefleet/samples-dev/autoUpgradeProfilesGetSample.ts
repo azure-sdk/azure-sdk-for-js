@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a AutoUpgradeProfile
  *
  * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_Get.json
+ * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get.json
  */
 async function getsAnAutoUpgradeProfileResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAnAutoUpgradeProfileResource(): Promise<void> {
  * This sample demonstrates how to get a AutoUpgradeProfile
  *
  * @summary get a AutoUpgradeProfile
- * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_Get_MaximumSet_Gen.json
  */
 async function getsAnAutoUpgradeProfileResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

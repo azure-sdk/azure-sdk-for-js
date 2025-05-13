@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a AutoUpgradeProfile
  *
  * @summary create a AutoUpgradeProfile
- * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_CreateOrUpdate.json
+ * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_CreateOrUpdate.json
  */
 async function createAnAutoUpgradeProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function createAnAutoUpgradeProfile(): Promise<void> {
  * This sample demonstrates how to create a AutoUpgradeProfile
  *
  * @summary create a AutoUpgradeProfile
- * x-ms-original-file: 2025-03-01/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/AutoUpgradeProfiles_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createAnAutoUpgradeProfileGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,10 +44,9 @@ async function createAnAutoUpgradeProfileGeneratedByMaximumSetRule(): Promise<vo
           "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgfleets/providers/Microsoft.ContainerService/fleets/fleet1/updateStrategies/strategy1",
         nodeImageSelection: { type: "Latest" },
         disabled: true,
-        autoUpgradeProfileStatus: { lastTriggerError: {} },
       },
     },
-    { ifMatch: "teikqmg", ifNoneMatch: "ghfmmyrekxincsxklbldnvhqd" },
+    { ifMatch: "uktvayathbu", ifNoneMatch: "vdjolwxnefqamimybcvxxva" },
   );
   console.log(result);
 }

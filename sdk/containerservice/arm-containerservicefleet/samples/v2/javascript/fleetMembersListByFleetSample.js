@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FleetMember resources by Fleet
  *
  * @summary list FleetMember resources by Fleet
- * x-ms-original-file: 2025-03-01/FleetMembers_ListByFleet.json
+ * x-ms-original-file: 2025-04-01-preview/FleetMembers_ListByFleet.json
  */
 async function listsTheMembersOfAFleet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listsTheMembersOfAFleet() {
  * This sample demonstrates how to list FleetMember resources by Fleet
  *
  * @summary list FleetMember resources by Fleet
- * x-ms-original-file: 2025-03-01/FleetMembers_ListByFleet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/FleetMembers_ListByFleet_MaximumSet_Gen.json
  */
 async function listsTheMembersOfAFleetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

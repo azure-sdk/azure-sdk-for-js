@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists fleets in the specified subscription and resource group.
  *
  * @summary lists fleets in the specified subscription and resource group.
- * x-ms-original-file: 2025-03-01/Fleets_ListByResourceGroup.json
+ * x-ms-original-file: 2025-04-01-preview/Fleets_ListByResourceGroup.json
  */
 async function listsTheFleetResourcesInAResourceGroup() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listsTheFleetResourcesInAResourceGroup() {
  * This sample demonstrates how to lists fleets in the specified subscription and resource group.
  *
  * @summary lists fleets in the specified subscription and resource group.
- * x-ms-original-file: 2025-03-01/Fleets_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function listsTheFleetResourcesInAResourceGroupGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

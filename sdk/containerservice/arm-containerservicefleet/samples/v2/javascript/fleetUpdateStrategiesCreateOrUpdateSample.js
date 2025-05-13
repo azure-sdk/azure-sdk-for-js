@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a FleetUpdateStrategy
  *
  * @summary create a FleetUpdateStrategy
- * x-ms-original-file: 2025-03-01/FleetUpdateStrategies_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/FleetUpdateStrategies_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createAFleetUpdateStrategyGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -40,19 +40,27 @@ async function createAFleetUpdateStrategyGeneratedByMaximumSetRule() {
  * This sample demonstrates how to create a FleetUpdateStrategy
  *
  * @summary create a FleetUpdateStrategy
- * x-ms-original-file: 2025-03-01/UpdateStrategies_CreateOrUpdate.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateStrategies_CreateOrUpdate.json
  */
 async function createAFleetUpdateStrategy() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleetUpdateStrategies.createOrUpdate("rg1", "fleet1", "strartegy1", {
+  const result = await client.fleetUpdateStrategies.createOrUpdate("rg1", "fleet1", "strategy1", {
     properties: {
       strategy: {
         stages: [
           {
             name: "stage1",
-            groups: [{ name: "group-a" }],
+            groups: [
+              {
+                name: "group-a",
+                beforeGates: [{ displayName: "gate before group-a", type: "Approval" }],
+                afterGates: [{ displayName: "gate after group-a", type: "Approval" }],
+              },
+            ],
+            beforeGates: [{ displayName: "gate before stage1", type: "Approval" }],
+            afterGates: [{ displayName: "gate after stage1", type: "Approval" }],
             afterStageWaitInSeconds: 3600,
           },
         ],

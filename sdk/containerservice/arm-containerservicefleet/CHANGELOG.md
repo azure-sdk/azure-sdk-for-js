@@ -1,11 +1,13 @@
 # Release History
     
-## 2.0.0 (2025-04-16)
+## 2.0.0-beta.1 (2025-05-13)
+Compared with version 1.1.0
     
 ### Features Added
 
   - Added operation group AutoUpgradeProfileOperationsOperations
   - Added operation group AutoUpgradeProfilesOperations
+  - Added operation group GatesOperations
   - Added operation FleetMembersOperations.create
   - Added operation FleetMembersOperations.delete
   - Added operation FleetMembersOperations.updateAsync
@@ -37,15 +39,31 @@
   - Added Interface FleetStatus
   - Added Interface FleetsUpdateAsyncOptionalParams
   - Added Interface FleetUpdateStrategyProperties
+  - Added Interface Gate
+  - Added Interface GateConfiguration
+  - Added Interface GatePatch
+  - Added Interface GatePatchProperties
+  - Added Interface GateProperties
+  - Added Interface GatesGetOptionalParams
+  - Added Interface GatesListByFleetOptionalParams
+  - Added Interface GatesUpdateOptionalParams
+  - Added Interface GateTarget
   - Added Interface GenerateResponse
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface RestorePollerOptions
+  - Added Interface UpdateRunGateStatus
+  - Added Interface UpdateRunGateTargetProperties
   - Added Interface UpdateRunProperties
   - Added Type Alias AutoUpgradeLastTriggerStatus
   - Added Type Alias AutoUpgradeNodeImageSelectionType
   - Added Type Alias AutoUpgradeProfileProvisioningState
   - Added Type Alias ContinuablePage
+  - Added Type Alias GateProvisioningState
+  - Added Type Alias GateState
+  - Added Type Alias GateTargetId
+  - Added Type Alias GateType
+  - Added Type Alias Timing
   - Added Type Alias UpgradeChannel
   - Interface APIServerAccessProfile has a new optional parameter enableVnetIntegration
   - Interface APIServerAccessProfile has a new optional parameter subnetId
@@ -54,25 +72,28 @@
   - Interface FleetMemberUpdate has a new optional parameter properties
   - Interface FleetUpdateStrategy has a new optional parameter properties
   - Interface NodeImageSelection has a new optional parameter customNodeImageVersions
+  - Interface UpdateGroup has a new optional parameter afterGates
+  - Interface UpdateGroup has a new optional parameter beforeGates
+  - Interface UpdateGroupStatus has a new optional parameter afterGates
+  - Interface UpdateGroupStatus has a new optional parameter beforeGates
   - Interface UpdateRun has a new optional parameter properties
+  - Interface UpdateStage has a new optional parameter afterGates
+  - Interface UpdateStage has a new optional parameter beforeGates
+  - Interface UpdateStageStatus has a new optional parameter afterGates
+  - Interface UpdateStageStatus has a new optional parameter beforeGates
   - Added Enum KnownAutoUpgradeLastTriggerStatus
   - Added Enum KnownAutoUpgradeNodeImageSelectionType
   - Added Enum KnownAutoUpgradeProfileProvisioningState
+  - Added Enum KnownGateProvisioningState
+  - Added Enum KnownGateState
+  - Added Enum KnownGateType
+  - Added Enum KnownTiming
   - Added Enum KnownUpgradeChannel
   - Added Enum KnownVersions
   - Enum KnownManagedServiceIdentityType has a new value SystemAndUserAssigned
   - Enum KnownNodeImageSelectionType has a new value Custom
+  - Enum KnownUpdateState has a new value Pending
   - Added function restorePoller
-  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
-  - Type of parameter tags of interface FleetPatch is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
-  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
-        [propertyName: string]: UserAssignedIdentity;
-    } to Record<string, UserAssignedIdentity>
-  - Type of parameter tags of interface TrackedResource is changed from {
-        [propertyName: string]: string;
-    } to Record<string, string>
 
 ### Breaking Changes
 
@@ -128,6 +149,16 @@
   - Interface UpdateRunsSkipOptionalParams no longer has parameter resumeFrom
   - Interface UpdateRunsStartOptionalParams no longer has parameter resumeFrom
   - Interface UpdateRunsStopOptionalParams no longer has parameter resumeFrom
+  - Type of parameter info of interface ErrorAdditionalInfo is changed from Record<string, unknown> to Record<string, any>
+  - Type of parameter tags of interface FleetPatch is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
+  - Type of parameter userAssignedIdentities of interface ManagedServiceIdentity is changed from {
+        [propertyName: string]: UserAssignedIdentity;
+    } to Record<string, UserAssignedIdentity>
+  - Type of parameter tags of interface TrackedResource is changed from {
+        [propertyName: string]: string;
+    } to Record<string, string>
   - Class ContainerServiceFleetClient no longer has parameter $host
   - Class ContainerServiceFleetClient no longer has parameter apiVersion
   - Class ContainerServiceFleetClient no longer has parameter subscriptionId
