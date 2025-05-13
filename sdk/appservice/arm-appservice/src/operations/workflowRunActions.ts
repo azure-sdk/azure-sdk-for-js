@@ -56,13 +56,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     runName: string,
     options?: WorkflowRunActionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRunAction> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      name,
-      workflowName,
-      runName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, name, workflowName, runName, options);
     return {
       next() {
         return iter.next();
@@ -97,13 +91,7 @@ export class WorkflowRunActionsImpl implements WorkflowRunActions {
     let result: WorkflowRunActionsListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(
-        resourceGroupName,
-        name,
-        workflowName,
-        runName,
-        options,
-      );
+      result = await this._list(resourceGroupName, name, workflowName, runName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);

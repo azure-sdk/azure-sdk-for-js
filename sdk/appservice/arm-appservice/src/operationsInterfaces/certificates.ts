@@ -28,9 +28,7 @@ export interface Certificates {
    * Description for Get all certificates for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: CertificatesListOptionalParams,
-  ): PagedAsyncIterableIterator<Certificate>;
+  list(options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<Certificate>;
   /**
    * Description for Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.

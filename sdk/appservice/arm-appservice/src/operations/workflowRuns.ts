@@ -50,12 +50,7 @@ export class WorkflowRunsImpl implements WorkflowRuns {
     workflowName: string,
     options?: WorkflowRunsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowRun> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, name, workflowName, options);
     return {
       next() {
         return iter.next();
@@ -67,13 +62,7 @@ export class WorkflowRunsImpl implements WorkflowRuns {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          name,
-          workflowName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, name, workflowName, options, settings);
       },
     };
   }
@@ -115,12 +104,7 @@ export class WorkflowRunsImpl implements WorkflowRuns {
     workflowName: string,
     options?: WorkflowRunsListOptionalParams,
   ): AsyncIterableIterator<WorkflowRun> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, name, workflowName, options)) {
       yield* page;
     }
   }

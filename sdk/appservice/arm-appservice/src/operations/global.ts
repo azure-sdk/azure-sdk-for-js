@@ -93,11 +93,7 @@ const getDeletedWebAppOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.deletedSiteId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.deletedSiteId],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -118,31 +114,26 @@ const getDeletedWebAppSnapshotsOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.deletedSiteId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getSubscriptionOperationWithAsyncResponseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/operations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.deletedSiteId,
+    Parameters.location,
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getSubscriptionOperationWithAsyncResponseOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/operations/{operationId}",
-    httpMethod: "GET",
-    responses: {
-      204: {},
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
-    },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.location,
-      Parameters.operationId,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
