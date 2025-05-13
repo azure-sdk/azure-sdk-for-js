@@ -46,6 +46,9 @@ importers:
       '@rush-temp/ai-projects':
         specifier: file:./projects/ai-projects.tgz
         version: file:projects/ai-projects.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
+      '@rush-temp/ai-resources-autogen':
+        specifier: file:./projects/ai-resources-autogen.tgz
+        version: file:projects/ai-resources-autogen.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
       '@rush-temp/ai-text-analytics':
         specifier: file:./projects/ai-text-analytics.tgz
         version: file:projects/ai-text-analytics.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)
@@ -2367,6 +2370,10 @@ packages:
 
   '@rush-temp/ai-projects@file:projects/ai-projects.tgz':
     resolution: {integrity: sha512-XcRXP5z/SSQgdQKMtPyOM5rjurFReb9GTIs+wAJwQRBTPta/un3rTDAqVL4TBTViUQK3/AgHvItsQD677cljpw==, tarball: file:projects/ai-projects.tgz}
+    version: 0.0.0
+
+  '@rush-temp/ai-resources-autogen@file:projects/ai-resources-autogen.tgz':
+    resolution: {integrity: sha512-rvUbBtosQbdW42l/oZ5QhAUIz1mEv8KK9vXwGUF8aCioJ4JPka8YUeWsvhZmZ3gd3cylfK3cASF6KlIPUOewdw==, tarball: file:projects/ai-resources-autogen.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
@@ -8970,6 +8977,41 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.57.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.30.1(@opentelemetry/api@1.9.0)
+      '@types/node': 18.19.100
+      '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
+      '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
+      dotenv: 16.5.0
+      eslint: 9.26.0
+      playwright: 1.52.0
+      tslib: 2.8.1
+      typescript: 5.8.3
+      vitest: 3.1.3(@types/debug@4.1.12)(@types/node@18.19.100)(@vitest/browser@3.1.3)(tsx@4.19.4)(yaml@2.7.1)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/ai-resources-autogen@file:projects/ai-resources-autogen.tgz(@types/debug@4.1.12)(tsx@4.19.4)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(yaml@2.7.1)':
+    dependencies:
       '@types/node': 18.19.100
       '@vitest/browser': 3.1.3(playwright@1.52.0)(vite@6.3.5(@types/node@22.7.9)(tsx@4.19.4)(yaml@2.7.1))(vitest@3.1.3)
       '@vitest/coverage-istanbul': 3.1.3(vitest@3.1.3)
