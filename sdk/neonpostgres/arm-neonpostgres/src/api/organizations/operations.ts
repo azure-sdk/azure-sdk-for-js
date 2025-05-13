@@ -9,12 +9,10 @@ import {
   organizationResourceDeserializer,
   _OrganizationResourceListResult,
   _organizationResourceListResultDeserializer,
-} from "../../models/models.js";
-import {
   pgVersionSerializer,
   PgVersionsResult,
   pgVersionsResultDeserializer,
-} from "../../models/models/models.js";
+} from "../../models/models.js";
 import {
   OrganizationsGetPostgresVersionsOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
