@@ -25,9 +25,7 @@ import {
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RegulatoryComplianceStandards operations. */
-export class RegulatoryComplianceStandardsImpl
-  implements RegulatoryComplianceStandards
-{
+export class RegulatoryComplianceStandardsImpl implements RegulatoryComplianceStandards {
   private readonly client: SecurityCenter;
 
   /**
@@ -126,10 +124,7 @@ export class RegulatoryComplianceStandardsImpl
     nextLink: string,
     options?: RegulatoryComplianceStandardsListNextOptionalParams,
   ): Promise<RegulatoryComplianceStandardsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -182,11 +177,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

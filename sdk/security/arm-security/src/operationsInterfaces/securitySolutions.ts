@@ -21,9 +21,7 @@ export interface SecuritySolutions {
    * Gets a list of Security Solutions for the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: SecuritySolutionsListOptionalParams,
-  ): PagedAsyncIterableIterator<SecuritySolution>;
+  list(options?: SecuritySolutionsListOptionalParams): PagedAsyncIterableIterator<SecuritySolution>;
   /**
    * Gets a specific Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is

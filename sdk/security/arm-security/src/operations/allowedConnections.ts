@@ -137,11 +137,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(
-        ascLocation,
-        continuationToken,
-        options,
-      );
+      result = await this._listByHomeRegionNext(ascLocation, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -153,10 +149,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
     ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<AllowedConnectionsResource> {
-    for await (const page of this.listByHomeRegionPagingPage(
-      ascLocation,
-      options,
-    )) {
+    for await (const page of this.listByHomeRegionPagingPage(ascLocation, options)) {
       yield* page;
     }
   }
@@ -218,10 +211,7 @@ export class AllowedConnectionsImpl implements AllowedConnections {
     nextLink: string,
     options?: AllowedConnectionsListNextOptionalParams,
   ): Promise<AllowedConnectionsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -273,11 +263,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -314,11 +300,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

@@ -24,9 +24,7 @@ export interface Settings {
    * Settings about different configurations in Microsoft Defender for Cloud
    * @param options The options parameters.
    */
-  list(
-    options?: SettingsListOptionalParams,
-  ): PagedAsyncIterableIterator<SettingUnion>;
+  list(options?: SettingsListOptionalParams): PagedAsyncIterableIterator<SettingUnion>;
   /**
    * Settings of different configurations in Microsoft Defender for Cloud
    * @param settingName The name of the setting

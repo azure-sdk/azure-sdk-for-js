@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  Application,
-  SecurityConnectorApplicationsListOptionalParams,
-} from "../models/index.js";
+import { Application, SecurityConnectorApplicationsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SecurityConnectorApplications. */

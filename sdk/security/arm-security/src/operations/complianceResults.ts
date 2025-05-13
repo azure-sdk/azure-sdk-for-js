@@ -107,10 +107,7 @@ export class ComplianceResultsImpl implements ComplianceResults {
     scope: string,
     options?: ComplianceResultsListOptionalParams,
   ): Promise<ComplianceResultsListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -143,10 +140,7 @@ export class ComplianceResultsImpl implements ComplianceResults {
     nextLink: string,
     options?: ComplianceResultsListNextOptionalParams,
   ): Promise<ComplianceResultsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -180,11 +174,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion17],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceId,
-    Parameters.complianceResultName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceId, Parameters.complianceResultName],
   headerParameters: [Parameters.accept],
   serializer,
 };
