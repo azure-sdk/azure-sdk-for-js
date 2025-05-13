@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type {
-  CreateJob200Response,
-  CreateJob201Response,
-  CreateJobDefaultResponse,
-  CreateJobLogicalResponse,
   GetJob200Response,
   GetJobDefaultResponse,
+  CreateJob200Response,
+  CreateJob201Response,
+  CreateJobLogicalResponse,
+  CreateJobDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -15,12 +15,9 @@ const responseMap: Record<string, string[]> = {
   "PUT /radiology-insights/jobs/{id}": ["200", "201"],
 };
 
-/** Unexpected responses for get job calls */
 export function isUnexpected(
   response: GetJob200Response | GetJobDefaultResponse,
 ): response is GetJobDefaultResponse;
-
-/** Unexpected responses for create job calls */
 export function isUnexpected(
   response:
     | CreateJob200Response
@@ -28,8 +25,6 @@ export function isUnexpected(
     | CreateJobLogicalResponse
     | CreateJobDefaultResponse,
 ): response is CreateJobDefaultResponse;
-
-/** Unexpected responses for get & create job calls */
 export function isUnexpected(
   response:
     | GetJob200Response
