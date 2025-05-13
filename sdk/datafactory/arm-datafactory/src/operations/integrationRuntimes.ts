@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { DataFactoryManagementClient } from "../dataFactoryManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   IntegrationRuntimeResource,
@@ -82,11 +78,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     factoryName: string,
     options?: IntegrationRuntimesListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<IntegrationRuntimeResource> {
-    const iter = this.listByFactoryPagingAll(
-      resourceGroupName,
-      factoryName,
-      options,
-    );
+    const iter = this.listByFactoryPagingAll(resourceGroupName, factoryName, options);
     return {
       next() {
         return iter.next();
@@ -98,12 +90,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByFactoryPagingPage(
-          resourceGroupName,
-          factoryName,
-          options,
-          settings,
-        );
+        return this.listByFactoryPagingPage(resourceGroupName, factoryName, options, settings);
       },
     };
   }
@@ -117,11 +104,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
     let result: IntegrationRuntimesListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByFactory(
-        resourceGroupName,
-        factoryName,
-        options,
-      );
+      result = await this._listByFactory(resourceGroupName, factoryName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -397,8 +380,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -486,8 +468,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -728,11 +709,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.factoryName,
     Parameters.integrationRuntimeName,
   ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch,
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer,
 };
@@ -826,30 +803,28 @@ const getStatusOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper:
-          Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/outboundNetworkDependenciesEndpoints",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.factoryName,
-      Parameters.integrationRuntimeName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.integrationRuntimeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getConnectionInfoOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/integrationRuntimes/{integrationRuntimeName}/getConnectionInfo",
   httpMethod: "POST",
