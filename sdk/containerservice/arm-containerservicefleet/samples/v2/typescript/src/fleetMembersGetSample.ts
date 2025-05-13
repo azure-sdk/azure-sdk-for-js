@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a FleetMember
  *
  * @summary get a FleetMember
- * x-ms-original-file: 2025-03-01/FleetMembers_Get.json
+ * x-ms-original-file: 2025-04-01-preview/FleetMembers_Get.json
  */
 async function getsAFleetMemberResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getsAFleetMemberResource(): Promise<void> {
  * This sample demonstrates how to get a FleetMember
  *
  * @summary get a FleetMember
- * x-ms-original-file: 2025-03-01/FleetMembers_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/FleetMembers_Get_MaximumSet_Gen.json
  */
 async function getsAFleetMemberResourceGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();

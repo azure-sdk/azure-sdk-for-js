@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a FleetUpdateStrategy
  *
  * @summary delete a FleetUpdateStrategy
- * x-ms-original-file: 2025-03-01/FleetUpdateStrategies_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/FleetUpdateStrategies_Delete_MaximumSet_Gen.json
  */
 async function deleteAFleetUpdateStrategyResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function deleteAFleetUpdateStrategyResourceGeneratedByMaximumSetRule() {
  * This sample demonstrates how to delete a FleetUpdateStrategy
  *
  * @summary delete a FleetUpdateStrategy
- * x-ms-original-file: 2025-03-01/UpdateStrategies_Delete.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateStrategies_Delete.json
  */
 async function deleteAFleetUpdateStrategyResource() {
   const credential = new DefaultAzureCredential();

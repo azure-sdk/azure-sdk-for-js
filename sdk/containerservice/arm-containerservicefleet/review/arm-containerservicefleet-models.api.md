@@ -119,6 +119,7 @@ export interface FleetMember extends ProxyResource {
 export interface FleetMemberProperties {
     clusterResourceId: string;
     group?: string;
+    labels?: Record<string, string>;
     readonly provisioningState?: FleetMemberProvisioningState;
     readonly status?: FleetMemberStatus;
 }
@@ -140,6 +141,7 @@ export interface FleetMemberUpdate {
 // @public
 export interface FleetMemberUpdateProperties {
     group?: string;
+    labels?: Record<string, string>;
 }
 
 // @public
@@ -178,6 +180,56 @@ export interface FleetUpdateStrategyProperties {
 
 // @public
 export type FleetUpdateStrategyProvisioningState = string;
+
+// @public
+export interface Gate extends TrackedResource {
+    readonly eTag?: string;
+    properties?: GateProperties;
+}
+
+// @public
+export interface GateConfiguration {
+    displayName?: string;
+    type: GateType;
+}
+
+// @public
+export interface GatePatch {
+    properties: GatePatchProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface GatePatchProperties {
+    state: GateState;
+}
+
+// @public
+export interface GateProperties {
+    displayName?: string;
+    gateType: GateType;
+    readonly provisioningState?: GateProvisioningState;
+    state: GateState;
+    target: GateTarget;
+}
+
+// @public
+export type GateProvisioningState = string;
+
+// @public
+export type GateState = string;
+
+// @public
+export interface GateTarget {
+    id: GateTargetId;
+    updateRunProperties?: UpdateRunGateTargetProperties;
+}
+
+// @public
+export type GateTargetId = string;
+
+// @public
+export type GateType = string;
 
 // @public
 export interface GenerateResponse {
@@ -244,6 +296,25 @@ export enum KnownFleetUpdateStrategyProvisioningState {
 }
 
 // @public
+export enum KnownGateProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownGateState {
+    Completed = "Completed",
+    Pending = "Pending",
+    Skipped = "Skipped"
+}
+
+// @public
+export enum KnownGateType {
+    Approval = "Approval"
+}
+
+// @public
 export enum KnownManagedClusterUpgradeType {
     ControlPlaneOnly = "ControlPlaneOnly",
     Full = "Full",
@@ -281,6 +352,12 @@ export enum KnownTargetType {
 }
 
 // @public
+export enum KnownTiming {
+    After = "After",
+    Before = "Before"
+}
+
+// @public
 export enum KnownUpdateRunProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
@@ -292,6 +369,7 @@ export enum KnownUpdateState {
     Completed = "Completed",
     Failed = "Failed",
     NotStarted = "NotStarted",
+    Pending = "Pending",
     Running = "Running",
     Skipped = "Skipped",
     Stopped = "Stopped",
@@ -307,9 +385,16 @@ export enum KnownUpgradeChannel {
 
 // @public
 export enum KnownVersions {
+    V20220902Preview = "2022-09-02-preview",
+    V20230315Preview = "2023-03-15-preview",
+    V20230615Preview = "2023-06-15-preview",
+    V20230815Preview = "2023-08-15-preview",
     V20231015 = "2023-10-15",
+    V20240202Preview = "2024-02-02-preview",
     V20240401 = "2024-04-01",
-    V20250301 = "2025-03-01"
+    V20240502Preview = "2024-05-02-preview",
+    V20250301 = "2025-03-01",
+    V20250401Preview = "2025-04-01-preview"
 }
 
 // @public
@@ -423,6 +508,9 @@ export interface SystemData {
 export type TargetType = string;
 
 // @public
+export type Timing = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -430,11 +518,15 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface UpdateGroup {
+    afterGates?: GateConfiguration[];
+    beforeGates?: GateConfiguration[];
     name: string;
 }
 
 // @public
 export interface UpdateGroupStatus {
+    readonly afterGates?: UpdateRunGateStatus[];
+    readonly beforeGates?: UpdateRunGateStatus[];
     readonly members?: MemberUpdateStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;
@@ -444,6 +536,21 @@ export interface UpdateGroupStatus {
 export interface UpdateRun extends ProxyResource {
     readonly eTag?: string;
     properties?: UpdateRunProperties;
+}
+
+// @public
+export interface UpdateRunGateStatus {
+    readonly displayName?: string;
+    readonly gateId?: string;
+    readonly status?: UpdateStatus;
+}
+
+// @public
+export interface UpdateRunGateTargetProperties {
+    readonly group?: string;
+    readonly name: string;
+    readonly stage?: string;
+    timing: Timing;
 }
 
 // @public
@@ -473,14 +580,18 @@ export interface UpdateRunStrategy {
 
 // @public
 export interface UpdateStage {
+    afterGates?: GateConfiguration[];
     afterStageWaitInSeconds?: number;
+    beforeGates?: GateConfiguration[];
     groups?: UpdateGroup[];
     name: string;
 }
 
 // @public
 export interface UpdateStageStatus {
+    readonly afterGates?: UpdateRunGateStatus[];
     readonly afterStageWaitStatus?: WaitStatus;
+    readonly beforeGates?: UpdateRunGateStatus[];
     readonly groups?: UpdateGroupStatus[];
     readonly name?: string;
     readonly status?: UpdateStatus;

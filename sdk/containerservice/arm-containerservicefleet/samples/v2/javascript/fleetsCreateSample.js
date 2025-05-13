@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Fleet.
  *
  * @summary creates or updates a Fleet.
- * x-ms-original-file: 2025-03-01/Fleets_CreateOrUpdate.json
+ * x-ms-original-file: 2025-04-01-preview/Fleets_CreateOrUpdate.json
  */
 async function createsAFleetResourceWithALongRunningOperation() {
   const credential = new DefaultAzureCredential();
@@ -31,7 +31,7 @@ async function createsAFleetResourceWithALongRunningOperation() {
  * This sample demonstrates how to creates or updates a Fleet.
  *
  * @summary creates or updates a Fleet.
- * x-ms-original-file: 2025-03-01/Fleets_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function createsAFleetResourceWithALongRunningOperationGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

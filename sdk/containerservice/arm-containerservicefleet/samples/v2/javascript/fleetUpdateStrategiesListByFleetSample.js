@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list FleetUpdateStrategy resources by Fleet
  *
  * @summary list FleetUpdateStrategy resources by Fleet
- * x-ms-original-file: 2025-03-01/FleetUpdateStrategies_ListByFleet_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/FleetUpdateStrategies_ListByFleet_MaximumSet_Gen.json
  */
 async function listTheFleetUpdateStrategyResourcesByFleetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function listTheFleetUpdateStrategyResourcesByFleetGeneratedByMaximumSetRu
  * This sample demonstrates how to list FleetUpdateStrategy resources by Fleet
  *
  * @summary list FleetUpdateStrategy resources by Fleet
- * x-ms-original-file: 2025-03-01/UpdateStrategies_ListByFleet.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateStrategies_ListByFleet.json
  */
 async function listTheFleetUpdateStrategyResourcesByFleet() {
   const credential = new DefaultAzureCredential();

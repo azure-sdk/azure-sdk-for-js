@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a UpdateRun
  *
  * @summary delete a UpdateRun
- * x-ms-original-file: 2025-03-01/UpdateRuns_Delete.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Delete.json
  */
 async function deleteAnUpdateRunResource() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteAnUpdateRunResource() {
  * This sample demonstrates how to delete a UpdateRun
  *
  * @summary delete a UpdateRun
- * x-ms-original-file: 2025-03-01/UpdateRuns_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2025-04-01-preview/UpdateRuns_Delete_MaximumSet_Gen.json
  */
 async function deleteAnUpdateRunResourceGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

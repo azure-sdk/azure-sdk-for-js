@@ -18,6 +18,7 @@ import {
   _$deleteDeserialize as _$deleteDeserializeUpdateRuns,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeUpdateRuns,
 } from "./api/updateRuns/operations.js";
+import { _updateDeserialize } from "./api/gates/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeFleetMembers,
   _updateAsyncDeserialize,
@@ -142,6 +143,8 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createOrUpdateDeserializeUpdateRuns,
       expectedStatuses: ["200", "201"],
     },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/gates/{gateName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/members/{fleetMemberName}":
     {
       deserializer: _$deleteDeserializeFleetMembers,

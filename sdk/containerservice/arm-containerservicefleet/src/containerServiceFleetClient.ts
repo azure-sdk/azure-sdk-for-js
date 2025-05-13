@@ -19,6 +19,7 @@ import {
   _getFleetUpdateStrategiesOperations,
 } from "./classic/fleetUpdateStrategies/index.js";
 import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
+import { GatesOperations, _getGatesOperations } from "./classic/gates/index.js";
 import {
   FleetMembersOperations,
   _getFleetMembersOperations,
@@ -54,6 +55,7 @@ export class ContainerServiceFleetClient {
     this.autoUpgradeProfiles = _getAutoUpgradeProfilesOperations(this._client);
     this.fleetUpdateStrategies = _getFleetUpdateStrategiesOperations(this._client);
     this.updateRuns = _getUpdateRunsOperations(this._client);
+    this.gates = _getGatesOperations(this._client);
     this.fleetMembers = _getFleetMembersOperations(this._client);
     this.fleets = _getFleetsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -67,6 +69,8 @@ export class ContainerServiceFleetClient {
   public readonly fleetUpdateStrategies: FleetUpdateStrategiesOperations;
   /** The operation groups for updateRuns */
   public readonly updateRuns: UpdateRunsOperations;
+  /** The operation groups for gates */
+  public readonly gates: GatesOperations;
   /** The operation groups for fleetMembers */
   public readonly fleetMembers: FleetMembersOperations;
   /** The operation groups for fleets */
