@@ -21,9 +21,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing SecurityConnectorApplication operations. */
-export class SecurityConnectorApplicationImpl
-  implements SecurityConnectorApplication
-{
+export class SecurityConnectorApplicationImpl implements SecurityConnectorApplication {
   private readonly client: SecurityCenter;
 
   /**
@@ -116,7 +114,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -142,7 +140,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.application,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -158,7 +156,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}/providers/Microsoft.Security/applications/{applicationId}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

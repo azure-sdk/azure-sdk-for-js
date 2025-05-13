@@ -19,9 +19,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing IotSecuritySolutionAnalytics operations. */
-export class IotSecuritySolutionAnalyticsImpl
-  implements IotSecuritySolutionAnalytics
-{
+export class IotSecuritySolutionAnalyticsImpl implements IotSecuritySolutionAnalytics {
   private readonly client: SecurityCenter;
 
   /**

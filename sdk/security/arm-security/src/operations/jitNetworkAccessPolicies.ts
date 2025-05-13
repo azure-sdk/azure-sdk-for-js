@@ -150,11 +150,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByRegionNext(
-        ascLocation,
-        continuationToken,
-        options,
-      );
+      result = await this._listByRegionNext(ascLocation, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -166,10 +162,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams,
   ): AsyncIterableIterator<JitNetworkAccessPolicy> {
-    for await (const page of this.listByRegionPagingPage(
-      ascLocation,
-      options,
-    )) {
+    for await (const page of this.listByRegionPagingPage(ascLocation, options)) {
       yield* page;
     }
   }
@@ -196,11 +189,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -220,11 +209,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -236,10 +221,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     resourceGroupName: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<JitNetworkAccessPolicy> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -292,11 +274,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     let result: JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByResourceGroupAndRegion(
-        resourceGroupName,
-        ascLocation,
-        options,
-      );
+      result = await this._listByResourceGroupAndRegion(resourceGroupName, ascLocation, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -350,10 +328,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams,
   ): Promise<JitNetworkAccessPoliciesListByRegionResponse> {
-    return this.client.sendOperationRequest(
-      { ascLocation, options },
-      listByRegionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ ascLocation, options }, listByRegionOperationSpec);
   }
 
   /**
@@ -500,10 +475,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     nextLink: string,
     options?: JitNetworkAccessPoliciesListNextOptionalParams,
   ): Promise<JitNetworkAccessPoliciesListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -595,11 +567,7 @@ const listByRegionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -615,11 +583,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -677,7 +641,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
@@ -722,7 +686,7 @@ const initiateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion20],
   urlParameters: [
     Parameters.$host,
@@ -747,11 +711,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -795,25 +755,24 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listByResourceGroupAndRegionNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.JitNetworkAccessPoliciesList,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
+const listByResourceGroupAndRegionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JitNetworkAccessPoliciesList,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.ascLocation,
-      Parameters.nextLink,
-      Parameters.resourceGroupName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.nextLink,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};

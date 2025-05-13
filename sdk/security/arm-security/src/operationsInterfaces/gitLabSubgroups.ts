@@ -6,10 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  GitLabSubgroupsListOptionalParams,
-  GitLabSubgroupsListResponse,
-} from "../models/index.js";
+import { GitLabSubgroupsListOptionalParams, GitLabSubgroupsListResponse } from "../models/index.js";
 
 /** Interface representing a GitLabSubgroups. */
 export interface GitLabSubgroups {

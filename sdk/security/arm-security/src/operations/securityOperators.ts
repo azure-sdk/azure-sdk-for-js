@@ -42,10 +42,7 @@ export class SecurityOperatorsImpl implements SecurityOperators {
     pricingName: string,
     options?: SecurityOperatorsListOptionalParams,
   ): Promise<SecurityOperatorsListResponse> {
-    return this.client.sendOperationRequest(
-      { pricingName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ pricingName, options }, listOperationSpec);
   }
 
   /**
@@ -113,12 +110,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion11],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.pricingName,
-  ],
+  queryParameters: [Parameters.apiVersion9],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.pricingName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -133,7 +126,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -154,7 +147,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -174,7 +167,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion11],
+  queryParameters: [Parameters.apiVersion9],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

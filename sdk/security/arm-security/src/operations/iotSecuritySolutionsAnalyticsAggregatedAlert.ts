@@ -63,12 +63,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          solutionName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, solutionName, options, settings);
       },
     };
   }
@@ -89,12 +84,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        solutionName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, solutionName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -107,11 +97,7 @@ export class IotSecuritySolutionsAnalyticsAggregatedAlertImpl
     solutionName: string,
     options?: IotSecuritySolutionsAnalyticsAggregatedAlertListOptionalParams,
   ): AsyncIterableIterator<IoTSecurityAggregatedAlert> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      solutionName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, solutionName, options)) {
       yield* page;
     }
   }

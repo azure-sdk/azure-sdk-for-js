@@ -16,7 +16,5 @@ export interface Applications {
    * Get a list of all relevant applications over a subscription level scope
    * @param options The options parameters.
    */
-  list(
-    options?: ApplicationsListOptionalParams,
-  ): PagedAsyncIterableIterator<Application>;
+  list(options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<Application>;
 }

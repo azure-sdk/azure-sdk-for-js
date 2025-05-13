@@ -44,9 +44,7 @@ export class TopologyImpl implements Topology {
    * Gets a list that allows to build a topology view of a subscription.
    * @param options The options parameters.
    */
-  public list(
-    options?: TopologyListOptionalParams,
-  ): PagedAsyncIterableIterator<TopologyResource> {
+  public list(options?: TopologyListOptionalParams): PagedAsyncIterableIterator<TopologyResource> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -136,11 +134,7 @@ export class TopologyImpl implements Topology {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(
-        ascLocation,
-        continuationToken,
-        options,
-      );
+      result = await this._listByHomeRegionNext(ascLocation, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -152,10 +146,7 @@ export class TopologyImpl implements Topology {
     ascLocation: string,
     options?: TopologyListByHomeRegionOptionalParams,
   ): AsyncIterableIterator<TopologyResource> {
-    for await (const page of this.listByHomeRegionPagingPage(
-      ascLocation,
-      options,
-    )) {
+    for await (const page of this.listByHomeRegionPagingPage(ascLocation, options)) {
       yield* page;
     }
   }
@@ -164,9 +155,7 @@ export class TopologyImpl implements Topology {
    * Gets a list that allows to build a topology view of a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: TopologyListOptionalParams,
-  ): Promise<TopologyListResponse> {
+  private _list(options?: TopologyListOptionalParams): Promise<TopologyListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -216,10 +205,7 @@ export class TopologyImpl implements Topology {
     nextLink: string,
     options?: TopologyListNextOptionalParams,
   ): Promise<TopologyListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -271,11 +257,7 @@ const listByHomeRegionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion20],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.ascLocation,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.ascLocation],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -312,11 +294,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

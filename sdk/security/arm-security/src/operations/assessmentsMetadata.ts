@@ -172,10 +172,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
     assessmentMetadataName: string,
     options?: AssessmentsMetadataGetOptionalParams,
   ): Promise<AssessmentsMetadataGetResponse> {
-    return this.client.sendOperationRequest(
-      { assessmentMetadataName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ assessmentMetadataName, options }, getOperationSpec);
   }
 
   /**
@@ -185,10 +182,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
   private _listBySubscription(
     options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionOperationSpec);
   }
 
   /**
@@ -248,10 +242,7 @@ export class AssessmentsMetadataImpl implements AssessmentsMetadata {
     nextLink: string,
     options?: AssessmentsMetadataListNextOptionalParams,
   ): Promise<AssessmentsMetadataListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -332,11 +323,7 @@ const getInSubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -353,11 +340,7 @@ const createInSubscriptionOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.assessmentMetadata,
   queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -372,11 +355,7 @@ const deleteInSubscriptionOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion21],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.assessmentMetadataName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.assessmentMetadataName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -406,11 +385,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

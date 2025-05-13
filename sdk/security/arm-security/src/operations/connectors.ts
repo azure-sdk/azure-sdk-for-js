@@ -97,9 +97,7 @@ export class ConnectorsImpl implements Connectors {
    * Cloud accounts connectors of a subscription
    * @param options The options parameters.
    */
-  private _list(
-    options?: ConnectorsListOptionalParams,
-  ): Promise<ConnectorsListResponse> {
+  private _list(options?: ConnectorsListOptionalParams): Promise<ConnectorsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -112,10 +110,7 @@ export class ConnectorsImpl implements Connectors {
     connectorName: string,
     options?: ConnectorsGetOptionalParams,
   ): Promise<ConnectorsGetResponse> {
-    return this.client.sendOperationRequest(
-      { connectorName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ connectorName, options }, getOperationSpec);
   }
 
   /**
@@ -142,14 +137,8 @@ export class ConnectorsImpl implements Connectors {
    * @param connectorName Name of the cloud account connector
    * @param options The options parameters.
    */
-  delete(
-    connectorName: string,
-    options?: ConnectorsDeleteOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { connectorName, options },
-      deleteOperationSpec,
-    );
+  delete(connectorName: string, options?: ConnectorsDeleteOptionalParams): Promise<void> {
+    return this.client.sendOperationRequest({ connectorName, options }, deleteOperationSpec);
   }
 
   /**
@@ -161,10 +150,7 @@ export class ConnectorsImpl implements Connectors {
     nextLink: string,
     options?: ConnectorsListNextOptionalParams,
   ): Promise<ConnectorsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -181,7 +167,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -197,12 +183,8 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.connectorName,
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.connectorName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -218,12 +200,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.connectorSetting,
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.connectorName,
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.connectorName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer,
@@ -238,12 +216,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.connectorName,
-  ],
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.connectorName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -258,11 +232,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
