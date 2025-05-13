@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   DataVersionBase,
@@ -61,12 +57,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
     name: string,
     options?: RegistryDataVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<DataVersionBase> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      registryName,
-      name,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, registryName, name, options);
     return {
       next() {
         return iter.next();
@@ -78,13 +69,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          registryName,
-          name,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, registryName, name, options, settings);
       },
     };
   }
@@ -126,12 +111,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
     name: string,
     options?: RegistryDataVersionsListOptionalParams,
   ): AsyncIterableIterator<DataVersionBase> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      registryName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, registryName, name, options)) {
       yield* page;
     }
   }
@@ -180,8 +160,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -237,13 +216,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
     version: string,
     options?: RegistryDataVersionsDeleteOptionalParams,
   ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      registryName,
-      name,
-      version,
-      options,
-    );
+    const poller = await this.beginDelete(resourceGroupName, registryName, name, version, options);
     return poller.pollUntilDone();
   }
 
@@ -300,8 +273,7 @@ export class RegistryDataVersionsImpl implements RegistryDataVersions {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -516,7 +488,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body8,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -541,7 +513,7 @@ const createOrGetStartPendingUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -569,8 +541,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.registryName,
     Parameters.name,
   ],
