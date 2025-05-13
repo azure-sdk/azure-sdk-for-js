@@ -2,15 +2,15 @@
 
 These sample programs show how to use the JavaScript client libraries for @azure/arm-weightsandbiases in some common scenarios.
 
-| **File Name**                                                               | **Description**                                                                                                                            |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| [instancesCreateOrUpdateSample.js][instancescreateorupdatesample]           | create a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_CreateOrUpdate_MaximumSet_Gen.json                              |
-| [instancesDeleteSample.js][instancesdeletesample]                           | delete a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Delete_MaximumSet_Gen.json                                      |
-| [instancesGetSample.js][instancesgetsample]                                 | get a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Get_MaximumSet_Gen.json                                            |
-| [instancesListByResourceGroupSample.js][instanceslistbyresourcegroupsample] | list InstanceResource resources by resource group x-ms-original-file: 2024-09-18-preview/Instances_ListByResourceGroup_MaximumSet_Gen.json |
-| [instancesListBySubscriptionSample.js][instanceslistbysubscriptionsample]   | list InstanceResource resources by subscription ID x-ms-original-file: 2024-09-18-preview/Instances_ListBySubscription_MaximumSet_Gen.json |
-| [instancesUpdateSample.js][instancesupdatesample]                           | update a InstanceResource x-ms-original-file: 2024-09-18-preview/Instances_Update_MaximumSet_Gen.json                                      |
-| [operationsListSample.js][operationslistsample]                             | list the operations for the provider x-ms-original-file: 2024-09-18-preview/Operations_List_MaximumSet_Gen.json                            |
+| **File Name**                                                               | **Description**                                                                                                                    |
+| --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| [instancesCreateOrUpdateSample.js][instancescreateorupdatesample]           | create a InstanceResource x-ms-original-file: 2024-09-18/Instances_CreateOrUpdate_MaximumSet_Gen.json                              |
+| [instancesDeleteSample.js][instancesdeletesample]                           | delete a InstanceResource x-ms-original-file: 2024-09-18/Instances_Delete_MaximumSet_Gen.json                                      |
+| [instancesGetSample.js][instancesgetsample]                                 | get a InstanceResource x-ms-original-file: 2024-09-18/Instances_Get_MaximumSet_Gen.json                                            |
+| [instancesListByResourceGroupSample.js][instanceslistbyresourcegroupsample] | list InstanceResource resources by resource group x-ms-original-file: 2024-09-18/Instances_ListByResourceGroup_MaximumSet_Gen.json |
+| [instancesListBySubscriptionSample.js][instanceslistbysubscriptionsample]   | list InstanceResource resources by subscription ID x-ms-original-file: 2024-09-18/Instances_ListBySubscription_MaximumSet_Gen.json |
+| [instancesUpdateSample.js][instancesupdatesample]                           | update a InstanceResource x-ms-original-file: 2024-09-18/Instances_Update_MaximumSet_Gen.json                                      |
+| [operationsListSample.js][operationslistsample]                             | list the operations for the provider x-ms-original-file: 2024-09-18/Operations_List_MaximumSet_Gen.json                            |
 
 ## Prerequisites
 
