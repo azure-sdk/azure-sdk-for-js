@@ -190,11 +190,7 @@ export class DiagnosticsImpl implements Diagnostics {
     siteName: string,
     options?: DiagnosticsListSiteDetectorResponsesOptionalParams,
   ): PagedAsyncIterableIterator<DetectorResponse> {
-    const iter = this.listSiteDetectorResponsesPagingAll(
-      resourceGroupName,
-      siteName,
-      options,
-    );
+    const iter = this.listSiteDetectorResponsesPagingAll(resourceGroupName, siteName, options);
     return {
       next() {
         return iter.next();
@@ -225,11 +221,7 @@ export class DiagnosticsImpl implements Diagnostics {
     let result: DiagnosticsListSiteDetectorResponsesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSiteDetectorResponses(
-        resourceGroupName,
-        siteName,
-        options,
-      );
+      result = await this._listSiteDetectorResponses(resourceGroupName, siteName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -274,11 +266,7 @@ export class DiagnosticsImpl implements Diagnostics {
     siteName: string,
     options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticCategory> {
-    const iter = this.listSiteDiagnosticCategoriesPagingAll(
-      resourceGroupName,
-      siteName,
-      options,
-    );
+    const iter = this.listSiteDiagnosticCategoriesPagingAll(resourceGroupName, siteName, options);
     return {
       next() {
         return iter.next();
@@ -309,11 +297,7 @@ export class DiagnosticsImpl implements Diagnostics {
     let result: DiagnosticsListSiteDiagnosticCategoriesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listSiteDiagnosticCategories(
-        resourceGroupName,
-        siteName,
-        options,
-      );
+      result = await this._listSiteDiagnosticCategories(resourceGroupName, siteName, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -1628,56 +1612,54 @@ export class DiagnosticsImpl implements Diagnostics {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listHostingEnvironmentDetectorResponsesOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponseCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listHostingEnvironmentDetectorResponsesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const getHostingEnvironmentDetectorResponseOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponse,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    queryParameters: [
-      Parameters.apiVersion,
-      Parameters.startTime,
-      Parameters.endTime,
-      Parameters.timeGrain,
-    ],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.detectorName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getHostingEnvironmentDetectorResponseOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponse,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.startTime,
+    Parameters.endTime,
+    Parameters.timeGrain,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.detectorName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSiteDetectorResponsesOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors",
   httpMethod: "GET",
@@ -1965,29 +1947,28 @@ const getSiteDetectorResponseSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSiteDiagnosticCategoriesSlotOperationSpec: coreClient.OperationSpec =
-  {
-    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DiagnosticCategoryCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSiteDiagnosticCategoriesSlotOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticCategoryCollection,
     },
-    queryParameters: [Parameters.apiVersion],
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.siteName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.siteName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const getSiteDiagnosticCategorySlotOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}",
   httpMethod: "GET",
@@ -2163,28 +2144,27 @@ const executeSiteDetectorSlotOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listHostingEnvironmentDetectorResponsesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponseCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listHostingEnvironmentDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSiteDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2206,28 +2186,27 @@ const listSiteDetectorResponsesNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSiteDiagnosticCategoriesNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DiagnosticCategoryCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSiteDiagnosticCategoriesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticCategoryCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.siteName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.siteName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSiteAnalysesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -2272,52 +2251,50 @@ const listSiteDetectorsNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSiteDetectorResponsesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DetectorResponseCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listSiteDetectorResponsesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectorResponseCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.siteName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listSiteDiagnosticCategoriesSlotNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.DiagnosticCategoryCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.nextLink,
-      Parameters.siteName,
-      Parameters.slot,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.siteName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listSiteDiagnosticCategoriesSlotNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DiagnosticCategoryCollection,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.siteName,
+    Parameters.slot,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listSiteAnalysesSlotNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

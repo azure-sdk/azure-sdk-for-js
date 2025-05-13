@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { WebSiteManagementClient } from "../webSiteManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   AppServicePlan,
@@ -178,11 +174,7 @@ export class AppServicePlansImpl implements AppServicePlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings,
-        );
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
       },
     };
   }
@@ -202,11 +194,7 @@ export class AppServicePlansImpl implements AppServicePlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -218,10 +206,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     resourceGroupName: string,
     options?: AppServicePlansListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AppServicePlan> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options,
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -339,11 +324,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     name: string,
     options?: AppServicePlansListHybridConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<HybridConnection> {
-    const iter = this.listHybridConnectionsPagingAll(
-      resourceGroupName,
-      name,
-      options,
-    );
+    const iter = this.listHybridConnectionsPagingAll(resourceGroupName, name, options);
     return {
       next() {
         return iter.next();
@@ -355,12 +336,7 @@ export class AppServicePlansImpl implements AppServicePlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listHybridConnectionsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listHybridConnectionsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -374,11 +350,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     let result: AppServicePlansListHybridConnectionsResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listHybridConnections(
-        resourceGroupName,
-        name,
-        options,
-      );
+      result = await this._listHybridConnections(resourceGroupName, name, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -435,12 +407,7 @@ export class AppServicePlansImpl implements AppServicePlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listWebAppsPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listWebAppsPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -461,12 +428,7 @@ export class AppServicePlansImpl implements AppServicePlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listWebAppsNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listWebAppsNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -479,11 +441,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     name: string,
     options?: AppServicePlansListWebAppsOptionalParams,
   ): AsyncIterableIterator<Site> {
-    for await (const page of this.listWebAppsPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listWebAppsPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -511,12 +469,7 @@ export class AppServicePlansImpl implements AppServicePlans {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listUsagesPagingPage(
-          resourceGroupName,
-          name,
-          options,
-          settings,
-        );
+        return this.listUsagesPagingPage(resourceGroupName, name, options, settings);
       },
     };
   }
@@ -537,12 +490,7 @@ export class AppServicePlansImpl implements AppServicePlans {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listUsagesNext(
-        resourceGroupName,
-        name,
-        continuationToken,
-        options,
-      );
+      result = await this._listUsagesNext(resourceGroupName, name, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -555,11 +503,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     name: string,
     options?: AppServicePlansListUsagesOptionalParams,
   ): AsyncIterableIterator<CsmUsageQuota> {
-    for await (const page of this.listUsagesPagingPage(
-      resourceGroupName,
-      name,
-      options,
-    )) {
+    for await (const page of this.listUsagesPagingPage(resourceGroupName, name, options)) {
       yield* page;
     }
   }
@@ -568,9 +512,7 @@ export class AppServicePlansImpl implements AppServicePlans {
    * Description for Get all App Service plans for a subscription.
    * @param options The options parameters.
    */
-  private _list(
-    options?: AppServicePlansListOptionalParams,
-  ): Promise<AppServicePlansListResponse> {
+  private _list(options?: AppServicePlansListOptionalParams): Promise<AppServicePlansListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -600,10 +542,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     name: string,
     options?: AppServicePlansGetOptionalParams,
   ): Promise<AppServicePlansGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, name, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, name, options }, getOperationSpec);
   }
 
   /**
@@ -634,8 +573,7 @@ export class AppServicePlansImpl implements AppServicePlans {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -691,12 +629,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     appServicePlan: AppServicePlan,
     options?: AppServicePlansCreateOrUpdateOptionalParams,
   ): Promise<AppServicePlansCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      name,
-      appServicePlan,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceGroupName, name, appServicePlan, options);
     return poller.pollUntilDone();
   }
 
@@ -1161,10 +1094,7 @@ export class AppServicePlansImpl implements AppServicePlans {
     nextLink: string,
     options?: AppServicePlansListNextOptionalParams,
   ): Promise<AppServicePlansListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -1296,11 +1226,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1595,12 +1521,7 @@ const listWebAppsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-    Parameters.top,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.skipToken, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -1930,11 +1851,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -1958,30 +1875,29 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listWebAppsByHybridConnectionNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.ResourceCollection,
-      },
-      default: {
-        bodyMapper: Mappers.DefaultErrorResponse,
-      },
+const listWebAppsByHybridConnectionNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceCollection,
     },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.resourceGroupName,
-      Parameters.name,
-      Parameters.nextLink,
-      Parameters.namespaceName,
-      Parameters.relayName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.nextLink,
+    Parameters.namespaceName,
+    Parameters.relayName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listHybridConnectionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",

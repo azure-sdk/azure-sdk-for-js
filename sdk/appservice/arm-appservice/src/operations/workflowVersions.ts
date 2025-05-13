@@ -49,12 +49,7 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
     workflowName: string,
     options?: WorkflowVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<WorkflowVersion> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, name, workflowName, options);
     return {
       next() {
         return iter.next();
@@ -66,13 +61,7 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          name,
-          workflowName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, name, workflowName, options, settings);
       },
     };
   }
@@ -114,12 +103,7 @@ export class WorkflowVersionsImpl implements WorkflowVersions {
     workflowName: string,
     options?: WorkflowVersionsListOptionalParams,
   ): AsyncIterableIterator<WorkflowVersion> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      name,
-      workflowName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, name, workflowName, options)) {
       yield* page;
     }
   }

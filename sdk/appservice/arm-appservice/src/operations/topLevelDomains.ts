@@ -119,12 +119,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listAgreementsPagingPage(
-          name,
-          agreementOption,
-          options,
-          settings,
-        );
+        return this.listAgreementsPagingPage(name, agreementOption, options, settings);
       },
     };
   }
@@ -145,12 +140,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listAgreementsNext(
-        name,
-        agreementOption,
-        continuationToken,
-        options,
-      );
+      result = await this._listAgreementsNext(name, agreementOption, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -163,11 +153,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
     agreementOption: TopLevelDomainAgreementOption,
     options?: TopLevelDomainsListAgreementsOptionalParams,
   ): AsyncIterableIterator<TldLegalAgreement> {
-    for await (const page of this.listAgreementsPagingPage(
-      name,
-      agreementOption,
-      options,
-    )) {
+    for await (const page of this.listAgreementsPagingPage(name, agreementOption, options)) {
       yield* page;
     }
   }
@@ -176,9 +162,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
    * Description for Get all top-level domains supported for registration.
    * @param options The options parameters.
    */
-  private _list(
-    options?: TopLevelDomainsListOptionalParams,
-  ): Promise<TopLevelDomainsListResponse> {
+  private _list(options?: TopLevelDomainsListOptionalParams): Promise<TopLevelDomainsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -191,10 +175,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
     name: string,
     options?: TopLevelDomainsGetOptionalParams,
   ): Promise<TopLevelDomainsGetResponse> {
-    return this.client.sendOperationRequest(
-      { name, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ name, options }, getOperationSpec);
   }
 
   /**
@@ -223,10 +204,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
     nextLink: string,
     options?: TopLevelDomainsListNextOptionalParams,
   ): Promise<TopLevelDomainsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 
   /**
@@ -312,11 +290,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

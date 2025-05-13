@@ -68,9 +68,7 @@ export interface AppServicePlans {
    * Description for Get all App Service plans for a subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: AppServicePlansListOptionalParams,
-  ): PagedAsyncIterableIterator<AppServicePlan>;
+  list(options?: AppServicePlansListOptionalParams): PagedAsyncIterableIterator<AppServicePlan>;
   /**
    * Description for Get all App Service plans in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
