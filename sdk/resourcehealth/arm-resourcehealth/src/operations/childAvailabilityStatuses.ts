@@ -20,13 +20,12 @@ import {
   ChildAvailabilityStatusesListResponse,
   ChildAvailabilityStatusesGetByResourceOptionalParams,
   ChildAvailabilityStatusesGetByResourceResponse,
-  ChildAvailabilityStatusesListNextResponse
+  ChildAvailabilityStatusesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ChildAvailabilityStatuses operations. */
-export class ChildAvailabilityStatusesImpl
-  implements ChildAvailabilityStatuses {
+export class ChildAvailabilityStatusesImpl implements ChildAvailabilityStatuses {
   private readonly client: MicrosoftResourceHealth;
 
   /**
@@ -47,7 +46,7 @@ export class ChildAvailabilityStatusesImpl
    */
   public list(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesListOptionalParams
+    options?: ChildAvailabilityStatusesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -62,14 +61,14 @@ export class ChildAvailabilityStatusesImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: ChildAvailabilityStatusesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilityStatus[]> {
     let result: ChildAvailabilityStatusesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +90,7 @@ export class ChildAvailabilityStatusesImpl
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesListOptionalParams
+    options?: ChildAvailabilityStatusesListOptionalParams,
   ): AsyncIterableIterator<AvailabilityStatus> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -107,12 +106,9 @@ export class ChildAvailabilityStatusesImpl
    */
   getByResource(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesGetByResourceOptionalParams
+    options?: ChildAvailabilityStatusesGetByResourceOptionalParams,
   ): Promise<ChildAvailabilityStatusesGetByResourceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      getByResourceOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceUri, options }, getByResourceOperationSpec);
   }
 
   /**
@@ -125,12 +121,9 @@ export class ChildAvailabilityStatusesImpl
    */
   private _list(
     resourceUri: string,
-    options?: ChildAvailabilityStatusesListOptionalParams
+    options?: ChildAvailabilityStatusesListOptionalParams,
   ): Promise<ChildAvailabilityStatusesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceUri, options }, listOperationSpec);
   }
 
   /**
@@ -144,11 +137,11 @@ export class ChildAvailabilityStatusesImpl
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: ChildAvailabilityStatusesListNextOptionalParams
+    options?: ChildAvailabilityStatusesListNextOptionalParams,
   ): Promise<ChildAvailabilityStatusesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -156,63 +149,49 @@ export class ChildAvailabilityStatusesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
+  path: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatus
+      bodyMapper: Mappers.AvailabilityStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
+  path: "/{resourceUri}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

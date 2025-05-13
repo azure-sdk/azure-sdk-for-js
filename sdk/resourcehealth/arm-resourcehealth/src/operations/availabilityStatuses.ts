@@ -28,7 +28,7 @@ import {
   AvailabilityStatusesGetByResourceResponse,
   AvailabilityStatusesListBySubscriptionIdNextResponse,
   AvailabilityStatusesListByResourceGroupNextResponse,
-  AvailabilityStatusesListNextResponse
+  AvailabilityStatusesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    * @param options The options parameters.
    */
   public listBySubscriptionId(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus> {
     const iter = this.listBySubscriptionIdPagingAll(options);
     return {
@@ -64,13 +64,13 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionIdPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionIdPagingPage(
     options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilityStatus[]> {
     let result: AvailabilityStatusesListBySubscriptionIdResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   private async *listBySubscriptionIdPagingAll(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
   ): AsyncIterableIterator<AvailabilityStatus> {
     for await (const page of this.listBySubscriptionIdPagingPage(options)) {
       yield* page;
@@ -105,7 +105,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -119,19 +119,15 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
-        );
-      }
+        return this.listByResourceGroupPagingPage(resourceGroupName, options, settings);
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: AvailabilityStatusesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilityStatus[]> {
     let result: AvailabilityStatusesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -143,11 +139,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
       yield page;
     }
     while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
+      result = await this._listByResourceGroupNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -157,12 +149,9 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<AvailabilityStatus> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
+    for await (const page of this.listByResourceGroupPagingPage(resourceGroupName, options)) {
       yield* page;
     }
   }
@@ -178,7 +167,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   public list(
     resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
+    options?: AvailabilityStatusesListOptionalParams,
   ): PagedAsyncIterableIterator<AvailabilityStatus> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -193,14 +182,14 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: AvailabilityStatusesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailabilityStatus[]> {
     let result: AvailabilityStatusesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -222,7 +211,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
+    options?: AvailabilityStatusesListOptionalParams,
   ): AsyncIterableIterator<AvailabilityStatus> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -234,12 +223,9 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
-    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdOptionalParams,
   ): Promise<AvailabilityStatusesListBySubscriptionIdResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionIdOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, listBySubscriptionIdOperationSpec);
   }
 
   /**
@@ -249,11 +235,11 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: AvailabilityStatusesListByResourceGroupOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupOptionalParams,
   ): Promise<AvailabilityStatusesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -268,12 +254,9 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   getByResource(
     resourceUri: string,
-    options?: AvailabilityStatusesGetByResourceOptionalParams
+    options?: AvailabilityStatusesGetByResourceOptionalParams,
   ): Promise<AvailabilityStatusesGetByResourceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      getByResourceOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceUri, options }, getByResourceOperationSpec);
   }
 
   /**
@@ -287,12 +270,9 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   private _list(
     resourceUri: string,
-    options?: AvailabilityStatusesListOptionalParams
+    options?: AvailabilityStatusesListOptionalParams,
   ): Promise<AvailabilityStatusesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceUri, options },
-      listOperationSpec
-    );
+    return this.client.sendOperationRequest({ resourceUri, options }, listOperationSpec);
   }
 
   /**
@@ -302,11 +282,11 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
    */
   private _listBySubscriptionIdNext(
     nextLink: string,
-    options?: AvailabilityStatusesListBySubscriptionIdNextOptionalParams
+    options?: AvailabilityStatusesListBySubscriptionIdNextOptionalParams,
   ): Promise<AvailabilityStatusesListBySubscriptionIdNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionIdNextOperationSpec
+      listBySubscriptionIdNextOperationSpec,
     );
   }
 
@@ -319,11 +299,11 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: AvailabilityStatusesListByResourceGroupNextOptionalParams
+    options?: AvailabilityStatusesListByResourceGroupNextOptionalParams,
   ): Promise<AvailabilityStatusesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -340,11 +320,11 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: AvailabilityStatusesListNextOptionalParams
+    options?: AvailabilityStatusesListNextOptionalParams,
   ): Promise<AvailabilityStatusesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -352,148 +332,116 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
+  path: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatus
+      bodyMapper: Mappers.AvailabilityStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
+  path: "/{resourceUri}/providers/Microsoft.ResourceHealth/availabilityStatuses",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.expand
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailabilityStatusListResult
+      bodyMapper: Mappers.AvailabilityStatusListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.nextLink
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

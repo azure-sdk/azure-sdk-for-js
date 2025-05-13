@@ -1,15 +1,21 @@
 # Release History
-
-## 4.1.0-beta.2 (Unreleased)
-
+    
+## 5.0.0 (2025-05-13)
+    
 ### Features Added
+
+  - Interface Event_2 has a new optional parameter eventTags
+  - Interface Event_2 has a new optional parameter isEventSensitive
+  - Interface Impact has a new optional parameter impactedServiceGuid
+  - Interface MetadataSupportedValueDetail has a new optional parameter previousId
+  - Interface MetadataSupportedValueDetail has a new optional parameter serviceGuid
+  - Interface Update has a new optional parameter eventTags
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Class MicrosoftResourceHealth has a new signature
+    
+    
 ## 4.1.0-beta.1 (2023-10-17)
     
 ### Features Added

@@ -19,7 +19,7 @@ import {
   EventGetByTenantIdAndTrackingIdOptionalParams,
   EventGetByTenantIdAndTrackingIdResponse,
   EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
-  EventFetchDetailsByTenantIdAndTrackingIdResponse
+  EventFetchDetailsByTenantIdAndTrackingIdResponse,
 } from "../models/index.js";
 
 /** Class containing EventOperations operations. */
@@ -41,27 +41,28 @@ export class EventOperationsImpl implements EventOperations {
    */
   getBySubscriptionIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventGetBySubscriptionIdAndTrackingIdOptionalParams
+    options?: EventGetBySubscriptionIdAndTrackingIdOptionalParams,
   ): Promise<EventGetBySubscriptionIdAndTrackingIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      getBySubscriptionIdAndTrackingIdOperationSpec
+      getBySubscriptionIdAndTrackingIdOperationSpec,
     );
   }
 
   /**
    * Service health event details in the subscription by event tracking id. This can be used to fetch
-   * sensitive properties for Security Advisory events
+   * sensitive properties for Security Advisory events. Please see
+   * https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access
    * @param eventTrackingId Event Id which uniquely identifies ServiceHealth event.
    * @param options The options parameters.
    */
   fetchDetailsBySubscriptionIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventFetchDetailsBySubscriptionIdAndTrackingIdOptionalParams
+    options?: EventFetchDetailsBySubscriptionIdAndTrackingIdOptionalParams,
   ): Promise<EventFetchDetailsBySubscriptionIdAndTrackingIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      fetchDetailsBySubscriptionIdAndTrackingIdOperationSpec
+      fetchDetailsBySubscriptionIdAndTrackingIdOperationSpec,
     );
   }
 
@@ -72,27 +73,28 @@ export class EventOperationsImpl implements EventOperations {
    */
   getByTenantIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventGetByTenantIdAndTrackingIdOptionalParams
+    options?: EventGetByTenantIdAndTrackingIdOptionalParams,
   ): Promise<EventGetByTenantIdAndTrackingIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      getByTenantIdAndTrackingIdOperationSpec
+      getByTenantIdAndTrackingIdOperationSpec,
     );
   }
 
   /**
    * Service health event details in the tenant by event tracking id. This can be used to fetch sensitive
-   * properties for Security Advisory events
+   * properties for Security Advisory events. Please see
+   * https://learn.microsoft.com/en-us/azure/service-health/security-advisories-elevated-access
    * @param eventTrackingId Event Id which uniquely identifies ServiceHealth event.
    * @param options The options parameters.
    */
   fetchDetailsByTenantIdAndTrackingId(
     eventTrackingId: string,
-    options?: EventFetchDetailsByTenantIdAndTrackingIdOptionalParams
+    options?: EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
   ): Promise<EventFetchDetailsByTenantIdAndTrackingIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      fetchDetailsByTenantIdAndTrackingIdOperationSpec
+      fetchDetailsByTenantIdAndTrackingIdOperationSpec,
     );
   }
 }
@@ -100,85 +102,66 @@ export class EventOperationsImpl implements EventOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getBySubscriptionIdAndTrackingIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Event
+      bodyMapper: Mappers.Event,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.queryStartTime
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.eventTrackingId
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.queryStartTime],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const fetchDetailsBySubscriptionIdAndTrackingIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Event
+      bodyMapper: Mappers.Event,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.eventTrackingId
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByTenantIdAndTrackingIdOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Event
+      bodyMapper: Mappers.Event,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.queryStartTime
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.queryStartTime],
   urlParameters: [Parameters.$host, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const fetchDetailsByTenantIdAndTrackingIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
+  path: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Event
+      bodyMapper: Mappers.Event,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

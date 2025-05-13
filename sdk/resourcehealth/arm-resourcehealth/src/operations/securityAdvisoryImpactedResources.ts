@@ -22,13 +22,12 @@ import {
   SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse,
   SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextResponse,
-  SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse
+  SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SecurityAdvisoryImpactedResources operations. */
-export class SecurityAdvisoryImpactedResourcesImpl
-  implements SecurityAdvisoryImpactedResources {
+export class SecurityAdvisoryImpactedResourcesImpl implements SecurityAdvisoryImpactedResources {
   private readonly client: MicrosoftResourceHealth;
 
   /**
@@ -46,12 +45,9 @@ export class SecurityAdvisoryImpactedResourcesImpl
    */
   public listBySubscriptionIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource> {
-    const iter = this.listBySubscriptionIdAndEventIdPagingAll(
-      eventTrackingId,
-      options
-    );
+    const iter = this.listBySubscriptionIdAndEventIdPagingAll(eventTrackingId, options);
     return {
       next() {
         return iter.next();
@@ -63,27 +59,20 @@ export class SecurityAdvisoryImpactedResourcesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listBySubscriptionIdAndEventIdPagingPage(
-          eventTrackingId,
-          options,
-          settings
-        );
-      }
+        return this.listBySubscriptionIdAndEventIdPagingPage(eventTrackingId, options, settings);
+      },
     };
   }
 
   private async *listBySubscriptionIdAndEventIdPagingPage(
     eventTrackingId: string,
     options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventImpactedResource[]> {
     let result: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listBySubscriptionIdAndEventId(
-        eventTrackingId,
-        options
-      );
+      result = await this._listBySubscriptionIdAndEventId(eventTrackingId, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -93,7 +82,7 @@ export class SecurityAdvisoryImpactedResourcesImpl
       result = await this._listBySubscriptionIdAndEventIdNext(
         eventTrackingId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,11 +93,11 @@ export class SecurityAdvisoryImpactedResourcesImpl
 
   private async *listBySubscriptionIdAndEventIdPagingAll(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
   ): AsyncIterableIterator<EventImpactedResource> {
     for await (const page of this.listBySubscriptionIdAndEventIdPagingPage(
       eventTrackingId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -121,12 +110,9 @@ export class SecurityAdvisoryImpactedResourcesImpl
    */
   public listByTenantIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   ): PagedAsyncIterableIterator<EventImpactedResource> {
-    const iter = this.listByTenantIdAndEventIdPagingAll(
-      eventTrackingId,
-      options
-    );
+    const iter = this.listByTenantIdAndEventIdPagingAll(eventTrackingId, options);
     return {
       next() {
         return iter.next();
@@ -138,19 +124,15 @@ export class SecurityAdvisoryImpactedResourcesImpl
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listByTenantIdAndEventIdPagingPage(
-          eventTrackingId,
-          options,
-          settings
-        );
-      }
+        return this.listByTenantIdAndEventIdPagingPage(eventTrackingId, options, settings);
+      },
     };
   }
 
   private async *listByTenantIdAndEventIdPagingPage(
     eventTrackingId: string,
     options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventImpactedResource[]> {
     let result: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse;
     let continuationToken = settings?.continuationToken;
@@ -165,7 +147,7 @@ export class SecurityAdvisoryImpactedResourcesImpl
       result = await this._listByTenantIdAndEventIdNext(
         eventTrackingId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -176,12 +158,9 @@ export class SecurityAdvisoryImpactedResourcesImpl
 
   private async *listByTenantIdAndEventIdPagingAll(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
+    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
   ): AsyncIterableIterator<EventImpactedResource> {
-    for await (const page of this.listByTenantIdAndEventIdPagingPage(
-      eventTrackingId,
-      options
-    )) {
+    for await (const page of this.listByTenantIdAndEventIdPagingPage(eventTrackingId, options)) {
       yield* page;
     }
   }
@@ -193,13 +172,11 @@ export class SecurityAdvisoryImpactedResourcesImpl
    */
   private _listBySubscriptionIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams
-  ): Promise<
-    SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdResponse
-  > {
+    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdOptionalParams,
+  ): Promise<SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      listBySubscriptionIdAndEventIdOperationSpec
+      listBySubscriptionIdAndEventIdOperationSpec,
     );
   }
 
@@ -210,13 +187,11 @@ export class SecurityAdvisoryImpactedResourcesImpl
    */
   private _listByTenantIdAndEventId(
     eventTrackingId: string,
-    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams
-  ): Promise<
-    SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse
-  > {
+    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdOptionalParams,
+  ): Promise<SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, options },
-      listByTenantIdAndEventIdOperationSpec
+      listByTenantIdAndEventIdOperationSpec,
     );
   }
 
@@ -230,13 +205,11 @@ export class SecurityAdvisoryImpactedResourcesImpl
   private _listBySubscriptionIdAndEventIdNext(
     eventTrackingId: string,
     nextLink: string,
-    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextOptionalParams
-  ): Promise<
-    SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextResponse
-  > {
+    options?: SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextOptionalParams,
+  ): Promise<SecurityAdvisoryImpactedResourcesListBySubscriptionIdAndEventIdNextResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, nextLink, options },
-      listBySubscriptionIdAndEventIdNextOperationSpec
+      listBySubscriptionIdAndEventIdNextOperationSpec,
     );
   }
 
@@ -250,13 +223,11 @@ export class SecurityAdvisoryImpactedResourcesImpl
   private _listByTenantIdAndEventIdNext(
     eventTrackingId: string,
     nextLink: string,
-    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextOptionalParams
-  ): Promise<
-    SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse
-  > {
+    options?: SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextOptionalParams,
+  ): Promise<SecurityAdvisoryImpactedResourcesListByTenantIdAndEventIdNextResponse> {
     return this.client.sendOperationRequest(
       { eventTrackingId, nextLink, options },
-      listByTenantIdAndEventIdNextOperationSpec
+      listByTenantIdAndEventIdNextOperationSpec,
     );
   }
 }
@@ -264,79 +235,69 @@ export class SecurityAdvisoryImpactedResourcesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionIdAndEventIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventImpactedResourceListResult
+      bodyMapper: Mappers.EventImpactedResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.eventTrackingId
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantIdAndEventIdOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
+  path: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EventImpactedResourceListResult
+      bodyMapper: Mappers.EventImpactedResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.$host, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionIdAndEventIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventImpactedResourceListResult
+      bodyMapper: Mappers.EventImpactedResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.eventTrackingId
+    Parameters.eventTrackingId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTenantIdAndEventIdNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventImpactedResourceListResult
+      bodyMapper: Mappers.EventImpactedResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.eventTrackingId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.eventTrackingId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
