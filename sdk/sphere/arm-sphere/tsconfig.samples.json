@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-sphere": [
-        "./dist/esm"
-      ]
+      "@azure/arm-sphere": ["./dist/esm"]
     }
   }
 }
