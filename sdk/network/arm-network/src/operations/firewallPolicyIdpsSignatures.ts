@@ -18,9 +18,7 @@ import {
 } from "../models/index.js";
 
 /** Class containing FirewallPolicyIdpsSignatures operations. */
-export class FirewallPolicyIdpsSignaturesImpl
-  implements FirewallPolicyIdpsSignatures
-{
+export class FirewallPolicyIdpsSignaturesImpl implements FirewallPolicyIdpsSignatures {
   private readonly client: NetworkManagementClient;
 
   /**

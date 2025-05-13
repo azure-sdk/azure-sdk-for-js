@@ -109,10 +109,7 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
     skuName: string,
     options?: VirtualApplianceSkusGetOptionalParams,
   ): Promise<VirtualApplianceSkusGetResponse> {
-    return this.client.sendOperationRequest(
-      { skuName, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ skuName, options }, getOperationSpec);
   }
 
   /**
@@ -124,10 +121,7 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
     nextLink: string,
     options?: VirtualApplianceSkusListNextOptionalParams,
   ): Promise<VirtualApplianceSkusListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
@@ -161,11 +155,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.skuName,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.skuName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -180,11 +170,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

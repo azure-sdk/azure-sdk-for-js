@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
 import { NetworkManagementClient } from "../networkManagementClient.js";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualNetworkPeering,
@@ -56,11 +52,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
     virtualNetworkName: string,
     options?: VirtualNetworkPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkPeering> {
-    const iter = this.listPagingAll(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    );
+    const iter = this.listPagingAll(resourceGroupName, virtualNetworkName, options);
     return {
       next() {
         return iter.next();
@@ -72,12 +64,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
-          resourceGroupName,
-          virtualNetworkName,
-          options,
-          settings,
-        );
+        return this.listPagingPage(resourceGroupName, virtualNetworkName, options, settings);
       },
     };
   }
@@ -116,11 +103,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
     virtualNetworkName: string,
     options?: VirtualNetworkPeeringsListOptionalParams,
   ): AsyncIterableIterator<VirtualNetworkPeering> {
-    for await (const page of this.listPagingPage(
-      resourceGroupName,
-      virtualNetworkName,
-      options,
-    )) {
+    for await (const page of this.listPagingPage(resourceGroupName, virtualNetworkName, options)) {
       yield* page;
     }
   }
@@ -148,8 +131,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -272,8 +254,7 @@ export class VirtualNetworkPeeringsImpl implements VirtualNetworkPeerings {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,

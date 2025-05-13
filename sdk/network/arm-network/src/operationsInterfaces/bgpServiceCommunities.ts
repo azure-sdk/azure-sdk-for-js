@@ -7,10 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  BgpServiceCommunity,
-  BgpServiceCommunitiesListOptionalParams,
-} from "../models/index.js";
+import { BgpServiceCommunity, BgpServiceCommunitiesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BgpServiceCommunities. */

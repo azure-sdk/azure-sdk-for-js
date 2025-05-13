@@ -83,11 +83,7 @@ export class ManagementGroupNetworkManagerConnectionsImpl
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        managementGroupId,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(managementGroupId, continuationToken, options);
       continuationToken = result.nextLink;
       let page = result.value || [];
       setContinuationToken(page, continuationToken);
@@ -170,10 +166,7 @@ export class ManagementGroupNetworkManagerConnectionsImpl
     managementGroupId: string,
     options?: ManagementGroupNetworkManagerConnectionsListOptionalParams,
   ): Promise<ManagementGroupNetworkManagerConnectionsListResponse> {
-    return this.client.sendOperationRequest(
-      { managementGroupId, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ managementGroupId, options }, listOperationSpec);
   }
 
   /**
@@ -272,11 +265,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.top,
-    Parameters.skipToken1,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.top, Parameters.skipToken1],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -292,11 +281,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.managementGroupId,
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],
   serializer,
 };

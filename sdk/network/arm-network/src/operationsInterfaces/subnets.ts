@@ -90,10 +90,7 @@ export interface Subnets {
     subnetParameters: Subnet,
     options?: SubnetsCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<SubnetsCreateOrUpdateResponse>,
-      SubnetsCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<SubnetsCreateOrUpdateResponse>, SubnetsCreateOrUpdateResponse>
   >;
   /**
    * Creates or updates a subnet in the specified virtual network.
