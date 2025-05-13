@@ -1,28 +1,16 @@
-<!-- dev-tool snippets ignore -->
-
 # Release History
-
-## 1.1.0 (2025-05-08)
-
+    
+## 2.0.0 (2025-05-13)
+    
 ### Features Added
 
-- Supports alternative cloud environments (Azure United States Government and Azure China Cloud). To use an alternative cloud environment, provide a value for the `scopes` field of `DocumentIntelligenceClientOptions#credentials` to configure the client to authenticate within a [Sovereign Cloud](https://learn.microsoft.com/entra/identity-platform/authentication-national-cloud).
-  Import and use `KnownDocumentIntelligenceAudience` to get the correct values for a given cloud environment. The currently supported cloud environments are:
+  - Added operation group SimplePollerLike
 
-  - `KnownDocumentIntelligenceAudience.AzureChina` (`"https://cognitiveservices.azure.cn"`),
-  - `KnownDocumentIntelligenceAudience.AzureGovernment` (`"https://cognitiveservices.azure.us"`),
-  - `KnownDocumentIntelligenceAudience.AzurePublicCloud` (`"https://cognitiveservices.azure.com"`),
+### Breaking Changes
 
-  ```js
-    const client = DocumentIntelligence(
-      "<cognitive services endpoint>",
-      <--credential-->,
-      { credentials: { scopes: [ KnownDocumentIntelligenceAudience.AzureGovernment ] } }
-    );
-  ```
-
-  If `scopes` is undefined, the default value is suitable for the Azure Public Cloud `https://cognitiveservices.azure.com`.
-
+  - Removed function parseResultIdFromResponse
+  - Removed function streamToUint8Array
+    
 ## 1.0.0 (2024-12-16)
 
 ### Features Added
@@ -45,7 +33,7 @@
       "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
       "prebuilt-layout",
       resultId,
-      figureId,
+      figureId
     )
     .get()
     .asNodeStream(); // output.body would be NodeJS.ReadableStream
@@ -84,7 +72,7 @@
     .path(
       "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
       "prebuilt-layout",
-      batchResultId,
+      batchResultId
     )
     .get();
   ```
@@ -131,11 +119,6 @@ The following types are renamed
 - `ResourceDetailsOutput` to `DocumentIntelligenceResourceDetailsOutput`
 - `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
 - `GetResourceInfo` to `GetResourceDetails`
-- `AnalyzeResultOperationOutput` to `AnalyzeOperationOutput`
-- `FontWeightOutput` to `DocumentFontWeightOutput`
-- `FontStyleOutput` to `DocumentFontStyleOutput`
-- `DocumentOutput` to `AnalyzedDocumentOutput`
-- `CopyAuthorizationOutput` to `ModelCopyAuthorizationOutput`
 
 ## 1.0.0-beta.3 (2024-08-20)
 
@@ -263,7 +246,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
     Each page is treated as a separate document. Each empty page is kept as its own document.
 
-**Breaking Changes**
+### Breaking Changes
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 
