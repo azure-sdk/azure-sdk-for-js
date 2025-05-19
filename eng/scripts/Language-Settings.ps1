@@ -354,8 +354,8 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 }
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
-  $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
-
+  #$moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
+  $moduleFolders = ["contoso/arm-contoso"];
   $directoriesWithErrors = @()
 
   foreach ($directory in $moduleFolders) {
