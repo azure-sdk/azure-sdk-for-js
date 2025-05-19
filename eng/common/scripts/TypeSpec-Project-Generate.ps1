@@ -88,7 +88,7 @@ try {
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
     Write-Host "Running automation_init.sh"
-    Invoke-Expression "sh .scripts/automation_init.sh"
+    Invoke-Expression "sh $RepoRoot/.scripts/automation_init.sh"
 
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
