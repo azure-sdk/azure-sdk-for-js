@@ -90,6 +90,32 @@ try {
     Write-Host "Running automation_init.sh"
     Invoke-Expression "sh $RepoRoot/.scripts/automation_init.sh"
 
+    Write-Host "Creating inputJson file"
+    $fileGenerateInput = 'generateInput.json';
+    $fileGenerateOutput = 'generateOutput.json';
+    $file_content = @{
+      "specFolder" = "../azure-rest-api-specs"
+      "headSha" = $configuration["commit"]
+      "repoHttpsUrl" = "https://github.com/Azure/azure-rest-api-specs"
+      "changedFiles" = @()
+      "installInstructionInput" = @{
+        "isPublic" = $true
+        "downloadUrlPrefix" = ""
+        "downloadCommandTemplate" = "downloadCommand"
+      }
+      "relatedTypeSpecProjectFolder" = @(
+        $configuration["directory"]
+      )
+    }
+
+    $inputJsonPath = Join-Path $tempFolder $fileGenerateInput
+    $file_content | ConvertTo-Json -Depth 100 | Out-File -FilePath $inputJsonPath
+    Write-Host $file_content
+
+    $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
+    Write-Host "Running automation_generate.sh"
+    Invoke-Expression "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath"
+
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
     #     if ($emitterAdditionalOptions.Length -gt 0) {
