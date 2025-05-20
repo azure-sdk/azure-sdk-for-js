@@ -88,7 +88,7 @@ try {
     if ($LASTEXITCODE) { exit $LASTEXITCODE }
 
     Write-Host "Running automation_init.sh"
-    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_init.sh" -GroupOutput $true
+    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_init.sh" -GroupOutput
 
     Write-Host "Creating inputJson file"
     $fileGenerateInput = 'generateInput.json';
@@ -115,7 +115,7 @@ try {
 
     $outputJsonPath = Join-Path $tempFolder $fileGenerateOutput
     Write-Host "Running automation_generate.sh $inputJsonPath $outputJsonPath"
-    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath" -GroupOutput $true
+    Invoke-LoggedCommand "sh $RepoRoot/.scripts/automation_generate.sh $inputJsonPath $outputJsonPath" -GroupOutput
     # if (Test-Path "Function:$GetEmitterAdditionalOptionsFn") {
     #     $emitterAdditionalOptions = &$GetEmitterAdditionalOptionsFn $resolvedProjectDirectory
     #     if ($emitterAdditionalOptions.Length -gt 0) {
