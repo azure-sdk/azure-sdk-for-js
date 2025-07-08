@@ -228,7 +228,7 @@ try {
   $tspConfig = Get-Content $tspConfigPath -Raw | ConvertFrom-Yaml
   
   # Check if it's a modular library
-  $isModularLibrary = $false
+  $isModularLibrary = $null
   if ($tspConfig.options -and 
       $tspConfig.options.'@azure-tools/typespec-ts' -and 
       $tspConfig.options.'@azure-tools/typespec-ts'.'is-modular-library') {
