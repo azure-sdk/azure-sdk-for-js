@@ -457,6 +457,11 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       catch {
         Write-Host "Warning: Failed to parse tsp-location.yaml in $directory" -ForegroundColor Yellow
       }
+      
+      if ($isManagementSdk -ne $true) {
+        Write-Host "Skipping $directory because it is not a Management SDK" -ForegroundColor Yellow
+        continue
+      }
 
       Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
       Write-Host "$directory" -ForegroundColor Yellow
