@@ -418,19 +418,19 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
     ManagementSdkTypeSpecGenerateFailure = @()  # Management SDKs that fail TypeSpec generation
   }
 
-  # Define a list of directories to skip for better maintainability
-  $directoriesToSkip = @(
-    "ai/ai-inference-rest",
-    "contentsafety/ai-content-safety-rest",
-    "batch/batch-rest",
-    "documentintelligence/ai-document-intelligence-rest",
-    "computeschedule/arm-computeschedule",
-    "devcenter/developer-devcenter-rest",
-    "face/ai-vision-face-rest",
-    "loadtesting/load-testing-rest",
-    "databasewatcher/arm-databasewatcher"
-    # Add more directories to skip here as needed
-  )
+  # # Define a list of directories to skip for better maintainability
+  # $directoriesToSkip = @(
+  #   "ai/ai-inference-rest",
+  #   "contentsafety/ai-content-safety-rest",
+  #   "batch/batch-rest",
+  #   "documentintelligence/ai-document-intelligence-rest",
+  #   "computeschedule/arm-computeschedule",
+  #   "devcenter/developer-devcenter-rest",
+  #   "face/ai-vision-face-rest",
+  #   "loadtesting/load-testing-rest",
+  #   "databasewatcher/arm-databasewatcher"
+  #   # Add more directories to skip here as needed
+  # )
 
   foreach ($directory in $moduleFolders) {
     # Skip specific directories that should not be processed
@@ -457,7 +457,7 @@ function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
       catch {
         Write-Host "Warning: Failed to parse tsp-location.yaml in $directory" -ForegroundColor Yellow
       }
-      
+
       if ($isManagementSdk -ne $true) {
         Write-Host "Skipping $directory because it is not a Management SDK" -ForegroundColor Yellow
         continue
