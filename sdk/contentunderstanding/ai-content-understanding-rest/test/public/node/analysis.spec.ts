@@ -63,7 +63,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
   it("should analyze a document from URL", async () => {
     // Using a public PDF URL for testing
     const testUrl =
-      "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+      "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 
     const poller = client.analyze(testAnalyzerId, {
       inputs: [{ url: testUrl }],
@@ -84,7 +84,7 @@ describe("ContentUnderstandingClient - Analysis", () => {
 
   it("should analyze with markdown output", async () => {
     const testUrl =
-      "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+      "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 
     const poller = client.analyze(testAnalyzerId, {
       inputs: [{ url: testUrl }],

@@ -44,7 +44,7 @@ export async function main(): Promise<void> {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   const documentUrl =
-    "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+    "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 
   console.log("Document Analysis Workflow");
   console.log("=".repeat(60));

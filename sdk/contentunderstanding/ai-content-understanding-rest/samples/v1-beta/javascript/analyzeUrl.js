@@ -35,7 +35,7 @@ async function main() {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   const documentUrl =
-    "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+    "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 
   console.log("Analyzing document from URL with prebuilt-documentSearch...");
   console.log(`  URL: ${documentUrl}`);
