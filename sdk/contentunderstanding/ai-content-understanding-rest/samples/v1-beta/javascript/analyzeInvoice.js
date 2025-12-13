@@ -40,7 +40,7 @@ async function main() {
   const client = new ContentUnderstandingClient(endpoint, getCredential());
 
   const invoiceUrl =
-    "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+    "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 
   console.log("Analyzing invoice with prebuilt-invoice analyzer...");
   console.log(`  URL: ${invoiceUrl}`);

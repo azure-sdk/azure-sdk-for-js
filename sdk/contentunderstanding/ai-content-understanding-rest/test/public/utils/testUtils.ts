@@ -28,5 +28,5 @@ export function sleep(ms: number): Promise<void> {
  * Create a test URL for a public sample document
  */
 export function getPublicTestDocumentUrl(): string {
-  return "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/sample-invoice.pdf";
+  return "https://raw.githubusercontent.com/Azure-Samples/azure-ai-content-understanding-assets/main/document/invoice.pdf";
 }

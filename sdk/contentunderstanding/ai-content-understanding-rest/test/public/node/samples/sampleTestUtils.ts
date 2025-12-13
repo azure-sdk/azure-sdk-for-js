@@ -30,7 +30,7 @@ export const SAMPLES_DEV_EXAMPLE_DATA_PATH = path.resolve(
 
 // Test URLs for samples
 export const TEST_INVOICE_URL =
-  "https://github.com/Azure-Samples/azure-ai-content-understanding-python/raw/refs/heads/main/data/invoice.pdf";
+  "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/document/invoice.pdf";
 export const TEST_VIDEO_URL =
   "https://github.com/Azure-Samples/azure-ai-content-understanding-assets/raw/refs/heads/main/videos/sdk_samples/FlightSimulator.mp4";
 
