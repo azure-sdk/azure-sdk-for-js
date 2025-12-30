@@ -459,6 +459,36 @@ DEBUG ENV KEY DEFINED: true
 - **"key must be a non-empty string"**: The test process couldn't find your `AZURE_CONTENT_UNDERSTANDING_KEY`. Ensure `test/.env` or package-root `.env` is present and contains the key (or export it in your shell) before running tests.
 - **"Invalid request" LRO errors**: Ensure your service/region supports the analyzer used by the tests and that network access is available for URL-based inputs.
 
+### Running Samples Locally
+
+The samples directories are excluded from the pnpm workspace to avoid dependency conflicts. To run samples with the local development version of the package:
+
+1. Build the package:
+
+   ```bash
+   npx turbo build --filter=@azure-rest/ai-content-understanding...
+   ```
+
+2. Link the local package in the samples directories:
+
+   ```bash
+   cd sdk/contentunderstanding/ai-content-understanding-rest/samples/v1-beta/typescript
+   pnpm link ../../../
+   cd ../javascript
+   pnpm link ../../../
+   ```
+
+3. Install dependencies in the samples directories:
+
+   ```bash
+   cd sdk/contentunderstanding/ai-content-understanding-rest/samples/v1-beta/typescript
+   pnpm install
+   cd ../javascript
+   pnpm install
+   ```
+
+4. Follow the setup instructions in the [samples README][samples_directory].
+
 ## Next steps
 
 * Explore the [samples directory][samples_directory] for complete code examples
