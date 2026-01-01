@@ -4,8 +4,95 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@azure-rest/ai-content-understanding': link:sdk/contentunderstanding/ai-content-understanding-rest
+catalogs:
+  arm:
+    '@azure/arm-cognitiveservices':
+      specifier: 7.6.0
+      version: 7.6.0
+    '@azure/arm-resources':
+      specifier: ^5.0.0
+      version: 5.2.0
+    '@azure/arm-storage':
+      specifier: 18.5.0
+      version: 18.5.0
+    '@azure/arm-webpubsub':
+      specifier: 1.2.0
+      version: 1.2.0
+  default:
+    '@types/node':
+      specifier: ^20.19.25
+      version: 20.19.25
+    autorest:
+      specifier: latest
+      version: 3.7.2
+    cross-env:
+      specifier: ^7.0.3
+      version: 7.0.3
+    eslint:
+      specifier: ^9.39.1
+      version: 9.39.1
+    prettier:
+      specifier: ^3.6.2
+      version: 3.7.4
+    rimraf:
+      specifier: ^6.1.0
+      version: 6.1.2
+    tshy:
+      specifier: ^3.0.3
+      version: 3.1.0
+    tslib:
+      specifier: ^2.8.1
+      version: 2.8.1
+    tsx:
+      specifier: ^4.20.4
+      version: 4.21.0
+    typescript:
+      specifier: ~5.9.3
+      version: 5.9.3
+  internal:
+    '@azure/identity':
+      specifier: 4.13.0
+      version: 4.13.0
+    express:
+      specifier: ^5.2.1
+      version: 5.2.1
+  testing:
+    '@rollup/plugin-inject':
+      specifier: ^5.0.5
+      version: 5.0.5
+    '@types/chai-as-promised':
+      specifier: ^8.0.2
+      version: 8.0.2
+    '@vitest/browser-playwright':
+      specifier: ^4.0.8
+      version: 4.0.15
+    '@vitest/coverage-istanbul':
+      specifier: ^4.0.8
+      version: 4.0.15
+    '@vitest/expect':
+      specifier: ^4.0.6
+      version: 4.0.15
+    chai:
+      specifier: ^6.2.0
+      version: 6.2.1
+    chai-as-promised:
+      specifier: ^8.0.1
+      version: 8.0.2
+    chai-exclude:
+      specifier: ^3.0.0
+      version: 3.0.1
+    dotenv:
+      specifier: ^16.6.1
+      version: 16.6.1
+    nock:
+      specifier: ^13.5.6
+      version: 13.5.6
+    playwright:
+      specifier: ^1.56.1
+      version: 1.57.0
+    vitest:
+      specifier: ^4.0.8
+      version: 4.0.15
 
 importers:
 
@@ -7644,53 +7731,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 4.0.15(@opentelemetry/api@1.9.0)(@types/node@20.19.25)(@vitest/browser-playwright@4.0.15)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.25)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
-
-  sdk/contentunderstanding/ai-content-understanding-rest/samples/v1-beta/javascript:
-    dependencies:
-      '@azure-rest/ai-content-understanding':
-        specifier: link:../../..
-        version: link:../../..
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../../../../core/core-auth
-      '@azure/identity':
-        specifier: ^4.13.0
-        version: 4.13.0
-      dotenv:
-        specifier: latest
-        version: 17.2.3
-    devDependencies:
-      cross-env:
-        specifier: latest
-        version: 10.1.0
-
-  sdk/contentunderstanding/ai-content-understanding-rest/samples/v1-beta/typescript:
-    dependencies:
-      '@azure-rest/ai-content-understanding':
-        specifier: link:../../..
-        version: link:../../..
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../../../../core/core-auth
-      '@azure/identity':
-        specifier: ^4.13.0
-        version: 4.13.0
-      dotenv:
-        specifier: latest
-        version: 17.2.3
-    devDependencies:
-      '@types/node':
-        specifier: ^20.0.0
-        version: 20.19.25
-      cross-env:
-        specifier: latest
-        version: 10.1.0
-      rimraf:
-        specifier: latest
-        version: 6.1.2
-      typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
 
   sdk/core/abort-controller:
     dependencies:
@@ -34059,9 +34099,6 @@ packages:
     resolution: {integrity: sha512-nt88P6m20AaVbqMxsyPf8KqyWPaFEW2UANi0ijBxc2xTkD2KiUovxfZUYW6NMU9XBYZlovT5LztkEhst2yBcSA==}
     engines: {node: '>=20'}
 
-  '@epic-web/invariant@1.0.0':
-    resolution: {integrity: sha512-lrTPqgvfFQtR/eY/qkIzp98OGdNJu0m5ji3q/nJI8v3SXkRKEnWiOxMmbvcSoAIzv/cGiuvRy57k4suKQSAdwA==}
-
   '@esbuild/aix-ppc64@0.25.12':
     resolution: {integrity: sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==}
     engines: {node: '>=18'}
@@ -36138,11 +36175,6 @@ packages:
     resolution: {integrity: sha512-3z9tP1rPBLG7pQYn9iRgl7JOSew0SMPuWmakaRfzhXpmFBHmRbp7JekpuqPkXbbWOdSeKSbInYEcdIZjov2fNQ==}
     engines: {node: '>=20'}
 
-  cross-env@10.1.0:
-    resolution: {integrity: sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==}
-    engines: {node: '>=20'}
-    hasBin: true
-
   cross-env@7.0.3:
     resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
     engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
@@ -36305,10 +36337,6 @@ packages:
 
   dotenv@16.6.1:
     resolution: {integrity: sha512-uBq4egWHTcTt33a72vpSG0z3HnPuIl6NqYcTrKEg2azoEyl2hpW0zqlxysq2pK9HlDIHyHyakeYaYnSAwd8bow==}
-    engines: {node: '>=12'}
-
-  dotenv@17.2.3:
-    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
     engines: {node: '>=12'}
 
   dunder-proto@1.0.1:
@@ -39795,8 +39823,6 @@ snapshots:
 
   '@cspell/url@9.4.0': {}
 
-  '@epic-web/invariant@1.0.0': {}
-
   '@esbuild/aix-ppc64@0.25.12':
     optional: true
 
@@ -42026,11 +42052,6 @@ snapshots:
       p-filter: 4.1.0
       p-map: 7.0.4
 
-  cross-env@10.1.0:
-    dependencies:
-      '@epic-web/invariant': 1.0.0
-      cross-spawn: 7.0.6
-
   cross-env@7.0.3:
     dependencies:
       cross-spawn: 7.0.6
@@ -42217,8 +42238,6 @@ snapshots:
     optional: true
 
   dotenv@16.6.1: {}
-
-  dotenv@17.2.3: {}
 
   dunder-proto@1.0.1:
     dependencies:
