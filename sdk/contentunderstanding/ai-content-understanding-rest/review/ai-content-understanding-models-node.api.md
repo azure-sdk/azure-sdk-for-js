@@ -4,7 +4,7 @@
 
 ```ts
 
-import type { ErrorModel } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 
 // @public
 export interface AnalyzeInput {
@@ -467,6 +467,11 @@ export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" |
 
 // @public
 export type ProcessingLocation = "geography" | "dataZone" | "global";
+
+// @public
+export interface RecordMergePatchUpdate {
+    additionalProperties?: Record<string, string>;
+}
 
 // @public
 export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" | "sectionHeading" | "footnote" | "formulaBlock";
