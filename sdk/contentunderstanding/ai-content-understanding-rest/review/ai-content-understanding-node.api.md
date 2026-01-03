@@ -4,15 +4,15 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
+import { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorModel } from '@azure-rest/core-client';
+import { ErrorModel } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState as OperationState_2 } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState as OperationState_2 } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -597,6 +597,11 @@ export interface PageSettings {
 export type ProcessingLocation = "geography" | "dataZone" | "global";
 
 // @public
+export interface RecordMergePatchUpdate {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentUnderstandingClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
@@ -657,7 +662,7 @@ export interface UpdateAnalyzerOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
+    modelDeployments?: RecordMergePatchUpdate;
 }
 
 // @public

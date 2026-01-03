@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorModel } from "@azure-rest/core-client";
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
+import { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 
 /**
@@ -992,7 +993,9 @@ export function documentChartFigureDeserializer(item: any): DocumentChartFigure 
       : documentFootnoteArrayDeserializer(item["footnotes"]),
     description: item["description"],
     role: item["role"],
-    content: item["content"],
+    content: Object.fromEntries(
+      Object.entries(item["content"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1395,7 +1398,9 @@ export function usageDetailsDeserializer(item: any): UsageDetails {
     audioHours: item["audioHours"],
     videoHours: item["videoHours"],
     contextualizationTokens: item["contextualizationTokens"],
-    tokens: item["tokens"],
+    tokens: !item["tokens"]
+      ? item["tokens"]
+      : Object.fromEntries(Object.entries(item["tokens"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1458,7 +1463,9 @@ export function contentAnalyzerDeserializer(item: any): ContentAnalyzer {
   return {
     analyzerId: item["analyzerId"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     status: item["status"],
     createdAt: new Date(item["createdAt"]),
     lastModifiedAt: new Date(item["lastModifiedAt"]),
@@ -1477,7 +1484,9 @@ export function contentAnalyzerDeserializer(item: any): ContentAnalyzer {
     knowledgeSources: !item["knowledgeSources"]
       ? item["knowledgeSources"]
       : knowledgeSourceUnionArrayDeserializer(item["knowledgeSources"]),
-    models: item["models"],
+    models: !item["models"]
+      ? item["models"]
+      : Object.fromEntries(Object.entries(item["models"]).map(([k, p]: [string, any]) => [k, p])),
     supportedModels: !item["supportedModels"]
       ? item["supportedModels"]
       : supportedModelsDeserializer(item["supportedModels"]),
@@ -1762,7 +1771,11 @@ export function contentFieldDefinitionDeserializer(item: any): ContentFieldDefin
       : item["enum"].map((p: any) => {
           return p;
         }),
-    enumDescriptions: item["enumDescriptions"],
+    enumDescriptions: !item["enumDescriptions"]
+      ? item["enumDescriptions"]
+      : Object.fromEntries(
+          Object.entries(item["enumDescriptions"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     ref: item["$ref"],
     estimateSourceAndConfidence: item["estimateSourceAndConfidence"],
   };
@@ -1918,7 +1931,9 @@ export interface ContentUnderstandingDefaults {
 
 export function contentUnderstandingDefaultsDeserializer(item: any): ContentUnderstandingDefaults {
   return {
-    modelDeployments: item["modelDeployments"],
+    modelDeployments: Object.fromEntries(
+      Object.entries(item["modelDeployments"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1965,6 +1980,16 @@ export function contentAnalyzerArrayDeserializer(result: Array<ContentAnalyzer>)
   return result.map((item) => {
     return contentAnalyzerDeserializer(item);
   });
+}
+
+/** model interface RecordMergePatchUpdate */
+export interface RecordMergePatchUpdate {
+  /** Additional properties */
+  additionalProperties?: Record<string, string>;
+}
+
+export function recordMergePatchUpdateSerializer(item: RecordMergePatchUpdate): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
 
 /** Service API versions. */

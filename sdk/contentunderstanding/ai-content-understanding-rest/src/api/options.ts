@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AnalyzeInput, ProcessingLocation } from "../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { AnalyzeInput, ProcessingLocation, RecordMergePatchUpdate } from "../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
@@ -10,7 +10,7 @@ export interface UpdateDefaultsOptionalParams extends OperationOptions {
    * Mapping of model names to deployments.
    * Ex. { "gpt-4.1": "myGpt41Deployment", "text-embedding-3-large": "myTextEmbedding3LargeDeployment" }.
    */
-  modelDeployments?: Record<string, string>;
+  modelDeployments?: RecordMergePatchUpdate;
 }
 
 /** Optional parameters. */
