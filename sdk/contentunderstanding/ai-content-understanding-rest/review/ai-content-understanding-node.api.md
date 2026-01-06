@@ -53,12 +53,18 @@ export interface AnalyzeResult {
     warnings?: ErrorModel[];
 }
 
+// @public (undocumented)
+export interface AnalyzeResultPoller extends PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult> {
+    operationId?: string;
+}
+
 // @public
 export type AnnotationFormat = "none" | "markdown";
 
 // @public
 export interface ArrayField extends ContentField {
     fieldType: "array";
+    value?: ContentFieldUnion[];
     valueArray?: ContentFieldUnion[];
 }
 
@@ -87,6 +93,7 @@ export interface AudioVisualContentSegment {
 // @public
 export interface BooleanField extends ContentField {
     fieldType: "boolean";
+    value?: boolean;
     valueBoolean?: boolean;
 }
 
@@ -166,6 +173,7 @@ export interface ContentField {
     source?: string;
     spans?: ContentSpan[];
     type: ContentFieldType;
+    value?: any;
 }
 
 // @public
@@ -205,8 +213,8 @@ export interface ContentSpan {
 // @public (undocumented)
 export class ContentUnderstandingClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: ContentUnderstandingClientOptionalParams);
-    analyze(analyzerId: string, options?: AnalyzeOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
-    analyzeBinary(analyzerId: string, contentType: string, binaryInput: Uint8Array, options?: AnalyzeBinaryOptionalParams): PollerLike<OperationState_2<AnalyzeResult>, AnalyzeResult>;
+    analyze(analyzerId: string, options?: AnalyzeOptionalParams): AnalyzeResultPoller;
+    analyzeBinary(analyzerId: string, binaryInput: Uint8Array, contentType?: string, options?: AnalyzeBinaryOptionalParams): AnalyzeResultPoller;
     copyAnalyzer(analyzerId: string, sourceAnalyzerId: string, options?: CopyAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     createAnalyzer(analyzerId: string, resource: ContentAnalyzer, options?: CreateAnalyzerOptionalParams): PollerLike<OperationState_2<ContentAnalyzer>, ContentAnalyzer>;
     deleteAnalyzer(analyzerId: string, options?: DeleteAnalyzerOptionalParams): Promise<void>;
@@ -264,6 +272,7 @@ export interface CreateAnalyzerOptionalParams extends OperationOptions {
 // @public
 export interface DateField extends ContentField {
     fieldType: "date";
+    value?: string;
     valueDate?: string;
 }
 
@@ -508,12 +517,14 @@ export interface GrantCopyAuthorizationOptionalParams extends OperationOptions {
 // @public
 export interface IntegerField extends ContentField {
     fieldType: "integer";
+    value?: number;
     valueInteger?: number;
 }
 
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
+    value?: any;
     valueJson?: any;
 }
 
@@ -569,12 +580,14 @@ export type MediaContentUnion = DocumentContent | AudioVisualContent | MediaCont
 // @public
 export interface NumberField extends ContentField {
     fieldType: "number";
+    value?: number;
     valueNumber?: number;
 }
 
 // @public
 export interface ObjectField extends ContentField {
     fieldType: "object";
+    value?: Record<string, ContentFieldUnion>;
     valueObject?: Record<string, ContentFieldUnion>;
 }
 
@@ -597,6 +610,11 @@ export interface PageSettings {
 export type ProcessingLocation = "geography" | "dataZone" | "global";
 
 // @public
+export interface RecordMergePatchUpdate {
+    additionalProperties?: Record<string, string>;
+}
+
+// @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContentUnderstandingClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState_2<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState_2<TResult>, TResult>;
 
 // @public (undocumented)
@@ -612,6 +630,7 @@ export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" 
 // @public
 export interface StringField extends ContentField {
     fieldType: "string";
+    value?: string;
     valueString?: string;
 }
 
@@ -627,6 +646,7 @@ export type TableFormat = "html" | "markdown";
 // @public
 export interface TimeField extends ContentField {
     fieldType: "time";
+    value?: string;
     valueTime?: string;
 }
 
@@ -657,7 +677,7 @@ export interface UpdateAnalyzerOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
+    modelDeployments?: RecordMergePatchUpdate;
 }
 
 // @public

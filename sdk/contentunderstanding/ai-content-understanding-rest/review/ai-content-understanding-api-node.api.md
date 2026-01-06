@@ -154,7 +154,7 @@ export function updateDefaults(context: ContentUnderstandingContext, options?: U
 
 // @public
 export interface UpdateDefaultsOptionalParams extends OperationOptions {
-    modelDeployments?: Record<string, string>;
+    modelDeployments?: RecordMergePatchUpdate;
 }
 
 // (No @packageDocumentation comment for this package)

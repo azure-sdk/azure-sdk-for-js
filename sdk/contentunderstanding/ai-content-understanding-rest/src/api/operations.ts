@@ -20,6 +20,7 @@ import {
   contentAnalyzerOperationStatusDeserializer,
   contentUnderstandingDefaultsDeserializer,
   copyAuthorizationDeserializer,
+  recordMergePatchUpdateSerializer,
   _pagedContentAnalyzerDeserializer,
 } from "../models/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
@@ -64,11 +65,12 @@ export function _updateDefaultsSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/merge-patch+json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      modelDeployments: !options?.modelDeployments
+        ? options?.modelDeployments
+        : recordMergePatchUpdateSerializer(options?.modelDeployments),
     },
-    body: { modelDeployments: {} },
   });
 }
 
@@ -220,10 +222,7 @@ export function _grantCopyAuthorizationSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: {
-      targetAzureResourceId: targetAzureResourceId,
-      targetRegion: options?.targetRegion,
-    },
+    body: { targetAzureResourceId: targetAzureResourceId, targetRegion: options?.targetRegion },
   });
 }
 
@@ -317,10 +316,7 @@ export function _getResultSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -364,10 +360,7 @@ export function _getOperationStatusSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -408,10 +401,7 @@ export function _getDefaultsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -702,7 +692,7 @@ export function _analyzeBinarySend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: options?.stringEncoding ?? "utf16",
       processingLocation: options?.processingLocation,
       range: options?.inputRange,
     },
@@ -769,7 +759,7 @@ export function _analyzeSend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion,
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: options?.stringEncoding ?? "utf16",
       processingLocation: options?.processingLocation,
     },
     {

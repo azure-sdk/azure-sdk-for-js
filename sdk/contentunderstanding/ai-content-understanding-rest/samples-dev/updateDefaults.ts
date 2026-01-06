@@ -5,21 +5,24 @@
  * @summary Configure and retrieve default model deployment settings.
  *
  * This sample demonstrates how to configure and retrieve default model deployment settings
- * for your Microsoft Foundry resource. This is a required one-time setup before using
- * prebuilt analyzers.
+ * for your Microsoft Foundry resource. This is a required one-time setup per Microsoft Foundry
+ * resource before using prebuilt or custom analyzers.
  *
- * Content Understanding prebuilt analyzers require specific GPT model deployments to function:
- * - GPT-4.1: Used by most prebuilt analyzers (e.g., prebuilt-invoice, prebuilt-receipt)
- * - GPT-4.1-mini: Used by RAG analyzers (e.g., prebuilt-documentSearch, prebuilt-audioSearch)
+ * Content Understanding prebuilt analyzers and custom analyzers require specific large language
+ * model deployments to function. Currently, Content Understanding uses OpenAI GPT models:
+ * - gpt-4.1: Used by most prebuilt analyzers (e.g., prebuilt-invoice, prebuilt-receipt)
+ * - gpt-4.1-mini: Used by RAG analyzers (e.g., prebuilt-documentSearch, prebuilt-audioSearch)
  * - text-embedding-3-large: Used for semantic search and embeddings
+ *
+ * @azsdk-weight 100
  */
 
-require("dotenv/config");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { ContentUnderstandingClient } = require("@azure-rest/ai-content-understanding");
+import "dotenv/config";
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ContentUnderstandingClient } from "@azure-rest/ai-content-understanding";
 
-function getCredential() {
+function getCredential(): DefaultAzureCredential | AzureKeyCredential {
   const key = process.env["AZURE_CONTENT_UNDERSTANDING_KEY"];
   if (key) {
     return new AzureKeyCredential(key);
@@ -27,7 +30,7 @@ function getCredential() {
   return new DefaultAzureCredential();
 }
 
-async function main() {
+export async function main(): Promise<void> {
   console.log("== Configure Defaults Sample ==");
 
   const endpoint = process.env["AZURE_CONTENT_UNDERSTANDING_ENDPOINT"];
@@ -43,7 +46,7 @@ async function main() {
   const textEmbedding3LargeDeployment = process.env["TEXT_EMBEDDING_3_LARGE_DEPLOYMENT"];
 
   // Check if required deployments are configured
-  const missingDeployments = [];
+  const missingDeployments: string[] = [];
   if (!gpt41Deployment) {
     missingDeployments.push("GPT_4_1_DEPLOYMENT");
   }
@@ -64,19 +67,21 @@ async function main() {
   }
 
   // Map your deployed models to the models required by prebuilt analyzers
-  const modelDeployments = {
-    "gpt-4.1": gpt41Deployment,
-    "gpt-4.1-mini": gpt41MiniDeployment,
-    "text-embedding-3-large": textEmbedding3LargeDeployment,
+  const modelDeployments: Record<string, string> = {
+    "gpt-4.1": gpt41Deployment!,
+    "gpt-4.1-mini": gpt41MiniDeployment!,
+    "text-embedding-3-large": textEmbedding3LargeDeployment!,
   };
 
   console.log("Configuring model deployments...");
-  const updatedDefaults = await client.updateDefaults({ modelDeployments });
+  const updatedDefaults = await client.updateDefaults({
+    modelDeployments: { additionalProperties: modelDeployments },
+  });
 
   console.log("Model deployments configured successfully!");
   if (updatedDefaults.modelDeployments) {
     for (const [modelName, deploymentName] of Object.entries(updatedDefaults.modelDeployments)) {
-      console.log(`  ${modelName} -> ${deploymentName}`);
+      console.log(`  ${modelName}: ${deploymentName}`);
     }
   }
 
@@ -87,7 +92,7 @@ async function main() {
   console.log("\nCurrent model deployment mappings:");
   if (defaults.modelDeployments && Object.keys(defaults.modelDeployments).length > 0) {
     for (const [modelName, deploymentName] of Object.entries(defaults.modelDeployments)) {
-      console.log(`  ${modelName} -> ${deploymentName}`);
+      console.log(`  ${modelName}: ${deploymentName}`);
     }
   } else {
     console.log("  No model deployments configured yet.");
@@ -97,5 +102,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

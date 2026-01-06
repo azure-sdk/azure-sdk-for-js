@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import type { ErrorModel } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 
@@ -154,6 +155,8 @@ export interface ContentField {
   confidence?: number;
   /** Encoded source that identifies the position of the field value in the content. */
   source?: string;
+  /** The value of the field. */
+  value?: any;
 }
 
 export function contentFieldDeserializer(item: any): ContentField {
@@ -162,6 +165,7 @@ export function contentFieldDeserializer(item: any): ContentField {
     spans: !item["spans"] ? item["spans"] : contentSpanArrayDeserializer(item["spans"]),
     confidence: item["confidence"],
     source: item["source"],
+    value: undefined,
   };
 }
 
@@ -251,6 +255,8 @@ export interface StringField extends ContentField {
   fieldType: "string";
   /** String field value. */
   valueString?: string;
+  /** The value of the field. */
+  value?: string;
 }
 
 export function stringFieldDeserializer(item: any): StringField {
@@ -261,6 +267,7 @@ export function stringFieldDeserializer(item: any): StringField {
     source: item["source"],
     fieldType: item["type"],
     valueString: item["valueString"],
+    value: item["valueString"],
   };
 }
 
@@ -270,6 +277,8 @@ export interface DateField extends ContentField {
   fieldType: "date";
   /** Date field value, in ISO 8601 (YYYY-MM-DD) format. */
   valueDate?: string;
+  /** The value of the field. */
+  value?: string;
 }
 
 export function dateFieldDeserializer(item: any): DateField {
@@ -280,6 +289,7 @@ export function dateFieldDeserializer(item: any): DateField {
     source: item["source"],
     fieldType: item["type"],
     valueDate: item["valueDate"],
+    value: item["valueDate"],
   };
 }
 
@@ -289,6 +299,8 @@ export interface TimeField extends ContentField {
   fieldType: "time";
   /** Time field value, in ISO 8601 (hh:mm:ss) format. */
   valueTime?: string;
+  /** The value of the field. */
+  value?: string;
 }
 
 export function timeFieldDeserializer(item: any): TimeField {
@@ -299,6 +311,7 @@ export function timeFieldDeserializer(item: any): TimeField {
     source: item["source"],
     fieldType: item["type"],
     valueTime: item["valueTime"],
+    value: item["valueTime"],
   };
 }
 
@@ -308,6 +321,8 @@ export interface NumberField extends ContentField {
   fieldType: "number";
   /** Number field value. */
   valueNumber?: number;
+  /** The value of the field. */
+  value?: number;
 }
 
 export function numberFieldDeserializer(item: any): NumberField {
@@ -318,6 +333,7 @@ export function numberFieldDeserializer(item: any): NumberField {
     source: item["source"],
     fieldType: item["type"],
     valueNumber: item["valueNumber"],
+    value: item["valueNumber"],
   };
 }
 
@@ -327,6 +343,8 @@ export interface IntegerField extends ContentField {
   fieldType: "integer";
   /** Integer field value. */
   valueInteger?: number;
+  /** The value of the field. */
+  value?: number;
 }
 
 export function integerFieldDeserializer(item: any): IntegerField {
@@ -337,6 +355,7 @@ export function integerFieldDeserializer(item: any): IntegerField {
     source: item["source"],
     fieldType: item["type"],
     valueInteger: item["valueInteger"],
+    value: item["valueInteger"],
   };
 }
 
@@ -346,6 +365,8 @@ export interface BooleanField extends ContentField {
   fieldType: "boolean";
   /** Boolean field value. */
   valueBoolean?: boolean;
+  /** The value of the field. */
+  value?: boolean;
 }
 
 export function booleanFieldDeserializer(item: any): BooleanField {
@@ -356,6 +377,7 @@ export function booleanFieldDeserializer(item: any): BooleanField {
     source: item["source"],
     fieldType: item["type"],
     valueBoolean: item["valueBoolean"],
+    value: item["valueBoolean"],
   };
 }
 
@@ -365,18 +387,22 @@ export interface ArrayField extends ContentField {
   fieldType: "array";
   /** Array field value. */
   valueArray?: ContentFieldUnion[];
+  /** The value of the field. */
+  value?: ContentFieldUnion[];
 }
 
 export function arrayFieldDeserializer(item: any): ArrayField {
+  const valueArray = !item["valueArray"]
+    ? item["valueArray"]
+    : contentFieldUnionArrayDeserializer(item["valueArray"]);
   return {
     type: item["type"],
     spans: !item["spans"] ? item["spans"] : contentSpanArrayDeserializer(item["spans"]),
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    valueArray: !item["valueArray"]
-      ? item["valueArray"]
-      : contentFieldUnionArrayDeserializer(item["valueArray"]),
+    valueArray: valueArray,
+    value: valueArray,
   };
 }
 
@@ -392,18 +418,22 @@ export interface ObjectField extends ContentField {
   fieldType: "object";
   /** Object field value. */
   valueObject?: Record<string, ContentFieldUnion>;
+  /** The value of the field. */
+  value?: Record<string, ContentFieldUnion>;
 }
 
 export function objectFieldDeserializer(item: any): ObjectField {
+  const valueObject = !item["valueObject"]
+    ? item["valueObject"]
+    : contentFieldUnionRecordDeserializer(item["valueObject"]);
   return {
     type: item["type"],
     spans: !item["spans"] ? item["spans"] : contentSpanArrayDeserializer(item["spans"]),
     confidence: item["confidence"],
     source: item["source"],
     fieldType: item["type"],
-    valueObject: !item["valueObject"]
-      ? item["valueObject"]
-      : contentFieldUnionRecordDeserializer(item["valueObject"]),
+    valueObject: valueObject,
+    value: valueObject,
   };
 }
 
@@ -413,6 +443,8 @@ export interface JsonField extends ContentField {
   fieldType: "json";
   /** JSON field value. */
   valueJson?: any;
+  /** The value of the field. */
+  value?: any;
 }
 
 export function jsonFieldDeserializer(item: any): JsonField {
@@ -423,6 +455,7 @@ export function jsonFieldDeserializer(item: any): JsonField {
     source: item["source"],
     fieldType: item["type"],
     valueJson: item["valueJson"],
+    value: item["valueJson"],
   };
 }
 
@@ -992,7 +1025,9 @@ export function documentChartFigureDeserializer(item: any): DocumentChartFigure 
       : documentFootnoteArrayDeserializer(item["footnotes"]),
     description: item["description"],
     role: item["role"],
-    content: item["content"],
+    content: Object.fromEntries(
+      Object.entries(item["content"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1222,11 +1257,10 @@ export function audioVisualContentDeserializer(item: any): AudioVisualContent {
       : item["cameraShotTimesMs"].map((p: any) => {
           return p;
         }),
-    keyFrameTimesMs: !item["KeyFrameTimesMs"]
-      ? item["KeyFrameTimesMs"]
-      : item["KeyFrameTimesMs"].map((p: any) => {
-          return p;
-        }),
+    keyFrameTimesMs: (() => {
+      const val = item["keyFrameTimesMs"] ?? item["KeyFrameTimesMs"];
+      return !val ? val : val.map((p: any) => p);
+    })(),
     transcriptPhrases: !item["transcriptPhrases"]
       ? item["transcriptPhrases"]
       : transcriptPhraseArrayDeserializer(item["transcriptPhrases"]),
@@ -1395,7 +1429,9 @@ export function usageDetailsDeserializer(item: any): UsageDetails {
     audioHours: item["audioHours"],
     videoHours: item["videoHours"],
     contextualizationTokens: item["contextualizationTokens"],
-    tokens: item["tokens"],
+    tokens: !item["tokens"]
+      ? item["tokens"]
+      : Object.fromEntries(Object.entries(item["tokens"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -1458,7 +1494,9 @@ export function contentAnalyzerDeserializer(item: any): ContentAnalyzer {
   return {
     analyzerId: item["analyzerId"],
     description: item["description"],
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     status: item["status"],
     createdAt: new Date(item["createdAt"]),
     lastModifiedAt: new Date(item["lastModifiedAt"]),
@@ -1477,7 +1515,9 @@ export function contentAnalyzerDeserializer(item: any): ContentAnalyzer {
     knowledgeSources: !item["knowledgeSources"]
       ? item["knowledgeSources"]
       : knowledgeSourceUnionArrayDeserializer(item["knowledgeSources"]),
-    models: item["models"],
+    models: !item["models"]
+      ? item["models"]
+      : Object.fromEntries(Object.entries(item["models"]).map(([k, p]: [string, any]) => [k, p])),
     supportedModels: !item["supportedModels"]
       ? item["supportedModels"]
       : supportedModelsDeserializer(item["supportedModels"]),
@@ -1762,7 +1802,11 @@ export function contentFieldDefinitionDeserializer(item: any): ContentFieldDefin
       : item["enum"].map((p: any) => {
           return p;
         }),
-    enumDescriptions: item["enumDescriptions"],
+    enumDescriptions: !item["enumDescriptions"]
+      ? item["enumDescriptions"]
+      : Object.fromEntries(
+          Object.entries(item["enumDescriptions"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     ref: item["$ref"],
     estimateSourceAndConfidence: item["estimateSourceAndConfidence"],
   };
@@ -1918,7 +1962,9 @@ export interface ContentUnderstandingDefaults {
 
 export function contentUnderstandingDefaultsDeserializer(item: any): ContentUnderstandingDefaults {
   return {
-    modelDeployments: item["modelDeployments"],
+    modelDeployments: Object.fromEntries(
+      Object.entries(item["modelDeployments"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -1965,6 +2011,16 @@ export function contentAnalyzerArrayDeserializer(result: Array<ContentAnalyzer>)
   return result.map((item) => {
     return contentAnalyzerDeserializer(item);
   });
+}
+
+/** model interface RecordMergePatchUpdate */
+export interface RecordMergePatchUpdate {
+  /** Additional properties */
+  additionalProperties?: Record<string, string>;
+}
+
+export function recordMergePatchUpdateSerializer(item: RecordMergePatchUpdate): any {
+  return { ...serializeRecord(item.additionalProperties ?? {}) };
 }
 
 /** Service API versions. */

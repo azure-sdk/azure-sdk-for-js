@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { ContentUnderstandingClient } from "./contentUnderstandingClient.js";
+export { ContentUnderstandingClient, AnalyzeResultPoller } from "./contentUnderstandingClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   AnalyzeInput,
@@ -81,6 +81,7 @@ export {
   ContentAnalyzerOperationStatus,
   ContentUnderstandingDefaults,
   CopyAuthorization,
+  RecordMergePatchUpdate,
   KnownVersions,
 } from "./models/index.js";
 export {
