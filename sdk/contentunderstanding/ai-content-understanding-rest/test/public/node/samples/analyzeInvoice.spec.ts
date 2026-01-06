@@ -7,10 +7,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContentUnderstandingClient } from "../../../../src/index.js";
-import {
-  type DocumentContent,
-  type ArrayField,
-} from "../../../../src/index.js";
+import { type DocumentContent, type ArrayField } from "../../../../src/index.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
 import {
   createRecorder,
