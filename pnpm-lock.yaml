@@ -12105,13 +12105,13 @@ importers:
         version: 4.13.0
       '@types/node':
         specifier: 'catalog:'
-        version: 20.19.29
+        version: 20.19.30
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.0.17(msw@2.7.3(@types/node@20.19.29)(typescript@5.9.3))(playwright@1.57.0)(vite@7.3.1(@types/node@20.19.29)(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.17)
+        version: 4.0.18(playwright@1.58.1)(vite@7.3.1(@types/node@20.19.30)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.0.17(vitest@4.0.17)
+        version: 4.0.18(vitest@4.0.18)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -12123,10 +12123,10 @@ importers:
         version: 9.39.2
       playwright:
         specifier: catalog:testing
-        version: 1.57.0
+        version: 1.58.1
       prettier:
         specifier: 'catalog:'
-        version: 3.7.4
+        version: 3.8.1
       rimraf:
         specifier: 'catalog:'
         version: 6.1.2
@@ -12138,7 +12138,7 @@ importers:
         version: 5.9.3
       vitest:
         specifier: catalog:testing
-        version: 4.0.17(@opentelemetry/api@1.9.0)(@types/node@20.19.29)(@vitest/browser-playwright@4.0.17)(jsdom@16.7.0)(msw@2.7.3(@types/node@20.19.29)(typescript@5.9.3))(terser@5.39.0)(tsx@4.21.0)(yaml@2.8.2)
+        version: 4.0.18(@opentelemetry/api@1.9.0)(@types/node@20.19.30)(@vitest/browser-playwright@4.0.18)(tsx@4.21.0)(yaml@2.8.2)
 
   sdk/edgezones/arm-edgezones:
     dependencies:
@@ -15727,8 +15727,8 @@ importers:
         specifier: ^2.0.0
         version: 2.5.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation':
-        specifier: ^0.200.0
-        version: 0.200.0(@opentelemetry/api@1.9.0)
+        specifier: ^0.211.0
+        version: 0.211.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-web':
         specifier: ^2.0.0
         version: 2.5.0(@opentelemetry/api@1.9.0)
@@ -28636,7 +28636,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-common':
-        specifier: ^12.2.0
+        specifier: ^12.3.0
         version: link:../storage-common
       events:
         specifier: ^3.0.0
@@ -34140,6 +34140,10 @@ packages:
     resolution: {integrity: sha512-CjruKY9V6NMssL/T1kAFgzosF1v9o6oeN+aX5JB/C/xPNtmgIJqcXHG7fA82Ou1zCpWGl4lROQUKwUNE1pMCyg==}
     engines: {node: '>=8.0.0'}
 
+  '@opentelemetry/api-logs@0.211.0':
+    resolution: {integrity: sha512-swFdZq8MCdmdR22jTVGQDhwqDzcI4M10nhjXkLr1EsIzXgZBqm4ZlmmcWsg3TSNf+3mzgOiqveXmBLZuDi2Lgg==}
+    engines: {node: '>=8.0.0'}
+
   '@opentelemetry/api-logs@0.53.0':
     resolution: {integrity: sha512-8HArjKx+RaAI8uEIgcORbZIPklyh1YLjPSBus8hjRmvLi6DeFzgOcdZ7KwPabKj8mXF8dX0hyfAyGfycz0DbFw==}
     engines: {node: '>=14'}
@@ -34338,6 +34342,12 @@ packages:
 
   '@opentelemetry/instrumentation@0.208.0':
     resolution: {integrity: sha512-Eju0L4qWcQS+oXxi6pgh7zvE2byogAkcsVv0OjHF/97iOz1N/aKE6etSGowYkie+YA1uo6DNwdSxaaNnLvcRlA==}
+    engines: {node: ^18.19.0 || >=20.6.0}
+    peerDependencies:
+      '@opentelemetry/api': ^1.3.0
+
+  '@opentelemetry/instrumentation@0.211.0':
+    resolution: {integrity: sha512-h0nrZEC/zvI994nhg7EgQ8URIHt0uDTwN90r3qQUdZORS455bbx+YebnGeEuFghUT0HlJSrLF4iHw67f+odY+Q==}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
@@ -39535,6 +39545,10 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
 
+  '@opentelemetry/api-logs@0.211.0':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+
   '@opentelemetry/api-logs@0.53.0':
     dependencies:
       '@opentelemetry/api': 1.9.0
@@ -39797,6 +39811,15 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.208.0
+      import-in-the-middle: 2.0.6
+      require-in-the-middle: 8.0.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@opentelemetry/instrumentation@0.211.0(@opentelemetry/api@1.9.0)':
+    dependencies:
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.211.0
       import-in-the-middle: 2.0.6
       require-in-the-middle: 8.0.1
     transitivePeerDependencies:
