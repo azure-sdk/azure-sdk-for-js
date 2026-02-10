@@ -8,20 +8,20 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export function createEdgeActionsManagement(credential: TokenCredential, subscriptionId: string, options?: EdgeActionsManagementClientOptionalParams): EdgeActionsManagementContext;
+
 // @public
-export interface CdnClientOptionalParams extends ClientOptions {
+export interface EdgeActionsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
     cloudSetting?: AzureSupportedClouds;
 }
 
 // @public (undocumented)
-export interface CdnContext extends Client {
-    apiVersion: string;
+export interface EdgeActionsManagementContext extends Client {
+    apiVersion?: string;
     subscriptionId: string;
 }
-
-// @public (undocumented)
-export function createCdn(credential: TokenCredential, subscriptionId: string, options?: CdnClientOptionalParams): CdnContext;
 
 // (No @packageDocumentation comment for this package)
 

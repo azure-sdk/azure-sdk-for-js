@@ -8,7 +8,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { CdnClient } from "./cdnClient.js";
+export { EdgeActionsManagementClient } from "./edgeActionsManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   EdgeAction,
@@ -45,7 +45,7 @@ export {
   EdgeActionExecutionFilterUpdateProperties,
   KnownVersions,
 } from "./models/index.js";
-export { CdnClientOptionalParams } from "./api/index.js";
+export { EdgeActionsManagementClientOptionalParams } from "./api/index.js";
 export {
   EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
   EdgeActionExecutionFiltersDeleteOptionalParams,

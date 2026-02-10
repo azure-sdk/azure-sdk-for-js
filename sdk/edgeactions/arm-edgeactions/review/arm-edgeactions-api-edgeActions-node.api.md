@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: CdnContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: CdnContext, resourceGroupName: string, edgeActionName: string, resource: EdgeAction, options?: EdgeActionsCreateOptionalParams): PollerLike<OperationState<EdgeAction>, EdgeAction>;
+export function create(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, resource: EdgeAction, options?: EdgeActionsCreateOptionalParams): PollerLike<OperationState<EdgeAction>, EdgeAction>;
 
 // @public
 export interface EdgeActionsCreateOptionalParams extends OperationOptions {
@@ -43,16 +43,16 @@ export interface EdgeActionsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export function get(context: CdnContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionsGetOptionalParams): Promise<EdgeAction>;
+export function get(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionsGetOptionalParams): Promise<EdgeAction>;
 
 // @public
-export function listByResourceGroup(context: CdnContext, resourceGroupName: string, options?: EdgeActionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EdgeAction>;
+export function listByResourceGroup(context: EdgeActionsManagementContext, resourceGroupName: string, options?: EdgeActionsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EdgeAction>;
 
 // @public
-export function listBySubscription(context: CdnContext, options?: EdgeActionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<EdgeAction>;
+export function listBySubscription(context: EdgeActionsManagementContext, options?: EdgeActionsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<EdgeAction>;
 
 // @public
-export function update(context: CdnContext, resourceGroupName: string, edgeActionName: string, properties: EdgeActionUpdate, options?: EdgeActionsUpdateOptionalParams): PollerLike<OperationState<EdgeAction>, EdgeAction>;
+export function update(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, properties: EdgeActionUpdate, options?: EdgeActionsUpdateOptionalParams): PollerLike<OperationState<EdgeAction>, EdgeAction>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -10,13 +10,13 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, resource: EdgeActionVersion, options?: EdgeActionVersionsCreateOptionalParams): PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
+export function create(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, resource: EdgeActionVersion, options?: EdgeActionVersionsCreateOptionalParams): PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
 
 // @public
-export function deployVersionCode(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, body: VersionCode, options?: EdgeActionVersionsDeployVersionCodeOptionalParams): PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
+export function deployVersionCode(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, body: VersionCode, options?: EdgeActionVersionsDeployVersionCodeOptionalParams): PollerLike<OperationState<EdgeActionVersionProperties>, EdgeActionVersionProperties>;
 
 // @public
 export interface EdgeActionVersionsCreateOptionalParams extends OperationOptions {
@@ -57,19 +57,19 @@ export interface EdgeActionVersionsUpdateOptionalParams extends OperationOptions
 }
 
 // @public
-export function get(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetOptionalParams): Promise<EdgeActionVersion>;
+export function get(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetOptionalParams): Promise<EdgeActionVersion>;
 
 // @public
-export function getVersionCode(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetVersionCodeOptionalParams): PollerLike<OperationState<VersionCode>, VersionCode>;
+export function getVersionCode(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsGetVersionCodeOptionalParams): PollerLike<OperationState<VersionCode>, VersionCode>;
 
 // @public
-export function listByEdgeAction(context: CdnContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionVersionsListByEdgeActionOptionalParams): PagedAsyncIterableIterator<EdgeActionVersion>;
+export function listByEdgeAction(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionVersionsListByEdgeActionOptionalParams): PagedAsyncIterableIterator<EdgeActionVersion>;
 
 // @public
-export function swapDefault(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsSwapDefaultOptionalParams): PollerLike<OperationState<void>, void>;
+export function swapDefault(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, options?: EdgeActionVersionsSwapDefaultOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function update(context: CdnContext, resourceGroupName: string, edgeActionName: string, version: string, properties: EdgeActionVersionUpdate, options?: EdgeActionVersionsUpdateOptionalParams): PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
+export function update(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, version: string, properties: EdgeActionVersionUpdate, options?: EdgeActionVersionsUpdateOptionalParams): PollerLike<OperationState<EdgeActionVersion>, EdgeActionVersion>;
 
 // (No @packageDocumentation comment for this package)
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CdnContext } from "../../api/cdnContext.js";
+import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   swapDefault,
   getVersionCode,
@@ -98,7 +98,7 @@ export interface EdgeActionVersionsOperations {
   ) => Promise<EdgeActionVersion>;
 }
 
-function _getEdgeActionVersions(context: CdnContext) {
+function _getEdgeActionVersions(context: EdgeActionsManagementContext) {
   return {
     swapDefault: (
       resourceGroupName: string,
@@ -154,7 +154,7 @@ function _getEdgeActionVersions(context: CdnContext) {
 }
 
 export function _getEdgeActionVersionsOperations(
-  context: CdnContext,
+  context: EdgeActionsManagementContext,
 ): EdgeActionVersionsOperations {
   return {
     ..._getEdgeActionVersions(context),

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CdnContext } from "../../api/cdnContext.js";
+import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   listByEdgeAction,
   $delete,
@@ -68,7 +68,7 @@ export interface EdgeActionExecutionFiltersOperations {
   ) => Promise<EdgeActionExecutionFilter>;
 }
 
-function _getEdgeActionExecutionFilters(context: CdnContext) {
+function _getEdgeActionExecutionFilters(context: EdgeActionsManagementContext) {
   return {
     listByEdgeAction: (
       resourceGroupName: string,
@@ -105,7 +105,7 @@ function _getEdgeActionExecutionFilters(context: CdnContext) {
 }
 
 export function _getEdgeActionExecutionFiltersOperations(
-  context: CdnContext,
+  context: EdgeActionsManagementContext,
 ): EdgeActionExecutionFiltersOperations {
   return {
     ..._getEdgeActionExecutionFilters(context),

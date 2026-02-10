@@ -23,21 +23,6 @@ export enum AzureClouds {
 // @public
 export type AzureSupportedClouds = `${AzureClouds}`;
 
-// @public (undocumented)
-export class CdnClient {
-    constructor(credential: TokenCredential, subscriptionId: string, options?: CdnClientOptionalParams);
-    readonly edgeActionExecutionFilters: EdgeActionExecutionFiltersOperations;
-    readonly edgeActions: EdgeActionsOperations;
-    readonly edgeActionVersions: EdgeActionVersionsOperations;
-    readonly pipeline: Pipeline;
-}
-
-// @public
-export interface CdnClientOptionalParams extends ClientOptions {
-    apiVersion?: string;
-    cloudSetting?: AzureSupportedClouds;
-}
-
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
     continuationToken?: string;
@@ -150,6 +135,21 @@ export interface EdgeActionsListByResourceGroupOptionalParams extends OperationO
 
 // @public
 export interface EdgeActionsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public (undocumented)
+export class EdgeActionsManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: EdgeActionsManagementClientOptionalParams);
+    readonly edgeActionExecutionFilters: EdgeActionExecutionFiltersOperations;
+    readonly edgeActions: EdgeActionsOperations;
+    readonly edgeActionVersions: EdgeActionVersionsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface EdgeActionsManagementClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -342,7 +342,7 @@ export interface Resource {
 }
 
 // @public
-export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CdnClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: EdgeActionsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {

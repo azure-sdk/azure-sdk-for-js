@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CdnContext } from "../../api/cdnContext.js";
+import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -66,7 +66,7 @@ export interface EdgeActionsOperations {
   ) => Promise<EdgeAction>;
 }
 
-function _getEdgeActions(context: CdnContext) {
+function _getEdgeActions(context: EdgeActionsManagementContext) {
   return {
     listBySubscription: (options?: EdgeActionsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
@@ -99,7 +99,9 @@ function _getEdgeActions(context: CdnContext) {
   };
 }
 
-export function _getEdgeActionsOperations(context: CdnContext): EdgeActionsOperations {
+export function _getEdgeActionsOperations(
+  context: EdgeActionsManagementContext,
+): EdgeActionsOperations {
   return {
     ..._getEdgeActions(context),
   };

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CdnContext as Client } from "../index.js";
+import type { EdgeActionsManagementContext as Client } from "../index.js";
 import type {
   EdgeActionExecutionFilter,
   EdgeActionExecutionFilterUpdate,
@@ -41,7 +41,7 @@ export function _listByEdgeActionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,11 @@ export function listByEdgeAction(
     () => _listByEdgeActionSend(context, resourceGroupName, edgeActionName, options),
     _listByEdgeActionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-12-01-preview",
+    },
   );
 }
 
@@ -96,7 +100,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +110,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -129,12 +133,13 @@ export function $delete(
   executionFilter: string,
   options: EdgeActionExecutionFiltersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, edgeActionName, executionFilter, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +158,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,6 +200,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, edgeActionName, executionFilter, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 }
 
@@ -213,7 +219,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -255,6 +261,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, edgeActionName, executionFilter, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-12-01-preview",
   }) as PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 }
 
@@ -272,7 +279,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       edgeActionName: edgeActionName,
       executionFilter: executionFilter,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-12-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

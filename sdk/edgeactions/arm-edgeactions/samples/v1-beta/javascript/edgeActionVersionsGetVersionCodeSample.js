@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { CdnClient } = require("@azure/arm-edgeactions");
+const { EdgeActionsManagementClient } = require("@azure/arm-edgeactions");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
@@ -13,7 +13,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 async function getVersionCode() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new CdnClient(credential, subscriptionId);
+  const client = new EdgeActionsManagementClient(credential, subscriptionId);
   const result = await client.edgeActionVersions.getVersionCode(
     "testrg",
     "edgeAction1",

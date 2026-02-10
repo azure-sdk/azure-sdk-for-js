@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CdnClient } from "@azure/arm-edgeactions";
+import { EdgeActionsManagementClient } from "@azure/arm-edgeactions";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function listEdgeActionsByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const client = new CdnClient(credential, subscriptionId);
+  const client = new EdgeActionsManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.edgeActions.listByResourceGroup("testrg")) {
     resArray.push(item);

@@ -10,10 +10,10 @@ import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
 
 // @public
-export function $delete(context: CdnContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, options?: EdgeActionExecutionFiltersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
+export function $delete(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, options?: EdgeActionExecutionFiltersDeleteOptionalParams): PollerLike<OperationState<void>, void>;
 
 // @public
-export function create(context: CdnContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, resource: EdgeActionExecutionFilter, options?: EdgeActionExecutionFiltersCreateOptionalParams): PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
+export function create(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, resource: EdgeActionExecutionFilter, options?: EdgeActionExecutionFiltersCreateOptionalParams): PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 
 // @public
 export interface EdgeActionExecutionFiltersCreateOptionalParams extends OperationOptions {
@@ -39,13 +39,13 @@ export interface EdgeActionExecutionFiltersUpdateOptionalParams extends Operatio
 }
 
 // @public
-export function get(context: CdnContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, options?: EdgeActionExecutionFiltersGetOptionalParams): Promise<EdgeActionExecutionFilter>;
+export function get(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, options?: EdgeActionExecutionFiltersGetOptionalParams): Promise<EdgeActionExecutionFilter>;
 
 // @public
-export function listByEdgeAction(context: CdnContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionExecutionFiltersListByEdgeActionOptionalParams): PagedAsyncIterableIterator<EdgeActionExecutionFilter>;
+export function listByEdgeAction(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, options?: EdgeActionExecutionFiltersListByEdgeActionOptionalParams): PagedAsyncIterableIterator<EdgeActionExecutionFilter>;
 
 // @public
-export function update(context: CdnContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, properties: EdgeActionExecutionFilterUpdate, options?: EdgeActionExecutionFiltersUpdateOptionalParams): PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
+export function update(context: EdgeActionsManagementContext, resourceGroupName: string, edgeActionName: string, executionFilter: string, properties: EdgeActionExecutionFilterUpdate, options?: EdgeActionExecutionFiltersUpdateOptionalParams): PollerLike<OperationState<EdgeActionExecutionFilter>, EdgeActionExecutionFilter>;
 
 // (No @packageDocumentation comment for this package)
 
