@@ -3,27 +3,18 @@
 
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Create or update the NGINX deployment
+ * This sample demonstrates how to create or update the NGINX deployment
  *
- * @summary Create or update the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/Nginx.NginxPlus/preview/2025-03-01-preview/examples/Deployments_Create.json
+ * @summary create or update the NGINX deployment
+ * x-ms-original-file: 2025-03-01-preview/Deployments_Create.json
  */
 async function deploymentsCreate(): Promise<void> {
-  const subscriptionId =
-    process.env["NGINX_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
-  const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    deploymentName,
-  );
+  const result = await client.deployments.createOrUpdate("myResourceGroup", "myDeployment");
   console.log(result);
 }
 

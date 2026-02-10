@@ -775,7 +775,7 @@ importers:
         version: 4.11.1
       '@azure/monitor-opentelemetry':
         specifier: ^1.11.1
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.15.1
       '@azure/monitor-opentelemetry-exporter':
         specifier: ^1.0.0-beta.31
         version: link:../../monitor/monitor-opentelemetry-exporter
@@ -1008,7 +1008,7 @@ importers:
         version: 4.11.1
       '@azure/monitor-opentelemetry':
         specifier: ^1.14.2
-        version: link:../../monitor/monitor-opentelemetry
+        version: 1.15.1
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7
@@ -12686,7 +12686,7 @@ importers:
         version: link:../../core/core-amqp
       '@azure/event-hubs':
         specifier: ^6.0.0-beta.1
-        version: link:../event-hubs
+        version: 6.0.3
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -12735,7 +12735,7 @@ importers:
         version: link:../../core/core-paging
       '@azure/event-hubs':
         specifier: ^6.0.0
-        version: link:../event-hubs
+        version: 6.0.3
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -12841,10 +12841,10 @@ importers:
         version: link:../../core/abort-controller
       '@azure/data-tables':
         specifier: ^13.3.0
-        version: link:../../tables/data-tables
+        version: 13.3.2
       '@azure/event-hubs':
         specifier: ^6.0.0
-        version: link:../event-hubs
+        version: 6.0.3
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -20841,7 +20841,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.14.2
-        version: link:../monitor-opentelemetry
+        version: 1.15.1
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.0
@@ -21903,24 +21903,27 @@ importers:
 
   sdk/nginx/arm-nginx:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
-        specifier: ^1.19.1
+        specifier: ^1.20.0
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -21937,12 +21940,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.23
@@ -26430,7 +26433,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/event-hubs':
         specifier: ^6.0.0-beta.1
-        version: link:../../eventhub/event-hubs
+        version: 6.0.3
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
@@ -26570,7 +26573,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/event-hubs':
         specifier: ^6.0.0-beta.1
-        version: link:../../eventhub/event-hubs
+        version: 6.0.3
       '@azure/identity':
         specifier: catalog:internal
         version: 4.11.1
@@ -28782,7 +28785,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.1
-        version: link:../storage-common
+        version: 12.3.0
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -28813,7 +28816,7 @@ importers:
         version: 4.11.1
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.30.0
       '@types/node':
         specifier: 'catalog:'
         version: 20.19.23
@@ -29101,7 +29104,7 @@ importers:
         version: link:../storage-blob
       '@azure/storage-common':
         specifier: ^12.1.1
-        version: link:../storage-common
+        version: 12.3.0
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -29174,7 +29177,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
-        version: link:../storage-file-datalake
+        version: 12.29.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -29244,7 +29247,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.1
-        version: link:../storage-common
+        version: 12.3.0
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -29320,7 +29323,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: link:../storage-file-share
+        version: 12.30.0
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -29451,7 +29454,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-common':
         specifier: ^12.1.1
-        version: link:../storage-common
+        version: 12.3.0
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -31026,7 +31029,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/data-tables':
         specifier: ^13.3.0
-        version: link:../data-tables
+        version: 13.3.2
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -33232,6 +33235,10 @@ packages:
     resolution: {integrity: sha512-UVZlVLfLyz6g3Hy7GNDpooMQonUygH7ghdiSASOOHy97fKj/mPLqgDX7aidOijn+sCMU+WU8NjlPlNTgnvbcGA==}
     engines: {node: '>=20.0.0'}
 
+  '@azure/core-rest-pipeline@1.22.2':
+    resolution: {integrity: sha512-MzHym+wOi8CLUlKCQu12de0nwcq9k9Kuv43j4Wa++CsCpJwps2eeBQwD2Bu8snkxTtDKDx4GwjuR9E8yC8LNrg==}
+    engines: {node: '>=20.0.0'}
+
   '@azure/core-sse@2.3.0':
     resolution: {integrity: sha512-jKhPpdDbVS5GlpadSKIC7V6Q4P2vEcwXi1c4CLTXs01Q/PAITES9v5J/S73+RtCMqQpsX0jGa2yPWwXi9JzdgA==}
     engines: {node: '>=20.0.0'}
@@ -33246,6 +33253,14 @@ packages:
 
   '@azure/core-xml@1.5.0':
     resolution: {integrity: sha512-D/sdlJBMJfx7gqoj66PKVmhDDaU6TKA49ptcolxdas29X7AfvLTmfAGLjAcIMBK7UZ2o4lygHIqVckOlQU3xWw==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/data-tables@13.3.2':
+    resolution: {integrity: sha512-PZ8e4SnCpTQEbQ1P+CK6NR7Vhb86Jw1S1qJi2IcF1ij4qiPX2b4vIemwNPkYg/gZGMqKbxkPvGRpRmEbBYdXuA==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/event-hubs@6.0.3':
+    resolution: {integrity: sha512-mMU8192XGCSaTKwr9MZuqAbX+aikcBh8wlp2icl/5mRc6kI4qVS8LIkkskHrvtzTugrvbVfop7musif5JYp+vg==}
     engines: {node: '>=20.0.0'}
 
   '@azure/functions-extensions-base@0.2.0':
@@ -33286,6 +33301,14 @@ packages:
   '@azure/maps-common@1.0.0-beta.2':
     resolution: {integrity: sha512-PB9GlnfojcQ4nf9WXdQvWeAk7gm8P74o+Z5IHz5YLK/W+3vrNrmVVVuFpGOvCPrLjag50UinaZsMBtPtxoiobg==}
     engines: {node: '>=14.0.0'}
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.38':
+    resolution: {integrity: sha512-lzY9XpgRwWC94lzeAf2I1YXrP7oMx1B/vn83zoYA5RKW2ZBPzXZ+LUJjYCo/ItzLfT4eMQC80VL4lQC/VknIMA==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/monitor-opentelemetry@1.15.1':
+    resolution: {integrity: sha512-Ybr8BfypmSt0L3TObjMFxv37B6qYI7TTX/fs9V0hi86LI75ZG2bvPAFr9Dt/L2LaNXaLck3fNVQ/ocuMJid7hQ==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/msal-browser@4.25.1':
     resolution: {integrity: sha512-kAdOSNjvMbeBmEyd5WnddGmIpKCbAAGj4Gg/1iURtF+nHmIfS0+QUBBO3uaHl7CBB2R1SEAbpOgxycEwrHOkFA==}
@@ -33334,6 +33357,10 @@ packages:
     resolution: {integrity: sha512-boG33EDRcbw0Jo2cRgB6bccSirKOzYdYFMdcSsnOajLCLfJ8WIve3vxUMi7YZKxM8txZX/0cwzUU6crXmYxXZg==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.9':
+    resolution: {integrity: sha512-gNCFokEoQQEkhu2T8i1i+1iW2o9wODn2slu5tpqJmjV1W7qf9dxVv6GNXW1P1WC8wMga8BCc2t/oMhOK3iwRQg==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/schema-registry@1.3.0':
     resolution: {integrity: sha512-vi8Kfm2deIlNbu5gxInH2Uy0OuIGIEqeNo3FjXRRGimlBHwz2JFbJ1/u7GKpZnKXDVEXMNYf930fLIPXD9NdzA==}
     engines: {node: '>=18.0.0'}
@@ -33353,6 +33380,22 @@ packages:
   '@azure/storage-blob@12.27.0':
     resolution: {integrity: sha512-IQjj9RIzAKatmNca3D6bT0qJ+Pkox1WZGOg2esJF2YLHb45pQKOwGPIAV+w3rfgkj7zV3RMxpn/c6iftzSOZJQ==}
     engines: {node: '>=18.0.0'}
+
+  '@azure/storage-blob@12.30.0':
+    resolution: {integrity: sha512-peDCR8blSqhsAKDbpSP/o55S4sheNwSrblvCaHUZ5xUI73XA7ieUGGwrONgD/Fng0EoDe1VOa3fAQ7+WGB3Ocg==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-common@12.3.0':
+    resolution: {integrity: sha512-/OFHhy86aG5Pe8dP5tsp+BuJ25JOAl9yaMU3WZbkeoiFMHFtJ7tu5ili7qEdBXNW9G5lDB19trwyI6V49F/8iQ==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-file-datalake@12.29.0':
+    resolution: {integrity: sha512-iNod3ugGFGvYJ2891UhSoICYu8iM8Q2jdub5nBzVWtMQGtr3mBRnzXK/cZeuMsF3i63yXZZmDQSvIzj7xWyObw==}
+    engines: {node: '>=20.0.0'}
+
+  '@azure/storage-file-share@12.30.0':
+    resolution: {integrity: sha512-OSpZQv/zPvvuSMh/pr9qTrvZYYOlmG4dxesc8ferElrjvADxw1vNId9tEa0rsxPF3kGyuAR5PZuDDdCae37Nag==}
+    engines: {node: '>=20.0.0'}
 
   '@azure/template@1.0.13-beta.1':
     resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
@@ -38450,6 +38493,7 @@ packages:
 
   whatwg-encoding@1.0.5:
     resolution: {integrity: sha512-b5lim54JOPN9HtzvK9HFXvBma/rnfFeqsic0hSpjtDbVxR3dJKLc+KB4V6GgiGOvl7CY/KNh8rxSo9DKQrnUEw==}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@2.3.0:
     resolution: {integrity: sha512-M4yMwr6mAnQz76TbJm914+gPpB/nCwvZbJU28cUD6dR004SAxDLOOSUaB1JDRqLtaOV/vi0IC5lEAGFgrjGv/g==}
@@ -38626,7 +38670,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.22.2
       '@azure/core-tracing': 1.3.1
       '@typespec/ts-http-runtime': 0.3.1
       tslib: 2.8.1
@@ -38811,7 +38855,7 @@ snapshots:
       '@azure-rest/core-client': 2.5.1
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.22.2
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       events: 3.3.0
@@ -38894,7 +38938,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.22.2
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -38906,7 +38950,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.22.2
     transitivePeerDependencies:
       - supports-color
 
@@ -38944,6 +38988,18 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/core-rest-pipeline@1.22.2':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      '@typespec/ts-http-runtime': 0.3.1
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/core-sse@2.3.0':
     dependencies:
       tslib: 2.8.1
@@ -38964,6 +39020,37 @@ snapshots:
     dependencies:
       fast-xml-parser: 5.3.0
       tslib: 2.8.1
+
+  '@azure/data-tables@13.3.2':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/event-hubs@6.0.3':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-amqp': 4.4.1
+      '@azure/core-auth': 1.10.1
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      process: 0.11.10
+      rhea-promise: 3.0.3
+      tslib: 2.8.1
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
 
   '@azure/functions-extensions-base@0.2.0': {}
 
@@ -39017,7 +39104,7 @@ snapshots:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.1
-      '@azure/core-rest-pipeline': 1.22.1
+      '@azure/core-rest-pipeline': 1.22.2
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
@@ -39073,6 +39160,56 @@ snapshots:
       '@azure/core-client': 1.10.1
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': 1.22.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.38':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.22.2
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.205.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.205.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.38.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/monitor-opentelemetry@1.15.1':
+    dependencies:
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/logger': 1.3.0
+      '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.38
+      '@azure/opentelemetry-instrumentation-azure-sdk': 1.0.0-beta.9
+      '@microsoft/applicationinsights-web-snippet': 1.2.3
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/api-logs': 0.208.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-bunyan': 0.54.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-http': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mongodb': 0.61.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-mysql': 0.54.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-pg': 0.61.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-redis': 0.57.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation-winston': 0.53.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resource-detector-azure': 0.7.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/resources': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-logs': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-metrics': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-node': 0.208.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-base': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-node': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/semantic-conventions': 1.38.0
+      '@opentelemetry/winston-transport': 0.19.0
+      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -39133,6 +39270,18 @@ snapshots:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.30.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/instrumentation': 0.53.0(@opentelemetry/api@1.9.0)
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0-beta.9':
+    dependencies:
+      '@azure/core-tracing': 1.3.1
+      '@azure/logger': 1.3.0
+      '@opentelemetry/api': 1.9.0
+      '@opentelemetry/core': 2.2.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/instrumentation': 0.200.0(@opentelemetry/api@1.9.0)
+      '@opentelemetry/sdk-trace-web': 2.2.0(@opentelemetry/api@1.9.0)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -39215,6 +39364,76 @@ snapshots:
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.0
       '@azure/logger': 1.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-blob@12.30.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-common@12.3.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/logger': 1.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-datalake@12.29.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-blob': 12.30.0
+      '@azure/storage-common': 12.3.0
+      events: 3.3.0
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/storage-file-share@12.30.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.1
+      '@azure/core-http-compat': 2.3.1
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.22.2
+      '@azure/core-tracing': 1.3.1
+      '@azure/core-util': 1.13.1
+      '@azure/core-xml': 1.5.0
+      '@azure/logger': 1.3.0
+      '@azure/storage-common': 12.3.0
       events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:

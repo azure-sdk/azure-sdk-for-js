@@ -4,11 +4,14 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -18,6 +21,12 @@ export type ActivationState = string;
 
 // @public
 export interface AnalysisCreate {
+    // (undocumented)
+    config: AnalysisCreateConfig;
+}
+
+// @public
+export interface AnalysisCreateConfig {
     // (undocumented)
     files?: NginxConfigurationFile[];
     package?: NginxConfigurationPackage;
@@ -45,52 +54,42 @@ export interface AnalysisDiagnostic {
 // @public
 export interface AnalysisResult {
     // (undocumented)
-    diagnostics?: DiagnosticItem[];
-    // (undocumented)
-    errors?: AnalysisDiagnostic[];
+    data?: AnalysisResultData;
     status: string;
 }
 
 // @public
-export interface ApiKeys {
-    createOrUpdate(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysCreateOrUpdateOptionalParams): Promise<ApiKeysCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysGetOptionalParams): Promise<ApiKeysGetResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: ApiKeysListOptionalParams): PagedAsyncIterableIterator<NginxDeploymentApiKeyResponse>;
+export interface AnalysisResultData {
+    // (undocumented)
+    diagnostics?: DiagnosticItem[];
+    // (undocumented)
+    errors?: AnalysisDiagnostic[];
 }
 
 // @public
-export interface ApiKeysCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ApiKeysCreateOrUpdateOptionalParams extends OperationOptions {
     body?: NginxDeploymentApiKeyRequest;
 }
 
 // @public
-export type ApiKeysCreateOrUpdateResponse = NginxDeploymentApiKeyResponse;
-
-// @public
-export interface ApiKeysDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ApiKeysDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ApiKeysGetOptionalParams extends coreClient.OperationOptions {
+export interface ApiKeysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApiKeysGetResponse = NginxDeploymentApiKeyResponse;
-
-// @public
-export interface ApiKeysListNextOptionalParams extends coreClient.OperationOptions {
+export interface ApiKeysListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ApiKeysListNextResponse = NginxDeploymentApiKeyListResponse;
-
-// @public
-export interface ApiKeysListOptionalParams extends coreClient.OperationOptions {
+export interface ApiKeysOperations {
+    createOrUpdate: (resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysCreateOrUpdateOptionalParams) => Promise<NginxDeploymentApiKeyResponse>;
+    delete: (resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, deploymentName: string, apiKeyName: string, options?: ApiKeysGetOptionalParams) => Promise<NginxDeploymentApiKeyResponse>;
+    list: (resourceGroupName: string, deploymentName: string, options?: ApiKeysListOptionalParams) => PagedAsyncIterableIterator<NginxDeploymentApiKeyResponse>;
 }
-
-// @public
-export type ApiKeysListResponse = NginxDeploymentApiKeyListResponse;
 
 // @public
 export interface AutoUpgradeProfile {
@@ -98,220 +97,130 @@ export interface AutoUpgradeProfile {
 }
 
 // @public
-export interface Certificates {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CertificatesCreateOrUpdateResponse>, CertificatesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: CertificatesListOptionalParams): PagedAsyncIterableIterator<NginxCertificate>;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface CertificatesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
-export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends OperationOptions {
     body?: NginxCertificate;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type CertificatesCreateOrUpdateResponse = NginxCertificate;
-
-// @public
-export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface CertificatesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesGetResponse = NginxCertificate;
-
-// @public
-export interface CertificatesListNextOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesListNextResponse = NginxCertificateListResponse;
-
-// @public
-export interface CertificatesListOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesOperations {
+    createOrUpdate: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxCertificate>, NginxCertificate>;
+    delete: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams) => Promise<NginxCertificate>;
+    list: (resourceGroupName: string, deploymentName: string, options?: CertificatesListOptionalParams) => PagedAsyncIterableIterator<NginxCertificate>;
 }
 
 // @public
-export type CertificatesListResponse = NginxCertificateListResponse;
-
-// @public
-export interface Configurations {
-    analysis(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams): Promise<ConfigurationsAnalysisResponse>;
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConfigurationsCreateOrUpdateResponse>, ConfigurationsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams): Promise<ConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams): Promise<ConfigurationsGetResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams): PagedAsyncIterableIterator<NginxConfigurationResponse>;
-}
-
-// @public
-export interface ConfigurationsAnalysisOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsAnalysisOptionalParams extends OperationOptions {
     body?: AnalysisCreate;
 }
 
 // @public
-export type ConfigurationsAnalysisResponse = AnalysisResult;
-
-// @public
-export interface ConfigurationsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface ConfigurationsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsCreateOrUpdateOptionalParams extends OperationOptions {
     body?: NginxConfigurationRequest;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ConfigurationsCreateOrUpdateResponse = NginxConfigurationResponse;
-
-// @public
-export interface ConfigurationsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ConfigurationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ConfigurationsGetOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsGetResponse = NginxConfigurationResponse;
-
-// @public
-export interface ConfigurationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ConfigurationsListNextResponse = NginxConfigurationListResponse;
-
-// @public
-export interface ConfigurationsListOptionalParams extends coreClient.OperationOptions {
+export interface ConfigurationsOperations {
+    analysis: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams) => Promise<AnalysisResult>;
+    createOrUpdate: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxConfiguration>, NginxConfiguration>;
+    delete: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams) => Promise<NginxConfiguration>;
+    list: (resourceGroupName: string, deploymentName: string, options?: ConfigurationsListOptionalParams) => PagedAsyncIterableIterator<NginxConfiguration>;
 }
 
 // @public
-export type ConfigurationsListResponse = NginxConfigurationListResponse;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
-export interface DefaultWafPolicy {
-    list(resourceGroupName: string, deploymentName: string, options?: DefaultWafPolicyListOptionalParams): Promise<DefaultWafPolicyListResponse>;
+export interface DefaultWafPolicyListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DefaultWafPolicyListOptionalParams extends coreClient.OperationOptions {
+export interface DefaultWafPolicyOperations {
+    list: (resourceGroupName: string, deploymentName: string, options?: DefaultWafPolicyListOptionalParams) => Promise<NginxDeploymentDefaultWafPolicyListResponse>;
 }
 
 // @public
-export type DefaultWafPolicyListResponse = NginxDeploymentDefaultWafPolicyListResponse;
-
-// @public
-export interface Deployments {
-    beginCreateOrUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsCreateOrUpdateResponse>, DeploymentsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DeploymentsUpdateResponse>, DeploymentsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams): Promise<DeploymentsUpdateResponse>;
-    get(resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
-    list(options?: DeploymentsListOptionalParams): PagedAsyncIterableIterator<NginxDeployment>;
-    listByResourceGroup(resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NginxDeployment>;
-}
-
-// @public
-export interface DeploymentsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DeploymentsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsCreateOrUpdateOptionalParams extends OperationOptions {
     body?: NginxDeployment;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DeploymentsCreateOrUpdateResponse = NginxDeployment;
-
-// @public
-export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DeploymentsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DeploymentsGetOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsGetResponse = NginxDeployment;
-
-// @public
-export interface DeploymentsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsListByResourceGroupNextResponse = NginxDeploymentListResponse;
-
-// @public
-export interface DeploymentsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DeploymentsListByResourceGroupResponse = NginxDeploymentListResponse;
-
-// @public
-export interface DeploymentsListNextOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsOperations {
+    createOrUpdate: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxDeployment>, NginxDeployment>;
+    delete: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams) => Promise<NginxDeployment>;
+    list: (options?: DeploymentsListOptionalParams) => PagedAsyncIterableIterator<NginxDeployment>;
+    listByResourceGroup: (resourceGroupName: string, options?: DeploymentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NginxDeployment>;
+    update: (resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams) => PollerLike<OperationState<NginxDeployment>, NginxDeployment>;
 }
 
 // @public
-export type DeploymentsListNextResponse = NginxDeploymentListResponse;
-
-// @public
-export interface DeploymentsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DeploymentsListResponse = NginxDeploymentListResponse;
-
-// @public
-export interface DeploymentsUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface DeploymentsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface DeploymentsUpdateOptionalParams extends OperationOptions {
     body?: NginxDeploymentUpdateParameters;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type DeploymentsUpdateResponse = NginxDeployment;
 
 // @public
 export interface DiagnosticItem {
@@ -333,7 +242,7 @@ export interface DiagnosticItem {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -352,16 +261,13 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface IdentityProperties {
+    // (undocumented)
     readonly principalId?: string;
+    // (undocumented)
     readonly tenantId?: string;
     type?: IdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserIdentityProperties;
-    };
+    userAssignedIdentities?: Record<string, UserIdentityProperties>;
 }
 
 // @public
@@ -444,6 +350,11 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownVersions {
+    V20250301Preview = "2025-03-01-preview"
+}
+
+// @public
 export type Level = string;
 
 // @public
@@ -461,24 +372,26 @@ export interface NginxCertificateErrorResponseBody {
 }
 
 // @public
-export interface NginxCertificateListResponse {
-    nextLink?: string;
-    value: NginxCertificate[];
-}
-
-// @public
 export interface NginxCertificateProperties {
     certificateError?: NginxCertificateErrorResponseBody;
     // (undocumented)
     certificateVirtualPath?: string;
+    // (undocumented)
     readonly keyVaultSecretCreated?: Date;
     // (undocumented)
     keyVaultSecretId?: string;
+    // (undocumented)
     readonly keyVaultSecretVersion?: string;
     // (undocumented)
     keyVirtualPath?: string;
     readonly provisioningState?: ProvisioningState;
+    // (undocumented)
     readonly sha1Thumbprint?: string;
+}
+
+// @public
+export interface NginxConfiguration extends ProxyResource {
+    properties?: NginxConfigurationProperties;
 }
 
 // @public
@@ -490,17 +403,23 @@ export interface NginxConfigurationFile {
 }
 
 // @public
-export interface NginxConfigurationListResponse {
-    nextLink?: string;
-    value: NginxConfigurationResponse[];
-}
-
-// @public
 export interface NginxConfigurationPackage {
     // (undocumented)
     data?: string;
     // (undocumented)
     protectedFiles?: string[];
+}
+
+// @public
+export interface NginxConfigurationProperties {
+    // (undocumented)
+    files?: NginxConfigurationFile[];
+    package?: NginxConfigurationPackage;
+    // (undocumented)
+    protectedFiles?: NginxConfigurationProtectedFileResponse[];
+    readonly provisioningState?: ProvisioningState;
+    // (undocumented)
+    rootFile?: string;
 }
 
 // @public
@@ -518,10 +437,13 @@ export interface NginxConfigurationProtectedFileResponse {
 
 // @public
 export interface NginxConfigurationRequest {
+    // (undocumented)
     readonly id?: string;
+    // (undocumented)
     readonly name?: string;
     properties?: NginxConfigurationRequestProperties;
     readonly systemData?: SystemData;
+    // (undocumented)
     readonly type?: string;
 }
 
@@ -538,23 +460,6 @@ export interface NginxConfigurationRequestProperties {
 }
 
 // @public
-export interface NginxConfigurationResponse extends ProxyResource {
-    properties?: NginxConfigurationResponseProperties;
-}
-
-// @public
-export interface NginxConfigurationResponseProperties {
-    // (undocumented)
-    files?: NginxConfigurationFile[];
-    package?: NginxConfigurationPackage;
-    // (undocumented)
-    protectedFiles?: NginxConfigurationProtectedFileResponse[];
-    readonly provisioningState?: ProvisioningState;
-    // (undocumented)
-    rootFile?: string;
-}
-
-// @public
 export interface NginxDeployment extends TrackedResource {
     identity?: IdentityProperties;
     properties?: NginxDeploymentProperties;
@@ -562,17 +467,14 @@ export interface NginxDeployment extends TrackedResource {
 }
 
 // @public
-export interface NginxDeploymentApiKeyListResponse {
-    nextLink?: string;
-    value: NginxDeploymentApiKeyResponse[];
-}
-
-// @public
 export interface NginxDeploymentApiKeyRequest {
+    // (undocumented)
     readonly id?: string;
+    // (undocumented)
     readonly name?: string;
     properties?: NginxDeploymentApiKeyRequestProperties;
     readonly systemData?: SystemData;
+    // (undocumented)
     readonly type?: string;
 }
 
@@ -603,14 +505,10 @@ export interface NginxDeploymentDefaultWafPolicyListResponse {
 
 // @public
 export interface NginxDeploymentDefaultWafPolicyProperties {
+    // (undocumented)
     readonly content?: Uint8Array;
+    // (undocumented)
     readonly filepath?: string;
-}
-
-// @public
-export interface NginxDeploymentListResponse {
-    nextLink?: string;
-    value: NginxDeployment[];
 }
 
 // @public
@@ -622,20 +520,31 @@ export interface NginxDeploymentProperties {
     readonly ipAddress?: string;
     logging?: NginxLogging;
     networkProfile?: NginxNetworkProfile;
+    nginxAppProtect?: NginxDeploymentPropertiesNginxAppProtect;
+    // (undocumented)
     readonly nginxVersion?: string;
     readonly provisioningState?: ProvisioningState;
     scalingProperties?: NginxDeploymentScalingProperties;
     userProfile?: NginxDeploymentUserProfile;
-    webApplicationFirewallSettings?: WebApplicationFirewallSettings;
+}
+
+// @public
+export interface NginxDeploymentPropertiesNginxAppProtect {
+    webApplicationFirewallSettings: WebApplicationFirewallSettings;
     readonly webApplicationFirewallStatus?: WebApplicationFirewallStatus;
 }
 
 // @public
 export interface NginxDeploymentScalingProperties {
+    autoScaleSettings?: NginxDeploymentScalingPropertiesAutoScaleSettings;
     // (undocumented)
     capacity?: number;
+}
+
+// @public
+export interface NginxDeploymentScalingPropertiesAutoScaleSettings {
     // (undocumented)
-    profiles?: ScaleProfile[];
+    profiles: ScaleProfile[];
 }
 
 // @public
@@ -644,9 +553,7 @@ export interface NginxDeploymentUpdateParameters {
     location?: string;
     properties?: NginxDeploymentUpdateProperties;
     sku?: ResourceSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -656,8 +563,13 @@ export interface NginxDeploymentUpdateProperties {
     enableDiagnosticsSupport?: boolean;
     logging?: NginxLogging;
     networkProfile?: NginxNetworkProfile;
+    nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
     scalingProperties?: NginxDeploymentScalingProperties;
     userProfile?: NginxDeploymentUserProfile;
+}
+
+// @public
+export interface NginxDeploymentUpdatePropertiesNginxAppProtect {
     webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
@@ -692,17 +604,14 @@ export interface NginxDeploymentWafPolicyCompilingStatus {
 export type NginxDeploymentWafPolicyCompilingStatusCode = string;
 
 // @public
-export interface NginxDeploymentWafPolicyListResponse {
-    nextLink?: string;
-    value: NginxDeploymentWafPolicyMetadata[];
-}
-
-// @public
 export interface NginxDeploymentWafPolicyMetadata {
+    // (undocumented)
     readonly id?: string;
+    // (undocumented)
     readonly name?: string;
     properties?: NginxDeploymentWafPolicyMetadataProperties;
     readonly systemData?: SystemData;
+    // (undocumented)
     readonly type?: string;
 }
 
@@ -710,6 +619,7 @@ export interface NginxDeploymentWafPolicyMetadata {
 export interface NginxDeploymentWafPolicyMetadataProperties {
     readonly applyingState?: NginxDeploymentWafPolicyApplyingStatus;
     readonly compilingState?: NginxDeploymentWafPolicyCompilingStatus;
+    // (undocumented)
     readonly filepath?: string;
     readonly provisioningState?: ProvisioningState;
 }
@@ -737,35 +647,22 @@ export interface NginxLogging {
 }
 
 // @public (undocumented)
-export class NginxManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NginxManagementClientOptionalParams);
-    // (undocumented)
-    apiKeys: ApiKeys;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    certificates: Certificates;
-    // (undocumented)
-    configurations: Configurations;
-    // (undocumented)
-    defaultWafPolicy: DefaultWafPolicy;
-    // (undocumented)
-    deployments: Deployments;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    wafPolicy: WafPolicy;
+export class NginxManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: NginxManagementClientOptionalParams);
+    readonly apiKeys: ApiKeysOperations;
+    readonly certificates: CertificatesOperations;
+    readonly configurations: ConfigurationsOperations;
+    readonly defaultWafPolicy: DefaultWafPolicyOperations;
+    readonly deployments: DeploymentsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly wafPolicy: WafPolicyOperations;
 }
 
 // @public
-export interface NginxManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface NginxManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -824,32 +721,28 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -872,11 +765,26 @@ export interface ResourceSku {
 }
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NginxManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ScaleProfile {
-    max: number;
-    min: number;
+    capacity: ScaleProfileCapacity;
     // (undocumented)
     name: string;
+}
+
+// @public
+export interface ScaleProfileCapacity {
+    max: number;
+    min: number;
 }
 
 // @public
@@ -892,79 +800,43 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UserIdentityProperties {
+    // (undocumented)
     readonly clientId?: string;
+    // (undocumented)
     readonly principalId?: string;
 }
 
 // @public
-export interface WafPolicy {
-    beginCreate(resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams): Promise<SimplePollerLike<OperationState<WafPolicyCreateResponse>, WafPolicyCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams): Promise<WafPolicyCreateResponse>;
-    beginDelete(resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams): Promise<SimplePollerLike<OperationState<WafPolicyDeleteResponse>, WafPolicyDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams): Promise<WafPolicyDeleteResponse>;
-    get(resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyGetOptionalParams): Promise<WafPolicyGetResponse>;
-    list(resourceGroupName: string, deploymentName: string, options?: WafPolicyListOptionalParams): PagedAsyncIterableIterator<NginxDeploymentWafPolicyMetadata>;
-}
-
-// @public
-export interface WafPolicyCreateHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WafPolicyCreateOptionalParams extends coreClient.OperationOptions {
+export interface WafPolicyCreateOptionalParams extends OperationOptions {
     body?: NginxDeploymentWafPolicy;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WafPolicyCreateResponse = NginxDeploymentWafPolicy;
-
-// @public
-export interface WafPolicyDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface WafPolicyDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface WafPolicyDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type WafPolicyDeleteResponse = WafPolicyDeleteHeaders;
-
-// @public
-export interface WafPolicyGetOptionalParams extends coreClient.OperationOptions {
+export interface WafPolicyGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WafPolicyGetResponse = NginxDeploymentWafPolicy;
-
-// @public
-export interface WafPolicyListNextOptionalParams extends coreClient.OperationOptions {
+export interface WafPolicyListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type WafPolicyListNextResponse = NginxDeploymentWafPolicyListResponse;
-
-// @public
-export interface WafPolicyListOptionalParams extends coreClient.OperationOptions {
+export interface WafPolicyOperations {
+    create: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams) => PollerLike<OperationState<NginxDeploymentWafPolicy>, NginxDeploymentWafPolicy>;
+    delete: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyGetOptionalParams) => Promise<NginxDeploymentWafPolicy>;
+    list: (resourceGroupName: string, deploymentName: string, options?: WafPolicyListOptionalParams) => PagedAsyncIterableIterator<NginxDeploymentWafPolicyMetadata>;
 }
-
-// @public
-export type WafPolicyListResponse = NginxDeploymentWafPolicyListResponse;
 
 // @public
 export interface WebApplicationFirewallComponentVersions {
