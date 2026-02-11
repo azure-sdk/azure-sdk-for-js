@@ -41,7 +41,7 @@ export function edgeActionDeserializer(item: any): EdgeAction {
     properties: !item["properties"]
       ? item["properties"]
       : edgeActionPropertiesDeserializer(item["properties"]),
-    sku: skuTypeDeserializer(item["sku"]),
+    sku: !item["sku"] ? item["sku"] : skuTypeDeserializer(item["sku"]),
   };
 }
 
@@ -60,7 +60,9 @@ export function edgeActionPropertiesSerializer(item: EdgeActionProperties): any 
 export function edgeActionPropertiesDeserializer(item: any): EdgeActionProperties {
   return {
     provisioningState: item["provisioningState"],
-    attachments: edgeActionAttachmentArrayDeserializer(item["attachments"]),
+    attachments: !item["attachments"]
+      ? item["attachments"]
+      : edgeActionAttachmentArrayDeserializer(item["attachments"]),
   };
 }
 
