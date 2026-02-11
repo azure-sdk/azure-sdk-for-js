@@ -1,5 +1,586 @@
 # Release History
 
+## 19.0.0 (2026-02-11)
+
+### Features Added
+  - Added operation group GlobalOperations
+  - Added operation group ResourceHealthMetadataOperations
+  - Added operation AppServiceEnvironmentsOperations.approveOrRejectPrivateEndpointConnection
+  - Added operation AppServiceEnvironmentsOperations.changeVnet
+  - Added operation AppServiceEnvironmentsOperations.createOrUpdate
+  - Added operation AppServiceEnvironmentsOperations.createOrUpdateMultiRolePool
+  - Added operation AppServiceEnvironmentsOperations.createOrUpdateWorkerPool
+  - Added operation AppServiceEnvironmentsOperations.delete
+  - Added operation AppServiceEnvironmentsOperations.deletePrivateEndpointConnection
+  - Added operation AppServiceEnvironmentsOperations.getInboundNetworkDependenciesEndpoints
+  - Added operation AppServiceEnvironmentsOperations.getOutboundNetworkDependenciesEndpoints
+  - Added operation AppServiceEnvironmentsOperations.getPrivateEndpointConnectionList
+  - Added operation AppServiceEnvironmentsOperations.resume
+  - Added operation AppServiceEnvironmentsOperations.suspend
+  - Added operation AppServiceEnvironmentsOperations.upgrade
+  - Added operation AppServicePlansOperations.createOrUpdate
+  - Added operation KubeEnvironmentsOperations.createOrUpdate
+  - Added operation KubeEnvironmentsOperations.delete
+  - Added operation ProviderOperations.getAvailableStacks
+  - Added operation ProviderOperations.getAvailableStacksOnPrem
+  - Added operation ProviderOperations.getFunctionAppStacks
+  - Added operation ProviderOperations.getFunctionAppStacksForLocation
+  - Added operation ProviderOperations.getWebAppStacks
+  - Added operation ProviderOperations.getWebAppStacksForLocation
+  - Added operation StaticSitesOperations.approveOrRejectPrivateEndpointConnection
+  - Added operation StaticSitesOperations.createOrUpdateStaticSite
+  - Added operation StaticSitesOperations.createOrUpdateStaticSiteCustomDomain
+  - Added operation StaticSitesOperations.createZipDeploymentForStaticSite
+  - Added operation StaticSitesOperations.createZipDeploymentForStaticSiteBuild
+  - Added operation StaticSitesOperations.deletePrivateEndpointConnection
+  - Added operation StaticSitesOperations.deleteStaticSite
+  - Added operation StaticSitesOperations.deleteStaticSiteBuild
+  - Added operation StaticSitesOperations.deleteStaticSiteCustomDomain
+  - Added operation StaticSitesOperations.detachStaticSite
+  - Added operation StaticSitesOperations.getBuildDatabaseConnections
+  - Added operation StaticSitesOperations.getBuildDatabaseConnectionsWithDetails
+  - Added operation StaticSitesOperations.getDatabaseConnections
+  - Added operation StaticSitesOperations.getDatabaseConnectionsWithDetails
+  - Added operation StaticSitesOperations.getLinkedBackends
+  - Added operation StaticSitesOperations.getLinkedBackendsForBuild
+  - Added operation StaticSitesOperations.getPrivateEndpointConnectionList
+  - Added operation StaticSitesOperations.getStaticSiteBuilds
+  - Added operation StaticSitesOperations.getStaticSitesByResourceGroup
+  - Added operation StaticSitesOperations.getUserProvidedFunctionAppsForStaticSite
+  - Added operation StaticSitesOperations.getUserProvidedFunctionAppsForStaticSiteBuild
+  - Added operation StaticSitesOperations.linkBackend
+  - Added operation StaticSitesOperations.linkBackendToBuild
+  - Added operation StaticSitesOperations.registerUserProvidedFunctionAppWithStaticSite
+  - Added operation StaticSitesOperations.registerUserProvidedFunctionAppWithStaticSiteBuild
+  - Added operation StaticSitesOperations.validateBackend
+  - Added operation StaticSitesOperations.validateBackendForBuild
+  - Added operation StaticSitesOperations.validateCustomDomainCanBeAddedToStaticSite
+  - Added operation WebAppsOperations.approveOrRejectPrivateEndpointConnection
+  - Added operation WebAppsOperations.approveOrRejectPrivateEndpointConnectionSlot
+  - Added operation WebAppsOperations.createFunction
+  - Added operation WebAppsOperations.createInstanceFunctionSlot
+  - Added operation WebAppsOperations.createInstanceMSDeployOperation
+  - Added operation WebAppsOperations.createInstanceMSDeployOperationSlot
+  - Added operation WebAppsOperations.createMSDeployOperation
+  - Added operation WebAppsOperations.createMSDeployOperationSlot
+  - Added operation WebAppsOperations.createOrUpdate
+  - Added operation WebAppsOperations.createOrUpdateSlot
+  - Added operation WebAppsOperations.createOrUpdateSourceControl
+  - Added operation WebAppsOperations.createOrUpdateSourceControlSlot
+  - Added operation WebAppsOperations.deletePrivateEndpointConnection
+  - Added operation WebAppsOperations.deletePrivateEndpointConnectionSlot
+  - Added operation WebAppsOperations.getAppSettingsKeyVaultReferences
+  - Added operation WebAppsOperations.getAppSettingsKeyVaultReferencesSlot
+  - Added operation WebAppsOperations.getPrivateEndpointConnectionList
+  - Added operation WebAppsOperations.getPrivateEndpointConnectionListSlot
+  - Added operation WebAppsOperations.getProductionSiteDeploymentStatus
+  - Added operation WebAppsOperations.getSiteConnectionStringKeyVaultReferences
+  - Added operation WebAppsOperations.getSiteConnectionStringKeyVaultReferencesSlot
+  - Added operation WebAppsOperations.getSlotSiteDeploymentStatusSlot
+  - Added operation WebAppsOperations.installSiteExtension
+  - Added operation WebAppsOperations.installSiteExtensionSlot
+  - Added operation WebAppsOperations.listPublishingCredentials
+  - Added operation WebAppsOperations.listPublishingCredentialsSlot
+  - Added operation WebAppsOperations.migrateMySql
+  - Added operation WebAppsOperations.migrateStorage
+  - Added operation WebAppsOperations.restore
+  - Added operation WebAppsOperations.restoreFromBackupBlob
+  - Added operation WebAppsOperations.restoreFromBackupBlobSlot
+  - Added operation WebAppsOperations.restoreFromDeletedApp
+  - Added operation WebAppsOperations.restoreFromDeletedAppSlot
+  - Added operation WebAppsOperations.restoreSlot
+  - Added operation WebAppsOperations.restoreSnapshot
+  - Added operation WebAppsOperations.restoreSnapshotSlot
+  - Added operation WebAppsOperations.startNetworkTrace
+  - Added operation WebAppsOperations.startNetworkTraceSlot
+  - Added operation WebAppsOperations.startWebSiteNetworkTraceOperation
+  - Added operation WebAppsOperations.startWebSiteNetworkTraceOperationSlot
+  - Added operation WebAppsOperations.swapSlotSlot
+  - Added operation WebAppsOperations.swapSlotWithProduction
+  - Added operation WorkflowTriggerHistoriesOperations.resubmit
+  - Added operation WorkflowTriggersOperations.run
+  - Added Interface AddressResponseProperties
+  - Added Interface AnalysisDefinitionProperties
+  - Added Interface ApiKVReferenceProperties
+  - Added Interface AppServicePlanPatchResourceProperties
+  - Added Interface AppServicePlanProperties
+  - Added Interface AseRegionProperties
+  - Added Interface AseV3NetworkingConfigurationProperties
+  - Added Interface BackupItemProperties
+  - Added Interface BackupRequestProperties
+  - Added Interface BillingMeterProperties
+  - Added Interface CertificatePatchResourceProperties
+  - Added Interface CertificateProperties
+  - Added Interface ContinuousWebJobProperties
+  - Added Interface CsmDeploymentStatusProperties
+  - Added Interface CsmPublishingCredentialsPoliciesEntityProperties
+  - Added Interface CustomDnsSuffixConfigurationProperties
+  - Added Interface CustomHostnameAnalysisResultProperties
+  - Added Interface CustomHostnameSitesProperties
+  - Added Interface DatabaseConnectionPatchRequestProperties
+  - Added Interface DatabaseConnectionProperties
+  - Added Interface DeletedAppRestoreRequestProperties
+  - Added Interface DeletedSiteProperties
+  - Added Interface DeploymentProperties
+  - Added Interface DetectorResponseProperties
+  - Added Interface DiagnosticAnalysisProperties
+  - Added Interface DiagnosticCategoryProperties
+  - Added Interface DiagnosticDetectorResponseProperties
+  - Added Interface FunctionAppStackProperties
+  - Added Interface FunctionEnvelopeProperties
+  - Added Interface FunctionsSiteUpdateStrategy
+  - Added Interface GeoRegionProperties
+  - Added Interface HostNameBindingProperties
+  - Added Interface HybridConnectionKeyProperties
+  - Added Interface HybridConnectionLimitsProperties
+  - Added Interface HybridConnectionProperties
+  - Added Interface IdentifierProperties
+  - Added Interface KubeEnvironmentPatchResourceProperties
+  - Added Interface KubeEnvironmentProperties
+  - Added Interface MigrateMySqlRequestProperties
+  - Added Interface MigrateMySqlStatusProperties
+  - Added Interface MSDeployCore
+  - Added Interface MSDeployLogProperties
+  - Added Interface MSDeployStatusProperties
+  - Added Interface NetworkFeaturesProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PremierAddOnOfferProperties
+  - Added Interface PremierAddOnPatchResourceProperties
+  - Added Interface PremierAddOnProperties
+  - Added Interface PrivateAccessProperties
+  - Added Interface ProcessInfoProperties
+  - Added Interface ProcessModuleInfoProperties
+  - Added Interface ProcessThreadInfoProperties
+  - Added Interface ProxyResource
+  - Added Interface PublicCertificateProperties
+  - Added Interface PushSettingsProperties
+  - Added Interface RecommendationProperties
+  - Added Interface RecommendationRuleProperties
+  - Added Interface RelayServiceConnectionEntityProperties
+  - Added Interface RemotePrivateEndpointConnectionARMResourceProperties
+  - Added Interface RemotePrivateEndpointConnectionProperties
+  - Added Interface ResourceHealthMetadataProperties
+  - Added Interface ResourceMetricDefinitionProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface RestoreRequestProperties
+  - Added Interface SiteAuthSettingsProperties
+  - Added Interface SiteAuthSettingsV2Properties
+  - Added Interface SiteConfigurationSnapshotInfoProperties
+  - Added Interface SiteContainerProperties
+  - Added Interface SiteExtensionInfoProperties
+  - Added Interface SiteLogsConfigProperties
+  - Added Interface SitePatchResourceProperties
+  - Added Interface SitePhpErrorLogFlagProperties
+  - Added Interface SiteProperties
+  - Added Interface SiteSourceControlProperties
+  - Added Interface SlotConfigNames
+  - Added Interface SlotDifferenceProperties
+  - Added Interface SnapshotProperties
+  - Added Interface SnapshotRestoreRequestProperties
+  - Added Interface SourceControlProperties
+  - Added Interface StaticSite
+  - Added Interface StaticSiteBasicAuthPropertiesARMResourceProperties
+  - Added Interface StaticSiteBuildARMResourceProperties
+  - Added Interface StaticSiteCustomDomainOverviewARMResourceProperties
+  - Added Interface StaticSiteCustomDomainRequestPropertiesARMResourceProperties
+  - Added Interface StaticSiteFunctionOverviewARMResourceProperties
+  - Added Interface StaticSiteLinkedBackendARMResourceProperties
+  - Added Interface StaticSiteResetPropertiesARMResourceProperties
+  - Added Interface StaticSitesWorkflowPreviewProperties
+  - Added Interface StaticSitesWorkflowPreviewRequestProperties
+  - Added Interface StaticSiteUserARMResourceProperties
+  - Added Interface StaticSiteUserInvitationRequestResourceProperties
+  - Added Interface StaticSiteUserInvitationResponseResourceProperties
+  - Added Interface StaticSiteUserProvidedFunctionAppARMResourceProperties
+  - Added Interface StaticSiteUserProvidedFunctionAppProperties
+  - Added Interface StaticSiteZipDeployment
+  - Added Interface StorageMigrationOptionsProperties
+  - Added Interface StorageMigrationResponseProperties
+  - Added Interface SwiftVirtualNetworkProperties
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface TriggeredJobHistoryProperties
+  - Added Interface TriggeredWebJobProperties
+  - Added Interface UsageProperties
+  - Added Interface UserProperties
+  - Added Interface ValidateProperties
+  - Added Interface VnetGatewayProperties
+  - Added Interface VnetParametersProperties
+  - Added Interface VnetRouteProperties
+  - Added Interface VnetValidationFailureDetailsProperties
+  - Added Interface VnetValidationTestFailureProperties
+  - Added Interface WebAppsSwapSlotSlotOptionalParams
+  - Added Interface WebAppStackProperties
+  - Added Interface WebJobProperties
+  - Added Interface WebSiteInstanceStatusProperties
+  - Added Interface WorkerPool
+  - Added Interface WorkflowProperties
+  - Added Interface WorkflowRunActionProperties
+  - Added Interface WorkflowRunProperties
+  - Added Interface WorkflowTriggerHistoryProperties
+  - Added Interface WorkflowTriggerProperties
+  - Added Interface WorkflowVersionProperties
+  - Interface AddressResponse has a new optional parameter systemData
+  - Interface AnalysisDefinition has a new optional parameter systemData
+  - Interface ApiKVReference has a new optional parameter systemData
+  - Interface AppServiceEnvironmentResource has a new optional parameter systemData
+  - Interface AppServicePlan has a new optional parameter systemData
+  - Interface AseV3NetworkingConfiguration has a new optional parameter systemData
+  - Interface BackupItem has a new optional parameter systemData
+  - Interface Certificate has a new optional parameter systemData
+  - Interface ContinuousWebJob has a new optional parameter systemData
+  - Interface CsmDeploymentStatus has a new optional parameter systemData
+  - Interface CsmPublishingCredentialsPoliciesEntity has a new optional parameter systemData
+  - Interface CustomDnsSuffixConfiguration has a new optional parameter systemData
+  - Interface DatabaseConnection has a new optional parameter systemData
+  - Interface DeletedSite has a new optional parameter systemData
+  - Interface Deployment has a new optional parameter systemData
+  - Interface DetectorDefinitionResource has a new optional parameter systemData
+  - Interface DetectorResponse has a new optional parameter systemData
+  - Interface DiagnosticCategory has a new optional parameter systemData
+  - Interface FunctionAppConfig has a new optional parameter siteUpdateStrategy
+  - Interface FunctionEnvelope has a new optional parameter systemData
+  - Interface HostNameBinding has a new optional parameter systemData
+  - Interface HybridConnection has a new optional parameter systemData
+  - Interface HybridConnectionLimits has a new optional parameter systemData
+  - Interface Identifier has a new optional parameter systemData
+  - Interface KubeEnvironment has a new optional parameter systemData
+  - Interface MigrateMySqlStatus has a new optional parameter systemData
+  - Interface MSDeployStatus has a new optional parameter systemData
+  - Interface NetworkFeatures has a new optional parameter systemData
+  - Interface PremierAddOn has a new optional parameter systemData
+  - Interface PrivateAccess has a new optional parameter systemData
+  - Interface ProcessInfo has a new optional parameter systemData
+  - Interface ProcessModuleInfo has a new optional parameter systemData
+  - Interface PublicCertificate has a new optional parameter systemData
+  - Interface RecommendationRule has a new optional parameter systemData
+  - Interface RelayServiceConnectionEntity has a new optional parameter systemData
+  - Interface RemotePrivateEndpointConnectionARMResource has a new optional parameter systemData
+  - Interface RequestHistory has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceHealthMetadata has a new optional parameter systemData
+  - Interface Site has a new optional parameter systemData
+  - Interface SiteAuthSettingsV2 has a new optional parameter systemData
+  - Interface SiteConfigResource has a new optional parameter systemData
+  - Interface SiteContainer has a new optional parameter systemData
+  - Interface SiteExtensionInfo has a new optional parameter systemData
+  - Interface SiteLogsConfig has a new optional parameter systemData
+  - Interface SiteSourceControl has a new optional parameter systemData
+  - Interface SlotConfigNamesResource has a new optional parameter systemData
+  - Interface SourceControl has a new optional parameter systemData
+  - Interface StaticSiteARMResource has a new optional parameter systemData
+  - Interface StaticSiteBasicAuthPropertiesARMResource has a new optional parameter systemData
+  - Interface StaticSiteBuildARMResource has a new optional parameter systemData
+  - Interface StaticSiteCustomDomainOverviewARMResource has a new optional parameter systemData
+  - Interface StaticSiteLinkedBackendARMResource has a new optional parameter systemData
+  - Interface StaticSiteUserProvidedFunctionAppARMResource has a new optional parameter systemData
+  - Interface SwiftVirtualNetwork has a new optional parameter systemData
+  - Interface TriggeredJobHistory has a new optional parameter systemData
+  - Interface TriggeredWebJob has a new optional parameter systemData
+  - Interface User has a new optional parameter systemData
+  - Interface VnetGateway has a new optional parameter systemData
+  - Interface VnetInfoResource has a new optional parameter systemData
+  - Interface VnetRoute has a new optional parameter systemData
+  - Interface WebJob has a new optional parameter systemData
+  - Interface WebSiteInstanceStatus has a new optional parameter systemData
+  - Interface WorkerPoolResource has a new optional parameter systemData
+  - Interface WorkflowEnvelope has a new optional parameter systemData
+  - Interface WorkflowRun has a new optional parameter systemData
+  - Interface WorkflowRunAction has a new optional parameter systemData
+  - Interface WorkflowRunActionRepetitionDefinition has a new optional parameter systemData
+  - Interface WorkflowTrigger has a new optional parameter systemData
+  - Interface WorkflowTriggerHistory has a new optional parameter systemData
+  - Interface WorkflowVersion has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias SiteUpdateStrategyType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownSiteUpdateStrategyType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Removed operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnection
+  - Removed operation AppServiceEnvironments.beginApproveOrRejectPrivateEndpointConnectionAndWait
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdate
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdateAndWait
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdateMultiRolePool
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdateMultiRolePoolAndWait
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdateWorkerPool
+  - Removed operation AppServiceEnvironments.beginCreateOrUpdateWorkerPoolAndWait
+  - Removed operation AppServiceEnvironments.beginDelete
+  - Removed operation AppServiceEnvironments.beginDeleteAndWait
+  - Removed operation AppServiceEnvironments.beginDeletePrivateEndpointConnection
+  - Removed operation AppServiceEnvironments.beginDeletePrivateEndpointConnectionAndWait
+  - Removed operation AppServiceEnvironments.beginListChangeVnetAndWait
+  - Removed operation AppServiceEnvironments.beginListResumeAndWait
+  - Removed operation AppServiceEnvironments.beginListSuspendAndWait
+  - Removed operation AppServiceEnvironments.beginUpgrade
+  - Removed operation AppServiceEnvironments.beginUpgradeAndWait
+  - Removed operation AppServiceEnvironments.listInboundNetworkDependenciesEndpoints
+  - Removed operation AppServiceEnvironments.listOutboundNetworkDependenciesEndpoints
+  - Removed operation AppServiceEnvironments.listPrivateEndpointConnectionList
+  - Removed operation AppServicePlans.beginCreateOrUpdate
+  - Removed operation AppServicePlans.beginCreateOrUpdateAndWait
+  - Removed operation KubeEnvironments.beginCreateOrUpdate
+  - Removed operation KubeEnvironments.beginCreateOrUpdateAndWait
+  - Removed operation KubeEnvironments.beginDelete
+  - Removed operation KubeEnvironments.beginDeleteAndWait
+  - Removed operation Provider.listAvailableStacks
+  - Removed operation Provider.listAvailableStacksOnPrem
+  - Removed operation Provider.listFunctionAppStacks
+  - Removed operation Provider.listFunctionAppStacksForLocation
+  - Removed operation Provider.listWebAppStacks
+  - Removed operation Provider.listWebAppStacksForLocation
+  - Removed operation StaticSites.beginApproveOrRejectPrivateEndpointConnection
+  - Removed operation StaticSites.beginApproveOrRejectPrivateEndpointConnectionAndWait
+  - Removed operation StaticSites.beginCreateOrUpdateStaticSite
+  - Removed operation StaticSites.beginCreateOrUpdateStaticSiteAndWait
+  - Removed operation StaticSites.beginCreateOrUpdateStaticSiteCustomDomain
+  - Removed operation StaticSites.beginCreateOrUpdateStaticSiteCustomDomainAndWait
+  - Removed operation StaticSites.beginCreateZipDeploymentForStaticSite
+  - Removed operation StaticSites.beginCreateZipDeploymentForStaticSiteAndWait
+  - Removed operation StaticSites.beginCreateZipDeploymentForStaticSiteBuild
+  - Removed operation StaticSites.beginCreateZipDeploymentForStaticSiteBuildAndWait
+  - Removed operation StaticSites.beginDeletePrivateEndpointConnection
+  - Removed operation StaticSites.beginDeletePrivateEndpointConnectionAndWait
+  - Removed operation StaticSites.beginDeleteStaticSite
+  - Removed operation StaticSites.beginDeleteStaticSiteAndWait
+  - Removed operation StaticSites.beginDeleteStaticSiteBuild
+  - Removed operation StaticSites.beginDeleteStaticSiteBuildAndWait
+  - Removed operation StaticSites.beginDeleteStaticSiteCustomDomain
+  - Removed operation StaticSites.beginDeleteStaticSiteCustomDomainAndWait
+  - Removed operation StaticSites.beginDetachStaticSite
+  - Removed operation StaticSites.beginDetachStaticSiteAndWait
+  - Removed operation StaticSites.beginLinkBackend
+  - Removed operation StaticSites.beginLinkBackendAndWait
+  - Removed operation StaticSites.beginLinkBackendToBuild
+  - Removed operation StaticSites.beginLinkBackendToBuildAndWait
+  - Removed operation StaticSites.beginRegisterUserProvidedFunctionAppWithStaticSite
+  - Removed operation StaticSites.beginRegisterUserProvidedFunctionAppWithStaticSiteAndWait
+  - Removed operation StaticSites.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild
+  - Removed operation StaticSites.beginRegisterUserProvidedFunctionAppWithStaticSiteBuildAndWait
+  - Removed operation StaticSites.beginValidateBackend
+  - Removed operation StaticSites.beginValidateBackendAndWait
+  - Removed operation StaticSites.beginValidateBackendForBuild
+  - Removed operation StaticSites.beginValidateBackendForBuildAndWait
+  - Removed operation StaticSites.beginValidateCustomDomainCanBeAddedToStaticSite
+  - Removed operation StaticSites.beginValidateCustomDomainCanBeAddedToStaticSiteAndWait
+  - Removed operation StaticSites.listBuildDatabaseConnections
+  - Removed operation StaticSites.listBuildDatabaseConnectionsWithDetails
+  - Removed operation StaticSites.listDatabaseConnections
+  - Removed operation StaticSites.listDatabaseConnectionsWithDetails
+  - Removed operation StaticSites.listLinkedBackends
+  - Removed operation StaticSites.listLinkedBackendsForBuild
+  - Removed operation StaticSites.listPrivateEndpointConnectionList
+  - Removed operation StaticSites.listStaticSiteBuilds
+  - Removed operation StaticSites.listStaticSitesByResourceGroup
+  - Removed operation StaticSites.listUserProvidedFunctionAppsForStaticSite
+  - Removed operation StaticSites.listUserProvidedFunctionAppsForStaticSiteBuild
+  - Removed operation WebApps.beginApproveOrRejectPrivateEndpointConnection
+  - Removed operation WebApps.beginApproveOrRejectPrivateEndpointConnectionAndWait
+  - Removed operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlot
+  - Removed operation WebApps.beginApproveOrRejectPrivateEndpointConnectionSlotAndWait
+  - Removed operation WebApps.beginCreateFunction
+  - Removed operation WebApps.beginCreateFunctionAndWait
+  - Removed operation WebApps.beginCreateInstanceFunctionSlot
+  - Removed operation WebApps.beginCreateInstanceFunctionSlotAndWait
+  - Removed operation WebApps.beginCreateInstanceMSDeployOperation
+  - Removed operation WebApps.beginCreateInstanceMSDeployOperationAndWait
+  - Removed operation WebApps.beginCreateInstanceMSDeployOperationSlot
+  - Removed operation WebApps.beginCreateInstanceMSDeployOperationSlotAndWait
+  - Removed operation WebApps.beginCreateMSDeployOperation
+  - Removed operation WebApps.beginCreateMSDeployOperationAndWait
+  - Removed operation WebApps.beginCreateMSDeployOperationSlot
+  - Removed operation WebApps.beginCreateMSDeployOperationSlotAndWait
+  - Removed operation WebApps.beginCreateOrUpdate
+  - Removed operation WebApps.beginCreateOrUpdateAndWait
+  - Removed operation WebApps.beginCreateOrUpdateSlot
+  - Removed operation WebApps.beginCreateOrUpdateSlotAndWait
+  - Removed operation WebApps.beginCreateOrUpdateSourceControl
+  - Removed operation WebApps.beginCreateOrUpdateSourceControlAndWait
+  - Removed operation WebApps.beginCreateOrUpdateSourceControlSlot
+  - Removed operation WebApps.beginCreateOrUpdateSourceControlSlotAndWait
+  - Removed operation WebApps.beginDeletePrivateEndpointConnection
+  - Removed operation WebApps.beginDeletePrivateEndpointConnectionAndWait
+  - Removed operation WebApps.beginDeletePrivateEndpointConnectionSlot
+  - Removed operation WebApps.beginDeletePrivateEndpointConnectionSlotAndWait
+  - Removed operation WebApps.beginGetProductionSiteDeploymentStatus
+  - Removed operation WebApps.beginGetProductionSiteDeploymentStatusAndWait
+  - Removed operation WebApps.beginGetSlotSiteDeploymentStatusSlot
+  - Removed operation WebApps.beginGetSlotSiteDeploymentStatusSlotAndWait
+  - Removed operation WebApps.beginInstallSiteExtension
+  - Removed operation WebApps.beginInstallSiteExtensionAndWait
+  - Removed operation WebApps.beginInstallSiteExtensionSlot
+  - Removed operation WebApps.beginInstallSiteExtensionSlotAndWait
+  - Removed operation WebApps.beginListPublishingCredentials
+  - Removed operation WebApps.beginListPublishingCredentialsAndWait
+  - Removed operation WebApps.beginListPublishingCredentialsSlot
+  - Removed operation WebApps.beginListPublishingCredentialsSlotAndWait
+  - Removed operation WebApps.beginMigrateMySql
+  - Removed operation WebApps.beginMigrateMySqlAndWait
+  - Removed operation WebApps.beginMigrateStorage
+  - Removed operation WebApps.beginMigrateStorageAndWait
+  - Removed operation WebApps.beginRestore
+  - Removed operation WebApps.beginRestoreAndWait
+  - Removed operation WebApps.beginRestoreFromBackupBlob
+  - Removed operation WebApps.beginRestoreFromBackupBlobAndWait
+  - Removed operation WebApps.beginRestoreFromBackupBlobSlot
+  - Removed operation WebApps.beginRestoreFromBackupBlobSlotAndWait
+  - Removed operation WebApps.beginRestoreFromDeletedApp
+  - Removed operation WebApps.beginRestoreFromDeletedAppAndWait
+  - Removed operation WebApps.beginRestoreFromDeletedAppSlot
+  - Removed operation WebApps.beginRestoreFromDeletedAppSlotAndWait
+  - Removed operation WebApps.beginRestoreSlot
+  - Removed operation WebApps.beginRestoreSlotAndWait
+  - Removed operation WebApps.beginRestoreSnapshot
+  - Removed operation WebApps.beginRestoreSnapshotAndWait
+  - Removed operation WebApps.beginRestoreSnapshotSlot
+  - Removed operation WebApps.beginRestoreSnapshotSlotAndWait
+  - Removed operation WebApps.beginStartNetworkTrace
+  - Removed operation WebApps.beginStartNetworkTraceAndWait
+  - Removed operation WebApps.beginStartNetworkTraceSlot
+  - Removed operation WebApps.beginStartNetworkTraceSlotAndWait
+  - Removed operation WebApps.beginStartWebSiteNetworkTraceOperation
+  - Removed operation WebApps.beginStartWebSiteNetworkTraceOperationAndWait
+  - Removed operation WebApps.beginStartWebSiteNetworkTraceOperationSlot
+  - Removed operation WebApps.beginStartWebSiteNetworkTraceOperationSlotAndWait
+  - Removed operation WebApps.beginSwapSlot
+  - Removed operation WebApps.beginSwapSlotAndWait
+  - Removed operation WebApps.beginSwapSlotWithProduction
+  - Removed operation WebApps.beginSwapSlotWithProductionAndWait
+  - Removed operation WebApps.listAppSettingsKeyVaultReferences
+  - Removed operation WebApps.listAppSettingsKeyVaultReferencesSlot
+  - Removed operation WebApps.listPrivateEndpointConnectionList
+  - Removed operation WebApps.listPrivateEndpointConnectionListSlot
+  - Removed operation WebApps.listSiteConnectionStringKeyVaultReferences
+  - Removed operation WebApps.listSiteConnectionStringKeyVaultReferencesSlot
+  - Removed operation WorkflowTriggerHistories.beginResubmit
+  - Removed operation WorkflowTriggerHistories.beginResubmitAndWait
+  - Removed operation WorkflowTriggers.beginRun
+  - Removed operation WorkflowTriggers.beginRunAndWait
+  - Operation WebApps.getContainerLogsZip has a new signature
+  - Operation WebApps.getContainerLogsZipSlot has a new signature
+  - Operation WebApps.getFunctionsAdminToken has a new signature
+  - Operation WebApps.getFunctionsAdminTokenSlot has a new signature
+  - Operation WebApps.getInstanceProcessDump has a new signature
+  - Operation WebApps.getInstanceProcessDumpSlot has a new signature
+  - Operation WebApps.getProcessDump has a new signature
+  - Operation WebApps.getProcessDumpSlot has a new signature
+  - Operation WebApps.getWebSiteContainerLogs has a new signature
+  - Operation WebApps.getWebSiteContainerLogsSlot has a new signature
+  - Operation WebApps.listPublishingProfileXmlWithSecrets has a new signature
+  - Operation WebApps.listPublishingProfileXmlWithSecretsSlot has a new signature
+  - Operation WebApps.startWebSiteNetworkTrace has a new signature
+  - Operation WebApps.startWebSiteNetworkTraceSlot has a new signature
+  - Removed Interface ApiKVReferenceCollection
+  - Removed Interface ApplicationStackCollection
+  - Removed Interface AppServiceEnvironmentCollection
+  - Removed Interface AppserviceGithubToken
+  - Removed Interface AppserviceGithubTokenRequest
+  - Removed Interface AppServicePlanCollection
+  - Removed Interface AseRegionCollection
+  - Removed Interface BackupItemCollection
+  - Removed Interface BillingMeterCollection
+  - Removed Interface CertificateCollection
+  - Removed Interface CipherSuites
+  - Removed Interface Container
+  - Removed Interface ContainerResources
+  - Removed Interface ContinuousWebJobCollection
+  - Removed Interface CsmDeploymentStatusCollection
+  - Removed Interface CsmOperationCollection
+  - Removed Interface CsmUsageQuotaCollection
+  - Removed Interface CustomHostnameSitesCollection
+  - Removed Interface CustomScaleRule
+  - Removed Interface Dapr
+  - Removed Interface DaprComponent
+  - Removed Interface DaprMetadata
+  - Removed Interface DatabaseConnectionCollection
+  - Removed Interface DeletedWebAppCollection
+  - Removed Interface DeploymentCollection
+  - Removed Interface DetectorResponseCollection
+  - Removed Interface DiagnosticAnalysisCollection
+  - Removed Interface DiagnosticCategoryCollection
+  - Removed Interface DiagnosticDetectorCollection
+  - Removed Interface EnvironmentVar
+  - Removed Interface ErrorPage
+  - Removed Interface ExpressionTraces
+  - Removed Interface FunctionAppStackCollection
+  - Removed Interface FunctionEnvelopeCollection
+  - Removed Interface GeoRegionCollection
+  - Removed Interface Global_2Operations
+  - Removed Interface HostNameBindingCollection
+  - Removed Interface HttpScaleRule
+  - Removed Interface HybridConnectionCollection
+  - Removed Interface IdentifierCollection
+  - Removed Interface InboundEnvironmentEndpointCollection
+  - Removed Interface KubeEnvironmentCollection
+  - Removed Interface OutboundEnvironmentEndpointCollection
+  - Removed Interface PerfMonCounterCollection
+  - Removed Interface PremierAddOnOfferCollection
+  - Removed Interface PrivateEndpointConnectionCollection
+  - Removed Interface PrivateLinkConnectionApprovalRequestResource
+  - Removed Interface ProcessInfoCollection
+  - Removed Interface ProcessModuleInfoCollection
+  - Removed Interface ProcessThreadInfoCollection
+  - Removed Interface PublicCertificateCollection
+  - Removed Interface PublishingCredentialsPoliciesCollection
+  - Removed Interface QueueScaleRule
+  - Removed Interface RecommendationCollection
+  - Removed Interface ResourceCollection
+  - Removed Interface ResourceHealthMetadataCollection
+  - Removed Interface ResourceHealthMetadataOperationsOperations
+  - Removed Interface ResourceMetricDefinitionCollection
+  - Removed Interface Scale
+  - Removed Interface ScaleRule
+  - Removed Interface ScaleRuleAuth
+  - Removed Interface SiteConfigResourceCollection
+  - Removed Interface SiteConfigurationSnapshotInfoCollection
+  - Removed Interface SiteContainerCollection
+  - Removed Interface SiteExtensionInfoCollection
+  - Removed Interface SkuInfoCollection
+  - Removed Interface SlotDifferenceCollection
+  - Removed Interface SnapshotCollection
+  - Removed Interface SourceControlCollection
+  - Removed Interface StampCapacityCollection
+  - Removed Interface StaticSiteBasicAuthPropertiesCollection
+  - Removed Interface StaticSiteBuildCollection
+  - Removed Interface StaticSiteCollection
+  - Removed Interface StaticSiteCustomDomainOverviewCollection
+  - Removed Interface StaticSiteFunctionOverviewCollection
+  - Removed Interface StaticSiteLinkedBackendsCollection
+  - Removed Interface StaticSiteUserCollection
+  - Removed Interface StaticSiteUserProvidedFunctionAppsCollection
+  - Removed Interface SubResource
+  - Removed Interface Template
+  - Removed Interface TriggeredJobHistoryCollection
+  - Removed Interface TriggeredWebJobCollection
+  - Removed Interface UsageCollection
+  - Removed Interface WebAppCollection
+  - Removed Interface WebAppInstanceStatusCollection
+  - Removed Interface WebAppsSwapSlotOptionalParams
+  - Removed Interface WebAppStackCollection
+  - Removed Interface WebJobCollection
+  - Removed Interface WorkerPoolCollection
+  - Removed Interface WorkflowEnvelopeCollection
+  - Removed Interface WorkflowFilter
+  - Removed Interface WorkflowRunActionFilter
+  - Removed Interface WorkflowRunActionRepetitionDefinitionCollection
+  - Removed Interface WorkflowRunFilter
+  - Removed Interface WorkflowTriggerFilter
+  - Removed Interface WorkflowTriggerHistoryFilter
+  - Interface CheckNameAvailabilityOptionalParams no longer has parameter environmentId
+  - Interface CheckNameAvailabilityOptionalParams no longer has parameter isFqdn
+  - Interface RegionalCheckNameAvailabilityOptionalParams no longer has parameter autoGeneratedDomainNameLabelScope
+  - Interface RegionalCheckNameAvailabilityOptionalParams no longer has parameter resourceGroupName
+  - Interface Resource no longer has parameter kind
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Parameter location of interface RequestHistory is now required
+  - Parameter location of interface WorkflowRunActionRepetitionDefinition is now required
+  - Parameter location of interface WorkflowVersion is now required
+
 ## 18.0.0 (2025-11-18)
 The App Service has been divided into three separate services: App Service, Domain Registration, and Certificate Registration. APIs for Domain Registration are available in the @azure/arm-domainregistration package, and APIs for Certificate Registration are provided in the @azure/arm-certificateregistration package.
 
