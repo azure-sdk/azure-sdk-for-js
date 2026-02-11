@@ -1628,6 +1628,9 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt
+sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
