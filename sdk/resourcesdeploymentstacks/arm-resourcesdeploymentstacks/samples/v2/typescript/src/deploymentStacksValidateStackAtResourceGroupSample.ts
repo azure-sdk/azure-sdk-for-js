@@ -19,19 +19,21 @@ async function validateAResourceGroupDeploymentStack(): Promise<void> {
     "simpleDeploymentStack",
     {
       tags: { tagkey: "tagVal" },
-      actionOnUnmanage: {
-        resources: "delete",
-        resourceGroups: "delete",
-        managementGroups: "delete",
+      properties: {
+        actionOnUnmanage: {
+          resources: "delete",
+          resourceGroups: "delete",
+          managementGroups: "delete",
+        },
+        denySettings: {
+          mode: "denyDelete",
+          excludedPrincipals: ["principal"],
+          excludedActions: ["action"],
+          applyToChildScopes: false,
+        },
+        templateLink: { uri: "https://example.com/exampleTemplate.json" },
+        parameters: { parameter1: { value: "a string" } },
       },
-      denySettings: {
-        mode: "denyDelete",
-        excludedPrincipals: ["principal"],
-        excludedActions: ["action"],
-        applyToChildScopes: false,
-      },
-      templateLink: { uri: "https://example.com/exampleTemplate.json" },
-      parameters: { parameter1: { value: "a string" } },
     },
   );
   console.log(result);

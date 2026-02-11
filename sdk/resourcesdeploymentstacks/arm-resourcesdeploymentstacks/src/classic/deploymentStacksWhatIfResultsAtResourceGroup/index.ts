@@ -18,6 +18,8 @@ import type {
 } from "../../api/deploymentStacksWhatIfResultsAtResourceGroup/options.js";
 import type { DeploymentStacksWhatIfResult } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeploymentStacksWhatIfResultsAtResourceGroup operations. */
@@ -28,6 +30,20 @@ export interface DeploymentStacksWhatIfResultsAtResourceGroupOperations {
     deploymentStacksWhatIfResultName: string,
     options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
   ) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+  /** @deprecated use whatIf instead */
+  beginWhatIf: (
+    resourceGroupName: string,
+    deploymentStacksWhatIfResultName: string,
+    options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>
+  >;
+  /** @deprecated use whatIf instead */
+  beginWhatIfAndWait: (
+    resourceGroupName: string,
+    deploymentStacksWhatIfResultName: string,
+    options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
+  ) => Promise<DeploymentStacksWhatIfResult>;
   /** Deletes a Deployment stack by name at the specified scope. When operation completes, status code 200 returned without content. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -46,6 +62,22 @@ export interface DeploymentStacksWhatIfResultsAtResourceGroupOperations {
     resource: DeploymentStacksWhatIfResult,
     options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    deploymentStacksWhatIfResultName: string,
+    resource: DeploymentStacksWhatIfResult,
+    options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    deploymentStacksWhatIfResultName: string,
+    resource: DeploymentStacksWhatIfResult,
+    options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
+  ) => Promise<DeploymentStacksWhatIfResult>;
   /** Lists Deployment stacks at the specified scope. */
   list: (
     resourceGroupName: string,
@@ -66,6 +98,22 @@ function _getDeploymentStacksWhatIfResultsAtResourceGroup(context: DeploymentSta
       deploymentStacksWhatIfResultName: string,
       options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
     ) => whatIf(context, resourceGroupName, deploymentStacksWhatIfResultName, options),
+    beginWhatIf: async (
+      resourceGroupName: string,
+      deploymentStacksWhatIfResultName: string,
+      options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
+    ) => {
+      const poller = whatIf(context, resourceGroupName, deploymentStacksWhatIfResultName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginWhatIfAndWait: async (
+      resourceGroupName: string,
+      deploymentStacksWhatIfResultName: string,
+      options?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfOptionalParams,
+    ) => {
+      return await whatIf(context, resourceGroupName, deploymentStacksWhatIfResultName, options);
+    },
     delete: (
       resourceGroupName: string,
       deploymentStacksWhatIfResultName: string,
@@ -84,6 +132,36 @@ function _getDeploymentStacksWhatIfResultsAtResourceGroup(context: DeploymentSta
         resource,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      deploymentStacksWhatIfResultName: string,
+      resource: DeploymentStacksWhatIfResult,
+      options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        deploymentStacksWhatIfResultName,
+        resource,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      deploymentStacksWhatIfResultName: string,
+      resource: DeploymentStacksWhatIfResult,
+      options?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        deploymentStacksWhatIfResultName,
+        resource,
+        options,
+      );
+    },
     list: (
       resourceGroupName: string,
       options?: DeploymentStacksWhatIfResultsAtResourceGroupListOptionalParams,

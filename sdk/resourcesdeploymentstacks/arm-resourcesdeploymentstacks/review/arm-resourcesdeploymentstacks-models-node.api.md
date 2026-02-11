@@ -6,10 +6,10 @@
 
 // @public
 export interface ActionOnUnmanage {
-    managementGroups?: DeploymentStacksDeleteDetachEnum;
-    resourceGroups?: DeploymentStacksDeleteDetachEnum;
-    resources: DeploymentStacksDeleteDetachEnum;
-    resourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+    managementGroups?: UnmanageActionManagementGroupMode;
+    resourceGroups?: UnmanageActionResourceGroupMode;
+    resources: UnmanageActionResourceMode;
+    resourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
 }
 
 // @public
@@ -70,33 +70,9 @@ export interface DeploymentParameter {
 
 // @public
 export interface DeploymentStack extends ProxyResource {
-    actionOnUnmanage?: ActionOnUnmanage;
-    bypassStackOutOfSyncError?: boolean;
-    readonly correlationId?: string;
-    debugSetting?: DeploymentStacksDebugSetting;
-    readonly deletedResources?: ResourceReference[];
-    denySettings?: DenySettings;
-    readonly deploymentExtensions?: DeploymentExtension[];
-    readonly deploymentId?: string;
-    deploymentScope?: string;
-    description?: string;
-    readonly detachedResources?: ResourceReference[];
-    readonly duration?: string;
-    error?: ErrorDetail;
-    extensionConfigs?: Record<string, DeploymentExtensionConfig>;
-    externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
-    externalInputs?: Record<string, DeploymentExternalInput>;
-    readonly failedResources?: ResourceReferenceExtended[];
     location?: string;
-    readonly outputs?: Record<string, any>;
-    parameters?: Record<string, DeploymentParameter>;
-    parametersLink?: DeploymentStacksParametersLink;
-    readonly provisioningState?: DeploymentStackProvisioningState;
-    readonly resources?: ManagedResourceReference[];
+    properties?: DeploymentStackProperties;
     tags?: Record<string, string>;
-    template?: Record<string, any>;
-    templateLink?: DeploymentStacksTemplateLink;
-    validationLevel?: ValidationLevel;
 }
 
 // @public
@@ -113,7 +89,7 @@ export interface DeploymentStackProperties {
     description?: string;
     readonly detachedResources?: ResourceReference[];
     readonly duration?: string;
-    error?: ErrorDetail;
+    readonly error?: ErrorDetail;
     extensionConfigs?: Record<string, DeploymentExtensionConfig>;
     externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
     externalInputs?: Record<string, DeploymentExternalInput>;
@@ -169,9 +145,6 @@ export interface DeploymentStacksDebugSetting {
 }
 
 // @public
-export type DeploymentStacksDeleteDetachEnum = string;
-
-// @public
 export interface DeploymentStacksDiagnostic {
     additionalInfo?: ErrorAdditionalInfo[];
     code: string;
@@ -191,9 +164,6 @@ export interface DeploymentStacksParametersLink {
     contentVersion?: string;
     uri: string;
 }
-
-// @public
-export type DeploymentStacksResourcesWithoutDeleteSupportEnum = string;
 
 // @public
 export interface DeploymentStacksTemplateLink {
@@ -265,7 +235,7 @@ export interface DeploymentStacksWhatIfResultProperties {
     deploymentStackResourceId: string;
     description?: string;
     readonly diagnostics?: DeploymentStacksDiagnostic[];
-    error?: ErrorDetail;
+    readonly error?: ErrorDetail;
     extensionConfigs?: Record<string, DeploymentExtensionConfig>;
     externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
     externalInputs?: Record<string, DeploymentExternalInput>;
@@ -300,7 +270,7 @@ export interface DeploymentStackValidateProperties {
 
 // @public
 export interface DeploymentStackValidateResult {
-    error?: ErrorDetail;
+    readonly error?: ErrorDetail;
     readonly id?: string;
     readonly name?: string;
     properties?: DeploymentStackValidateProperties;
@@ -384,12 +354,6 @@ export enum KnownDeploymentStackProvisioningState {
 }
 
 // @public
-export enum KnownDeploymentStacksDeleteDetachEnum {
-    Delete = "delete",
-    Detach = "detach"
-}
-
-// @public
 export enum KnownDeploymentStacksDiagnosticLevel {
     Error = "error",
     Info = "info",
@@ -401,12 +365,6 @@ export enum KnownDeploymentStacksManagementStatus {
     Managed = "managed",
     Unknown = "unknown",
     Unmanaged = "unmanaged"
-}
-
-// @public
-export enum KnownDeploymentStacksResourcesWithoutDeleteSupportEnum {
-    Detach = "detach",
-    Fail = "fail"
 }
 
 // @public
@@ -439,6 +397,30 @@ export enum KnownResourceStatusMode {
     DeleteFailed = "deleteFailed",
     Managed = "managed",
     RemoveDenyFailed = "removeDenyFailed"
+}
+
+// @public
+export enum KnownResourcesWithoutDeleteSupportAction {
+    Detach = "detach",
+    Fail = "fail"
+}
+
+// @public
+export enum KnownUnmanageActionManagementGroupMode {
+    Delete = "delete",
+    Detach = "detach"
+}
+
+// @public
+export enum KnownUnmanageActionResourceGroupMode {
+    Delete = "delete",
+    Detach = "detach"
+}
+
+// @public
+export enum KnownUnmanageActionResourceMode {
+    Delete = "delete",
+    Detach = "detach"
 }
 
 // @public
@@ -484,7 +466,7 @@ export interface ResourceReference {
 // @public
 export interface ResourceReferenceExtended {
     readonly apiVersion?: string;
-    error?: ErrorDetail;
+    readonly error?: ErrorDetail;
     readonly extension?: DeploymentExtension;
     readonly id?: string;
     readonly identifiers?: Record<string, any>;
@@ -495,6 +477,9 @@ export interface ResourceReferenceExtended {
 export type ResourceStatusMode = string;
 
 // @public
+export type ResourcesWithoutDeleteSupportAction = string;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -503,6 +488,15 @@ export interface SystemData {
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
 }
+
+// @public
+export type UnmanageActionManagementGroupMode = string;
+
+// @public
+export type UnmanageActionResourceGroupMode = string;
+
+// @public
+export type UnmanageActionResourceMode = string;
 
 // @public
 export type ValidationLevel = string;

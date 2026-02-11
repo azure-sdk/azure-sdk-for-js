@@ -27,7 +27,6 @@ export class DeploymentStacksClient {
     subscriptionId: string,
     options?: DeploymentStacksClientOptionalParams,
   );
-  /** The APIs listed in this specification can be used to manage Deployment stack resources through the Azure Resource Manager. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | DeploymentStacksClientOptionalParams,

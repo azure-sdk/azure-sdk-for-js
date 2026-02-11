@@ -45,30 +45,30 @@ export interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams exte
 // @public
 export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
     updateIntervalInMs?: number;
 }
 

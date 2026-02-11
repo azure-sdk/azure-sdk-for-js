@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 import type {
-  DeploymentStacksDeleteDetachEnum,
-  DeploymentStacksResourcesWithoutDeleteSupportEnum,
+  UnmanageActionResourceMode,
+  UnmanageActionResourceGroupMode,
+  UnmanageActionManagementGroupMode,
+  ResourcesWithoutDeleteSupportAction,
 } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -15,13 +17,13 @@ export interface DeploymentStacksDeleteAtManagementGroupOptionalParams extends O
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResources?: UnmanageActionResourceMode;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
   /** Some resources do not support deletion.  This flag will denote how the stack should handle those resources. */
-  unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+  unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
   bypassStackOutOfSyncError?: boolean;
 }
@@ -52,13 +54,13 @@ export interface DeploymentStacksDeleteAtSubscriptionOptionalParams extends Oper
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResources?: UnmanageActionResourceMode;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
   /** Some resources do not support deletion.  This flag will denote how the stack should handle those resources. */
-  unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+  unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
   bypassStackOutOfSyncError?: boolean;
 }
@@ -89,13 +91,13 @@ export interface DeploymentStacksDeleteAtResourceGroupOptionalParams extends Ope
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** Flag to indicate delete rather than detach for unmanaged resources. */
-  unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResources?: UnmanageActionResourceMode;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
-  unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
-  unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
+  unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
   /** Some resources do not support deletion.  This flag will denote how the stack should handle those resources. */
-  unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+  unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
   bypassStackOutOfSyncError?: boolean;
 }

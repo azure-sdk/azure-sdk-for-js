@@ -8,7 +8,7 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public
+// @public (undocumented)
 export function createDeploymentStacks(credential: TokenCredential, subscriptionId: string, options?: DeploymentStacksClientOptionalParams): DeploymentStacksContext;
 
 // @public
@@ -17,9 +17,9 @@ export interface DeploymentStacksClientOptionalParams extends ClientOptions {
     cloudSetting?: AzureSupportedClouds;
 }
 
-// @public
+// @public (undocumented)
 export interface DeploymentStacksContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

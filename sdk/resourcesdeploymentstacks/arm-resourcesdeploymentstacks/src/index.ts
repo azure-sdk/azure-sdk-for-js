@@ -9,6 +9,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { DeploymentStacksClient } from "./deploymentStacksClient.js";
+export { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   DeploymentStacksWhatIfResult,
@@ -25,10 +26,14 @@ export {
   DeploymentExternalInput,
   DeploymentExternalInputDefinition,
   ActionOnUnmanage,
-  KnownDeploymentStacksDeleteDetachEnum,
-  DeploymentStacksDeleteDetachEnum,
-  KnownDeploymentStacksResourcesWithoutDeleteSupportEnum,
-  DeploymentStacksResourcesWithoutDeleteSupportEnum,
+  KnownUnmanageActionResourceMode,
+  UnmanageActionResourceMode,
+  KnownUnmanageActionResourceGroupMode,
+  UnmanageActionResourceGroupMode,
+  KnownUnmanageActionManagementGroupMode,
+  UnmanageActionManagementGroupMode,
+  KnownResourcesWithoutDeleteSupportAction,
+  ResourcesWithoutDeleteSupportAction,
   DeploymentStacksDebugSetting,
   DenySettings,
   KnownDenySettingsMode,

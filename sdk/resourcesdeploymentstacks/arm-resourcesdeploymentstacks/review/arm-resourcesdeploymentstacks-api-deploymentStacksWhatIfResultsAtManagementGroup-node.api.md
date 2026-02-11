@@ -23,10 +23,10 @@ export interface DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateOpt
 // @public
 export interface DeploymentStacksWhatIfResultsAtManagementGroupDeleteOptionalParams extends OperationOptions {
     bypassStackOutOfSyncError?: boolean;
-    unmanageActionManagementGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourceGroups?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResources?: DeploymentStacksDeleteDetachEnum;
-    unmanageActionResourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+    unmanageActionManagementGroups?: UnmanageActionManagementGroupMode;
+    unmanageActionResourceGroups?: UnmanageActionResourceGroupMode;
+    unmanageActionResources?: UnmanageActionResourceMode;
+    unmanageActionResourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
 }
 
 // @public

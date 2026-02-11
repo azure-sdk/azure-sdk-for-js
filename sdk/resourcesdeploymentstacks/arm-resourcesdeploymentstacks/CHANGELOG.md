@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-01-27)
+## 2.0.0 (2026-02-11)
 
 ### Features Added
   - Added operation group DeploymentStacksWhatIfResultsAtManagementGroupOperations
@@ -52,33 +52,9 @@
   - Added Interface ProxyResource
   - Added Interface Resource
   - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
   - Interface ActionOnUnmanage has a new optional parameter resourcesWithoutDeleteSupport
   - Interface DeploymentParameter has a new optional parameter expression
-  - Interface DeploymentStack has a new optional parameter actionOnUnmanage
-  - Interface DeploymentStack has a new optional parameter bypassStackOutOfSyncError
-  - Interface DeploymentStack has a new optional parameter correlationId
-  - Interface DeploymentStack has a new optional parameter debugSetting
-  - Interface DeploymentStack has a new optional parameter deletedResources
-  - Interface DeploymentStack has a new optional parameter denySettings
-  - Interface DeploymentStack has a new optional parameter deploymentExtensions
-  - Interface DeploymentStack has a new optional parameter deploymentId
-  - Interface DeploymentStack has a new optional parameter deploymentScope
-  - Interface DeploymentStack has a new optional parameter description
-  - Interface DeploymentStack has a new optional parameter detachedResources
-  - Interface DeploymentStack has a new optional parameter duration
-  - Interface DeploymentStack has a new optional parameter error
-  - Interface DeploymentStack has a new optional parameter extensionConfigs
-  - Interface DeploymentStack has a new optional parameter externalInputDefinitions
-  - Interface DeploymentStack has a new optional parameter externalInputs
-  - Interface DeploymentStack has a new optional parameter failedResources
-  - Interface DeploymentStack has a new optional parameter outputs
-  - Interface DeploymentStack has a new optional parameter parameters
-  - Interface DeploymentStack has a new optional parameter parametersLink
-  - Interface DeploymentStack has a new optional parameter provisioningState
-  - Interface DeploymentStack has a new optional parameter resources
-  - Interface DeploymentStack has a new optional parameter template
-  - Interface DeploymentStack has a new optional parameter templateLink
-  - Interface DeploymentStack has a new optional parameter validationLevel
   - Interface DeploymentStackProperties has a new optional parameter deploymentExtensions
   - Interface DeploymentStackProperties has a new optional parameter extensionConfigs
   - Interface DeploymentStackProperties has a new optional parameter externalInputDefinitions
@@ -101,18 +77,18 @@
   - Added Type Alias AzureSupportedClouds
   - Added Type Alias DeploymentStacksDiagnosticLevel
   - Added Type Alias DeploymentStacksManagementStatus
-  - Added Type Alias DeploymentStacksResourcesWithoutDeleteSupportEnum
   - Added Type Alias DeploymentStacksWhatIfChangeCertainty
   - Added Type Alias DeploymentStacksWhatIfChangeType
   - Added Type Alias DeploymentStacksWhatIfPropertyChangeType
+  - Added Type Alias ResourcesWithoutDeleteSupportAction
   - Added Type Alias ValidationLevel
   - Added Enum AzureClouds
   - Added Enum KnownDeploymentStacksDiagnosticLevel
   - Added Enum KnownDeploymentStacksManagementStatus
-  - Added Enum KnownDeploymentStacksResourcesWithoutDeleteSupportEnum
   - Added Enum KnownDeploymentStacksWhatIfChangeCertainty
   - Added Enum KnownDeploymentStacksWhatIfChangeType
   - Added Enum KnownDeploymentStacksWhatIfPropertyChangeType
+  - Added Enum KnownResourcesWithoutDeleteSupportAction
   - Added Enum KnownValidationLevel
   - Added Enum KnownVersions
   - Enum KnownDenyStatusMode has a new value Unknown
@@ -120,33 +96,10 @@
   - Enum KnownDeploymentStackProvisioningState has a new value Running
 
 ### Breaking Changes
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtManagementGroup
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtManagementGroupAndWait
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtResourceGroup
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtResourceGroupAndWait
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtSubscription
-  - Removed operation DeploymentStacks.beginCreateOrUpdateAtSubscriptionAndWait
-  - Removed operation DeploymentStacks.beginDeleteAtManagementGroup
-  - Removed operation DeploymentStacks.beginDeleteAtManagementGroupAndWait
-  - Removed operation DeploymentStacks.beginDeleteAtResourceGroup
-  - Removed operation DeploymentStacks.beginDeleteAtResourceGroupAndWait
-  - Removed operation DeploymentStacks.beginDeleteAtSubscription
-  - Removed operation DeploymentStacks.beginDeleteAtSubscriptionAndWait
-  - Removed operation DeploymentStacks.beginValidateStackAtManagementGroup
-  - Removed operation DeploymentStacks.beginValidateStackAtManagementGroupAndWait
-  - Removed operation DeploymentStacks.beginValidateStackAtResourceGroup
-  - Removed operation DeploymentStacks.beginValidateStackAtResourceGroupAndWait
-  - Removed operation DeploymentStacks.beginValidateStackAtSubscription
-  - Removed operation DeploymentStacks.beginValidateStackAtSubscriptionAndWait
   - Removed Interface AzureResourceBase
   - Removed Interface DeploymentStacksError
-  - Interface DeploymentStack no longer has parameter properties
-  - Removed Type Alias UnmanageActionManagementGroupMode
-  - Removed Type Alias UnmanageActionResourceGroupMode
-  - Removed Type Alias UnmanageActionResourceMode
-  - Removed Enum KnownUnmanageActionManagementGroupMode
-  - Removed Enum KnownUnmanageActionResourceGroupMode
-  - Removed Enum KnownUnmanageActionResourceMode
+  - Removed Type Alias DeploymentStacksDeleteDetachEnum
+  - Removed Enum KnownDeploymentStacksDeleteDetachEnum
 
     
 ## 1.0.0 (2024-06-24)

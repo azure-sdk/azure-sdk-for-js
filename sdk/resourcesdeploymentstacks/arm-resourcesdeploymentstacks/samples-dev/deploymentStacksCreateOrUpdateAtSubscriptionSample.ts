@@ -19,23 +19,25 @@ async function createOrUpdateASubscriptionDeploymentStack(): Promise<void> {
     {
       location: "eastus",
       tags: { tagkey: "tagVal" },
-      actionOnUnmanage: {
-        resources: "delete",
-        resourceGroups: "delete",
-        managementGroups: "detach",
-      },
-      denySettings: {
-        mode: "denyDelete",
-        excludedPrincipals: ["principal"],
-        excludedActions: ["action"],
-        applyToChildScopes: false,
-      },
-      parameters: { parameter1: { value: "a string" } },
-      extensionConfigs: {
-        contoso: {
-          additionalProperties: {
-            configOne: { value: "config1Value" },
-            configTwo: { value: true },
+      properties: {
+        actionOnUnmanage: {
+          resources: "delete",
+          resourceGroups: "delete",
+          managementGroups: "detach",
+        },
+        denySettings: {
+          mode: "denyDelete",
+          excludedPrincipals: ["principal"],
+          excludedActions: ["action"],
+          applyToChildScopes: false,
+        },
+        parameters: { parameter1: { value: "a string" } },
+        extensionConfigs: {
+          contoso: {
+            additionalProperties: {
+              configOne: { value: "config1Value" },
+              configTwo: { value: true },
+            },
           },
         },
       },

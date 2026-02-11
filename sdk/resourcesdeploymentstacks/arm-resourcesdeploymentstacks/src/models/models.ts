@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 
 /**
@@ -51,7 +50,7 @@ export function deploymentStacksWhatIfResultDeserializer(item: any): DeploymentS
 /** DeploymentStack WhatIfResult Properties */
 export interface DeploymentStacksWhatIfResultProperties {
   /** The error detail. */
-  error?: ErrorDetail;
+  readonly error?: ErrorDetail;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
   template?: Record<string, any>;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
@@ -98,7 +97,6 @@ export function deploymentStacksWhatIfResultPropertiesSerializer(
   item: DeploymentStacksWhatIfResultProperties,
 ): any {
   return {
-    error: !item["error"] ? item["error"] : errorDetailSerializer(item["error"]),
     template: item["template"],
     templateLink: !item["templateLink"]
       ? item["templateLink"]
@@ -195,10 +193,6 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
-}
-
 export function errorDetailDeserializer(item: any): ErrorDetail {
   return {
     code: item["code"],
@@ -209,12 +203,6 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
-}
-
-export function errorDetailArraySerializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailSerializer(item);
-  });
 }
 
 export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
@@ -551,14 +539,14 @@ export function deploymentExternalInputDefinitionDeserializer(
 
 /** Defines the behavior of resources that are no longer managed after the stack is updated or deleted. */
 export interface ActionOnUnmanage {
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resources: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  resourceGroups?: DeploymentStacksDeleteDetachEnum;
-  /** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-  managementGroups?: DeploymentStacksDeleteDetachEnum;
+  /** Specifies an action for a newly unmanaged resource. */
+  resources: UnmanageActionResourceMode;
+  /** Specifies an action for a newly unmanaged resource group. */
+  resourceGroups?: UnmanageActionResourceGroupMode;
+  /** Specifies an action for a newly unmanaged resource management group. */
+  managementGroups?: UnmanageActionManagementGroupMode;
   /** Some resources do not support deletion.  This flag will denote how the stack should handle those resources. */
-  resourcesWithoutDeleteSupport?: DeploymentStacksResourcesWithoutDeleteSupportEnum;
+  resourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction;
 }
 
 export function actionOnUnmanageSerializer(item: ActionOnUnmanage): any {
@@ -579,41 +567,77 @@ export function actionOnUnmanageDeserializer(item: any): ActionOnUnmanage {
   };
 }
 
-/** Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. */
-export enum KnownDeploymentStacksDeleteDetachEnum {
-  /** Delete the specified resources from Azure */
+/** Specifies an action for a newly unmanaged resource. */
+export enum KnownUnmanageActionResourceMode {
+  /** Delete the resources from Azure */
   Delete = "delete",
-  /** Keep the specified resources in Azure */
+  /** Keep the resources in Azure */
   Detach = "detach",
 }
 
 /**
- * Specifies an action for a newly unmanaged resource. Delete will attempt to delete the resource from Azure. Detach will leave the resource in it's current state. \
- * {@link KnownDeploymentStacksDeleteDetachEnum} can be used interchangeably with DeploymentStacksDeleteDetachEnum,
+ * Specifies an action for a newly unmanaged resource. \
+ * {@link KnownUnmanageActionResourceMode} can be used interchangeably with UnmanageActionResourceMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **delete**: Delete the specified resources from Azure \
- * **detach**: Keep the specified resources in Azure
+ * **delete**: Delete the resources from Azure \
+ * **detach**: Keep the resources in Azure
  */
-export type DeploymentStacksDeleteDetachEnum = string;
+export type UnmanageActionResourceMode = string;
+
+/** Specifies an action for a newly unmanaged resource group. */
+export enum KnownUnmanageActionResourceGroupMode {
+  /** Delete the resource groups from Azure. */
+  Delete = "delete",
+  /** Keep the resource groups in Azure. */
+  Detach = "detach",
+}
+
+/**
+ * Specifies an action for a newly unmanaged resource group. \
+ * {@link KnownUnmanageActionResourceGroupMode} can be used interchangeably with UnmanageActionResourceGroupMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **delete**: Delete the resource groups from Azure. \
+ * **detach**: Keep the resource groups in Azure.
+ */
+export type UnmanageActionResourceGroupMode = string;
+
+/** Specifies an action for a newly unmanaged resource. */
+export enum KnownUnmanageActionManagementGroupMode {
+  /** Delete the management groups from Azure. */
+  Delete = "delete",
+  /** Keep the management groups in Azure. */
+  Detach = "detach",
+}
+
+/**
+ * Specifies an action for a newly unmanaged resource. \
+ * {@link KnownUnmanageActionManagementGroupMode} can be used interchangeably with UnmanageActionManagementGroupMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **delete**: Delete the management groups from Azure. \
+ * **detach**: Keep the management groups in Azure.
+ */
+export type UnmanageActionManagementGroupMode = string;
 
 /** Specifies an action for resources that do not support deletion. */
-export enum KnownDeploymentStacksResourcesWithoutDeleteSupportEnum {
-  /** Detach the specified resources from the deployment stack and continue */
+export enum KnownResourcesWithoutDeleteSupportAction {
+  /** Detach the specified resources from the deployment stack and continue. */
   Detach = "detach",
-  /** Fail the deployment stack if resources cannot be deleted */
+  /** Fail the deployment stack if resources cannot be deleted. */
   Fail = "fail",
 }
 
 /**
  * Specifies an action for resources that do not support deletion. \
- * {@link KnownDeploymentStacksResourcesWithoutDeleteSupportEnum} can be used interchangeably with DeploymentStacksResourcesWithoutDeleteSupportEnum,
+ * {@link KnownResourcesWithoutDeleteSupportAction} can be used interchangeably with ResourcesWithoutDeleteSupportAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **detach**: Detach the specified resources from the deployment stack and continue \
- * **fail**: Fail the deployment stack if resources cannot be deleted
+ * **detach**: Detach the specified resources from the deployment stack and continue. \
+ * **fail**: Fail the deployment stack if resources cannot be deleted.
  */
-export type DeploymentStacksResourcesWithoutDeleteSupportEnum = string;
+export type ResourcesWithoutDeleteSupportAction = string;
 
 /** The debug setting. */
 export interface DeploymentStacksDebugSetting {
@@ -1349,83 +1373,19 @@ export function deploymentStacksWhatIfResultArrayDeserializer(
 
 /** Deployment stack object. */
 export interface DeploymentStack extends ProxyResource {
+  /** Deployment stack properties. */
+  properties?: DeploymentStackProperties;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
   location?: string;
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The error detail. */
-  error?: ErrorDetail;
-  /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: Record<string, any>;
-  /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
-  /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: Record<string, DeploymentParameter>;
-  /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: DeploymentStacksParametersLink;
-  /** The deployment extension configs. Keys of this object are extension aliases as defined in the deployment template. */
-  extensionConfigs?: Record<string, DeploymentExtensionConfig>;
-  /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: Record<string, DeploymentExternalInput>;
-  /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: Record<string, DeploymentExternalInputDefinition>;
-  /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage?: ActionOnUnmanage;
-  /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
-  /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
-  /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
-  /** Defines how resources deployed by the stack are locked. */
-  denySettings?: DenySettings;
-  /** State of the deployment stack. */
-  readonly provisioningState?: DeploymentStackProvisioningState;
-  /** The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing. */
-  readonly correlationId?: string;
-  /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel;
-  /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
-  /** An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack. */
-  readonly detachedResources?: ResourceReference[];
-  /** An array of resources that were deleted during the most recent Deployment stack update. Deleted means that the resource was removed from the template and relevant deletion operations were specified. */
-  readonly deletedResources?: ResourceReference[];
-  /** An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message. */
-  readonly failedResources?: ResourceReferenceExtended[];
-  /** An array of resources currently managed by the deployment stack. */
-  readonly resources?: ManagedResourceReference[];
-  /** The extensions used during deployment. Contains extension data for all extensible resources managed by the stack. */
-  readonly deploymentExtensions?: DeploymentExtension[];
-  /** The resourceId of the deployment resource created by the deployment stack. */
-  readonly deploymentId?: string;
-  /** The outputs of the deployment resource created by the deployment stack. */
-  readonly outputs?: Record<string, any>;
-  /** The duration of the last successful Deployment stack update. */
-  readonly duration?: string;
 }
 
 export function deploymentStackSerializer(item: DeploymentStack): any {
   return {
-    properties: areAllPropsUndefined(item, [
-      "error",
-      "template",
-      "templateLink",
-      "parameters",
-      "parametersLink",
-      "extensionConfigs",
-      "externalInputs",
-      "externalInputDefinitions",
-      "actionOnUnmanage",
-      "debugSetting",
-      "deploymentScope",
-      "description",
-      "denySettings",
-      "validationLevel",
-      "bypassStackOutOfSyncError",
-    ])
-      ? undefined
-      : _deploymentStackPropertiesSerializer(item),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deploymentStackPropertiesSerializer(item["properties"]),
     location: item["location"],
     tags: item["tags"],
   };
@@ -1439,9 +1399,9 @@ export function deploymentStackDeserializer(item: any): DeploymentStack {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _deploymentStackPropertiesDeserializer(item["properties"])),
+      : deploymentStackPropertiesDeserializer(item["properties"]),
     location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
@@ -1452,7 +1412,7 @@ export function deploymentStackDeserializer(item: any): DeploymentStack {
 /** Deployment stack properties. */
 export interface DeploymentStackProperties {
   /** The error detail. */
-  error?: ErrorDetail;
+  readonly error?: ErrorDetail;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
   template?: Record<string, any>;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
@@ -1505,7 +1465,6 @@ export interface DeploymentStackProperties {
 
 export function deploymentStackPropertiesSerializer(item: DeploymentStackProperties): any {
   return {
-    error: !item["error"] ? item["error"] : errorDetailSerializer(item["error"]),
     template: item["template"],
     templateLink: !item["templateLink"]
       ? item["templateLink"]
@@ -1652,7 +1611,7 @@ export interface ResourceReferenceExtended {
   /** The API version the resource was deployed with */
   readonly apiVersion?: string;
   /** The error detail. */
-  error?: ErrorDetail;
+  readonly error?: ErrorDetail;
 }
 
 export function resourceReferenceExtendedDeserializer(item: any): ResourceReferenceExtended {
@@ -1771,7 +1730,7 @@ export interface DeploymentStackValidateResult {
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   readonly systemData?: SystemData;
   /** The error detail. */
-  error?: ErrorDetail;
+  readonly error?: ErrorDetail;
   /** The validation result details. */
   properties?: DeploymentStackValidateProperties;
 }
@@ -1873,104 +1832,4 @@ export enum KnownVersions {
   V20240301 = "2024-03-01",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
-}
-
-export function _deploymentStackPropertiesSerializer(item: DeploymentStack): any {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailSerializer(item["error"]),
-    template: item["template"],
-    templateLink: !item["templateLink"]
-      ? item["templateLink"]
-      : deploymentStacksTemplateLinkSerializer(item["templateLink"]),
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : deploymentParameterRecordSerializer(item["parameters"]),
-    parametersLink: !item["parametersLink"]
-      ? item["parametersLink"]
-      : deploymentStacksParametersLinkSerializer(item["parametersLink"]),
-    extensionConfigs: !item["extensionConfigs"]
-      ? item["extensionConfigs"]
-      : deploymentExtensionConfigRecordSerializer(item["extensionConfigs"]),
-    externalInputs: !item["externalInputs"]
-      ? item["externalInputs"]
-      : deploymentExternalInputRecordSerializer(item["externalInputs"]),
-    externalInputDefinitions: !item["externalInputDefinitions"]
-      ? item["externalInputDefinitions"]
-      : deploymentExternalInputDefinitionRecordSerializer(item["externalInputDefinitions"]),
-    actionOnUnmanage: !item["actionOnUnmanage"]
-      ? item["actionOnUnmanage"]
-      : actionOnUnmanageSerializer(item["actionOnUnmanage"]),
-    debugSetting: !item["debugSetting"]
-      ? item["debugSetting"]
-      : deploymentStacksDebugSettingSerializer(item["debugSetting"]),
-    deploymentScope: item["deploymentScope"],
-    description: item["description"],
-    denySettings: !item["denySettings"]
-      ? item["denySettings"]
-      : denySettingsSerializer(item["denySettings"]),
-    validationLevel: item["validationLevel"],
-    bypassStackOutOfSyncError: item["bypassStackOutOfSyncError"],
-  };
-}
-
-export function _deploymentStackPropertiesDeserializer(item: any) {
-  return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-    template: !item["template"]
-      ? item["template"]
-      : Object.fromEntries(Object.entries(item["template"]).map(([k, p]: [string, any]) => [k, p])),
-    templateLink: !item["templateLink"]
-      ? item["templateLink"]
-      : deploymentStacksTemplateLinkDeserializer(item["templateLink"]),
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : deploymentParameterRecordDeserializer(item["parameters"]),
-    parametersLink: !item["parametersLink"]
-      ? item["parametersLink"]
-      : deploymentStacksParametersLinkDeserializer(item["parametersLink"]),
-    extensionConfigs: !item["extensionConfigs"]
-      ? item["extensionConfigs"]
-      : deploymentExtensionConfigRecordDeserializer(item["extensionConfigs"]),
-    externalInputs: !item["externalInputs"]
-      ? item["externalInputs"]
-      : deploymentExternalInputRecordDeserializer(item["externalInputs"]),
-    externalInputDefinitions: !item["externalInputDefinitions"]
-      ? item["externalInputDefinitions"]
-      : deploymentExternalInputDefinitionRecordDeserializer(item["externalInputDefinitions"]),
-    actionOnUnmanage: !item["actionOnUnmanage"]
-      ? item["actionOnUnmanage"]
-      : actionOnUnmanageDeserializer(item["actionOnUnmanage"]),
-    debugSetting: !item["debugSetting"]
-      ? item["debugSetting"]
-      : deploymentStacksDebugSettingDeserializer(item["debugSetting"]),
-    deploymentScope: item["deploymentScope"],
-    description: item["description"],
-    denySettings: !item["denySettings"]
-      ? item["denySettings"]
-      : denySettingsDeserializer(item["denySettings"]),
-    provisioningState: item["provisioningState"],
-    correlationId: item["correlationId"],
-    validationLevel: item["validationLevel"],
-    bypassStackOutOfSyncError: item["bypassStackOutOfSyncError"],
-    detachedResources: !item["detachedResources"]
-      ? item["detachedResources"]
-      : resourceReferenceArrayDeserializer(item["detachedResources"]),
-    deletedResources: !item["deletedResources"]
-      ? item["deletedResources"]
-      : resourceReferenceArrayDeserializer(item["deletedResources"]),
-    failedResources: !item["failedResources"]
-      ? item["failedResources"]
-      : resourceReferenceExtendedArrayDeserializer(item["failedResources"]),
-    resources: !item["resources"]
-      ? item["resources"]
-      : managedResourceReferenceArrayDeserializer(item["resources"]),
-    deploymentExtensions: !item["deploymentExtensions"]
-      ? item["deploymentExtensions"]
-      : deploymentExtensionArrayDeserializer(item["deploymentExtensions"]),
-    deploymentId: item["deploymentId"],
-    outputs: !item["outputs"]
-      ? item["outputs"]
-      : Object.fromEntries(Object.entries(item["outputs"]).map(([k, p]: [string, any]) => [k, p])),
-    duration: item["duration"],
-  };
 }

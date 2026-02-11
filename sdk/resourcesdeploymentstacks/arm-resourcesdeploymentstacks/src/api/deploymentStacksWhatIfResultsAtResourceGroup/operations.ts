@@ -41,7 +41,7 @@ export function _whatIfSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStacksWhatIfResultName: deploymentStacksWhatIfResultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,6 +81,7 @@ export function whatIf(
     getInitialResponse: () =>
       _whatIfSend(context, resourceGroupName, deploymentStacksWhatIfResultName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
 }
 
@@ -98,7 +99,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStacksWhatIfResultName: deploymentStacksWhatIfResultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       "unmanageAction.Resources": options?.unmanageActionResources,
       "unmanageAction.ResourceGroups": options?.unmanageActionResourceGroups,
       "unmanageAction.ManagementGroups": options?.unmanageActionManagementGroups,
@@ -162,7 +163,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStacksWhatIfResultName: deploymentStacksWhatIfResultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -211,6 +212,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<DeploymentStacksWhatIfResult>, DeploymentStacksWhatIfResult>;
 }
 
@@ -224,7 +226,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -260,7 +262,7 @@ export function list(
     () => _listSend(context, resourceGroupName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -276,7 +278,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStacksWhatIfResultName: deploymentStacksWhatIfResultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

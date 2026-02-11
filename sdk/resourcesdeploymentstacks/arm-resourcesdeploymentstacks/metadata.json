@@ -1,6 +1,6 @@
 {
   "apiVersion": "2025-07-01",
-  "emitterVersion": "0.48.1",
+  "emitterVersion": "0.49.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Resources.DeploymentStacks",
     "CrossLanguageDefinitionId": {
@@ -45,8 +45,10 @@
       "@azure/arm-resourcesdeploymentstacks!DeploymentStackValidateResult:interface": "Microsoft.Resources.DeploymentStacks.DeploymentStackValidateResult",
       "@azure/arm-resourcesdeploymentstacks!DeploymentStackValidateProperties:interface": "Microsoft.Resources.DeploymentStacks.DeploymentStackValidateProperties",
       "@azure/arm-resourcesdeploymentstacks!DeploymentStackTemplateDefinition:interface": "Microsoft.Resources.DeploymentStacks.DeploymentStackTemplateDefinition",
-      "@azure/arm-resourcesdeploymentstacks!KnownDeploymentStacksDeleteDetachEnum:enum": "Microsoft.Resources.DeploymentStacks.DeploymentStacksDeleteDetachEnum",
-      "@azure/arm-resourcesdeploymentstacks!KnownDeploymentStacksResourcesWithoutDeleteSupportEnum:enum": "Microsoft.Resources.DeploymentStacks.DeploymentStacksResourcesWithoutDeleteSupportEnum",
+      "@azure/arm-resourcesdeploymentstacks!KnownUnmanageActionResourceMode:enum": "Microsoft.Resources.DeploymentStacks.UnmanageActionResourceMode",
+      "@azure/arm-resourcesdeploymentstacks!KnownUnmanageActionResourceGroupMode:enum": "Microsoft.Resources.DeploymentStacks.UnmanageActionResourceGroupMode",
+      "@azure/arm-resourcesdeploymentstacks!KnownUnmanageActionManagementGroupMode:enum": "Microsoft.Resources.DeploymentStacks.UnmanageActionManagementGroupMode",
+      "@azure/arm-resourcesdeploymentstacks!KnownResourcesWithoutDeleteSupportAction:enum": "Microsoft.Resources.DeploymentStacks.ResourcesWithoutDeleteSupportAction",
       "@azure/arm-resourcesdeploymentstacks!KnownDenySettingsMode:enum": "Microsoft.Resources.DeploymentStacks.DenySettingsMode",
       "@azure/arm-resourcesdeploymentstacks!KnownDeploymentStackProvisioningState:enum": "Microsoft.Resources.DeploymentStacks.DeploymentStackProvisioningState",
       "@azure/arm-resourcesdeploymentstacks!KnownValidationLevel:enum": "Microsoft.Resources.DeploymentStacks.ValidationLevel",

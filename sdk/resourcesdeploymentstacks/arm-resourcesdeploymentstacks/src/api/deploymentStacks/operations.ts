@@ -55,7 +55,7 @@ export function _exportTemplateAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -107,7 +107,7 @@ export function _deleteAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       "unmanageAction.Resources": options?.unmanageActionResources,
       "unmanageAction.ResourceGroups": options?.unmanageActionResourceGroups,
       "unmanageAction.ManagementGroups": options?.unmanageActionManagementGroups,
@@ -148,6 +148,7 @@ export function deleteAtManagementGroup(
     getInitialResponse: () =>
       _deleteAtManagementGroupSend(context, managementGroupId, deploymentStackName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -163,7 +164,7 @@ export function _createOrUpdateAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,6 +215,7 @@ export function createOrUpdateAtManagementGroup(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
 }
@@ -230,7 +232,7 @@ export function _validateStackAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -281,6 +283,7 @@ export function validateStackAtManagementGroup(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
 }
@@ -294,7 +297,7 @@ export function _listAtManagementGroupSend(
     "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks{?api%2Dversion}",
     {
       managementGroupId: managementGroupId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -330,7 +333,7 @@ export function listAtManagementGroup(
     () => _listAtManagementGroupSend(context, managementGroupId, options),
     _listAtManagementGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -345,7 +348,7 @@ export function _getAtManagementGroupSend(
     {
       managementGroupId: managementGroupId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -396,7 +399,7 @@ export function _exportTemplateAtSubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -441,7 +444,7 @@ export function _deleteAtSubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       "unmanageAction.Resources": options?.unmanageActionResources,
       "unmanageAction.ResourceGroups": options?.unmanageActionResourceGroups,
       "unmanageAction.ManagementGroups": options?.unmanageActionManagementGroups,
@@ -480,6 +483,7 @@ export function deleteAtSubscription(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _deleteAtSubscriptionSend(context, deploymentStackName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -494,7 +498,7 @@ export function _createOrUpdateAtSubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -538,6 +542,7 @@ export function createOrUpdateAtSubscription(
       getInitialResponse: () =>
         _createOrUpdateAtSubscriptionSend(context, deploymentStackName, deploymentStack, options),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
 }
@@ -553,7 +558,7 @@ export function _validateStackAtSubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -597,6 +602,7 @@ export function validateStackAtSubscription(
       getInitialResponse: () =>
         _validateStackAtSubscriptionSend(context, deploymentStackName, deploymentStack, options),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
 }
@@ -609,7 +615,7 @@ export function _listAtSubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -644,7 +650,7 @@ export function listAtSubscription(
     () => _listAtSubscriptionSend(context, options),
     _listAtSubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -658,7 +664,7 @@ export function _getAtSubscriptionSend(
     {
       subscriptionId: context.subscriptionId,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -705,7 +711,7 @@ export function _exportTemplateAtResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -758,7 +764,7 @@ export function _deleteAtResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
       "unmanageAction.Resources": options?.unmanageActionResources,
       "unmanageAction.ResourceGroups": options?.unmanageActionResourceGroups,
       "unmanageAction.ManagementGroups": options?.unmanageActionManagementGroups,
@@ -799,6 +805,7 @@ export function deleteAtResourceGroup(
     getInitialResponse: () =>
       _deleteAtResourceGroupSend(context, resourceGroupName, deploymentStackName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -815,7 +822,7 @@ export function _createOrUpdateAtResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -866,6 +873,7 @@ export function createOrUpdateAtResourceGroup(
           options,
         ),
       resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStack>, DeploymentStack>;
 }
@@ -883,7 +891,7 @@ export function _validateStackAtResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -934,6 +942,7 @@ export function validateStackAtResourceGroup(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01",
     },
   ) as PollerLike<OperationState<DeploymentStackValidateResult>, DeploymentStackValidateResult>;
 }
@@ -948,7 +957,7 @@ export function _listAtResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -984,7 +993,7 @@ export function listAtResourceGroup(
     () => _listAtResourceGroupSend(context, resourceGroupName, options),
     _listAtResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
   );
 }
 
@@ -1000,7 +1009,7 @@ export function _getAtResourceGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       deploymentStackName: deploymentStackName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
