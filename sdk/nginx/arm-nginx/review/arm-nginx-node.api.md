@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
@@ -127,6 +128,14 @@ export interface CertificatesListOptionalParams extends OperationOptions {
 
 // @public
 export interface CertificatesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NginxCertificate>, NginxCertificate>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams) => Promise<NginxCertificate>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxCertificate>, NginxCertificate>;
     delete: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, deploymentName: string, certificateName: string, options?: CertificatesGetOptionalParams) => Promise<NginxCertificate>;
@@ -160,6 +169,14 @@ export interface ConfigurationsListOptionalParams extends OperationOptions {
 // @public
 export interface ConfigurationsOperations {
     analysis: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsAnalysisOptionalParams) => Promise<AnalysisResult>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NginxConfiguration>, NginxConfiguration>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams) => Promise<NginxConfiguration>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxConfiguration>, NginxConfiguration>;
     delete: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, deploymentName: string, configurationName: string, options?: ConfigurationsGetOptionalParams) => Promise<NginxConfiguration>;
@@ -208,6 +225,18 @@ export interface DeploymentsListOptionalParams extends OperationOptions {
 
 // @public
 export interface DeploymentsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NginxDeployment>, NginxDeployment>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams) => Promise<NginxDeployment>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NginxDeployment>, NginxDeployment>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, deploymentName: string, options?: DeploymentsUpdateOptionalParams) => Promise<NginxDeployment>;
     createOrUpdate: (resourceGroupName: string, deploymentName: string, options?: DeploymentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NginxDeployment>, NginxDeployment>;
     delete: (resourceGroupName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, deploymentName: string, options?: DeploymentsGetOptionalParams) => Promise<NginxDeployment>;
@@ -536,9 +565,10 @@ export interface NginxDeploymentPropertiesNginxAppProtect {
 
 // @public
 export interface NginxDeploymentScalingProperties {
-    autoScaleSettings?: NginxDeploymentScalingPropertiesAutoScaleSettings;
     // (undocumented)
     capacity?: number;
+    // (undocumented)
+    profiles?: ScaleProfile[];
 }
 
 // @public
@@ -563,9 +593,9 @@ export interface NginxDeploymentUpdateProperties {
     enableDiagnosticsSupport?: boolean;
     logging?: NginxLogging;
     networkProfile?: NginxNetworkProfile;
-    nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
     scalingProperties?: NginxDeploymentScalingProperties;
     userProfile?: NginxDeploymentUserProfile;
+    webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 // @public
@@ -788,6 +818,28 @@ export interface ScaleProfileCapacity {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -832,6 +884,14 @@ export interface WafPolicyListOptionalParams extends OperationOptions {
 
 // @public
 export interface WafPolicyOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams) => Promise<SimplePollerLike<OperationState<NginxDeploymentWafPolicy>, NginxDeploymentWafPolicy>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams) => Promise<NginxDeploymentWafPolicy>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams) => Promise<void>;
     create: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyCreateOptionalParams) => PollerLike<OperationState<NginxDeploymentWafPolicy>, NginxDeploymentWafPolicy>;
     delete: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, deploymentName: string, wafPolicyName: string, options?: WafPolicyGetOptionalParams) => Promise<NginxDeploymentWafPolicy>;

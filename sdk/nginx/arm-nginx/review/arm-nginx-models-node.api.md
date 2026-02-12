@@ -379,9 +379,10 @@ export interface NginxDeploymentPropertiesNginxAppProtect {
 
 // @public
 export interface NginxDeploymentScalingProperties {
-    autoScaleSettings?: NginxDeploymentScalingPropertiesAutoScaleSettings;
     // (undocumented)
     capacity?: number;
+    // (undocumented)
+    profiles?: ScaleProfile[];
 }
 
 // @public
@@ -406,9 +407,9 @@ export interface NginxDeploymentUpdateProperties {
     enableDiagnosticsSupport?: boolean;
     logging?: NginxLogging;
     networkProfile?: NginxNetworkProfile;
-    nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
     scalingProperties?: NginxDeploymentScalingProperties;
     userProfile?: NginxDeploymentUserProfile;
+    webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 // @public

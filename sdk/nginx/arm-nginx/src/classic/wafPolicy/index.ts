@@ -14,6 +14,8 @@ import type {
   NginxDeploymentWafPolicy,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WafPolicy operations. */
@@ -30,6 +32,20 @@ export interface WafPolicyOperations {
     wafPolicyName: string,
     options?: WafPolicyDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    deploymentName: string,
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    deploymentName: string,
+    wafPolicyName: string,
+    options?: WafPolicyDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create or update the Nginx Waf Policy for given Nginx deployment */
   create: (
     resourceGroupName: string,
@@ -37,6 +53,22 @@ export interface WafPolicyOperations {
     wafPolicyName: string,
     options?: WafPolicyCreateOptionalParams,
   ) => PollerLike<OperationState<NginxDeploymentWafPolicy>, NginxDeploymentWafPolicy>;
+  /** @deprecated use create instead */
+  beginCreate: (
+    resourceGroupName: string,
+    deploymentName: string,
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<NginxDeploymentWafPolicy>, NginxDeploymentWafPolicy>
+  >;
+  /** @deprecated use create instead */
+  beginCreateAndWait: (
+    resourceGroupName: string,
+    deploymentName: string,
+    wafPolicyName: string,
+    options?: WafPolicyCreateOptionalParams,
+  ) => Promise<NginxDeploymentWafPolicy>;
   /** Get the Nginx Waf Policy of given Nginx deployment */
   get: (
     resourceGroupName: string,
@@ -60,12 +92,48 @@ function _getWafPolicy(context: NginxManagementContext) {
       wafPolicyName: string,
       options?: WafPolicyDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, deploymentName, wafPolicyName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      deploymentName: string,
+      wafPolicyName: string,
+      options?: WafPolicyDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, deploymentName, wafPolicyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      deploymentName: string,
+      wafPolicyName: string,
+      options?: WafPolicyDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, deploymentName, wafPolicyName, options);
+    },
     create: (
       resourceGroupName: string,
       deploymentName: string,
       wafPolicyName: string,
       options?: WafPolicyCreateOptionalParams,
     ) => create(context, resourceGroupName, deploymentName, wafPolicyName, options),
+    beginCreate: async (
+      resourceGroupName: string,
+      deploymentName: string,
+      wafPolicyName: string,
+      options?: WafPolicyCreateOptionalParams,
+    ) => {
+      const poller = create(context, resourceGroupName, deploymentName, wafPolicyName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateAndWait: async (
+      resourceGroupName: string,
+      deploymentName: string,
+      wafPolicyName: string,
+      options?: WafPolicyCreateOptionalParams,
+    ) => {
+      return await create(context, resourceGroupName, deploymentName, wafPolicyName, options);
+    },
     get: (
       resourceGroupName: string,
       deploymentName: string,

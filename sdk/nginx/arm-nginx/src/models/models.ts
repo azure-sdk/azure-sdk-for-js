@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
 /**
- * This file contains only generated model types and (de)serializers.
- * Disable this rule for deserializer functions which require 'any' for raw JSON input.
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
@@ -53,7 +55,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -397,7 +399,9 @@ export function nginxDeploymentSerializer(item: NginxDeployment): any {
 
 export function nginxDeploymentDeserializer(item: any): NginxDeployment {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -715,10 +719,7 @@ export interface NginxStorageAccount {
 }
 
 export function nginxStorageAccountSerializer(item: NginxStorageAccount): any {
-  return {
-    accountName: item["accountName"],
-    containerName: item["containerName"],
-  };
+  return { accountName: item["accountName"], containerName: item["containerName"] };
 }
 
 export function nginxStorageAccountDeserializer(item: any): NginxStorageAccount {
@@ -731,8 +732,7 @@ export function nginxStorageAccountDeserializer(item: any): NginxStorageAccount 
 /** Information on how the deployment will be scaled. */
 export interface NginxDeploymentScalingProperties {
   capacity?: number;
-  /** The settings for enabling automatic scaling of the deployment. If this field is specified, 'scale.capacity' must be empty. */
-  autoScaleSettings?: NginxDeploymentScalingPropertiesAutoScaleSettings;
+  profiles?: ScaleProfile[];
 }
 
 export function nginxDeploymentScalingPropertiesSerializer(
@@ -740,9 +740,9 @@ export function nginxDeploymentScalingPropertiesSerializer(
 ): any {
   return {
     capacity: item["capacity"],
-    autoScaleSettings: !item["autoScaleSettings"]
-      ? item["autoScaleSettings"]
-      : nginxDeploymentScalingPropertiesAutoScaleSettingsSerializer(item["autoScaleSettings"]),
+    autoScaleSettings: areAllPropsUndefined(item, ["profiles"])
+      ? undefined
+      : _nginxDeploymentScalingPropertiesAutoScaleSettingsSerializer(item),
   };
 }
 
@@ -751,9 +751,9 @@ export function nginxDeploymentScalingPropertiesDeserializer(
 ): NginxDeploymentScalingProperties {
   return {
     capacity: item["capacity"],
-    autoScaleSettings: !item["autoScaleSettings"]
+    ...(!item["autoScaleSettings"]
       ? item["autoScaleSettings"]
-      : nginxDeploymentScalingPropertiesAutoScaleSettingsDeserializer(item["autoScaleSettings"]),
+      : _nginxDeploymentScalingPropertiesAutoScaleSettingsDeserializer(item["autoScaleSettings"])),
   };
 }
 
@@ -796,10 +796,7 @@ export interface ScaleProfile {
 }
 
 export function scaleProfileSerializer(item: ScaleProfile): any {
-  return {
-    name: item["name"],
-    capacity: scaleProfileCapacitySerializer(item["capacity"]),
-  };
+  return { name: item["name"], capacity: scaleProfileCapacitySerializer(item["capacity"]) };
 }
 
 export function scaleProfileDeserializer(item: any): ScaleProfile {
@@ -1122,7 +1119,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1168,8 +1167,8 @@ export interface NginxDeploymentUpdateProperties {
   networkProfile?: NginxNetworkProfile;
   /** Autoupgrade settings of a deployment. */
   autoUpgradeProfile?: AutoUpgradeProfile;
-  /** Update settings for NGINX App Protect (NAP) */
-  nginxAppProtect?: NginxDeploymentUpdatePropertiesNginxAppProtect;
+  /** Settings for the NGINX App Protect Web Application Firewall (WAF) */
+  webApplicationFirewallSettings?: WebApplicationFirewallSettings;
 }
 
 export function nginxDeploymentUpdatePropertiesSerializer(
@@ -1190,9 +1189,9 @@ export function nginxDeploymentUpdatePropertiesSerializer(
     autoUpgradeProfile: !item["autoUpgradeProfile"]
       ? item["autoUpgradeProfile"]
       : autoUpgradeProfileSerializer(item["autoUpgradeProfile"]),
-    nginxAppProtect: !item["nginxAppProtect"]
-      ? item["nginxAppProtect"]
-      : nginxDeploymentUpdatePropertiesNginxAppProtectSerializer(item["nginxAppProtect"]),
+    nginxAppProtect: areAllPropsUndefined(item, ["webApplicationFirewallSettings"])
+      ? undefined
+      : _nginxDeploymentUpdatePropertiesNginxAppProtectSerializer(item),
   };
 }
 
@@ -2025,4 +2024,30 @@ export type Level = string;
 export enum KnownVersions {
   /** The 2025-03-01-preview API version. */
   V20250301Preview = "2025-03-01-preview",
+}
+
+export function _nginxDeploymentScalingPropertiesAutoScaleSettingsSerializer(
+  item: NginxDeploymentScalingProperties,
+): any {
+  return {
+    profiles: !item["profiles"] ? item["profiles"] : scaleProfileArraySerializer(item["profiles"]),
+  };
+}
+
+export function _nginxDeploymentScalingPropertiesAutoScaleSettingsDeserializer(item: any) {
+  return {
+    profiles: !item["profiles"]
+      ? item["profiles"]
+      : scaleProfileArrayDeserializer(item["profiles"]),
+  };
+}
+
+export function _nginxDeploymentUpdatePropertiesNginxAppProtectSerializer(
+  item: NginxDeploymentUpdateProperties,
+): any {
+  return {
+    webApplicationFirewallSettings: !item["webApplicationFirewallSettings"]
+      ? item["webApplicationFirewallSettings"]
+      : webApplicationFirewallSettingsSerializer(item["webApplicationFirewallSettings"]),
+  };
 }

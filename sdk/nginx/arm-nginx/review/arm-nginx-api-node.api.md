@@ -19,7 +19,7 @@ export interface NginxManagementClientOptionalParams extends ClientOptions {
 
 // @public (undocumented)
 export interface NginxManagementContext extends Client {
-    apiVersion: string;
+    apiVersion?: string;
     subscriptionId: string;
 }
 

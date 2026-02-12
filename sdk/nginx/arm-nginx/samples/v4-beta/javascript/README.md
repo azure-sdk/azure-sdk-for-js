@@ -58,7 +58,7 @@ npm install
 node apiKeysCreateOrUpdateSample.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
 node apiKeysCreateOrUpdateSample.js

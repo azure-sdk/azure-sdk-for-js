@@ -59,6 +59,7 @@ Compared with version 3.0.0
   - Added Interface RestorePollerOptions
   - Added Interface ScaleProfile
   - Added Interface ScaleProfileCapacity
+  - Added Interface SimplePollerLike
   - Added Interface TrackedResource
   - Added Interface WafPolicyCreateOptionalParams
   - Added Interface WafPolicyDeleteOptionalParams
@@ -75,10 +76,10 @@ Compared with version 3.0.0
   - Interface NginxDeploymentProperties has a new optional parameter autoUpgradeProfile
   - Interface NginxDeploymentProperties has a new optional parameter dataplaneApiEndpoint
   - Interface NginxDeploymentProperties has a new optional parameter nginxAppProtect
-  - Interface NginxDeploymentScalingProperties has a new optional parameter autoScaleSettings
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
   - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
   - Interface NginxDeploymentUpdateProperties has a new optional parameter networkProfile
-  - Interface NginxDeploymentUpdateProperties has a new optional parameter nginxAppProtect
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter webApplicationFirewallSettings
   - Added Type Alias ActionType
   - Added Type Alias ActivationState
   - Added Type Alias AzureSupportedClouds
@@ -96,20 +97,6 @@ Compared with version 3.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Removed operation Certificates.beginCreateOrUpdate
-  - Removed operation Certificates.beginCreateOrUpdateAndWait
-  - Removed operation Certificates.beginDelete
-  - Removed operation Certificates.beginDeleteAndWait
-  - Removed operation Configurations.beginCreateOrUpdate
-  - Removed operation Configurations.beginCreateOrUpdateAndWait
-  - Removed operation Configurations.beginDelete
-  - Removed operation Configurations.beginDeleteAndWait
-  - Removed operation Deployments.beginCreateOrUpdate
-  - Removed operation Deployments.beginCreateOrUpdateAndWait
-  - Removed operation Deployments.beginDelete
-  - Removed operation Deployments.beginDeleteAndWait
-  - Removed operation Deployments.beginUpdate
-  - Removed operation Deployments.beginUpdateAndWait
   - Removed Interface ErrorResponseBody
   - Removed Interface NginxCertificateListResponse
   - Removed Interface NginxConfigurationListResponse
