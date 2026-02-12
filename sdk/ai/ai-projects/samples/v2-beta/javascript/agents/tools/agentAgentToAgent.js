@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Agent-to-Agent (A2A) capabilities
- * using the A2ATool and synchronous Azure AI Projects client. The agent can communicate
+ * using the A2APreviewTool and synchronous Azure AI Projects client. The agent can communicate
  * with other agents and provide responses based on inter-agent interactions using the
  * A2A protocol (https://a2a-protocol.org/latest/).
  *
@@ -17,7 +17,7 @@ const readline = require("readline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const a2aProjectConnectionId =
   process.env["A2A_PROJECT_CONNECTION_ID"] || "<a2a project connection id>";
 

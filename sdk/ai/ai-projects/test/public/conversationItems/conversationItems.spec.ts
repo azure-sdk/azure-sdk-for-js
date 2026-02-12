@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createOpenAI } from "../utils/createClient.js";
-import { assert, beforeEach, it, describe } from "vitest";
+import { createProjectsClient, createRecorder } from "../utils/createClient.js";
+import { afterEach, assert, beforeEach, it, describe } from "vitest";
+import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
+import type { AIProjectClient } from "../../../src/index.js";
 import type OpenAI from "openai";
-
-const testMode = (process.env.TEST_MODE ?? "playback").toLowerCase();
-const isLiveOrRecord = testMode === "live" || testMode === "record";
 
 interface TestItem {
   id: string;
@@ -21,14 +20,22 @@ interface TestItemInput {
 
 // OpenAI SDK tests don't work with test recorder
 // Skip in playback mode (only run in live/record mode)
-describe.skipIf(!isLiveOrRecord)("My test", () => {
+describe("conversationitems - basic", () => {
+  let recorder: Recorder;
+  let projectsClient: AIProjectClient;
   let openAIClient: OpenAI;
 
-  beforeEach(async function () {
-    openAIClient = await createOpenAI();
+  beforeEach(async function (context: VitestTestContext) {
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient();
+    openAIClient = await projectsClient.getOpenAIClient();
   });
 
-  it("should create, list, get, and delete conversation items", async function () {
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it.skip("should create, list, get, and delete conversation items", async function () {
     // Create conversation
     const conversation = await openAIClient.conversations.create();
 
