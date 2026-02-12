@@ -156,6 +156,7 @@ export interface VolumesListOptionalParams extends OperationOptions {
 
 // @public
 export interface VolumesListQuotaReportOptionalParams extends OperationOptions {
+    body?: QuotaReportFilterRequest;
     updateIntervalInMs?: number;
 }
 

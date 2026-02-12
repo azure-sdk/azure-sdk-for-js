@@ -83,7 +83,7 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {
-  /** A long-running resource action. */
+  /** Get quota report for volume (with filter support) */
   listQuotaReport: (
     resourceGroupName: string,
     accountName: string,
