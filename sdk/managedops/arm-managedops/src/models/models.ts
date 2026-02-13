@@ -621,12 +621,14 @@ export function managedOpUpdateSerializer(item: ManagedOpUpdate): any {
 /** Updatable properties in the ManagedOps resource. */
 export interface ManagedOpUpdateProperties {
   /** Desired configuration input by the user. */
-  desiredConfiguration: DesiredConfigurationUpdate;
+  desiredConfiguration?: DesiredConfigurationUpdate;
 }
 
 export function managedOpUpdatePropertiesSerializer(item: ManagedOpUpdateProperties): any {
   return {
-    desiredConfiguration: desiredConfigurationUpdateSerializer(item["desiredConfiguration"]),
+    desiredConfiguration: !item["desiredConfiguration"]
+      ? item["desiredConfiguration"]
+      : desiredConfigurationUpdateSerializer(item["desiredConfiguration"]),
   };
 }
 

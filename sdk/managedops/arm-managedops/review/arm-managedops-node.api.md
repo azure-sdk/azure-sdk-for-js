@@ -207,7 +207,7 @@ export interface ManagedOpUpdate {
 
 // @public
 export interface ManagedOpUpdateProperties {
-    desiredConfiguration: DesiredConfigurationUpdate;
+    desiredConfiguration?: DesiredConfigurationUpdate;
 }
 
 // @public
