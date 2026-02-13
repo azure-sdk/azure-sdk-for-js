@@ -4,8 +4,7 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface DisconnectedOperationsListDeploymentManifestOptionalParams
-  extends OperationOptions {}
+export interface DisconnectedOperationsListDeploymentManifestOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DisconnectedOperationsListBySubscriptionOptionalParams extends OperationOptions {}
