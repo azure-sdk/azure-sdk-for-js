@@ -1,0 +1,97 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks?api-version=2025-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:43315/",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Linux\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-client azsdk-js-api azsdk-js-arm-containerregistrytasks/1.0.0-beta.1 core-rest-pipeline/1.22.3 Chromium/145 (Linux ; x86)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1061",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 Feb 2026 05:35:03 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "6a1a5704-2b90-4f46-842a-d21a9e1ff609",
+        "x-ms-original-request-ids": "351a5aee-a1fb-43c4-85b4-07bf43709a29",
+        "x-ms-ratelimit-remaining-subscription-global-reads": "16499",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS:20260213T053503Z:6a1a5704-2b90-4f46-842a-d21a9e1ff609",
+        "X-MSEdge-Ref": "Ref A: 758A19177841471381923F0454580361 Ref B: BY1AA1072318036 Ref C: 2026-02-13T05:35:03Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "type": "Microsoft.ContainerRegistry/registries/tasks",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "creationDate": "2026-02-13T05:34:59.8550749+00:00",
+              "status": "Enabled",
+              "platform": {
+                "os": "Linux",
+                "architecture": "amd64"
+              },
+              "agentConfiguration": {
+                "cpu": 2
+              },
+              "timeout": 3600,
+              "step": {
+                "type": "Docker",
+                "imageNames": [
+                  "testtask:v1"
+                ],
+                "isPushEnabled": true,
+                "noCache": false,
+                "dockerFilePath": "DockerFile",
+                "contextPath": "https://github.com/SteveLasker/node-helloworld"
+              },
+              "trigger": {
+                "baseImageTrigger": {
+                  "baseImageTriggerType": "Runtime",
+                  "updateTriggerPayloadType": "Default",
+                  "status": "Enabled",
+                  "name": "myBaseImageTrigger"
+                }
+              }
+            },
+            "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks/mytaskxxx",
+            "name": "mytaskxxx",
+            "tags": {
+              "testkey": "value"
+            },
+            "location": "eastus",
+            "systemData": {
+              "createdBy": "Sanitized",
+              "createdByType": "User",
+              "createdAt": "2026-02-13T05:34:59.7830888+00:00",
+              "lastModifiedBy": "Sanitized",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2026-02-13T05:34:59.7830888+00:00"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
