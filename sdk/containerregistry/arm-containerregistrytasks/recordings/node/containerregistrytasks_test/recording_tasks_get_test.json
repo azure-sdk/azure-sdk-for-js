@@ -1,0 +1,84 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks/mytaskxxx?api-version=2025-03-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-containerregistrytasks/1.0.0-beta.1 core-rest-pipeline/1.22.3 Node/24.12.0 (Linux 6.14.0-1017-azure; x64)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1049",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 Feb 2026 04:47:21 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "40cb4355-e5a2-4314-96cf-00b14d9652ae",
+        "x-ms-ratelimit-remaining-subscription-global-reads": "16499",
+        "x-ms-ratelimit-remaining-subscription-reads": "1099",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS:20260213T044721Z:40cb4355-e5a2-4314-96cf-00b14d9652ae",
+        "X-MSEdge-Ref": "Ref A: 1BEA2725CEEB48CCA83F3F10C5AEF48C Ref B: BY1AA1072320052 Ref C: 2026-02-13T04:47:21Z"
+      },
+      "ResponseBody": {
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2026-02-13T04:47:17.9935223+00:00",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "timeout": 3600,
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "testtask:v1"
+            ],
+            "isPushEnabled": true,
+            "noCache": false,
+            "dockerFilePath": "DockerFile",
+            "contextPath": "https://github.com/SteveLasker/node-helloworld"
+          },
+          "trigger": {
+            "baseImageTrigger": {
+              "baseImageTriggerType": "Runtime",
+              "updateTriggerPayloadType": "Default",
+              "status": "Enabled",
+              "name": "myBaseImageTrigger"
+            }
+          }
+        },
+        "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks/mytaskxxx",
+        "name": "mytaskxxx",
+        "tags": {
+          "testkey": "value"
+        },
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "Sanitized",
+          "createdByType": "User",
+          "createdAt": "2026-02-13T04:47:17.8649508+00:00",
+          "lastModifiedBy": "Sanitized",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2026-02-13T04:47:17.8649508+00:00"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
