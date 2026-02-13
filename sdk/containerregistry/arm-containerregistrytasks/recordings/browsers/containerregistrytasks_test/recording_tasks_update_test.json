@@ -1,0 +1,127 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks/mytaskxxx?api-version=2025-03-01-preview",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br, zstd",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "483",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:43315/",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"99\", \"HeadlessChrome\";v=\"145\", \"Chromium\";v=\"145\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Linux\"",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36",
+        "x-ms-client-request-id": "Sanitized",
+        "x-ms-useragent": "azsdk-js-client azsdk-js-api azsdk-js-arm-containerregistrytasks/1.0.0-beta.1 core-rest-pipeline/1.22.3 Chromium/145 (Linux ; x86)"
+      },
+      "RequestBody": {
+        "properties": {
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "step": {
+            "type": "Docker",
+            "contextPath": "https://github.com/SteveLasker/node-helloworld",
+            "imageNames": [
+              "testtask:v1"
+            ],
+            "isPushEnabled": true,
+            "noCache": false,
+            "dockerFilePath": "DockerFile"
+          },
+          "trigger": {
+            "baseImageTrigger": {
+              "baseImageTriggerType": "Runtime",
+              "updateTriggerPayloadType": "Default",
+              "status": "Enabled",
+              "name": "myBaseImageTrigger"
+            }
+          }
+        },
+        "tags": {
+          "testkey": "updatedvalue"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1056",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 13 Feb 2026 05:35:05 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "a29acff5-3e14-4049-9953-a673aaad7e60",
+        "x-ms-operation-identifier": "tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47,objectId=68abb7a6-9056-4d60-bf87-3b50a45559cd/eastus/904f1bac-2673-4e03-bc37-4057026a818b",
+        "x-ms-ratelimit-remaining-subscription-global-writes": "11999",
+        "x-ms-ratelimit-remaining-subscription-writes": "799",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "EASTUS:20260213T053505Z:a29acff5-3e14-4049-9953-a673aaad7e60",
+        "X-MSEdge-Ref": "Ref A: 2F3977F59A2D430C95C3DBD7E1384492 Ref B: BY1AA1072318036 Ref C: 2026-02-13T05:35:05Z"
+      },
+      "ResponseBody": {
+        "type": "Microsoft.ContainerRegistry/registries/tasks",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2026-02-13T05:34:59.8550749+00:00",
+          "status": "Enabled",
+          "platform": {
+            "os": "Linux",
+            "architecture": "amd64"
+          },
+          "agentConfiguration": {
+            "cpu": 2
+          },
+          "timeout": 3600,
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "testtask:v1"
+            ],
+            "isPushEnabled": true,
+            "noCache": false,
+            "dockerFilePath": "DockerFile",
+            "contextPath": "https://github.com/SteveLasker/node-helloworld"
+          },
+          "trigger": {
+            "baseImageTrigger": {
+              "baseImageTriggerType": "Runtime",
+              "updateTriggerPayloadType": "Default",
+              "status": "Enabled",
+              "name": "myBaseImageTrigger"
+            }
+          }
+        },
+        "id": "/subscriptions/88888888-8888-8888-8888-888888888888/resourceGroups/myjstest/providers/Microsoft.ContainerRegistry/registries/myregistryxxx/tasks/mytaskxxx",
+        "name": "mytaskxxx",
+        "tags": {
+          "testkey": "updatedvalue"
+        },
+        "location": "eastus",
+        "systemData": {
+          "createdBy": "Sanitized",
+          "createdByType": "User",
+          "createdAt": "2026-02-13T05:34:59.7830888+00:00",
+          "lastModifiedBy": "Sanitized",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2026-02-13T05:35:05.8086941+00:00"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
