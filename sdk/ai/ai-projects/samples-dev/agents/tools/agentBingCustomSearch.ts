@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Bing Custom Search capabilities
- * using the BingCustomSearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the BingCustomSearchPreviewTool and synchronous Azure AI Projects client. The agent can search
  * custom search instances and provide responses with relevant results.
  *
  * @summary This sample demonstrates how to create an agent with Bing Custom Search tool capabilities,
@@ -18,7 +18,7 @@ import * as readline from "readline";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const bingCustomSearchProjectConnectionId =
   process.env["BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID"] ||
   "<bing custom search project connection id>";

@@ -38,6 +38,21 @@ import type {
   ServerEventResponseAudioTimestampDone,
   ServerEventResponseFunctionCallArgumentsDelta,
   ServerEventResponseFunctionCallArgumentsDone,
+  // MCP events
+  ServerEventMcpListToolsInProgress,
+  ServerEventMcpListToolsCompleted,
+  ServerEventMcpListToolsFailed,
+  ServerEventResponseMcpCallArgumentsDelta,
+  ServerEventResponseMcpCallArgumentsDone,
+  ServerEventResponseMcpCallInProgress,
+  ServerEventResponseMcpCallCompleted,
+  ServerEventResponseMcpCallFailed,
+  // Foundry Agent events
+  ServerEventResponseFoundryAgentCallArgumentsDelta,
+  ServerEventResponseFoundryAgentCallArgumentsDone,
+  ServerEventResponseFoundryAgentCallInProgress,
+  ServerEventResponseFoundryAgentCallCompleted,
+  ServerEventResponseFoundryAgentCallFailed,
 } from "../models/index.js";
 
 /**
@@ -50,8 +65,10 @@ export interface ConnectionContext {
   readonly sessionId?: string;
   /** When the event occurred */
   readonly timestamp: Date;
-  /** The model being used for this session */
-  readonly model: string;
+  /** The model being used for this session (undefined for agent sessions) */
+  readonly model?: string;
+  /** The agent name being used for this session (undefined for model sessions) */
+  readonly agentName?: string;
 }
 
 /**
@@ -424,6 +441,118 @@ export interface VoiceLiveSessionHandlers {
    */
   onResponseFunctionCallArgumentsDone?: (
     event: ServerEventResponseFunctionCallArgumentsDone,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  // ========================================
+  // MCP (MODEL CONTEXT PROTOCOL) EVENTS
+  // ========================================
+
+  /**
+   * Called when MCP tool listing is in progress
+   */
+  onMcpListToolsInProgress?: (
+    event: ServerEventMcpListToolsInProgress,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when MCP tool listing is completed
+   */
+  onMcpListToolsCompleted?: (
+    event: ServerEventMcpListToolsCompleted,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when MCP tool listing fails
+   */
+  onMcpListToolsFailed?: (
+    event: ServerEventMcpListToolsFailed,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when MCP call arguments are received (streaming)
+   */
+  onResponseMcpCallArgumentsDelta?: (
+    event: ServerEventResponseMcpCallArgumentsDelta,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when MCP call arguments are completed
+   */
+  onResponseMcpCallArgumentsDone?: (
+    event: ServerEventResponseMcpCallArgumentsDone,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when an MCP call is in progress
+   */
+  onResponseMcpCallInProgress?: (
+    event: ServerEventResponseMcpCallInProgress,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when an MCP call is completed
+   */
+  onResponseMcpCallCompleted?: (
+    event: ServerEventResponseMcpCallCompleted,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when an MCP call fails
+   */
+  onResponseMcpCallFailed?: (
+    event: ServerEventResponseMcpCallFailed,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  // ========================================
+  // FOUNDRY AGENT EVENTS
+  // ========================================
+
+  /**
+   * Called when Foundry Agent call arguments are received (streaming)
+   */
+  onResponseFoundryAgentCallArgumentsDelta?: (
+    event: ServerEventResponseFoundryAgentCallArgumentsDelta,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when Foundry Agent call arguments are completed
+   */
+  onResponseFoundryAgentCallArgumentsDone?: (
+    event: ServerEventResponseFoundryAgentCallArgumentsDone,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when a Foundry Agent call is in progress
+   */
+  onResponseFoundryAgentCallInProgress?: (
+    event: ServerEventResponseFoundryAgentCallInProgress,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when a Foundry Agent call is completed
+   */
+  onResponseFoundryAgentCallCompleted?: (
+    event: ServerEventResponseFoundryAgentCallCompleted,
+    context: SessionContext,
+  ) => Promise<void>;
+
+  /**
+   * Called when a Foundry Agent call fails
+   */
+  onResponseFoundryAgentCallFailed?: (
+    event: ServerEventResponseFoundryAgentCallFailed,
     context: SessionContext,
   ) => Promise<void>;
 

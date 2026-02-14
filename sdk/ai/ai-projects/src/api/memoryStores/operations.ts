@@ -13,13 +13,13 @@ import {
   _agentsPagedResultMemoryStoreObjectDeserializer,
   DeleteMemoryStoreResponse,
   deleteMemoryStoreResponseDeserializer,
-  itemParamUnionArraySerializer,
+  itemUnionArraySerializer,
   MemoryStoreSearchResponse,
   memoryStoreSearchResponseDeserializer,
   MemoryStoreUpdateResponse,
   memoryStoreUpdateResponseDeserializer,
-  MemoryStoreUpdateResult,
-  MemoryStoreUpdateResultDeserializer,
+  MemoryStoreUpdateCompletedResult,
+  memoryStoreUpdateCompletedResultDeserializer,
   MemoryStoreDeleteScopeResponse,
   memoryStoreDeleteScopeResponseDeserializer,
 } from "../../models/models.js";
@@ -174,8 +174,7 @@ export function _updateMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
       previous_update_id: options?.previousUpdateId,
       update_delay: options?.updateDelay,
     },
@@ -184,8 +183,8 @@ export function _updateMemoriesSend(
 
 export async function _updateMemoriesDeserialize(
   result: PathUncheckedResponse,
-): Promise<MemoryStoreUpdateResult> {
-  const expectedStatuses = ["202", "200"];
+): Promise<MemoryStoreUpdateCompletedResult> {
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = apiErrorResponseDeserializer(result.body);
@@ -199,7 +198,7 @@ export async function _updateMemoriesDeserialize(
     );
   }
 
-  return MemoryStoreUpdateResultDeserializer(result.body.result);
+  return memoryStoreUpdateCompletedResultDeserializer(result.body.result);
 }
 
 /** Update memory store with conversation memories. */
@@ -208,12 +207,15 @@ export function updateMemories(
   name: string,
   scope: string,
   options: MemoryStoresUpdateMemoriesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult> {
-  return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200"], {
+): PollerLike<OperationState<MemoryStoreUpdateCompletedResult>, MemoryStoreUpdateCompletedResult> {
+  return getLongRunningPoller(context, _updateMemoriesDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateMemoriesSend(context, name, scope, options),
-  }) as PollerLike<OperationState<MemoryStoreUpdateResult>, MemoryStoreUpdateResult>;
+  }) as PollerLike<
+    OperationState<MemoryStoreUpdateCompletedResult>,
+    MemoryStoreUpdateCompletedResult
+  >;
 }
 
 export function _searchMemoriesSend(
@@ -241,8 +243,7 @@ export function _searchMemoriesSend(
     },
     body: {
       scope: scope,
-      conversation_id: options?.conversationId,
-      items: !options?.items ? options?.items : itemParamUnionArraySerializer(options?.items),
+      items: !options?.items ? options?.items : itemUnionArraySerializer(options?.items),
       previous_search_id: options?.previousSearchId,
       options: !options?.options
         ? options?.options

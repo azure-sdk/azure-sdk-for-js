@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to create an AI agent with Azure AI Search capabilities
- * using the AzureAISearchAgentTool and synchronous Azure AI Projects client. The agent can search
+ * using the AzureAISearchTool and synchronous Azure AI Projects client. The agent can search
  * indexed content and provide responses with citations from search results.
  *
  * @summary This sample demonstrates how to create an agent with Azure AI Search tool capabilities,
@@ -16,7 +16,7 @@ import * as readline from "readline";
 import "dotenv/config";
 
 const projectEndpoint = process.env["AZURE_AI_PROJECT_ENDPOINT"] || "<project endpoint>";
-const deploymentName = process.env["AZURE_AI_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const deploymentName = process.env["MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
 const aiSearchConnectionId =
   process.env["AZURE_AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
