@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (2026-02-11)
+## 2.0.0 (2026-02-14)
 
 ### Features Added
   - Added operation group DeploymentStacksWhatIfResultsAtManagementGroupOperations
