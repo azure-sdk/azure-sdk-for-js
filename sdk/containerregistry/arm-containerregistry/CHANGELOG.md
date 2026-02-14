@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0 (2026-01-23)
+## 12.0.0 (2026-02-14)
 
 ### Features Added
   - Added operation CacheRulesOperations.create

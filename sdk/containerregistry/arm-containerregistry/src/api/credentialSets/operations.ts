@@ -41,7 +41,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -78,7 +78,7 @@ export function list(
     () => _listSend(context, resourceGroupName, registryName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -96,7 +96,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       credentialSetName: credentialSetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +106,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "204", "200", "201"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -129,12 +129,13 @@ export function $delete(
   credentialSetName: string,
   options: CredentialSetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, credentialSetName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -153,7 +154,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       credentialSetName: credentialSetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,6 +201,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<CredentialSet>, CredentialSet>;
 }
 
@@ -218,7 +220,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       credentialSetName: credentialSetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -265,6 +267,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<CredentialSet>, CredentialSet>;
 }
 
@@ -282,7 +285,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       credentialSetName: credentialSetName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

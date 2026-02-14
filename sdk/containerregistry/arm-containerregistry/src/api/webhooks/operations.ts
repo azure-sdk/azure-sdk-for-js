@@ -54,7 +54,7 @@ export function _getCallbackConfigSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,7 +111,7 @@ export function _listEventsSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,7 +149,7 @@ export function listEvents(
     () => _listEventsSend(context, resourceGroupName, registryName, webhookName, options),
     _listEventsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -167,7 +167,7 @@ export function _pingSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -214,7 +214,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -249,7 +249,7 @@ export function list(
     () => _listSend(context, resourceGroupName, registryName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-11-01" },
   );
 }
 
@@ -267,7 +267,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,7 +277,7 @@ export function _$deleteSend(
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "202", "204", "201"];
+  const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -300,12 +300,13 @@ export function $delete(
   webhookName: string,
   options: WebhooksDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204", "201"], {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["200", "202", "204"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, registryName, webhookName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -324,7 +325,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -371,6 +372,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<Webhook>, Webhook>;
 }
 
@@ -389,7 +391,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -436,6 +438,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-11-01",
   }) as PollerLike<OperationState<Webhook>, Webhook>;
 }
 
@@ -453,7 +456,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       webhookName: webhookName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
