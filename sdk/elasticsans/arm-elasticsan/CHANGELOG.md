@@ -1,45 +1,127 @@
 # Release History
 
-## 1.2.0 (2025-11-19)
+## 2.0.0 (2026-02-14)
 
 ### Features Added
-  - Added operation Volumes.beginPreBackup
-  - Added operation Volumes.beginPreBackupAndWait
-  - Added operation Volumes.beginPreRestore
-  - Added operation Volumes.beginPreRestoreAndWait
+  - Added operation ElasticSansOperations.create
+  - Added operation ElasticSansOperations.delete
+  - Added operation ElasticSansOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.create
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation VolumeGroupsOperations.create
+  - Added operation VolumeGroupsOperations.delete
+  - Added operation VolumeGroupsOperations.update
+  - Added operation VolumesOperations.beginPreBackup
+  - Added operation VolumesOperations.beginPreBackupAndWait
+  - Added operation VolumesOperations.beginPreRestore
+  - Added operation VolumesOperations.beginPreRestoreAndWait
+  - Added operation VolumesOperations.create
+  - Added operation VolumesOperations.delete
+  - Added operation VolumesOperations.preBackup
+  - Added operation VolumesOperations.preRestore
+  - Added operation VolumesOperations.update
+  - Added operation VolumeSnapshotsOperations.create
+  - Added operation VolumeSnapshotsOperations.delete
   - Added Interface AutoScaleProperties
   - Added Interface DiskSnapshotList
-  - Added Interface ElasticSansCreateHeaders
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface PreValidationResponse
-  - Added Interface PrivateEndpointConnectionsCreateHeaders
+  - Added Interface RestorePollerOptions
   - Added Interface ScaleUpProperties
-  - Added Interface VolumeGroupsCreateHeaders
+  - Added Interface SimplePollerLike
   - Added Interface VolumeNameList
-  - Added Interface VolumesCreateHeaders
-  - Added Interface VolumeSnapshotsCreateHeaders
-  - Added Interface VolumesPreBackupHeaders
   - Added Interface VolumesPreBackupOptionalParams
-  - Added Interface VolumesPreRestoreHeaders
   - Added Interface VolumesPreRestoreOptionalParams
+  - Interface ElasticSan has a new optional parameter autoScaleProperties
+  - Interface ElasticSan has a new optional parameter availabilityZones
+  - Interface ElasticSan has a new optional parameter privateEndpointConnections
+  - Interface ElasticSan has a new optional parameter provisioningState
+  - Interface ElasticSan has a new optional parameter publicNetworkAccess
+  - Interface ElasticSan has a new optional parameter totalIops
+  - Interface ElasticSan has a new optional parameter totalMBps
+  - Interface ElasticSan has a new optional parameter totalSizeTiB
+  - Interface ElasticSan has a new optional parameter totalVolumeSizeGiB
+  - Interface ElasticSan has a new optional parameter volumeGroupCount
   - Interface ElasticSanProperties has a new optional parameter autoScaleProperties
-  - Interface ElasticSansDeleteHeaders has a new optional parameter retryAfter
-  - Interface ElasticSansUpdateHeaders has a new optional parameter retryAfter
+  - Interface ElasticSanUpdate has a new optional parameter autoScaleProperties
+  - Interface ElasticSanUpdate has a new optional parameter baseSizeTiB
+  - Interface ElasticSanUpdate has a new optional parameter extendedCapacitySizeTiB
+  - Interface ElasticSanUpdate has a new optional parameter publicNetworkAccess
   - Interface ElasticSanUpdateProperties has a new optional parameter autoScaleProperties
-  - Interface PrivateEndpointConnectionsDeleteHeaders has a new optional parameter retryAfter
-  - Interface VolumeGroupsDeleteHeaders has a new optional parameter retryAfter
-  - Interface VolumeGroupsUpdateHeaders has a new optional parameter retryAfter
-  - Interface VolumesDeleteHeaders has a new optional parameter retryAfter
-  - Interface VolumeSnapshotsDeleteHeaders has a new optional parameter retryAfter
-  - Interface VolumesUpdateHeaders has a new optional parameter retryAfter
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpoint
+  - Interface PrivateEndpointConnection has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter groupId
+  - Interface PrivateLinkResource has a new optional parameter requiredMembers
+  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
+  - Interface Snapshot has a new optional parameter provisioningState
+  - Interface Snapshot has a new optional parameter sourceVolumeSizeGiB
+  - Interface Snapshot has a new optional parameter volumeName
+  - Interface Volume has a new optional parameter creationData
+  - Interface Volume has a new optional parameter managedBy
+  - Interface Volume has a new optional parameter provisioningState
+  - Interface Volume has a new optional parameter storageTarget
+  - Interface Volume has a new optional parameter volumeId
+  - Interface VolumeGroup has a new optional parameter encryption
+  - Interface VolumeGroup has a new optional parameter encryptionProperties
+  - Interface VolumeGroup has a new optional parameter enforceDataIntegrityCheckForIscsi
+  - Interface VolumeGroup has a new optional parameter networkAcls
+  - Interface VolumeGroup has a new optional parameter privateEndpointConnections
+  - Interface VolumeGroup has a new optional parameter protocolType
+  - Interface VolumeGroup has a new optional parameter provisioningState
+  - Interface VolumeGroupUpdate has a new optional parameter encryption
+  - Interface VolumeGroupUpdate has a new optional parameter encryptionProperties
+  - Interface VolumeGroupUpdate has a new optional parameter enforceDataIntegrityCheckForIscsi
+  - Interface VolumeGroupUpdate has a new optional parameter networkAcls
+  - Interface VolumeGroupUpdate has a new optional parameter protocolType
+  - Interface VolumeUpdate has a new optional parameter managedBy
+  - Interface VolumeUpdate has a new optional parameter sizeGiB
   - Added Type Alias AutoScalePolicyEnforcement
-  - Added Type Alias OperationsListNextResponse
-  - Added Type Alias PrivateEndpointConnectionsListNextResponse
-  - Added Type Alias SkusListNextResponse
-  - Added Type Alias VolumesPreBackupResponse
-  - Added Type Alias VolumesPreRestoreResponse
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
   - Added Enum KnownAutoScalePolicyEnforcement
+  - Added Enum KnownVersions
   - Enum KnownProvisioningStates has a new value Deleted
   - Enum KnownProvisioningStates has a new value Restoring
+
+### Breaking Changes
+  - Operation ElasticSans.beginCreate has a new signature
+  - Operation ElasticSans.beginCreateAndWait has a new signature
+  - Operation ElasticSans.beginUpdateAndWait has a new signature
+  - Operation ElasticSans.get has a new signature
+  - Operation PrivateEndpointConnections.beginCreate has a new signature
+  - Operation PrivateEndpointConnections.beginCreateAndWait has a new signature
+  - Operation PrivateEndpointConnections.get has a new signature
+  - Operation Volumes.beginCreate has a new signature
+  - Operation Volumes.beginCreateAndWait has a new signature
+  - Operation Volumes.beginUpdate has a new signature
+  - Operation Volumes.beginUpdateAndWait has a new signature
+  - Operation Volumes.get has a new signature
+  - Operation VolumeSnapshots.beginCreate has a new signature
+  - Operation VolumeSnapshots.beginCreateAndWait has a new signature
+  - Operation VolumeSnapshots.get has a new signature
+  - Removed Interface ElasticSanList
+  - Removed Interface SkuInformationList
+  - Removed Interface SnapshotList
+  - Removed Interface VolumeGroupList
+  - Removed Interface VolumeList
+  - Interface ElasticSan has a new required parameter baseSizeTiB
+  - Interface ElasticSan has a new required parameter extendedCapacitySizeTiB
+  - Interface ElasticSan has a new required parameter sku
+  - Interface PrivateEndpointConnection has a new required parameter privateLinkServiceConnectionState
+  - Interface Snapshot has a new required parameter creationData
+  - Interface Volume has a new required parameter sizeGiB
+  - Interface ElasticSan no longer has parameter properties
+  - Interface ElasticSanUpdate no longer has parameter properties
+  - Interface PrivateEndpointConnection no longer has parameter properties
+  - Interface PrivateLinkResource no longer has parameter properties
+  - Interface Snapshot no longer has parameter properties
+  - Interface Volume no longer has parameter properties
+  - Interface VolumeGroup no longer has parameter properties
+  - Interface VolumeGroupUpdate no longer has parameter properties
+  - Interface VolumeUpdate no longer has parameter properties
+  - Parameter value of interface PrivateLinkResourceListResult is now required
 
     
 ## 1.2.0-beta.2 (2025-04-18)
