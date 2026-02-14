@@ -203,16 +203,16 @@
 # ServiceLabel: %Purview
 # AzureSdkOwners: @qiaozha
 
-# PRLabel: %Farmbeats
+# PRLabel: %AgriFood
 /sdk/agrifood/ @joheredi
 
-# ServiceLabel: %Farmbeats
+# ServiceLabel: %AgriFood
 # AzureSdkOwners: @joheredi
 
-# PRLabel: %ConfidentialLedger
+# PRLabel: %Confidential Ledger
 /sdk/confidentialledger/ @taicchoumsft
 
-# ServiceLabel: %ConfidentialLedger
+# ServiceLabel: %Confidential Ledger
 # AzureSdkOwners: @taicchoumsft
 
 # PRLabel: %DocumentTranslator
@@ -1619,6 +1619,9 @@ sdk/containerservice/arm-containerservicesafeguards/ @qiaozha @MaryGao @JialinHu
 sdk/workloadorchestration/arm-workloadorchestration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
+sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1627,6 +1630,9 @@ sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt
 sdk/edgeactions/arm-edgeactions/ @qiaozha @MaryGao @JialinHuang803
 sdk/managedops/arm-managedops/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt
+sdk/containerregistry/arm-containerregistrytasks/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
 sdk/artifactsigning/arm-artifactsigning/ @qiaozha @MaryGao @JialinHuang803
