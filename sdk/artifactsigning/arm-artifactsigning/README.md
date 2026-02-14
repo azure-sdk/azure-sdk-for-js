@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/artifactsigning/arm-artifactsigning)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-artifactsigning)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/artifactsigning/arm-artifactsigning/samples)
 
 ## Getting started

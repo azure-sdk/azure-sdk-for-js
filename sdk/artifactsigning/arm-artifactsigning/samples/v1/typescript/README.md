@@ -1,4 +1,4 @@
-# @azure/arm-artifactsigning client library samples for TypeScript (Beta)
+# @azure/arm-artifactsigning client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-artifactsigning in some common scenarios.
 
@@ -68,19 +68,19 @@ node dist/certificateProfilesCreateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[certificateprofilescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/certificateProfilesCreateSample.ts
-[certificateprofilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/certificateProfilesDeleteSample.ts
-[certificateprofilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/certificateProfilesGetSample.ts
-[certificateprofileslistbycodesigningaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/certificateProfilesListByCodeSigningAccountSample.ts
-[certificateprofilesrevokecertificatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/certificateProfilesRevokeCertificateSample.ts
-[codesigningaccountschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsCheckNameAvailabilitySample.ts
-[codesigningaccountscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsCreateSample.ts
-[codesigningaccountsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsDeleteSample.ts
-[codesigningaccountsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsGetSample.ts
-[codesigningaccountslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsListByResourceGroupSample.ts
-[codesigningaccountslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsListBySubscriptionSample.ts
-[codesigningaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/codeSigningAccountsUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1-beta/typescript/src/operationsListSample.ts
+[certificateprofilescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/certificateProfilesCreateSample.ts
+[certificateprofilesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/certificateProfilesDeleteSample.ts
+[certificateprofilesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/certificateProfilesGetSample.ts
+[certificateprofileslistbycodesigningaccountsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/certificateProfilesListByCodeSigningAccountSample.ts
+[certificateprofilesrevokecertificatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/certificateProfilesRevokeCertificateSample.ts
+[codesigningaccountschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsCheckNameAvailabilitySample.ts
+[codesigningaccountscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsCreateSample.ts
+[codesigningaccountsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsDeleteSample.ts
+[codesigningaccountsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsGetSample.ts
+[codesigningaccountslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsListByResourceGroupSample.ts
+[codesigningaccountslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsListBySubscriptionSample.ts
+[codesigningaccountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/codeSigningAccountsUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/artifactsigning/arm-artifactsigning/samples/v1/typescript/src/operationsListSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/artifactsigning/arm-artifactsigning/README.md
