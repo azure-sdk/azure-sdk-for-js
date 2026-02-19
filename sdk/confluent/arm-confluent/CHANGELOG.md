@@ -1,21 +1,119 @@
 # Release History
 
-## 3.1.2 (Unreleased)
+## 4.0.0 (2026-02-19)
 
 ### Features Added
+  - Added operation group ClusterOperations
+  - Added operation group ConnectorOperations
+  - Added operation group EnvironmentOperations
+  - Added operation group OrganizationOperations
+  - Added operation group TopicsOperations
+  - Added Interface APIKeyProperties
+  - Added Interface AzureBlobStorageSinkConnectorServiceInfo
+  - Added Interface AzureBlobStorageSourceConnectorServiceInfo
+  - Added Interface AzureCosmosDBSinkConnectorServiceInfo
+  - Added Interface AzureCosmosDBSourceConnectorServiceInfo
+  - Added Interface AzureSynapseAnalyticsSinkConnectorServiceInfo
+  - Added Interface ClusterCreateOrUpdateOptionalParams
+  - Added Interface ClusterDeleteOptionalParams
+  - Added Interface ClusterProperties
+  - Added Interface ConfluentAgreementProperties
+  - Added Interface ConnectorCreateOrUpdateOptionalParams
+  - Added Interface ConnectorDeleteOptionalParams
+  - Added Interface ConnectorGetOptionalParams
+  - Added Interface ConnectorInfoBase
+  - Added Interface ConnectorListOptionalParams
+  - Added Interface ConnectorResource
+  - Added Interface ConnectorResourceProperties
+  - Added Interface ConnectorServiceTypeInfoBase
+  - Added Interface EnvironmentCreateOrUpdateOptionalParams
+  - Added Interface EnvironmentDeleteOptionalParams
+  - Added Interface EnvironmentProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface KafkaAzureBlobStorageSinkConnectorInfo
+  - Added Interface KafkaAzureBlobStorageSourceConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSinkConnectorInfo
+  - Added Interface KafkaAzureCosmosDBSourceConnectorInfo
+  - Added Interface KafkaAzureSynapseAnalyticsSinkConnectorInfo
+  - Added Interface OrganizationCreateApiKeyOptionalParams
+  - Added Interface OrganizationResourceProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PartnerInfoBase
+  - Added Interface ProxyResource
+  - Added Interface RegionProperties
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SchemaRegistryClusterProperties
+  - Added Interface StreamGovernanceConfig
+  - Added Interface TopicMetadataEntity
+  - Added Interface TopicProperties
+  - Added Interface TopicRecord
+  - Added Interface TopicsCreateOptionalParams
+  - Added Interface TopicsDeleteOptionalParams
+  - Added Interface TopicsGetOptionalParams
+  - Added Interface TopicsInputConfig
+  - Added Interface TopicsListOptionalParams
+  - Added Interface TopicsRelatedLink
+  - Added Interface TrackedResource
+  - Interface SCClusterRecord has a new optional parameter systemData
+  - Interface SCClusterRecord has a new optional parameter type
+  - Interface SCClusterSpecEntity has a new optional parameter package
+  - Interface SCEnvironmentRecord has a new optional parameter streamGovernanceConfig
+  - Interface SCEnvironmentRecord has a new optional parameter systemData
+  - Interface SCEnvironmentRecord has a new optional parameter type
+  - Added Type Alias AuthType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectorClass
+  - Added Type Alias ConnectorServiceType
+  - Added Type Alias ConnectorServiceTypeInfoBaseUnion
+  - Added Type Alias ConnectorStatus
+  - Added Type Alias ConnectorType
+  - Added Type Alias DataFormatType
+  - Added Type Alias Package
+  - Added Type Alias PartnerConnectorType
+  - Added Type Alias PartnerInfoBaseUnion
+  - Added Enum AzureClouds
+  - Added Enum KnownAuthType
+  - Added Enum KnownConnectorClass
+  - Added Enum KnownConnectorServiceType
+  - Added Enum KnownConnectorStatus
+  - Added Enum KnownConnectorType
+  - Added Enum KnownDataFormatType
+  - Added Enum KnownPackage
+  - Added Enum KnownPartnerConnectorType
+  - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Removed operation OrganizationOperations.beginCreate
+  - Removed operation OrganizationOperations.beginCreateAndWait
+  - Removed operation OrganizationOperations.beginDelete
+  - Removed operation OrganizationOperations.beginDeleteAndWait
+  - Removed operation OrganizationOperations.createAPIKey
+  - Removed operation OrganizationOperations.deleteClusterAPIKey
+  - Removed operation OrganizationOperations.get
+  - Removed operation OrganizationOperations.getClusterAPIKey
+  - Removed operation OrganizationOperations.getClusterById
+  - Removed operation OrganizationOperations.getEnvironmentById
+  - Removed operation OrganizationOperations.getSchemaRegistryClusterById
+  - Removed operation OrganizationOperations.listByResourceGroup
+  - Removed operation OrganizationOperations.listBySubscription
+  - Removed operation OrganizationOperations.listClusters
+  - Removed operation OrganizationOperations.listEnvironments
+  - Removed operation OrganizationOperations.listRegions
+  - Removed operation OrganizationOperations.listSchemaRegistryClusters
+  - Removed operation OrganizationOperations.update
+  - Removed Interface ConfluentAgreementResourceListResponse
+  - Removed Interface GetEnvironmentsResponse
+  - Removed Interface ListClustersSuccessResponse
+  - Removed Interface ListSchemaRegistryClustersResponse
+  - Removed Interface OrganizationCreateAPIKeyOptionalParams
+  - Removed Interface SCConfluentListMetadata
+  - Parameter location of interface OrganizationResource is now required
 
-### Bugs Fixed
-
-### Other Changes
-
-## 3.1.1 (2025-08-22)
-
-### Other Changes
-
-  - Other fixes
-
+    
 ## 3.1.0 (2024-03-13)
     
 ### Features Added
