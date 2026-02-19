@@ -778,7 +778,7 @@ export type VMAttributeSupport = string;
 export enum KnownLocalStorageDiskType {
   /** HDD DiskType. */
   HDD = "HDD",
-  /** SDD DiskType. */
+  /** SSD DiskType. */
   SSD = "SSD",
 }
 
@@ -788,7 +788,7 @@ export enum KnownLocalStorageDiskType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **HDD**: HDD DiskType. \
- * **SSD**: SDD DiskType.
+ * **SSD**: SSD DiskType.
  */
 export type LocalStorageDiskType = string;
 
@@ -3920,7 +3920,7 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
