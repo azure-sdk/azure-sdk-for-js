@@ -40,7 +40,7 @@ Please note that this quickstart is based on version 4.x of the recorder tool (`
 
 - pnpm
   - Install/update pnpm globally via [pnpm installation instructions](https://pnpm.io/installation)
-- Any of [the LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Any of [the LTS versions of Node.js](https://nodejs.org/en/about/releases/)
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
@@ -48,7 +48,7 @@ To be able to leverage the asset-sync workflow
 
 - Install [Powershell](https://github.com/PowerShell/PowerShell)
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
-- Add `dev-tool` to the `devDependencies` in the `package.json`.
+- Add `@azure/dev-tool` to the `devDependencies` in the `package.json`.
 
 # How to run test
 
