@@ -1,8 +1,9 @@
 # Reviewer Agents
 
-This repository includes eight specialized AI reviewer agents that can review
-pull requests for specific quality dimensions. Each agent is an expert in its
-domain and produces targeted, actionable feedback.
+This repository includes seven specialized AI reviewer agents that can review
+pull requests for specific quality dimensions, plus one on-demand analysis
+agent for ARM SDK breaking-change investigations. Each agent is an expert in
+its domain and produces targeted, actionable feedback.
 
 ## Available Agents
 
@@ -70,8 +71,9 @@ not duplicate findings from other agents.
 
 ## Using Agents Locally in VS Code
 
-The same agents are available as **custom agents** in VS Code Copilot Chat
-(via Copilot CLI). Their definitions live in `.github/agents/*.agent.md`.
+The same agents are available as **custom agents** in GitHub Copilot Chat
+(for example in VS Code and Copilot CLI). Their definitions live in
+`.github/agents/*.agent.md`.
 
 ### Prerequisites
 
