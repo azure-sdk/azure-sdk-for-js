@@ -42,7 +42,7 @@ export default function createClient(
   endpoint: string,
   credential: TokenCredential | MyServiceKeyCredential,
   options: ClientOptions = {}
-): GeneratedClient {
+): ReturnType<typeof MyServiceClient> {
   if (isTokenCredential(credential)) {
     return MyServiceClient(endpoint, credential, options);
   } else {
@@ -285,12 +285,12 @@ import {
   MyServiceClient,
 } from "@azure-rest/my-service";
 
-const adminClient = MyServiceAdministrationClient.createClient(endpoint, credential);
+const adminClient = MyServiceAdministrationClient(endpoint, credential);
 // call any admin operation
-const createdResponse = await adminClient.createResource(`<parameter>`);
-const serviceClient = MyServiceClient.createClient(endpoint, credential);
+const createdResponse = await adminClient.path("/resource").post({ body: `<parameter>` });
+const serviceClient = MyServiceClient(endpoint, credential);
 // call any non-admin operation
-const listedResponse = await serviceClient.listItems(`<parameter>`);
+const listedResponse = await serviceClient.path("/items").get();
 ```
 
 ## RLC Customization Considerations

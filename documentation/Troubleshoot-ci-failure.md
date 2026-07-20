@@ -6,7 +6,7 @@ This doc shows some common problems and resolution in CI.
 
 ![image](./images/broken-links.png)
 
-Add the broken links into [eng/ignore-links.txt](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/ignore-links.txt) file to bypass this verification or you could update the broken links to valid ones, see [example PR here](https://github.com/Azure/azure-sdk-for-js/pull/23429/commits/1a7b74c4bdad27e423a355a4c7f3dde4ac3c83bc).
+Fix the broken links if possible. Only add an entry to [eng/ignore-links.txt](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/ignore-links.txt) when the target is intentionally unreachable or temporarily unavailable, see [example PR here](https://github.com/Azure/azure-sdk-for-js/pull/23429/commits/1a7b74c4bdad27e423a355a4c7f3dde4ac3c83bc).
 
 
 # Check spelling (cspell)
