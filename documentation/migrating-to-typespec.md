@@ -31,10 +31,10 @@ Before starting the migration, ensure you have:
 
 ### Step 1: Install Required Tools
 
-Install the TypeSpec client generator CLI globally:
+Install the local `tsp-client` dependencies used by this repo:
 
 ```bash
-npm install -g @azure-tools/typespec-client-generator-cli
+npm --prefix eng/common/tsp-client ci
 ```
 
 For more information on tsp-client, see the [TypeSpec Client Generator CLI documentation](https://aka.ms/azsdk/tsp-client)
@@ -100,10 +100,10 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
 ```json
 {
   "scripts": {
-    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
+    "generate:client": "npm --prefix ../../../eng/common/tsp-client exec --no -- tsp-client update && dev-tool customization apply --skip index.ts",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "test": "npm run test:node && npm run test:browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:node": "dev-tool run test:vitest"
   }
 }
 ```
@@ -140,7 +140,7 @@ Run the TypeSpec client generation:
 
 ```bash
 cd sdk/your-service/your-package
-npm run generate:client
+pnpm run generate:client
 ```
 
 ### Step 7: Apply Customizations
