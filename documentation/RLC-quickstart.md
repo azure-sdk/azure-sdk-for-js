@@ -88,7 +88,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     repo: Azure/azure-rest-api-specs
     ```
     
-    Run the `update` command from SDK directory (i.e sdk/agrifood/agrifood-farming) to re-generate the code:
+    Run the `update` command from SDK directory (i.e sdk/agrifood/agrifood-farming-rest) to re-generate the code:
 
     ```shell
     npm --prefix ../../../eng/common/tsp-client exec --no -- tsp-client update
