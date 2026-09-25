@@ -94,19 +94,7 @@ To learn more, you could refer to the below samples:
 - DPG sample: [the samples of OpenAIClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples-dev)
 - RLC sample: [the samples of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/samples-dev)
 
-After the `samples-dev` folder change is finished, you will need to change the `tsconfig.json` to make sure the dev samples can be compiled and build correctly.
-
-You will need to add this part to the `compilerOptions` of your `tsconfig.json` file so that the Samples engine could resolve the `sample-dev` package against the source code of the SDK.
-
-``` json
-    "paths": { "@azure/agrifood-farming": ["./src/index"] }
-```
-
-And change the *"include"* part to
-
-```json
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
-```
+For current packages, `tsp-client`/templates already wire up sample compilation in `tsconfig.json` and package scripts. If sample generation was not set up for your package, use an existing package under `sdk/` as a reference instead of hand-applying the older `paths`/`include` snippet from previous templates.
 
 Then, we provide tools to automatically change it into workable samples in both TypeScript and JavaScript. And, you just need to add a `sampleConfiguration` in your `package.json`.
 
@@ -271,12 +259,12 @@ You may meet the CI failures after submitting the PR, so please refer to [Troubl
 
 Latest changes to the main branch may introduce merge conflicts of `pnpm-lock.yaml` file to the PR, so please try to follow these steps to resolve conflicts:
 
-1. checkout to main branch and pull the latest code
-2. checkout the PR's branch
-3. run `git merge main` 
-4. run `git checkout origin/main pnpm-lock.yaml` 
-5. run `pnpm install`
-6. push your changes into your PR
+1. fetch the latest `main` from your upstream remote
+2. check out your PR branch
+3. merge the updated `main` branch into it
+4. restore `pnpm-lock.yaml` from `upstream/main`
+5. run `pnpm install` from the repo root
+6. push the resulting merge commit
 
 If you meet other files' conflicts, you need to resolve them case by case.
 

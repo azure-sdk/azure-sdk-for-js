@@ -12,7 +12,7 @@ Several tools support AI-assisted development with the Azure SDK:
 |------|-------------|
 | [VS Code](https://code.visualstudio.com/) | Code editor with built-in AI features and Copilot integration |
 | [GitHub Copilot](https://github.com/features/copilot) | AI code completion and chat inside VS Code, Visual Studio, JetBrains IDEs, and GitHub.com |
-| [Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli/about-github-copilot-in-the-cli) | AI assistance for shell commands and Azure CLI usage |
+| [Copilot CLI](https://docs.github.com/en/copilot/github-copilot-in-the-cli/about-github-copilot-in-the-cli) | Terminal-based coding agent that can inspect files, run commands, and help with repository workflows |
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | Terminal-based AI coding agent from Anthropic |
 | [Cursor](https://www.cursor.com/) | AI-first code editor with chat and inline editing |
 | [Aider](https://aider.chat/) | Terminal-based AI pair programming tool |
@@ -30,42 +30,12 @@ query, create, and manage Azure resources directly during a conversation.
 See the [getting started guide](https://learn.microsoft.com/azure/developer/azure-mcp-server/get-started)
 for setup instructions.
 
-## Azure SDK skills
+## Azure SDK repository guidance
 
-The Microsoft skills marketplace provides Azure SDK skills that give AI agents
-context about Azure SDK conventions, code generation, and package management.
-These skills work with CLI-based AI tools that support plugins, such as Claude Code
-and Copilot CLI.
-
-Install the Microsoft skills marketplace:
-
-```
-/plugin marketplace add Microsoft/skills
-```
-
-Install the [Azure SDK skills plugin](https://github.com/microsoft/skills/tree/main/.github/plugins/azure-sdk-typescript):
-
-```
-/plugin install azure-sdk-typescript@skills
-```
-
-Verify installation:
-
-```
-/plugin list
-```
-
-Update the plugin:
-
-```
-/plugin update azure-sdk-typescript@skills
-```
-
-Skills provide domain-specific context that helps AI tools generate more
-accurate code to use Azure SDK.
-
-For operational Azure tasks (managing resources, querying services), see the
-[Azure skills](https://github.com/microsoft/azure-skills) repository.
+This repository includes agent-facing guidance and task-specific skills under
+`AGENTS.md` and `.github/skills/`. These are consumed by agentic tools that run
+in the repository context, such as Copilot CLI and project-specific custom
+agents. See [AGENTS.md](https://github.com/Azure/azure-sdk-for-js/blob/main/AGENTS.md) for the entry point.
 
 ## Further reading
 
